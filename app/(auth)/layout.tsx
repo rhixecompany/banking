@@ -1,8 +1,10 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode } from 'react';
 
-import Image from "next/image";
+import Image from 'next/image';
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default function RootLayout({
+  children,
+}: Readonly<{ children: ReactNode }>) {
   return (
     <main className="flex min-h-screen w-full justify-between font-inter">
       {children}

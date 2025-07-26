@@ -8,8 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "check-updates": "npm-check-updates --deep -i",
-    "format": "prettier --write './**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'",
-    "format:check": "prettier --check './**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'"
+    "format": "prettier --write './**/**/**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'",
+    "format:check": "prettier --check './**/**/**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.0",
