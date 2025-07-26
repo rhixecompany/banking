@@ -1,6 +1,5 @@
-import React, { ReactNode } from 'react';
-
-import Image from 'next/image';
+import Image from "next/image";
+import React, { ReactNode } from "react";
 
 export default function RootLayout({
   children,

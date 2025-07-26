@@ -1,14 +1,20 @@
-import HeaderBox from '@/components/HeaderBox';
-import RightSidebar from '@/components/RightSidebar';
-import TotalBalanceBox from '@/components/TotalBalanceBox';
-import React from 'react';
+import HeaderBox from "@/components/HeaderBox";
+import RightSidebar from "@/components/RightSidebar";
+import TotalBalanceBox from "@/components/TotalBalanceBox";
+import React from "react";
+import { getLoggedInUser } from '../../lib/actions/user.actions';
 
-const Home = () => {
-  const loggedIn = {
-    firstName: 'Adrian',
-    lastName: 'JSM',
-    email: 'contact@jsmastery.prod'
-  };
+const Home = async () => {
+  const user = await getLoggedInUser()
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const banks: any = [
+    {
+      currentBalance: 123.5,
+    },
+    {
+      currentBalance: 500.5,
+    },
+  ]
   return (
     <section className="home">
       <div className="home-content">
@@ -16,7 +22,7 @@ const Home = () => {
           <HeaderBox
             type="greeting"
             title="Welcome"
-            user={loggedIn?.firstName || 'Guest'}
+            user={user?.name || "Guest"}
             subtext="Access and manage your account and transactions efficiently."
           />
           <TotalBalanceBox
@@ -27,11 +33,11 @@ const Home = () => {
         </header>
         RECENT TRANSACTIONS
       </div>
-      <RightSidebar user={loggedIn} transactions={[]} banks={[{
-        currentBalance: 123.50
-      }, {
-        currentBalance: 500.50
-      }]} />
+      <RightSidebar
+        user={user}
+        transactions={[]}
+        banks={banks}
+      />
     </section>
   );
 };
