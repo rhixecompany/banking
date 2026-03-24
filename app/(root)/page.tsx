@@ -1,11 +1,12 @@
 import HeaderBox from "@/components/HeaderBox";
 import RightSidebar from "@/components/RightSidebar";
 import TotalBalanceBox from "@/components/TotalBalanceBox";
-import React from "react";
-import { getLoggedInUser } from '../../lib/actions/user.actions';
+import type { User } from "@/types";
+import { getLoggedInUser } from "../../lib/actions/user.actions";
 
 const Home = async () => {
-  const user = await getLoggedInUser()
+  const user = await getLoggedInUser();
+  const typedUser = user as unknown as User | null;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const banks: any = [
     {
@@ -14,7 +15,7 @@ const Home = async () => {
     {
       currentBalance: 500.5,
     },
-  ]
+  ];
   return (
     <section className="home">
       <div className="home-content">
@@ -22,7 +23,7 @@ const Home = async () => {
           <HeaderBox
             type="greeting"
             title="Welcome"
-            user={user?.name || "Guest"}
+            user={typedUser?.name || "Guest"}
             subtext="Access and manage your account and transactions efficiently."
           />
           <TotalBalanceBox
@@ -33,11 +34,7 @@ const Home = async () => {
         </header>
         RECENT TRANSACTIONS
       </div>
-      <RightSidebar
-        user={user}
-        transactions={[]}
-        banks={banks}
-      />
+      <RightSidebar user={typedUser!} transactions={[]} banks={banks} />
     </section>
   );
 };

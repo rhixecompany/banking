@@ -103,6 +103,8 @@ export function formUrlQuery({ params, key, value }: UrlQueryParams) {
   );
 }
 
+import type { AccountTypes, CategoryCount, Transaction } from "@/types";
+
 export function getAccountTypeColors(type: AccountTypes) {
   switch (type) {
     case "depository":
@@ -141,18 +143,12 @@ export function countTransactionCategories(
   // eslint-disable-next-line @typescript-eslint/no-unused-expressions
   transactions &&
     transactions.forEach((transaction) => {
-      // Extract the category from the transaction
-      const category = transaction.category;
-
-      // If the category exists in the categoryCounts object, increment its count
-      if (categoryCounts.hasOwnProperty(category)) {
+      const category = transaction.category || "Other";
+      if (Object.prototype.hasOwnProperty.call(categoryCounts, category)) {
         categoryCounts[category]++;
       } else {
-        // Otherwise, initialize the count to 1
         categoryCounts[category] = 1;
       }
-
-      // Increment total count
       totalCount++;
     });
 
@@ -205,48 +201,48 @@ export const authFormSchema = (type: string) =>
         type === "sign-in"
           ? z.string().optional()
           : z.string().min(3, {
-            message: "FirstName must be at least 3 characters.",
-          }),
+              message: "FirstName must be at least 3 characters.",
+            }),
       lastName:
         type === "sign-in"
           ? z.string().optional()
           : z.string().min(3, {
-            message: "LastName must be at least 3 characters.",
-          }),
+              message: "LastName must be at least 3 characters.",
+            }),
       address1:
         type === "sign-in"
           ? z.string().optional()
           : z.string().max(50, {
-            message: "Address1 must be have a max  characters of 50",
-          }),
+              message: "Address1 must be have a max  characters of 50",
+            }),
       city:
         type === "sign-in"
           ? z.string().optional()
           : z.string().max(50, {
-            message: "City must be have a max  characters of 50",
-          }),
+              message: "City must be have a max  characters of 50",
+            }),
       state:
         type === "sign-in"
           ? z.string().optional()
           : z
-            .string()
-            .min(2, {
-              message: "State must be at least 2 characters.",
-            })
-            .max(2, {
-              message: "State must be have a max  characters of 2",
-            }),
+              .string()
+              .min(2, {
+                message: "State must be at least 2 characters.",
+              })
+              .max(2, {
+                message: "State must be have a max  characters of 2",
+              }),
       postalCode:
         type === "sign-in"
           ? z.string().optional()
           : z
-            .string()
-            .min(3, {
-              message: "PostalCode must be at least 3 characters.",
-            })
-            .max(6, {
-              message: "PostalCode must be have a max  characters of 6",
-            }),
+              .string()
+              .min(3, {
+                message: "PostalCode must be at least 3 characters.",
+              })
+              .max(6, {
+                message: "PostalCode must be have a max  characters of 6",
+              }),
       // dateOfBirth:
       //   type === "sign-in"
       //     ? z.date().optional()
@@ -257,14 +253,14 @@ export const authFormSchema = (type: string) =>
         type === "sign-in"
           ? z.string().optional()
           : z.string().min(3, {
-            message: "DateOfBirth must be at least 3 characters.",
-          }),
+              message: "DateOfBirth must be at least 3 characters.",
+            }),
       ssn:
         type === "sign-in"
           ? z.string().optional()
           : z.string().min(3, {
-            message: "Ssn must be at least 3 characters.",
-          }),
+              message: "Ssn must be at least 3 characters.",
+            }),
       // both
       email: z.string().email({
         message: "Email is Invalid.",

@@ -1,13 +1,13 @@
 "use client";
+/* eslint-disable @typescript-eslint/no-unused-vars */
 
+import { DoughnutChartProps } from "@/types";
 import { ArcElement, Chart as ChartJS, Legend, Tooltip } from "chart.js";
-import React from "react";
 import { Doughnut } from "react-chartjs-2";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const DoughnutChart = ({ accounts }: DoughnutChartProps) => {
+const DoughnutChart = (_props: DoughnutChartProps) => {
   const data = {
     datasets: [
       {
