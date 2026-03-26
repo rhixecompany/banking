@@ -3,7 +3,7 @@ import { auth } from "@/lib/auth";
 import { bankDal } from "@/lib/dal";
 import { revalidatePath } from "next/cache";
 
-export async function disconnectBank(bankId: number) {
+export async function disconnectBank(bankId: string) {
   const session = await auth();
   if (!session?.user?.id) {
     return { ok: false, error: "Not authenticated" };
@@ -25,7 +25,7 @@ export async function getUserBanks() {
     return { ok: false, error: "Not authenticated" };
   }
 
-  const userId = parseInt(session.user.id);
+  const userId = session.user.id;
   const banks = await bankDal.findByUserId(userId);
   return { ok: true, banks };
 }

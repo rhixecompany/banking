@@ -23,7 +23,7 @@ describe("updateProfile", () => {
     vi.mocked(auth).mockResolvedValueOnce(null);
 
     const { updateProfile } = await import("@/lib/actions/updateProfile");
-    const result = await updateProfile({ userId: 1, name: "New Name" });
+    const result = await updateProfile({ userId: "1", name: "New Name" });
 
     expect(result.ok).toBe(false);
     expect(result.error).toBe("Not authenticated");
@@ -40,8 +40,10 @@ describe("updateProfile", () => {
       },
     });
     vi.mocked(userDal.findByEmail).mockResolvedValueOnce({
-      id: 1,
+      id: "1",
       email: "test@example.com",
+      emailVerified: null,
+      role: "user" as const,
       password: "hashedpassword",
       name: "Old Name",
       image: null,
@@ -51,8 +53,10 @@ describe("updateProfile", () => {
       updatedAt: new Date(),
     });
     vi.mocked(userDal.update).mockResolvedValueOnce({
-      id: 1,
+      id: "1",
       email: "test@example.com",
+      emailVerified: null,
+      role: "user" as const,
       password: "hashedpassword",
       name: "New Name",
       image: null,
@@ -64,7 +68,7 @@ describe("updateProfile", () => {
 
     const { updateProfile } = await import("@/lib/actions/updateProfile");
     const result = await updateProfile({
-      userId: 1,
+      userId: "1",
       name: "New Name",
     });
 

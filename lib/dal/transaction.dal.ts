@@ -3,7 +3,7 @@ import { transactions } from "@/database/schema";
 import { desc, eq, sql } from "drizzle-orm";
 
 export class TransactionDal {
-  async findById(id: number) {
+  async findById(id: string) {
     const [txn] = await db
       .select()
       .from(transactions)
@@ -11,7 +11,7 @@ export class TransactionDal {
     return txn;
   }
 
-  async findByUserId(userId: number, limitVal = 50, offsetVal = 0) {
+  async findByUserId(userId: string, limitVal = 50, offsetVal = 0) {
     return db
       .select()
       .from(transactions)
@@ -21,7 +21,7 @@ export class TransactionDal {
       .offset(offsetVal);
   }
 
-  async findByBankId(bankId: number) {
+  async findByBankId(bankId: string) {
     return db
       .select()
       .from(transactions)
@@ -30,9 +30,9 @@ export class TransactionDal {
   }
 
   async createTransaction(data: {
-    userId: number;
-    senderBankId?: number;
-    receiverBankId?: number;
+    userId: string;
+    senderBankId?: string;
+    receiverBankId?: string;
     name?: string;
     email?: string;
     amount: string;
@@ -45,7 +45,7 @@ export class TransactionDal {
     return txn;
   }
 
-  async getStatsByUser(userId: number) {
+  async getStatsByUser(userId: string) {
     const result = await db
       .select({
         type: transactions.type,

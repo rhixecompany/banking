@@ -6,7 +6,7 @@ import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 const UpdateProfileSchema = z.object({
-  userId: z.number(),
+  userId: z.string(),
   email: z.string().email().optional(),
   name: z.string().min(2).optional(),
   image: z.string().optional(),
@@ -17,7 +17,6 @@ const UpdateProfileSchema = z.object({
   state: z.string().optional(),
   postalCode: z.string().optional(),
   phone: z.string().optional(),
-  ssn: z.string().optional(),
 });
 
 export type UpdateProfileInput = z.infer<typeof UpdateProfileSchema>;
@@ -39,7 +38,6 @@ export async function updateProfile(input: unknown) {
     state,
     postalCode,
     phone,
-    ssn,
   } = parsed.data;
   try {
     if (newPassword || email) {
@@ -63,7 +61,6 @@ export async function updateProfile(input: unknown) {
     if (state) profileUpdate.state = state;
     if (postalCode) profileUpdate.postalCode = postalCode;
     if (phone) profileUpdate.phone = phone;
-    if (ssn) profileUpdate.ssn = ssn;
     if (Object.keys(profileUpdate).length > 0) {
       await db
         .update(user_profiles)

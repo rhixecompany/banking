@@ -8,12 +8,12 @@ export class UserDal {
     return user;
   }
 
-  async findById(id: number) {
+  async findById(id: string) {
     const [user] = await db.select().from(users).where(eq(users.id, id));
     return user;
   }
 
-  async findByIdWithProfile(id: number) {
+  async findByIdWithProfile(id: string) {
     const [user] = await db.select().from(users).where(eq(users.id, id));
 
     if (!user) return null;
@@ -31,7 +31,7 @@ export class UserDal {
     return user;
   }
 
-  async update(id: number, data: Partial<typeof users.$inferInsert>) {
+  async update(id: string, data: Partial<typeof users.$inferInsert>) {
     const [user] = await db
       .update(users)
       .set(data)
@@ -66,7 +66,7 @@ export class UserDal {
   }
 
   async updateProfile(
-    userId: number,
+    userId: string,
     profileData: Partial<typeof user_profiles.$inferInsert>,
   ) {
     const [profile] = await db
@@ -88,7 +88,7 @@ export class UserDal {
       .returning();
   }
 
-  async toggleAdmin(id: number) {
+  async toggleAdmin(id: string) {
     const [user] = await db.select().from(users).where(eq(users.id, id));
 
     if (!user) return null;
@@ -100,7 +100,7 @@ export class UserDal {
       .returning();
   }
 
-  async toggleActive(id: number) {
+  async toggleActive(id: string) {
     const [user] = await db.select().from(users).where(eq(users.id, id));
 
     if (!user) return null;
@@ -112,7 +112,7 @@ export class UserDal {
       .returning();
   }
 
-  async delete(id: number) {
+  async delete(id: string) {
     await db.delete(users).where(eq(users.id, id));
   }
 }

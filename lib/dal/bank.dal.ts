@@ -3,12 +3,12 @@ import { banks } from "@/database/schema";
 import { eq } from "drizzle-orm";
 
 export class BankDal {
-  async findById(id: number) {
+  async findById(id: string) {
     const [bank] = await db.select().from(banks).where(eq(banks.id, id));
     return bank;
   }
 
-  async findByUserId(userId: number) {
+  async findByUserId(userId: string) {
     return db.select().from(banks).where(eq(banks.userId, userId));
   }
 
@@ -29,7 +29,7 @@ export class BankDal {
   }
 
   async createBank(data: {
-    userId: number;
+    userId: string;
     accessToken: string;
     fundingSourceUrl?: string;
     sharableId: string;
@@ -43,11 +43,11 @@ export class BankDal {
     return bank;
   }
 
-  async delete(id: number) {
+  async delete(id: string) {
     await db.delete(banks).where(eq(banks.id, id));
   }
 
-  async deleteByUserId(userId: number) {
+  async deleteByUserId(userId: string) {
     await db.delete(banks).where(eq(banks.userId, userId));
   }
 }

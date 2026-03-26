@@ -2,16 +2,26 @@ import {
   boolean,
   index,
   integer,
+  pgEnum,
   pgTable,
-  serial,
+  primaryKey,
   text,
   timestamp,
   varchar,
 } from "drizzle-orm/pg-core";
 
+import type { AdapterAccount } from "next-auth/adapters";
+
+export const userRole = pgEnum("user_role", ["user", "admin", "moderator"]);
+
 export const users = pgTable("users", {
-  id: serial("id").primaryKey(),
+  id: text("id")
+    .primaryKey()
+    .notNull()
+    .$defaultFn(() => crypto.randomUUID()),
   email: varchar("email", { length: 255 }).notNull().unique(),
+  emailVerified: timestamp("emailVerified", { mode: "date" }),
+  role: userRole("role").default("user").notNull(),
   password: varchar("password", { length: 255 }).notNull(),
   name: varchar("name", { length: 255 }),
   image: varchar("image", { length: 255 }),
@@ -21,9 +31,72 @@ export const users = pgTable("users", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
+export const account = pgTable(
+  "account",
+  {
+    userId: text("userId")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    type: text("type").$type<AdapterAccount>().notNull(),
+    provider: text("provider").notNull(),
+    providerAccountId: text("providerAccountId").notNull(),
+    refresh_token: text("refresh_token"),
+    access_token: text("access_token"),
+    expires_at: integer("expires_at"),
+    token_type: text("token_type"),
+    scope: text("scope"),
+    id_token: text("id_token"),
+    session_state: text("session_state"),
+  },
+  (table) => ({
+    pk: primaryKey({ columns: [table.provider, table.providerAccountId] }),
+  }),
+);
+
+export const session = pgTable("session", {
+  sessionToken: text("sessionToken").primaryKey().notNull(),
+  userId: text("userId")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  expires: timestamp("expires", { mode: "date" }).notNull(),
+});
+
+export const verificationToken = pgTable(
+  "verificationToken",
+  {
+    identifier: text("identifier").notNull(),
+    token: text("token").notNull(),
+    expires: timestamp("expires", { mode: "date" }).notNull(),
+  },
+  (table) => ({
+    pk: primaryKey({ columns: [table.identifier, table.token] }),
+  }),
+);
+
+export const authenticator = pgTable(
+  "authenticator",
+  {
+    credentialID: text("credentialID").notNull().unique(),
+    userId: text("userId")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    providerAccountId: text("providerAccountId").notNull(),
+    credentialPublicKey: text("credentialPublicKey").notNull(),
+    counter: integer("counter").notNull(),
+    credentialDeviceType: text("credentialDeviceType").notNull(),
+    credentialBackedUp: boolean("credentialBackedUp").notNull(),
+    transports: text("transports"),
+  },
+  (table) => ({
+    pk: primaryKey({ columns: [table.userId, table.credentialID] }),
+  }),
+);
 export const user_profiles = pgTable("user_profiles", {
-  id: serial("id").primaryKey(),
-  userId: integer("user_id")
+  id: text("id")
+    .primaryKey()
+    .notNull()
+    .$defaultFn(() => crypto.randomUUID()),
+  userId: text("user_id")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
   address: varchar("address", { length: 255 }),
@@ -32,14 +105,16 @@ export const user_profiles = pgTable("user_profiles", {
   postalCode: varchar("postal_code", { length: 20 }),
   phone: varchar("phone", { length: 20 }),
   dateOfBirth: varchar("date_of_birth", { length: 20 }),
-  ssn: varchar("ssn", { length: 255 }),
 });
 
 export const banks = pgTable(
   "banks",
   {
-    id: serial("id").primaryKey(),
-    userId: integer("user_id")
+    id: text("id")
+      .primaryKey()
+      .notNull()
+      .$defaultFn(() => crypto.randomUUID()),
+    userId: text("user_id")
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),
     accessToken: text("access_token").notNull(),
@@ -62,12 +137,15 @@ export const banks = pgTable(
 export const transactions = pgTable(
   "transactions",
   {
-    id: serial("id").primaryKey(),
-    userId: integer("user_id")
+    id: text("id")
+      .primaryKey()
+      .notNull()
+      .$defaultFn(() => crypto.randomUUID()),
+    userId: text("user_id")
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),
-    senderBankId: integer("sender_bank_id").references(() => banks.id),
-    receiverBankId: integer("receiver_bank_id").references(() => banks.id),
+    senderBankId: text("sender_bank_id").references(() => banks.id),
+    receiverBankId: text("receiver_bank_id").references(() => banks.id),
     name: varchar("name", { length: 255 }),
     email: varchar("email", { length: 255 }),
     amount: varchar("amount", { length: 50 }).notNull(),
@@ -88,13 +166,16 @@ export const transactions = pgTable(
 export const recipients = pgTable(
   "recipients",
   {
-    id: serial("id").primaryKey(),
-    userId: integer("user_id")
+    id: text("id")
+      .primaryKey()
+      .notNull()
+      .$defaultFn(() => crypto.randomUUID()),
+    userId: text("user_id")
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),
     email: varchar("email", { length: 255 }).notNull(),
     name: varchar("name", { length: 255 }),
-    bankAccountId: integer("bank_account_id").references(() => banks.id),
+    bankAccountId: text("bank_account_id").references(() => banks.id),
     createdAt: timestamp("created_at").defaultNow(),
   },
   (table) => [index("recipients_user_id_idx").on(table.userId)],

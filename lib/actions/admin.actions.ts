@@ -3,7 +3,7 @@ import { db } from "@/database/db";
 import { users } from "@/database/schema";
 import { eq } from "drizzle-orm";
 
-export async function toggleAdmin(userId: number, makeAdmin: boolean) {
+export async function toggleAdmin(userId: string, makeAdmin: boolean) {
   try {
     await db
       .update(users)
@@ -15,7 +15,7 @@ export async function toggleAdmin(userId: number, makeAdmin: boolean) {
   }
 }
 
-export async function setActive(userId: number, isActive: boolean) {
+export async function setActive(userId: string, isActive: boolean) {
   try {
     await db.update(users).set({ isActive }).where(eq(users.id, userId));
     return { ok: true };

@@ -10,6 +10,12 @@ import { db } from "@/database/db";
 import { users } from "@/database/schema";
 import { env } from "@/lib/env";
 
+function generateSecurePassword(): string {
+  const array = new Uint8Array(32);
+  crypto.getRandomValues(array);
+  return Array.from(array, (b) => b.toString(16).padStart(2, "0")).join("");
+}
+
 export const authOptions: NextAuthOptions = {
   adapter: DrizzleAdapter(db),
   session: { strategy: "database" as const },
@@ -86,7 +92,8 @@ export const authOptions: NextAuthOptions = {
           .from(users)
           .where(eq(users.email, user.email));
         if (!existingUser) {
-          const hashed = await bcrypt.hash(Math.random().toString(36), 12);
+          const tempPassword = generateSecurePassword();
+          const hashed = await bcrypt.hash(tempPassword, 12);
           await db.insert(users).values({
             email: user.email,
             name: user.name,

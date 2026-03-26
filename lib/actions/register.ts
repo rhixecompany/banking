@@ -8,7 +8,6 @@ const RegisterSchema = z.object({
   password: z.string().min(8),
   name: z.string().min(2),
   address: z.string().optional(),
-  ssn: z.string().optional(),
 });
 
 export type RegisterInput = z.infer<typeof RegisterSchema>;
@@ -18,7 +17,7 @@ export async function registerUser(input: unknown) {
   if (!parsed.success) {
     return { ok: false, error: parsed.error.issues[0]?.message };
   }
-  const { email, password, name, address, ssn } = parsed.data;
+  const { email, password, name, address } = parsed.data;
 
   const existing = await userDal.findByEmail(email);
   if (existing) {
@@ -31,7 +30,7 @@ export async function registerUser(input: unknown) {
       email,
       password: hashed,
       name,
-      profile: { address, ssn },
+      profile: { address },
     });
     return { ok: true, user };
   } catch (e) {
