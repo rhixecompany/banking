@@ -1,12 +1,13 @@
 import AuthForm from "@/components/AuthForm";
-import React from "react";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 
-const SignIn = () => {
+export default async function SignIn() {
+  const session = await getServerSession();
+  if (session) redirect("/dashboard");
   return (
     <section className="flex-center size-full max-sm:px-6">
       <AuthForm type="sign-in" />
     </section>
   );
-};
-
-export default SignIn;
+}
