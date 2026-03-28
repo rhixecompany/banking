@@ -1,13 +1,11 @@
 import { formatAmount } from "@/lib/utils";
+import type { CreditCardProps } from "@/types";
+import { Link } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
-import React from "react";
 
 const BankCard = ({
   account,
   userName,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  showBalance = true,
 }: CreditCardProps) => {
   return (
     <div className="flex flex-col">
@@ -46,7 +44,7 @@ const BankCard = ({
           alt="lines"
           width={316}
           height={190}
-          className="absolute left-0 top-0"
+          className="absolute top-0 left-0"
         />
       </Link>
     </div>

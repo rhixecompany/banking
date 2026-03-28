@@ -268,5 +268,21 @@ export const authFormSchema = (type: string) =>
       password: z.string().min(8, {
         message: "Password must be at least 8 characters.",
       }),
+      confirmPassword:
+        type === "sign-in"
+          ? z.string().optional()
+          : z.string().min(8, {
+              message: "Confirm Password must be at least 8 characters.",
+            }),
     })
-    .strict();
+    .strict()
+    .refine(
+      (data) => {
+        if (type !== "sign-up") return true;
+        return data.password === data.confirmPassword;
+      },
+      {
+        message: "Passwords do not match.",
+        path: ["confirmPassword"],
+      },
+    );

@@ -1,14 +1,12 @@
 "use client";
 
 import { sidebarLinks } from "@/constants";
-import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React from "react";
-import Footer from "./Footer";
+import { default as Footer } from "./Footer";
 
-
+import type { SiderbarProps } from "@/types";
 const Sidebar = ({ user }: SiderbarProps) => {
   const pathname = usePathname();
   return (
@@ -20,7 +18,7 @@ const Sidebar = ({ user }: SiderbarProps) => {
             alt="Horizon logo"
             width={34}
             height={34}
-            className="size-[24px] max-xl:size-14"
+            className="size-6 max-xl:size-14"
           />
           <h1 className="sidebar-logo">Horizon</h1>
         </Link>
@@ -30,18 +28,18 @@ const Sidebar = ({ user }: SiderbarProps) => {
           return (
             <Link
               key={item.label}
-              href={item.route}
-              className={cn("sidebar-link", { "bg-bank-gradient": isActive })}
+              href={item.route as "/"}
+              className={`sidebar-link${isActive ? " bg-bank-gradient" : ""}`}
             >
               <div className="relative size-6">
                 <Image
                   src={item.imgURL}
                   alt={item.label}
                   fill
-                  className={cn({ "brightness-[3] invert-0": isActive })}
+                  className={isActive ? "brightness-[3] invert-0" : undefined}
                 />
               </div>
-              <p className={cn("sidebar-label", { "!text-white": isActive })}>
+              <p className={`sidebar-label${isActive ? " text-white!" : ""}`}>
                 {item.label}
               </p>
             </Link>

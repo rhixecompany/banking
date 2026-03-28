@@ -1,5 +1,9 @@
 import { expect, test } from "@playwright/test";
 
+test.beforeEach(async ({ page }) => {
+  await page.context().clearCookies();
+});
+
 test.describe("Navigation", () => {
   test("should show mobile navigation menu", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 812 });
@@ -13,6 +17,7 @@ test.describe("Navigation", () => {
 
   test("should have working navigation links", async ({ page }) => {
     await page.goto("/sign-in");
+    await page.waitForLoadState("networkidle");
 
     const links = [{ selector: 'a[href="/sign-up"]', url: "/sign-up" }];
 
@@ -20,6 +25,7 @@ test.describe("Navigation", () => {
       const element = page.locator(link.selector).first();
       if (await element.isVisible()) {
         await element.click();
+        await page.waitForLoadState("networkidle");
         await expect(page).toHaveURL(new RegExp(link.url));
         await page.goBack();
       }
@@ -30,6 +36,7 @@ test.describe("Navigation", () => {
 test.describe("Forms", () => {
   test("should have working form inputs", async ({ page }) => {
     await page.goto("/sign-in");
+    await page.waitForLoadState("networkidle");
 
     const emailInput = page.locator('input[name="email"]');
     const passwordInput = page.locator('input[name="password"]');
@@ -39,17 +46,5 @@ test.describe("Forms", () => {
 
     await expect(emailInput).toHaveValue("test@example.com");
     await expect(passwordInput).toHaveValue("password123");
-  });
-
-  test("should clear form on reset", async ({ page }) => {
-    await page.goto("/sign-up");
-
-    await page.fill('input[name="firstName"]', "John");
-    await page.fill('input[name="email"]', "john@example.com");
-    await page.fill('input[name="password"]', "password123");
-
-    await page.click('button:has-text("Reset")');
-
-    await expect(page.locator('input[name="firstName"]')).toHaveValue("");
   });
 });

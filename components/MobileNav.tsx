@@ -9,17 +9,16 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { sidebarLinks } from "@/constants";
-import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React from "react";
 import Footer from "./Footer";
 
+import type { MobileNavProps } from "@/types";
 const MobileNav = ({ user }: MobileNavProps) => {
   const pathname = usePathname();
   return (
-    <section className="w-full max-w-[264px]">
+    <section className="w-full max-w-66">
       <Sheet>
         <SheetTrigger>
           <Image
@@ -43,7 +42,7 @@ const MobileNav = ({ user }: MobileNavProps) => {
                   width={34}
                   height={34}
                 />
-                <h1 className="text-26 font-ibm-plex-serif font-bold text-black-1">
+                <h1 className="font-ibm-plex-serif text-26 font-bold text-black-1">
                   Horizon
                 </h1>
               </Link>
@@ -61,24 +60,20 @@ const MobileNav = ({ user }: MobileNavProps) => {
                     <SheetClose asChild key={item.label}>
                       <Link
                         key={item.label}
-                        href={item.route}
-                        className={cn("mobilenav-sheet_close w-full", {
-                          "bg-bank-gradient": isActive,
-                        })}
+                        href={item.route as "/"}
+                        className={`mobilenav-sheet_close w-full${isActive ? " bg-bank-gradient" : ""}`}
                       >
                         <Image
                           src={item.imgURL}
                           alt={item.label}
                           width={20}
                           height={20}
-                          className={cn({
-                            "brightness-[3] invert-0": isActive,
-                          })}
+                          className={
+                            isActive ? "brightness-[3] invert-0" : undefined
+                          }
                         />
                         <p
-                          className={cn("text-16 font-semibold text-black-2", {
-                            "text-white": isActive,
-                          })}
+                          className={`text-16 font-semibold text-black-2${isActive ? " text-white" : ""}`}
                         >
                           {item.label}
                         </p>

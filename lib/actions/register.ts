@@ -6,8 +6,15 @@ import { z } from "zod";
 const RegisterSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
-  name: z.string().min(2),
-  address: z.string().optional(),
+  firstName: z.string().min(2),
+  lastName: z.string().min(2),
+  address1: z.string().optional(),
+  city: z.string().optional(),
+  state: z.string().optional(),
+  postalCode: z.string().optional(),
+  dateOfBirth: z.string().optional(),
+  ssn: z.string().optional(),
+  confirmPassword: z.string().optional(),
 });
 
 export type RegisterInput = z.infer<typeof RegisterSchema>;
@@ -17,7 +24,7 @@ export async function registerUser(input: unknown) {
   if (!parsed.success) {
     return { ok: false, error: parsed.error.issues[0]?.message };
   }
-  const { email, password, name, address } = parsed.data;
+  const { email, password, firstName, lastName, address1 } = parsed.data;
 
   const existing = await userDal.findByEmail(email);
   if (existing) {
@@ -29,8 +36,8 @@ export async function registerUser(input: unknown) {
     const user = await userDal.createWithProfile({
       email,
       password: hashed,
-      name,
-      profile: { address },
+      name: `${firstName} ${lastName}`,
+      profile: { address: address1 },
     });
     return { ok: true, user };
   } catch (e) {

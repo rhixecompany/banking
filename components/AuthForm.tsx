@@ -51,10 +51,12 @@ const AuthForm = ({ type }: { type: string }) => {
         const result = await register(data);
         if (!result.ok) {
           toast.error(result.error || "Registration failed");
-        } else {
-          toast.success("You have successfully signed up. Please sign in.");
-          router.push("/sign-in");
+          setIsLoading(false);
+          return;
         }
+        toast.success("You have successfully signed up. Please sign in.");
+        await router.push("/sign-in");
+        router.refresh();
         return;
       }
       // Sign in with next-auth
@@ -67,7 +69,8 @@ const AuthForm = ({ type }: { type: string }) => {
         toast.error(result.error);
       } else {
         toast.success("You have successfully signed in.");
-        router.push("/");
+        await router.push("/");
+        router.refresh();
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -174,6 +177,12 @@ const AuthForm = ({ type }: { type: string }) => {
                     name="password"
                     label="Password"
                     placeholder="Enter your password"
+                  />
+                  <CustomInput
+                    control={form.control}
+                    name="confirmPassword"
+                    label="Confirm Password"
+                    placeholder="Confirm your password"
                   />
                 </>
               )}

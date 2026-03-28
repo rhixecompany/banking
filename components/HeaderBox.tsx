@@ -1,5 +1,4 @@
-import React from "react";
-
+import type { HeaderBoxProps } from "@/types";
 const HeaderBox = ({
   type = "title",
   title,

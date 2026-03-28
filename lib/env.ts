@@ -5,8 +5,8 @@ const envSchema = z.object({
     .enum(["development", "production", "test"])
     .default("development"),
 
-  DATABASE_URL: z.string().url().optional(),
-  NEON_DATABASE_URL: z.string().url().optional(),
+  DATABASE_URL: z.string().optional(),
+  NEON_DATABASE_URL: z.string().optional(),
 
   NEXTAUTH_URL: z.string().url().optional(),
   NEXTAUTH_SECRET: z.string().min(32).optional(),
@@ -33,7 +33,7 @@ const envSchema = z.object({
 
   DWOLLA_KEY: z.string().optional(),
   DWOLLA_SECRET: z.string().optional(),
-  DWOLLA_BASE_URL: z.string().url().optional(),
+  DWOLLA_BASE_URL: z.string().optional(),
   DWOLLA_ENV: z.enum(["sandbox", "production"]).default("sandbox"),
 
   SMTP_HOST: z.string().optional(),

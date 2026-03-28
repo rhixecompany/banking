@@ -1,7 +1,6 @@
 import AnimatedCounter from "@/components/AnimatedCounter";
 import DoughnutChart from "@/components/DoughnutChart";
-import React from "react";
-
+import type { TotlaBalanceBoxProps } from "@/types";
 const TotalBalanceBox = ({
   accounts = [],
   totalBanks,
@@ -16,7 +15,7 @@ const TotalBalanceBox = ({
         <h2 className="header-2">Bank Accounts: {totalBanks}</h2>
         <div className="flex flex-col gap-2">
           <p className="total-balance-label">Total Current Balance</p>
-          <div className="total-balance-amount flex-center gap-2">
+          <div className="flex-center total-balance-amount gap-2">
             <AnimatedCounter amount={totalCurrentBalance} />
           </div>
         </div>
