@@ -108,7 +108,7 @@ Make sure you have the following installed on your machine:
 
 - [Git](https://git-scm.com/)
 - [Node.js](https://nodejs.org/en)
-- [pnpm](https://www.pnpmjs.com/) (Node Package Manager)
+- [npm](https://www.npmjs.com/) (Node Package Manager)
 
 **Cloning the Repository**
 
@@ -119,10 +119,10 @@ cd banking
 
 **Installation**
 
-Install the project dependencies using pnpm:
+Install the project dependencies using npm:
 
 ```bash
-pnpm install
+npm install
 ```
 
 **Set Up Environment Variables**
@@ -154,7 +154,7 @@ Replace the placeholder values with your actual respective account credentials. 
 **Running the Project**
 
 ```bash
-pnpm run dev
+npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser to view the project.
@@ -1415,19 +1415,19 @@ This project uses **Drizzle ORM** with **PostgreSQL**.
 
 ```bash
 # Push schema to database
-pnpm db:push
+npm run db:push
 
 # Generate migrations
-pnpm db:generate
+npm run db:generate
 
 # Run migrations
-pnpm db:migrate
+npm run db:migrate
 
 # Open Drizzle Studio (GUI)
-pnpm db:studio
+npm run db:studio
 
 # Drop all tables
-pnpm db:drop
+npm run db:drop
 ```
 
 ### Database Schema
@@ -1614,9 +1614,9 @@ await sendWelcomeEmail("user@example.com", "John");
 npm install --package-lock-only
 ```
 
-**"pnpm: command not found"**
+**"npm: command not found"**
 
-- Ensure PNPM_HOME is set in workflow environment variables
+- Ensure npm is available in the workflow environment
 
 #### View Logs
 
@@ -1655,8 +1655,8 @@ vercel logs
 
 **"packages field missing or empty"**
 
-- This is a pnpm lockfile format issue
-- Update `railway.json` to use npm instead:
+- This is a lockfile format issue
+- Update `railway.json` to use npm:
 
 ```json
 {

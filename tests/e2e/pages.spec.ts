@@ -13,7 +13,7 @@ test.describe("Pages", () => {
       await expect(page).toHaveURL(/\/sign-in/, { timeout: 5000 });
     });
 
-    test("should load the home page when authenticated", async ({ page }) => {
+    test("should load the home page when authenticated", async () => {
       // This test would require authentication setup
       // For now, skip or mock authentication
       test.skip();

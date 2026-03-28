@@ -19,11 +19,11 @@ This guide walks you through deploying the Horizon Banking application to Vercel
 
 In the Vercel project configuration screen:
 
-| Setting              | Value          |
-| -------------------- | -------------- |
-| **Build Command**    | `pnpm build`   |
-| **Output Directory** | `.next`        |
-| **Install Command**  | `pnpm install` |
+| Setting              | Value           |
+| -------------------- | --------------- |
+| **Build Command**    | `npm run build` |
+| **Output Directory** | `.next`         |
+| **Install Command**  | `npm install`   |
 
 ## Step 3: Add Environment Variables
 

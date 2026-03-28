@@ -14,10 +14,10 @@ This guide walks you through deploying the Horizon Banking application to Vercel
 npm i -g vercel
 ```
 
-Or using pnpm:
+Or using npm:
 
 ```bash
-pnpm add -g vercel
+npm add -g vercel
 ```
 
 ## Step 2: Login to Vercel

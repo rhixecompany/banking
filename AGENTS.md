@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This is a Next.js 16.2.1 banking application using TypeScript, Tailwind CSS v4, Drizzle ORM, NextAuth, and pnpm.
+This is a Next.js 16.2.1 banking application using TypeScript, Tailwind CSS v4, Drizzle ORM, NextAuth, and npm.
 
 ## Personas
 
@@ -22,7 +22,7 @@ Focus on: Type safety (no `any`, use unknown + type guards), N+1 queries (must u
 
 ### Debugger Persona
 
-Focus on: Reproduce with minimal test case, check console for runtime errors, verify auth state (auth() in Server Components), check DAL queries (pnpm db:studio), verify env variables (Zod validation in lib/env.ts).
+Focus on: Reproduce with minimal test case, check console for runtime errors, verify auth state (auth() in Server Components), check DAL queries (npm run db:studio), verify env variables (Zod validation in lib/env.ts).
 
 ---
 
@@ -30,36 +30,36 @@ Focus on: Reproduce with minimal test case, check console for runtime errors, ve
 
 ```bash
 # Development
-pnpm dev              # Start dev server
-pnpm build            # Production build
-pnpm start            # Start production server
-pnpm validate         # Run format, type-check, lint, and test
+npm run dev              # Start dev server
+npm run build            # Production build
+npm run start            # Start production server
+npm run validate         # Run format, type-check, lint, and test
 
 # Database (Drizzle)
-pnpm db:studio        # Open Drizzle Studio
-pnpm db:push          # Push schema to database
-pnpm db:migrate       # Run migrations
-pnpm db:generate      # Generate migrations
+npm run db:studio        # Open Drizzle Studio
+npm run db:push          # Push schema to database
+npm run db:migrate       # Run migrations
+npm run db:generate      # Generate migrations
 
 # Linting & Formatting
-pnpm lint             # Run ESLint
-pnpm lint:fix         # Fix auto-fixable lint issues
-pnpm lint:strict      # Lint with zero warnings allowed
-pnpm format           # Format with Prettier
-pnpm format:check     # Check formatting without modifying
+npm run lint             # Run ESLint
+npm run lint:fix         # Fix auto-fixable lint issues
+npm run lint:strict      # Lint with zero warnings allowed
+npm run format           # Format with Prettier
+npm run format:check     # Check formatting without modifying
 
 # Type Checking
-pnpm type-check       # Run TypeScript compiler
-pnpm type-gen         # Generate Next.js types
+npm run type-check       # Run TypeScript compiler
+npm run type-gen         # Generate Next.js types
 
 # Testing
-pnpm test             # Run all tests (browser + E2E)
-pnpm test:browser     # Unit/integration tests (Vitest)
-pnpm test:ui          # E2E tests (Playwright)
+npm run test             # Run all tests (browser + E2E)
+npm run test:browser     # Unit/integration tests (Vitest)
+npm run test:ui          # E2E tests (Playwright)
 
 # Single test files
-pnpm exec vitest run path/to/test.test.ts
-pnpm exec playwright test path/to/spec.spec.ts
+npm exec vitest run path/to/test.test.ts
+npm exec playwright test path/to/spec.spec.ts
 ```
 
 ---
@@ -71,7 +71,7 @@ pnpm exec playwright test path/to/spec.spec.ts
 - Use **TypeScript strict mode** (enabled in tsconfig.json)
 - **Never use `any`**; prefer explicit types or `unknown`
 - **Never use raw `process.env`**; use typed env utility from `@/lib/env`
-- Use **pnpm** for all dependency management
+- Use **npm** for all dependency management
 - Enforce **lint, type-check, and test gates** before merging
 
 ### Naming Conventions
@@ -173,5 +173,5 @@ When using agentic coding tools:
 2. **Work in focused phases** — one feature/section at a time
 3. **Batch related changes** — edit multiple files in one turn
 4. **Start fresh sessions** for each major phase
-5. **Use `pnpm type-check` after each batch** to catch issues early
+5. **Use `npm run type-check` after each batch** to catch issues early
 6. **Keep prompts under 500 words** — reference docs instead of quoting

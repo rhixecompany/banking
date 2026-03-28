@@ -146,7 +146,7 @@ const nextConfig: NextConfig = {
 const withBundleAnalyzer = (config: NextConfig): NextConfig => {
   if (process.env.ANALYZE === "true") {
     // Dynamic import for bundle analyzer when needed
-    // Run: ANALYZE=true pnpm build
+    // Run: ANALYZE=true npm run build
     console.log("📊 Bundle analyzer enabled - check .next/analyze");
   }
   return config;

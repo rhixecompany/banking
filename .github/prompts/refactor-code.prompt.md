@@ -18,8 +18,8 @@ Migrate from legacy Appwrite/Prisma auth to Drizzle ORM + next-auth (Drizzle Ada
 ### 2. Install & Configure Drizzle ORM
 
 ```sh
-pnpm add drizzle-orm pg dotenv
-pnpm add -D drizzle-kit tsx @types/pg
+npm install drizzle-orm pg dotenv
+npm install --save-dev drizzle-kit tsx @types/pg
 ```
 
 - Define `users` and `user_profiles` tables using Drizzle’s `pgTable`, `varchar`, `timestamp`, and FK patterns

@@ -41,7 +41,7 @@ You are a code reviewer for Banking PRs. Check:
 - N+1 queries (must use .with() or single JOIN, never loop+query)
 - Auth in Server Actions (auth() must be first call)
 - Tailwind v4 syntax (bg-linear-to-br, aspect-2/3)
-- Zero TypeScript errors (pnpm type-check)
+- Zero TypeScript errors (npm run type-check)
 Reference: docs/dev.content.md sections 14, 17, 18, 25
 ```
 
@@ -52,7 +52,7 @@ You are debugging a Banking issue. Process:
 1. Reproduce with minimal test case
 2. Check console + Next.js MCP for runtime errors
 3. Verify auth state (auth() in Server Components)
-4. Check DAL queries (Drizzle Studio: pnpm db:studio)
+4. Check DAL queries (Drizzle Studio: npm run db:studio)
 5. Verify env variables (Zod validation in src/lib/env.ts)
 Reference: docs/dev.content.md sections 5, 20, 25
 ```
@@ -90,26 +90,26 @@ When using this prompt with Copilot CLI, follow these practices to avoid token e
 
 - **Start fresh sessions** for each phase (Foundation → Features → QA → Deploy)
 - **Commit between phases** to save state and reduce context window
-- **Use `pnpm type-check` after each batch** to catch issues early
+- **Use `npm run type-check` after each batch** to catch issues early
 - **Keep prompts under 500 words** — reference docs instead of quoting
 
 ---
 
 ## Build, Test, and Lint Commands
 
-- **Install dependencies:** `pnpm install`
-- **Start dev server:** `pnpm dev`
-- **Production build:** `pnpm build`
-- **Start production server:** `pnpm start`
-- **Lint:** `pnpm lint` / `pnpm lint:fix` / `pnpm lint:strict`
-- **Format:** `pnpm format` / `pnpm format:check`
-- **Type check:** `pnpm type-check`
-- **Run all tests:** `pnpm test`
-- **Unit/integration tests:** `pnpm test:browser`
-- **E2E tests:** `pnpm test:ui`
+- **Install dependencies:** `npm install`
+- **Start dev server:** `npm run dev`
+- **Production build:** `npm run build`
+- **Start production server:** `npm run start`
+- **Lint:** `npm run lint` / `npm run lint:fix` / `npm run lint:strict`
+- **Format:** `npm run format` / `npm run format:check`
+- **Type check:** `npm run type-check`
+- **Run all tests:** `npm run test`
+- **Unit/integration tests:** `npm run test:browser`
+- **E2E tests:** `npm run test:ui`
 - **Single test file:**
-  - Vitest: `pnpm exec vitest run path/to/test.test.ts --config=vitest.browser.config.ts`
-  - Playwright: `pnpm exec playwright test path/to/spec.spec.ts`
+  - Vitest: `npm exec vitest run path/to/test.test.ts --config=vitest.browser.config.ts`
+  - Playwright: `npm exec playwright test path/to/spec.spec.ts`
 
 ## High-Level Architecture
 

@@ -38,8 +38,8 @@ Migrate from legacy auth/ORM (Appwrite/Prisma) to Drizzle ORM + next-auth (Drizz
 - Install dependencies:
 
   ```sh
-  pnpm add drizzle-orm pg dotenv
-  pnpm add -D drizzle-kit tsx @types/pg
+  npm install drizzle-orm pg dotenv
+  npm install --save-dev drizzle-kit tsx @types/pg
   ```
 
 - See [Drizzle-ORM-Adapter-context.md](../../docs/Drizzle-ORM-Adapter-context.md) for setup, schema, and migration commands.
@@ -59,7 +59,7 @@ Migrate from legacy auth/ORM (Appwrite/Prisma) to Drizzle ORM + next-auth (Drizz
     export const db = drizzle(pool);
     ```
 - Place all database-related files (schema, db, seeds, migrations) in the `./database` folder
-- Run Drizzle migrations (`pnpm exec drizzle-kit push` or `generate` + `migrate`)
+- Run Drizzle migrations (`npm exec drizzle-kit push` or `generate` + `migrate`)
 - Seed and query using Drizzle’s recommended scripts
 
 ### 3. Integrate next-auth with Drizzle Adapter
@@ -200,7 +200,7 @@ Migrate from legacy auth/ORM (Appwrite/Prisma) to Drizzle ORM + next-auth (Drizz
 
 ## Verification
 
-- Run `pnpm lint`, `pnpm type-check`, `pnpm test` (all must pass)
+- Run `npm run lint`, `npm run type-check`, `npm run test` (all must pass)
 - Manually test all critical flows
 - Confirm DB records and session flows
 - Validate rate limiting and email notifications
