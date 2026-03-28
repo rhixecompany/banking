@@ -8,43 +8,37 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    env:
-      PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
+          cache: "npm"
 
       - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
+        run: npm install
 
       - name: Type Check
-        run: pnpm type-check
+        run: npm run type-check
 
       - name: Lint
-        run: pnpm lint
+        run: npm run lint
 
       - name: Generate database
-        run: pnpm db:generate
+        run: npm run db:generate
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Push database schema
-        run: pnpm db:push
+        run: npm run db:push
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Build Next.js
-        run: pnpm build
+        run: npm run build
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
