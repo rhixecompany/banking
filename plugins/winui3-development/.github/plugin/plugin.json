@@ -1,0 +1,19 @@
+{
+  "author": {
+    "name": "Awesome Copilot Community"
+  },
+  "description": "WinUI 3 and Windows App SDK development agent, instructions, and migration guide. Prevents common UWP API misuse and guides correct WinUI 3 patterns for desktop Windows apps.",
+  "keywords": [
+    "winui",
+    "winui3",
+    "windows-app-sdk",
+    "xaml",
+    "desktop",
+    "windows"
+  ],
+  "license": "MIT",
+  "name": "winui3-development",
+  "repository": "https://github.com/github/awesome-copilot",
+  "skills": ["./skills/winui3-migration-guide/"],
+  "version": "1.0.0"
+}

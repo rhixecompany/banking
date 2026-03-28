@@ -1,0 +1,23 @@
+{
+  "author": {
+    "name": "Fastah Inc.",
+    "url": "https://getfastah.com"
+  },
+  "description": "This plugin is for network operations engineers who wish to tune and publish IP geolocation feeds in RFC 8805 format. It consists of an AI Skill and an associated MCP server that geocodes geolocation place names to real cities for accuracy.",
+  "keywords": [
+    "geofeed",
+    "ip-geolocation",
+    "rfc-8805",
+    "rfc-9632",
+    "network-operations",
+    "isp",
+    "cloud",
+    "hosting",
+    "ixp"
+  ],
+  "license": "Apache-2.0",
+  "name": "fastah-ip-geo-tools",
+  "repository": "https://github.com/github/awesome-copilot",
+  "skills": ["./skills/geofeed-tuner/"],
+  "version": "0.0.9"
+}

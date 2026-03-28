@@ -1,0 +1,64 @@
+/**
+ * Health Check API Route
+ * Place this in: app/api/health/route.ts
+ * 
+ * Used by Docker health checks and orchestrators to detect if the app is alive.
+ * Performs basic checks: app responsiveness, database connectivity, redis connectivity.
+ */
+
+import { NextResponse } from 'next/server';
+
+export async function GET() {
+  try {
+    // Basic app health (always passes if this code runs)
+    const appHealthy = true;
+
+    // Optional: Database connectivity check
+    let dbHealthy = false;
+    try {
+      // Replace with your actual DB query
+      // Example with prisma: await prisma.$queryRaw`SELECT 1`
+      // Example with drizzle: await db.execute(sql`SELECT 1`)
+      dbHealthy = true; // Set to true after implementing your DB check
+    } catch (error) {
+      console.error('Database health check failed:', error);
+      dbHealthy = false;
+    }
+
+    // Optional: Redis connectivity check
+    let redisHealthy = false;
+    try {
+      // Replace with your actual Redis client
+      // Example: await redis.ping()
+      redisHealthy = true; // Set to true after implementing your Redis check
+    } catch (error) {
+      console.error('Redis health check failed:', error);
+      redisHealthy = false;
+    }
+
+    const isHealthy = appHealthy && dbHealthy && redisHealthy;
+
+    return NextResponse.json(
+      {
+        status: isHealthy ? 'healthy' : 'degraded',
+        timestamp: new Date().toISOString(),
+        checks: {
+          app: appHealthy,
+          database: dbHealthy,
+          redis: redisHealthy,
+        },
+      },
+      { status: isHealthy ? 200 : 503 }
+    );
+  } catch (error) {
+    console.error('Health check error:', error);
+    return NextResponse.json(
+      {
+        status: 'unhealthy',
+        timestamp: new Date().toISOString(),
+        error: 'Internal server error',
+      },
+      { status: 503 }
+    );
+  }
+}

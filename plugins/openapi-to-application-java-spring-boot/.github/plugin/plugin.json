@@ -1,0 +1,18 @@
+{
+  "author": {
+    "name": "Awesome Copilot Community"
+  },
+  "description": "Generate production-ready Spring Boot applications from OpenAPI specifications. Includes project scaffolding, REST controller generation, service layer organization, and Spring Boot best practices.",
+  "keywords": [
+    "openapi",
+    "code-generation",
+    "api",
+    "java",
+    "spring-boot"
+  ],
+  "license": "MIT",
+  "name": "openapi-to-application-java-spring-boot",
+  "repository": "https://github.com/github/awesome-copilot",
+  "skills": ["./skills/openapi-to-application-code/"],
+  "version": "1.0.0"
+}

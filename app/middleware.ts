@@ -1,23 +1,15 @@
-import { env } from "@/lib/env";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 import { getToken } from "next-auth/jwt";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
-const ratelimit =
-  env.UPSTASH_REDIS_REST_URL && env.UPSTASH_REDIS_REST_TOKEN
-    ? new Ratelimit({
-        redis: new Redis({
-          url: env.UPSTASH_REDIS_REST_URL,
-          token: env.UPSTASH_REDIS_REST_TOKEN,
-        }),
-        limiter: Ratelimit.slidingWindow(5, "60 s"),
-        analytics: true,
-        prefix: "banking-auth",
-        ephemeralCache: new Map(),
-      })
-    : null;
+const ratelimit = new Ratelimit({
+  redis: Redis.fromEnv(),
+  limiter: Ratelimit.slidingWindow(5, "60 s"),
+  analytics: true,
+  prefix: "banking-auth",
+});
 
 function getRateLimitKey(request: NextRequest) {
   return (
@@ -41,29 +33,27 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL("/", request.url));
     }
 
-    if (ratelimit) {
-      const identifier = getRateLimitKey(request);
-      try {
-        const { success, remaining, reset } = await ratelimit.limit(identifier);
-        const response = NextResponse.next();
+    const identifier = getRateLimitKey(request);
+    try {
+      const { success, remaining, reset } = await ratelimit.limit(identifier);
+      const response = NextResponse.next();
 
-        response.headers.set("X-RateLimit-Limit", "5");
-        response.headers.set("X-RateLimit-Remaining", remaining.toString());
-        response.headers.set("X-RateLimit-Reset", reset.toString());
+      response.headers.set("X-RateLimit-Limit", "5");
+      response.headers.set("X-RateLimit-Remaining", remaining.toString());
+      response.headers.set("X-RateLimit-Reset", reset.toString());
 
-        if (!success) {
-          const retryAfter = Math.ceil((reset - Date.now()) / 1000);
-          response.headers.set("Retry-After", retryAfter.toString());
-          return NextResponse.json(
-            { error: "Too many requests. Please try again later." },
-            { status: 429, headers: response.headers },
-          );
-        }
-
-        return response;
-      } catch {
-        return NextResponse.next();
+      if (!success) {
+        const retryAfter = Math.ceil((reset - Date.now()) / 1000);
+        response.headers.set("Retry-After", retryAfter.toString());
+        return NextResponse.json(
+          { error: "Too many requests. Please try again later." },
+          { status: 429, headers: response.headers },
+        );
       }
+
+      return response;
+    } catch {
+      return NextResponse.next();
     }
   }
 

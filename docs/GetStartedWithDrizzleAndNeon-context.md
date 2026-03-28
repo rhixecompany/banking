@@ -87,14 +87,14 @@ export default defineConfig({
 You can directly apply changes to your database using the `drizzle-kit push` command. This is a convenient method for quickly testing new schema designs or modifications in a local development environment, allowing for rapid iterations without the need to manage migration files:
 
 ```sh
-pnpm exec drizzle-kit push
+npm exec drizzle-kit push
 ```
 
 > **TIP:** Alternatively, you can generate migrations using the `drizzle-kit generate` command and then apply them using the `drizzle-kit migrate` command:
 >
 > ```sh
-> pnpm exec drizzle-kit generate
-> pnpm exec drizzle-kit migrate
+> npm exec drizzle-kit generate
+> npm exec drizzle-kit migrate
 > ```
 
 ## Step 7 - Seed and Query the database
@@ -149,7 +149,7 @@ To run any TypeScript files, you have several options, but let’s stick with on
 You’ve already installed `tsx`, so we can run our queries now:
 
 ```sh
-pnpm exec tsx scripts/seed/run.ts
+npm exec tsx scripts/seed/run.ts
 ```
 
 > **TIP:** We suggest using `bun` to run TypeScript files. With `bun`, such scripts can be executed without issues or additional settings, regardless of whether your project is configured with CommonJS (CJS), ECMAScript Modules (ESM), or any other module format. To run a script with `bun`, use the following command:

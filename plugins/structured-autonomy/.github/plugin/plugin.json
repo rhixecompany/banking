@@ -1,0 +1,15 @@
+{
+  "author": {
+    "name": "Awesome Copilot Community"
+  },
+  "description": "Premium planning, thrifty implementation",
+  "license": "MIT",
+  "name": "structured-autonomy",
+  "repository": "https://github.com/github/awesome-copilot",
+  "skills": [
+    "./skills/structured-autonomy-generate/",
+    "./skills/structured-autonomy-implement/",
+    "./skills/structured-autonomy-plan/"
+  ],
+  "version": "1.0.0"
+}

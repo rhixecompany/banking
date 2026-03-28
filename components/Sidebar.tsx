@@ -19,6 +19,7 @@ const Sidebar = ({ user }: SiderbarProps) => {
             width={34}
             height={34}
             className="size-6 max-xl:size-14"
+            style={{ width: "auto", height: "auto" }}
           />
           <h1 className="sidebar-logo">Horizon</h1>
         </Link>

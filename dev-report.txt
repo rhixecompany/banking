@@ -1,0 +1,192 @@
+
+> banking@0.1.0 predev C:\Users\Alexa\Desktop\SandBox\Banking
+> pnpm clean && pnpm type-gen
+
+
+> banking@0.1.0 clean C:\Users\Alexa\Desktop\SandBox\Banking
+> rimraf .next out dist build .turbo coverage .react-email
+
+
+> banking@0.1.0 type-gen C:\Users\Alexa\Desktop\SandBox\Banking
+> next typegen
+
+Generating route types...
+Γ£ô Types generated successfully
+
+> banking@0.1.0 dev C:\Users\Alexa\Desktop\SandBox\Banking
+> cross-env NODE_OPTIONS='--max-old-space-size=4096' next dev
+
+Γû▓ Next.js 16.2.1 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.100.2:3000
+- Environments: .env
+Γ£ô Ready in 3.1s
+Creating turbopack project { dir: 'C:\\Users\\Alexa\\Desktop\\SandBox\\Banking', testMode: true }
+- Experiments (use with caution):
+  ┬╖ clientTraceMetadata
+  ┬╖ optimizePackageImports
+  ┬╖ serverActions
+  ┬╖ staleTimes
+  Γ£ô typedEnv
+
+Γùï Compiling / ...
+
+[402.25ms] [@tailwindcss/postcss] app\globals.css
+[  0.23ms]   Γå│ Quick bail check
+[159.53ms]   Γå│ Setup compiler
+[  2.07ms]     Γå│ PostCSS AST -> Tailwind CSS AST
+[157.34ms]     Γå│ Create compiler
+[  0.32ms]   Γå│ Register full rebuild paths
+[ 11.11ms]   Γå│ Setup scanner
+[ 63.18ms]   Γå│ Scan for candidates
+[ 51.81ms]   Γå│ Register dependency messages
+[ 90.59ms]   Γå│ Build utilities
+[ 15.71ms]   Γå│ Transform Tailwind CSS AST into PostCSS AST
+[  8.54ms]   Γå│ Update PostCSS AST
+
+ GET / 307 in 13.4s (next.js: 12.2s, application-code: 1207ms)
+Γùï Compiling /sign-in ...
+ GET /sign-in 307 in 4.6s (next.js: 4.1s, application-code: 455ms)
+ GET / 307 in 273ms (next.js: 11ms, application-code: 262ms)
+ GET /sign-in 307 in 547ms (next.js: 13ms, application-code: 534ms)
+ GET / 307 in 326ms (next.js: 28ms, application-code: 297ms)
+ GET /sign-in 307 in 399ms (next.js: 9ms, application-code: 389ms)
+ GET / 307 in 316ms (next.js: 11ms, application-code: 305ms)
+ GET /sign-in 307 in 499ms (next.js: 14ms, application-code: 485ms)
+ GET / 307 in 327ms (next.js: 14ms, application-code: 312ms)
+ GET /sign-in 307 in 473ms (next.js: 12ms, application-code: 461ms)
+ GET / 307 in 327ms (next.js: 13ms, application-code: 315ms)
+ GET /sign-in 307 in 400ms (next.js: 11ms, application-code: 389ms)
+ GET / 307 in 240ms (next.js: 10ms, application-code: 230ms)
+ GET /sign-in 307 in 421ms (next.js: 9ms, application-code: 412ms)
+ GET / 307 in 324ms (next.js: 9ms, application-code: 315ms)
+ GET /sign-in 307 in 384ms (next.js: 12ms, application-code: 373ms)
+ GET / 307 in 269ms (next.js: 9ms, application-code: 260ms)
+ GET /sign-in 307 in 384ms (next.js: 11ms, application-code: 374ms)
+ GET / 307 in 270ms (next.js: 8ms, application-code: 262ms)
+ GET /sign-in 307 in 159ms (next.js: 12ms, application-code: 147ms)
+ GET /sign-in 307 in 545ms (next.js: 31ms, application-code: 515ms)
+ GET / 307 in 302ms (next.js: 10ms, application-code: 293ms)
+ GET /sign-in 307 in 298ms (next.js: 12ms, application-code: 286ms)
+ GET / 307 in 299ms (next.js: 8ms, application-code: 292ms)
+ GET /sign-in 307 in 411ms (next.js: 13ms, application-code: 398ms)
+ GET / 307 in 311ms (next.js: 10ms, application-code: 301ms)
+ GET /sign-in 307 in 415ms (next.js: 11ms, application-code: 404ms)
+ GET / 307 in 295ms (next.js: 15ms, application-code: 281ms)
+ GET /sign-in 307 in 336ms (next.js: 10ms, application-code: 326ms)
+ GET / 307 in 300ms (next.js: 11ms, application-code: 289ms)
+ GET /sign-in 307 in 285ms (next.js: 14ms, application-code: 272ms)
+ GET / 307 in 257ms (next.js: 11ms, application-code: 246ms)
+ GET /sign-in 307 in 250ms (next.js: 9ms, application-code: 241ms)
+ GET / 307 in 265ms (next.js: 8ms, application-code: 257ms)
+ GET /sign-in 307 in 264ms (next.js: 8ms, application-code: 256ms)
+ GET / 307 in 277ms (next.js: 8ms, application-code: 269ms)
+ GET /sign-in 307 in 301ms (next.js: 13ms, application-code: 288ms)
+ GET / 307 in 259ms (next.js: 10ms, application-code: 248ms)
+ GET /sign-in 307 in 288ms (next.js: 8ms, application-code: 280ms)
+ GET / 307 in 157ms (next.js: 11ms, application-code: 146ms)
+ GET / 307 in 737ms (next.js: 33ms, application-code: 704ms)
+ GET /sign-in 307 in 503ms (next.js: 46ms, application-code: 458ms)
+ GET / 307 in 298ms (next.js: 14ms, application-code: 284ms)
+ GET /sign-in 307 in 278ms (next.js: 11ms, application-code: 266ms)
+ GET / 307 in 271ms (next.js: 8ms, application-code: 263ms)
+ GET /sign-in 307 in 303ms (next.js: 11ms, application-code: 293ms)
+ GET / 307 in 340ms (next.js: 10ms, application-code: 330ms)
+ GET /sign-in 307 in 327ms (next.js: 12ms, application-code: 315ms)
+ GET / 307 in 248ms (next.js: 11ms, application-code: 236ms)
+ GET /sign-in 307 in 255ms (next.js: 10ms, application-code: 245ms)
+ GET / 307 in 224ms (next.js: 8ms, application-code: 216ms)
+ GET /sign-in 307 in 225ms (next.js: 8ms, application-code: 217ms)
+ GET / 307 in 272ms (next.js: 7ms, application-code: 265ms)
+ GET /sign-in 307 in 456ms (next.js: 11ms, application-code: 446ms)
+ GET / 307 in 290ms (next.js: 13ms, application-code: 276ms)
+ GET /sign-in 307 in 277ms (next.js: 9ms, application-code: 268ms)
+ GET / 307 in 228ms (next.js: 7ms, application-code: 220ms)
+ GET /sign-in 307 in 350ms (next.js: 8ms, application-code: 342ms)
+ GET / 307 in 259ms (next.js: 9ms, application-code: 250ms)
+ GET /sign-in 307 in 123ms (next.js: 8ms, application-code: 116ms)
+
+[87.96ms] [@tailwindcss/postcss] app\globals.css
+[ 0.02ms]   Γå│ Quick bail check
+[ 0.27ms]   Γå│ Register full rebuild paths
+[70.42ms]   Γå│ Scan for candidates
+[ 3.14ms]   Γå│ Register dependency messages
+[ 8.41ms]   Γå│ Build utilities
+[ 5.19ms]   Γå│ Update PostCSS AST
+
+
+[49.68ms] [@tailwindcss/postcss] app\globals.css
+[ 0.01ms]   Γå│ Quick bail check
+[ 0.23ms]   Γå│ Register full rebuild paths
+[39.93ms]   Γå│ Scan for candidates
+[ 2.99ms]   Γå│ Register dependency messages
+[ 1.65ms]   Γå│ Build utilities
+[ 4.59ms]   Γå│ Update PostCSS AST
+
+
+[131.51ms] [@tailwindcss/postcss] app\globals.css
+[  0.01ms]   Γå│ Quick bail check
+[  0.27ms]   Γå│ Register full rebuild paths
+[121.09ms]   Γå│ Scan for candidates
+[  5.47ms]   Γå│ Register dependency messages
+[  1.26ms]   Γå│ Build utilities
+[  3.16ms]   Γå│ Update PostCSS AST
+
+ GET /sign-in 307 in 596ms (next.js: 20ms, application-code: 576ms)
+ GET / 307 in 398ms (next.js: 13ms, application-code: 385ms)
+ GET /sign-in 307 in 430ms (next.js: 14ms, application-code: 416ms)
+ GET / 307 in 223ms (next.js: 17ms, application-code: 206ms)
+ GET /sign-in 307 in 596ms (next.js: 27ms, application-code: 569ms)
+ GET / 307 in 392ms (next.js: 14ms, application-code: 378ms)
+ GET /sign-in 307 in 424ms (next.js: 12ms, application-code: 413ms)
+ GET / 307 in 379ms (next.js: 16ms, application-code: 363ms)
+ GET /sign-in 307 in 438ms (next.js: 15ms, application-code: 423ms)
+ GET / 307 in 292ms (next.js: 10ms, application-code: 282ms)
+ GET /sign-in 307 in 406ms (next.js: 12ms, application-code: 394ms)
+ GET / 307 in 310ms (next.js: 13ms, application-code: 297ms)
+ GET /sign-in 307 in 482ms (next.js: 10ms, application-code: 472ms)
+ GET / 307 in 383ms (next.js: 10ms, application-code: 373ms)
+ GET /sign-in 307 in 441ms (next.js: 12ms, application-code: 428ms)
+ GET / 307 in 302ms (next.js: 14ms, application-code: 288ms)
+ GET /sign-in 307 in 453ms (next.js: 9ms, application-code: 444ms)
+ GET / 307 in 349ms (next.js: 15ms, application-code: 334ms)
+ GET /sign-in 307 in 265ms (next.js: 9ms, application-code: 256ms)
+ GET / 307 in 128ms (next.js: 9ms, application-code: 119ms)
+ GET / 307 in 472ms (next.js: 37ms, application-code: 435ms)
+ GET /sign-in 307 in 554ms (next.js: 18ms, application-code: 536ms)
+ GET / 307 in 338ms (next.js: 8ms, application-code: 330ms)
+ GET /sign-in 307 in 485ms (next.js: 19ms, application-code: 466ms)
+ GET / 307 in 346ms (next.js: 9ms, application-code: 337ms)
+ GET /sign-in 307 in 527ms (next.js: 11ms, application-code: 515ms)
+ GET / 307 in 357ms (next.js: 11ms, application-code: 346ms)
+ GET /sign-in 307 in 469ms (next.js: 8ms, application-code: 461ms)
+ GET / 307 in 293ms (next.js: 11ms, application-code: 282ms)
+ GET /sign-in 307 in 415ms (next.js: 9ms, application-code: 405ms)
+ GET / 307 in 313ms (next.js: 13ms, application-code: 299ms)
+ GET /sign-in 307 in 327ms (next.js: 9ms, application-code: 318ms)
+ GET / 307 in 223ms (next.js: 7ms, application-code: 216ms)
+ GET /sign-in 307 in 390ms (next.js: 8ms, application-code: 381ms)
+ GET / 307 in 283ms (next.js: 8ms, application-code: 275ms)
+ GET /sign-in 307 in 439ms (next.js: 12ms, application-code: 427ms)
+ GET / 307 in 325ms (next.js: 11ms, application-code: 314ms)
+ GET /sign-in 307 in 414ms (next.js: 14ms, application-code: 399ms)
+ GET / 307 in 262ms (next.js: 8ms, application-code: 254ms)
+ GET /sign-in 307 in 164ms (next.js: 10ms, application-code: 154ms)
+
+[87.14ms] [@tailwindcss/postcss] app\globals.css
+[ 0.03ms]   Γå│ Quick bail check
+[ 0.82ms]   Γå│ Register full rebuild paths
+[72.36ms]   Γå│ Scan for candidates
+[ 2.26ms]   Γå│ Register dependency messages
+[ 2.94ms]   Γå│ Build utilities
+[ 7.27ms]   Γå│ Update PostCSS AST
+
+
+[97.23ms] [@tailwindcss/postcss] app\globals.css
+[ 0.04ms]   Γå│ Quick bail check
+[ 0.42ms]   Γå│ Register full rebuild paths
+[79.55ms]   Γå│ Scan for candidates
+[ 2.80ms]   Γå│ Register dependency messages
+[ 3.47ms]   Γå│ Build utilities
+[10.50ms]   Γå│ Update PostCSS AST
+

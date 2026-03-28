@@ -1,0 +1,22 @@
+{
+  "author": {
+    "name": "Awesome Copilot Community"
+  },
+  "description": "Build high-performance Model Context Protocol servers in Rust using the official rmcp SDK with async/await, procedural macros, and type-safe implementations.",
+  "keywords": [
+    "rust",
+    "mcp",
+    "model-context-protocol",
+    "server-development",
+    "sdk",
+    "tokio",
+    "async",
+    "macros",
+    "rmcp"
+  ],
+  "license": "MIT",
+  "name": "rust-mcp-development",
+  "repository": "https://github.com/github/awesome-copilot",
+  "skills": ["./skills/rust-mcp-server-generator/"],
+  "version": "1.0.0"
+}

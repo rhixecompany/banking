@@ -1,5 +1,5 @@
 import { db } from "@/database/db";
-import { users } from "@/database/schema";
+import { account, session, users, verificationToken } from "@/database/schema";
 import { env } from "@/lib/env";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { compare } from "bcryptjs";
@@ -14,7 +14,12 @@ import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 
 export const authOptions: NextAuthOptions = {
-  adapter: DrizzleAdapter(db),
+  adapter: DrizzleAdapter(db, {
+    usersTable: users,
+    accountsTable: account,
+    sessionsTable: session,
+    verificationTokensTable: verificationToken,
+  }),
   session: { strategy: "database" as const },
   pages: {
     signIn: "/(auth)/sign-in",
@@ -22,11 +27,11 @@ export const authOptions: NextAuthOptions = {
     error: "/(auth)/error",
   },
   providers: [
-    ...(env.GITHUB_CLIENT_ID && env.GITHUB_CLIENT_SECRET
+    ...(env.AUTH_GITHUB_ID && env.AUTH_GITHUB_SECRET
       ? [
           GitHubProvider({
-            clientId: env.GITHUB_CLIENT_ID,
-            clientSecret: env.GITHUB_CLIENT_SECRET,
+            clientId: env.AUTH_GITHUB_ID,
+            clientSecret: env.AUTH_GITHUB_SECRET,
           }),
         ]
       : []),

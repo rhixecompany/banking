@@ -1,15 +1,9 @@
-import { withSentryConfig } from "@sentry/nextjs";
 import type { NextConfig } from "next";
 
-/**
- * Description placeholder
- *
- * @type {NextConfig}
- */
 const nextConfig: NextConfig = {
-  /* config options here */
-  // React Compiler for automatic optimization
   reactCompiler: true,
+
+  turbopack: {},
 
   experimental: {
     typedEnv: true,
@@ -22,7 +16,6 @@ const nextConfig: NextConfig = {
       bodySizeLimit: "10mb",
     },
   },
-  // External packages for server-side
   serverExternalPackages: [
     "postgres",
     "libsql/client",
@@ -32,7 +25,6 @@ const nextConfig: NextConfig = {
   ],
 
   cacheComponents: false,
-  // Image optimization
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "avatars.githubusercontent.com" },
@@ -54,34 +46,27 @@ const nextConfig: NextConfig = {
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
 
-  // Enhanced logging
   logging: {
     fetches: {
       fullUrl: true,
     },
   },
 
-  // Type-safe routing
   typedRoutes: true,
 
-  // TypeScript configuration
   typescript: {
     ignoreBuildErrors: false,
   },
 
-  // Development indicators
   devIndicators: {
     position: "bottom-right",
   },
 
-  // Bundle optimization
   bundlePagesRouterDependencies: true,
 
-  // Security headers
   poweredByHeader: false,
   compress: true,
 
-  // Security headers
   headers: async () => [
     {
       source: "/:path*",
@@ -142,44 +127,12 @@ const nextConfig: NextConfig = {
     return config;
   },
 };
-// ========== BUNDLE ANALYZER ==========
+
 const withBundleAnalyzer = (config: NextConfig): NextConfig => {
   if (process.env.ANALYZE === "true") {
-    // Dynamic import for bundle analyzer when needed
-    // Run: ANALYZE=true npm run build
     console.log("📊 Bundle analyzer enabled - check .next/analyze");
   }
   return config;
 };
 
-// ========== SENTRY CONFIGURATION ==========
-const sentryDSN = process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN;
-
-const finalConfig = withBundleAnalyzer(nextConfig);
-
-export default sentryDSN
-  ? withSentryConfig(finalConfig, {
-      // Sentry organization and project
-      org: process.env.SENTRY_ORG,
-      project: process.env.SENTRY_PROJECT,
-
-      // Only upload source maps in CI/production
-      silent: !process.env.CI,
-
-      // Upload source maps for better error debugging
-      widenClientFileUpload: true,
-
-      // Source maps configuration
-      sourcemaps: {
-        deleteSourcemapsAfterUpload: true,
-      },
-
-      // Sentry Webpack options (see deprecation warnings)
-      webpack: {
-        treeshake: {
-          removeDebugLogging: true,
-        },
-        automaticVercelMonitors: true,
-      },
-    })
-  : finalConfig;
+export default withBundleAnalyzer(nextConfig);

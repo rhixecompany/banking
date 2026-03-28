@@ -1,0 +1,19 @@
+{
+  "author": {
+    "name": "Awesome Copilot Community"
+  },
+  "description": "Generate production-ready .NET applications from OpenAPI specifications. Includes ASP.NET Core project scaffolding, controller generation, entity framework integration, and C# best practices.",
+  "keywords": [
+    "openapi",
+    "code-generation",
+    "api",
+    "csharp",
+    "dotnet",
+    "aspnet"
+  ],
+  "license": "MIT",
+  "name": "openapi-to-application-csharp-dotnet",
+  "repository": "https://github.com/github/awesome-copilot",
+  "skills": ["./skills/openapi-to-application-code/"],
+  "version": "1.0.0"
+}

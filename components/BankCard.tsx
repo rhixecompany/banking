@@ -3,10 +3,7 @@ import type { CreditCardProps } from "@/types";
 import { Link } from "lucide-react";
 import Image from "next/image";
 
-const BankCard = ({
-  account,
-  userName,
-}: CreditCardProps) => {
+const BankCard = ({ account, userName }: CreditCardProps) => {
   return (
     <div className="flex flex-col">
       <Link href="/" className="bank-card">

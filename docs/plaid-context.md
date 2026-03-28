@@ -1,0 +1,163 @@
+# Plaid API Documentation
+
+## Overview
+
+Plaid is a financial data platform that enables applications to connect with user bank accounts, access financial data, and facilitate payments.
+
+## Quickstart
+
+### Getting Started
+
+1. Sign up at [Plaid Dashboard](https://dashboard.plaid.com) to get API keys
+2. You'll receive a `client_id` and `secret` for each environment
+3. Plaid has three environments: Sandbox, Development, and Production
+
+### API Keys
+
+| Key Type    | Description                           |
+| ----------- | ------------------------------------- |
+| `client_id` | Private identifier for your team      |
+| `secret`    | Private key, one for each environment |
+
+### Environment URLs
+
+```
+Sandbox:     https://sandbox.plaid.com
+Production:  https://production.plaid.com
+```
+
+## Token Flow
+
+The Plaid integration follows this flow:
+
+### 1. Create Link Token
+
+Call `/link/token/create` to create a temporary `link_token`:
+
+```javascript
+const linkTokenRequest = {
+  user: {
+    client_user_id: user.id
+  },
+  client_name: "Plaid Test App",
+  products: ["auth"],
+  language: "en",
+  country_codes: ["US"]
+};
+
+const createTokenResponse =
+  await client.linkTokenCreate(linkTokenRequest);
+```
+
+### 2. Initialize Plaid Link
+
+Use the `link_token` to open Plaid Link on the client side. Link provides a `public_token` via the `onSuccess` callback:
+
+```javascript
+const { open, ready } = usePlaidLink({
+  token: linkToken,
+  onSuccess: async (public_token, metadata) => {
+    // Send public_token to server
+  }
+});
+```
+
+### 3. Exchange Public Token
+
+On the server, exchange `public_token` for a permanent `access_token`:
+
+```javascript
+const tokenResponse = await client.itemPublicTokenExchange({
+  public_token: publicToken
+});
+
+const accessToken = tokenResponse.data.access_token;
+const itemId = tokenResponse.data.item_id;
+```
+
+### 4. Make API Requests
+
+Use `access_token` to make product requests:
+
+```javascript
+const accountsResponse = await client.accountsGet({
+  access_token: accessToken
+});
+```
+
+## API Reference
+
+### Core Concepts
+
+- **Item**: A login at a financial institution (one user can have multiple Items)
+- **Account**: A bank account associated with an Item
+- **Access Token**: Permanent token for making API requests (must be stored securely)
+
+### Products
+
+| Product | Description |
+| --- | --- |
+| Auth | Retrieve account information and verify account ownership |
+| Transactions | Retrieve up to 24 months of transaction data |
+| Identity | Retrieve account holder information |
+| Balance | Retrieve real-time balance information |
+| Investments | Retrieve investment holdings and transactions |
+| Liabilities | Retrieve loan and credit card balances |
+| Income | Verify income and employment |
+| Transfer | Move money between accounts |
+
+### Request/Response Format
+
+- Protocol: JSON over HTTPS (TLS v1.2 required)
+- Method: POST requests
+- Headers: `Content-Type: application/json`
+- Authentication: Include `client_id` and `secret` in body or headers (`PLAID-CLIENT-ID`, `PLAID-SECRET`)
+
+### Error Handling
+
+Errors are indicated in response bodies with `error_code` and `error_type`. Use these instead of HTTP status codes for application-level errors.
+
+### Sandbox Credentials
+
+```
+Username: user_good
+Password: pass_good
+2FA (if prompted): 1234
+```
+
+## Client Libraries
+
+Plaid provides official client libraries for:
+
+- Node.js
+- Python
+- Java
+- Ruby
+- Go
+- .NET
+- PHP
+
+Install via npm:
+
+```bash
+npm install plaid
+```
+
+## Webhooks
+
+Plaid uses webhooks to notify your application about events. Configure webhooks in the Dashboard or via the `webhook` parameter when creating link tokens.
+
+## Best Practices
+
+1. **Store tokens securely** - Access tokens are long-lasting and should never be exposed on the client side
+2. **Handle errors properly** - Check `error_code` and `error_type` in responses
+3. **Track request IDs** - Every response includes a `request_id` for support purposes
+4. **Use environment appropriately** - Items cannot be moved between Sandbox and Production
+
+## Related Resources
+
+- [Plaid Dashboard](https://dashboard.plaid.com)
+- [Plaid GitHub](https://github.com/plaid)
+- [Plaid Postman Collection](https://github.com/plaid/plaid-postman)
+- [Plaid Academy (YouTube)](https://www.youtube.com/playlist?list=PLyKH4ZiEQ1bH5wpCt9SiyVfHlV2HecFBq)
+- [Developer Community](https://discord.gg/sf57M8DW3y)

@@ -1,0 +1,18 @@
+{
+  "author": {
+    "name": "Awesome Copilot Community"
+  },
+  "description": "A comprehensive collection of specialized agents for software analysis, impact assessment, structural quality advisories, and architectural review using CAST Imaging.",
+  "keywords": [
+    "cast-imaging",
+    "software-analysis",
+    "architecture",
+    "quality",
+    "impact-analysis",
+    "devops"
+  ],
+  "license": "MIT",
+  "name": "cast-imaging",
+  "repository": "https://github.com/github/awesome-copilot",
+  "version": "1.0.0"
+}

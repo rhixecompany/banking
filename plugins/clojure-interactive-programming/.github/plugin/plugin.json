@@ -1,0 +1,12 @@
+{
+  "author": {
+    "name": "Awesome Copilot Community"
+  },
+  "description": "Tools for REPL-first Clojure workflows featuring Clojure instructions, the interactive programming chat mode and supporting guidance.",
+  "keywords": ["clojure", "repl", "interactive-programming"],
+  "license": "MIT",
+  "name": "clojure-interactive-programming",
+  "repository": "https://github.com/github/awesome-copilot",
+  "skills": ["./skills/remember-interactive-programming/"],
+  "version": "1.0.0"
+}

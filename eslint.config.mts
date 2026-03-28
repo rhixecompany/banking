@@ -124,7 +124,7 @@ export default defineConfig([
       perfectionist,
       n: nodePlugin,
       "react-refresh": reactRefresh,
-       
+
       drizzle,
       "better-tailwindcss": betterTailwind,
       zod,

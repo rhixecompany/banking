@@ -10,8 +10,6 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 
-import type { AdapterAccount } from "next-auth/adapters";
-
 export const userRole = pgEnum("user_role", ["user", "admin", "moderator"]);
 
 export const users = pgTable("users", {
@@ -37,7 +35,7 @@ export const account = pgTable(
     userId: text("userId")
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),
-    type: text("type").$type<AdapterAccount>().notNull(),
+    type: text("type").notNull(),
     provider: text("provider").notNull(),
     providerAccountId: text("providerAccountId").notNull(),
     refresh_token: text("refresh_token"),
@@ -179,4 +177,24 @@ export const recipients = pgTable(
     createdAt: timestamp("created_at").defaultNow(),
   },
   (table) => [index("recipients_user_id_idx").on(table.userId)],
+);
+
+export const errors = pgTable(
+  "errors",
+  {
+    id: text("id")
+      .primaryKey()
+      .notNull()
+      .$defaultFn(() => crypto.randomUUID()),
+    message: text("message").notNull(),
+    stack: text("stack"),
+    path: varchar("path", { length: 500 }),
+    userId: text("user_id").references(() => users.id, { onDelete: "cascade" }),
+    severity: varchar("severity", { length: 20 }).default("error"),
+    createdAt: timestamp("created_at").defaultNow(),
+  },
+  (table) => [
+    index("errors_created_at_idx").on(table.createdAt),
+    index("errors_user_id_idx").on(table.userId),
+  ],
 );

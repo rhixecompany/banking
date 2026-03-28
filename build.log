@@ -1,0 +1,69 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.36kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for gcr.io/distroless/nodejs22-debian12:nonroot
+#2 ...
+
+#3 [internal] load metadata for docker.io/library/node:22-alpine
+#3 DONE 0.4s
+
+#2 [internal] load metadata for gcr.io/distroless/nodejs22-debian12:nonroot
+#2 DONE 0.4s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 660B done
+#4 DONE 0.0s
+
+#5 [stage-1 1/5] FROM gcr.io/distroless/nodejs22-debian12:nonroot@sha256:13593b7570658e8477de39e2f4a1dd25db2f836d68a0ba771251572d23bb4f8e
+#5 resolve gcr.io/distroless/nodejs22-debian12:nonroot@sha256:13593b7570658e8477de39e2f4a1dd25db2f836d68a0ba771251572d23bb4f8e 0.0s done
+#5 DONE 0.0s
+
+#6 [stage-1 2/5] WORKDIR /app
+#6 CACHED
+
+#7 [builder 1/6] FROM docker.io/library/node:22-alpine@sha256:4d64b49e6c891c8fc821007cb1cdc6c0db7773110ac2c34bf2e6960adef62ed3
+#7 resolve docker.io/library/node:22-alpine@sha256:4d64b49e6c891c8fc821007cb1cdc6c0db7773110ac2c34bf2e6960adef62ed3 0.0s done
+#7 DONE 0.0s
+
+#8 [internal] load build context
+#8 transferring context: 7.18kB 0.0s done
+#8 DONE 0.0s
+
+#9 [builder 3/6] COPY package.json package-lock.json ./
+#9 CACHED
+
+#10 [builder 4/6] RUN --mount=type=cache,target=/root/.npm     npm ci --legacy-peer-deps --ignore-scripts
+#10 CACHED
+
+#11 [builder 5/6] COPY . .
+#11 CACHED
+
+#12 [builder 2/6] WORKDIR /app
+#12 CACHED
+
+#13 [builder 6/6] RUN --mount=type=cache,target=/root/.npm     npm run prebuild && npm run build:standalone
+#13 CACHED
+
+#14 [stage-1 3/5] COPY --from=builder /app/.next/standalone ./
+#14 ERROR: failed to calculate checksum of ref rcs0jcmpcij6y1w2viiyiecv4::7g6639uz7s2y22vgu9wmkked6: "/app/.next/standalone": not found
+------
+ > [stage-1 3/5] COPY --from=builder /app/.next/standalone ./:
+------
+
+ 2 warnings found (use docker --debug to expand):
+ - SecretsUsedInArgOrEnv: Do not use ARG or ENV instructions for sensitive data (ENV "NEXTAUTH_SECRET") (line 18)
+ - SecretsUsedInArgOrEnv: Do not use ARG or ENV instructions for sensitive data (ENV "ENCRYPTION_KEY") (line 18)
+Dockerfile:36
+--------------------
+  34 |     
+  35 |     # Copy built application from builder
+  36 | >>> COPY --from=builder /app/.next/standalone ./
+  37 |     COPY --from=builder /app/.next/static ./.next/static
+  38 |     COPY --from=builder /app/public ./public
+--------------------
+ERROR: failed to build: failed to solve: failed to compute cache key: failed to calculate checksum of ref rcs0jcmpcij6y1w2viiyiecv4::7g6639uz7s2y22vgu9wmkked6: "/app/.next/standalone": not found
+
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/kd5gujv0i8jadi35fxn6yf388

@@ -1,0 +1,26 @@
+{
+  "author": {
+    "name": "Awesome Copilot Community"
+  },
+  "description": "Comprehensive Power BI development resources including data modeling, DAX optimization, performance tuning, visualization design, security best practices, and DevOps/ALM guidance for building enterprise-grade Power BI solutions.",
+  "keywords": [
+    "power-bi",
+    "dax",
+    "data-modeling",
+    "performance",
+    "visualization",
+    "security",
+    "devops",
+    "business-intelligence"
+  ],
+  "license": "MIT",
+  "name": "power-bi-development",
+  "repository": "https://github.com/github/awesome-copilot",
+  "skills": [
+    "./skills/power-bi-dax-optimization/",
+    "./skills/power-bi-model-design-review/",
+    "./skills/power-bi-performance-troubleshooting/",
+    "./skills/power-bi-report-design-consultation/"
+  ],
+  "version": "1.0.0"
+}

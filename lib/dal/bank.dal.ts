@@ -1,15 +1,26 @@
 import { db } from "@/database/db";
 import { banks } from "@/database/schema";
+import { decrypt, encrypt } from "@/lib/encryption";
 import { eq } from "drizzle-orm";
 
 export class BankDal {
   async findById(id: string) {
     const [bank] = await db.select().from(banks).where(eq(banks.id, id));
+    if (bank) {
+      bank.accessToken = decrypt(bank.accessToken);
+    }
     return bank;
   }
 
   async findByUserId(userId: string) {
-    return db.select().from(banks).where(eq(banks.userId, userId));
+    const bankRecords = await db
+      .select()
+      .from(banks)
+      .where(eq(banks.userId, userId));
+    return bankRecords.map((bank) => ({
+      ...bank,
+      accessToken: decrypt(bank.accessToken),
+    }));
   }
 
   async findBySharableId(sharableId: string) {
@@ -17,6 +28,9 @@ export class BankDal {
       .select()
       .from(banks)
       .where(eq(banks.sharableId, sharableId));
+    if (bank) {
+      bank.accessToken = decrypt(bank.accessToken);
+    }
     return bank;
   }
 
@@ -25,6 +39,9 @@ export class BankDal {
       .select()
       .from(banks)
       .where(eq(banks.accountId, accountId));
+    if (bank) {
+      bank.accessToken = decrypt(bank.accessToken);
+    }
     return bank;
   }
 
@@ -39,7 +56,12 @@ export class BankDal {
     accountType?: string;
     accountSubtype?: string;
   }) {
-    const [bank] = await db.insert(banks).values(data).returning();
+    const encryptedData = {
+      ...data,
+      accessToken: encrypt(data.accessToken),
+    };
+    const [bank] = await db.insert(banks).values(encryptedData).returning();
+    bank.accessToken = data.accessToken;
     return bank;
   }
 

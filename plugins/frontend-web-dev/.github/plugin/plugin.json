@@ -1,0 +1,25 @@
+{
+  "author": {
+    "name": "Awesome Copilot Community"
+  },
+  "description": "Essential prompts, instructions, and chat modes for modern frontend web development including React, Angular, Vue, TypeScript, and CSS frameworks.",
+  "keywords": [
+    "frontend",
+    "web",
+    "react",
+    "typescript",
+    "javascript",
+    "css",
+    "html",
+    "angular",
+    "vue"
+  ],
+  "license": "MIT",
+  "name": "frontend-web-dev",
+  "repository": "https://github.com/github/awesome-copilot",
+  "skills": [
+    "./skills/playwright-explore-website/",
+    "./skills/playwright-generate-test/"
+  ],
+  "version": "1.0.0"
+}

@@ -1,13 +1,13 @@
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import bcrypt from "bcryptjs";
 import { eq } from "drizzle-orm";
-import type { NextAuthOptions } from "next-auth";
+import type { DefaultSession, NextAuthOptions, Session, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 
 import { db } from "@/database/db";
-import { users } from "@/database/schema";
+import { account, session, users, verificationToken } from "@/database/schema";
 import { env } from "@/lib/env";
 
 function generateSecurePassword(): string {
@@ -17,7 +17,12 @@ function generateSecurePassword(): string {
 }
 
 export const authOptions: NextAuthOptions = {
-  adapter: DrizzleAdapter(db),
+  adapter: DrizzleAdapter(db, {
+    usersTable: users,
+    accountsTable: account,
+    sessionsTable: session,
+    verificationTokensTable: verificationToken,
+  }),
   session: { strategy: "database" as const },
   pages: {
     signIn: "/(auth)/sign-in",
@@ -25,11 +30,11 @@ export const authOptions: NextAuthOptions = {
     error: "/(auth)/error",
   },
   providers: [
-    ...(env.GITHUB_CLIENT_ID && env.GITHUB_CLIENT_SECRET
+    ...(env.AUTH_GITHUB_ID && env.AUTH_GITHUB_SECRET
       ? [
           GitHubProvider({
-            clientId: env.GITHUB_CLIENT_ID,
-            clientSecret: env.GITHUB_CLIENT_SECRET,
+            clientId: env.AUTH_GITHUB_ID,
+            clientSecret: env.AUTH_GITHUB_SECRET,
           }),
         ]
       : []),
@@ -69,16 +74,18 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async session({ session, user }) {
+    async session({ session, user }: { session: Session; user: User }) {
       if (session.user && user) {
-        const sUser = session.user as typeof session.user & {
+        const extUser = session.user as DefaultSession["user"] & {
           id?: string;
           isAdmin?: boolean;
           isActive?: boolean;
         };
-        sUser.id = user.id as string;
-        sUser.isAdmin = (user as { isAdmin?: boolean }).isAdmin ?? false;
-        sUser.isActive = (user as { isActive?: boolean }).isActive ?? true;
+        extUser.id = user.id as string;
+        extUser.isAdmin =
+          (user as unknown as { isAdmin?: boolean }).isAdmin ?? false;
+        extUser.isActive =
+          (user as unknown as { isActive?: boolean }).isActive ?? true;
       }
       return session;
     },

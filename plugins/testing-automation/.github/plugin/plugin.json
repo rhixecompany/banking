@@ -1,0 +1,27 @@
+{
+  "author": {
+    "name": "Awesome Copilot Community"
+  },
+  "description": "Comprehensive collection for writing tests, test automation, and test-driven development including unit tests, integration tests, and end-to-end testing strategies.",
+  "keywords": [
+    "testing",
+    "tdd",
+    "automation",
+    "unit-tests",
+    "integration",
+    "playwright",
+    "jest",
+    "nunit"
+  ],
+  "license": "MIT",
+  "name": "testing-automation",
+  "repository": "https://github.com/github/awesome-copilot",
+  "skills": [
+    "./skills/playwright-explore-website/",
+    "./skills/playwright-generate-test/",
+    "./skills/csharp-nunit/",
+    "./skills/java-junit/",
+    "./skills/ai-prompt-engineering-safety-review/"
+  ],
+  "version": "1.0.0"
+}

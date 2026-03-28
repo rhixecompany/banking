@@ -1,0 +1,20 @@
+{
+  "author": {
+    "name": "Awesome Copilot Community"
+  },
+  "description": "Complete toolkit for building Model Context Protocol servers in Ruby using the official MCP Ruby SDK gem with Rails integration support.",
+  "keywords": [
+    "ruby",
+    "mcp",
+    "model-context-protocol",
+    "server-development",
+    "sdk",
+    "rails",
+    "gem"
+  ],
+  "license": "MIT",
+  "name": "ruby-mcp-development",
+  "repository": "https://github.com/github/awesome-copilot",
+  "skills": ["./skills/ruby-mcp-server-generator/"],
+  "version": "1.0.0"
+}

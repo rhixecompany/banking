@@ -1,0 +1,20 @@
+{
+  "author": {
+    "name": "Awesome Copilot Community"
+  },
+  "description": "Comprehensive resources for building Model Context Protocol servers using the official PHP SDK with attribute-based discovery, including best practices, project generation, and expert assistance",
+  "keywords": [
+    "php",
+    "mcp",
+    "model-context-protocol",
+    "server-development",
+    "sdk",
+    "attributes",
+    "composer"
+  ],
+  "license": "MIT",
+  "name": "php-mcp-development",
+  "repository": "https://github.com/github/awesome-copilot",
+  "skills": ["./skills/php-mcp-server-generator/"],
+  "version": "1.0.0"
+}

@@ -67,10 +67,12 @@ const config: Options = {
   // ═══════════════════════════════════════════════════
   // Plugin Configuration
   // ═══════════════════════════════════════════════════
-  plugins: [  "prettier-plugin-tailwindcss",
+  plugins: [
+    "prettier-plugin-tailwindcss",
     "prettier-plugin-organize-imports",
     "prettier-plugin-packagejson",
-    "prettier-plugin-sort-json",],
+    "prettier-plugin-sort-json",
+  ],
 
   // Prettier Plugin: Tailwind CSS
   tailwindStylesheet: "./app/globals.css",

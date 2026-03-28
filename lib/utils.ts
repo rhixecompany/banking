@@ -177,12 +177,14 @@ export function extractCustomerIdFromUrl(url: string) {
   return customerId;
 }
 
+import { decrypt, encrypt } from "@/lib/encryption";
+
 export function encryptId(id: string) {
-  return btoa(id);
+  return encrypt(id);
 }
 
 export function decryptId(id: string) {
-  return atob(id);
+  return decrypt(id);
 }
 
 export const getTransactionStatus = (date: Date) => {

@@ -1,0 +1,66 @@
+# Dependencies
+node_modules/
+npm-debug.log
+yarn.lock
+yarn-error.log
+pnpm-lock.yaml
+
+# Next.js
+.next/
+.turbo/
+dist/
+build/
+out/
+
+# Development
+.env
+.env.local
+.env.*.local
+.dev.vars
+*.log
+
+# Testing
+coverage/
+.nyc_output/
+test-results/
+test-ui-report.txt
+dev-report.txt
+
+# IDE/Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.github/
+.gitignore
+
+# CI/CD
+.env-example
+.env.example
+Railway.toml
+railway.json
+vercel.json
+
+# Documentation
+README.md
+LICENSE
+AGENTS.md
+docs/
+
+# Misc
+.editorconfig
+.prettierignore
+.prettierrc.ts
+.npmrc
+.husky/
+.env-example
+.env.example
+
+# Type generation
+next-env.d.ts

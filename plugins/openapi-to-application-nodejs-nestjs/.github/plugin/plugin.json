@@ -1,0 +1,19 @@
+{
+  "author": {
+    "name": "Awesome Copilot Community"
+  },
+  "description": "Generate production-ready NestJS applications from OpenAPI specifications. Includes project scaffolding, controller and service generation, TypeScript best practices, and enterprise patterns.",
+  "keywords": [
+    "openapi",
+    "code-generation",
+    "api",
+    "nodejs",
+    "typescript",
+    "nestjs"
+  ],
+  "license": "MIT",
+  "name": "openapi-to-application-nodejs-nestjs",
+  "repository": "https://github.com/github/awesome-copilot",
+  "skills": ["./skills/openapi-to-application-code/"],
+  "version": "1.0.0"
+}

@@ -1,0 +1,23 @@
+{
+  "author": {
+    "name": "Awesome Copilot Community"
+  },
+  "description": "Comprehensive collection for building Model Context Protocol servers in Swift using the official MCP Swift SDK with modern concurrency features.",
+  "keywords": [
+    "swift",
+    "mcp",
+    "model-context-protocol",
+    "server-development",
+    "sdk",
+    "ios",
+    "macos",
+    "concurrency",
+    "actor",
+    "async-await"
+  ],
+  "license": "MIT",
+  "name": "swift-mcp-development",
+  "repository": "https://github.com/github/awesome-copilot",
+  "skills": ["./skills/swift-mcp-server-generator/"],
+  "version": "1.0.0"
+}

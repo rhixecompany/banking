@@ -1,0 +1,22 @@
+{
+  "author": {
+    "name": "Awesome Copilot Community"
+  },
+  "description": "Tools and techniques for maximizing GitHub Copilot effectiveness through better context management. Includes guidelines for structuring code, an agent for planning multi-file changes, and prompts for context-aware development.",
+  "keywords": [
+    "context",
+    "productivity",
+    "refactoring",
+    "best-practices",
+    "architecture"
+  ],
+  "license": "MIT",
+  "name": "context-engineering",
+  "repository": "https://github.com/github/awesome-copilot",
+  "skills": [
+    "./skills/context-map/",
+    "./skills/what-context-needed/",
+    "./skills/refactor-plan/"
+  ],
+  "version": "1.0.0"
+}

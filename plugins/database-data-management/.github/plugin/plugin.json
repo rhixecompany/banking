@@ -1,0 +1,26 @@
+{
+  "author": {
+    "name": "Awesome Copilot Community"
+  },
+  "description": "Database administration, SQL optimization, and data management tools for PostgreSQL, SQL Server, and general database development best practices.",
+  "keywords": [
+    "database",
+    "sql",
+    "postgresql",
+    "sql-server",
+    "dba",
+    "optimization",
+    "queries",
+    "data-management"
+  ],
+  "license": "MIT",
+  "name": "database-data-management",
+  "repository": "https://github.com/github/awesome-copilot",
+  "skills": [
+    "./skills/sql-optimization/",
+    "./skills/sql-code-review/",
+    "./skills/postgresql-optimization/",
+    "./skills/postgresql-code-review/"
+  ],
+  "version": "1.0.0"
+}

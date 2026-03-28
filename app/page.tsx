@@ -19,6 +19,7 @@ export default async function HomePage() {
               width={30}
               height={39}
               className="h-8 w-auto"
+              style={{ width: "auto" }}
             />
             <span className="font-ibm-plex-serif text-[26px] font-bold text-black-1">
               Horizon
@@ -242,6 +243,7 @@ export default async function HomePage() {
                 width={24}
                 height={31}
                 className="h-6 w-auto"
+                style={{ width: "auto" }}
               />
               <span className="font-ibm-plex-serif text-xl font-bold text-black-1">
                 Horizon

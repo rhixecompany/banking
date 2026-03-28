@@ -1,10 +1,10 @@
 export const dynamic = "force-dynamic";
 
+import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
 import { IBM_Plex_Serif, Inter } from "next/font/google";
+import { ReactNode } from "react";
 import "./globals.css";
-import { Toaster } from "@/components/ui/sonner";
-import React, { ReactNode } from "react";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const ibmPlexSerif = IBM_Plex_Serif({
