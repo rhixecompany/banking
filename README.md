@@ -23,15 +23,18 @@
 1. 🤖 [Introduction](#introduction)
 2. ⚙️ [Tech Stack](#tech-stack)
 3. 🔋 [Features](#features)
-4. 🤸 [Quick Start](#quick-start)
-5. 🗄️ [Database Setup](#database)
-6. 🔐 [Authentication](#auth)
-7. 📊 [DAL Pattern](#dal)
-8. ⚡ [Server Actions](#server-actions)
-9. 📧 [Email Service](#email)
-10. 🕸️ [Code Snippets to Copy](#snippets)
-11. 🔗 [Links](#links)
-12. 🚀 [More](#more)
+4. 🚀 [Live Deployments](#deployments)
+5. 🤸 [Quick Start](#quick-start)
+6. 🗄️ [Database Setup](#database)
+7. 🔐 [Authentication](#auth)
+8. 📊 [DAL Pattern](#dal)
+9. ⚡ [Server Actions](#server-actions)
+10. 📧 [Email Service](#email)
+11. 📚 [Documentation](#documentation)
+12. 🔧 [Debugging](#debugging)
+13. 🕸️ [Code Snippets to Copy](#snippets)
+14. 🔗 [Links](#links)
+15. 🚀 [More](#more)
 
 ## 🚨 Tutorial
 
@@ -80,6 +83,20 @@ If you're getting started and need assistance or face any bugs, join our active 
 👉 **Responsiveness**: Ensures the application adapts seamlessly to various screen sizes and devices, providing a consistent user experience across desktop, tablet, and mobile platforms.
 
 and many more, including code architecture and reusability.
+
+## <a name="deployments">🚀 Live Deployments</a>
+
+| Platform | URL | Status |
+| --- | --- | --- |
+| **Vercel** | [banking-ccl6gjbrd-rhixecompanys-projects.vercel.app](https://banking-ccl6gjbrd-rhixecompanys-projects.vercel.app) | ✅ Active |
+| **Railway** | [banking.up.railway.app](https://banking.up.railway.app) | 🔄 Building |
+| **GitHub** | [github.com/rhixecompany/banking](https://github.com/rhixecompany/banking) | ✅ Active |
+
+### Deployment Status Badges
+
+![Vercel](https://img.shields.io/badge/Vercel-Deployed-green) ![Railway](https://img.shields.io/badge/Railway-Building-yellow) ![GitHub](https://img.shields.io/badge/GitHub-Active-blue)
+
+---
 
 ## <a name="quick-start">🤸 Quick Start</a>
 
@@ -1550,6 +1567,125 @@ SMTP_FROM=noreply@yourdomain.com
 import { sendEmail, sendWelcomeEmail } from "@/lib/email";
 
 await sendWelcomeEmail("user@example.com", "John");
+```
+
+---
+
+## <a name="documentation">📚 Documentation</a>
+
+### Deployment Guides
+
+| Document | Description |
+| --- | --- |
+| [Deploy to Railway](docs/deploy-to-railway.md) | Complete guide for Railway deployment with GitHub Actions |
+| [Deploy to Vercel](docs/deploy-to-vercel.md) | Vercel deployment guide |
+| [Deploy to Vercel CLI](docs/deploy-to-vercel-cli.md) | Manual Vercel CLI deployment |
+
+### Drizzle ORM Guides
+
+| Document | Description |
+| --- | --- |
+| [Drizzle ORM Guides](docs/DrizzleORMGuides-context.md) | Comprehensive Drizzle ORM documentation |
+| [Get Started with Drizzle](docs/GetStartedWithDrizzleAndPostgreSQL-context.md) | Setup Drizzle with PostgreSQL |
+| [Cursor Pagination](docs/DrizzleORMGuide-Cursor-Based-Pagination.md) | Implementing cursor-based pagination |
+| [Limit Offset Pagination](docs/DrizzleORMGuide-Limit-Offset-Pagination.md) | Traditional pagination |
+
+### Other Guides
+
+| Document | Description |
+| --- | --- |
+| [TypeScript Context](docs/TypeScript-context.md) | TypeScript best practices |
+| [Next.js Context](docs/Next-js-context.md) | Next.js features and patterns |
+| [Credentials Provider](docs/Credentials-Provider-context.md) | NextAuth credentials setup |
+| [Drizzle Adapter](docs/Drizzle-ORM-Adapter-context.md) | NextAuth with Drizzle |
+
+---
+
+## <a name="debugging">🔧 Debugging</a>
+
+### GitHub Actions
+
+#### Common Issues
+
+**"Dependencies lock file is not found"**
+
+```bash
+# Generate package-lock.json
+npm install --package-lock-only
+```
+
+**"pnpm: command not found"**
+
+- Ensure PNPM_HOME is set in workflow environment variables
+
+#### View Logs
+
+```bash
+gh run list
+gh run view <run-id> --log-failed
+```
+
+---
+
+### Vercel
+
+#### Common Issues
+
+**Build fails**
+
+- Check Vercel Dashboard → Deployments → Click latest deployment
+- Verify all environment variables are set in Vercel project settings
+
+**Environment variables missing**
+
+- Go to Vercel Dashboard → Project → Settings → Environment Variables
+- Add all variables from `.env.example`
+
+#### View Logs
+
+```bash
+vercel logs
+```
+
+---
+
+### Railway
+
+#### Common Issues
+
+**"packages field missing or empty"**
+
+- This is a pnpm lockfile format issue
+- Update `railway.json` to use npm instead:
+
+```json
+{
+  "build": {
+    "builder": "NIXPACKS",
+    "buildCommand": "npm install && npm run build",
+    "installCommand": "npm install"
+  }
+}
+```
+
+**Database connection fails**
+
+- Verify DATABASE_URL in Railway variables
+- Ensure PostgreSQL plugin is active
+
+#### View Logs
+
+```bash
+railway logs
+```
+
+#### Useful Commands
+
+```bash
+railway status          # Check project status
+railway variables      # List environment variables
+railway redeploy       # Redeploy the service
+railway open           # Open Railway dashboard
 ```
 
 ---
