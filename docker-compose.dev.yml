@@ -1,0 +1,147 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: compose/development/node/Dockerfile
+      args:
+        - BUILDKIT_INLINE_CACHE=1
+    ports:
+      - "3000:3000"
+    env_file:
+      - .envs/local/.env.local
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_SITE_URL=http://localhost:3000
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - app-network
+    security_opt:
+      - no-new-privileges:true
+    # Bind mount for source code - enables instant file sync
+    volumes:
+      - ./app:/app/app
+      - ./components:/app/components
+      - ./lib:/app/lib
+      - ./database:/app/database
+      - ./public:/app/public
+      - ./styles:/app/styles
+      - ./types:/app/types
+      - /app/node_modules # Prevent overwriting container node_modules
+      - /app/.next # Prevent overwriting .next cache
+    # Compose watch for automatic rebuilds on dependency changes
+    develop:
+      watch:
+        - path: ./package.json
+          action: rebuild
+        - path: ./drizzle.config.ts
+          action: rebuild
+        - path: ./next.config.ts
+          action: rebuild
+        - path: ./tsconfig.json
+          action: rebuild
+        - path: ./app
+          action: sync
+          target: /app/app
+        - path: ./components
+          action: sync
+          target: /app/components
+        - path: ./lib
+          action: sync
+          target: /app/lib
+        - path: ./database
+          action: sync
+          target: /app/database
+        - path: ./public
+          action: sync
+          target: /app/public
+
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-banking}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+    security_opt:
+      - no-new-privileges:true
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-}
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    networks:
+      - app-network
+    security_opt:
+      - no-new-privileges:true
+
+  init:
+    build:
+      context: .
+      dockerfile: compose/development/node/Dockerfile
+    env_file:
+      - .envs/local/.env.local
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      db:
+        condition: service_healthy
+    command: sh -c "npm run db:push"
+    networks:
+      - app-network
+    profiles:
+      - init
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  app-network:
+    driver: bridge
+
+# Usage:
+# ---
+# First time setup (runs migrations):
+#   docker compose --profile init up
+#
+# Development with hot-reload:
+#   docker compose up
+#
+# Development with file watching (Compose v2.20+):
+#   docker compose watch
+#
+# View logs:
+#   docker compose logs -f app
+#
+# Rebuild:
+#   docker compose build --no-cache
+#
+# Full cleanup:
+#   docker compose down -v
+#
+# Database management:
+#   docker compose exec db psql -U postgres -d banking
+#   docker compose exec redis redis-cli

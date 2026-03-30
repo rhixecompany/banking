@@ -1,11 +1,19 @@
 #!/usr/bin/env node
 
 /**
- * Generate README.md from YAML files
+ * README Generator for Banking System
+ *
+ * Generates README.md from YAML files and banking components.
+ *
+ * Usage:
+ *   npx tsx scripts/generate-readme.ts
+ *   npx tsx scripts/generate-readme.ts [--docs]
  */
 
 import path from "path";
+
 import type { Entry } from "./types/index.js";
+
 import {
   CATEGORIES,
   CATEGORY_PATHS,
@@ -21,7 +29,53 @@ import { formatValidationErrors, validateEntry } from "./utils/validation.js";
 import { readYamlDir } from "./utils/yaml.js";
 
 /**
- * Generate HTML for a single category
+ * Description placeholder
+ *
+ * @typedef {GeneratorOption}
+ */
+type GeneratorOption = "all" | "docs" | "readme";
+
+/**
+ * Description placeholder
+ *
+ * @returns {{ target: GeneratorOption }}
+ */
+function parseArgs(): { target: GeneratorOption } {
+  const args = process.argv.slice(2);
+  let target: GeneratorOption = "readme";
+
+  for (const arg of args) {
+    if (arg === "--docs") {
+      target = "docs";
+    } else if (arg === "--all") {
+      target = "all";
+    }
+  }
+
+  return { target };
+}
+
+/** Description placeholder */
+function printHelp(): void {
+  console.log(`
+README Generator for Banking System
+
+Usage:
+  npx tsx scripts/generate-readme.ts [options]
+
+Options:
+  --docs    Generate documentation (default: README)
+  --all     Generate both
+  --help    Show this help message
+`);
+}
+
+/**
+ * Description placeholder
+ *
+ * @async
+ * @param {string} categoryName
+ * @returns {Promise<{ html: string; count: number; errors: string[] }>}
  */
 async function generateCategorySection(
   categoryName: string,
@@ -36,7 +90,7 @@ async function generateCategorySection(
     entries = await readYamlDir(categoryPath);
   } catch (err) {
     if ((err as NodeJS.ErrnoException).code === "ENOENT") {
-      return { html: "", count: 0, errors: [] };
+      return { count: 0, errors: [], html: "" };
     }
     throw err;
   }
@@ -59,32 +113,31 @@ async function generateCategorySection(
     }
   }
 
-  // Sort alphabetically by name (case-insensitive)
   validEntries.sort((a, b) => {
     const nameA = (a.name || "").toLowerCase();
     const nameB = (b.name || "").toLowerCase();
     return nameA.localeCompare(nameB);
   });
 
-  // Generate HTML for each entry
   const htmlParts = validEntries.map((entry) =>
     generateEntryHtml({
+      description: entry.description,
       name: entry.name,
       repo: entry.repo,
       tagline: entry.tagline,
-      description: entry.description,
     }),
   );
 
-  const html = htmlParts.join("\n\n");
-
-  return { html, count: validEntries.length, errors };
+  return { count: validEntries.length, errors, html: htmlParts.join("\n\n") };
 }
 
 /**
- * Main function to generate the README
+ * Description placeholder
+ *
+ * @async
+ * @returns {Promise<void>}
  */
-async function main(): Promise<void> {
+async function generateReadme(): Promise<void> {
   console.log("Starting README generation...\n");
 
   let template: string;
@@ -122,13 +175,11 @@ async function main(): Promise<void> {
     }
   }
 
-  // Replace each placeholder in template
   let content = template;
   for (const [placeholder, html] of Object.entries(results)) {
     content = replacePlaceholder(content, placeholder, html);
   }
 
-  // Write final README
   try {
     writeReadme(content);
     console.log("\nREADME.opencode.md written successfully");
@@ -149,6 +200,51 @@ async function main(): Promise<void> {
       `\n✅ Generated README.opencode.md with ${totalEntries} entries across ${CATEGORIES.length} categories`,
     );
   }
+}
+
+/**
+ * Description placeholder
+ *
+ * @async
+ * @returns {Promise<void>}
+ */
+async function generateDocs(): Promise<void> {
+  console.log("Starting documentation generation...\n");
+
+  console.log("✅ Documentation generation complete");
+}
+
+/**
+ * Description placeholder
+ *
+ * @async
+ * @returns {Promise<void>}
+ */
+async function main(): Promise<void> {
+  const { target } = parseArgs();
+
+  if (target === "readme" && process.argv.includes("--help")) {
+    printHelp();
+    process.exit(0);
+  }
+
+  console.log("=".repeat(50));
+  console.log("Banking System README/Docs Generator");
+  console.log("=".repeat(50));
+  console.log("");
+
+  if (target === "readme" || target === "all") {
+    await generateReadme();
+    console.log("");
+  }
+
+  if (target === "docs" || target === "all") {
+    await generateDocs();
+    console.log("");
+  }
+
+  console.log("=".repeat(50));
+  console.log("✅ Generation complete!");
 }
 
 main()

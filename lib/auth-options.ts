@@ -8,7 +8,13 @@ import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 
 import { db } from "@/database/db";
-import { account, session, users, verificationToken } from "@/database/schema";
+import {
+  account,
+  authenticator,
+  session,
+  users,
+  verificationToken,
+} from "@/database/schema";
 import { env } from "@/lib/env";
 
 /**
@@ -30,6 +36,7 @@ function generateSecurePassword(): string {
 export const authOptions: NextAuthOptions = {
   adapter: DrizzleAdapter(db, {
     accountsTable: account,
+    authenticatorsTable: authenticator,
     sessionsTable: session,
     usersTable: users,
     verificationTokensTable: verificationToken,

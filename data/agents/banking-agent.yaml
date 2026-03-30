@@ -1,0 +1,58 @@
+name: Banking Agent
+repo: https://github.com/awesome-opencode/opencode-banking
+tagline: AI agent specialized in banking application development with Next.js 16, Plaid, Dwolla, and Drizzle ORM
+description: >
+  Pre-configured AI agent for banking application development. Specializes in:
+
+  - NextAuth.js v4 authentication and session management
+  - Plaid API integration for bank account linking
+  - Dwolla API for ACH transfers and payments
+  - Drizzle ORM with PostgreSQL
+  - Zod schema validation
+  - Server Actions for all mutations
+  - N+1 query prevention patterns
+  - shadcn/ui component patterns
+  - Security best practices (encryption, rate limiting)
+
+  Based on production patterns from the Banking project template.
+tags:
+  - banking
+  - nextjs
+  - react
+  - typescript
+  - plaid
+  - dwolla
+  - drizzle
+  - auth
+  - security
+scope:
+  - project
+  - global
+min_version: "1.0.0"
+installation: |
+  ## Installation
+
+  ```bash
+  git clone https://github.com/awesome-opencode/opencode-banking.git .opencode/banking-agent
+  ```
+
+  ## Usage
+
+  The Banking Agent provides specialized assistance for:
+
+  - Setting up NextAuth.js authentication flows
+  - Integrating Plaid for bank account linking
+  - Implementing Dwolla ACH transfers
+  - Creating secure database schemas with Drizzle
+  - Writing Zod validation schemas
+  - Implementing Server Actions with proper security
+  - Building banking UI with shadcn/ui
+  - Security auditing (encryption, rate limiting)
+
+  ## Example Prompts
+
+  - "Create a user registration flow with email verification"
+  - "Add Plaid Link for bank account connection"
+  - "Implement ACH transfer with Dwolla"
+  - "Write validation schema for transfer form"
+  - "Review authentication security"

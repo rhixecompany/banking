@@ -1,0 +1,73 @@
+name: Banking
+repo: https://github.com/awesome-opencode/opencode-banking
+tagline: Complete banking application patterns - Auth, Plaid, Dwolla, Drizzle, shadcn/ui
+description: >
+  Opencode plugin providing agents and skills for banking application development.
+
+  Features:
+  - **Banking Agent**: Pre-configured AI agent for banking development
+  - **AuthSkill**: NextAuth.js patterns, session management, OAuth
+  - **DBSkill**: Drizzle ORM, migrations, N+1 prevention
+  - **PlaidSkill**: Bank account linking, transaction retrieval
+  - **DwollaSkill**: ACH transfers, payment processing
+  - **ValidationSkill**: Zod schemas for forms
+  - **ServerActionSkill**: Mutations, form handling
+  - **UISkill**: shadcn/ui components for banking
+  - **SecuritySkill**: Encryption, rate limiting
+  - **TestingSkill**: Vitest, Playwright patterns
+  - **DeploymentSkill**: Vercel, Docker, Railway
+
+  Perfect for building production-ready banking applications.
+tags:
+  - banking
+  - nextjs
+  - react
+  - typescript
+  - plaid
+  - dwolla
+  - drizzle
+  - auth
+  - security
+  - testing
+  - deployment
+scope:
+  - project
+  - global
+min_version: "1.0.0"
+installation: |
+  ## Project-Level Installation
+
+  ```bash
+  mkdir -p .opencode
+  git clone https://github.com/awesome-opencode/opencode-banking.git .opencode/banking
+  ```
+
+  ## Global Installation
+
+  ```bash
+  git clone https://github.com/awesome-opencode/opencode-banking.git ~/.config/opencode/banking
+  ```
+
+  ## Usage
+
+  The plugin provides:
+
+  - **Banking Agent**: Reviews code for banking patterns
+  - **AuthSkill**: NextAuth.js session patterns
+  - **DBSkill**: Drizzle ORM with N+1 prevention
+  - **PlaidSkill**: Plaid API integration
+  - **DwollaSkill**: Dwolla ACH transfers
+  - **ValidationSkill**: Zod form validation
+  - **ServerActionSkill**: Server Actions patterns
+  - **UISkill**: shadcn/ui banking components
+  - **SecuritySkill**: Encryption, rate limiting
+  - **TestingSkill**: Vitest, Playwright tests
+  - **DeploymentSkill**: Production deployment
+
+  ## Example Prompts
+
+  - "Create auth flow with NextAuth.js"
+  - "Add Plaid bank linking to dashboard"
+  - "Implement Dwolla transfer form"
+  - "Write validation for bank account"
+  - "Review transfer security"

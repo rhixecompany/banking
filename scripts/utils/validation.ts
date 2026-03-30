@@ -1,20 +1,31 @@
 /**
  * Schema validation utilities for awesome-opencode
- * Based on patterns from Banking/eng/validate-*.ts
  */
 
 import Ajv from "ajv";
 import addFormats from "ajv-formats";
 import fs from "fs";
 import path from "path";
+
 import type { ValidationError, ValidationResult } from "../types/index.js";
+
 import { ROOT_FOLDER } from "./constants.js";
 
 // Initialize AJV with all errors option
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const ajv = new Ajv({ allErrors: true });
 addFormats(ajv);
 
-let validateFn: ReturnType<typeof ajv.compile> | null = null;
+/**
+ * Description placeholder
+ *
+ * @type {(null | ReturnType<typeof ajv.compile>)}
+ */
+let validateFn: null | ReturnType<typeof ajv.compile> = null;
 
 /**
  * Get the compiled validation function (lazy-loaded)
@@ -47,15 +58,15 @@ export function validateEntry(
 
   if (!valid && validate.errors) {
     const errors: ValidationError[] = validate.errors.map((err) => ({
-      path: err.instancePath || "/",
-      message: err.message || "Unknown error",
       keyword: err.keyword,
+      message: err.message || "Unknown error",
       params: err.params as Record<string, unknown>,
+      path: err.instancePath || "/",
     }));
-    return { valid: false, errors, filePath };
+    return { errors, filePath, valid: false };
   }
 
-  return { valid: true, errors: null, filePath };
+  return { errors: null, filePath, valid: true };
 }
 
 /**

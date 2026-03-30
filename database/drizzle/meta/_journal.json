@@ -4,29 +4,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1774711831388,
-      "tag": "0000_amusing_spirit",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1774715958942,
-      "tag": "0001_sloppy_black_knight",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1774792463685,
-      "tag": "0002_flimsy_bruce_banner",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1774794482807,
-      "tag": "0003_soft_tag",
+      "when": 1774894721261,
+      "tag": "0000_broken_khan",
       "breakpoints": true
     }
   ],

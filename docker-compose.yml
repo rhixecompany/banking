@@ -2,14 +2,14 @@ services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: compose/production/node/Dockerfile
       args:
         - BUILDKIT_INLINE_CACHE=1
         - NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
     ports:
       - "3000:3000"
     env_file:
-      - .env.production
+      - .envs/production/.env.production
     depends_on:
       db:
         condition: service_healthy
@@ -89,11 +89,11 @@ services:
   init:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: compose/production/node/Dockerfile
       args:
         - NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
     env_file:
-      - .env.production
+      - .envs/production/.env.production
     depends_on:
       db:
         condition: service_healthy
@@ -115,8 +115,8 @@ networks:
 
 # Usage:
 # Development: docker compose watch
-# Production: docker compose --env-file .env.production up -d
-# With migrations: docker compose --profile init --env-file .env.production up
+# Production: docker compose --env-file .envs/production/.env.production up -d
+# With migrations: docker compose --profile init --env-file .envs/production/.env.production up
 # Test health: docker compose ps (check STATUS column)
 # View logs: docker compose logs -f app
 # Full cleanup: docker compose down -v

@@ -2,11 +2,17 @@
  * YAML utilities for reading and parsing YAML files
  */
 
+/**
+ * Safely perform a file operation with error handling
+ */
+
 import fs from "fs";
 import { glob } from "glob";
 import yaml from "js-yaml";
 import path from "path";
+
 import type { Entry } from "../types/index.js";
+
 import { DATA_DIR } from "./constants.js";
 
 /**
@@ -16,8 +22,8 @@ import { DATA_DIR } from "./constants.js";
 function safeFileOperation<T>(
   operation: () => T,
   filePath: string,
-  defaultValue: T | null = null,
-): T | null {
+  defaultValue: null | T = null,
+): null | T {
   try {
     return operation();
   } catch (error) {
@@ -45,7 +51,7 @@ export function readYamlFile(filePath: string): Entry | null {
  * Read all YAML files from a directory
  */
 export async function readYamlDir(dirPath: string): Promise<Entry[]> {
-  const pattern = path.join(dirPath, "*.yaml").replace(/\\/g, "/");
+  const pattern = path.join(dirPath, "*.yaml").replaceAll("\\", "/");
   const files = await glob(pattern);
 
   const entries: Entry[] = [];
@@ -55,8 +61,8 @@ export async function readYamlDir(dirPath: string): Promise<Entry[]> {
     if (entry) {
       entries.push({
         ...entry,
-        _filePath: file,
         _fileName: path.basename(file, ".yaml"),
+        _filePath: file,
       } as Entry);
     }
   }
@@ -70,14 +76,14 @@ export async function readYamlDir(dirPath: string): Promise<Entry[]> {
 export function slugify(name: string): string {
   return name
     .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
+    .replaceAll(/[^a-z0-9]+/g, "-")
+    .replaceAll(/^-+|-+$/g, "");
 }
 
 /**
  * Parse a YAML file with full type safety
  */
-export function parseYamlFile<T>(filePath: string): T | null {
+export function parseYamlFile<T>(filePath: string): null | T {
   return safeFileOperation(
     () => {
       const content = fs.readFileSync(filePath, "utf8");
@@ -92,6 +98,6 @@ export function parseYamlFile<T>(filePath: string): T | null {
  * Get all YAML files in the data directory
  */
 export function getAllYamlFiles(): string[] {
-  const pattern = path.join(DATA_DIR, "**/*.yaml").replace(/\\/g, "/");
+  const pattern = path.join(DATA_DIR, "**/*.yaml").replaceAll("\\", "/");
   return glob.sync(pattern);
 }
