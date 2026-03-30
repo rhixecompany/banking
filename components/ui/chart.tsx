@@ -36,6 +36,11 @@ export type ChartConfig = Record<
  * @typedef {ChartContextProps}
  */
 interface ChartContextProps {
+  /**
+   * Description placeholder
+   *
+   * @type {ChartConfig}
+   */
   config: ChartConfig;
 }
 

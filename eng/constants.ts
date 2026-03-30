@@ -1,9 +1,24 @@
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
 
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const filename = fileURLToPath(import.meta.url);
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const dirName = dirname(filename);
 
+/**
+ * Description placeholder
+ *
+ * @type {{ readonly instructionsSection: "## 📋 Custom Instructions\\n\\nTeam and project-specific instructions to enhance GitHub Copilot's behavior for specific technologies and coding practices."; ... 11 more ...; readonly workflowsUsage: "### How to Contribute\\n\\nSee [CONTRIBUTING.md](../CONTRIBUTING.md#adding-agentic-workf...}
+ */
 export const TEMPLATES = {
   instructionsSection: `## 📋 Custom Instructions
 
@@ -172,40 +187,160 @@ See [CONTRIBUTING.md](../CONTRIBUTING.md#adding-agentic-workflows) for guideline
 - Orchestrate multi-step repository automation`,
 } as const;
 
+/**
+ * Description placeholder
+ *
+ * @type {("https://img.shields.io/badge/VS_Code-Install-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white")}
+ */
 export const vscodeInstallImage =
   "https://img.shields.io/badge/VS_Code-Install-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white";
 
+/**
+ * Description placeholder
+ *
+ * @type {("https://img.shields.io/badge/VS_Code_Insiders-Install-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white")}
+ */
 export const vscodeInsidersInstallImage =
   "https://img.shields.io/badge/VS_Code_Insiders-Install-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white";
 
+/**
+ * Description placeholder
+ *
+ * @type {"https://raw.githubusercontent.com/github/awesome-copilot/main"}
+ */
 export const repoBaseUrl =
   "https://raw.githubusercontent.com/github/awesome-copilot/main";
 
+/**
+ * Description placeholder
+ *
+ * @type {{ readonly instructions: "https://aka.ms/awesome-copilot/install/instructions"; readonly agent: "https://aka.ms/awesome-copilot/install/agent"; readonly hook: "https://aka.ms/awesome-copilot/install/hook"; }}
+ */
 export const AKA_INSTALL_URLS = {
   instructions: "https://aka.ms/awesome-copilot/install/instructions",
   agent: "https://aka.ms/awesome-copilot/install/agent",
   hook: "https://aka.ms/awesome-copilot/install/hook",
 } as const;
 
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 export const ROOT_FOLDER = path.join(dirName, "..");
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 export const INSTRUCTIONS_DIR = path.join(ROOT_FOLDER, "instructions");
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 export const AGENTS_DIR = path.join(ROOT_FOLDER, "agents");
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 export const SKILLS_DIR = path.join(ROOT_FOLDER, "skills");
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 export const HOOKS_DIR = path.join(ROOT_FOLDER, "hooks");
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 export const PLUGINS_DIR = path.join(ROOT_FOLDER, "plugins");
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 export const WORKFLOWS_DIR = path.join(ROOT_FOLDER, "workflows");
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 export const COOKBOOK_DIR = path.join(ROOT_FOLDER, "cookbook");
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 export const DOCS_DIR = path.join(ROOT_FOLDER, "docs");
 
+/**
+ * Description placeholder
+ *
+ * @type {50}
+ */
 export const MAX_PLUGIN_ITEMS = 50;
+/**
+ * Description placeholder
+ *
+ * @type {100}
+ */
 export const MAX_DOCS_ITEMS = 100;
+/**
+ * Description placeholder
+ *
+ * @type {100}
+ */
 export const MAX_AGENTS_ITEMS = 100;
+/**
+ * Description placeholder
+ *
+ * @type {100}
+ */
 export const MAX_SKILLS_ITEMS = 100;
+/**
+ * Description placeholder
+ *
+ * @type {100}
+ */
 export const MAX_HOOKS_ITEMS = 100;
+/**
+ * Description placeholder
+ *
+ * @type {100}
+ */
 export const MAX_PROMPTS_ITEMS = 100;
+/**
+ * Description placeholder
+ *
+ * @type {100}
+ */
 export const MAX_WORKFLOWS_ITEMS = 100;
 
+/**
+ * Description placeholder
+ *
+ * @type {2}
+ */
 export const SKILL_NAME_MIN_LENGTH = 2;
+/**
+ * Description placeholder
+ *
+ * @type {60}
+ */
 export const SKILL_NAME_MAX_LENGTH = 60;
+/**
+ * Description placeholder
+ *
+ * @type {10}
+ */
 export const SKILL_DESCRIPTION_MIN_LENGTH = 10;
+/**
+ * Description placeholder
+ *
+ * @type {1024}
+ */
 export const SKILL_DESCRIPTION_MAX_LENGTH = 1024;

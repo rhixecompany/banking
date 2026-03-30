@@ -8,6 +8,11 @@ import { GlobeIcon, LinkIcon, Share2Icon, VideoIcon } from "lucide-react";
 import Logo from "@/components/shadcn-studio/logo";
 import { Separator } from "@/components/ui/separator";
 
+/**
+ * Description placeholder
+ *
+ * @returns {JSX.Element}
+ */
 const Footer = (): JSX.Element => {
   return (
     <footer>

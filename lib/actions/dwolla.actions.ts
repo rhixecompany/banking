@@ -5,6 +5,11 @@ import { z } from "zod";
 import { auth } from "@/lib/auth";
 import { getDwollaClient } from "@/lib/dwolla";
 
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const CreateCustomerSchema = z.object({
   address1: z.string().trim().min(1),
   city: z.string().trim().min(1),
@@ -18,12 +23,22 @@ const CreateCustomerSchema = z.object({
   type: z.string().trim().min(1),
 });
 
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const TransferSchema = z.object({
   amount: z.string().trim().min(1),
   destinationFundingSourceUrl: z.string().trim().min(1),
   sourceFundingSourceUrl: z.string().trim().min(1),
 });
 
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const FundingSourceSchema = z.object({
   customerId: z.string().trim().min(1),
   fundingSourceName: z.string().trim().min(1),
@@ -33,12 +48,29 @@ const FundingSourceSchema = z.object({
   plaidToken: z.string().trim().min(1),
 });
 
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const AddFundingSourceSchema = z.object({
   bankName: z.string().trim().min(1),
   dwollaCustomerId: z.string().trim().min(1),
   processorToken: z.string().trim().min(1),
 });
 
+/**
+ * Description placeholder
+ *
+ * @export
+ * @async
+ * @param {unknown} input
+ * @returns {Promise<{
+ *   ok: boolean;
+ *   customerUrl?: string;
+ *   error?: string;
+ * }>}
+ */
 export async function createDwollaCustomer(input: unknown): Promise<{
   ok: boolean;
   customerUrl?: string;
@@ -65,6 +97,17 @@ export async function createDwollaCustomer(input: unknown): Promise<{
   }
 }
 
+/**
+ * Description placeholder
+ *
+ * @export
+ * @async
+ * @returns {Promise<{
+ *   ok: boolean;
+ *   links?: Record<string, Record<string, string>>;
+ *   error?: string;
+ * }>}
+ */
 export async function createOnDemandAuthorization(): Promise<{
   ok: boolean;
   links?: Record<string, Record<string, string>>;
@@ -92,6 +135,18 @@ export async function createOnDemandAuthorization(): Promise<{
   }
 }
 
+/**
+ * Description placeholder
+ *
+ * @export
+ * @async
+ * @param {unknown} input
+ * @returns {Promise<{
+ *   ok: boolean;
+ *   fundingSourceUrl?: string;
+ *   error?: string;
+ * }>}
+ */
 export async function createFundingSource(input: unknown): Promise<{
   ok: boolean;
   fundingSourceUrl?: string;
@@ -125,6 +180,18 @@ export async function createFundingSource(input: unknown): Promise<{
   }
 }
 
+/**
+ * Description placeholder
+ *
+ * @export
+ * @async
+ * @param {unknown} input
+ * @returns {Promise<{
+ *   ok: boolean;
+ *   transferUrl?: string;
+ *   error?: string;
+ * }>}
+ */
 export async function createTransfer(input: unknown): Promise<{
   ok: boolean;
   transferUrl?: string;
@@ -161,6 +228,18 @@ export async function createTransfer(input: unknown): Promise<{
   }
 }
 
+/**
+ * Description placeholder
+ *
+ * @export
+ * @async
+ * @param {unknown} input
+ * @returns {Promise<{
+ *   ok: boolean;
+ *   fundingSourceUrl?: string;
+ *   error?: string;
+ * }>}
+ */
 export async function addFundingSource(input: unknown): Promise<{
   ok: boolean;
   fundingSourceUrl?: string;

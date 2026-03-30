@@ -6,7 +6,21 @@ import { db } from "@/database/db";
 import { banks } from "@/database/schema";
 import { decrypt, encrypt } from "@/lib/encryption";
 
+/**
+ * Description placeholder
+ *
+ * @export
+ * @class DwollaDal
+ * @typedef {DwollaDal}
+ */
 export class DwollaDal {
+  /**
+   * Description placeholder
+   *
+   * @async
+   * @param {string} dwollaCustomerUrl
+   * @returns {Promise<Bank | undefined>}
+   */
   async findByDwollaCustomerUrl(
     dwollaCustomerUrl: string,
   ): Promise<Bank | undefined> {
@@ -23,6 +37,13 @@ export class DwollaDal {
     return bank;
   }
 
+  /**
+   * Description placeholder
+   *
+   * @async
+   * @param {string} dwollaFundingSourceUrl
+   * @returns {Promise<Bank | undefined>}
+   */
   async findByDwollaFundingSourceUrl(
     dwollaFundingSourceUrl: string,
   ): Promise<Bank | undefined> {
@@ -39,6 +60,14 @@ export class DwollaDal {
     return bank;
   }
 
+  /**
+   * Description placeholder
+   *
+   * @async
+   * @param {string} bankId
+   * @param {string} dwollaCustomerUrl
+   * @returns {Promise<Bank | undefined>}
+   */
   async updateDwollaCustomerUrl(
     bankId: string,
     dwollaCustomerUrl: string,
@@ -54,6 +83,14 @@ export class DwollaDal {
     return bank;
   }
 
+  /**
+   * Description placeholder
+   *
+   * @async
+   * @param {string} bankId
+   * @param {string} dwollaFundingSourceUrl
+   * @returns {Promise<Bank | undefined>}
+   */
   async updateDwollaFundingSourceUrl(
     bankId: string,
     dwollaFundingSourceUrl: string,
@@ -69,6 +106,17 @@ export class DwollaDal {
     return bank;
   }
 
+  /**
+   * Description placeholder
+   *
+   * @async
+   * @param {string} bankId
+   * @param {{
+   *       routingNumber?: string;
+   *       accountNumber?: string;
+   *     }} data
+   * @returns {Promise<Bank | undefined>}
+   */
   async updateBankAccountInfo(
     bankId: string,
     data: {
@@ -100,6 +148,13 @@ export class DwollaDal {
     return bank;
   }
 
+  /**
+   * Description placeholder
+   *
+   * @async
+   * @param {string} userId
+   * @returns {Promise<Bank[]>}
+   */
   async findBanksWithDwollaCustomer(userId: string): Promise<Bank[]> {
     const bankRecords = await db
       .select()
@@ -115,6 +170,13 @@ export class DwollaDal {
     });
   }
 
+  /**
+   * Description placeholder
+   *
+   * @async
+   * @param {string} userId
+   * @returns {Promise<Bank[]>}
+   */
   async findVerifiedFundingSources(userId: string): Promise<Bank[]> {
     const bankRecords = await db
       .select()
@@ -134,6 +196,26 @@ export class DwollaDal {
       .filter((bank) => bank.dwollaFundingSourceUrl !== null);
   }
 
+  /**
+   * Description placeholder
+   *
+   * @async
+   * @param {{
+   *     userId: string;
+   *     accessToken: string;
+   *     sharableId: string;
+   *     institutionId?: string;
+   *     institutionName?: string;
+   *     accountId?: string;
+   *     accountType?: string;
+   *     accountSubtype?: string;
+   *     dwollaCustomerUrl?: string;
+   *     dwollaFundingSourceUrl?: string;
+   *     routingNumber?: string;
+   *     accountNumber?: string;
+   *   }} data
+   * @returns {Promise<Bank>}
+   */
   async createBankWithDwolla(data: {
     userId: string;
     accessToken: string;
@@ -177,4 +259,9 @@ export class DwollaDal {
   }
 }
 
+/**
+ * Description placeholder
+ *
+ * @type {DwollaDal}
+ */
 export const dwollaDal = new DwollaDal();

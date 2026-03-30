@@ -33,15 +33,19 @@ test.describe("My Banks Page", () => {
 
     test("should show total balance card", async ({ page }) => {
       await page.goto("/my-banks");
-      await expect.soft(page.getByText("Total Balance")).toBeVisible();
+      await expect.soft(page.getByText("Total Balance").first()).toBeVisible();
     });
 
     test("should list seeded bank accounts", async ({ page }) => {
       await page.goto("/my-banks");
-      await expect.soft(page.getByText("Seed Checking Bank")).toBeVisible({
-        timeout: 15_000,
-      });
-      await expect.soft(page.getByText("Seed Savings Bank")).toBeVisible();
+      await expect
+        .soft(page.getByText("Seed Checking Bank").first())
+        .toBeVisible({
+          timeout: 15_000,
+        });
+      await expect
+        .soft(page.getByText("Seed Savings Bank").first())
+        .toBeVisible();
     });
   });
 });

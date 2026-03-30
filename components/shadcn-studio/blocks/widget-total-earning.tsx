@@ -30,11 +30,47 @@ const listItems = ["Share", "Update", "Refresh"];
  * @typedef {Props}
  */
 interface Props {
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   title: string;
+  /**
+   * Description placeholder
+   *
+   * @type {number}
+   */
   earning: number;
+  /**
+   * Description placeholder
+   *
+   * @type {("down" | "up")}
+   */
   trend: "down" | "up";
+  /**
+   * Description placeholder
+   *
+   * @type {number}
+   */
   percentage: number;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   comparisonText: string;
+  /**
+   * Description placeholder
+   *
+   * @type {{
+   *     img: string;
+   *     platform: string;
+   *     technologies: string;
+   *     earnings: string;
+   *     progressPercentage: number;
+   *   }[]}
+   */
   earningData: {
     img: string;
     platform: string;
@@ -42,6 +78,11 @@ interface Props {
     earnings: string;
     progressPercentage: number;
   }[];
+  /**
+   * Description placeholder
+   *
+   * @type {?string}
+   */
   className?: string;
 }
 

@@ -1,8 +1,12 @@
 # Banking Agent Standards
 
+<!-- markdownlint-disable MD013 -->
+
 > **Tech Stack:** Next.js 16 (App Router), TypeScript (strict), Drizzle ORM, PostgreSQL, NextAuth v4, shadcn/UI, Tailwind CSS v4, Zod, Vitest + Playwright
 >
 > **React Compiler:** Enabled in next.config.ts (`reactCompiler: true`) **Last Updated:** 2026-03-29
+
+<!-- markdownlint-enable MD013 -->
 
 ---
 
@@ -13,7 +17,7 @@
 | Rule | Requirement |
 | --- | --- |
 | No `any` types | Use `unknown` + type guards |
-| No N+1 queries | Always use eager loading / JOIN — no per-row queries in loops |
+| No N+1 queries | Always eager load / JOIN — no per-row queries |
 | No raw `process.env` | Use `lib/env.ts` (Zod validated) |
 | All mutations via Server Actions | Never API routes for mutations |
 | Zero TypeScript errors | Pass `npm run type-check` |
@@ -48,8 +52,8 @@ npm run test:browser           # Vitest unit/integration tests only
 npm run test:ui                # Playwright E2E tests only
 
 # Single test execution
-npm exec vitest run tests/unit/register.test.ts --config=vitest.config.ts
-npm exec playwright test tests/e2e/sign-in.spec.ts
+npm run vitest run tests/unit/register.test.ts --config=vitest.config.ts
+npm run playwright test tests/e2e/sign-in.spec.ts
 ```
 
 ### Import Order
@@ -84,7 +88,7 @@ import { Button } from "@/components/ui/button";
 
 ### Project Structure
 
-```
+```text
 app/
 ├── (auth)/              # sign-in, sign-up
 ├── (root)/              # dashboard, protected routes

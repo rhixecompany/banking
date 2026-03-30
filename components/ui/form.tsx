@@ -31,6 +31,11 @@ interface FormFieldContextValue<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 > {
+  /**
+   * Description placeholder
+   *
+   * @type {TName}
+   */
   name: TName;
 }
 
@@ -99,6 +104,11 @@ const useFormField = () => {
  * @typedef {FormItemContextValue}
  */
 interface FormItemContextValue {
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   id: string;
 }
 

@@ -5,12 +5,43 @@ import path from "path";
 
 import { ROOT_FOLDER } from "./constants";
 
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const PLUGINS_DIR = path.join(ROOT_FOLDER, "plugins");
 
+/**
+ * Description placeholder
+ *
+ * @interface PluginMetadata
+ * @typedef {PluginMetadata}
+ */
 interface PluginMetadata {
+  /**
+   * Description placeholder
+   *
+   * @type {?string}
+   */
   name?: string;
+  /**
+   * Description placeholder
+   *
+   * @type {?string[]}
+   */
   agents?: string[];
+  /**
+   * Description placeholder
+   *
+   * @type {?string[]}
+   */
   skills?: string[];
+  /**
+   * Description placeholder
+   *
+   * @type {?string[]}
+   */
   commands?: string[];
 }
 
@@ -49,6 +80,7 @@ function resolveSource(relPath: string): null | string {
   return null;
 }
 
+/** Description placeholder */
 function materializePlugins(): void {
   console.log("Materializing plugin files...\n");
 

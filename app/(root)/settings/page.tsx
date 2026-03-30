@@ -3,6 +3,12 @@ import { redirect } from "next/navigation";
 import HeaderBox from "@/components/HeaderBox";
 import { getLoggedInUser } from "@/lib/actions/user.actions";
 
+/**
+ * Description placeholder
+ *
+ * @async
+ * @returns {Promise<JSX.Element>}
+ */
 const SettingsPage = async (): Promise<JSX.Element> => {
   const user = await getLoggedInUser();
   if (!user) redirect("/sign-in");

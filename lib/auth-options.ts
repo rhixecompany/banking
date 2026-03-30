@@ -35,24 +35,31 @@ export const authOptions: NextAuthOptions = {
     verificationTokensTable: verificationToken,
   }),
   callbacks: {
+    jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        token.isAdmin = (user as { isAdmin?: boolean } & User).isAdmin ?? false;
+        token.isActive =
+          (user as { isActive?: boolean } & User).isActive ?? true;
+      }
+      return token;
+    },
     session({
       session,
-      user,
+      token,
     }: {
       session: Session;
-      user: User;
+      token: { id?: string; isAdmin?: boolean; isActive?: boolean };
     }): Promise<Session> | Session {
-      if (session.user && user) {
+      if (session.user) {
         const extUser = session.user as {
           id?: string;
           isAdmin?: boolean;
           isActive?: boolean;
         } & DefaultSession["user"];
-        extUser.id = user.id as string;
-        extUser.isAdmin =
-          (user as unknown as { isAdmin?: boolean }).isAdmin ?? false;
-        extUser.isActive =
-          (user as unknown as { isActive?: boolean }).isActive ?? true;
+        extUser.id = token.id as string;
+        extUser.isAdmin = token.isAdmin ?? false;
+        extUser.isActive = token.isActive ?? true;
       }
       return session;
     },
@@ -128,5 +135,5 @@ export const authOptions: NextAuthOptions = {
       name: "Credentials",
     }),
   ],
-  session: { strategy: "database" as const },
+  session: { strategy: "jwt" as const },
 };

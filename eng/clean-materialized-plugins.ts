@@ -5,9 +5,25 @@ import path from "path";
 
 import { ROOT_FOLDER } from "./constants";
 
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const PLUGINS_DIR = path.join(ROOT_FOLDER, "plugins");
+/**
+ * Description placeholder
+ *
+ * @type {readonly ["agents", "commands", "skills"]}
+ */
 const MATERIALIZED_DIRS = ["agents", "commands", "skills"] as const;
 
+/**
+ * Description placeholder
+ *
+ * @param {string} dir
+ * @returns {number}
+ */
 function countFiles(dir: string): number {
   let count = 0;
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -20,6 +36,12 @@ function countFiles(dir: string): number {
   return count;
 }
 
+/**
+ * Description placeholder
+ *
+ * @param {string} pluginPath
+ * @returns {number}
+ */
 function cleanPlugin(pluginPath: string): number {
   let removed = 0;
   for (const subdir of MATERIALIZED_DIRS) {
@@ -36,6 +58,7 @@ function cleanPlugin(pluginPath: string): number {
   return removed;
 }
 
+/** Description placeholder */
 function main(): void {
   console.log("Cleaning materialized files from plugins...\n");
 

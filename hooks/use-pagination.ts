@@ -4,8 +4,23 @@
  * @typedef {UsePaginationProps}
  */
 interface UsePaginationProps {
+  /**
+   * Description placeholder
+   *
+   * @type {number}
+   */
   currentPage: number;
+  /**
+   * Description placeholder
+   *
+   * @type {number}
+   */
   totalPages: number;
+  /**
+   * Description placeholder
+   *
+   * @type {number}
+   */
   paginationItemsToDisplay: number;
 }
 
@@ -15,8 +30,23 @@ interface UsePaginationProps {
  * @typedef {UsePaginationReturn}
  */
 interface UsePaginationReturn {
+  /**
+   * Description placeholder
+   *
+   * @type {number[]}
+   */
   pages: number[];
+  /**
+   * Description placeholder
+   *
+   * @type {boolean}
+   */
   showLeftEllipsis: boolean;
+  /**
+   * Description placeholder
+   *
+   * @type {boolean}
+   */
   showRightEllipsis: boolean;
 }
 

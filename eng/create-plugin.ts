@@ -6,19 +6,40 @@ import readline from "readline";
 
 import { ROOT_FOLDER } from "./constants";
 
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const PLUGINS_DIR = path.join(ROOT_FOLDER, "plugins");
 
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 });
 
+/**
+ * Description placeholder
+ *
+ * @param {string} question
+ * @returns {Promise<string>}
+ */
 function prompt(question: string): Promise<string> {
   return new Promise((resolve) => {
     rl.question(question, (answer) => resolve(answer));
   });
 }
 
+/**
+ * Description placeholder
+ *
+ * @returns {{ name?: string; keywords?: string }}
+ */
 function parseArgs(): { name?: string; keywords?: string } {
   const args = process.argv.slice(2);
   const out: { name?: string; keywords?: string } = {
@@ -50,6 +71,12 @@ function parseArgs(): { name?: string; keywords?: string } {
   return out;
 }
 
+/**
+ * Description placeholder
+ *
+ * @async
+ * @returns {Promise<void>}
+ */
 async function createPlugin(): Promise<void> {
   try {
     console.log("🔌 Plugin Creator");

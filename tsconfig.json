@@ -21,7 +21,10 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "ES2017",
-    "types": ["node", "react", "react-dom"]
+    "types": ["node", "react", "react-dom"],
+    // Added from awesome-opencode
+    "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true
   },
   "exclude": ["node_modules"],
   "include": [

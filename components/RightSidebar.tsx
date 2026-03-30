@@ -10,6 +10,13 @@ import Link from "next/link";
 
 import type { RightSidebarProps } from "@/types";
 
+/**
+ * Description placeholder
+ *
+ * @param {RightSidebarProps} param0
+ * @param {RightSidebarProps} param0.user
+ * @returns {JSX.Element}
+ */
 const RightSidebar = ({ user }: RightSidebarProps): JSX.Element => {
   return (
     <aside className="right-sidebar">

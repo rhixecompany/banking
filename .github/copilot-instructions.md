@@ -1,8 +1,12 @@
 # Banking Project - GitHub Copilot Agent Rules
 
+<!-- markdownlint-disable MD013 -->
+
 > **Project:** Next.js 16, TypeScript (strict), Drizzle ORM, PostgreSQL, NextAuth, shadcn/UI, Tailwind CSS v4
 >
 > **Last Updated:** 2026-03-29
+
+<!-- markdownlint-enable MD013 -->
 
 ---
 
@@ -81,7 +85,7 @@ npm run start           # Start production server
 ```bash
 npm run validate        # Run all checks (format, type-check, lint, test)
 npm run format          # Format code with Prettier
-npm run format:check   # Check formatting
+npm run format:check    # Check formatting
 npm run lint:strict     # Strict ESLint (blocks PR)
 npm run type-check      # TypeScript type checking
 ```
@@ -90,7 +94,7 @@ npm run type-check      # TypeScript type checking
 
 ```bash
 npm run db:studio      # Drizzle Studio
-npm run db:push       # Push schema changes to DB
+npm run db:push        # Push schema changes to DB
 npm run db:migrate     # Run migrations
 npm run db:generate    # Generate migrations
 npm run db:check       # Drizzle migration/schema check
@@ -150,7 +154,7 @@ export async function disconnectBank(input: unknown) {
 
 ## Project Structure
 
-```
+```text
 Banking/
 ├── app/
 │   ├── (auth)/           # sign-in, sign-up

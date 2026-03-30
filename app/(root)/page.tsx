@@ -32,7 +32,6 @@ async function HomePageContent(): Promise<JSX.Element> {
               width={30}
               height={39}
               className="h-8 w-auto"
-              style={{ width: "auto" }}
             />
             <span className="font-ibm-plex-serif text-[26px] font-bold text-black-1">
               Horizon

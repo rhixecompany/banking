@@ -13,6 +13,12 @@ import {
 import { parseSkillMetadata } from "./yaml-parser";
 
 // Validation functions
+/**
+ * Description placeholder
+ *
+ * @param {(string | undefined)} name
+ * @returns {(null | string)}
+ */
 function validateSkillName(name: string | undefined): null | string {
   if (!name || typeof name !== "string") {
     return "name is required and must be a string";
@@ -29,6 +35,12 @@ function validateSkillName(name: string | undefined): null | string {
   return null;
 }
 
+/**
+ * Description placeholder
+ *
+ * @param {(string | undefined)} description
+ * @returns {(null | string)}
+ */
 function validateSkillDescription(
   description: string | undefined,
 ): null | string {
@@ -44,6 +56,13 @@ function validateSkillDescription(
   return null;
 }
 
+/**
+ * Description placeholder
+ *
+ * @param {string} folderPath
+ * @param {string} folderName
+ * @returns {string[]}
+ */
 function validateSkillFolder(folderPath: string, folderName: string): string[] {
   const errors: string[] = [];
 
@@ -105,6 +124,11 @@ function validateSkillFolder(folderPath: string, folderName: string): string[] {
 }
 
 // Main validation function
+/**
+ * Description placeholder
+ *
+ * @returns {boolean}
+ */
 function validateSkills(): boolean {
   if (!fs.existsSync(SKILLS_DIR)) {
     console.log("No skills directory found - validation skipped");

@@ -5,8 +5,18 @@ import path from "path";
 
 import { ROOT_FOLDER } from "./constants";
 
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const PLUGINS_DIR = path.join(ROOT_FOLDER, "plugins");
 
+/**
+ * Description placeholder
+ *
+ * @typedef {PluginSpec}
+ */
 type PluginSpec = {
   name?: string;
   description?: string;
@@ -19,6 +29,13 @@ type PluginSpec = {
 } & Record<string, unknown>;
 
 // Validation functions
+/**
+ * Description placeholder
+ *
+ * @param {(string | undefined)} name
+ * @param {string} folderName
+ * @returns {string[]}
+ */
 function validateName(name: string | undefined, folderName: string): string[] {
   const errors: string[] = [];
   if (!name || typeof name !== "string") {
@@ -39,6 +56,12 @@ function validateName(name: string | undefined, folderName: string): string[] {
   return errors;
 }
 
+/**
+ * Description placeholder
+ *
+ * @param {(string | undefined)} description
+ * @returns {(null | string)}
+ */
 function validateDescription(description: string | undefined): null | string {
   if (!description || typeof description !== "string") {
     return "description is required and must be a string";
@@ -49,6 +72,12 @@ function validateDescription(description: string | undefined): null | string {
   return null;
 }
 
+/**
+ * Description placeholder
+ *
+ * @param {(string | undefined)} version
+ * @returns {(null | string)}
+ */
 function validateVersion(version: string | undefined): null | string {
   if (!version || typeof version !== "string") {
     return "version is required and must be a string";
@@ -56,6 +85,12 @@ function validateVersion(version: string | undefined): null | string {
   return null;
 }
 
+/**
+ * Description placeholder
+ *
+ * @param {unknown} keywords
+ * @returns {(null | string)}
+ */
 function validateKeywords(keywords: unknown): null | string {
   if (keywords === undefined) return null;
   if (!Array.isArray(keywords)) {
@@ -78,6 +113,12 @@ function validateKeywords(keywords: unknown): null | string {
   return null;
 }
 
+/**
+ * Description placeholder
+ *
+ * @param {PluginSpec} plugin
+ * @returns {string[]}
+ */
 function validateSpecPaths(plugin: PluginSpec): string[] {
   const errors: string[] = [];
   const specs = {
@@ -152,6 +193,12 @@ function validateSpecPaths(plugin: PluginSpec): string[] {
   return errors;
 }
 
+/**
+ * Description placeholder
+ *
+ * @param {string} folderName
+ * @returns {string[]}
+ */
 function validatePlugin(folderName: string): string[] {
   const pluginDir = path.join(PLUGINS_DIR, folderName);
   const errors: string[] = [];
@@ -202,6 +249,11 @@ function validatePlugin(folderName: string): string[] {
 }
 
 // Main validation function
+/**
+ * Description placeholder
+ *
+ * @returns {boolean}
+ */
 function validatePlugins(): boolean {
   if (!fs.existsSync(PLUGINS_DIR)) {
     console.log("No plugins directory found - validation skipped");

@@ -36,12 +36,47 @@ import { cn } from "@/lib/utils";
  * @typedef {MultiSelectContextType}
  */
 interface MultiSelectContextType {
+  /**
+   * Description placeholder
+   *
+   * @type {boolean}
+   */
   open: boolean;
+  /**
+   * Description placeholder
+   *
+   * @type {(open: boolean) => void}
+   */
   setOpen: (open: boolean) => void;
+  /**
+   * Description placeholder
+   *
+   * @type {Set<string>}
+   */
   selectedValues: Set<string>;
+  /**
+   * Description placeholder
+   *
+   * @type {(value: string) => void}
+   */
   toggleValue: (value: string) => void;
+  /**
+   * Description placeholder
+   *
+   * @type {Map<string, ReactNode>}
+   */
   items: Map<string, ReactNode>;
+  /**
+   * Description placeholder
+   *
+   * @type {boolean}
+   */
   single: boolean;
+  /**
+   * Description placeholder
+   *
+   * @type {(value: string, label: ReactNode) => void}
+   */
   onItemAdded: (value: string, label: ReactNode) => void;
 }
 /**

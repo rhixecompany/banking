@@ -9,6 +9,11 @@ import {
   isDatabaseSeeded,
 } from "./helpers/db";
 
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 /**

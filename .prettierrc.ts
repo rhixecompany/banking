@@ -7,6 +7,11 @@
 
 import type { Options } from "prettier";
 
+/**
+ * Description placeholder
+ *
+ * @type {Options}
+ */
 const config: Options = {
   arrowParens: "always",
   bracketSameLine: false,

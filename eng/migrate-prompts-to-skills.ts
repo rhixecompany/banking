@@ -6,10 +6,20 @@ import path from "path";
 import { ROOT_FOLDER, SKILLS_DIR } from "./constants";
 import { parseFrontmatter } from "./yaml-parser";
 
+/**
+ * Description placeholder
+ *
+ * @typedef {ConvertResult}
+ */
 type ConvertResult =
   | { success: false; reason: "already-exists" | "unknown"; name: string }
   | { success: true; name: string; path: string };
 
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const PROMPTS_DIR = path.join(ROOT_FOLDER, "prompts");
 /**
  * Convert a prompt file to a skill folder

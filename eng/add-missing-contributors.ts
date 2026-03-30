@@ -17,6 +17,11 @@ import {
 } from "./contributor-report";
 import { setupGracefulShutdown } from "./utils/graceful-shutdown";
 
+/**
+ * Description placeholder
+ *
+ * @type {30000}
+ */
 const DEFAULT_CMD_TIMEOUT = 30_000; // 30 seconds
 
 setupGracefulShutdown("add-missing-contributors");

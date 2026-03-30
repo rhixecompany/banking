@@ -11,7 +11,7 @@ test.describe("Navigation", () => {
     await page.setViewportSize({ height: 812, width: 375 });
     await signInWithSeedUser(page);
     await page.goto("/dashboard");
-    await page.getByAltText("menu").click();
+    await page.getByAltText("menu", { exact: true }).click();
     await expect
       .soft(page.getByRole("dialog"))
       .toBeVisible({ timeout: 10_000 });

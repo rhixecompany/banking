@@ -17,8 +17,23 @@ import {
  * @typedef {Props}
  */
 interface Props {
+  /**
+   * Description placeholder
+   *
+   * @type {ReactNode}
+   */
   trigger: ReactNode;
+  /**
+   * Description placeholder
+   *
+   * @type {?boolean}
+   */
   defaultOpen?: boolean;
+  /**
+   * Description placeholder
+   *
+   * @type {?("center" | "end" | "start")}
+   */
   align?: "center" | "end" | "start";
 }
 

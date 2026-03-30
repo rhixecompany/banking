@@ -5,6 +5,11 @@ import path from "path";
 
 import { PLUGINS_DIR } from "./constants";
 
+/**
+ * Description placeholder
+ *
+ * @typedef {UpdateResult}
+ */
 type UpdateResult =
   | {
       success: false;

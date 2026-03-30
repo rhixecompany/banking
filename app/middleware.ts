@@ -6,22 +6,29 @@ import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
 
 /**
- * Description placeholder
- *
- * @type {*}
+ * Lazy-initialized rate limiter with graceful fallback when Redis is unavailable.
+ * Rate limiting is skipped if REDIS_URL is not configured.
  */
-const ratelimit = new Ratelimit({
-  analytics: true,
-  limiter: Ratelimit.slidingWindow(5, "60 s"),
-  prefix: "banking-auth",
-  redis: Redis.fromEnv(),
-});
+const ratelimit = (() => {
+  try {
+    return new Ratelimit({
+      analytics: true,
+      limiter: Ratelimit.slidingWindow(5, "60 s"),
+      prefix: "banking-auth",
+      redis: Redis.fromEnv(),
+    });
+  } catch {
+    // Redis not configured - rate limiting will be skipped
+    // Using undefined instead of null per project linting rules
+    return undefined;
+  }
+})();
 
 /**
- * Description placeholder
+ * Extracts client IP from request headers for rate limiting.
  *
- * @param {NextRequest} request
- * @returns {*}
+ * @param {NextRequest} request - The incoming request
+ * @returns {string} Client IP address or "unknown"
  */
 function getRateLimitKey(request: NextRequest): string {
   return (
@@ -33,12 +40,15 @@ function getRateLimitKey(request: NextRequest): string {
 }
 
 /**
- * Description placeholder
+ * Next.js middleware for authentication and rate limiting.
+ * - Redirects authenticated users away from auth pages
+ * - Rate limits auth page requests when Redis is available
+ * - Protects routes requiring authentication
  *
  * @export
  * @async
  * @param {NextRequest} request
- * @returns {unknown}
+ * @returns {Promise<NextResponse>}
  */
 export async function middleware(request: NextRequest): Promise<NextResponse> {
   const { pathname } = request.nextUrl;
@@ -53,28 +63,34 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
       return NextResponse.redirect(new URL("/", request.url));
     }
 
-    const identifier = getRateLimitKey(request);
-    try {
-      const { remaining, reset, success } = await ratelimit.limit(identifier);
-      const response = NextResponse.next();
+    // Apply rate limiting only if Redis is configured
+    if (ratelimit) {
+      const identifier = getRateLimitKey(request);
+      try {
+        const { remaining, reset, success } = await ratelimit.limit(identifier);
+        const response = NextResponse.next();
 
-      response.headers.set("X-RateLimit-Limit", "5");
-      response.headers.set("X-RateLimit-Remaining", remaining.toString());
-      response.headers.set("X-RateLimit-Reset", reset.toString());
+        response.headers.set("X-RateLimit-Limit", "5");
+        response.headers.set("X-RateLimit-Remaining", remaining.toString());
+        response.headers.set("X-RateLimit-Reset", reset.toString());
 
-      if (!success) {
-        const retryAfter = Math.ceil((reset - Date.now()) / 1000);
-        response.headers.set("Retry-After", retryAfter.toString());
-        return NextResponse.json(
-          { error: "Too many requests. Please try again later." },
-          { headers: response.headers, status: 429 },
-        );
+        if (!success) {
+          const retryAfter = Math.ceil((reset - Date.now()) / 1000);
+          response.headers.set("Retry-After", retryAfter.toString());
+          return NextResponse.json(
+            { error: "Too many requests. Please try again later." },
+            { headers: response.headers, status: 429 },
+          );
+        }
+
+        return response;
+      } catch {
+        // Rate limit check failed - continue without rate limiting
+        return NextResponse.next();
       }
-
-      return response;
-    } catch {
-      return NextResponse.next();
     }
+
+    return NextResponse.next();
   }
 
   if (
@@ -103,9 +119,10 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
 }
 
 /**
- * Description placeholder
+ * Route matcher configuration.
+ * Only runs on auth and protected routes to minimize overhead.
  *
- * @type {{ matcher: {}; }}
+ * @type {{ matcher: string[] }}
  */
 export const config = {
   matcher: [

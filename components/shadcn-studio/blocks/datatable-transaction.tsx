@@ -51,13 +51,53 @@ import { usePagination } from "@/hooks/use-pagination";
  * @typedef {Item}
  */
 export interface Item {
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   id: string;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   avatar: string;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   avatarFallback: string;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   name: string;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   email: string;
+  /**
+   * Description placeholder
+   *
+   * @type {number}
+   */
   amount: number;
+  /**
+   * Description placeholder
+   *
+   * @type {("failed" | "paid" | "pending" | "processing")}
+   */
   status: "failed" | "paid" | "pending" | "processing";
+  /**
+   * Description placeholder
+   *
+   * @type {("mastercard" | "visa")}
+   */
   paidBy: "mastercard" | "visa";
 }
 

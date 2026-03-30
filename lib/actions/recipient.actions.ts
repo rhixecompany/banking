@@ -8,24 +8,51 @@ import type { Recipient } from "@/types/recipient";
 import { auth } from "@/lib/auth";
 import { recipientDal } from "@/lib/dal";
 
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const RecipientSchema = z.object({
   bankAccountId: z.string().trim().min(1).optional(),
   email: z.string().trim().email(),
   name: z.string().trim().min(1).optional(),
 });
 
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const RecipientIdSchema = z.object({
   id: z.string().trim().min(1),
 });
 
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const RecipientUpdateSchema =
   RecipientSchema.partial().merge(RecipientIdSchema);
 
+/** Description placeholder */
 const revalidateRecipients = () => {
   revalidatePath("/payment-transfer");
   revalidatePath("/");
 };
 
+/**
+ * Description placeholder
+ *
+ * @export
+ * @async
+ * @returns {Promise<{
+ *   ok: boolean;
+ *   recipients?: Recipient[];
+ *   error?: string;
+ * }>}
+ */
 export async function getRecipients(): Promise<{
   ok: boolean;
   recipients?: Recipient[];
@@ -45,6 +72,18 @@ export async function getRecipients(): Promise<{
   }
 }
 
+/**
+ * Description placeholder
+ *
+ * @export
+ * @async
+ * @param {unknown} input
+ * @returns {Promise<{
+ *   ok: boolean;
+ *   recipient?: Recipient;
+ *   error?: string;
+ * }>}
+ */
 export async function createRecipient(input: unknown): Promise<{
   ok: boolean;
   recipient?: Recipient;
@@ -73,6 +112,18 @@ export async function createRecipient(input: unknown): Promise<{
   }
 }
 
+/**
+ * Description placeholder
+ *
+ * @export
+ * @async
+ * @param {unknown} input
+ * @returns {Promise<{
+ *   ok: boolean;
+ *   recipient?: Recipient;
+ *   error?: string;
+ * }>}
+ */
 export async function updateRecipient(input: unknown): Promise<{
   ok: boolean;
   recipient?: Recipient;
@@ -100,6 +151,17 @@ export async function updateRecipient(input: unknown): Promise<{
   }
 }
 
+/**
+ * Description placeholder
+ *
+ * @export
+ * @async
+ * @param {unknown} input
+ * @returns {Promise<{
+ *   ok: boolean;
+ *   error?: string;
+ * }>}
+ */
 export async function deleteRecipient(input: unknown): Promise<{
   ok: boolean;
   error?: string;

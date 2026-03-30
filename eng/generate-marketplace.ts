@@ -5,26 +5,93 @@ import path from "path";
 
 import { ROOT_FOLDER } from "./constants";
 
+/**
+ * Description placeholder
+ *
+ * @interface ExternalPlugin
+ * @typedef {ExternalPlugin}
+ */
 interface ExternalPlugin {
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   name: string;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   description: string;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   version: string;
+  /**
+   * Description placeholder
+   *
+   * @type {Record<string, unknown>}
+   */
   source: Record<string, unknown>;
 }
 
+/**
+ * Description placeholder
+ *
+ * @interface LocalPlugin
+ * @typedef {LocalPlugin}
+ */
 interface LocalPlugin {
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   name: string;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   description: string;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   version: string;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   source: string;
 }
 
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const PLUGINS_DIR = path.join(ROOT_FOLDER, "plugins");
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const EXTERNAL_PLUGINS_FILE = path.join(
   ROOT_FOLDER,
   "plugins",
   "external.json",
 );
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const MARKETPLACE_FILE = path.join(
   ROOT_FOLDER,
   ".github/plugin",

@@ -1,0 +1,4 @@
+name: OpenCode SDKs
+repo: https://github.com/anomalyco
+tagline: Official SDKs for JavaScript, Go, and Python
+description: Official software development kits for integrating OpenCode into your applications. Available for JavaScript/TypeScript, Go, and Python.

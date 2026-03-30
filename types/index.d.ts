@@ -5,8 +5,23 @@
  * @typedef {CreditCardProps}
  */
 export interface CreditCardProps {
+  /**
+   * Description placeholder
+   *
+   * @type {Account}
+   */
   account: Account;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   userName: string;
+  /**
+   * Description placeholder
+   *
+   * @type {?boolean}
+   */
   showBalance?: boolean;
 }
 
@@ -17,6 +32,11 @@ export interface CreditCardProps {
  * @typedef {DoughnutChartProps}
  */
 export interface DoughnutChartProps {
+  /**
+   * Description placeholder
+   *
+   * @type {Account[]}
+   */
   accounts: Account[];
 }
 
@@ -27,7 +47,17 @@ export interface DoughnutChartProps {
  * @typedef {FooterProps}
  */
 export interface FooterProps {
+  /**
+   * Description placeholder
+   *
+   * @type {User}
+   */
   user: User;
+  /**
+   * Description placeholder
+   *
+   * @type {?("desktop" | "mobile")}
+   */
   type?: "desktop" | "mobile";
 }
 
@@ -38,9 +68,29 @@ export interface FooterProps {
  * @typedef {HeaderBoxProps}
  */
 export interface HeaderBoxProps {
+  /**
+   * Description placeholder
+   *
+   * @type {?("greeting" | "title")}
+   */
   type?: "greeting" | "title";
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   title: string;
+  /**
+   * Description placeholder
+   *
+   * @type {?string}
+   */
   subtext?: string;
+  /**
+   * Description placeholder
+   *
+   * @type {?string}
+   */
   user?: string;
 }
 
@@ -51,6 +101,11 @@ export interface HeaderBoxProps {
  * @typedef {MobileNavProps}
  */
 export interface MobileNavProps {
+  /**
+   * Description placeholder
+   *
+   * @type {User}
+   */
   user: User;
 }
 
@@ -61,8 +116,23 @@ export interface MobileNavProps {
  * @typedef {RightSidebarProps}
  */
 export interface RightSidebarProps {
+  /**
+   * Description placeholder
+   *
+   * @type {User}
+   */
   user: User;
+  /**
+   * Description placeholder
+   *
+   * @type {Bank[]}
+   */
   banks: Bank[];
+  /**
+   * Description placeholder
+   *
+   * @type {Transaction[]}
+   */
   transactions: Transaction[];
 }
 
@@ -73,6 +143,11 @@ export interface RightSidebarProps {
  * @typedef {SiderbarProps}
  */
 export interface SiderbarProps {
+  /**
+   * Description placeholder
+   *
+   * @type {User}
+   */
   user: User;
 }
 
@@ -83,8 +158,23 @@ export interface SiderbarProps {
  * @typedef {TotlaBalanceBoxProps}
  */
 export interface TotlaBalanceBoxProps {
+  /**
+   * Description placeholder
+   *
+   * @type {Account[]}
+   */
   accounts: Account[];
+  /**
+   * Description placeholder
+   *
+   * @type {number}
+   */
   totalBanks: number;
+  /**
+   * Description placeholder
+   *
+   * @type {number}
+   */
   totalCurrentBalance: number;
 }
 
@@ -95,7 +185,17 @@ export interface TotlaBalanceBoxProps {
  * @typedef {SearchParamProps}
  */
 export interface SearchParamProps {
+  /**
+   * Description placeholder
+   *
+   * @type {Promise<Record<string, string>>}
+   */
   params: Promise<Record<string, string>>;
+  /**
+   * Description placeholder
+   *
+   * @type {Promise<Record<string, string | string[] | undefined>>}
+   */
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }
 
@@ -106,14 +206,59 @@ export interface SearchParamProps {
  * @typedef {User}
  */
 export interface User {
+  /**
+   * Description placeholder
+   *
+   * @type {number}
+   */
   id: number;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   email: string;
+  /**
+   * Description placeholder
+   *
+   * @type {?string}
+   */
   password?: string;
+  /**
+   * Description placeholder
+   *
+   * @type {?(null | string)}
+   */
   name?: null | string;
+  /**
+   * Description placeholder
+   *
+   * @type {?(null | string)}
+   */
   image?: null | string;
+  /**
+   * Description placeholder
+   *
+   * @type {boolean}
+   */
   isAdmin: boolean;
+  /**
+   * Description placeholder
+   *
+   * @type {boolean}
+   */
   isActive: boolean;
+  /**
+   * Description placeholder
+   *
+   * @type {Date}
+   */
   createdAt: Date;
+  /**
+   * Description placeholder
+   *
+   * @type {Date}
+   */
   updatedAt: Date;
 }
 
@@ -124,14 +269,59 @@ export interface User {
  * @typedef {UserProfile}
  */
 export interface UserProfile {
+  /**
+   * Description placeholder
+   *
+   * @type {number}
+   */
   id: number;
+  /**
+   * Description placeholder
+   *
+   * @type {number}
+   */
   userId: number;
+  /**
+   * Description placeholder
+   *
+   * @type {?(null | string)}
+   */
   address?: null | string;
+  /**
+   * Description placeholder
+   *
+   * @type {?(null | string)}
+   */
   city?: null | string;
+  /**
+   * Description placeholder
+   *
+   * @type {?(null | string)}
+   */
   state?: null | string;
+  /**
+   * Description placeholder
+   *
+   * @type {?(null | string)}
+   */
   postalCode?: null | string;
+  /**
+   * Description placeholder
+   *
+   * @type {?(null | string)}
+   */
   phone?: null | string;
+  /**
+   * Description placeholder
+   *
+   * @type {?(null | string)}
+   */
   dateOfBirth?: null | string;
+  /**
+   * Description placeholder
+   *
+   * @type {?(null | string)}
+   */
   ssn?: null | string;
 }
 
@@ -142,15 +332,65 @@ export interface UserProfile {
  * @typedef {Account}
  */
 export interface Account {
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   id: string;
+  /**
+   * Description placeholder
+   *
+   * @type {number}
+   */
   availableBalance: number;
+  /**
+   * Description placeholder
+   *
+   * @type {number}
+   */
   currentBalance: number;
+  /**
+   * Description placeholder
+   *
+   * @type {?string}
+   */
   officialName?: string;
+  /**
+   * Description placeholder
+   *
+   * @type {?string}
+   */
   mask?: string;
+  /**
+   * Description placeholder
+   *
+   * @type {?string}
+   */
   institutionId?: string;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   name: string;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   type: string;
+  /**
+   * Description placeholder
+   *
+   * @type {?string}
+   */
   subtype?: string;
+  /**
+   * Description placeholder
+   *
+   * @type {?string}
+   */
   sharableId?: string;
 }
 
@@ -161,18 +401,83 @@ export interface Account {
  * @typedef {Transaction}
  */
 export interface Transaction {
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   id: string;
+  /**
+   * Description placeholder
+   *
+   * @type {?string}
+   */
   name?: string;
+  /**
+   * Description placeholder
+   *
+   * @type {?string}
+   */
   paymentChannel?: string;
+  /**
+   * Description placeholder
+   *
+   * @type {?string}
+   */
   type?: string;
+  /**
+   * Description placeholder
+   *
+   * @type {?string}
+   */
   accountId?: string;
+  /**
+   * Description placeholder
+   *
+   * @type {number}
+   */
   amount: number;
+  /**
+   * Description placeholder
+   *
+   * @type {?boolean}
+   */
   pending?: boolean;
+  /**
+   * Description placeholder
+   *
+   * @type {?string}
+   */
   category?: string;
+  /**
+   * Description placeholder
+   *
+   * @type {?string}
+   */
   date?: string;
+  /**
+   * Description placeholder
+   *
+   * @type {?string}
+   */
   image?: string;
+  /**
+   * Description placeholder
+   *
+   * @type {?string}
+   */
   senderBankId?: string;
+  /**
+   * Description placeholder
+   *
+   * @type {?string}
+   */
   receiverBankId?: string;
+  /**
+   * Description placeholder
+   *
+   * @type {?string}
+   */
   status?: string;
 }
 
@@ -183,17 +488,77 @@ export interface Transaction {
  * @typedef {Bank}
  */
 export interface Bank {
+  /**
+   * Description placeholder
+   *
+   * @type {number}
+   */
   id: number;
+  /**
+   * Description placeholder
+   *
+   * @type {number}
+   */
   userId: number;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   accessToken: string;
+  /**
+   * Description placeholder
+   *
+   * @type {?(null | string)}
+   */
   fundingSourceUrl?: null | string;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   sharableId: string;
+  /**
+   * Description placeholder
+   *
+   * @type {?(null | string)}
+   */
   institutionId?: null | string;
+  /**
+   * Description placeholder
+   *
+   * @type {?(null | string)}
+   */
   institutionName?: null | string;
+  /**
+   * Description placeholder
+   *
+   * @type {?(null | string)}
+   */
   accountId?: null | string;
+  /**
+   * Description placeholder
+   *
+   * @type {?(null | string)}
+   */
   accountType?: null | string;
+  /**
+   * Description placeholder
+   *
+   * @type {?(null | string)}
+   */
   accountSubtype?: null | string;
+  /**
+   * Description placeholder
+   *
+   * @type {Date}
+   */
   createdAt: Date;
+  /**
+   * Description placeholder
+   *
+   * @type {Date}
+   */
   updatedAt: Date;
 }
 
@@ -230,8 +595,23 @@ export type Category =
  * @typedef {CategoryCount}
  */
 export interface CategoryCount {
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   name: string;
+  /**
+   * Description placeholder
+   *
+   * @type {number}
+   */
   count: number;
+  /**
+   * Description placeholder
+   *
+   * @type {number}
+   */
   totalCount: number;
 }
 
@@ -242,8 +622,23 @@ export interface CategoryCount {
  * @typedef {TransferParams}
  */
 export interface TransferParams {
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   sourceFundingSourceUrl: string;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   destinationFundingSourceUrl: string;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   amount: string;
 }
 
@@ -254,8 +649,23 @@ export interface TransferParams {
  * @typedef {AddFundingSourceParams}
  */
 export interface AddFundingSourceParams {
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   dwollaCustomerId: string;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   processorToken: string;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   bankName: string;
 }
 
@@ -266,15 +676,65 @@ export interface AddFundingSourceParams {
  * @typedef {NewDwollaCustomerParams}
  */
 export interface NewDwollaCustomerParams {
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   firstName: string;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   lastName: string;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   email: string;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   type: string;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   address1: string;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   city: string;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   state: string;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   postalCode: string;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   dateOfBirth: string;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   ssn: string;
 }
 

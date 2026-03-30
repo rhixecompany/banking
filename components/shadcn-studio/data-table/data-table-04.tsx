@@ -55,12 +55,47 @@ declare module "@tanstack/react-table" {
  * @typedef {Item}
  */
 interface Item {
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   id: string;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   product: string;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   productImage: string;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   fallback: string;
+  /**
+   * Description placeholder
+   *
+   * @type {number}
+   */
   price: number;
+  /**
+   * Description placeholder
+   *
+   * @type {("In Stock" | "Limited" | "Out of Stock")}
+   */
   availability: "In Stock" | "Limited" | "Out of Stock";
+  /**
+   * Description placeholder
+   *
+   * @type {number}
+   */
   rating: number;
 }
 

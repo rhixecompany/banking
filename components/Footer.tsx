@@ -41,7 +41,7 @@ const Footer = ({ type = "desktop", user }: FooterProps): JSX.Element => {
           void handleLogOut();
         }}
       >
-        <Image src="/icons/logout.svg" fill alt="jsm" />
+        <Image src="/icons/logout.svg" fill sizes="24px" alt="jsm" />
       </div>
     </footer>
   );

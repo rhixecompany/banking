@@ -18,9 +18,25 @@ import { getAuthFormSchema, signInSchema, signUpSchema } from "@/lib/utils";
 import CustomInput from "./CustomInput";
 import MyLoader from "./MyLoader";
 
+/**
+ * Description placeholder
+ *
+ * @typedef {SignInFormData}
+ */
 type SignInFormData = z.infer<typeof signInSchema>;
+/**
+ * Description placeholder
+ *
+ * @typedef {SignUpFormData}
+ */
 type SignUpFormData = z.infer<typeof signUpSchema>;
 
+/**
+ * Description placeholder
+ *
+ * @param {boolean} isSignInFlag
+ * @returns {Partial<SignInFormData & SignUpFormData>}
+ */
 function getDefaultValues(
   isSignInFlag: boolean,
 ): Partial<SignInFormData & SignUpFormData> {
@@ -41,6 +57,13 @@ function getDefaultValues(
   };
 }
 
+/**
+ * Description placeholder
+ *
+ * @param {{ type: string }} param0
+ * @param {string} param0.type
+ * @returns {JSX.Element}
+ */
 const AuthForm = ({ type }: { type: string }): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false);
   const [user] = useState<undefined>(undefined); // Reserved for future OAuth flow
@@ -79,7 +102,7 @@ const AuthForm = ({ type }: { type: string }): JSX.Element => {
         toast.error(result.error);
       } else {
         toast.success("You have successfully signed in.");
-        await router.push("/");
+        await router.push("/dashboard");
         router.refresh();
       }
     } catch (err) {

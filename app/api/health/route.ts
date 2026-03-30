@@ -8,6 +8,12 @@
 
 import { NextResponse } from "next/server";
 
+/**
+ * Description placeholder
+ *
+ * @export
+ * @returns {*}
+ */
 export function GET() {
   try {
     const appHealthy = true;

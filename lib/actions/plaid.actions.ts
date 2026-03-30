@@ -9,19 +9,39 @@ import type { PlaidBalance } from "@/types/plaid";
 import { bankDal } from "@/lib/dal";
 import { plaidClient } from "@/lib/plaid";
 
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const CreateLinkTokenSchema = z.object({
   userId: z.string().trim().min(1),
 });
 
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const ExchangePublicTokenSchema = z.object({
   publicToken: z.string().trim().min(1),
   userId: z.string().trim().min(1),
 });
 
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const GetAccountsSchema = z.object({
   bankId: z.string().trim().min(1),
 });
 
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const GetTransactionsSchema = z.object({
   bankId: z.string().trim().min(1),
   count: z.number().min(1).max(500).optional(),
@@ -30,18 +50,41 @@ const GetTransactionsSchema = z.object({
   startDate: z.string().trim().min(1),
 });
 
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const GetBalanceSchema = z.object({
   bankId: z.string().trim().min(1),
 });
 
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const RefreshAccountsSchema = z.object({
   bankId: z.string().trim().min(1),
 });
 
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const GetInstitutionSchema = z.object({
   institutionId: z.string().trim().min(1),
 });
 
+/**
+ * Description placeholder
+ *
+ * @export
+ * @async
+ * @param {unknown} input
+ * @returns {Promise<{ ok: boolean; linkToken?: string; error?: string }>}
+ */
 export async function createLinkToken(
   input: unknown,
 ): Promise<{ ok: boolean; linkToken?: string; error?: string }> {
@@ -76,6 +119,14 @@ export async function createLinkToken(
   }
 }
 
+/**
+ * Description placeholder
+ *
+ * @export
+ * @async
+ * @param {unknown} input
+ * @returns {Promise<{ ok: boolean; bank?: Bank; error?: string }>}
+ */
 export async function exchangePublicToken(
   input: unknown,
 ): Promise<{ ok: boolean; bank?: Bank; error?: string }> {
@@ -140,6 +191,18 @@ export async function exchangePublicToken(
   }
 }
 
+/**
+ * Description placeholder
+ *
+ * @export
+ * @async
+ * @param {unknown} input
+ * @returns {Promise<{
+ *   ok: boolean;
+ *   accounts?: unknown[];
+ *   error?: string;
+ * }>}
+ */
 export async function getAccounts(input: unknown): Promise<{
   ok: boolean;
   accounts?: unknown[];
@@ -169,6 +232,19 @@ export async function getAccounts(input: unknown): Promise<{
   }
 }
 
+/**
+ * Description placeholder
+ *
+ * @export
+ * @async
+ * @param {unknown} input
+ * @returns {Promise<{
+ *   ok: boolean;
+ *   transactions?: unknown[];
+ *   totalTransactions?: number;
+ *   error?: string;
+ * }>}
+ */
 export async function getTransactions(input: unknown): Promise<{
   ok: boolean;
   transactions?: unknown[];
@@ -211,6 +287,18 @@ export async function getTransactions(input: unknown): Promise<{
   }
 }
 
+/**
+ * Description placeholder
+ *
+ * @export
+ * @async
+ * @param {unknown} input
+ * @returns {Promise<{
+ *   ok: boolean;
+ *   balances?: PlaidBalance[];
+ *   error?: string;
+ * }>}
+ */
 export async function getBalance(input: unknown): Promise<{
   ok: boolean;
   balances?: PlaidBalance[];
@@ -250,6 +338,18 @@ export async function getBalance(input: unknown): Promise<{
   }
 }
 
+/**
+ * Description placeholder
+ *
+ * @export
+ * @async
+ * @param {unknown} input
+ * @returns {Promise<{
+ *   ok: boolean;
+ *   balances?: Record<string, PlaidBalance[]>;
+ *   error?: string;
+ * }>}
+ */
 export async function getAllBalances(input: unknown): Promise<{
   ok: boolean;
   balances?: Record<string, PlaidBalance[]>;
@@ -292,6 +392,18 @@ export async function getAllBalances(input: unknown): Promise<{
   }
 }
 
+/**
+ * Description placeholder
+ *
+ * @export
+ * @async
+ * @param {unknown} input
+ * @returns {Promise<{
+ *   ok: boolean;
+ *   institution?: unknown;
+ *   error?: string;
+ * }>}
+ */
 export async function getInstitution(input: unknown): Promise<{
   ok: boolean;
   institution?: unknown;
@@ -319,10 +431,28 @@ export async function getInstitution(input: unknown): Promise<{
   }
 }
 
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const GetBankWithDetailsSchema = z.object({
   bankId: z.string().trim().min(1),
 });
 
+/**
+ * Description placeholder
+ *
+ * @export
+ * @async
+ * @param {unknown} input
+ * @returns {Promise<{
+ *   ok: boolean;
+ *   balances?: unknown[];
+ *   transactions?: unknown[];
+ *   error?: string;
+ * }>}
+ */
 export async function getBankWithDetails(input: unknown): Promise<{
   ok: boolean;
   balances?: unknown[];
@@ -342,8 +472,9 @@ export async function getBankWithDetails(input: unknown): Promise<{
       return { error: "Bank not found", ok: false };
     }
 
+    // Fetch balance and transactions in parallel for a single bank
     const [balancesResult, transactionsResult] = await Promise.all([
-      getAllBalances({ bankId }),
+      getBalance({ bankId }),
       getTransactions({
         bankId,
         count: 10,
@@ -354,9 +485,7 @@ export async function getBankWithDetails(input: unknown): Promise<{
       }),
     ]);
 
-    const balances = balancesResult.ok
-      ? Object.values(balancesResult.balances ?? {}).flat()
-      : [];
+    const balances = balancesResult.ok ? (balancesResult.balances ?? []) : [];
 
     return {
       balances,
@@ -371,10 +500,26 @@ export async function getBankWithDetails(input: unknown): Promise<{
   }
 }
 
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const RemoveBankSchema = z.object({
   bankId: z.string().trim().min(1),
 });
 
+/**
+ * Description placeholder
+ *
+ * @export
+ * @async
+ * @param {unknown} input
+ * @returns {Promise<{
+ *   ok: boolean;
+ *   error?: string;
+ * }>}
+ */
 export async function removeBank(input: unknown): Promise<{
   ok: boolean;
   error?: string;

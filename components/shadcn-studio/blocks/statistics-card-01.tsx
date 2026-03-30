@@ -10,10 +10,35 @@ import { cn } from "@/lib/utils";
  * @typedef {StatisticsCardProps}
  */
 interface StatisticsCardProps {
+  /**
+   * Description placeholder
+   *
+   * @type {ReactNode}
+   */
   icon: ReactNode;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   value: string;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   title: string;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   changePercentage: string;
+  /**
+   * Description placeholder
+   *
+   * @type {?string}
+   */
   className?: string;
 }
 

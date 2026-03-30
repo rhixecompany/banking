@@ -9,6 +9,11 @@ dotenv.config({ path: path.resolve(process.cwd(), ".env.local") });
 dotenv.config();
 
 // Resolve DB URL with multiple fallbacks and helpful error message
+/**
+ * Description placeholder
+ *
+ * @returns {string}
+ */
 const resolveDatabaseUrl = (): string => {
   const envUrl =
     process.env["DATABASE_URL"] ?? process.env["NEON_DATABASE_URL"];
@@ -23,6 +28,11 @@ const resolveDatabaseUrl = (): string => {
 };
 
 // Drizzle config with connection pooling hints for production
+/**
+ * Description placeholder
+ *
+ * @type {Config}
+ */
 const cfg: Config = {
   dbCredentials: {
     // Optional: additional connection info supported by some drivers

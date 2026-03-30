@@ -68,12 +68,47 @@ const SIDEBAR_KEYBOARD_SHORTCUT = "b";
  * @typedef {SidebarContextProps}
  */
 interface SidebarContextProps {
+  /**
+   * Description placeholder
+   *
+   * @type {("collapsed" | "expanded")}
+   */
   state: "collapsed" | "expanded";
+  /**
+   * Description placeholder
+   *
+   * @type {boolean}
+   */
   open: boolean;
+  /**
+   * Description placeholder
+   *
+   * @type {(open: boolean) => void}
+   */
   setOpen: (open: boolean) => void;
+  /**
+   * Description placeholder
+   *
+   * @type {boolean}
+   */
   openMobile: boolean;
+  /**
+   * Description placeholder
+   *
+   * @type {(open: boolean) => void}
+   */
   setOpenMobile: (open: boolean) => void;
+  /**
+   * Description placeholder
+   *
+   * @type {boolean}
+   */
   isMobile: boolean;
+  /**
+   * Description placeholder
+   *
+   * @type {() => void}
+   */
   toggleSidebar: () => void;
 }
 

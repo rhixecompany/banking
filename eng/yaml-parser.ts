@@ -5,36 +5,175 @@ import path from "path";
 import { VFile } from "vfile";
 import { matter } from "vfile-matter";
 
+/**
+ * Description placeholder
+ *
+ * @typedef {Frontmatter}
+ */
 type Frontmatter = Record<string, unknown>;
+/**
+ * Description placeholder
+ *
+ * @interface SkillMetadata
+ * @typedef {SkillMetadata}
+ */
 interface SkillMetadata {
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   name: string;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   description: string;
+  /**
+   * Description placeholder
+   *
+   * @type {string[]}
+   */
   assets: string[];
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   path: string;
 }
+/**
+ * Description placeholder
+ *
+ * @interface HookMetadata
+ * @typedef {HookMetadata}
+ */
 interface HookMetadata {
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   name: string;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   description: string;
+  /**
+   * Description placeholder
+   *
+   * @type {string[]}
+   */
   assets: string[];
+  /**
+   * Description placeholder
+   *
+   * @type {?string[]}
+   */
   hooks?: string[];
+  /**
+   * Description placeholder
+   *
+   * @type {?string[]}
+   */
   tags?: string[];
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   path: string;
 }
+/**
+ * Description placeholder
+ *
+ * @interface WorkflowMetadata
+ * @typedef {WorkflowMetadata}
+ */
 interface WorkflowMetadata {
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   name: string;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   description: string;
+  /**
+   * Description placeholder
+   *
+   * @type {?string[]}
+   */
   triggers?: string[];
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   path: string;
 }
+/**
+ * Description placeholder
+ *
+ * @export
+ * @interface McpServerConfig
+ * @typedef {McpServerConfig}
+ */
 export interface McpServerConfig {
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   name: string;
+  /**
+   * Description placeholder
+   *
+   * @type {?string}
+   */
   type?: string;
+  /**
+   * Description placeholder
+   *
+   * @type {?string}
+   */
   command?: string;
+  /**
+   * Description placeholder
+   *
+   * @type {?string[]}
+   */
   args?: string[];
+  /**
+   * Description placeholder
+   *
+   * @type {?string}
+   */
   url?: string;
+  /**
+   * Description placeholder
+   *
+   * @type {?Record<string, string>}
+   */
   headers?: Record<string, string>;
 }
 
+/**
+ * Description placeholder
+ *
+ * @template T
+ * @param {() => T} operation
+ * @param {string} filePath
+ * @param {(null | T)} [defaultValue=null]
+ * @returns {(null | T)}
+ */
 function safeFileOperation<T>(
   operation: () => T,
   filePath: string,

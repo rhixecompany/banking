@@ -28,10 +28,30 @@ import {
   parseYamlFile,
 } from "./yaml-parser";
 
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const WEBSITE_DIR = path.join(ROOT_FOLDER, "website");
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const WEBSITE_DATA_DIR = path.join(WEBSITE_DIR, "public", "data");
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const WEBSITE_SOURCE_DATA_DIR = path.join(WEBSITE_DIR, "data");
 
+/**
+ * Description placeholder
+ *
+ * @typedef {Frontmatter}
+ */
 type Frontmatter = Record<string, unknown>;
 
 /**
@@ -440,10 +460,17 @@ function generateWebsiteWorkflowsData() {
   return workflows || [];
 }
 
+/**
+ * Description placeholder
+ *
+ * @param {string} filePath
+ * @param {unknown} data
+ */
 function writeJsonFile(filePath: string, data: unknown): void {
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2) + "\n", "utf8");
 }
 
+/** Description placeholder */
 function generateAllData(): void {
   ensureDataDir();
 

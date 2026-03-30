@@ -8,16 +8,31 @@ import { env } from "@/lib/env";
  * @type {*}
  */
 const plaidEnvironment = env.PLAID_ENV ?? "sandbox";
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const hasPlaidEnv = Object.prototype.hasOwnProperty.call(
   PlaidEnvironments,
   plaidEnvironment,
 );
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const basePath =
   env.PLAID_BASE_URL ??
   (hasPlaidEnv
     ? PlaidEnvironments[plaidEnvironment as keyof typeof PlaidEnvironments]
     : PlaidEnvironments.sandbox);
 
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const configuration = new Configuration({
   baseOptions: {
     headers: {

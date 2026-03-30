@@ -15,11 +15,48 @@ import {
   exchangePublicToken,
 } from "@/lib/actions/plaid.actions";
 
+/**
+ * Description placeholder
+ *
+ * @export
+ * @interface PlaidLinkProps
+ * @typedef {PlaidLinkProps}
+ */
 export interface PlaidLinkProps {
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   userId: string;
+  /**
+   * Description placeholder
+   *
+   * @type {?(bank: Bank) => void}
+   */
   onSuccess?: (bank: Bank) => void;
+  /**
+   * Description placeholder
+   *
+   * @type {?() => void}
+   */
   onExit?: () => void;
+  /**
+   * Description placeholder
+   *
+   * @type {?() => void}
+   */
   onLoad?: () => void;
+  /**
+   * Description placeholder
+   *
+   * @type {?(| "default"
+   *     | "destructive"
+   *     | "ghost"
+   *     | "link"
+   *     | "outline"
+   *     | "secondary")}
+   */
   variant?:
     | "default"
     | "destructive"
@@ -27,12 +64,48 @@ export interface PlaidLinkProps {
     | "link"
     | "outline"
     | "secondary";
+  /**
+   * Description placeholder
+   *
+   * @type {?("default" | "icon" | "lg" | "sm")}
+   */
   size?: "default" | "icon" | "lg" | "sm";
+  /**
+   * Description placeholder
+   *
+   * @type {?string}
+   */
   className?: string;
+  /**
+   * Description placeholder
+   *
+   * @type {?boolean}
+   */
   disabled?: boolean;
+  /**
+   * Description placeholder
+   *
+   * @type {?React.ReactNode}
+   */
   children?: React.ReactNode;
 }
 
+/**
+ * Description placeholder
+ *
+ * @export
+ * @param {PlaidLinkProps} param0
+ * @param {React.ReactNode} param0.children
+ * @param {string} param0.className
+ * @param {boolean} param0.disabled
+ * @param {() => void} param0.onExit
+ * @param {() => void} param0.onLoad
+ * @param {(bank: Bank) => void} param0.onSuccess
+ * @param {("default" | "icon" | "lg" | "sm")} [param0.size="default"]
+ * @param {string} param0.userId
+ * @param {("default" | "destructive" | "ghost" | "link" | "outline" | "secondary")} [param0.variant="default"]
+ * @returns {ReactJSX.Element}
+ */
 export function PlaidLink({
   children,
   className,

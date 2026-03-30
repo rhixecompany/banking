@@ -39,6 +39,11 @@ import {
  */
 const ACTIVE_PROPOSALS = "Active Proposals";
 
+/**
+ * Description placeholder
+ *
+ * @type {{ documents: {}; navClouds: {}; navMain: {}; navSecondary: {}; user: { avatar: string; email: string; name: string; }; }}
+ */
 const data = {
   documents: [
     {

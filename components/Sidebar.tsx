@@ -10,6 +10,13 @@ import { sidebarLinks } from "@/constants";
 
 import { default as Footer } from "./Footer";
 
+/**
+ * Description placeholder
+ *
+ * @param {SiderbarProps} param0
+ * @param {SiderbarProps} param0.user
+ * @returns {JSX.Element}
+ */
 const Sidebar = ({ user }: SiderbarProps): JSX.Element => {
   const pathname = usePathname();
   return (
@@ -22,7 +29,6 @@ const Sidebar = ({ user }: SiderbarProps): JSX.Element => {
             width={34}
             height={34}
             className="size-6 max-xl:size-14"
-            style={{ height: "auto", width: "auto" }}
           />
           <h1 className="sidebar-logo">Horizon</h1>
         </Link>
@@ -40,6 +46,7 @@ const Sidebar = ({ user }: SiderbarProps): JSX.Element => {
                   src={item.imgURL}
                   alt={item.label}
                   fill
+                  sizes="24px"
                   className={isActive ? "brightness-[3] invert-0" : undefined}
                 />
               </div>

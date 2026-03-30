@@ -10,8 +10,7 @@ export const SEED_USER = {
 } as const;
 
 /**
- * Sign in with the seeded credentials. The app navigates to `/` after success; the home route then
- * redirects to `/dashboard` for authenticated users.
+ * Sign in with the seeded credentials. The app navigates directly to `/dashboard` after success.
  */
 export async function signInWithSeedUser(page: Page): Promise<void> {
   await page.goto("/sign-in");

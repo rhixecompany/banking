@@ -33,16 +33,52 @@ import {
   parseWorkflowMetadata,
 } from "./yaml-parser";
 
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const filename = fileURLToPath(import.meta.url);
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const dirName = dirname(filename);
 
+/**
+ * Description placeholder
+ *
+ * @interface RegistryServer
+ * @typedef {RegistryServer}
+ */
 interface RegistryServer {
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   name: string;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   displayName: string;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   fullName: string;
 }
 
 // Cache of MCP registry server names (lower-cased) fetched from the API
+/**
+ * Description placeholder
+ *
+ * @type {(null | RegistryServer[])}
+ */
 let MCP_REGISTRY_SET: null | RegistryServer[] = null;
 /**
  * Loads and caches the set of MCP registry server names from the GitHub MCP registry API.
@@ -166,6 +202,12 @@ function safeFileOperation<T>(
   }
 }
 
+/**
+ * Description placeholder
+ *
+ * @param {string} filePath
+ * @returns {(null | string)}
+ */
 function extractTitle(filePath: string): null | string {
   return safeFileOperation(
     () => {
@@ -257,23 +299,49 @@ function extractTitle(filePath: string): null | string {
   );
 }
 
+/**
+ * Description placeholder
+ *
+ * @param {string} filePath
+ * @returns {string}
+ */
 function getInstallButtons(filePath: string): string {
   const fileName = path.basename(filePath);
   const encodedPath = encodeURIComponent(fileName);
   return `[![VS Code](${vscodeInstallImage})](${AKA_INSTALL_URLS.instructions}?path=${encodedPath}) [![VS Code Insiders](${vscodeInsidersInstallImage})](${AKA_INSTALL_URLS.instructions}?path=${encodedPath}&insiders=true)`;
 }
 
+/**
+ * Description placeholder
+ *
+ * @param {string} filePath
+ * @returns {string}
+ */
 function getAgentInstallButtons(filePath: string): string {
   const fileName = path.basename(filePath);
   const encodedPath = encodeURIComponent(fileName);
   return `[![VS Code](${vscodeInstallImage})](${AKA_INSTALL_URLS.agent}?path=${encodedPath}) [![VS Code Insiders](${vscodeInsidersInstallImage})](${AKA_INSTALL_URLS.agent}?path=${encodedPath}&insiders=true)`;
 }
 
+/**
+ * Description placeholder
+ *
+ * @param {string} folderName
+ * @returns {string}
+ */
 function getHookInstallButtons(folderName: string): string {
   const encodedPath = encodeURIComponent(folderName);
   return `[![VS Code](${vscodeInstallImage})](${AKA_INSTALL_URLS.hook}?path=${encodedPath}) [![VS Code Insiders](${vscodeInsidersInstallImage})](${AKA_INSTALL_URLS.hook}?path=${encodedPath}&insiders=true)`;
 }
 
+/**
+ * Description placeholder
+ *
+ * @param {string} dirPath
+ * @param {string} suffix
+ * @param {number} maxItems
+ * @returns {string[]}
+ */
 function listMarkdownFiles(
   dirPath: string,
   suffix: string,
@@ -288,6 +356,13 @@ function listMarkdownFiles(
     .map((file) => path.join(dirPath, file));
 }
 
+/**
+ * Description placeholder
+ *
+ * @param {string} dirPath
+ * @param {string} suffix
+ * @returns {string[]}
+ */
 function readMarkdownFiles(dirPath: string, suffix: string): string[] {
   if (!fs.existsSync(dirPath)) return [];
   return fs
@@ -296,6 +371,13 @@ function readMarkdownFiles(dirPath: string, suffix: string): string[] {
     .sort();
 }
 
+/**
+ * Description placeholder
+ *
+ * @param {string[]} files
+ * @param {("agents" | "instructions" | "prompts")} listType
+ * @returns {string[]}
+ */
 function getMarkdownTableRows(
   files: string[],
   listType: "agents" | "instructions" | "prompts",
@@ -325,6 +407,12 @@ function getMarkdownTableRows(
   });
 }
 
+/**
+ * Description placeholder
+ *
+ * @param {string[]} hooks
+ * @returns {string[]}
+ */
 function getHooksTableRows(hooks: string[]): string[] {
   return hooks.map((folderName) => {
     const hookPath = path.join(HOOKS_DIR, folderName);
@@ -339,6 +427,13 @@ function getHooksTableRows(hooks: string[]): string[] {
   });
 }
 
+/**
+ * Description placeholder
+ *
+ * @param {string} dirPath
+ * @param {number} maxItems
+ * @returns {string[]}
+ */
 function listFolders(dirPath: string, maxItems: number): string[] {
   if (!fs.existsSync(dirPath)) return [];
   return fs
@@ -349,6 +444,12 @@ function listFolders(dirPath: string, maxItems: number): string[] {
     .slice(0, maxItems);
 }
 
+/**
+ * Description placeholder
+ *
+ * @param {string[]} skills
+ * @returns {string[]}
+ */
 function getSkillsTableRows(skills: string[]): string[] {
   return skills.map((folderName) => {
     const skillPath = path.join(SKILLS_DIR, folderName);
@@ -362,6 +463,12 @@ function getSkillsTableRows(skills: string[]): string[] {
   });
 }
 
+/**
+ * Description placeholder
+ *
+ * @param {string[]} workflows
+ * @returns {string[]}
+ */
 function getWorkflowsTableRows(workflows: string[]): string[] {
   return workflows.map((filePath) => {
     const metadata = parseWorkflowMetadata(filePath);
@@ -374,6 +481,12 @@ function getWorkflowsTableRows(workflows: string[]): string[] {
   });
 }
 
+/**
+ * Description placeholder
+ *
+ * @param {string[]} files
+ * @returns {string[]}
+ */
 function getDocsTableRows(files: string[]): string[] {
   return files.map((file) => {
     const fileName = path.basename(file);
@@ -385,6 +498,12 @@ function getDocsTableRows(files: string[]): string[] {
   });
 }
 
+/**
+ * Description placeholder
+ *
+ * @param {string[]} files
+ * @returns {string[]}
+ */
 function getPromptsTableRows(files: string[]): string[] {
   return files.map((file) => {
     const fileName = path.basename(file);
@@ -396,6 +515,12 @@ function getPromptsTableRows(files: string[]): string[] {
   });
 }
 
+/**
+ * Description placeholder
+ *
+ * @param {string} promptDir
+ * @returns {string[]}
+ */
 function listPromptFiles(promptDir: string): string[] {
   if (!fs.existsSync(promptDir)) return [];
   return fs
@@ -405,6 +530,12 @@ function listPromptFiles(promptDir: string): string[] {
     .sort();
 }
 
+/**
+ * Description placeholder
+ *
+ * @param {string} workflowDir
+ * @returns {string[]}
+ */
 function listWorkflowFiles(workflowDir: string): string[] {
   if (!fs.existsSync(workflowDir)) return [];
   return fs
@@ -414,6 +545,12 @@ function listWorkflowFiles(workflowDir: string): string[] {
     .sort();
 }
 
+/**
+ * Description placeholder
+ *
+ * @param {string} docsDir
+ * @returns {string[]}
+ */
 function listDocsFiles(docsDir: string): string[] {
   if (!fs.existsSync(docsDir)) return [];
   return fs
@@ -423,6 +560,14 @@ function listDocsFiles(docsDir: string): string[] {
     .sort();
 }
 
+/**
+ * Description placeholder
+ *
+ * @param {string} title
+ * @param {string[]} rows
+ * @param {string[]} headers
+ * @returns {string}
+ */
 function getMarkdownTable(
   title: string,
   rows: string[],
@@ -433,6 +578,14 @@ function getMarkdownTable(
   return [title, "", headerRow, separatorRow, ...rows, ""].join("\n");
 }
 
+/**
+ * Description placeholder
+ *
+ * @param {string} dirPath
+ * @param {("agents" | "instructions" | "prompts")} listType
+ * @param {number} maxItems
+ * @returns {string}
+ */
 function listAndBuildTable(
   dirPath: string,
   listType: "agents" | "instructions" | "prompts",
@@ -455,6 +608,11 @@ function listAndBuildTable(
   );
 }
 
+/**
+ * Description placeholder
+ *
+ * @returns {string}
+ */
 function listAndBuildHooksTable(): string {
   const hooks = listFolders(HOOKS_DIR, MAX_HOOKS_ITEMS);
   const rows = getHooksTableRows(hooks);
@@ -465,24 +623,44 @@ function listAndBuildHooksTable(): string {
   ]);
 }
 
+/**
+ * Description placeholder
+ *
+ * @returns {string}
+ */
 function listAndBuildSkillsTable(): string {
   const skills = listFolders(SKILLS_DIR, MAX_SKILLS_ITEMS);
   const rows = getSkillsTableRows(skills);
   return getMarkdownTable("### Skills", rows, ["Name", "Description"]);
 }
 
+/**
+ * Description placeholder
+ *
+ * @returns {string}
+ */
 function listAndBuildWorkflowsTable(): string {
   const workflows = listWorkflowFiles(WORKFLOWS_DIR);
   const rows = getWorkflowsTableRows(workflows);
   return getMarkdownTable("### Workflows", rows, ["Name", "Description"]);
 }
 
+/**
+ * Description placeholder
+ *
+ * @returns {string}
+ */
 function listAndBuildDocsTable(): string {
   const docs = listDocsFiles(DOCS_DIR).slice(0, MAX_DOCS_ITEMS);
   const rows = getDocsTableRows(docs);
   return getMarkdownTable("### Docs", rows, ["Name"]);
 }
 
+/**
+ * Description placeholder
+ *
+ * @returns {string}
+ */
 function listAndBuildPromptsTable(): string {
   const prompts = listPromptFiles(path.join(ROOT_FOLDER, "prompts")).slice(
     0,
@@ -492,14 +670,29 @@ function listAndBuildPromptsTable(): string {
   return getMarkdownTable("### Prompts", rows, ["Name"]);
 }
 
+/**
+ * Description placeholder
+ *
+ * @returns {string}
+ */
 function listAndBuildInstructionsTable(): string {
   return listAndBuildTable(INSTRUCTIONS_DIR, "instructions", MAX_DOCS_ITEMS);
 }
 
+/**
+ * Description placeholder
+ *
+ * @returns {string}
+ */
 function listAndBuildAgentsTable(): string {
   return listAndBuildTable(AGENTS_DIR, "agents", MAX_AGENTS_ITEMS);
 }
 
+/**
+ * Description placeholder
+ *
+ * @returns {string}
+ */
 function listAndBuildPluginsTable(): string {
   const plugins = listFolders(PLUGINS_DIR, MAX_PLUGIN_ITEMS);
   const rows = plugins.map((folderName) => {
@@ -536,6 +729,11 @@ function listAndBuildPluginsTable(): string {
   return getMarkdownTable("### Plugins", rows, ["Name", "Description"]);
 }
 
+/**
+ * Description placeholder
+ *
+ * @returns {string}
+ */
 function buildReadmeContent(): string {
   const instructionsTable = listAndBuildInstructionsTable();
   const agentsTable = listAndBuildAgentsTable();
@@ -575,10 +773,21 @@ function buildReadmeContent(): string {
     .replace("{{FEATURED_PLUGINS_SECTION}}", TEMPLATES.featuredPluginsSection);
 }
 
+/**
+ * Description placeholder
+ *
+ * @param {string} content
+ */
 function writeReadme(content: string): void {
   fs.writeFileSync(path.join(ROOT_FOLDER, "README.md"), content, "utf8");
 }
 
+/**
+ * Description placeholder
+ *
+ * @async
+ * @returns {Promise<void>}
+ */
 async function updateDocsMcpRegistry(): Promise<void> {
   const registry = await loadMcpRegistryNames();
 
@@ -614,6 +823,12 @@ async function updateDocsMcpRegistry(): Promise<void> {
   fs.writeFileSync(docsPath, `${registrySection}${notFoundSection}\n`, "utf8");
 }
 
+/**
+ * Description placeholder
+ *
+ * @async
+ * @returns {Promise<void>}
+ */
 async function updateReadme(): Promise<void> {
   const content = buildReadmeContent();
   writeReadme(content);

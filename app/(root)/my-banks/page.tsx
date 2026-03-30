@@ -19,16 +19,47 @@ import { auth } from "@/lib/auth";
 import { bankDal } from "@/lib/dal";
 import { formatAmount, formatDate } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ *
+ * @interface BankWithDetails
+ * @typedef {BankWithDetails}
+ * @extends {Bank}
+ */
 interface BankWithDetails extends Bank {
+  /**
+   * Description placeholder
+   *
+   * @type {PlaidBalance[]}
+   */
   balances: PlaidBalance[];
+  /**
+   * Description placeholder
+   *
+   * @type {PlaidTransaction[]}
+   */
   transactions: PlaidTransaction[];
 }
 
+/**
+ * Description placeholder
+ *
+ * @async
+ * @param {string} userId
+ * @returns {unknown}
+ */
 async function getUserBanks(userId: string) {
   "use cache";
   return await bankDal.findByUserId(userId);
 }
 
+/**
+ * Description placeholder
+ *
+ * @export
+ * @async
+ * @returns {Promise<JSX.Element>}
+ */
 export default async function MyBanksPage(): Promise<JSX.Element> {
   const session = await auth();
   if (!session?.user?.id) {
@@ -38,6 +69,7 @@ export default async function MyBanksPage(): Promise<JSX.Element> {
   const userId = session.user.id;
   const banks = await getUserBanks(userId);
 
+  // Fetch all bank details in parallel (efficient for external API calls)
   const banksWithDetails: BankWithDetails[] = await Promise.all(
     banks.map(async (bank): Promise<BankWithDetails> => {
       const result = await getBankWithDetails(bank.id);
@@ -48,11 +80,6 @@ export default async function MyBanksPage(): Promise<JSX.Element> {
       };
     }),
   );
-
-  const handleRemoveBank = async (bankId: string): Promise<void> => {
-    "use server";
-    await removeBank(bankId);
-  };
 
   const totalBalance = banksWithDetails.reduce((sum, bank) => {
     return sum + (bank.balances[0]?.balances?.current ?? 0);
@@ -117,7 +144,7 @@ export default async function MyBanksPage(): Promise<JSX.Element> {
                   <form
                     action={async () => {
                       "use server";
-                      await removeBank(bank.id);
+                      await removeBank({ bankId: bank.id });
                     }}
                   >
                     <Button

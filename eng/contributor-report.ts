@@ -9,6 +9,11 @@ import path from "node:path";
 import { ROOT_FOLDER } from "./constants";
 import { setupGracefulShutdown } from "./utils/graceful-shutdown";
 
+/**
+ * Description placeholder
+ *
+ * @type {30000}
+ */
 const DEFAULT_CMD_TIMEOUT = 30_000; // 30s
 
 setupGracefulShutdown("contributor-report");
@@ -52,6 +57,11 @@ export const TYPE_PATTERNS = {
   skills: ["skills/"],
 } as const;
 
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const globCache = new Map<string, null | RegExp>();
 
 /**
@@ -214,19 +224,72 @@ export const getMissingContributors = (): string[] => {
   }
 };
 
+/**
+ * Description placeholder
+ *
+ * @interface PullRequest
+ * @typedef {PullRequest}
+ */
 interface PullRequest {
+  /**
+   * Description placeholder
+   *
+   * @type {number}
+   */
   number: number;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   title: string;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   author: string;
+  /**
+   * Description placeholder
+   *
+   * @type {string[]}
+   */
   files: string[];
 }
 
+/**
+ * Description placeholder
+ *
+ * @export
+ * @interface ContributorPullRequest
+ * @typedef {ContributorPullRequest}
+ */
 export interface ContributorPullRequest {
+  /**
+   * Description placeholder
+   *
+   * @type {number}
+   */
   number: number;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   title: string;
+  /**
+   * Description placeholder
+   *
+   * @type {string[]}
+   */
   files: string[];
 }
 
+/**
+ * Description placeholder
+ *
+ * @returns {PullRequest[]}
+ */
 function getMergedPullRequests(): PullRequest[] {
   const ghPath = "gh";
   const query =
@@ -300,6 +363,14 @@ function getMergedPullRequests(): PullRequest[] {
   return prs;
 }
 
+/**
+ * Description placeholder
+ *
+ * @export
+ * @param {string} username
+ * @param {{ includeAllFiles?: boolean }} [options={}]
+ * @returns {ContributorPullRequest[]}
+ */
 export function fetchContributorMergedPrs(
   username: string,
   options: { includeAllFiles?: boolean } = {},
@@ -322,6 +393,12 @@ export function fetchContributorMergedPrs(
   }));
 }
 
+/**
+ * Description placeholder
+ *
+ * @param {string[]} missingContributors
+ * @returns {string}
+ */
 function generateReport(missingContributors: string[]): string {
   if (missingContributors.length === 0) {
     return "✅ No missing contributors found.";
@@ -364,6 +441,7 @@ function generateReport(missingContributors: string[]): string {
   return lines.join("\n");
 }
 
+/** Description placeholder */
 function main(): void {
   const missing = getMissingContributors();
   const report = generateReport(missing);

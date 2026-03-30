@@ -1,9 +1,19 @@
-import "dotenv/config";
-import { sql } from "drizzle-orm";
+/**
+ * Seed runner that loads environment variables before importing app modules.
+ * Must be run with tsx to support ESM imports.
+ */
+import { config as loadEnv } from "dotenv";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-import { db } from "@/database/db";
+// Load environment variables BEFORE importing app modules
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+loadEnv({ path: path.resolve(__dirname, "../../.env.local") });
 
-import { seedAll } from "./seed-data";
+// Now import app modules after env is loaded
+const { sql } = await import("drizzle-orm");
+const { db } = await import("@/database/db");
+const { seedAll } = await import("./seed-data");
 
 /**
  * Development database seeder. Requires DATABASE_URL and the same env as the app
@@ -25,10 +35,21 @@ function assertSeedAllowed(): void {
   }
 }
 
+/**
+ * Description placeholder
+ *
+ * @returns {boolean}
+ */
 function hasResetFlag(): boolean {
   return process.argv.includes("--reset");
 }
 
+/**
+ * Description placeholder
+ *
+ * @async
+ * @returns {Promise<void>}
+ */
 async function truncateAllTables(): Promise<void> {
   await db.execute(
     sql.raw(`
@@ -48,6 +69,12 @@ async function truncateAllTables(): Promise<void> {
   );
 }
 
+/**
+ * Description placeholder
+ *
+ * @async
+ * @returns {Promise<void>}
+ */
 async function main(): Promise<void> {
   assertSeedAllowed();
 

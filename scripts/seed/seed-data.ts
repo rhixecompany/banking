@@ -19,6 +19,11 @@ import { encrypt } from "@/lib/encryption";
 /** Dev-only login for all seeded users (matches E2E tests). */
 const SEED_PASSWORD_PLAIN = "password123";
 
+/**
+ * Description placeholder
+ *
+ * @type {{ readonly banks: { readonly checking: "20000000-0000-4000-8000-000000000001"; readonly savings: "20000000-0000-4000-8000-000000000002"; }; readonly errors: { readonly anonymous: "50000000-0000-4000-8000-000000000002"; readonly withUser: "50000000-0000-4000-8000-000000000001"; }; readonly profiles: { ...; }; readonl...}
+ */
 export const SEED_IDS = {
   banks: {
     checking: "20000000-0000-4000-8000-000000000001",
@@ -54,6 +59,12 @@ export function hashSeedPassword(plain: string): Promise<string> {
   return hash(plain, 12);
 }
 
+/**
+ * Description placeholder
+ *
+ * @param {string} userId
+ * @returns {typeof account.\$inferInsert}
+ */
 function buildAccountRow(userId: string): typeof account.$inferInsert {
   return {
     provider: "github",
@@ -63,6 +74,12 @@ function buildAccountRow(userId: string): typeof account.$inferInsert {
   };
 }
 
+/**
+ * Description placeholder
+ *
+ * @param {string} userId
+ * @returns {typeof session.\$inferInsert}
+ */
 function buildSessionRow(userId: string): typeof session.$inferInsert {
   const expires = new Date();
   expires.setDate(expires.getDate() + 7);
@@ -73,6 +90,11 @@ function buildSessionRow(userId: string): typeof session.$inferInsert {
   };
 }
 
+/**
+ * Description placeholder
+ *
+ * @returns {typeof verificationToken.\$inferInsert}
+ */
 function buildVerificationTokenRow(): typeof verificationToken.$inferInsert {
   const expires = new Date();
   expires.setDate(expires.getDate() + 1);
@@ -83,6 +105,12 @@ function buildVerificationTokenRow(): typeof verificationToken.$inferInsert {
   };
 }
 
+/**
+ * Description placeholder
+ *
+ * @param {string} userId
+ * @returns {typeof authenticator.\$inferInsert}
+ */
 function buildAuthenticatorRow(
   userId: string,
 ): typeof authenticator.$inferInsert {
@@ -98,6 +126,14 @@ function buildAuthenticatorRow(
   };
 }
 
+/**
+ * Description placeholder
+ *
+ * @param {string} id
+ * @param {string} userId
+ * @param {Partial<typeof user_profiles.\$inferInsert>} overrides
+ * @returns {typeof user_profiles.\$inferInsert}
+ */
 function buildUserProfileRow(
   id: string,
   userId: string,
@@ -116,6 +152,15 @@ function buildUserProfileRow(
   };
 }
 
+/**
+ * Description placeholder
+ *
+ * @param {string} id
+ * @param {string} userId
+ * @param {string} sharableId
+ * @param {string} institutionName
+ * @returns {typeof banks.\$inferInsert}
+ */
 function buildBankRow(
   id: string,
   userId: string,
@@ -135,6 +180,16 @@ function buildBankRow(
   };
 }
 
+/**
+ * Description placeholder
+ *
+ * @param {string} id
+ * @param {string} userId
+ * @param {string} senderBankId
+ * @param {string} receiverBankId
+ * @param {string} plaidSuffix
+ * @returns {typeof transactions.\$inferInsert}
+ */
 function buildTransactionRow(
   id: string,
   userId: string,
@@ -159,6 +214,14 @@ function buildTransactionRow(
   };
 }
 
+/**
+ * Description placeholder
+ *
+ * @param {string} id
+ * @param {string} userId
+ * @param {string} bankAccountId
+ * @returns {typeof recipients.\$inferInsert}
+ */
 function buildRecipientRow(
   id: string,
   userId: string,
@@ -173,6 +236,13 @@ function buildRecipientRow(
   };
 }
 
+/**
+ * Description placeholder
+ *
+ * @param {string} id
+ * @param {(string | undefined)} userId
+ * @returns {typeof errors.\$inferInsert}
+ */
 function buildErrorRow(
   id: string,
   userId: string | undefined,

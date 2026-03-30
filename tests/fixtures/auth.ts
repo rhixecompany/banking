@@ -17,7 +17,17 @@ export const TEST_USER = {
  * Extended test type with custom fixtures
  */
 export interface AuthFixtures {
+  /**
+   * Description placeholder
+   *
+   * @type {Page}
+   */
   authenticatedPage: Page;
+  /**
+   * Description placeholder
+   *
+   * @type {Page}
+   */
   unauthenticatedPage: Page;
 }
 

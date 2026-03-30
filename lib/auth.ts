@@ -12,6 +12,12 @@ declare module "next-auth" {
   }
 }
 
+/**
+ * Description placeholder
+ *
+ * @export
+ * @returns {Promise<null | Session>}
+ */
 export function auth(): Promise<null | Session> {
   return getServerSession(authOptions);
 }

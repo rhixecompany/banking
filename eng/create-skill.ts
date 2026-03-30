@@ -6,17 +6,33 @@ import readline from "readline";
 
 import { SKILLS_DIR } from "./constants";
 
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 });
 
+/**
+ * Description placeholder
+ *
+ * @param {string} question
+ * @returns {Promise<string>}
+ */
 function prompt(question: string): Promise<string> {
   return new Promise((resolve) => {
     rl.question(question, (answer) => resolve(answer));
   });
 }
 
+/**
+ * Description placeholder
+ *
+ * @returns {{ name?: string; description?: string }}
+ */
 function parseArgs(): { name?: string; description?: string } {
   const args = process.argv.slice(2);
   const out: { name?: string; description?: string } = {
@@ -44,6 +60,12 @@ function parseArgs(): { name?: string; description?: string } {
   return out;
 }
 
+/**
+ * Description placeholder
+ *
+ * @async
+ * @returns {Promise<void>}
+ */
 async function createSkillTemplate(): Promise<void> {
   try {
     console.log("🎯 Agent Skills Creator");
