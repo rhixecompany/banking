@@ -122,6 +122,8 @@ const AuthForm = ({ type }: { type: string }): JSX.Element => {
             alt="Horizon logo"
             width={34}
             height={34}
+            loading="eager"
+            style={{ height: "auto", width: "auto" }}
           />
           <h1 className="font-ibm-plex-serif text-26 font-bold text-black-1">
             Horizon

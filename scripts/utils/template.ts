@@ -4,6 +4,7 @@
 
 import fs from "fs";
 import path from "path";
+
 import { ROOT_FOLDER } from "./constants.js";
 
 /**
@@ -44,9 +45,7 @@ export function generateEntryHtml(entry: {
 
   const isGist = entry.repo.includes("gist.github.com");
   const isDiscussion = entry.repo.includes("/discussions/");
-  const repoMatch = entry.repo.match(
-    /github\.com\/(?!gist\.)([^\/]+)\/([^\/]+)/,
-  );
+  const repoMatch = entry.repo.match(/github\.com\/(?!gist\.)([^/]+)\/([^/]+)/);
 
   let summaryContent = `<b>${entry.name}</b>`;
 

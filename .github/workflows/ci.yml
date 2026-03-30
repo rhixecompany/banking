@@ -139,6 +139,9 @@ jobs:
 
   docker-build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
     steps:
       - uses: actions/checkout@v4
 
@@ -149,6 +152,18 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
+          file: ./compose/production/node/Dockerfile
           push: false
+          load: true
+          tags: banking:pr-${{ github.event.pull_request.number }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          build-args: |
+            BUILDKIT_INLINE_CACHE=1
+            NEXT_PUBLIC_SITE_URL=http://localhost:3000
+
+      - name: Get image size
+        run: |
+          SIZE=$(docker images banking:pr-${{ github.event.pull_request.number }} --format "{{.Size}}")
+          echo "Image size: $SIZE"
+          echo "IMAGE_SIZE=$SIZE" >> $GITHUB_ENV

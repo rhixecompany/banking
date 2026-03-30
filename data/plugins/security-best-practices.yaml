@@ -1,0 +1,41 @@
+name: Security Best Practices
+repo: https://github.com/awesome-opencode/opencode-security
+tagline: Security patterns - encryption, rate limiting, CSP headers, CSRF protection
+description: >
+  Opencode plugin providing security best practices for production applications.
+
+  Features:
+  - AES-256-GCM encryption utilities
+  - Rate limiting with Upstash Redis
+  - Content Security Policy (CSP)
+  - CSRF protection patterns
+  - Input sanitization
+  - Secure headers via middleware
+  - Security audit checklists
+
+  Essential for banking and financial applications.
+tags:
+  - security
+  - encryption
+  - rate-limiting
+  - csrf
+  - headers
+  - validation
+scope:
+  - project
+  - global
+min_version: "1.0.0"
+installation: |
+  ## Installation
+
+  ```bash
+  mkdir -p .opencode
+  git clone https://github.com/awesome-opencode/opencode-security.git .opencode/security
+  ```
+
+  ## Usage
+
+  - "Add encryption to sensitive field"
+  - "Configure rate limiting"
+  - "Add CSP headers"
+  - "Audit security of this code"

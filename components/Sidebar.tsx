@@ -28,6 +28,8 @@ const Sidebar = ({ user }: SiderbarProps): JSX.Element => {
             alt="Horizon logo"
             width={34}
             height={34}
+            loading="eager"
+            style={{ height: "auto", width: "auto" }}
             className="size-6 max-xl:size-14"
           />
           <h1 className="sidebar-logo">Horizon</h1>

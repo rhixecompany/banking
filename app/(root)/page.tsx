@@ -4,6 +4,8 @@ import { Suspense } from "react";
 
 import { Button } from "@/components/ui/button";
 import { LoadingSpinner } from "@/components/ui/spinner";
+import { auth } from "@/lib/auth";
+
 /**
  * Home page content component.
  * Checks if user is authenticated and redirects to dashboard if so.
@@ -13,11 +15,11 @@ import { LoadingSpinner } from "@/components/ui/spinner";
  * @returns {Promise<JSX.Element>}
  */
 async function HomePageContent(): Promise<JSX.Element> {
-  // const user = await getLoggedInUser();
-  // if (user) {
-  //   const { redirect } = await import("next/navigation");
-  //   redirect("/dashboard");
-  // }
+  const session = await auth();
+  if (session?.user) {
+    const { redirect } = await import("next/navigation");
+    redirect("/dashboard");
+  }
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -29,6 +31,8 @@ async function HomePageContent(): Promise<JSX.Element> {
               alt="Horizon Logo"
               width={30}
               height={39}
+              loading="eager"
+              style={{ height: "auto", width: "auto" }}
               className="h-8 w-auto"
             />
             <span className="font-ibm-plex-serif text-[26px] font-bold text-black-1">
@@ -252,8 +256,9 @@ async function HomePageContent(): Promise<JSX.Element> {
                 alt="Horizon Logo"
                 width={24}
                 height={31}
+                loading="eager"
+                style={{ height: "auto", width: "auto" }}
                 className="h-6 w-auto"
-                style={{ width: "auto" }}
               />
               <span className="font-ibm-plex-serif text-xl font-bold text-black-1">
                 Horizon

@@ -1,0 +1,38 @@
+name: Drizzle ORM
+repo: https://github.com/awesome-opencode/opencode-drizzle
+tagline: Drizzle ORM patterns for PostgreSQL - schema, migrations, queries, and DAL patterns
+description: >
+  Opencode plugin providing Drizzle ORM patterns for banking and production applications.
+
+  Features:
+  - Schema definition best practices
+  - Migration strategies
+  - Data Access Layer (DAL) patterns
+  - N+1 query prevention with JOINs
+  - Type-safe queries
+  - Relationship mapping
+
+  Essential for any PostgreSQL-based application.
+tags:
+  - database
+  - orm
+  - drizzle
+  - postgresql
+  - migrations
+scope:
+  - project
+  - global
+min_version: "1.0.0"
+installation: |
+  ## Installation
+
+  ```bash
+  mkdir -p .opencode
+  git clone https://github.com/awesome-opencode/opencode-drizzle.git .opencode/drizzle
+  ```
+
+  ## Usage
+
+  - "Create user schema with accounts relation"
+  - "Write DAL query with JOIN"
+  - "Generate migration for new table"

@@ -7,12 +7,32 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 // Load environment variables BEFORE importing app modules
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 loadEnv({ path: path.resolve(__dirname, "../../.env.local") });
 
 // Now import app modules after env is loaded
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const { sql } = await import("drizzle-orm");
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const { db } = await import("@/database/db");
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const { seedAll } = await import("./seed-data");
 
 /**

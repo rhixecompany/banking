@@ -9,7 +9,9 @@
 
 import fs from "fs";
 import path from "path";
+
 import type { CategoryType, Entry, ExportedEntry } from "./types/index.js";
+
 import { CATEGORIES, CATEGORY_PATHS } from "./utils/constants.js";
 import { formatValidationErrors, validateEntry } from "./utils/validation.js";
 import { readYamlDir, slugify } from "./utils/yaml.js";
@@ -57,17 +59,17 @@ function mapEntry(entry: Entry, category: CategoryType): ExportedEntry | null {
   }
 
   return {
-    productId,
-    type: category,
-    displayName: entry.name || "",
-    repoUrl: entry.repo || "",
-    tagline: entry.tagline || "",
     description: entry.description || "",
-    scope: sanitizeArray(entry.scope, ["global"]),
-    tags: sanitizeArray(entry.tags, []),
+    displayName: entry.name || "",
     homepageUrl: entry.homepage,
     installation: entry.installation,
     minVersion: entry.min_version,
+    productId,
+    repoUrl: entry.repo || "",
+    scope: sanitizeArray(entry.scope, ["global"]),
+    tagline: entry.tagline || "",
+    tags: sanitizeArray(entry.tags, []),
+    type: category,
   };
 }
 
@@ -123,7 +125,7 @@ async function loadEntries(): Promise<{
     }
   }
 
-  return { results, errors };
+  return { errors, results };
 }
 
 /**
@@ -133,7 +135,7 @@ async function main(): Promise<void> {
   const { outputPath, pretty } = parseArgs(process.argv.slice(2));
   const writeToStdout = !outputPath;
 
-  const { results, errors } = await loadEntries();
+  const { errors, results } = await loadEntries();
 
   // Sort by type then productId
   results.sort((a, b) => {

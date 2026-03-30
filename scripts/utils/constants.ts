@@ -6,7 +6,17 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 // Get the directory of the current module
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const __filename = fileURLToPath(import.meta.url);
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const __dirname = path.dirname(__filename);
 
 /**
@@ -34,30 +44,45 @@ export const CATEGORIES: CategoryType[] = [
  * Category to folder path mapping
  */
 export const CATEGORY_PATHS: Record<CategoryType, string> = {
-  plugins: path.join(DATA_DIR, "plugins"),
-  themes: path.join(DATA_DIR, "themes"),
   agents: path.join(DATA_DIR, "agents"),
+  plugins: path.join(DATA_DIR, "plugins"),
   projects: path.join(DATA_DIR, "projects"),
   resources: path.join(DATA_DIR, "resources"),
+  themes: path.join(DATA_DIR, "themes"),
 } as const;
 
 /**
  * Category placeholder mapping for README template
  */
 export const CATEGORY_PLACEHOLDERS: Record<string, string> = {
-  plugins: "PLUGINS",
-  themes: "THEMES",
   agents: "AGENTS",
+  plugins: "PLUGINS",
   projects: "PROJECTS",
   resources: "RESOURCES",
+  themes: "THEMES",
 };
 
 /**
  * Validation limits
  */
 export const TAGLINE_MAX_LENGTH = 120;
+/**
+ * Description placeholder
+ *
+ * @type {1}
+ */
 export const NAME_MIN_LENGTH = 1;
+/**
+ * Description placeholder
+ *
+ * @type {100}
+ */
 export const NAME_MAX_LENGTH = 100;
+/**
+ * Description placeholder
+ *
+ * @type {500}
+ */
 export const DESCRIPTION_MAX_LENGTH = 500;
 
 // Re-export CategoryType for convenience

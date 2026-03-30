@@ -35,7 +35,14 @@ async function ProtectedLayoutContent({
       <Sidebar user={typedUser} />
       <div className="flex size-full flex-col">
         <div className="root-layout">
-          <Image src="/icons/logo.svg" alt="menu icon" width={30} height={39} />
+          <Image
+            src="/icons/logo.svg"
+            alt="menu icon"
+            width={30}
+            height={39}
+            loading="eager"
+            style={{ height: "auto", width: "auto" }}
+          />
           <div className="">
             <MobileNav user={typedUser} />
           </div>
