@@ -35,9 +35,10 @@ This guide covers deploying the banking app to a Hostinger KVM VPS with Neon Pos
 
 ```
 postgresql://username:password@ep-xxx.us-east-1.aws.neon.tech/banking?sslmode=require
+
 ```
 
-4. **Save this connection string** — you'll need it for the DATABASE_URL environment variable
+1. **Save this connection string** — you'll need it for the DATABASE_URL environment variable
 
 > **Note**: For security, create a separate user with limited permissions instead of using the default root user. In Neon: Settings → Roles → Create Role.
 
@@ -55,6 +56,7 @@ postgresql://username:password@ep-xxx.us-east-1.aws.neon.tech/banking?sslmode=re
    - Password
 
 4. Connect via terminal (Mac/Linux) or PuTTY (Windows):
+
    ```bash
    ssh root@YOUR_VPS_IP
    ```
@@ -129,18 +131,18 @@ npm install
 nano .env
 ```
 
-2. Add the following variables:
+1. Add the following variables:
 
 ```env
 # ============ DATABASE ============
 # From Neon dashboard (Phase 1)
-DATABASE_URL=postgresql://username:password@ep-xxx.us-east-1.aws.neon.tech/banking?sslmode=require
+DATABASE_URL=postgresql://neondb_owner:npg_f3MZAHjDJ0lz@ep-weathered-hall-amij2m6x-pooler.c-5.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
 
 # ============ AUTH ============
 # Generate with: openssl rand -base64 32
-NEXTAUTH_SECRET=your-generated-secret-here
-NEXTAUTH_URL=http://YOUR_VPS_IP
-NEXT_PUBLIC_SITE_URL=http://YOUR_VPS_IP
+NEXTAUTH_SECRET=uXhdStI+pNRt0YsNktJ1QxePMala6d/OEdDoS885kE0=
+NEXTAUTH_URL=[http://YOUR_VPS_IP](http://76.13.26.9/)
+NEXT_PUBLIC_SITE_URL=[http://YOUR_VPS_IP](http://76.13.26.9/)
 
 # ============ PLAID (Banking Integration) ============
 PLAID_CLIENT_ID=your-plaid-client-id
@@ -163,7 +165,7 @@ SMTP_PASS=your-app-password
 SMTP_FROM=noreply@yourdomain.com
 ```
 
-3. Save and exit (Ctrl+O, Enter, Ctrl+X)
+1. Save and exit (Ctrl+O, Enter, Ctrl+X)
 
 ### 3.4 Generate NEXTAUTH_SECRET
 
@@ -291,7 +293,7 @@ pm2 logs banking --lines 50
 Open your browser and navigate to:
 
 ```
-http://YOUR_VPS_IP
+[http://YOUR_VPS_IP](http://76.13.26.9/)
 ```
 
 Replace `YOUR_VPS_IP` with your actual Hostinger VPS IP address.
@@ -362,6 +364,7 @@ pm2 logs banking --err --lines 100
 1. Verify DATABASE_URL is correct
 2. Check Neon dashboard — ensure project is active
 3. Test connection from VPS:
+
    ```bash
    apt install -y postgresql-client
    psql "your-database-url"
@@ -426,10 +429,12 @@ If you want to use a custom domain:
 1. Buy a domain from Hostinger or any registrar
 2. In Hostinger DNS settings, add an A record pointing to your VPS IP
 3. Install Certbot for free SSL:
+
    ```bash
    sudo apt install certbot python3-certbot-nginx
    sudo certbot --nginx -d yourdomain.com
    ```
+
 4. Update NEXTAUTH_URL and NEXT_PUBLIC_SITE_URL in .env
 
 ---

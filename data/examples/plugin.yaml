@@ -22,8 +22,8 @@ description: A longer description explaining the plugin in detail.
 # Scope defines where the extension can be installed (defaults to [global])
 # Most plugins work in both locations - omit or specify only what's relevant
 scope:
-  - global   # ~/.config/opencode/plugin/
-  - project  # .opencode/plugin/
+  - global # ~/.config/opencode/plugin/
+  - project # .opencode/plugin/
 
 # Tags for filtering and discoverability
 tags:

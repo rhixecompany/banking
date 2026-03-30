@@ -4,8 +4,6 @@ import { Suspense } from "react";
 
 import { Button } from "@/components/ui/button";
 import { LoadingSpinner } from "@/components/ui/spinner";
-import { getLoggedInUser } from "@/lib/actions/user.actions";
-
 /**
  * Home page content component.
  * Checks if user is authenticated and redirects to dashboard if so.
@@ -15,11 +13,11 @@ import { getLoggedInUser } from "@/lib/actions/user.actions";
  * @returns {Promise<JSX.Element>}
  */
 async function HomePageContent(): Promise<JSX.Element> {
-  const user = await getLoggedInUser();
-  if (user) {
-    const { redirect } = await import("next/navigation");
-    redirect("/dashboard");
-  }
+  // const user = await getLoggedInUser();
+  // if (user) {
+  //   const { redirect } = await import("next/navigation");
+  //   redirect("/dashboard");
+  // }
 
   return (
     <div className="flex min-h-screen flex-col">
