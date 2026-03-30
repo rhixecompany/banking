@@ -113,47 +113,51 @@ vercel env add DATABASE_URL
 ### Authentication
 
 ```bash
-vercel env add AUTH_SECRET
+vercel env add NEXTAUTH_SECRET
 # Generate a secure 32+ character string
-
-vercel env add AUTH_TRUST_HOST
-# true
 
 vercel env add NEXTAUTH_URL
 # https://your-project.vercel.app (update after deployment)
+
+vercel env add NEXT_PUBLIC_SITE_URL
+# https://your-project.vercel.app (update after deployment)
 ```
 
-### OAuth Providers
+### OAuth Providers (optional)
 
 ```bash
-vercel env add GITHUB_CLIENT_ID
-# Your GitHub OAuth Client ID
-
-vercel env add GITHUB_CLIENT_SECRET
-# Your GitHub OAuth Client Secret
+vercel env add AUTH_GITHUB_ID
+vercel env add AUTH_GITHUB_SECRET
+vercel env add AUTH_GOOGLE_ID
+vercel env add AUTH_GOOGLE_SECRET
 ```
 
-### Rate Limiting (Upstash Redis)
+### Redis (optional)
 
 ```bash
-vercel env add UPSTASH_REDIS_REST_URL
-vercel env add UPSTASH_REDIS_REST_TOKEN
+vercel env add REDIS_URL
 ```
 
-### Plaid
+### Plaid (optional)
 
 ```bash
 vercel env add PLAID_CLIENT_ID
 vercel env add PLAID_SECRET
 vercel env add PLAID_ENV
-# sandbox
+vercel env add PLAID_BASE_URL
+# PLAID_ENV example: sandbox
+# PLAID_BASE_URL example: https://sandbox.plaid.com
 ```
 
-### Error Monitoring (Sentry)
+### Dwolla (optional)
 
 ```bash
-vercel env add SENTRY_DSN
-vercel env add NEXT_PUBLIC_SENTRY_DSN
+vercel env add DWOLLA_KEY
+vercel env add DWOLLA_SECRET
+vercel env add DWOLLA_ENV
+vercel env add DWOLLA_BASE_URL
+# DWOLLA_ENV example: sandbox
+# DWOLLA_BASE_URL example: https://api-sandbox.dwolla.com
 ```
 
 ## Step 7: View Deployment Status

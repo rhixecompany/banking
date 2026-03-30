@@ -43,6 +43,7 @@ In Railway project → "Variables" tab, add:
 | `DATABASE_URL` | From PostgreSQL plugin |
 | `NEXTAUTH_SECRET` | Generate: `openssl rand -base64 32` |
 | `NEXTAUTH_URL` | Your Railway URL (e.g., `https://banking.up.railway.app`) |
+| `NEXT_PUBLIC_SITE_URL` | Same as `NEXTAUTH_URL` |
 | `AUTH_GITHUB_ID` | (optional) From GitHub OAuth App |
 | `AUTH_GITHUB_SECRET` | (optional) From GitHub OAuth App |
 | `AUTH_GOOGLE_ID` | (optional) From Google Cloud Console |
@@ -50,22 +51,22 @@ In Railway project → "Variables" tab, add:
 | `PLAID_CLIENT_ID` | From Plaid dashboard |
 | `PLAID_SECRET` | From Plaid dashboard |
 | `PLAID_ENV` | `sandbox` |
+| `PLAID_BASE_URL` | `https://sandbox.plaid.com` |
 | `DWOLLA_KEY` | From Dwolla dashboard |
 | `DWOLLA_SECRET` | From Dwolla dashboard |
+| `DWOLLA_ENV` | `sandbox` |
 | `DWOLLA_BASE_URL` | `https://api-sandbox.dwolla.com` |
+| `REDIS_URL` | `redis://:<password>@<host>:6379` (optional) |
 | `SMTP_HOST` | `smtp.gmail.com` |
 | `SMTP_PORT` | `587` |
 | `SMTP_USER` | Your email |
 | `SMTP_PASS` | App password |
-| `SENTRY_DSN` | (optional) From Sentry |
-| `SENTRY_ORG` | (optional) Your Sentry org |
-| `SENTRY_PROJECT` | (optional) Your Sentry project |
 
 ### 1.5 Get Railway URL
 
 1. After adding variables, Railway will auto-redeploy
 2. Once deployed, you'll get a URL like: `https://banking.up.railway.app`
-3. Update `NEXTAUTH_URL` in Railway variables to this URL
+3. Update `NEXTAUTH_URL` and `NEXT_PUBLIC_SITE_URL` in Railway variables to this URL
 
 ---
 
@@ -92,13 +93,13 @@ The workflow is already created at `.github/workflows/deploy.yml`.
 
 In `github.com/rhixecompany/banking/settings/secrets`, add:
 
-| Secret Name          | Value                                |
-| -------------------- | ------------------------------------ |
-| `DATABASE_URL`       | Same as Railway (for build step)     |
-| `NEXTAUTH_SECRET`    | Same as Railway                      |
-| `NEXTAUTH_URL`       | Your Railway URL                     |
-| `RAILWAY_PROJECT_ID` | From Railway project URL or settings |
-| `SENTRY_DSN`         | (optional)                           |
+| Secret Name            | Value                                |
+| ---------------------- | ------------------------------------ |
+| `DATABASE_URL`         | Same as Railway (for build step)     |
+| `NEXTAUTH_SECRET`      | Same as Railway                      |
+| `NEXTAUTH_URL`         | Your Railway URL                     |
+| `NEXT_PUBLIC_SITE_URL` | Same as `NEXTAUTH_URL`               |
+| `RAILWAY_PROJECT_ID`   | From Railway project URL or settings |
 
 ---
 
@@ -137,7 +138,7 @@ git push origin main
 ### Authentication Issues
 
 - Regenerate `NEXTAUTH_SECRET`
-- Ensure `NEXTAUTH_URL` matches your Railway URL exactly
+- Ensure `NEXTAUTH_URL` and `NEXT_PUBLIC_SITE_URL` match your Railway URL exactly
 
 ---
 

@@ -1,9 +1,20 @@
-import { formatAmount } from "@/lib/utils";
-import type { CreditCardProps } from "@/types";
 import { Link } from "lucide-react";
 import Image from "next/image";
 
-const BankCard = ({ account, userName }: CreditCardProps) => {
+import type { CreditCardProps } from "@/types";
+
+import { formatAmount } from "@/lib/utils";
+
+/**
+ * Description placeholder
+ *
+ * @param {CreditCardProps} param0
+ * @param {CreditCardProps} param0.account
+ * @param {CreditCardProps} param0.userName
+ * @returns {*}
+ */
+
+const BankCard = ({ account, userName }: CreditCardProps): JSX.Element => {
   return (
     <div className="flex flex-col">
       <Link href="/" className="bank-card">

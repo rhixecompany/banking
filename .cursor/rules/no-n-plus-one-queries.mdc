@@ -1,0 +1,23 @@
+---
+description: Prevent N+1 queries with eager loading
+alwaysApply: true
+---
+
+# Database Query Efficiency
+
+- Avoid N+1 query patterns.
+- Prefer eager loading for related entities.
+- Fetch all required relationship data in as few queries as possible.
+
+## Example
+
+```typescript
+// BAD (N+1 pattern)
+const users = await userDal.findAll();
+for (const user of users) {
+  user.accounts = await accountDal.findByUserId(user.id);
+}
+
+// GOOD (eager loading)
+const usersWithAccounts = await userDal.findAllWithAccounts();
+```

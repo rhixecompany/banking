@@ -1,4 +1,10 @@
-const PaymentTransfer = () => {
+/**
+ * Description placeholder
+ *
+ * @returns {*}
+ */
+
+const PaymentTransfer = (): JSX.Element => {
   return <div>Payment Transfer</div>;
 };
 

@@ -1,9 +1,26 @@
-import { db } from "@/database/db";
-import { transactions } from "@/database/schema";
 import { desc, eq, sql } from "drizzle-orm";
 
+import type { Transaction, TransactionStats } from "@/types/transaction";
+
+import { db } from "@/database/db";
+import { transactions } from "@/database/schema";
+
+/**
+ * Description placeholder
+ *
+ * @export
+ * @class TransactionDal
+ * @typedef {TransactionDal}
+ */
 export class TransactionDal {
-  async findById(id: string) {
+  /**
+   * Description placeholder
+   *
+   * @async
+   * @param {string} id
+   * @returns {unknown}
+   */
+  async findById(id: string): Promise<Transaction | undefined> {
     const [txn] = await db
       .select()
       .from(transactions)
@@ -11,7 +28,20 @@ export class TransactionDal {
     return txn;
   }
 
-  async findByUserId(userId: string, limitVal = 50, offsetVal = 0) {
+  /**
+   * Description placeholder
+   *
+   * @async
+   * @param {string} userId
+   * @param {number} [limitVal=50]
+   * @param {number} [offsetVal=0]
+   * @returns {unknown}
+   */
+  findByUserId(
+    userId: string,
+    limitVal = 50,
+    offsetVal = 0,
+  ): Promise<Transaction[]> {
     return db
       .select()
       .from(transactions)
@@ -21,7 +51,14 @@ export class TransactionDal {
       .offset(offsetVal);
   }
 
-  async findByBankId(bankId: string) {
+  /**
+   * Description placeholder
+   *
+   * @async
+   * @param {string} bankId
+   * @returns {unknown}
+   */
+  findByBankId(bankId: string): Promise<Transaction[]> {
     return db
       .select()
       .from(transactions)
@@ -29,6 +66,24 @@ export class TransactionDal {
       .orderBy(desc(transactions.createdAt));
   }
 
+  /**
+   * Description placeholder
+   *
+   * @async
+   * @param {{
+   *     userId: string;
+   *     senderBankId?: string;
+   *     receiverBankId?: string;
+   *     name?: string;
+   *     email?: string;
+   *     amount: string;
+   *     type?: string;
+   *     status?: string;
+   *     channel?: string;
+   *     category?: string;
+   *   }} data
+   * @returns {unknown}
+   */
   async createTransaction(data: {
     userId: string;
     senderBankId?: string;
@@ -40,17 +95,25 @@ export class TransactionDal {
     status?: string;
     channel?: string;
     category?: string;
-  }) {
+    currency?: string;
+  }): Promise<Transaction> {
     const [txn] = await db.insert(transactions).values(data).returning();
     return txn;
   }
 
-  async getStatsByUser(userId: string) {
+  /**
+   * Description placeholder
+   *
+   * @async
+   * @param {string} userId
+   * @returns {unknown}
+   */
+  async getStatsByUser(userId: string): Promise<TransactionStats[]> {
     const result = await db
       .select({
-        type: transactions.type,
-        total: sql<string>`SUM(CAST(${transactions.amount} AS DECIMAL))`,
         count: sql<number>`COUNT(*)`,
+        total: sql<string>`SUM(CAST(${transactions.amount} AS DECIMAL))`,
+        type: transactions.type,
       })
       .from(transactions)
       .where(eq(transactions.userId, userId))
@@ -60,4 +123,9 @@ export class TransactionDal {
   }
 }
 
+/**
+ * Description placeholder
+ *
+ * @type {TransactionDal}
+ */
 export const transactionDal = new TransactionDal();

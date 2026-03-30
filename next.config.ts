@@ -1,75 +1,31 @@
 import type { NextConfig } from "next";
 
+/**
+ * Next.js configuration for Banking (App Router).
+ */
 const nextConfig: NextConfig = {
-  reactCompiler: true,
+  bundlePagesRouterDependencies: true,
 
-  turbopack: {},
+  cacheComponents: true,
 
-  experimental: {
-    typedEnv: true,
-    staleTimes: {
-      dynamic: 30,
-      static: 180,
-    },
-    optimizePackageImports: ["lucide-react"],
-    serverActions: {
-      bodySizeLimit: "10mb",
-    },
-  },
-  serverExternalPackages: [
-    "postgres",
-    "libsql/client",
-    "bcryptjs",
-    "sharp",
-    "nodemailer",
-  ],
-
-  cacheComponents: false,
-  images: {
-    remotePatterns: [
-      { protocol: "https", hostname: "avatars.githubusercontent.com" },
-      { protocol: "https", hostname: "lh3.googleusercontent.com" },
-      { protocol: "https", hostname: "placehold.co" },
-      { protocol: "https", hostname: "m.media-amazon.com" },
-      { protocol: "https", hostname: "ik.imagekit.io" },
-      { protocol: "https", hostname: "gg.asuracomic.net" },
-      { protocol: "https", hostname: "res.cloudinary.com" },
-      { protocol: "https", hostname: "localhost" },
-      { protocol: "http", hostname: "localhost" },
-    ],
-    formats: ["image/avif", "image/webp"],
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    minimumCacheTTL: 31536000,
-    dangerouslyAllowSVG: true,
-    contentDispositionType: "attachment",
-    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-  },
-
-  logging: {
-    fetches: {
-      fullUrl: true,
-    },
-  },
-
-  typedRoutes: true,
-
-  typescript: {
-    ignoreBuildErrors: false,
-  },
-
+  compress: true,
   devIndicators: {
     position: "bottom-right",
   },
 
-  bundlePagesRouterDependencies: true,
-
-  poweredByHeader: false,
-  compress: true,
-
-  headers: async () => [
+  experimental: {
+    optimizePackageImports: ["lucide-react"],
+    serverActions: {
+      bodySizeLimit: "10mb",
+    },
+    staleTimes: {
+      dynamic: 30,
+      static: 180,
+    },
+    typedEnv: true,
+  },
+  headers: () => [
     {
-      source: "/:path*",
       headers: [
         {
           key: "X-DNS-Prefetch-Control",
@@ -100,39 +56,46 @@ const nextConfig: NextConfig = {
           value: "camera=(), microphone=(), geolocation=()",
         },
       ],
+      source: "/:path*",
     },
   ],
-  webpack: (
-    config: Record<string, unknown>,
-    { isServer }: { isServer: boolean },
-  ) => {
-    if (!isServer) {
-      const resolveConfig = config["resolve"] as Record<string, unknown>;
-      resolveConfig["fallback"] = {
-        ...(resolveConfig["fallback"] as Record<string, boolean>),
-        fs: false,
-        net: false,
-        tls: false,
-        crypto: false,
-        stream: false,
-        url: false,
-        zlib: false,
-        http: false,
-        https: false,
-        assert: false,
-        os: false,
-        path: false,
-      };
-    }
-    return config;
+
+  images: {
+    contentDispositionType: "attachment",
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    dangerouslyAllowSVG: true,
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    formats: ["image/avif", "image/webp"],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    minimumCacheTTL: 31536000,
+    remotePatterns: [
+      { hostname: "avatars.githubusercontent.com", protocol: "https" },
+      { hostname: "lh3.googleusercontent.com", protocol: "https" },
+      { hostname: "placehold.co", protocol: "https" },
+      { hostname: "m.media-amazon.com", protocol: "https" },
+      { hostname: "ik.imagekit.io", protocol: "https" },
+      { hostname: "gg.asuracomic.net", protocol: "https" },
+      { hostname: "res.cloudinary.com", protocol: "https" },
+      { hostname: "localhost", protocol: "https" },
+      { hostname: "localhost", protocol: "http" },
+    ],
+  },
+
+  logging: {
+    fetches: {
+      fullUrl: true,
+    },
+  },
+
+  poweredByHeader: false,
+
+  reactCompiler: true,
+
+  typedRoutes: true,
+
+  typescript: {
+    ignoreBuildErrors: false,
   },
 };
 
-const withBundleAnalyzer = (config: NextConfig): NextConfig => {
-  if (process.env.ANALYZE === "true") {
-    console.log("📊 Bundle analyzer enabled - check .next/analyze");
-  }
-  return config;
-};
-
-export default withBundleAnalyzer(nextConfig);
+export default nextConfig;

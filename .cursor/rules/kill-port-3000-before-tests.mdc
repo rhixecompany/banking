@@ -1,0 +1,24 @@
+---
+description: Free port 3000 before Playwright or Vitest runs
+alwaysApply: true
+---
+
+# Test Runner Port Guard
+
+Before running any Playwright or Vitest command, always terminate any process listening on port `3000`.
+
+Use PowerShell:
+
+```powershell
+$pids = Get-NetTCPConnection -LocalPort 3000 -State Listen -ErrorAction SilentlyContinue | Select-Object -ExpandProperty OwningProcess -Unique
+if ($pids) { $pids | ForEach-Object { Stop-Process -Id $_ -Force } }
+```
+
+Then run the requested Playwright/Vitest command.
+
+Applies to:
+- `npm run test:ui`
+- `npm run test:browser`
+- `npm run test`
+- `npx playwright test ...`
+- `vitest ...`

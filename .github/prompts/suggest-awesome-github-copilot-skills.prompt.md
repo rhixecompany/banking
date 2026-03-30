@@ -1,6 +1,7 @@
 ---
-agent: "agent"
 description: "Suggest relevant GitHub Copilot skills from the awesome-copilot repository based on current repository context and chat history, avoiding duplicates with existing skills in this repository, and identifying outdated skills that need updates."
+agent: "Next.js Expert"
+model: "Auto"
 tools:
   [
     vscode,
@@ -10,9 +11,8 @@ tools:
     edit,
     search,
     web,
-    browser,
     "github/*",
-    "mcp_docker/*",
+    browser,
     vscode.mermaid-chat-features/renderMermaidDiagram,
     github.vscode-pull-request-github/issue_fetch,
     github.vscode-pull-request-github/labels_fetch,

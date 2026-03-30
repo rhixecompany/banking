@@ -1,15 +1,5 @@
-import { authFormSchema } from "@/lib/utils";
-// import { CalendarIcon } from "lucide-react"
-import { Control, FieldPath } from "react-hook-form";
-import { z } from "zod";
-// import { Calendar } from "@/components/ui/calendar"
-// import {
-//   Popover,
-//   PopoverContent,
-//   PopoverTrigger,
-// } from "@/components/ui/popover"
+import { Control, FieldPath, FieldValues } from "react-hook-form";
 
-// import { Button } from "./ui/button"
 import {
   FormControl,
   FormField,
@@ -19,17 +9,19 @@ import {
 } from "./ui/form";
 import { Input } from "./ui/input";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const formSchema = authFormSchema("sign-up");
-
-interface CustomInput {
-  control: Control<z.infer<typeof formSchema>>;
-  name: FieldPath<z.infer<typeof formSchema>>;
+interface CustomInputProps<T extends FieldValues = FieldValues> {
+  control: Control<T>;
+  name: FieldPath<T>;
   label: string;
   placeholder: string;
 }
 
-const CustomInput = ({ control, name, label, placeholder }: CustomInput) => {
+const CustomInput = <T extends FieldValues>({
+  control,
+  label,
+  name,
+  placeholder,
+}: CustomInputProps<T>): JSX.Element => {
   return (
     <FormField
       control={control}

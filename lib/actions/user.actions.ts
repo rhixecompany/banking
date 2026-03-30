@@ -2,18 +2,38 @@
 
 import { auth } from "@/lib/auth";
 
-export async function getLoggedInUser(): Promise<{
-  name?: string;
-  email?: string;
-} | null> {
+/**
+ * Description placeholder
+ *
+ * @export
+ * @async
+ * @returns {Promise<{
+ *   name?: string;
+ *   email?: string;
+ * } | null>}
+ */
+export async function getLoggedInUser(): Promise<
+  | {
+      name?: string;
+      email?: string;
+    }
+  | undefined
+> {
   const session = await auth();
-  if (!session?.user) return null;
+  if (!session?.user) return undefined;
   return {
-    name: session.user.name ?? undefined,
     email: session.user.email ?? undefined,
+    name: session.user.name ?? undefined,
   };
 }
 
-export async function logoutAccount() {
+/**
+ * Description placeholder
+ *
+ * @export
+ * @async
+ * @returns {Promise<boolean>}
+ */
+export async function logoutAccount(): Promise<boolean> {
   return true;
 }

@@ -1,4 +1,4 @@
-# ✅ Implementation Complete - Summary
+# ✅ Implementation Complete (with required follow-ups) - Summary
 
 ## What Was Delivered
 
@@ -15,7 +15,7 @@
 - Multi-stage build optimization
 - BuildKit cache mounts for faster builds
 
-**Result**: ~250MB image vs ~1.2GB before | 67-80% faster startup
+**Target**: ~250MB image vs ~1.2GB before | 67-80% faster startup (verify locally)
 
 ---
 
@@ -39,17 +39,17 @@
 
 ### 3. Environment Configuration ✓
 
-**Files**: `.env.production`, `generate-env.sh`
+**Files**: `.env.example`, `generate-env.sh`
 
 **Included**:
 
-- Production environment template (.env.production)
+- Canonical environment template (.env.example)
 - Secure secret generation script
 - 32-character cryptographic secrets
 - Database, Redis, and auth configuration
 - Support for external integrations
 
-**Usage**: `bash generate-env.sh` → creates `.env.production`
+**Usage**: `bash generate-env.sh` → creates `.env.production` from `.env.example`
 
 ---
 
@@ -97,6 +97,8 @@
 
 **Next Step**: Copy to `app/api/health/route.ts` and implement checks
 
+> ⚠️ Distroless note: the current Dockerfile healthcheck uses `/busybox/wget`, which is not present in distroless images. Update the healthcheck command after implementing `/api/health`.
+
 ---
 
 ## Files Modified
@@ -111,7 +113,7 @@
 
 ### ✓ docker-compose.yml (Security & Configuration)
 
-- Added `env_file: .env.production`
+- Added `env_file: .env.production` (generated from `.env.example`)
 - Added `security_opt: no-new-privileges:true` to all services
 - Updated health check commands
 - Changed environment variables to use `env_file`
@@ -123,7 +125,7 @@
 
 ### Core Configuration (3 files)
 
-- `.env.production` - Environment template
+- `.env.example` - Canonical environment template (use to generate `.env.production`)
 - `Dockerfile` - (modified, see above)
 - `docker-compose.yml` - (modified, see above)
 
@@ -163,7 +165,7 @@
 
 ### Attack Surface Reduction
 
-- ✓ 99% fewer vulnerabilities (no shell, no package manager)
+- ✓ Target: 99% fewer vulnerabilities (verify locally)
 - ✓ No SSH access to containers
 - ✓ No unnecessary tools or utilities
 - ✓ Automatic container restart on failure
@@ -176,13 +178,13 @@
 
 - Before: ~1.2GB (full Node.js image)
 - After: ~250MB (distroless)
-- **Reduction: 79%**
+- **Target reduction: 79% (verify locally)**
 
 ### Startup Time
 
 - Before: 15-30 seconds
 - After: 3-10 seconds
-- **Improvement: 67-80% faster**
+- **Target improvement: 67-80% faster (verify locally)**
 
 ### Build Time
 
@@ -202,7 +204,7 @@
 ### Quick Start (5 minutes)
 
 ```bash
-# 1. Generate production secrets
+# 1. Create production config (canonical template is .env.example)
 bash generate-env.sh
 
 # 2. Edit production config
@@ -237,9 +239,10 @@ docker compose logs -f app
 ### Required Before Build
 
 - [ ] Fix TypeScript errors: `npm run type-check`
-- [ ] Implement `/api/health` endpoint (copy from `.example` file)
+- [ ] Implement `/api/health` endpoint (copy from `app-api-health-route.ts.example`)
+- [ ] Update Dockerfile healthcheck command for distroless compatibility
 - [ ] Generate secrets: `bash generate-env.sh`
-- [ ] Edit `.env.production` with real values
+- [ ] Create `.env.production` from `.env.example` and fill real values
 
 ### Before Deployment
 
@@ -356,9 +359,7 @@ Choose Your Path:
 After completing this implementation, you will have:
 
 - ✅ Production-ready Docker configuration
-- ✅ 79% smaller image size
-- ✅ 67-80% faster startup time
-- ✅ 99% fewer vulnerabilities
+- ✅ Target metrics listed (verify locally)
 - ✅ Automated deployment workflow
 - ✅ Comprehensive documentation
 - ✅ Security hardening implemented
@@ -374,7 +375,8 @@ After completing this implementation, you will have:
 | --- | --- | --- | --- |
 | `Dockerfile` | Config | Container build | Review |
 | `docker-compose.yml` | Config | Service orchestration | Review |
-| `.env.production` | Secrets | Production config | ✏️ Edit |
+| `.env.example` | Secrets | Canonical template | 📖 Read |
+| `.env.production` | Secrets | Generated production config | ✏️ Edit |
 | `deploy.sh` | Script | Run deployment | ✓ Use |
 | `generate-env.sh` | Script | Generate secrets | ✓ Use |
 | `INDEX.md` | Docs | Navigation | 📖 Read |
@@ -383,8 +385,8 @@ After completing this implementation, you will have:
 
 ---
 
-**🎉 Implementation complete!**
+**🎉 Implementation complete after required follow-ups**
 
-**Next Step**: `bash generate-env.sh` → fill `.env.production` → `bash deploy.sh`
+**Next Step**: implement `/api/health`, update Dockerfile healthcheck, then `bash generate-env.sh` → fill `.env.production` → `bash deploy.sh`
 
 See `INDEX.md` for full navigation and links to all documentation.

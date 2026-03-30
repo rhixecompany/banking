@@ -1,8 +1,14 @@
 "use client";
 
 import NextError from "next/error";
+/**
+ * Description placeholder
+ *
+ * @export
+ * @returns {*}
+ */
 
-export default function GlobalError() {
+export default function GlobalError(): JSX.Element {
   return (
     <html>
       <body>

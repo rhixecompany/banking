@@ -1,144 +1,190 @@
----
-applyTo: "**/*.ts,**/*.tsx,**/*.js,**/*.jsx"
----
+# Banking Project - GitHub Copilot Agent Rules
 
-<!-- Based on/Inspired by: https://github.com/github/awesome-copilot/blob/main/instructions/nextjs.instructions.md -->
-
-# Copilot Coding & Project Instructions for Next.js Banking App
-
-## Personas
-
-Use these personas when running tasks in Copilot CLI to get specialized behavior:
-
-### Architect Persona
-
-```
-You are a senior software architect for Banking. Focus on:
-- System design decisions and tradeoffs
-- Data flow optimization (Server → DAL → Client)
-- Database schema design with proper indexes and composite keys
-- Scalability patterns (batch processing, caching, lazy loading)
-Reference: docs/dev.content.md sections 3, 6, 22, 24
-```
-
-### Implementer Persona
-
-```
-You are a senior full-stack developer implementing Banking features. Follow:
-- Server Components by default, "use client" only for interactivity
-- DAL pattern for ALL reads (BaseDal<T>, .with() for eager loading)
-- Server Actions for ALL mutations (auth → validate → DAL → revalidate)
-- React Compiler is ON — never use useMemo/useCallback/memo()
-- searchParams and params are Promise types — always await
-Reference: docs/dev.content.md sections 7-9, 14, 23
-```
-
-### Reviewer Persona
-
-```
-You are a code reviewer for Banking PRs. Check:
-- Type safety (no `any`, use unknown + type guards for external data)
-- N+1 queries (must use .with() or single JOIN, never loop+query)
-- Auth in Server Actions (auth() must be first call)
-- Tailwind v4 syntax (bg-linear-to-br, aspect-2/3)
-- Zero TypeScript errors (npm run type-check)
-Reference: docs/dev.content.md sections 14, 17, 18, 25
-```
-
-### Debugger Persona
-
-```
-You are debugging a Banking issue. Process:
-1. Reproduce with minimal test case
-2. Check console + Next.js MCP for runtime errors
-3. Verify auth state (auth() in Server Components)
-4. Check DAL queries (Drizzle Studio: npm run db:studio)
-5. Verify env variables (Zod validation in src/lib/env.ts)
-Reference: docs/dev.content.md sections 5, 20, 25
-```
+> **Project:** Next.js 16, TypeScript (strict), Drizzle ORM, PostgreSQL, NextAuth, shadcn/UI, Tailwind CSS v4
+>
+> **Last Updated:** 2026-03-29
 
 ---
 
-## 10. 🔄 Anti-Rate-Limiting Strategy
+## Source of Truth
 
-When using this prompt with Copilot CLI, follow these practices to avoid token exhaustion:
+This file is a quick reference for GitHub Copilot. For detailed patterns, see:
 
-### Chunked Execution
+- **[AGENTS.md](./AGENTS.md)** — Stack, PR-blocking rules, commands, core patterns (Reference + How-to)
+- **[README.md](./README.md)** — Project overview, setup, deployment
 
-1. **Never paste full documentation files into a prompt** — reference by path
-2. **Work in focused phases** — one feature/section at a time
-3. **Use section numbers** — "Implement pattern from Section 23.2" instead of quoting code
-4. **Batch related changes** — edit multiple files in one turn, not sequential turns
+### Sync Checklist
 
-### Efficient Prompting
+When updating this file, verify alignment with:
+
+- `AGENTS.md` — commands, rules, project structure
+- `.cursorrules` — overlapping content should match
+- package.json — scripts must match actual commands
+
+---
+
+## Technology Stack
+
+| Layer      | Technology                  |
+| ---------- | --------------------------- |
+| Framework  | Next.js 16 (App Router)     |
+| Language   | TypeScript (strict mode)    |
+| ORM        | Drizzle ORM                 |
+| Database   | PostgreSQL                  |
+| Auth       | NextAuth v4                 |
+| UI         | shadcn/UI + Tailwind CSS v4 |
+| Validation | Zod                         |
+| Testing    | Vitest + Playwright         |
+| Encryption | AES-256-GCM                 |
+
+### Key Characteristics
+
+- **Server Components by default** — Use `'use client'` only when needed
+- **DAL Pattern** — All database access through `lib/dal/`
+- **Server Actions** — All mutations via Server Actions
+- **React Compiler enabled** — `reactCompiler: true` in next.config.ts
+
+---
+
+## Critical Rules (PR Blocking)
+
+| Rule | Requirement |
+| --- | --- |
+| No `any` types | Use `unknown` + type guards for external data |
+| No N+1 queries | Eager load / JOIN — no per-row queries in loops |
+| No raw `process.env` | Use `lib/env.ts` with Zod validation |
+| All mutations via Server Actions | Never API routes for mutations |
+| Zero TypeScript errors | Must pass `npm run type-check` |
+| Zero lint warnings | Must pass `npm run lint:strict` |
+| All tests pass | Must pass `npm run test` |
+
+### Pre-Commit Checklist
 
 ```bash
-# ✅ Good: Reference by section
-"Add reading progress tracking using the idempotent upsert pattern from docs/dev.content.md Section 23.2"
-
-# ❌ Bad: Paste entire code blocks into prompt
-"Here's the full schema... [500 lines] ... now implement this"
-
-# ✅ Good: Focused task with persona
-"As Implementer, add a DAL method for comic search following docs/dev.content.md Section 22.4"
-
-# ❌ Bad: Open-ended request
-"Implement all features for the entire application"
+npm run validate
 ```
-
-### Session Management
-
-- **Start fresh sessions** for each phase (Foundation → Features → QA → Deploy)
-- **Commit between phases** to save state and reduce context window
-- **Use `npm run type-check` after each batch** to catch issues early
-- **Keep prompts under 500 words** — reference docs instead of quoting
 
 ---
 
-## Build, Test, and Lint Commands
+## Available Commands
 
-- **Install dependencies:** `npm install`
-- **Start dev server:** `npm run dev`
-- **Production build:** `npm run build`
-- **Start production server:** `npm run start`
-- **Lint:** `npm run lint` / `npm run lint:fix` / `npm run lint:strict`
-- **Format:** `npm run format` / `npm run format:check`
-- **Type check:** `npm run type-check`
-- **Run all tests:** `npm run test`
-- **Unit/integration tests:** `npm run test:browser`
-- **E2E tests:** `npm run test:ui`
-- **Single test file:**
-  - Vitest: `npm exec vitest run path/to/test.test.ts --config=vitest.browser.config.ts`
-  - Playwright: `npm exec playwright test path/to/spec.spec.ts`
+### Development
 
-## High-Level Architecture
+```bash
+npm run dev              # Dev server (localhost:3000)
+npm run build           # Production build
+npm run start           # Start production server
+```
 
-- **Framework:** Next.js 16 (App Router, TypeScript strict mode)
-- **Core folders:**
-  - `app/`: Routing, layouts, route groups (e.g., (auth), (root)), API routes (prefer Server Actions)
-  - `components/`: Reusable UI (shadcn/ui, Tailwind CSS)
-  - `lib/`: Shared logic, utilities, server actions, integrations (Plaid, Dwolla)
-  - `types/`, `constants/`: TypeScript types and app constants
-  - `tests/`: Co-located unit (Vitest) and E2E (Playwright) tests
-- **Key flows:**
-  - Auth via Drizzle ORM + NextAuth, bank linking via Plaid, transfers via Dwolla
-  - All mutations use Server Actions, not API routes
-  - Real-time updates and eager loading of relations
+### Validation (required before commit)
 
-## Key Conventions
+```bash
+npm run validate        # Run all checks (format, type-check, lint, test)
+npm run format          # Format code with Prettier
+npm run format:check   # Check formatting
+npm run lint:strict     # Strict ESLint (blocks PR)
+npm run type-check      # TypeScript type checking
+```
 
-- Use absolute imports with `@/` alias (see `tsconfig.json`)
-- Never use `any` or raw `process.env`; use explicit types and a typed env utility
-- Use Sentry for error monitoring, Zod for validation, React Hook Form for forms
-- Always co-locate tests with the code they test
-- Use Tailwind CSS and shadcn/ui for all UI
-- Naming: PascalCase for components, camelCase for hooks/utils, UPPER_SNAKE_CASE for constants, kebab-case for files/folders
-- **All PRs must pass lint, type-check, and test gates before merging**
-- All tests must pass with 100% success before merging
-- All mutations use Server Actions, not API routes
+### Database
 
-## Agent Standards
+```bash
+npm run db:studio      # Drizzle Studio
+npm run db:push       # Push schema changes to DB
+npm run db:migrate     # Run migrations
+npm run db:generate    # Generate migrations
+npm run db:check       # Drizzle migration/schema check
+```
 
-- See `AGENTS.md` for agent-specific coding, review, and automation standards
+### Testing
 
-See `.github/instructions/`, `README.md`, and `AGENTS.md` for more details and topic-specific standards.
+```bash
+npm run test           # All tests (Vitest + Playwright)
+npm run test:browser   # Vitest unit/integration tests
+npm run test:ui        # Playwright E2E tests
+
+# Single test execution
+npm exec vitest run tests/unit/register.test.ts --config=vitest.config.ts
+npm exec playwright test tests/e2e/sign-in.spec.ts
+```
+
+---
+
+## Server Action Pattern (Extended Example)
+
+```typescript
+"use server";
+
+import { auth } from "@/lib/auth";
+import { bankDal } from "@/lib/dal";
+import { revalidatePath } from "next/cache";
+import { z } from "zod";
+
+const DisconnectBankSchema = z.object({
+  bankId: z.string().min(1)
+});
+
+export async function disconnectBank(input: unknown) {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return { ok: false, error: "Not authenticated" };
+  }
+
+  const parsed = DisconnectBankSchema.safeParse(input);
+  if (!parsed.success) {
+    return { ok: false, error: "Invalid input" };
+  }
+
+  try {
+    await bankDal.delete(parsed.data.bankId);
+    revalidatePath("/dashboard");
+    return { ok: true };
+  } catch (error) {
+    console.error("Disconnect bank error:", error);
+    return { ok: false, error: "Failed to disconnect bank" };
+  }
+}
+```
+
+---
+
+## Project Structure
+
+```
+Banking/
+├── app/
+│   ├── (auth)/           # sign-in, sign-up
+│   ├── (root)/           # dashboard, protected routes
+│   └── api/              # API routes (minimal)
+├── components/ui/        # shadcn components
+├── lib/
+│   ├── actions/          # Server Actions (*.actions.ts)
+│   ├── dal/              # Data Access Layer (*.dal.ts)
+│   ├── auth.ts           # auth() helper
+│   ├── env.ts            # Zod env validation
+│   └── encryption.ts     # AES-256-GCM
+├── database/
+│   ├── db.ts             # DB connection
+│   └── schema.ts         # Drizzle schema
+└── tests/
+    ├── unit/             # Vitest tests
+    └── e2e/              # Playwright tests
+```
+
+---
+
+## External Documentation
+
+- [Next.js 16 Documentation](https://nextjs.org/docs)
+- [Drizzle ORM Documentation](https://orm.drizzle.team/docs/overview)
+- [NextAuth v4 Documentation](https://next-auth.js.org/)
+- [Plaid Documentation](https://plaid.com/docs/)
+- [Dwolla Documentation](https://developers.dwolla.com/)
+- [Tailwind CSS v4 Documentation](https://tailwindcss.com/docs)
+- [Zod Documentation](https://zod.dev/)
+- [Vitest Documentation](https://vitest.dev/)
+- [Playwright Documentation](https://playwright.dev/)
+
+---
+
+**End of copilot-instructions.md** — See [AGENTS.md](./AGENTS.md) for full documentation.

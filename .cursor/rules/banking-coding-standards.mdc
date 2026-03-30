@@ -1,0 +1,39 @@
+---
+description: Enforce core Banking coding standards
+alwaysApply: true
+---
+
+# Banking Coding Standards
+
+Follow these standards for all code changes:
+
+- Never use `any`; use `unknown` with narrowing or type guards.
+- Never read `process.env` directly in app code; use `lib/env.ts`.
+- Implement all data mutations through Server Actions, not API routes.
+- Avoid N+1 queries; use eager loading for related data.
+- Keep TypeScript strict-safe and prefer explicit return types for exported functions.
+
+## Examples
+
+```typescript
+// BAD
+const token: any = process.env.API_TOKEN;
+
+// GOOD
+import { env } from "@/lib/env";
+const token: string = env.API_TOKEN;
+```
+
+```typescript
+// BAD
+export async function updateUser(req: Request) {
+  // mutation logic in API route
+}
+
+// GOOD
+"use server";
+
+export async function updateUser(input: unknown) {
+  // validate input, run mutation, return { ok, error? }
+}
+```

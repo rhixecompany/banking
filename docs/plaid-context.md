@@ -85,6 +85,45 @@ const accountsResponse = await client.accountsGet({
 });
 ```
 
+## Integration in This Repo (Runnable Example)
+
+This example is **doc‑only** and uses the canonical env var names defined in `lib/env.ts`.
+
+```ts
+import { Configuration, PlaidApi, PlaidEnvironments } from "plaid";
+
+const PLAID_ENV = process.env.PLAID_ENV ?? "sandbox";
+const PLAID_BASE_URL = process.env.PLAID_BASE_URL;
+const PLAID_CLIENT_ID = process.env.PLAID_CLIENT_ID!;
+const PLAID_SECRET = process.env.PLAID_SECRET!;
+
+const configuration = new Configuration({
+  basePath: PLAID_BASE_URL
+    ? PLAID_BASE_URL
+    : PlaidEnvironments[PLAID_ENV as keyof typeof PlaidEnvironments],
+  baseOptions: {
+    headers: {
+      "PLAID-CLIENT-ID": PLAID_CLIENT_ID,
+      "PLAID-SECRET": PLAID_SECRET
+    }
+  }
+});
+
+const client = new PlaidApi(configuration);
+
+export async function createLinkToken(userId: string) {
+  const response = await client.linkTokenCreate({
+    user: { client_user_id: userId },
+    client_name: "Banking App",
+    products: ["auth", "transactions"],
+    country_codes: ["US"],
+    language: "en"
+  });
+
+  return response.data.link_token;
+}
+```
+
 ## API Reference
 
 ### Core Concepts

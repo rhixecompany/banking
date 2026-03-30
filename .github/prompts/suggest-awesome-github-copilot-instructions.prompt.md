@@ -1,6 +1,6 @@
 ---
-agent: "agent"
-description: "Suggest relevant GitHub Copilot instruction files from the awesome-copilot repository based on current repository context and chat history, avoiding duplicates with existing instructions in this repository, and identifying outdated instructions that need updates."
+agent: "Next.js Expert"
+model: "Auto"
 tools:
   [
     vscode,
@@ -10,9 +10,8 @@ tools:
     edit,
     search,
     web,
-    browser,
     "github/*",
-    "mcp_docker/*",
+    browser,
     vscode.mermaid-chat-features/renderMermaidDiagram,
     github.vscode-pull-request-github/issue_fetch,
     github.vscode-pull-request-github/labels_fetch,
@@ -23,6 +22,7 @@ tools:
     github.vscode-pull-request-github/openPullRequest,
     todo
   ]
+description: "Suggest relevant GitHub Copilot instruction files from the awesome-copilot repository based on current repository context and chat history, avoiding duplicates with existing instructions in this repository, and identifying outdated instructions that need updates."
 ---
 
 # Suggest Awesome GitHub Copilot Instructions

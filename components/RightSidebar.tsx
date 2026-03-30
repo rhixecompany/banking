@@ -1,8 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
+/**
+ * Description placeholder
+ *
+ * @param {RightSidebarProps} param0
+ * @param {RightSidebarProps} param0.user
+ * @returns {*}
+ */
 
 import type { RightSidebarProps } from "@/types";
-const RightSidebar = ({ user }: RightSidebarProps) => {
+
+const RightSidebar = ({ user }: RightSidebarProps): JSX.Element => {
   return (
     <aside className="right-sidebar">
       <section className="flex flex-col pb-8">

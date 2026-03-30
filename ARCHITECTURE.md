@@ -90,10 +90,16 @@
 START
   │
   ├─→ bash generate-env.sh
-  │   └─→ Creates .env.production with random secrets
+  │   └─→ Creates .env.production from .env.example with random secrets
   │
   ├─→ Edit .env.production
   │   └─→ Set NEXT_PUBLIC_SITE_URL, API keys, etc.
+  │
+  ├─→ Implement /api/health
+  │   └─→ Required for health checks to pass
+  │
+  ├─→ Update Dockerfile healthcheck command
+  │   └─→ Distroless-compatible (no busybox/wget)
   │
   ├─→ bash deploy.sh
   │   │
@@ -119,7 +125,7 @@ START
   │       ├─→ DB connected ✓
   │       └─→ Redis connected ✓
   │
-  └─→ READY FOR PRODUCTION ✓
+  └─→ READY FOR PRODUCTION AFTER FOLLOW-UPS ✓
 ```
 
 ## Environment Configuration Flow
@@ -156,7 +162,7 @@ START
 │  └─────────────────────────────────────────────────┘   │
 │           ↓ (docker compose up --env-file)             │
 │  ┌─────────────────────────────────────────────────┐   │
-│  │  Production (.env.production)                   │   │
+│  │  Production (.env.production from .env.example) │   │
 │  ├─────────────────────────────────────────────────┤   │
 │  │ NODE_ENV=production                            │   │
 │  │ DATABASE_URL=postgresql://prod-db:5432         │   │
@@ -184,8 +190,9 @@ START
 │                                                 │
 │  START                                          │
 │    │                                            │
-│    ├─→ wget http://localhost:3000/api/health  │
+│    ├─→ curl http://localhost:3000/api/health  │
 │    │   (endpoint health check)                 │
+│    │   (requires /api/health implemented)      │
 │    │                                            │
 │    ├─→ GET /api/health                        │
 │    │   └─→ Checks:                             │
@@ -244,7 +251,7 @@ START
 │  Layer 1: Base Image                                  │
 │  ├─ Distroless: No shell, no package manager         │
 │  ├─ Alpine variants: Minimal attack surface          │
-│  └─ Result: 99% fewer vulnerabilities                │
+│  └─ Result: 99% fewer vulnerabilities (target)       │
 │                                                        │
 │  Layer 2: Container Isolation                        │
 │  ├─ Nonroot user (UID 65532)                         │

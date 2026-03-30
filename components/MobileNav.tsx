@@ -1,5 +1,11 @@
 "use client";
 
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+import type { MobileNavProps } from "@/types";
+
 import {
   Sheet,
   SheetClose,
@@ -9,13 +15,17 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { sidebarLinks } from "@/constants";
-import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+
 import Footer from "./Footer";
 
-import type { MobileNavProps } from "@/types";
-const MobileNav = ({ user }: MobileNavProps) => {
+/**
+ * Description placeholder
+ *
+ * @param {MobileNavProps} param0
+ * @param {MobileNavProps} param0.user
+ * @returns {*}
+ */
+const MobileNav = ({ user }: MobileNavProps): JSX.Element => {
   const pathname = usePathname();
   return (
     <section className="w-full max-w-66">

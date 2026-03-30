@@ -1,6 +1,12 @@
 import { Loader2 } from "lucide-react";
 
-const MyLoader = () => {
+/**
+ * Description placeholder
+ *
+ * @returns {*}
+ */
+
+const MyLoader = (): JSX.Element => {
   return (
     <>
       <Loader2 size={20} className="animate-spin" /> &nbsp; Loading...

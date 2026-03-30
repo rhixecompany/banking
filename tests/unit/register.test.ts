@@ -1,5 +1,6 @@
-import { registerUser } from "@/lib/actions/register";
 import { describe, expect, it } from "vitest";
+
+import { registerUser } from "@/lib/actions/register";
 
 describe("registerUser", () => {
   describe("function exists", () => {
@@ -11,8 +12,9 @@ describe("registerUser", () => {
   describe("validation", () => {
     it("should return error for invalid email", async () => {
       const result = await registerUser({
-        name: "Test User",
         email: "invalid-email",
+        firstName: "Test",
+        lastName: "User",
         password: "password123",
       });
 
@@ -22,8 +24,9 @@ describe("registerUser", () => {
 
     it("should return error for short password", async () => {
       const result = await registerUser({
-        name: "Test User",
         email: "test@example.com",
+        firstName: "Test",
+        lastName: "User",
         password: "short",
       });
 
@@ -33,8 +36,9 @@ describe("registerUser", () => {
 
     it("should return error for short name", async () => {
       const result = await registerUser({
-        name: "T",
         email: "test@example.com",
+        firstName: "T",
+        lastName: "User",
         password: "password123",
       });
 

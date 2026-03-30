@@ -1,0 +1,39 @@
+---
+description: Standardize plan creation, naming, and plan quality checks
+alwaysApply: true
+---
+
+# Plan File Standards
+
+When a task is expected to change more than 3 files, create a plan before implementation.
+
+## Location and Naming
+
+- Save every plan in `.cursor/plans/`.
+- Use markdown files with `.plan.md` suffix.
+- Use this filename format: `<short-kebab-task>_<8-char-id>.plan.md`.
+
+## Required Plan Sections
+
+Every plan must include these sections:
+
+- `# <Plan Title>`
+- `## Goals`
+- `## Scope`
+- `## Target Files`
+- `## Risks`
+- `## Planned Changes`
+- `## Validation`
+- `## Rollback or Mitigation`
+
+## Plan Quality Rules
+
+- Keep plans specific, testable, and implementation-ready.
+- Apply DRY in the plan itself: avoid repeating the same step across sections.
+- Map each planned change to at least one verification step.
+- Call out assumptions and blockers explicitly before coding.
+
+## Markdown Lint Requirement
+
+- Run markdown lint for every plan file.
+- Fix markdown lint violations before starting implementation.

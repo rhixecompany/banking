@@ -19,14 +19,16 @@ This plan addresses Critical and High Priority issues to make the banking applic
 - **Issue**: Missing required validations and duplicate OAuth credentials
 - **Actions**:
   - Make `DATABASE_URL` required in production
-  - Require `AUTH_SECRET` or `NEXTAUTH_SECRET` (one must exist)
+  - Require `NEXTAUTH_SECRET`
   - Remove duplicate `GITHUB_CLIENT_ID`/`GITHUB_CLIENT_SECRET` (keep `AUTH_GITHUB_*`)
   - Remove duplicate `GOOGLE_CLIENT_ID`/`GOOGLE_CLIENT_SECRET` (keep `AUTH_GOOGLE_*`)
   - Add `PLAID_SECRET` required validation for bank features
+  - Add `PLAID_BASE_URL` optional override
   - Add `DWOLLA_SECRET` required validation for transfers
+  - Add `DWOLLA_BASE_URL` optional override
   - Add `ENCRYPTION_KEY` for token encryption
-  - Add `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` for rate limiting
-- **Status**: ✅ Complete
+  - Add `REDIS_URL` for optional rate limiting
+- **Status**: ⏳ In progress (env naming alignment pending)
 
 ---
 

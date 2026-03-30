@@ -12,39 +12,11 @@ import { defineConfig, devices } from "@playwright/test";
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  testDir: "./tests/e2e",
-  /* Run tests in files in parallel */
-  fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env["CI"],
-  /* Retry on CI only */
-  retries: process.env["CI"] ? 2 : 1,
-  /* Opt out of parallel tests on CI. */
-  workers: process.env["CI"] ? 1 : 2,
-  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: "html",
-  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
-  use: {
-    /* Base URL to use in actions like `await page.goto('')`. */
-    baseURL: "http://localhost:3000",
-    headless: true,
-
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: "on-first-retry",
-
-    /* Screenshots only on failure to save disk space */
-    screenshot: "only-on-failure",
-
-    /* Video only on failure to save disk space */
-    video: "retain-on-failure",
-
-    /* Fail fast on slow actions */
-    actionTimeout: 15000,
-
-    /* Fail fast on slow navigation */
-    navigationTimeout: 60000,
-  },
-
+  /* Run tests in files in parallel */
+  fullyParallel: true,
+  globalSetup: "./tests/e2e/global-setup.ts",
   /* Configure projects for major browsers */
   projects: [
     {
@@ -82,12 +54,41 @@ export default defineConfig({
     //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
     // },
   ],
+  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
+  reporter: "html",
+  /* Retry on CI only */
+  retries: process.env["CI"] ? 2 : 1,
+  testDir: "./tests/e2e",
+  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+  use: {
+    /* Fail fast on slow actions */
+    actionTimeout: 15000,
+    /* Base URL to use in actions like `await page.goto('')`. */
+    baseURL: "http://localhost:3000",
+
+    headless: true,
+
+    /* Fail fast on slow navigation */
+    navigationTimeout: 60000,
+
+    /* Screenshots only on failure to save disk space */
+    screenshot: "only-on-failure",
+
+    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
+    trace: "on-first-retry",
+
+    /* Video only on failure to save disk space */
+    video: "retain-on-failure",
+  },
 
   /* Run your local dev server before starting the tests */
   webServer: {
     command: "npm run dev",
-    url: "http://localhost:3000",
     reuseExistingServer: !process.env["CI"],
     timeout: 180 * 1000,
+    url: "http://localhost:3000",
   },
+
+  /* Opt out of parallel tests on CI. */
+  workers: process.env["CI"] ? 1 : 2,
 });

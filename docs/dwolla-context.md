@@ -92,6 +92,33 @@ const fundingSource = await dwolla.post(
 );
 ```
 
+## Integration in This Repo (Runnable Example)
+
+This example is **doc‑only** and uses the canonical env var names defined in `lib/env.ts`.
+
+```ts
+import { Client } from "dwolla-v2";
+
+const DWOLLA_ENV = process.env.DWOLLA_ENV ?? "sandbox";
+const DWOLLA_BASE_URL = process.env.DWOLLA_BASE_URL;
+
+const client = new Client({
+  environment: DWOLLA_ENV === "production" ? "production" : "sandbox",
+  key: process.env.DWOLLA_KEY!,
+  secret: process.env.DWOLLA_SECRET!
+});
+
+// Optional: If you need a custom base URL, wrap the client or proxy requests.
+// dwolla-v2 does not accept a base URL override directly.
+
+export async function createCustomer(
+  customer: Record<string, unknown>
+) {
+  const response = await client.post("customers", customer);
+  return response.headers.get("location");
+}
+```
+
 ### Customers
 
 Create and manage customer records:

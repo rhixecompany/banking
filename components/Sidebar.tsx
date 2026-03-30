@@ -1,13 +1,16 @@
 "use client";
 
-import { sidebarLinks } from "@/constants";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { default as Footer } from "./Footer";
 
 import type { SiderbarProps } from "@/types";
-const Sidebar = ({ user }: SiderbarProps) => {
+
+import { sidebarLinks } from "@/constants";
+
+import { default as Footer } from "./Footer";
+
+const Sidebar = ({ user }: SiderbarProps): JSX.Element => {
   const pathname = usePathname();
   return (
     <section className="sidebar">
@@ -19,7 +22,7 @@ const Sidebar = ({ user }: SiderbarProps) => {
             width={34}
             height={34}
             className="size-6 max-xl:size-14"
-            style={{ width: "auto", height: "auto" }}
+            style={{ height: "auto", width: "auto" }}
           />
           <h1 className="sidebar-logo">Horizon</h1>
         </Link>

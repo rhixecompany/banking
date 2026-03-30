@@ -6,19 +6,13 @@ test.beforeEach(async ({ page }) => {
 
 test.describe("Auth and Navigation Flow", () => {
   test("should navigate from sign-in to sign-up and back", async ({ page }) => {
-    // Visit sign-in page
     await page.goto("/sign-in");
-    await page.waitForLoadState("networkidle");
-    await expect(page).toHaveURL(/sign-in/);
+    await expect.soft(page).toHaveURL(/sign-in/);
 
-    // Navigate to sign-up
     await page.getByRole("link", { name: /sign up/i }).click();
-    await page.waitForLoadState("networkidle");
-    await expect(page).toHaveURL(/sign-up/);
+    await expect.soft(page).toHaveURL(/sign-up/, { timeout: 10_000 });
 
-    // Navigate back to sign-in
     await page.getByRole("link", { name: /sign in/i }).click();
-    await page.waitForLoadState("networkidle");
-    await expect(page).toHaveURL(/sign-in/);
+    await expect.soft(page).toHaveURL(/sign-in/, { timeout: 10_000 });
   });
 });

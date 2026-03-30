@@ -1,9 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Form } from "@/components/ui/form";
-import { register } from "@/lib/actions/register";
-import { authFormSchema } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn as nextAuthSignIn } from "next-auth/react";
 import Image from "next/image";
@@ -13,45 +9,59 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+
+import { Button } from "@/components/ui/button";
+import { Form } from "@/components/ui/form";
+import { register } from "@/lib/actions/register";
+import { getAuthFormSchema, signInSchema, signUpSchema } from "@/lib/utils";
+
 import CustomInput from "./CustomInput";
 import MyLoader from "./MyLoader";
 
-const AuthForm = ({ type }: { type: string }) => {
+type SignInFormData = z.infer<typeof signInSchema>;
+type SignUpFormData = z.infer<typeof signUpSchema>;
+
+function getDefaultValues(
+  isSignInFlag: boolean,
+): Partial<SignInFormData & SignUpFormData> {
+  if (isSignInFlag) {
+    return { email: "", password: "" };
+  }
+  return {
+    address1: "",
+    city: "",
+    dateOfBirth: "",
+    email: "",
+    firstName: "",
+    lastName: "",
+    password: "",
+    postalCode: "",
+    ssn: "",
+    state: "",
+  };
+}
+
+const AuthForm = ({ type }: { type: string }): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false);
-  const [user] = useState<null>(null); // Reserved for future OAuth flow
+  const [user] = useState<undefined>(undefined); // Reserved for future OAuth flow
   const isSignIn = type === "sign-in";
   const router = useRouter();
 
-  // Use unified schema
-  const formSchema = authFormSchema(type);
-  const form = useForm<z.infer<typeof formSchema>>({
+  const formSchema = getAuthFormSchema(type);
+  const form = useForm<SignInFormData | SignUpFormData>({
+    defaultValues: getDefaultValues(isSignIn),
     resolver: zodResolver(formSchema),
-    defaultValues: isSignIn
-      ? { email: "", password: "" }
-      : {
-          firstName: "",
-          lastName: "",
-          address1: "",
-          city: "",
-          state: "",
-          postalCode: "",
-          dateOfBirth: "",
-          ssn: "",
-          email: "",
-          password: "",
-        },
   });
 
-  // 2. Define a submit handler.
-  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+  const onSubmit = async (
+    formData: SignInFormData | SignUpFormData,
+  ): Promise<void> => {
     setIsLoading(true);
     try {
       if (!isSignIn) {
-        // Call Server Action directly
-        const result = await register(data);
+        const result = await register(formData as SignUpFormData);
         if (!result.ok) {
-          toast.error(result.error || "Registration failed");
-          setIsLoading(false);
+          toast.error(result.error ?? "Registration failed");
           return;
         }
         toast.success("You have successfully signed up. Please sign in.");
@@ -59,11 +69,11 @@ const AuthForm = ({ type }: { type: string }) => {
         router.refresh();
         return;
       }
-      // Sign in with next-auth
+      const signInData = formData as SignInFormData;
       const result = await nextAuthSignIn("credentials", {
+        email: signInData.email,
+        password: signInData.password,
         redirect: false,
-        email: data.email,
-        password: data.password,
       });
       if (result?.error) {
         toast.error(result.error);
@@ -72,12 +82,10 @@ const AuthForm = ({ type }: { type: string }) => {
         await router.push("/");
         router.refresh();
       }
-    } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message);
-      } else {
-        toast.error("An error occurred");
-      }
+    } catch (err) {
+      const errorMessage =
+        err instanceof Error ? err.message : "An error occurred";
+      toast.error(errorMessage);
     } finally {
       setIsLoading(false);
     }

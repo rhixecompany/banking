@@ -1,10 +1,20 @@
 import type { HeaderBoxProps } from "@/types";
+/**
+ * Description placeholder
+ *
+ * @param {HeaderBoxProps} param0
+ * @param {HeaderBoxProps} [param0.type="title"]
+ * @param {HeaderBoxProps} param0.title
+ * @param {HeaderBoxProps} param0.subtext
+ * @param {HeaderBoxProps} param0.user
+ * @returns {*}
+ */
 const HeaderBox = ({
-  type = "title",
-  title,
   subtext,
+  title,
+  type = "title",
   user,
-}: HeaderBoxProps) => {
+}: HeaderBoxProps): JSX.Element => {
   return (
     <div className="header-box">
       <h1 className="header-box-title">

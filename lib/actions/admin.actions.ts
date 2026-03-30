@@ -1,9 +1,22 @@
 "use server";
-import { db } from "@/database/db";
-import { users } from "@/database/schema";
 import { eq } from "drizzle-orm";
 
-export async function toggleAdmin(userId: string, makeAdmin: boolean) {
+import { db } from "@/database/db";
+import { users } from "@/database/schema";
+
+/**
+ * Description placeholder
+ *
+ * @export
+ * @async
+ * @param {string} userId
+ * @param {boolean} makeAdmin
+ * @returns {unknown}
+ */
+export async function toggleAdmin(
+  userId: string,
+  makeAdmin: boolean,
+): Promise<{ ok: boolean; error?: string }> {
   try {
     await db
       .update(users)
@@ -11,15 +24,27 @@ export async function toggleAdmin(userId: string, makeAdmin: boolean) {
       .where(eq(users.id, userId));
     return { ok: true };
   } catch {
-    return { ok: false, error: "Failed to update admin status" };
+    return { error: "Failed to update admin status", ok: false };
   }
 }
 
-export async function setActive(userId: string, isActive: boolean) {
+/**
+ * Description placeholder
+ *
+ * @export
+ * @async
+ * @param {string} userId
+ * @param {boolean} isActive
+ * @returns {unknown}
+ */
+export async function setActive(
+  userId: string,
+  isActive: boolean,
+): Promise<{ ok: boolean; error?: string }> {
   try {
     await db.update(users).set({ isActive }).where(eq(users.id, userId));
     return { ok: true };
   } catch {
-    return { ok: false, error: "Failed to update active status" };
+    return { error: "Failed to update active status", ok: false };
   }
 }

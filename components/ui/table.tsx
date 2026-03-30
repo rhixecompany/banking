@@ -1,6 +1,12 @@
-import { cn } from "@/lib/utils";
 import * as React from "react";
 
+import { cn } from "@/lib/utils";
+
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const Table = React.forwardRef<
   HTMLTableElement,
   React.HTMLAttributes<HTMLTableElement>
@@ -15,6 +21,11 @@ const Table = React.forwardRef<
 ));
 Table.displayName = "Table";
 
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const TableHeader = React.forwardRef<
   HTMLTableSectionElement,
   React.HTMLAttributes<HTMLTableSectionElement>
@@ -23,6 +34,11 @@ const TableHeader = React.forwardRef<
 ));
 TableHeader.displayName = "TableHeader";
 
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const TableBody = React.forwardRef<
   HTMLTableSectionElement,
   React.HTMLAttributes<HTMLTableSectionElement>
@@ -35,6 +51,11 @@ const TableBody = React.forwardRef<
 ));
 TableBody.displayName = "TableBody";
 
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const TableFooter = React.forwardRef<
   HTMLTableSectionElement,
   React.HTMLAttributes<HTMLTableSectionElement>
@@ -42,7 +63,7 @@ const TableFooter = React.forwardRef<
   <tfoot
     ref={ref}
     className={cn(
-      "border-t bg-muted/50 font-medium last:[&>tr]:border-b-0",
+      "border-t bg-muted/50 font-medium [&>tr]:last:border-b-0",
       className,
     )}
     {...props}
@@ -50,6 +71,11 @@ const TableFooter = React.forwardRef<
 ));
 TableFooter.displayName = "TableFooter";
 
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const TableRow = React.forwardRef<
   HTMLTableRowElement,
   React.HTMLAttributes<HTMLTableRowElement>
@@ -65,6 +91,11 @@ const TableRow = React.forwardRef<
 ));
 TableRow.displayName = "TableRow";
 
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const TableHead = React.forwardRef<
   HTMLTableCellElement,
   React.ThHTMLAttributes<HTMLTableCellElement>
@@ -72,7 +103,7 @@ const TableHead = React.forwardRef<
   <th
     ref={ref}
     className={cn(
-      "h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0",
+      "h-12 px-4 text-start align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pe-0",
       className,
     )}
     {...props}
@@ -80,18 +111,28 @@ const TableHead = React.forwardRef<
 ));
 TableHead.displayName = "TableHead";
 
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const TableCell = React.forwardRef<
   HTMLTableCellElement,
   React.TdHTMLAttributes<HTMLTableCellElement>
 >(({ className, ...props }, ref) => (
   <td
     ref={ref}
-    className={cn("p-4 align-middle [&:has([role=checkbox])]:pr-0", className)}
+    className={cn("p-4 align-middle [&:has([role=checkbox])]:pe-0", className)}
     {...props}
   />
 ));
 TableCell.displayName = "TableCell";
 
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const TableCaption = React.forwardRef<
   HTMLTableCaptionElement,
   React.HTMLAttributes<HTMLTableCaptionElement>

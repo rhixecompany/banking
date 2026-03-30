@@ -7,17 +7,49 @@ import {
 
 import { env } from "@/lib/env";
 
+/**
+ * Description placeholder
+ *
+ * @type {"aes-256-gcm"}
+ */
 const ALGORITHM = "aes-256-gcm";
+/**
+ * Description placeholder
+ *
+ * @type {12}
+ */
 const IV_LENGTH = 12;
+/**
+ * Description placeholder
+ *
+ * @type {16}
+ */
 const AUTH_TAG_LENGTH = 16;
+/**
+ * Description placeholder
+ *
+ * @type {16}
+ */
 const SALT_LENGTH = 16;
 
+/**
+ * Description placeholder
+ *
+ * @returns {Buffer}
+ */
 function getEncryptionKey(): Buffer {
   const key = env.ENCRYPTION_KEY;
   const salt = Buffer.alloc(SALT_LENGTH, "banking-salt");
   return scryptSync(key, salt, 32);
 }
 
+/**
+ * Description placeholder
+ *
+ * @export
+ * @param {string} text
+ * @returns {string}
+ */
 export function encrypt(text: string): string {
   const key = getEncryptionKey();
   const iv = randomBytes(IV_LENGTH);
@@ -34,6 +66,13 @@ export function encrypt(text: string): string {
   return `${iv.toString("base64")}:${authTag.toString("base64")}:${encrypted}`;
 }
 
+/**
+ * Description placeholder
+ *
+ * @export
+ * @param {string} encryptedText
+ * @returns {string}
+ */
 export function decrypt(encryptedText: string): string {
   const key = getEncryptionKey();
 
@@ -58,6 +97,12 @@ export function decrypt(encryptedText: string): string {
   return decrypted;
 }
 
+/**
+ * Description placeholder
+ *
+ * @export
+ * @returns {string}
+ */
 export function generateEncryptionKey(): string {
   return randomBytes(32).toString("hex");
 }

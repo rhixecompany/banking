@@ -61,15 +61,16 @@ HOSTNAME=0.0.0.0
 # Plaid Integration (optional - set if using Plaid)
 PLAID_CLIENT_ID=
 PLAID_SECRET=
-PLAID_ENV=
+PLAID_ENV=sandbox
+PLAID_BASE_URL=https://sandbox.plaid.com
 PLAID_PRODUCTS=
 PLAID_COUNTRY_CODES=
 
 # Dwolla Integration (optional - set if using Dwolla)
 DWOLLA_KEY=
 DWOLLA_SECRET=
-DWOLLA_BASE_URL=
-DWOLLA_ENV=
+DWOLLA_ENV=sandbox
+DWOLLA_BASE_URL=https://api-sandbox.dwolla.com
 
 # Email Configuration (optional)
 # SMTP_HOST=

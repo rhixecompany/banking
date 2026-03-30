@@ -1,0 +1,22 @@
+---
+description: Require validated env access through lib/env.ts
+alwaysApply: true
+---
+
+# Environment Variable Access
+
+- Do not use `process.env` directly in app code.
+- Import environment values from `lib/env.ts`.
+- Keep env validation centralized and typed.
+
+## Example
+
+```typescript
+// BAD
+const databaseUrl = process.env.DATABASE_URL;
+
+// GOOD
+import { env } from "@/lib/env";
+
+const databaseUrl: string = env.DATABASE_URL;
+```

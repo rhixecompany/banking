@@ -68,7 +68,7 @@ if [ ! -f ".env.production" ]; then
             fi
             ;;
         2)
-            cp .env-example .env.production
+            cp .env.example .env.production
             log_warning "Replace placeholders in .env.production"
             exit 1
             ;;

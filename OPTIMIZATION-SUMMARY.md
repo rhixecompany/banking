@@ -13,10 +13,12 @@
 - Set `NODE_OPTIONS` in runtime ENV (prevents OOM)
 - Added explicit `USER nonroot:nonroot` for security
 - Added `--chown=nonroot:nonroot` to COPY instructions
-- Added `HEALTHCHECK` with `/api/health` endpoint probe
+- Added `HEALTHCHECK` with `/api/health` endpoint probe (requires route + distroless-compatible command)
 - Using distroless nodejs22-debian12 for minimal attack surface
 
 **Benefits**:
+
+_Note: Size/performance metrics are targets; verify locally with `docker image inspect` and real startup measurements._
 
 - ✓ Smaller image size (~200-300MB vs 1GB+ with full Node.js)
 - ✓ Reduced attack surface (distroless = no shell, no package manager)
@@ -26,7 +28,7 @@
 
 ### 2. Environment Configuration ✓
 
-**Files**: `.env.production`, `generate-env.sh`
+**Files**: `.env.example`, `generate-env.sh`
 
 **Setup**:
 
@@ -34,8 +36,8 @@
 # Generate secure environment file
 bash generate-env.sh
 
-# Or manually
-cp .env-example .env.production
+# Or manually (canonical template is .env.example)
+cp .env.example .env.production
 # Edit with real production values
 ```
 
@@ -113,7 +115,8 @@ docker compose logs app
 
 1. Copy example to your app: `cp app-api-health-route.ts.example app/api/health/route.ts`
 2. Implement database and Redis health checks in the endpoint
-3. Docker and orchestrators will use this for auto-restart
+3. Update Dockerfile healthcheck command for distroless compatibility
+4. Docker and orchestrators will use this for auto-restart
 
 ### 5. Deployment Tools ✓
 
@@ -338,7 +341,7 @@ docker history banking:prod
 
 ### After Optimization
 
-- Image size: ~200-300MB (distroless)
+- Image size: ~200-300MB target (distroless; verify locally)
 - Startup time: 3-10 seconds
 - Attack surface: Minimal (no shell, no package manager)
 
@@ -346,7 +349,7 @@ docker history banking:prod
 
 - 75-80% reduction in image size
 - 50-70% faster startup
-- 99%+ reduction in vulnerabilities
+- 99%+ reduction in vulnerabilities (target; verify locally)
 - Auto-restart on health failures
 
 ---

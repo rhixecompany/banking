@@ -1,5 +1,7 @@
 # 📋 Custom Instructions
 
+> **Note:** This catalog is sourced from Awesome Copilot and is not specific to the Banking app. Use it as an external reference if you need additional instruction sets.
+
 Team and project-specific instructions to enhance GitHub Copilot's behavior for specific technologies and coding practices.
 
 ### How to Contribute

@@ -1,0 +1,36 @@
+---
+description: Disallow any and enforce safe typing
+alwaysApply: true
+---
+
+# TypeScript Safe Typing
+
+- Never use `any`.
+- Use `unknown` for untrusted data and narrow with type guards.
+- Prefer explicit return types for exported functions.
+
+## Example
+
+```typescript
+// BAD
+function parse(input: any) {
+  return input.value;
+}
+
+// GOOD
+type WithValue = { value: string };
+
+function hasValue(input: unknown): input is WithValue {
+  return (
+    typeof input === "object" &&
+    input !== null &&
+    "value" in input &&
+    typeof (input as WithValue).value === "string"
+  );
+}
+
+export function parse(input: unknown): string {
+  if (!hasValue(input)) return "";
+  return input.value;
+}
+```

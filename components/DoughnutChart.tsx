@@ -1,19 +1,28 @@
 "use client";
-/* eslint-disable @typescript-eslint/no-unused-vars */
+
+import { ArcElement, Chart as ChartJS, Legend, Tooltip } from "chart.js";
+import { JSX } from "react";
+import { Doughnut } from "react-chartjs-2";
 
 import { DoughnutChartProps } from "@/types";
-import { ArcElement, Chart as ChartJS, Legend, Tooltip } from "chart.js";
-import { Doughnut } from "react-chartjs-2";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const DoughnutChart = (_props: DoughnutChartProps) => {
+/**
+ * Description placeholder
+ *
+ * @param {DoughnutChartProps} _props
+ * @returns {*}
+ */
+
+const DoughnutChart = (_props: DoughnutChartProps): JSX.Element => {
+  void _props;
   const data = {
     datasets: [
       {
-        label: "Banks",
-        data: [1250, 2500, 3750],
         backgroundColor: ["#0747b6", "#2265d8", "#2f91fa"],
+        data: [1250, 2500, 3750],
+        label: "Banks",
       },
     ],
     labels: ["Bank 1", "Bank 2", "Bank 3"],

@@ -1,0 +1,300 @@
+import { hash } from "bcryptjs";
+import "dotenv/config";
+
+import { db } from "@/database/db";
+import {
+  account,
+  authenticator,
+  banks,
+  errors,
+  recipients,
+  session,
+  transactions,
+  user_profiles,
+  users,
+  verificationToken,
+} from "@/database/schema";
+import { encrypt } from "@/lib/encryption";
+
+/** Dev-only login for all seeded users (matches E2E tests). */
+const SEED_PASSWORD_PLAIN = "password123";
+
+export const SEED_IDS = {
+  banks: {
+    checking: "20000000-0000-4000-8000-000000000001",
+    savings: "20000000-0000-4000-8000-000000000002",
+  },
+  errors: {
+    anonymous: "50000000-0000-4000-8000-000000000002",
+    withUser: "50000000-0000-4000-8000-000000000001",
+  },
+  profiles: {
+    admin: "10000000-0000-4000-8000-000000000001",
+    moderator: "10000000-0000-4000-8000-000000000002",
+    user: "10000000-0000-4000-8000-000000000003",
+  },
+  recipients: {
+    one: "40000000-0000-4000-8000-000000000001",
+  },
+  transactions: {
+    one: "30000000-0000-4000-8000-000000000001",
+    two: "30000000-0000-4000-8000-000000000002",
+  },
+  users: {
+    admin: "00000000-0000-4000-8000-000000000001",
+    moderator: "00000000-0000-4000-8000-000000000002",
+    user: "00000000-0000-4000-8000-000000000003",
+  },
+} as const;
+
+/**
+ * Hash a password the same way as registration and auth-options (bcrypt cost 12).
+ */
+export function hashSeedPassword(plain: string): Promise<string> {
+  return hash(plain, 12);
+}
+
+function buildAccountRow(userId: string): typeof account.$inferInsert {
+  return {
+    provider: "github",
+    providerAccountId: "seed-github-1001",
+    type: "oauth",
+    userId,
+  };
+}
+
+function buildSessionRow(userId: string): typeof session.$inferInsert {
+  const expires = new Date();
+  expires.setDate(expires.getDate() + 7);
+  return {
+    expires,
+    sessionToken: "seed-session-token-primary",
+    userId,
+  };
+}
+
+function buildVerificationTokenRow(): typeof verificationToken.$inferInsert {
+  const expires = new Date();
+  expires.setDate(expires.getDate() + 1);
+  return {
+    expires,
+    identifier: "seed-verify@example.com",
+    token: "seed-verification-token-abc",
+  };
+}
+
+function buildAuthenticatorRow(
+  userId: string,
+): typeof authenticator.$inferInsert {
+  return {
+    counter: 0,
+    credentialBackedUp: true,
+    credentialDeviceType: "singleDevice",
+    credentialID: "seed-credential-id-unique-001",
+    credentialPublicKey: "c2VlZC1wdWJsaWMta2V5LXBsYWNlaG9sZGVy",
+    providerAccountId: "seed-webauthn-provider",
+    transports: "internal",
+    userId,
+  };
+}
+
+function buildUserProfileRow(
+  id: string,
+  userId: string,
+  overrides: Partial<typeof user_profiles.$inferInsert>,
+): typeof user_profiles.$inferInsert {
+  return {
+    address: "123 Seed Street",
+    city: "Seattle",
+    dateOfBirth: "1990-01-15",
+    id,
+    phone: "5550100",
+    postalCode: "98101",
+    state: "WA",
+    userId,
+    ...overrides,
+  };
+}
+
+function buildBankRow(
+  id: string,
+  userId: string,
+  sharableId: string,
+  institutionName: string,
+): typeof banks.$inferInsert {
+  return {
+    accessToken: encrypt(`seed-plain-access-${sharableId}`),
+    accountId: `seed-account-${sharableId}`,
+    accountSubtype: "checking",
+    accountType: "depository",
+    id,
+    institutionId: `ins_${sharableId}`,
+    institutionName,
+    sharableId,
+    userId,
+  };
+}
+
+function buildTransactionRow(
+  id: string,
+  userId: string,
+  senderBankId: string,
+  receiverBankId: string,
+  plaidSuffix: string,
+): typeof transactions.$inferInsert {
+  return {
+    amount: "150.00",
+    category: "transfer",
+    channel: "online",
+    currency: "USD",
+    email: "seed-tx@example.com",
+    id,
+    name: "Seed transfer",
+    plaidTransactionId: `seed-plaid-${plaidSuffix}`,
+    receiverBankId,
+    senderBankId,
+    status: "complete",
+    type: "debit",
+    userId,
+  };
+}
+
+function buildRecipientRow(
+  id: string,
+  userId: string,
+  bankAccountId: string,
+): typeof recipients.$inferInsert {
+  return {
+    bankAccountId,
+    email: "recipient.seed@example.com",
+    id,
+    name: "Seed Recipient",
+    userId,
+  };
+}
+
+function buildErrorRow(
+  id: string,
+  userId: string | undefined,
+): typeof errors.$inferInsert {
+  return {
+    id,
+    message: "Seed error log entry",
+    path: "/seed/demo",
+    severity: "error",
+    stack: "Error: seed stack trace\n  at seed()",
+    userId,
+  };
+}
+
+/**
+ * Insert deterministic rows for every table in dependency order.
+ */
+export async function seedAll(): Promise<void> {
+  const passwordHash = await hashSeedPassword(SEED_PASSWORD_PLAIN);
+
+  await db.insert(users).values([
+    {
+      email: "seed-admin@example.com",
+      id: SEED_IDS.users.admin,
+      isActive: true,
+      isAdmin: true,
+      name: "Seed Admin",
+      password: passwordHash,
+      role: "admin",
+    },
+    {
+      email: "seed-moderator@example.com",
+      id: SEED_IDS.users.moderator,
+      isActive: true,
+      isAdmin: false,
+      name: "Seed Moderator",
+      password: passwordHash,
+      role: "moderator",
+    },
+    {
+      email: "seed-user@example.com",
+      id: SEED_IDS.users.user,
+      isActive: true,
+      isAdmin: false,
+      name: "Seed User",
+      password: passwordHash,
+      role: "user",
+    },
+  ]);
+
+  await db.insert(account).values(buildAccountRow(SEED_IDS.users.admin));
+
+  await db.insert(session).values(buildSessionRow(SEED_IDS.users.admin));
+
+  await db.insert(verificationToken).values(buildVerificationTokenRow());
+
+  await db
+    .insert(authenticator)
+    .values(buildAuthenticatorRow(SEED_IDS.users.admin));
+
+  await db.insert(user_profiles).values([
+    buildUserProfileRow(SEED_IDS.profiles.admin, SEED_IDS.users.admin, {
+      city: "Seattle",
+    }),
+    buildUserProfileRow(SEED_IDS.profiles.moderator, SEED_IDS.users.moderator, {
+      city: "Portland",
+    }),
+    buildUserProfileRow(SEED_IDS.profiles.user, SEED_IDS.users.user, {
+      city: "Austin",
+    }),
+  ]);
+
+  await db
+    .insert(banks)
+    .values([
+      buildBankRow(
+        SEED_IDS.banks.checking,
+        SEED_IDS.users.user,
+        "seed-share-checking-001",
+        "Seed Checking Bank",
+      ),
+      buildBankRow(
+        SEED_IDS.banks.savings,
+        SEED_IDS.users.user,
+        "seed-share-savings-002",
+        "Seed Savings Bank",
+      ),
+    ]);
+
+  await db
+    .insert(transactions)
+    .values([
+      buildTransactionRow(
+        SEED_IDS.transactions.one,
+        SEED_IDS.users.user,
+        SEED_IDS.banks.checking,
+        SEED_IDS.banks.savings,
+        "tx-001",
+      ),
+      buildTransactionRow(
+        SEED_IDS.transactions.two,
+        SEED_IDS.users.user,
+        SEED_IDS.banks.savings,
+        SEED_IDS.banks.checking,
+        "tx-002",
+      ),
+    ]);
+
+  await db
+    .insert(recipients)
+    .values([
+      buildRecipientRow(
+        SEED_IDS.recipients.one,
+        SEED_IDS.users.user,
+        SEED_IDS.banks.checking,
+      ),
+    ]);
+
+  await db
+    .insert(errors)
+    .values([
+      buildErrorRow(SEED_IDS.errors.withUser, SEED_IDS.users.user),
+      buildErrorRow(SEED_IDS.errors.anonymous, undefined),
+    ]);
+}

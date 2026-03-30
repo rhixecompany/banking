@@ -1,28 +1,19 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { db } from "@/database/db";
 import { eq } from "drizzle-orm";
 
-export async function findById<T extends { id: unknown }>(
-  table: T,
-  id: number,
-) {
-  return db
-    .select()
-    .from(table as any)
-    .where(eq((table as any).id, id));
+import { db } from "@/database/db";
+
+export function findById(table: any, id: string): Promise<unknown> {
+  return db.select().from(table).where(eq(table.id, id));
 }
 
-export async function findAll<T>(table: T, limitVal = 100, offsetVal = 0) {
-  return db
-    .select()
-    .from(table as any)
-    .limit(limitVal)
-    .offset(offsetVal);
+export function findAll(
+  table: any,
+  limitVal = 100,
+  offsetVal = 0,
+): Promise<unknown> {
+  return db.select().from(table).limit(limitVal).offset(offsetVal);
 }
 
-export async function deleteById<T extends { id: unknown }>(
-  table: T,
-  id: number,
-) {
-  return db.delete(table as any).where(eq((table as any).id, id));
+export function deleteById(table: any, id: string): Promise<unknown> {
+  return db.delete(table).where(eq(table.id, id));
 }

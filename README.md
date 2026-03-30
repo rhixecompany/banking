@@ -1577,6 +1577,7 @@ await sendWelcomeEmail("user@example.com", "John");
 
 | Document | Description |
 | --- | --- |
+| [Deploy to Hostinger](docs/deploy-to-hostinger.md) | Self-hosted VPS deployment with Neon database |
 | [Deploy to Railway](docs/deploy-to-railway.md) | Complete guide for Railway deployment with GitHub Actions |
 | [Deploy to Vercel](docs/deploy-to-vercel.md) | Vercel deployment guide |
 | [Deploy to Vercel CLI](docs/deploy-to-vercel-cli.md) | Manual Vercel CLI deployment |

@@ -16,9 +16,9 @@
    # Verify app runs with hot-reload
    ```
 
-3. **Review secrets in .env-example**
+3. **Review secrets in .env.example**
    - Never commit real secrets to git
-   - Always use .env.production for production
+   - Generate .env.production from .env.example for production
 
 ## Phase 1: Local Development (Your Current Setup)
 
@@ -62,7 +62,7 @@ docker compose logs -f app
 1. **Create staging environment file**
 
    ```bash
-   cp .env-example .env.staging
+   cp .env.example .env.staging
    # Edit with staging values (same structure as production)
    ```
 
@@ -118,6 +118,7 @@ docker compose exec db psql -U postgres -d banking -c "\dt"
 - [ ] Team trained on deployment procedures
 - [ ] Rollback plan documented
 - [ ] Health check endpoint implemented (/api/health)
+- [ ] Dockerfile healthcheck command updated for distroless compatibility
 
 ### Deployment Steps
 

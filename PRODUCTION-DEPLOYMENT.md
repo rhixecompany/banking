@@ -8,10 +8,10 @@ This guide covers deploying the banking app with optimized Docker configuration 
 
 ### 1. Environment Configuration
 
-Create `.env.production` with real values:
+Create `.env.production` with real values (canonical template is `.env.example`):
 
 ```bash
-cp .env-example .env.production
+cp .env.example .env.production
 # Edit .env.production with production values
 ```
 
@@ -76,6 +76,11 @@ docker compose ps
 ```
 
 ### 6. Test Health Checks
+
+> ⚠️ Required follow-ups before this passes:
+>
+> - Implement `/api/health` (see `app-api-health-route.ts.example`).
+> - Update Dockerfile healthcheck command for distroless compatibility.
 
 ```bash
 # View health check status

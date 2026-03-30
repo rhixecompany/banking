@@ -1,27 +1,16 @@
 /**
  * @file .prettierrc.ts
- * @description Prettier configuration for ComicWise
- * @author ComicWise Team
- * @date 2026-01-30
+ * @description Prettier configuration for Banking
+ * @author Banking Team
+ * @date 2026-03-29
  */
 
 import type { Options } from "prettier";
 
-/**
- * Description placeholder
- *
- * @type {Options}
- */
 const config: Options = {
-  printWidth: 80,
-  tabWidth: 2,
-  useTabs: false,
-  semi: true,
-  singleQuote: false,
-  trailingComma: "all",
-  bracketSpacing: true,
-  bracketSameLine: false,
   arrowParens: "always",
+  bracketSameLine: false,
+  bracketSpacing: true,
   endOfLine: "lf",
   jsxSingleQuote: false,
   // ═══════════════════════════════════════════════════
@@ -31,11 +20,11 @@ const config: Options = {
     {
       files: "*.md",
       options: {
-        printWidth: 70,
-        useTabs: false,
-        trailingComma: "none",
         arrowParens: "avoid",
+        printWidth: 70,
         proseWrap: "never",
+        trailingComma: "none",
+        useTabs: false,
       },
     },
     {
@@ -73,12 +62,18 @@ const config: Options = {
     "prettier-plugin-packagejson",
     "prettier-plugin-sort-json",
   ],
+  printWidth: 80,
+  semi: true,
+  singleQuote: false,
+  tabWidth: 2,
+  tailwindAttributes: ["class", "className"],
+  tailwindConfig: "",
 
+  tailwindFunctions: ["clsx", "cn", "cva", "twMerge", "twJoin", "tw"],
   // Prettier Plugin: Tailwind CSS
   tailwindStylesheet: "./app/globals.css",
-  tailwindConfig: "",
-  tailwindAttributes: ["class", "className"],
-  tailwindFunctions: ["clsx", "cn", "cva", "twMerge", "twJoin", "tw"],
+  trailingComma: "all",
+  useTabs: false,
 };
 
 export default config;

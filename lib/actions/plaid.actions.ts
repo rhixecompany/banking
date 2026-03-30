@@ -1,0 +1,397 @@
+"use server";
+
+import { revalidatePath } from "next/cache";
+import { z } from "zod";
+
+import type { Bank } from "@/types/bank";
+import type { PlaidBalance } from "@/types/plaid";
+
+import { bankDal } from "@/lib/dal";
+import { plaidClient } from "@/lib/plaid";
+
+const CreateLinkTokenSchema = z.object({
+  userId: z.string().trim().min(1),
+});
+
+const ExchangePublicTokenSchema = z.object({
+  publicToken: z.string().trim().min(1),
+  userId: z.string().trim().min(1),
+});
+
+const GetAccountsSchema = z.object({
+  bankId: z.string().trim().min(1),
+});
+
+const GetTransactionsSchema = z.object({
+  bankId: z.string().trim().min(1),
+  count: z.number().min(1).max(500).optional(),
+  endDate: z.string().trim().min(1),
+  offset: z.number().min(0).optional(),
+  startDate: z.string().trim().min(1),
+});
+
+const GetBalanceSchema = z.object({
+  bankId: z.string().trim().min(1),
+});
+
+const RefreshAccountsSchema = z.object({
+  bankId: z.string().trim().min(1),
+});
+
+const GetInstitutionSchema = z.object({
+  institutionId: z.string().trim().min(1),
+});
+
+export async function createLinkToken(
+  input: unknown,
+): Promise<{ ok: boolean; linkToken?: string; error?: string }> {
+  const parsed = CreateLinkTokenSchema.safeParse(input);
+  if (!parsed.success) {
+    return { error: "Invalid input", ok: false };
+  }
+
+  const { userId } = parsed.data;
+
+  const request = {
+    client_name: "Banking App",
+    country_codes: ["US"] as unknown as Parameters<
+      typeof plaidClient.linkTokenCreate
+    >[0]["country_codes"],
+    language: "en",
+    products: ["auth", "transactions"] as unknown as Parameters<
+      typeof plaidClient.linkTokenCreate
+    >[0]["products"],
+    user: { client_user_id: userId },
+  };
+
+  try {
+    const response = await plaidClient.linkTokenCreate(request);
+    return {
+      linkToken: response.data.link_token,
+      ok: true,
+    };
+  } catch (error) {
+    console.error("Plaid createLinkToken error:", error);
+    return { error: "Failed to create link token", ok: false };
+  }
+}
+
+export async function exchangePublicToken(
+  input: unknown,
+): Promise<{ ok: boolean; bank?: Bank; error?: string }> {
+  const parsed = ExchangePublicTokenSchema.safeParse(input);
+  if (!parsed.success) {
+    return { error: "Invalid input", ok: false };
+  }
+
+  const { publicToken, userId } = parsed.data;
+
+  try {
+    const exchangeResponse = await plaidClient.itemPublicTokenExchange({
+      public_token: publicToken,
+    });
+
+    const accessToken = exchangeResponse.data.access_token;
+    const itemId = exchangeResponse.data.item_id;
+
+    const accountResponse = await plaidClient.accountsGet({
+      access_token: accessToken,
+    });
+
+    const account = accountResponse.data.accounts[0];
+    const institutionId = accountResponse.data.item.institution_id;
+
+    let institutionName = "Unknown Bank";
+    if (institutionId) {
+      try {
+        const institutionResponse = await plaidClient.institutionsGetById({
+          country_codes: ["US"] as unknown as Parameters<
+            typeof plaidClient.institutionsGetById
+          >[0]["country_codes"],
+          institution_id: institutionId,
+        });
+        institutionName =
+          institutionResponse.data.institution.name || "Unknown Bank";
+      } catch {
+        console.warn("Could not fetch institution name");
+      }
+    }
+
+    const sharableId = `bank_${crypto.randomUUID().slice(0, 16)}`;
+
+    const bank = await bankDal.createBank({
+      accessToken,
+      accountId: account?.account_id,
+      accountSubtype: account?.subtype ?? undefined,
+      accountType: account?.type ?? undefined,
+      institutionId: institutionId ?? undefined,
+      institutionName,
+      sharableId,
+      userId,
+    });
+
+    revalidatePath("/my-banks");
+    revalidatePath("/dashboard");
+
+    return { bank, ok: true };
+  } catch (error) {
+    console.error("Plaid exchangePublicToken error:", error);
+    return { error: "Failed to exchange public token", ok: false };
+  }
+}
+
+export async function getAccounts(input: unknown): Promise<{
+  ok: boolean;
+  accounts?: unknown[];
+  error?: string;
+}> {
+  const parsed = GetAccountsSchema.safeParse(input);
+  if (!parsed.success) {
+    return { error: "Invalid input", ok: false };
+  }
+
+  const { bankId } = parsed.data;
+
+  try {
+    const bank = await bankDal.findById(bankId);
+    if (!bank) {
+      return { error: "Bank not found", ok: false };
+    }
+
+    const response = await plaidClient.accountsGet({
+      access_token: bank.accessToken,
+    });
+
+    return { accounts: response.data.accounts, ok: true };
+  } catch (error) {
+    console.error("Plaid getAccounts error:", error);
+    return { error: "Failed to get accounts", ok: false };
+  }
+}
+
+export async function getTransactions(input: unknown): Promise<{
+  ok: boolean;
+  transactions?: unknown[];
+  totalTransactions?: number;
+  error?: string;
+}> {
+  const parsed = GetTransactionsSchema.safeParse(input);
+  if (!parsed.success) {
+    return { error: "Invalid input", ok: false };
+  }
+
+  const { bankId, count = 100, endDate, offset = 0, startDate } = parsed.data;
+
+  try {
+    const bank = await bankDal.findById(bankId);
+    if (!bank) {
+      return { error: "Bank not found", ok: false };
+    }
+
+    const request = {
+      access_token: bank.accessToken,
+      end_date: endDate,
+      options: {
+        count,
+        offset,
+      },
+      start_date: startDate,
+    };
+
+    const response = await plaidClient.transactionsGet(request);
+
+    return {
+      ok: true,
+      totalTransactions: response.data.total_transactions,
+      transactions: response.data.transactions,
+    };
+  } catch (error) {
+    console.error("Plaid getTransactions error:", error);
+    return { error: "Failed to get transactions", ok: false };
+  }
+}
+
+export async function getBalance(input: unknown): Promise<{
+  ok: boolean;
+  balances?: PlaidBalance[];
+  error?: string;
+}> {
+  const parsed = GetBalanceSchema.safeParse(input);
+  if (!parsed.success) {
+    return { error: "Invalid input", ok: false };
+  }
+
+  const { bankId } = parsed.data;
+
+  try {
+    const bank = await bankDal.findById(bankId);
+    if (!bank) {
+      return { error: "Bank not found", ok: false };
+    }
+
+    const response = await plaidClient.accountsBalanceGet({
+      access_token: bank.accessToken,
+    });
+
+    const balances: PlaidBalance[] = response.data.accounts.map((account) => ({
+      accountId: account.account_id,
+      balances: {
+        available: account.balances.available,
+        current: account.balances.current,
+        isoCurrencyCode: account.balances.iso_currency_code ?? null,
+        limit: account.balances.limit,
+      },
+    }));
+
+    return { balances, ok: true };
+  } catch (error) {
+    console.error("Plaid getBalance error:", error);
+    return { error: "Failed to get balance", ok: false };
+  }
+}
+
+export async function getAllBalances(input: unknown): Promise<{
+  ok: boolean;
+  balances?: Record<string, PlaidBalance[]>;
+  error?: string;
+}> {
+  const session = await import("@/lib/auth").then((m) => m.auth());
+  if (!session?.user?.id) {
+    return { error: "Not authenticated", ok: false };
+  }
+
+  try {
+    const banks = await bankDal.findByUserId(session.user.id);
+    const balances: Record<string, PlaidBalance[]> = {};
+
+    for (const bank of banks) {
+      try {
+        const response = await plaidClient.accountsBalanceGet({
+          access_token: bank.accessToken,
+        });
+
+        balances[bank.id] = response.data.accounts.map((account) => ({
+          accountId: account.account_id,
+          balances: {
+            available: account.balances.available,
+            current: account.balances.current,
+            isoCurrencyCode: account.balances.iso_currency_code ?? null,
+            limit: account.balances.limit,
+          },
+        }));
+      } catch (error) {
+        console.error(`Failed to get balance for bank ${bank.id}:`, error);
+        balances[bank.id] = [];
+      }
+    }
+
+    return { balances, ok: true };
+  } catch (error) {
+    console.error("Plaid getAllBalances error:", error);
+    return { error: "Failed to get balances", ok: false };
+  }
+}
+
+export async function getInstitution(input: unknown): Promise<{
+  ok: boolean;
+  institution?: unknown;
+  error?: string;
+}> {
+  const parsed = GetInstitutionSchema.safeParse(input);
+  if (!parsed.success) {
+    return { error: "Invalid input", ok: false };
+  }
+
+  const { institutionId } = parsed.data;
+
+  try {
+    const response = await plaidClient.institutionsGetById({
+      country_codes: ["US"] as unknown as Parameters<
+        typeof plaidClient.institutionsGetById
+      >[0]["country_codes"],
+      institution_id: institutionId,
+    });
+
+    return { institution: response.data.institution, ok: true };
+  } catch (error) {
+    console.error("Plaid getInstitution error:", error);
+    return { error: "Failed to get institution", ok: false };
+  }
+}
+
+const GetBankWithDetailsSchema = z.object({
+  bankId: z.string().trim().min(1),
+});
+
+export async function getBankWithDetails(input: unknown): Promise<{
+  ok: boolean;
+  balances?: unknown[];
+  transactions?: unknown[];
+  error?: string;
+}> {
+  const parsed = GetBankWithDetailsSchema.safeParse(input);
+  if (!parsed.success) {
+    return { error: "Invalid input", ok: false };
+  }
+
+  const { bankId } = parsed.data;
+
+  try {
+    const bank = await bankDal.findById(bankId);
+    if (!bank) {
+      return { error: "Bank not found", ok: false };
+    }
+
+    const [balancesResult, transactionsResult] = await Promise.all([
+      getAllBalances({ bankId }),
+      getTransactions({
+        bankId,
+        count: 10,
+        endDate: new Date().toISOString().split("T")[0],
+        startDate: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
+          .toISOString()
+          .split("T")[0],
+      }),
+    ]);
+
+    const balances = balancesResult.ok
+      ? Object.values(balancesResult.balances ?? {}).flat()
+      : [];
+
+    return {
+      balances,
+      ok: true,
+      transactions: transactionsResult.ok
+        ? transactionsResult.transactions
+        : [],
+    };
+  } catch (error) {
+    console.error("Plaid getBankWithDetails error:", error);
+    return { error: "Failed to get bank details", ok: false };
+  }
+}
+
+const RemoveBankSchema = z.object({
+  bankId: z.string().trim().min(1),
+});
+
+export async function removeBank(input: unknown): Promise<{
+  ok: boolean;
+  error?: string;
+}> {
+  const parsed = RemoveBankSchema.safeParse(input);
+  if (!parsed.success) {
+    return { error: "Invalid input", ok: false };
+  }
+
+  const { bankId } = parsed.data;
+
+  try {
+    await bankDal.delete(bankId);
+    revalidatePath("/my-banks");
+    return { ok: true };
+  } catch (error) {
+    console.error("Plaid removeBank error:", error);
+    return { error: "Failed to remove bank", ok: false };
+  }
+}

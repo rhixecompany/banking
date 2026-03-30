@@ -8,10 +8,11 @@ export default defineConfig({
   },
   test: {
     environment: "happy-dom",
-    include: ["tests/unit/**/*.test.{ts,tsx,js,jsx}"],
-
-    pool: "forks",
-    testTimeout: 30000,
     hookTimeout: 15000,
+
+    include: ["tests/unit/**/*.test.{ts,tsx,js,jsx}"],
+    pool: "forks",
+    setupFiles: ["tests/setup.ts"],
+    testTimeout: 30000,
   },
 });

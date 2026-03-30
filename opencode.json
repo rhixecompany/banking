@@ -1,0 +1,18 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": [
+    ".github/instructions/documentation.instructions.md",
+    ".github/instructions/nextjs.instructions.md",
+    ".github/instructions/ai-prompt-engineering-safety-best-practices.instructions.md",
+    ".github/instructions/task-implementation.instructions.md",
+    ".github/instructions/prompt.instructions.md",
+    ".github/instructions/update-docs-on-code-change.instructions.md"
+  ],
+  "mcp": {
+    "shadcn": {
+      "command": ["npx", "shadcn@latest", "mcp"],
+      "enabled": true,
+      "type": "local"
+    }
+  }
+}

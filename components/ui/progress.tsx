@@ -1,22 +1,19 @@
 "use client";
 
-import { cn } from "@/lib/utils";
 import * as ProgressPrimitive from "@radix-ui/react-progress";
 import * as React from "react";
 
-// Define the interface for props
-interface ProgressProps extends React.ComponentPropsWithoutRef<
-  typeof ProgressPrimitive.Root
-> {
-  value?: number;
-  className?: string;
-  indicatorClassName?: string;
-}
+import { cn } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const Progress = React.forwardRef<
   React.ElementRef<typeof ProgressPrimitive.Root>,
-  ProgressProps
->(({ indicatorClassName, className, value, ...props }, ref) => (
+  React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root>
+>(({ className, value, ...props }, ref) => (
   <ProgressPrimitive.Root
     ref={ref}
     className={cn(
@@ -26,11 +23,8 @@ const Progress = React.forwardRef<
     {...props}
   >
     <ProgressPrimitive.Indicator
-      className={cn(
-        "h-full w-full flex-1 bg-primary transition-all",
-        indicatorClassName,
-      )}
-      style={{ transform: `translateX(-${100 - (value || 0)}%)` }}
+      className="size-full  flex-1 bg-primary transition-all"
+      style={{ transform: `translateX(-${100 - (value ?? 0)}%)` }}
     />
   </ProgressPrimitive.Root>
 ));

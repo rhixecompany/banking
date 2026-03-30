@@ -1,18 +1,18 @@
 # Deploy to Vercel
 
-This guide walks you through deploying the Horizon Banking application to Vercel.
+This guide walks you through deploying the Banking application to Vercel.
 
 ## Prerequisites
 
 - Vercel account connected to GitHub
-- GitHub repository: `rhixecompany/banking`
+- GitHub repository: your Banking repo
 
 ## Step 1: Connect to Vercel
 
 1. Go to [vercel.com](https://vercel.com)
 2. Click **"Add New..."** → **"Project"**
 3. Click **"Import Git Repository"**
-4. Search/select **`rhixecompany/banking`**
+4. Search/select your Banking repository
 5. Framework: **Next.js** (auto-detected)
 
 ## Step 2: Configure Build Settings
@@ -29,57 +29,53 @@ In the Vercel project configuration screen:
 
 Add these in Vercel dashboard → **Environment Variables** section:
 
+> ⚠️ **Security:** Never paste real secrets into documentation. Use placeholders and provide real values only in the Vercel UI or secure secret stores.
+
 ### Database
 
 ```
-DATABASE_URL = postgresql://neondb_owner:ep-misty-truth-a85d73oi-pooler.eastus2.azure.neon.tech:5432/banking?sslmode=require
+DATABASE_URL = postgresql://<user>:<password>@<host>:5432/banking?sslmode=require
 ```
 
 ### Authentication
 
 ```
-AUTH_SECRET = 0123456789abcdef0123456789abcdef
-AUTH_TRUST_HOST = true
-NEXTAUTH_URL = https://your-project.vercel.app (update after deployment)
+NEXTAUTH_SECRET = <32+ character secret>
+NEXTAUTH_URL = https://your-project.vercel.app
+NEXT_PUBLIC_SITE_URL = https://your-project.vercel.app
 ```
 
-### OAuth Providers
+### OAuth Providers (optional)
 
 ```
-GITHUB_CLIENT_ID = Ov23lilsIaJtd4AnJW5H
-GITHUB_CLIENT_SECRET = 97193202f818286994546cf691e1ceb1d186530c
+AUTH_GITHUB_ID = <github-oauth-client-id>
+AUTH_GITHUB_SECRET = <github-oauth-client-secret>
+AUTH_GOOGLE_ID = <google-oauth-client-id>
+AUTH_GOOGLE_SECRET = <google-oauth-client-secret>
 ```
 
-### Rate Limiting (Upstash Redis)
+### Redis (optional)
 
 ```
-UPSTASH_REDIS_REST_URL = https://pet-sawfish-10129.upstash.io
-UPSTASH_REDIS_REST_TOKEN = ASeRAAIncDI4NGQ3MmQ3ZmY3ZGQ0NDMwYmIwNjMwZDFmZDYyMmNlNXAyMTAxMjk
+REDIS_URL = redis://:<password>@<host>:6379
 ```
 
-### Plaid (Banking Integration)
+### Plaid (optional)
 
 ```
-PLAID_CLIENT_ID = 68839713794ed3001f58911a
-PLAID_SECRET = 2a290a2bd612fcaf7cbb434f8cbd5c
+PLAID_CLIENT_ID = <plaid-client-id>
+PLAID_SECRET = <plaid-secret>
 PLAID_ENV = sandbox
-PLAID_PRODUCTS = auth,transactions,identity
-PLAID_COUNTRY_CODES = US,CA
+PLAID_BASE_URL = https://sandbox.plaid.com
 ```
 
-### Error Monitoring (Sentry)
+### Dwolla (optional)
 
 ```
-SENTRY_DSN = https://870b13f4a2a2ea91fb7fe128d5fe5b04@o4510833603772416.ingest.de.sentry.io/4510833606066256
-NEXT_PUBLIC_SENTRY_DSN = https://870b13f4a2a2ea91fb7fe128d5fe5b04@o4510833603772416.ingest.de.sentry.io/4510833606066256
-```
-
-### Image Services
-
-```
-IMAGEKIT_PUBLIC_KEY = public_UCHMBUlsWeivU+MgIke3Q5Eos2Q=
-IMAGEKIT_PRIVATE_KEY = private_b0vg7mL51ps2J+O7UzBSt7LPiSI=
-IMAGEKIT_URL_ENDPOINT = https://ik.imagekit.io/bt7aws08b
+DWOLLA_KEY = <dwolla-key>
+DWOLLA_SECRET = <dwolla-secret>
+DWOLLA_ENV = sandbox
+DWOLLA_BASE_URL = https://api-sandbox.dwolla.com
 ```
 
 ## Step 4: Deploy
@@ -90,12 +86,13 @@ IMAGEKIT_URL_ENDPOINT = https://ik.imagekit.io/bt7aws08b
 
 ## Step 5: Post-Deployment Configuration
 
-### Update NEXTAUTH_URL
+### Update NEXTAUTH_URL and NEXT_PUBLIC_SITE_URL
 
 After deployment, go back to Vercel environment variables and update:
 
 ```
 NEXTAUTH_URL = https://your-actual-project.vercel.app
+NEXT_PUBLIC_SITE_URL = https://your-actual-project.vercel.app
 ```
 
 ### Update GitHub OAuth Settings
@@ -128,8 +125,8 @@ To add a custom domain:
 
 ### Authentication Not Working
 
-- Verify `AUTH_SECRET` is set (must be 32+ characters)
-- Ensure `NEXTAUTH_URL` matches your deployment URL exactly
+- Verify `NEXTAUTH_SECRET` is set (must be 32+ characters)
+- Ensure `NEXTAUTH_URL` and `NEXT_PUBLIC_SITE_URL` match your deployment URL exactly
 - Check GitHub OAuth callback URL is correct
 
 ### Database Connection Failed
@@ -141,7 +138,7 @@ To add a custom domain:
 ### 307 Redirect Loop
 
 - Clear browser cookies and cache
-- Verify `AUTH_TRUST_HOST` is set to `true`
+- Verify `NEXTAUTH_URL` and `NEXT_PUBLIC_SITE_URL` match your deployment URL exactly
 
 ## Useful Links
 

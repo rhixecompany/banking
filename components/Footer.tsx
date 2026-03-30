@@ -1,11 +1,21 @@
-import { logoutAccount } from "@/lib/actions/user.actions";
-import type { FooterProps } from "@/types";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-const Footer = ({ user, type = "desktop" }: FooterProps) => {
+
+import type { FooterProps } from "@/types";
+
+import { logoutAccount } from "@/lib/actions/user.actions";
+/**
+ * Description placeholder
+ *
+ * @param {FooterProps} param0
+ * @param {FooterProps} param0.user
+ * @param {FooterProps} [param0.type="desktop"]
+ * @returns {*}
+ */
+const Footer = ({ type = "desktop", user }: FooterProps): JSX.Element => {
   const router = useRouter();
 
-  const handleLogOut = async () => {
+  const handleLogOut = async (): Promise<void> => {
     const loggedOut = await logoutAccount();
 
     if (loggedOut) router.push("/sign-in");
@@ -25,7 +35,12 @@ const Footer = ({ user, type = "desktop" }: FooterProps) => {
           {user?.email}
         </p>
       </div>
-      <div className="footer_image" onClick={handleLogOut}>
+      <div
+        className="footer_image"
+        onClick={(): void => {
+          void handleLogOut();
+        }}
+      >
         <Image src="/icons/logout.svg" fill alt="jsm" />
       </div>
     </footer>

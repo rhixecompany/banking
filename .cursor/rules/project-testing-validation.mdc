@@ -1,0 +1,20 @@
+---
+description: Focused project testing and validation requirements
+alwaysApply: true
+---
+
+# Project Testing and Validation
+
+Use this file as a pointer to canonical testing and validation requirements.
+
+## Canonical Sources
+
+- `workflow-and-steps.mdc` (validation sequence and reporting)
+- `AGENTS.md` (required quality gates and command set)
+- `kill-port-3000-before-tests.mdc` (test runner port guard)
+
+## How to Apply
+
+- Run the narrowest checks for touched code first, then broader required checks.
+- Respect test preconditions documented in the port guard rule
+  before Playwright or Vitest commands.

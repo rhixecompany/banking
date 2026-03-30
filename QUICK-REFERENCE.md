@@ -2,6 +2,12 @@
 
 # Quick reference for production Docker commands
 
+## Prerequisites
+
+- Use `.env.example` as the canonical template and generate `.env.production`.
+- Implement `/api/health` (see `app-api-health-route.ts.example`).
+- Update Dockerfile healthcheck command for distroless compatibility.
+
 ## Build & Push
 
 # Build production image
@@ -102,9 +108,9 @@ docker compose logs --tail 100 app
 
 docker inspect $(docker compose ps -q app)
 
-# Interactive shell in container (requires exec capability)
+# Interactive shell (distroless has no shell; use node REPL)
 
-docker compose exec app sh
+docker compose exec app /nodejs/bin/node
 
 # Check network connectivity
 

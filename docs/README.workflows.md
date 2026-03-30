@@ -1,5 +1,7 @@
 # ⚡ Agentic Workflows
 
+> **Note:** This catalog is sourced from Awesome Copilot and is not specific to the Banking app. Use it as an external reference if you need additional workflows.
+
 [Agentic Workflows](https://github.github.com/gh-aw) are AI-powered repository automations that run coding agents in GitHub Actions. Defined in markdown with natural language instructions, they enable event-triggered and scheduled automation with built-in guardrails and security-first design.
 
 ### How to Contribute

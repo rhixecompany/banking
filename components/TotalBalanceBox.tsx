@@ -1,11 +1,21 @@
+import type { TotlaBalanceBoxProps } from "@/types";
+
 import AnimatedCounter from "@/components/AnimatedCounter";
 import DoughnutChart from "@/components/DoughnutChart";
-import type { TotlaBalanceBoxProps } from "@/types";
+/**
+ * Description placeholder
+ *
+ * @param {TotlaBalanceBoxProps} param0
+ * @param {TotlaBalanceBoxProps} [param0.accounts=[]]
+ * @param {TotlaBalanceBoxProps} param0.totalBanks
+ * @param {TotlaBalanceBoxProps} param0.totalCurrentBalance
+ * @returns {*}
+ */
 const TotalBalanceBox = ({
   accounts = [],
   totalBanks,
   totalCurrentBalance,
-}: TotlaBalanceBoxProps) => {
+}: TotlaBalanceBoxProps): JSX.Element => {
   return (
     <section className="total-balance">
       <div className="total-balance-chart">

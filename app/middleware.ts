@@ -1,26 +1,46 @@
+import type { NextRequest } from "next/server";
+
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 import { getToken } from "next-auth/jwt";
-import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const ratelimit = new Ratelimit({
-  redis: Redis.fromEnv(),
-  limiter: Ratelimit.slidingWindow(5, "60 s"),
   analytics: true,
+  limiter: Ratelimit.slidingWindow(5, "60 s"),
   prefix: "banking-auth",
+  redis: Redis.fromEnv(),
 });
 
-function getRateLimitKey(request: NextRequest) {
+/**
+ * Description placeholder
+ *
+ * @param {NextRequest} request
+ * @returns {*}
+ */
+function getRateLimitKey(request: NextRequest): string {
   return (
-    request.headers.get("x-forwarded-for")?.split(",")[0] ||
-    request.headers.get("x-real-ip") ||
-    request.headers.get("cf-connecting-ip") ||
+    request.headers.get("x-forwarded-for")?.split(",")[0] ??
+    request.headers.get("x-real-ip") ??
+    request.headers.get("cf-connecting-ip") ??
     "unknown"
   );
 }
 
-export async function middleware(request: NextRequest) {
+/**
+ * Description placeholder
+ *
+ * @export
+ * @async
+ * @param {NextRequest} request
+ * @returns {unknown}
+ */
+export async function middleware(request: NextRequest): Promise<NextResponse> {
   const { pathname } = request.nextUrl;
 
   if (pathname.startsWith("/api/auth")) {
@@ -35,7 +55,7 @@ export async function middleware(request: NextRequest) {
 
     const identifier = getRateLimitKey(request);
     try {
-      const { success, remaining, reset } = await ratelimit.limit(identifier);
+      const { remaining, reset, success } = await ratelimit.limit(identifier);
       const response = NextResponse.next();
 
       response.headers.set("X-RateLimit-Limit", "5");
@@ -47,7 +67,7 @@ export async function middleware(request: NextRequest) {
         response.headers.set("Retry-After", retryAfter.toString());
         return NextResponse.json(
           { error: "Too many requests. Please try again later." },
-          { status: 429, headers: response.headers },
+          { headers: response.headers, status: 429 },
         );
       }
 
@@ -82,6 +102,11 @@ export async function middleware(request: NextRequest) {
   return NextResponse.next();
 }
 
+/**
+ * Description placeholder
+ *
+ * @type {{ matcher: {}; }}
+ */
 export const config = {
   matcher: [
     "/sign-in",

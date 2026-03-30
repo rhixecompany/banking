@@ -1,17 +1,35 @@
+import Image from "next/image";
+import { ReactNode, Suspense } from "react";
+
+import type { User } from "@/types";
+
 import MobileNav from "@/components/MobileNav";
 import Sidebar from "@/components/Sidebar";
+import { LoadingSpinner } from "@/components/ui/spinner";
 import { getLoggedInUser } from "@/lib/actions/user.actions";
-import type { User } from "@/types";
-import Image from "next/image";
-import { redirect } from "next/navigation";
-import { ReactNode } from "react";
 
-export default async function RootLayout({
+/**
+ * Protected layout content component.
+ * Checks authentication and redirects to sign-in if not authenticated.
+ *
+ * @export
+ * @async
+ * @param {Readonly<{ children: ReactNode }>} props
+ * @param {ReactNode} props.children
+ * @returns {Promise<JSX.Element>}
+ */
+async function ProtectedLayoutContent({
   children,
-}: Readonly<{ children: ReactNode }>) {
+}: Readonly<{
+  children: ReactNode;
+}>): Promise<JSX.Element> {
   const user = await getLoggedInUser();
-  if (!user) redirect("/sign-in");
+  if (!user) {
+    const { redirect } = await import("next/navigation");
+    redirect("/sign-in");
+  }
   const typedUser = user as unknown as User;
+
   return (
     <main className="flex h-screen w-full font-inter">
       <Sidebar user={typedUser} />
@@ -25,5 +43,32 @@ export default async function RootLayout({
         {children}
       </div>
     </main>
+  );
+}
+
+/**
+ * Protected layout wrapper with Suspense boundary.
+ * Required in Next.js 16 to handle async auth APIs without blocking route rendering.
+ *
+ * @export
+ * @param {Readonly<{ children: ReactNode }>} props
+ * @param {ReactNode} props.children
+ * @returns {JSX.Element}
+ */
+export default function ProtectedLayout({
+  children,
+}: Readonly<{
+  children: ReactNode;
+}>): JSX.Element {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex-center min-h-screen">
+          <LoadingSpinner className="size-12" />
+        </div>
+      }
+    >
+      <ProtectedLayoutContent>{children}</ProtectedLayoutContent>
+    </Suspense>
   );
 }

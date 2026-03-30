@@ -1,0 +1,18 @@
+---
+description: Pointer to documentation and markdown authoring standards
+alwaysApply: true
+---
+
+# Project Documentation Style
+
+Use this file as a pointer to canonical documentation-related guidance.
+
+## Canonical Sources
+
+- `workflow-and-steps.mdc` (markdown edits and validation checks)
+- `plan-file-standards.mdc` (plan markdown format and lint)
+
+## How to Apply
+
+- Follow those rules whenever you author or edit markdown in this repo.
+- For other docs, match existing structure and update when behavior changes.

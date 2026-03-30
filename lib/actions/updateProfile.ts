@@ -1,50 +1,76 @@
 "use server";
-import { db } from "@/database/db";
-import { user_profiles, users } from "@/database/schema";
 import { compare, hash } from "bcryptjs";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 
+import { db } from "@/database/db";
+import { user_profiles, users } from "@/database/schema";
+
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const UpdateProfileSchema = z.object({
-  userId: z.string(),
-  email: z.string().email().optional(),
-  name: z.string().min(2).optional(),
-  image: z.string().optional(),
-  password: z.string().min(8).optional(),
-  newPassword: z.string().min(8).optional(),
-  address: z.string().optional(),
-  city: z.string().optional(),
-  state: z.string().optional(),
-  postalCode: z.string().optional(),
-  phone: z.string().optional(),
+  address: z.string().trim().optional(),
+  city: z.string().trim().optional(),
+  email: z.string().trim().email().optional(),
+  image: z.string().trim().optional(),
+  name: z.string().trim().min(2).optional(),
+  newPassword: z.string().trim().min(8).optional(),
+  password: z.string().trim().min(8).optional(),
+  phone: z.string().trim().optional(),
+  postalCode: z.string().trim().optional(),
+  state: z.string().trim().optional(),
+  userId: z.string().trim(),
 });
 
+/**
+ * Description placeholder
+ *
+ * @export
+ * @typedef {UpdateProfileInput}
+ */
 export type UpdateProfileInput = z.infer<typeof UpdateProfileSchema>;
 
-export async function updateProfile(input: unknown) {
+/**
+ * Description placeholder
+ *
+ * @export
+ * @async
+ * @param {unknown} input
+ * @returns {unknown}
+ */
+export async function updateProfile(
+  input: unknown,
+): Promise<{ ok: boolean; error?: string }> {
   const parsed = UpdateProfileSchema.safeParse(input);
   if (!parsed.success) {
-    return { ok: false, error: parsed.error.issues[0]?.message };
+    return { error: parsed.error.issues[0]?.message, ok: false };
   }
   const {
-    userId,
-    email,
-    name,
-    image,
-    password,
-    newPassword,
     address,
     city,
-    state,
-    postalCode,
+    email,
+    image,
+    name,
+    newPassword,
+    password,
     phone,
+    postalCode,
+    state,
+    userId,
   } = parsed.data;
   try {
     if (newPassword || email) {
       const [user] = await db.select().from(users).where(eq(users.id, userId));
-      if (!user) return { ok: false, error: "User not found" };
-      if (!password || !(await compare(password, user.password))) {
-        return { ok: false, error: "Current password is incorrect" };
+      if (!user) return { error: "User not found", ok: false };
+      if (
+        !password ||
+        !user.password ||
+        !(await compare(password, user.password))
+      ) {
+        return { error: "Current password is incorrect", ok: false };
       }
     }
     const userUpdate: Record<string, unknown> = {};
@@ -75,8 +101,8 @@ export async function updateProfile(input: unknown) {
       "code" in e &&
       (e as { code?: string }).code === "23505"
     ) {
-      return { ok: false, error: "Email already registered" };
+      return { error: "Email already registered", ok: false };
     }
-    return { ok: false, error: "Profile update failed" };
+    return { error: "Profile update failed", ok: false };
   }
 }

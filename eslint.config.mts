@@ -546,4 +546,14 @@ export default defineConfig([
       "require-await": "off", // Playwright global setup is async by convention
     },
   },
+
+  // =====================================================
+  // PLAYWRIGHT HELPERS - Allow process.env for test helpers
+  // =====================================================
+  {
+    files: ["tests/e2e/helpers/**/*.ts"],
+    rules: {
+      "n/no-process-env": "off", // Playwright helpers require process.env for DB configuration
+    },
+  },
 ]);

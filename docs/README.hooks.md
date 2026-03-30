@@ -1,5 +1,7 @@
 # 🪝 Hooks
 
+> **Note:** This catalog is sourced from Awesome Copilot and is not specific to the Banking app. Use it as an external reference if you need additional hooks.
+
 Hooks enable automated workflows triggered by specific events during GitHub Copilot coding agent sessions, such as session start, session end, user prompts, and tool usage.
 
 ### How to Contribute

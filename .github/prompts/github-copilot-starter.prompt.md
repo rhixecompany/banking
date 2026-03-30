@@ -1,6 +1,6 @@
 ---
-agent: "agent"
-model: "GPT-4.1 (copilot)"
+agent: "Next.js Expert"
+model: "Auto"
 tools:
   [
     vscode,
@@ -10,9 +10,8 @@ tools:
     edit,
     search,
     web,
-    browser,
     "github/*",
-    "mcp_docker/*",
+    browser,
     vscode.mermaid-chat-features/renderMermaidDiagram,
     github.vscode-pull-request-github/issue_fetch,
     github.vscode-pull-request-github/labels_fetch,

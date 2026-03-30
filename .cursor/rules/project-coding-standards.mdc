@@ -1,0 +1,23 @@
+---
+description: Focused project coding standards and safe typing patterns
+alwaysApply: true
+---
+
+# Project Coding Standards
+
+Use this file as a pointer to canonical coding rules.
+Avoid repeating details here.
+
+## Canonical Rules
+
+- `banking-coding-standards.mdc`
+- `typescript-no-any.mdc`
+- `env-access-via-lib-env.mdc`
+- `mutations-via-server-actions.mdc`
+- `no-n-plus-one-queries.mdc`
+
+## How to Apply
+
+- Follow the canonical rules for concrete do/don't guidance and examples.
+- Use this rule as an index so coding expectations remain discoverable
+  without duplicating content.

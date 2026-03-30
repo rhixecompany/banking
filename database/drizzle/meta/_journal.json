@@ -14,6 +14,20 @@
       "when": 1774715958942,
       "tag": "0001_sloppy_black_knight",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1774792463685,
+      "tag": "0002_flimsy_bruce_banner",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1774794482807,
+      "tag": "0003_soft_tag",
+      "breakpoints": true
     }
   ],
   "version": "7"

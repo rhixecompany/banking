@@ -1,0 +1,18 @@
+---
+description: Focused project workflow and process expectations
+alwaysApply: true
+---
+
+# Project Workflow and Process
+
+Use this file as a pointer to the canonical workflow guidance.
+
+## Canonical Rule
+
+- `workflow-and-steps.mdc`
+
+## How to Apply
+
+- Follow `workflow-and-steps.mdc` for required sequencing,
+  planning thresholds, and validation.
+- Keep this file short to prevent conflicting or duplicated workflow wording.
