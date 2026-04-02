@@ -9,7 +9,6 @@ import type { User } from "@/types";
 
 vi.mock("next/image", () => ({
   default: (props: Record<string, unknown>) => (
-    // eslint-disable-next-line @next/next/no-img-element
     <img alt={props.alt as string} src={props.src as string} />
   ),
 }));
@@ -30,13 +29,13 @@ vi.mock("next/navigation", () => ({
 }));
 
 // Footer is rendered inside Sidebar — stub it out
-vi.mock("@/components/Footer", () => ({
+vi.mock("@/components/footer/footer", () => ({
   default: () => <div data-testid="footer-stub" />,
 }));
 
 import React from "react";
 
-import Sidebar from "@/components/Sidebar";
+import Sidebar from "@/components/sidebar/sidebar";
 
 // ---------------------------------------------------------------------------
 // Minimal user fixture

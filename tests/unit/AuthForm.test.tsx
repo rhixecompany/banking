@@ -7,7 +7,6 @@ import { describe, expect, it, vi } from "vitest";
 
 vi.mock("next/image", () => ({
   default: (props: Record<string, unknown>) => {
-    // eslint-disable-next-line @next/next/no-img-element
     return <img alt={props.alt as string} src={props.src as string} />;
   },
 }));
@@ -35,7 +34,7 @@ vi.mock("sonner", () => ({
 }));
 
 // Stub every CustomInput to a simple labelled <input> so we can assert by label
-vi.mock("@/components/CustomInput", () => ({
+vi.mock("@/components/custom-input/custom-input", () => ({
   default: ({ label, name }: { label: string; name: string }) => (
     <label>
       {label}
@@ -44,7 +43,7 @@ vi.mock("@/components/CustomInput", () => ({
   ),
 }));
 
-vi.mock("@/components/MyLoader", () => ({
+vi.mock("@/components/my-loader/my-loader", () => ({
   default: () => <span>Loading...</span>,
 }));
 
@@ -75,7 +74,7 @@ vi.mock("@/components/ui/button", () => ({
 
 import React from "react";
 
-import AuthForm from "@/components/AuthForm";
+import AuthForm from "@/components/auth-form/auth-form";
 
 // ---------------------------------------------------------------------------
 // Tests

@@ -10,7 +10,7 @@ import { z } from "zod";
 import type { Bank } from "@/types/bank";
 import type { Recipient } from "@/types/recipient";
 
-import HeaderBox from "@/components/HeaderBox";
+import HeaderBox from "@/components/header-box/header-box";
 import { Button } from "@/components/ui/button";
 import {
   Card,

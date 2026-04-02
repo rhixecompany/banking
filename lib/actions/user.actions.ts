@@ -1,6 +1,9 @@
 "use server";
 
+import type { UserWithProfile } from "@/types/user";
+
 import { auth } from "@/lib/auth";
+import { userDal } from "@/lib/dal";
 
 /**
  * Description placeholder
@@ -28,14 +31,43 @@ export async function getLoggedInUser(): Promise<
 }
 
 /**
- * Logs out the current user by signing out from NextAuth and redirecting to sign-in page.
+ * Logs out the current user by clearing the server-side session.
+ * The client is responsible for calling signOut() from next-auth/react.
  *
  * @export
  * @async
  * @returns {Promise<boolean>} True if logout was successful
  */
 export async function logoutAccount(): Promise<boolean> {
-  const { signOut } = await import("next-auth/react");
-  await signOut({ callbackUrl: "/sign-in", redirect: false });
+  const session = await auth();
+  if (!session?.user) return false;
   return true;
+}
+
+/**
+ * Returns the full user record with profile for the currently authenticated user.
+ *
+ * @export
+ * @async
+ * @returns {Promise<{ ok: boolean; user?: UserWithProfile; error?: string }>}
+ */
+export async function getUserWithProfile(): Promise<{
+  ok: boolean;
+  user?: UserWithProfile;
+  error?: string;
+}> {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return { error: "Unauthorized", ok: false };
+  }
+
+  try {
+    const user = await userDal.findByIdWithProfile(session.user.id);
+    if (!user) {
+      return { error: "User not found", ok: false };
+    }
+    return { ok: true, user };
+  } catch {
+    return { error: "Failed to fetch user profile", ok: false };
+  }
 }

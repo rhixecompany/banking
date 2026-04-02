@@ -3,8 +3,8 @@ import { ReactNode, Suspense } from "react";
 
 import type { User } from "@/types";
 
-import MobileNav from "@/components/MobileNav";
-import Sidebar from "@/components/Sidebar";
+import MobileNav from "@/components/mobile-nav/mobile-nav";
+import Sidebar from "@/components/sidebar/sidebar";
 import { LoadingSpinner } from "@/components/ui/spinner";
 import { getLoggedInUser } from "@/lib/actions/user.actions";
 

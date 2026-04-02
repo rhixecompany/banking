@@ -7,7 +7,7 @@ import { z } from "zod";
 
 import type { UserWithProfile } from "@/types/user";
 
-import HeaderBox from "@/components/HeaderBox";
+import HeaderBox from "@/components/header-box/header-box";
 import { Button } from "@/components/ui/button";
 import {
   Card,

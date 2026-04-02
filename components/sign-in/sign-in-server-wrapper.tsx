@@ -1,4 +1,7 @@
-import AuthForm from "@/components/AuthForm";
+import { redirect } from "next/navigation";
+
+import AuthForm from "@/components/auth-form/auth-form";
+import { auth } from "@/lib/auth";
 
 /**
  * Server wrapper for the sign-in page.
@@ -10,12 +13,8 @@ import AuthForm from "@/components/AuthForm";
  * @returns {Promise<JSX.Element>}
  */
 export async function SignInServerWrapper(): Promise<JSX.Element> {
-  // Dynamic imports avoid circular dependency with SessionProvider
-  const { getServerSession } = await import("next-auth");
-  const { redirect } = await import("next/navigation");
-
-  const session = await getServerSession();
-  if (session) redirect("/dashboard");
+  const session = await auth();
+  if (session?.user) redirect("/dashboard");
 
   return (
     <section className="flex-center size-full max-sm:px-6">

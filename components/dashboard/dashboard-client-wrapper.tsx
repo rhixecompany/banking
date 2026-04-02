@@ -5,9 +5,9 @@ import Link from "next/link";
 
 import type { Bank } from "@/types/bank";
 
-import HeaderBox from "@/components/HeaderBox";
-import { PlaidProvider } from "@/components/plaid-context";
-import { PlaidLinkButton } from "@/components/plaid-link-button";
+import HeaderBox from "@/components/header-box/header-box";
+import { PlaidProvider } from "@/components/plaid-context/plaid-context";
+import { PlaidLinkButton } from "@/components/plaid-link-button/plaid-link-button";
 import SalesMetricsCard from "@/components/shadcn-studio/blocks/chart-sales-metrics";
 import StatisticsCard from "@/components/shadcn-studio/blocks/statistics-card-01";
 import {

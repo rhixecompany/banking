@@ -3,7 +3,7 @@
 import type { Item } from "@/components/shadcn-studio/blocks/datatable-transaction";
 import type { Transaction } from "@/types/transaction";
 
-import HeaderBox from "@/components/HeaderBox";
+import HeaderBox from "@/components/header-box/header-box";
 import TransactionDatatable from "@/components/shadcn-studio/blocks/datatable-transaction";
 
 /**

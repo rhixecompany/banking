@@ -7,8 +7,8 @@ import { toast } from "sonner";
 import type { BankWithDetails } from "@/types/bank";
 import type { PlaidTransaction } from "@/types/plaid";
 
-import { PlaidProvider } from "@/components/plaid-context";
-import { PlaidLinkButton } from "@/components/plaid-link-button";
+import { PlaidProvider } from "@/components/plaid-context/plaid-context";
+import { PlaidLinkButton } from "@/components/plaid-link-button/plaid-link-button";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {

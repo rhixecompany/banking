@@ -1,23 +1,12 @@
 import { redirect } from "next/navigation";
 
-import type { Bank, BankWithDetails } from "@/types/bank";
+import type { BankWithDetails } from "@/types/bank";
 import type { PlaidBalance, PlaidTransaction } from "@/types/plaid";
 
 import { MyBanksClientWrapper } from "@/components/my-banks/my-banks-client-wrapper";
+import { getUserBanks } from "@/lib/actions/bank.actions";
 import { getBankWithDetails } from "@/lib/actions/plaid.actions";
 import { auth } from "@/lib/auth";
-import { bankDal } from "@/lib/dal";
-
-/**
- * Fetches the user's linked banks with caching.
- *
- * @param {string} userId
- * @returns {Promise<Bank[]>}
- */
-async function getUserBanks(userId: string): Promise<Bank[]> {
-  "use cache";
-  return await bankDal.findByUserId(userId);
-}
 
 /**
  * Server wrapper for the My Banks page.
@@ -35,13 +24,14 @@ export async function MyBanksServerWrapper(): Promise<JSX.Element> {
   }
 
   const userId = session.user.id;
-  const banks = await getUserBanks(userId);
+  const banksResult = await getUserBanks();
+  const banks = banksResult.ok ? (banksResult.banks ?? []) : [];
 
   const banksWithDetails: BankWithDetails[] = await Promise.all(
     banks.map(async (bank): Promise<BankWithDetails> => {
       const result = await getBankWithDetails(bank.id);
       return {
-        ...(bank as Bank),
+        ...bank,
         balances: (result.balances as PlaidBalance[]) ?? [],
         transactions: (result.transactions as PlaidTransaction[]) ?? [],
       };

@@ -3,8 +3,8 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 import { DashboardClientWrapper } from "@/components/dashboard/dashboard-client-wrapper";
+import { getUserBanks } from "@/lib/actions/bank.actions";
 import { auth } from "@/lib/auth";
-import { bankDal } from "@/lib/dal";
 
 export const metadata: Metadata = {
   description: "Your financial overview",
@@ -26,7 +26,8 @@ export async function DashboardServerWrapper(): Promise<JSX.Element> {
   }
 
   const userId = session.user.id;
-  const banks = await bankDal.findByUserId(userId);
+  const banksResult = await getUserBanks();
+  const banks = banksResult.ok ? (banksResult.banks ?? []) : [];
 
   return (
     <DashboardClientWrapper

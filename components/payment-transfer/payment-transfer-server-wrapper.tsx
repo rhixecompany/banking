@@ -1,9 +1,9 @@
 import { redirect } from "next/navigation";
 
 import { PaymentTransferClientWrapper } from "@/components/payment-transfer/payment-transfer-client-wrapper";
+import { getUserBanks } from "@/lib/actions/bank.actions";
 import { getRecipients } from "@/lib/actions/recipient.actions";
 import { auth } from "@/lib/auth";
-import { bankDal } from "@/lib/dal";
 
 /**
  * Server wrapper for the Payment Transfer page.
@@ -20,13 +20,12 @@ export async function PaymentTransferServerWrapper(): Promise<JSX.Element> {
     redirect("/sign-in");
   }
 
-  const userId = session.user.id;
-
-  const [banks, recipientsResult] = await Promise.all([
-    bankDal.findByUserId(userId),
+  const [banksResult, recipientsResult] = await Promise.all([
+    getUserBanks(),
     getRecipients(),
   ]);
 
+  const banks = banksResult.ok ? (banksResult.banks ?? []) : [];
   const recipients = recipientsResult.ok
     ? (recipientsResult.recipients ?? [])
     : [];

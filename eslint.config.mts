@@ -430,6 +430,28 @@ export default defineConfig([
   },
 
   // =====================================================
+  // PROXY (EDGE MIDDLEWARE) - Allow process.env
+  // Cannot import lib/env.ts in edge middleware context
+  // =====================================================
+  {
+    files: ["proxy.ts"],
+    rules: {
+      "n/no-process-env": "off",
+    },
+  },
+
+  // =====================================================
+  // UNIT TEST TSX - Allow <img> in next/image mocks
+  // Tests mock next/image with plain <img> elements
+  // =====================================================
+  {
+    files: ["tests/unit/**/*.tsx"],
+    rules: {
+      "@next/next/no-img-element": "off",
+    },
+  },
+
+  // =====================================================
   // DB SEED CLI - process.argv / process.env guards and console
   // =====================================================
   {

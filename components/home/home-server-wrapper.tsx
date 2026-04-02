@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { auth } from "@/lib/auth";
@@ -16,7 +17,6 @@ import { auth } from "@/lib/auth";
 export async function HomeServerWrapper(): Promise<JSX.Element> {
   const session = await auth();
   if (session?.user) {
-    const { redirect } = await import("next/navigation");
     redirect("/dashboard");
   }
 

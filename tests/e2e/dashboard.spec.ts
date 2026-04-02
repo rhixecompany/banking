@@ -20,7 +20,7 @@ test.describe("Dashboard", () => {
     }) => {
       await page.goto("/dashboard");
       await expect
-        .soft(page.getByRole("heading", { name: /dashboard/i }).first())
+        .soft(page.getByRole("heading", { name: /welcome back/i }).first())
         .toBeVisible({ timeout: 15_000 });
     });
 

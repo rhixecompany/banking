@@ -8,18 +8,18 @@ import type { Account } from "@/types";
 // ---------------------------------------------------------------------------
 
 // AnimatedCounter uses countup which needs a DOM — stub it to just show amount
-vi.mock("@/components/AnimatedCounter", () => ({
+vi.mock("@/components/animated-counter/animated-counter", () => ({
   default: ({ amount }: { amount: number }) => <span>{amount}</span>,
 }));
 
 // DoughnutChart uses canvas which happy-dom doesn't fully support
-vi.mock("@/components/DoughnutChart", () => ({
+vi.mock("@/components/doughnut-chart/doughnut-chart", () => ({
   default: ({ accounts }: { accounts: Account[] }) => (
     <div data-testid="doughnut-chart">{accounts.length} accounts</div>
   ),
 }));
 
-import TotalBalanceBox from "@/components/TotalBalanceBox";
+import TotalBalanceBox from "@/components/total-balance-box/total-balance-box";
 
 // ---------------------------------------------------------------------------
 // Fixtures

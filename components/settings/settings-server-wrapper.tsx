@@ -1,8 +1,7 @@
 import { redirect } from "next/navigation";
 
 import { SettingsClientWrapper } from "@/components/settings/settings-client-wrapper";
-import { auth } from "@/lib/auth";
-import { userDal } from "@/lib/dal";
+import { getUserWithProfile } from "@/lib/actions/user.actions";
 
 /**
  * Server wrapper for the Settings page.
@@ -13,15 +12,10 @@ import { userDal } from "@/lib/dal";
  * @returns {Promise<JSX.Element>}
  */
 export async function SettingsServerWrapper(): Promise<JSX.Element> {
-  const session = await auth();
-  if (!session?.user?.id) {
+  const result = await getUserWithProfile();
+  if (!result.ok || !result.user) {
     redirect("/sign-in");
   }
 
-  const userWithProfile = await userDal.findByIdWithProfile(session.user.id);
-  if (!userWithProfile) {
-    redirect("/sign-in");
-  }
-
-  return <SettingsClientWrapper userWithProfile={userWithProfile} />;
+  return <SettingsClientWrapper userWithProfile={result.user} />;
 }

@@ -78,7 +78,7 @@ describe("TransactionHistoryClientWrapper — paidBy mapping", () => {
     capturedData = [];
     render(
       <TransactionHistoryClientWrapper
-        transactions={[makeTransaction({ id: "tx-1", channel: "in store" })]}
+        transactions={[makeTransaction({ channel: "in store", id: "tx-1" })]}
       />,
     );
     expect(capturedData[0]?.paidBy).toBe("mastercard");
@@ -88,7 +88,7 @@ describe("TransactionHistoryClientWrapper — paidBy mapping", () => {
     capturedData = [];
     render(
       <TransactionHistoryClientWrapper
-        transactions={[makeTransaction({ id: "tx-2", channel: "online" })]}
+        transactions={[makeTransaction({ channel: "online", id: "tx-2" })]}
       />,
     );
     expect(capturedData[0]?.paidBy).toBe("visa");
@@ -100,8 +100,8 @@ describe("TransactionHistoryClientWrapper — paidBy mapping", () => {
       <TransactionHistoryClientWrapper
         transactions={[
           makeTransaction({
-            id: "tx-3",
             channel: undefined as unknown as null | string,
+            id: "tx-3",
           }),
         ]}
       />,
@@ -113,7 +113,7 @@ describe("TransactionHistoryClientWrapper — paidBy mapping", () => {
     capturedData = [];
     render(
       <TransactionHistoryClientWrapper
-        transactions={[makeTransaction({ id: "tx-4", channel: "atm" })]}
+        transactions={[makeTransaction({ channel: "atm", id: "tx-4" })]}
       />,
     );
     expect(capturedData[0]?.paidBy).toBe("visa");
@@ -175,9 +175,9 @@ describe("TransactionHistoryClientWrapper — avatarFallback derivation", () => 
       <TransactionHistoryClientWrapper
         transactions={[
           makeTransaction({
+            email: undefined as unknown as null | string,
             id: "tx-name",
             name: "Alice Bob",
-            email: undefined as unknown as null | string,
           }),
         ]}
       />,
@@ -191,9 +191,9 @@ describe("TransactionHistoryClientWrapper — avatarFallback derivation", () => 
       <TransactionHistoryClientWrapper
         transactions={[
           makeTransaction({
+            email: "z@x.com",
             id: "tx-email",
             name: undefined as unknown as null | string,
-            email: "z@x.com",
           }),
         ]}
       />,
@@ -207,9 +207,9 @@ describe("TransactionHistoryClientWrapper — avatarFallback derivation", () => 
       <TransactionHistoryClientWrapper
         transactions={[
           makeTransaction({
+            email: undefined as unknown as null | string,
             id: "tx-unknown",
             name: undefined as unknown as null | string,
-            email: undefined as unknown as null | string,
           }),
         ]}
       />,

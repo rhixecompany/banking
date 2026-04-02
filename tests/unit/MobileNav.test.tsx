@@ -9,7 +9,6 @@ import type { User } from "@/types";
 
 vi.mock("next/image", () => ({
   default: (props: Record<string, unknown>) => (
-    // eslint-disable-next-line @next/next/no-img-element
     <img alt={props.alt as string} src={props.src as string} />
   ),
 }));
@@ -49,13 +48,13 @@ vi.mock("@/components/ui/sheet", () => ({
   ),
 }));
 
-vi.mock("@/components/Footer", () => ({
+vi.mock("@/components/footer/footer", () => ({
   default: () => <div data-testid="footer-stub" />,
 }));
 
 import React from "react";
 
-import MobileNav from "@/components/MobileNav";
+import MobileNav from "@/components/mobile-nav/mobile-nav";
 
 // ---------------------------------------------------------------------------
 // Minimal user fixture

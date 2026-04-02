@@ -6,6 +6,7 @@ import { z } from "zod";
 import type { Bank } from "@/types/bank";
 import type { PlaidBalance } from "@/types/plaid";
 
+import { auth } from "@/lib/auth";
 import { bankDal } from "@/lib/dal";
 import { plaidClient } from "@/lib/plaid";
 
@@ -355,7 +356,7 @@ export async function getAllBalances(): Promise<{
   balances?: Record<string, PlaidBalance[]>;
   error?: string;
 }> {
-  const session = await import("@/lib/auth").then((m) => m.auth());
+  const session = await auth();
   if (!session?.user?.id) {
     return { error: "Not authenticated", ok: false };
   }
@@ -534,7 +535,20 @@ export async function removeBank(input: unknown): Promise<{
 
   const { bankId } = parsed.data;
 
+  const session = await auth();
+  if (!session?.user?.id) {
+    return { error: "Unauthorized", ok: false };
+  }
+
   try {
+    const bank = await bankDal.findById(bankId);
+    if (!bank) {
+      return { error: "Bank not found", ok: false };
+    }
+    if (bank.userId !== session.user.id) {
+      return { error: "Forbidden", ok: false };
+    }
+
     await bankDal.delete(bankId);
     revalidatePath("/my-banks");
     return { ok: true };

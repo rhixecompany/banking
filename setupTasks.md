@@ -1,6 +1,6 @@
 # Refactor Frontend ui
 
-- Fetch `https://reactbits.dev/get-started/index` and Fetch `https://shadcnstudio.com/blocks` then read them install all components and blocks you need for this project.
+- Fetch `https://reactbits.dev/get-started/introduction` and Fetch `https://shadcnstudio.com/blocks` then read them install all components and blocks you need for this project then use them.
 - As Reviewer read `database/schema.ts` and ensure it can handle all necessary data models and relationships for the application.
 - As Reviewer Persona start by ensuring all bugs are fixed by executing npm run type-check 2>&1 > type-check.txt ; npm run lint:fix 2>&1 > lint-fix.txt ; npm run lint:strict 2>&1 > lint-strict.txt ; npm run test:browser 2>&1 > test-browser.txt ; npm run test:ui 2>&1 > test-ui.txt then reading type-check.txt, lint-fix.txt, lint-strict.txt, and test results, and triage and reviewing the relevant code and test files.
 - As Reviewer Persona start by listing all pages in `./app` and triage then get the title of each page in the list.

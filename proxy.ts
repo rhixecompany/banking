@@ -14,9 +14,7 @@ import { NextResponse } from "next/server";
  */
 const ratelimit = (() => {
   if (
-    // eslint-disable-next-line n/no-process-env
     !process.env.UPSTASH_REDIS_REST_URL ||
-    // eslint-disable-next-line n/no-process-env
     !process.env.UPSTASH_REDIS_REST_TOKEN
   ) {
     return undefined;
