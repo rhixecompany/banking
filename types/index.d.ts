@@ -140,9 +140,9 @@ export interface RightSidebarProps {
  * Description placeholder
  *
  * @export
- * @typedef {SiderbarProps}
+ * @typedef {SidebarProps}
  */
-export interface SiderbarProps {
+export interface SidebarProps {
   /**
    * Description placeholder
    *
@@ -155,15 +155,15 @@ export interface SiderbarProps {
  * Description placeholder
  *
  * @export
- * @typedef {TotlaBalanceBoxProps}
+ * @typedef {TotalBalanceBoxProps}
  */
-export interface TotlaBalanceBoxProps {
+export interface TotalBalanceBoxProps {
   /**
    * Description placeholder
    *
-   * @type {Account[]}
+   * @type {?Account[]}
    */
-  accounts: Account[];
+  accounts?: Account[];
   /**
    * Description placeholder
    *

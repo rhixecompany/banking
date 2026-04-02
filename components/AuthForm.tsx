@@ -10,6 +10,8 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
+import type { AuthFormProps } from "@/types";
+
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { register } from "@/lib/actions/register";
@@ -60,13 +62,12 @@ function getDefaultValues(
 /**
  * Description placeholder
  *
- * @param {{ type: string }} param0
+ * @param {AuthFormProps} param0
  * @param {string} param0.type
  * @returns {JSX.Element}
  */
-const AuthForm = ({ type }: { type: string }): JSX.Element => {
+const AuthForm = ({ type }: AuthFormProps): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false);
-  const [user] = useState<undefined>(undefined); // Reserved for future OAuth flow
   const isSignIn = type === "sign-in";
   const router = useRouter();
 
@@ -131,131 +132,119 @@ const AuthForm = ({ type }: { type: string }): JSX.Element => {
         </Link>
         <div className="flex flex-col gap-1 md:gap-3">
           <h1 className="text-24 font-semibold text-gray-900 lg:text-36">
-            {user ? "Link Account" : type === "sign-in" ? "Sign In" : "Sign Up"}
+            {isSignIn ? "Sign In" : "Sign Up"}
           </h1>
           <p className="text-16 font-normal text-gray-600">
-            {user
-              ? "Link your account to get started"
-              : "Please enter your details"}
+            {"Please enter your details"}
           </p>
         </div>
       </header>
-      {user ? (
-        <div className="flex flex-col gap-4">
-          {/* PlaidLink */}
-          {/* {JSON.stringify(user, null, 2)} */}
-        </div>
-      ) : (
-        <>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              {!isSignIn && (
-                <>
-                  <CustomInput
-                    control={form.control}
-                    name="firstName"
-                    label="First Name"
-                    placeholder="Enter your first name"
-                  />
-                  <CustomInput
-                    control={form.control}
-                    name="lastName"
-                    label="Last Name"
-                    placeholder="Enter your last name"
-                  />
-                  <CustomInput
-                    control={form.control}
-                    name="address1"
-                    label="Address"
-                    placeholder="Enter your address"
-                  />
-                  <CustomInput
-                    control={form.control}
-                    name="city"
-                    label="City"
-                    placeholder="Enter your city"
-                  />
-                  <CustomInput
-                    control={form.control}
-                    name="state"
-                    label="State"
-                    placeholder="Enter your state"
-                  />
-                  <CustomInput
-                    control={form.control}
-                    name="postalCode"
-                    label="Postal Code"
-                    placeholder="Enter your postal code"
-                  />
-                  <CustomInput
-                    control={form.control}
-                    name="dateOfBirth"
-                    label="Date of Birth"
-                    placeholder="YYYY-MM-DD"
-                  />
-                  <CustomInput
-                    control={form.control}
-                    name="ssn"
-                    label="SSN"
-                    placeholder="Example: 1234"
-                  />
-                  <CustomInput
-                    control={form.control}
-                    name="email"
-                    label="Email"
-                    placeholder="Enter your email"
-                  />
-                  <CustomInput
-                    control={form.control}
-                    name="password"
-                    label="Password"
-                    placeholder="Enter your password"
-                  />
-                  <CustomInput
-                    control={form.control}
-                    name="confirmPassword"
-                    label="Confirm Password"
-                    placeholder="Confirm your password"
-                  />
-                </>
-              )}
-              {isSignIn && (
-                <>
-                  <CustomInput
-                    control={form.control}
-                    name="email"
-                    label="Email"
-                    placeholder="Enter your email"
-                  />
-                  <CustomInput
-                    control={form.control}
-                    name="password"
-                    label="Password"
-                    placeholder="Enter your password"
-                  />
-                </>
-              )}
+      <>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            {!isSignIn && (
+              <>
+                <CustomInput
+                  control={form.control}
+                  name="firstName"
+                  label="First Name"
+                  placeholder="Enter your first name"
+                />
+                <CustomInput
+                  control={form.control}
+                  name="lastName"
+                  label="Last Name"
+                  placeholder="Enter your last name"
+                />
+                <CustomInput
+                  control={form.control}
+                  name="address1"
+                  label="Address"
+                  placeholder="Enter your address"
+                />
+                <CustomInput
+                  control={form.control}
+                  name="city"
+                  label="City"
+                  placeholder="Enter your city"
+                />
+                <CustomInput
+                  control={form.control}
+                  name="state"
+                  label="State"
+                  placeholder="Enter your state"
+                />
+                <CustomInput
+                  control={form.control}
+                  name="postalCode"
+                  label="Postal Code"
+                  placeholder="Enter your postal code"
+                />
+                <CustomInput
+                  control={form.control}
+                  name="dateOfBirth"
+                  label="Date of Birth"
+                  placeholder="YYYY-MM-DD"
+                />
+                <CustomInput
+                  control={form.control}
+                  name="ssn"
+                  label="SSN"
+                  placeholder="Example: 1234"
+                />
+                <CustomInput
+                  control={form.control}
+                  name="email"
+                  label="Email"
+                  placeholder="Enter your email"
+                />
+                <CustomInput
+                  control={form.control}
+                  name="password"
+                  label="Password"
+                  placeholder="Enter your password"
+                />
+                <CustomInput
+                  control={form.control}
+                  name="confirmPassword"
+                  label="Confirm Password"
+                  placeholder="Confirm your password"
+                />
+              </>
+            )}
+            {isSignIn && (
+              <>
+                <CustomInput
+                  control={form.control}
+                  name="email"
+                  label="Email"
+                  placeholder="Enter your email"
+                />
+                <CustomInput
+                  control={form.control}
+                  name="password"
+                  label="Password"
+                  placeholder="Enter your password"
+                />
+              </>
+            )}
 
-              <div className="flex flex-col gap-4">
-                <Button type="submit" disabled={isLoading} className="form-btn">
-                  {isLoading ? <MyLoader /> : isSignIn ? "Sign In" : "Sign Up"}
-                </Button>
-              </div>
-            </form>
-          </Form>
-          <footer className="flex justify-center gap-1">
-            <p className="text-14 font-normal text-gray-600">
-              {isSignIn ? "Don't have an account?" : "Already have an account?"}
-            </p>
-            <Link
-              href={isSignIn ? "/sign-up" : "/sign-in"}
-              className="form-link"
-            >
-              {isSignIn ? "Sign up" : "Sign in"}
-            </Link>
-          </footer>
-        </>
-      )}
+            <div className="flex flex-col gap-4">
+              <Button type="submit" disabled={isLoading} className="form-btn">
+                {isLoading ? <MyLoader /> : isSignIn ? "Sign In" : "Sign Up"}
+              </Button>
+            </div>
+          </form>
+        </Form>
+        <footer className="flex justify-center gap-1">
+          <p className="text-14 font-normal text-gray-600">
+            {isSignIn ? "Don't have an account?" : "Already have an account?"}
+          </p>
+          <Link href={isSignIn ? "/sign-up" : "/sign-in"} className="form-link">
+            {isSignIn ? "Sign up" : "Sign in"}
+          </Link>
+        </footer>
+      </>
     </section>
   );
 };

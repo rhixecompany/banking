@@ -1,27 +1,82 @@
 # AGENTS.md — Banking Project Canonical Reference
 
-**Last Generated:** April 2, 2026 | **Version:** 4.0 | **Total Sections:** 28
+**Last Generated:** April 2, 2026 | **Version:** 5.1 | **Total Sections:** 30
 
 ---
 
 ## Changelog
 
-### April 2, 2026 — Complete Rewrite v4.0
+### April 2, 2026 — v5.1
+
+- Added missing `server-action-skill.md` flat file to Section 29 skills table (was omitted from v5.0)
+- Added known inaccuracy note for `.opencode/instructions/04-auth-testing.md`: it references `session.user.role !== "admin"` which does not exist on the session — `isAdmin: boolean` is the correct field
+- All 9 remaining Cursor rules verified against source files; Section 27 confirmed accurate
+- Confirmed `generate:action`, `generate:component`, `generate:dal`, `generate:feature` scripts exist in `package.json`; confirmed no `banking:validate` or `banking:generate` scripts exist (references in `.opencode/instructions/06` are incorrect)
+
+### April 2, 2026 — Complete Rewrite v5.0
+
+- Corrected GitHub Copilot instructions file table (v4.0 had fabricated filenames)
+- Corrected ESLint rule table: `@typescript-eslint/no-explicit-any` is **"off"** (aspirational only)
+- Expanded ESLint section: added all plugins, Zod rules (error), security rules (error), unicorn rules
+- Corrected Prettier settings: `printWidth: 80` (not 100), plugins listed accurately
+- Added Prettier plugin details: `prettier-plugin-tailwindcss`, `prettier-plugin-organize-imports`, `prettier-plugin-packagejson`, `prettier-plugin-sort-json`
+- Added full `package.json` scripts inventory (all 65 scripts)
+- Expanded Next.js 16 section: Cache Components, `cacheTag()`, `cacheLife()`, `updateTag()`, Turbopack
+- Added Suspense requirement for `cookies()`, `headers()`, `getServerSession()` in Next.js 16
+- Added DAL skill patterns: cursor pagination, upsert, soft delete, count with index
+- Added Server Action skill patterns: file upload, `useActionState`, optimistic updates
+- Added `.copilot-tracking/` task tracking workflow
+- Clarified `format:check` is destructive (writes files first, then checks)
+- Added `build:analyze`, `build:standalone`, `build:debug`, `dev:sh` commands
+- Removed fabricated `.github/instructions/` file table; replaced with accurate listing
+- Added `postbuild` runs `next-sitemap` automatically
+- v4.0 changelog entries preserved below
+
+### April 2, 2026 — v4.0
 
 - Full replacement of v3.0 (inaccurate schema fields, session shape, env vars, debt status, action signatures)
-- Corrected `database/schema.ts`: `user_profiles` has `address/city/state/postalCode/phone/dateOfBirth` — NOT `bio/avatarUrl/preferences`
-- Corrected `banks` table: includes `accountNumberEncrypted`, `routingNumber`, `sharableId`, `fundingSourceUrl`, `dwollaCustomerUrl` — matches actual schema
+- Corrected `database/schema.ts`: `user_profiles` has `address/city/state/postalCode/phone/dateOfBirth`
+- Corrected `banks` table: includes `accountNumberEncrypted`, `routingNumber`, `sharableId`, `fundingSourceUrl`, `dwollaCustomerUrl`
 - Corrected `transactions` table: `senderBankId`/`receiverBankId` FKs, `channel`, `currency`, `status`, `type` columns
-- Corrected session shape: `isAdmin: boolean` + `isActive: boolean` — **no `role` field on session** (role is DB-only)
-- Corrected env vars: 24 total; `DATABASE_URL` is optional; `SMTP_PASS` not `SMTP_PASSWORD`; added `DWOLLA_BASE_URL`, `PLAID_BASE_URL`, `NEXTAUTH_URL`
-- Corrected `logoutAccount` return type: `Promise<boolean>` not `Promise<{ ok: boolean }>`
-- Corrected `getLoggedInUser` return type: `Promise<{ name?, email? } | undefined>` not `| null`
-- Updated debt table: items #2, #3 resolved; items #6, #7, #8, #9 added
-- Added `noInlineConfig: true` ESLint warning — inline disable comments have NO effect
-- Added dual auth config debt (#6) — `lib/auth-options.ts` vs `lib/auth-config.ts`
-- Auth mock pattern corrected: use `undefined` not `null`
-- `db:reset` does NOT seed (runs `db:drop && db:generate && db:push` only)
-- `pretest` runs `type-gen` (next typegen), NOT `type-check`
+- Corrected session shape: `isAdmin: boolean` + `isActive: boolean` — no `role` field on session
+- Corrected env vars: 24 total; `DATABASE_URL` optional; `SMTP_PASS` not `SMTP_PASSWORD`
+- Corrected `logoutAccount` return type: `Promise<boolean>`
+- Corrected `getLoggedInUser` return type: `Promise<{ name?, email? } | undefined>`
+
+---
+
+## Table of Contents
+
+1. Tech Stack Overview
+2. Commands Reference (All 65 Scripts)
+3. Single Test Execution
+4. Environment Variables (24 Total)
+5. PR-Blocking Rules (7 Critical)
+6. TypeScript & Type Safety
+7. ESLint Configuration
+8. Prettier Configuration
+9. Import Order
+10. Naming Conventions
+11. Next.js 16 Patterns
+12. Cache Components (Next.js 16)
+13. Suspense & Async APIs
+14. Server Actions
+15. Data Access Layer (DAL)
+16. Authentication
+17. Encryption
+18. Database Schema
+19. Validation (Zod v4)
+20. Forms & UI
+21. Testing
+22. Port Guard
+23. Middleware
+24. Security
+25. Known Technical Debt
+26. Integrations
+27. Cursor Rules
+28. GitHub Copilot Instructions
+29. OpenCode Skills & Instructions
+30. External Documentation & Sync Checklist
 
 ---
 
@@ -51,12 +106,13 @@ The Banking project is a Next.js 16 full-stack financial application with TypeSc
 
 ### Special Features
 
-- **React Compiler:** Enabled — automatic memoization, no manual `useMemo`/`useCallback` needed
+- **React Compiler:** Enabled — automatic memoization; no manual `useMemo`/`useCallback` needed
 - **Cache Components:** Enabled — requires Next.js 16+ (`"use cache"` directive)
 - **Typed Routes:** Enabled in `tsconfig.json` — compile-time route safety
 - **Async Request APIs:** `cookies()`, `headers()`, `params`, `searchParams` are async in Next.js 16
+- **Turbopack:** Default dev bundler (`next dev` uses Turbopack automatically)
 - **Security Headers:** Configured in `next.config.ts`
-- **ESLint `noInlineConfig: true`:** Inline `// eslint-disable` comments have **NO EFFECT** anywhere in the codebase
+- **ESLint `noInlineConfig: true`:** Inline `// eslint-disable` comments have **NO EFFECT** anywhere
 
 ### Third-Party Integrations
 
@@ -71,32 +127,42 @@ The Banking project is a Next.js 16 full-stack financial application with TypeSc
 
 ---
 
-## 2. Commands Reference
+## 2. Commands Reference (All 65 Scripts)
 
 All commands defined in `package.json` scripts.
 
 ### Development
 
 ```bash
-npm run dev              # Start dev server (localhost:3000)
-npm run build            # Production build
+npm run dev              # Start dev server (localhost:3000) — Turbopack default
+npm run dev:sh           # Dev via shell script (./dev.sh)
+npm run build            # Production build (type-check runs automatically via prebuild)
+npm run build:analyze    # Production build with bundle analyzer (ANALYZE=true)
+npm run build:debug      # Debug prerender build
+npm run build:standalone # Standalone output build (NEXT_OUTPUT_MODE=standalone)
 npm run start            # Start production server
-npm run clean            # Clean build artifacts (.next, dist, etc.)
+npm run clean            # Clean: .next out dist build .turbo coverage .react-email playwright-report test-results
+npm run clean:all        # Full clean: also removes node_modules and package-lock.json
+npm run clean:cache      # Cache-only clean: .next/cache playwright-report test-results
 ```
 
-> **Note:** `predev` and `prebuild` both run `npm run clean && npm run type-check` automatically. `pretest` runs `npm run clean && npm run type-gen` (`next typegen` — NOT type-check).
+> **Note:** `predev` and `prebuild` both run `npm run clean && npm run type-check` automatically. `postbuild` runs `next-sitemap --config next-sitemap.config.ts` automatically after every build. `pretest` runs `npm run clean && npm run type-gen` (next typegen — **NOT** type-check).
 
 ### Validation (Run Before Every Commit)
 
 ```bash
 npm run validate         # All checks: format:check + type-check + lint:strict + test
-npm run format           # Auto-format with Prettier (writes files)
-npm run format:check     # Auto-formats first, then checks (NOT read-only)
-npm run type-check       # TypeScript strict mode check
+npm run format           # Auto-format with Prettier (WRITES FILES)
+npm run format:check     # Runs format (writes!) THEN checks — NOT read-only
+npm run type-check       # TypeScript strict mode check (tsc --noEmit --pretty)
+npm run type-check:watch # TypeScript watch mode
 npm run lint             # ESLint (warnings allowed, compact output)
 npm run lint:fix         # ESLint with auto-fix
+npm run lint:fix:all     # ESLint with all fix types (directive, problem, suggestion, layout)
 npm run lint:strict      # ESLint (zero warnings — PR-blocking)
 ```
+
+> **CRITICAL:** `npm run format:check` is **destructive** — it runs `npm run format` first (which writes files), then runs `prettier --check`. It is NOT a read-only check. Run `npm run format` first to pre-format before checking if you want to avoid surprises.
 
 ### Database
 
@@ -107,15 +173,17 @@ npm run db:generate      # Generate new migration file from schema diff
 npm run db:check         # Check schema/migration consistency
 npm run db:studio        # Open Drizzle Studio GUI at localhost:8000
 npm run db:seed          # Seed database with test/dev data
-npm run db:reset         # Full reset: db:drop + db:generate + db:push (does NOT seed)
+npm run db:reset         # Full reset: db:drop + db:generate + db:push
+npm run db:drop          # Drop all tables
+npm run db:pull          # Introspect DB schema (drizzle-kit introspect)
 ```
 
-> **Warning:** `db:reset` does **not** seed. Run `db:seed` separately after reset if needed.
+> **Warning:** `db:reset` does **not** seed. Run `npm run db:seed` separately after reset.
 
 ### Testing
 
 ```bash
-npm run test             # All tests: test:browser && test:ui
+npm run test             # All tests: test:browser && test:ui (sequential)
 npm run test:browser     # Vitest unit/integration tests only
 npm run test:ui          # Playwright E2E tests (Chromium, 1 worker, PLAYWRIGHT_PREPARE_DB=true)
 npm run test:ui:codegen  # Playwright codegen (record new tests)
@@ -125,10 +193,37 @@ npm run test:ui:report   # Show last Playwright HTML report
 ### Code Generation
 
 ```bash
-npm run type-gen         # next typegen (typed routes)
-npm run generate:*       # Various scaffolding generators
-npm run registry:*       # shadcn registry commands
-npm run website:*        # Website/docs commands
+npm run type-gen          # next typegen (typed routes)
+npm run generate:action   # Scaffold a new Server Action
+npm run generate:component # Scaffold a new React component
+npm run generate:dal      # Scaffold a new DAL file
+npm run generate:feature  # Scaffold a full feature (action + DAL + component)
+```
+
+### Registry & Website
+
+```bash
+npm run registry:build        # generate + export registry
+npm run registry:generate     # Generate README from registry
+npm run registry:generate:readme # Generate all READMEs
+npm run registry:export       # Export registry to dist/registry.json
+npm run registry:validate     # Validate registry entries
+npm run website:build         # Build main app + website data + website
+npm run website:dev           # Serve website data + run website dev server
+npm run website:preview       # Preview website build
+```
+
+### Markdown & Contributors
+
+```bash
+npm run check:markdown    # Run markdownlint-cli2 (read-only check)
+npm run fix:markdown      # Run markdownlint-cli2 --fix (auto-fix markdown)
+npm run contributors:add  # Add a contributor via all-contributors
+npm run contributors:check # Check for missing contributors
+npm run contributors:generate # Regenerate contributors section
+npm run check-updates     # Check for npm package updates (interactive)
+npm run export:data       # Export data via tsx scripts/export-data.ts
+npm run upstash           # Run Upstash QStash dev proxy
 ```
 
 ---
@@ -139,15 +234,23 @@ npm run website:*        # Website/docs commands
 # Run a single Vitest file
 npm exec vitest run tests/unit/register.test.ts
 
+# Run Vitest tests matching a pattern
+npm exec vitest run --reporter=verbose tests/unit/
+
 # Run a single Playwright spec
 npm exec playwright test tests/e2e/auth.spec.ts
 
 # Run Playwright with UI mode
 npm exec playwright test --ui
 
-# Run Playwright with headed browser
+# Run Playwright with headed browser (visible)
 npm exec playwright test --headed tests/e2e/auth.spec.ts
+
+# Run Playwright with specific grep pattern
+npm exec playwright test --grep "sign-in"
 ```
+
+> **Always free port 3000 before running tests.** See Section 22 (Port Guard).
 
 ---
 
@@ -177,7 +280,7 @@ All environment variables are validated and typed via `lib/env.ts` using Zod sch
 | --- | -------------- | ------------------------------------------ |
 | 7   | `DATABASE_URL` | PostgreSQL connection string (Neon format) |
 
-> **Note:** `DATABASE_URL` is **optional** in `lib/env.ts` — the app does not crash at startup if absent, but DB operations will fail at runtime.
+> **Note:** `DATABASE_URL` is **optional** in `lib/env.ts` — the app does not crash at startup if absent, but all DB operations will fail at runtime.
 
 ### External APIs (Optional)
 
@@ -216,7 +319,7 @@ All environment variables are validated and typed via `lib/env.ts` using Zod sch
 | 23  | `SMTP_USER` | SMTP username                           |
 | 24  | `SMTP_PASS` | SMTP password (**not** `SMTP_PASSWORD`) |
 
-> **Note:** `SMTP_FROM` and `EMAIL_FROM` — verify against current `lib/env.ts` before use. One or both may be present.
+> **Note:** `SMTP_FROM` / `EMAIL_FROM` — verify against current `lib/env.ts` before use.
 
 ### Caching & Rate Limiting (Optional)
 
@@ -233,6 +336,8 @@ import { env } from "@/lib/env";
 const key: string = env.ENCRYPTION_KEY;
 ```
 
+> ESLint enforces this: `no-restricted-syntax` rule bans `process.env` access outside `lib/env.ts` and config files (`next.config.ts`, `eslint.config.mts`, `vitest.config.ts`, etc.).
+
 ---
 
 ## 5. PR-Blocking Rules (7 Critical)
@@ -241,9 +346,9 @@ These rules are enforced by CI/CD. PRs will be blocked if any are violated.
 
 | # | Rule | Violation | Enforcement |
 | --- | --- | --- | --- |
-| 1 | No `any` types | Use `unknown` + type guards | TypeScript strict + ESLint |
+| 1 | No `any` types | Use `unknown` + type guards | TypeScript strict + aspirational ESLint |
 | 2 | No N+1 queries | Use JOINs / eager loading | Code review |
-| 3 | No raw `process.env` | Use `lib/env.ts` | ESLint rule |
+| 3 | No raw `process.env` | Use `lib/env.ts` | ESLint `no-restricted-syntax` (error) |
 | 4 | Mutations via Server Actions only | Never in API routes | Code review |
 | 5 | Zero TypeScript errors | `npm run type-check` must pass | CI |
 | 6 | Zero lint warnings | `npm run lint:strict` must pass | CI |
@@ -253,12 +358,28 @@ These rules are enforced by CI/CD. PRs will be blocked if any are violated.
 
 ## 6. TypeScript & Type Safety
 
-### Strict Mode Rules
+### Compiler Settings (`tsconfig.json`)
 
-- No `any` — use `unknown` with type guards
-- Explicit return types for all exported functions
-- Non-nullable by default — use `| null` or `| undefined` explicitly when needed
-- Strict property initialization
+```json
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "moduleResolution": "bundler",
+    "strict": true,
+    "noEmit": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "paths": { "@/*": ["./*"] }
+  }
+}
+```
+
+Key flags active under `"strict": true`:
+
+- `strictNullChecks` — non-nullable by default
+- `noImplicitAny` — implicit `any` is a type error
+- `strictFunctionTypes`, `strictBindCallApply`, `strictPropertyInitialization`
 
 ### Type Guard Pattern
 
@@ -327,24 +448,25 @@ export function parse(input: unknown): string {
 }
 ```
 
+> **Note on ESLint enforcement:** `@typescript-eslint/no-explicit-any` is set to `"off"` in `eslint.config.mts`. The no-`any` requirement is enforced by TypeScript's `noImplicitAny` (compile-time implicit any) and by code review. Explicit `any` casts are discouraged but not blocked by ESLint. Use `unknown` consistently for new code.
+
 ---
 
 ## 7. ESLint Configuration
 
 ### `noInlineConfig: true` — CRITICAL WARNING
 
-The ESLint config sets `noInlineConfig: true`. This means:
+The ESLint config sets `noInlineConfig: true` globally. This means:
 
-- `// eslint-disable-next-line` — **ignored, has no effect**
-- `// eslint-disable` — **ignored, has no effect**
-- `/* eslint-disable @typescript-eslint/no-explicit-any */` — **ignored, has no effect**
+- `// eslint-disable-next-line` — **ignored, has absolutely no effect**
+- `// eslint-disable` — **ignored, has absolutely no effect**
+- `/* eslint-disable @typescript-eslint/no-explicit-any */` — **ignored, has absolutely no effect**
+- `reportUnusedDisableDirectives: true` — any leftover disable comments are flagged as errors
 
-**The only way to suppress an ESLint rule is to modify `eslint.config.mts`.**
-
-Use `overrides` in the config to disable rules for specific files:
+**The ONLY way to suppress an ESLint rule is to modify `eslint.config.mts`.**
 
 ```typescript
-// eslint.config.mts — correct way to disable a rule for a file
+// eslint.config.mts — the ONLY valid suppression method
 {
   files: ["lib/dal/base.dal.ts"],
   rules: {
@@ -357,30 +479,79 @@ Use `overrides` in the config to disable rules for specific files:
 
 `eslint.config.mts` (flat config format, ESLint v9+)
 
-### Key Rules Enforced
+### Active Plugins
 
-| Rule | Setting | Notes |
+| Plugin | Package | Purpose |
 | --- | --- | --- |
-| `@typescript-eslint/no-explicit-any` | `error` | No `any` types allowed |
-| `no-restricted-syntax` (process.env) | `error` | Must use `lib/env.ts` |
-| `import/order` | `warn` | Canonical import ordering |
-| `@typescript-eslint/explicit-function-return-type` | `warn` | Exported functions need return types |
-| `@typescript-eslint/no-unused-vars` | `error` | No unused variables |
+| `@typescript-eslint` | `@typescript-eslint/eslint-plugin` | TypeScript-specific rules |
+| `better-tailwindcss` | `eslint-plugin-better-tailwindcss` | Tailwind class ordering |
+| `drizzle` | `eslint-plugin-drizzle` | Drizzle ORM safety rules |
+| `import-x` | `eslint-plugin-import-x` | Import ordering and resolution |
+| `jest` | `eslint-plugin-jest` | Jest-compatible test rules |
+| `perfectionist` | `eslint-plugin-perfectionist` | Code ordering rules |
+| `playwright` | `eslint-plugin-playwright` | Playwright-specific rules |
+| `react` | `eslint-plugin-react` | React rules |
+| `react-hooks` | `eslint-plugin-react-hooks` | Hooks rules |
+| `react-refresh` | `eslint-plugin-react-refresh` | Fast refresh rules |
+| `security` | `eslint-plugin-security` | Security best practices |
+| `sonarjs` | `eslint-plugin-sonarjs` | Code smell detection |
+| `testing-library` | `eslint-plugin-testing-library` | Testing Library rules |
+| `unicorn` | `eslint-plugin-unicorn` | Opinionated best practices |
+| `vitest` | `eslint-plugin-vitest` | Vitest-specific rules |
+| `zod` | `eslint-plugin-zod` | Zod schema best practices |
 
-### Suppression Pattern (Only Valid Method)
+### Key Rules — Errors (Blocking)
 
-```typescript
-// eslint.config.mts
-export default [
-  // ... other config ...
-  {
-    files: ["path/to/specific/file.ts"],
-    rules: {
-      "rule-to-suppress": "off"
-    }
-  }
-];
-```
+| Rule | Level | Notes |
+| --- | --- | --- |
+| `no-var` | error | Use `const`/`let` only |
+| `prefer-const` | error | Prefer `const` where possible |
+| `curly` | error | Always use braces |
+| `no-debugger` | error | No `debugger` statements |
+| `no-unreachable` | error | No unreachable code |
+| `no-unsafe-negation` | error | Catches `!x in y` mistakes |
+| `no-unsafe-optional-chaining` | error | Catches `?.()` misuse |
+| `react-hooks/rules-of-hooks` | error | Hooks only in components/hooks |
+| `security/detect-eval-with-expression` | error | No `eval()` with expressions |
+| `security/detect-non-literal-fs-filename` | error | No dynamic file paths |
+| `security/detect-non-literal-require` | error | No dynamic `require()` |
+| `security/detect-unsafe-regex` | error | No ReDoS-vulnerable regex |
+| `unicorn/no-abusive-eslint-disable` | error | No inline disable comments (redundant with `noInlineConfig`) |
+| `unicorn/prefer-includes` | error | Use `.includes()` over `.indexOf() !== -1` |
+| `unicorn/prefer-string-slice` | error | Use `.slice()` over `.substring()` |
+| `unicorn/throw-new-error` | error | Always `throw new Error(...)` |
+| `unicorn/filename-case` | error | camelCase, kebabCase, or pascalCase filenames |
+| `zod/no-any-schema` | error | No `z.any()` in Zod schemas |
+| `zod/no-empty-custom-schema` | error | No empty `.refine()` calls |
+| `zod/no-optional-and-default-together` | error | No `.optional().default()` combo |
+| `zod/no-unknown-schema` | error | No `z.unknown()` in schemas |
+| `zod/prefer-meta` | error | Add `.describe()` or `.meta()` to schemas |
+| `zod/require-error-message` | error | All Zod validations need error messages |
+| `drizzle/enforce-delete-with-where` | error | Always use `.where()` on `.delete()` |
+| `drizzle/enforce-update-with-where` | error | Always use `.where()` on `.update()` |
+
+> **Drizzle rules** apply only to files matching `**/dal/**/*.ts`, `**/database/**/*.ts`, `**/actions/**/*.ts`, and similar DB-touching paths. Check `eslint.config.mts` for exact file globs.
+
+### Key Rules — Warnings
+
+| Rule | Level | Notes |
+| --- | --- | --- |
+| `@typescript-eslint/explicit-function-return-type` | warn | Exported functions need return types |
+| `import/order` | warn | Canonical import ordering |
+| `react-hooks/exhaustive-deps` | warn | Dependency array completeness |
+
+> Warnings become **errors** under `npm run lint:strict` (`--max-warnings=0`).
+
+### File-Scoped Overrides (Notable)
+
+| Files | Override |
+| --- | --- |
+| `lib/dal/base.dal.ts` | `@typescript-eslint/no-explicit-any: "off"` — intentional for Drizzle generics |
+| `lib/env.ts`, `next.config.ts`, config files | `no-restricted-syntax` (process.env) disabled |
+| `scripts/seed/**` | Relaxed rules for seed scripts |
+| `tests/**` | `jest/*`, `vitest/*`, `playwright/*`, `testing-library/*` rules active |
+| `components/ui/**` | Relaxed rules for shadcn/ui generated components |
+| `lib/actions/**` | Server Action-specific overrides |
 
 ---
 
@@ -388,28 +559,62 @@ export default [
 
 Config file: `.prettierrc.ts`
 
+### Settings
+
 ```typescript
-// Key settings (verify against .prettierrc.ts for exact values)
 {
-  semi: true,
-  singleQuote: false,         // double quotes
-  trailingComma: "all",
-  printWidth: 100,
+  printWidth: 80,              // Line wrap at 80 chars (NOT 100)
   tabWidth: 2,
   useTabs: false,
+  semi: true,
+  singleQuote: false,          // double quotes
+  jsxSingleQuote: false,       // double quotes in JSX
+  trailingComma: "all",
+  endOfLine: "lf",
   bracketSpacing: true,
+  bracketSameLine: false,      // JSX closing > on its own line
   arrowParens: "always",
-  endOfLine: "lf"
 }
 ```
 
-> **Note:** `format:check` runs `npm run format` (write) **then** `prettier --check .` — it is NOT read-only. Running `npm run format:check` will modify files. Run `npm run format` to pre-format before checking.
+### Active Plugins
+
+| Plugin                             | Purpose                     |
+| ---------------------------------- | --------------------------- |
+| `prettier-plugin-tailwindcss`      | Auto-sort Tailwind classes  |
+| `prettier-plugin-organize-imports` | Auto-sort imports on format |
+| `prettier-plugin-packagejson`      | Sort `package.json` keys    |
+| `prettier-plugin-sort-json`        | Sort JSON files             |
+
+### Tailwind Plugin Config
+
+```typescript
+tailwindFunctions: ["clsx", "cn", "cva", "twMerge", "twJoin", "tw"],
+tailwindStylesheet: "./app/globals.css",
+```
+
+### Per-File Overrides
+
+| Pattern | Override |
+| --- | --- |
+| `*.md` | `printWidth: 70`, `proseWrap: never`, `trailingComma: none` |
+| `*.json` | `printWidth: 70` |
+| `*.yaml`, `*.yml` | `tabWidth: 2` |
+
+### CRITICAL: `format:check` is Destructive
+
+```bash
+# format:check script is:
+npm run format && prettier --config .prettierrc.ts --check .
+```
+
+It runs `npm run format` (which **writes** files) FIRST, then checks. It is NOT a read-only operation. If you want to see what would change without modifying files, do NOT use `format:check` — use `prettier --check .` directly.
 
 ---
 
 ## 9. Import Order
 
-Enforced by `import/order` ESLint rule (`warn`). Follow this ordering:
+Enforced by `import-x` ESLint plugin. Violations are `warn` (become errors under `lint:strict`). `prettier-plugin-organize-imports` also re-sorts on every `format` run.
 
 ```typescript
 // 1. React / core Node
@@ -446,6 +651,8 @@ import type { User } from "@/types";
 
 ## 10. Naming Conventions
 
+Enforced by `unicorn/filename-case` (error): allows camelCase, kebabCase, and pascalCase.
+
 | Type | Convention | Example |
 | --- | --- | --- |
 | Files | kebab-case | `user-dal.ts`, `bank-card.tsx` |
@@ -456,114 +663,13 @@ import type { User } from "@/types";
 | Variables | camelCase | `currentUser`, `bankList` |
 | Constants | UPPER_SNAKE | `MAX_RETRY`, `DEFAULT_CURRENCY` |
 | Types / Interfaces | PascalCase | `UserProfile`, `BankAccount` |
-| Zod schemas | camelCase + `Schema` suffix | `registerSchema`, `UpdateProfileSchema` |
+| Zod schemas | camelCase + `Schema` suffix | `registerSchema`, `updateProfileSchema` |
 | Server Actions files | camelCase + `.actions.ts` | `user.actions.ts`, `bank.actions.ts` |
 | DAL files | camelCase + `.dal.ts` | `user.dal.ts`, `bank.dal.ts` |
 
 ---
 
 ## 11. Next.js 16 Patterns
-
-### Server vs Client Components
-
-**Server Components (default)** — use for data fetching, heavy logic, non-interactive UI:
-
-```tsx
-// app/(root)/dashboard/page.tsx
-import { getUserBanks } from "@/lib/actions/bank.actions";
-
-export default async function DashboardPage() {
-  const result = await getUserBanks();
-  if (!result.ok) return <div>Error loading banks</div>;
-  return <BankList banks={result.banks ?? []} />;
-}
-```
-
-**Client Components** — add `"use client"` for interactivity, hooks, browser APIs:
-
-```tsx
-"use client";
-
-import { useState } from "react";
-
-export function TransferForm() {
-  const [amount, setAmount] = useState("");
-  return (
-    <input value={amount} onChange={e => setAmount(e.target.value)} />
-  );
-}
-```
-
-### Cache Components (Next.js 16)
-
-Use `"use cache"` directive with `cacheLife` for data memoization:
-
-```typescript
-"use cache";
-import { cacheLife } from "next/dist/server/use-cache/cache-life";
-
-cacheLife("hours");
-
-export async function getCachedBanks(userId: string) {
-  return getUserBanks(userId);
-}
-```
-
-**Cache profiles:** `"seconds"`, `"minutes"`, `"hours"`, `"days"`, `"weeks"`, `"max"`
-
-### Cache Revalidation
-
-```typescript
-import { revalidateTag } from "next/cache";
-import { unstable_updateTag as updateTag } from "next/cache";
-
-// In Server Actions after mutations — prefer updateTag for immediate consistency
-updateTag("banks");
-
-// For background revalidation
-revalidateTag("banks");
-```
-
-### Async Request APIs (Next.js 16)
-
-`cookies()`, `headers()`, `params`, and `searchParams` are **async** in Next.js 16:
-
-```typescript
-import { cookies, headers } from "next/headers";
-
-// In Server Components / Actions
-const cookieStore = await cookies();
-const headersList = await headers();
-
-// In page components
-export default async function Page({
-  params,
-  searchParams
-}: {
-  params: Promise<{ id: string }>;
-  searchParams: Promise<{ page?: string }>;
-}) {
-  const { id } = await params;
-  const { page } = await searchParams;
-  // ...
-}
-```
-
-### Suspense Boundaries
-
-Wrap async content:
-
-```tsx
-import { Suspense } from "react";
-
-export default function Page() {
-  return (
-    <Suspense fallback={<BankListSkeleton />}>
-      <BankList />
-    </Suspense>
-  );
-}
-```
 
 ### Project Structure
 
@@ -592,7 +698,7 @@ lib/
 ├── actions/                   # Server Actions (mutations only)
 ├── dal/                       # Data Access Layer
 ├── auth.ts                    # re-exports auth() helper
-├── auth-options.ts            # NextAuth config (JWT strategy)
+├── auth-options.ts            # NextAuth config (JWT strategy — ACTIVE)
 ├── auth-config.ts             # DEBT #6: conflicting config (database strategy)
 ├── encryption.ts              # AES-256-GCM helpers
 ├── email.ts                   # SMTP email sender
@@ -611,11 +717,219 @@ components/
 └── transaction-history/
 ```
 
+### Server vs Client Components
+
+**Server Components (default)** — use for data fetching, heavy logic, non-interactive UI:
+
+```tsx
+// app/(root)/dashboard/page.tsx
+import { getUserBanks } from "@/lib/actions/bank.actions";
+
+export default async function DashboardPage(): Promise<React.JSX.Element> {
+  const result = await getUserBanks();
+  if (!result.ok) return <div>Error loading banks</div>;
+  return <BankList banks={result.banks ?? []} />;
+}
+```
+
+**Client Components** — add `"use client"` for interactivity, hooks, browser APIs:
+
+```tsx
+"use client";
+
+import { useState } from "react";
+
+export function TransferForm(): React.JSX.Element {
+  const [amount, setAmount] = useState("");
+  return (
+    <input value={amount} onChange={e => setAmount(e.target.value)} />
+  );
+}
+```
+
+### Page Component Signature (Next.js 16)
+
+`params` and `searchParams` are **Promises** in Next.js 16:
+
+```tsx
+export default async function Page({
+  params,
+  searchParams
+}: {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ page?: string }>;
+}): Promise<React.JSX.Element> {
+  const { id } = await params;
+  const { page } = await searchParams;
+  // ...
+}
+```
+
+### Route Handlers
+
+```typescript
+// app/api/example/route.ts
+import { NextRequest, NextResponse } from "next/server";
+
+export async function GET(
+  request: NextRequest
+): Promise<NextResponse> {
+  return NextResponse.json({ status: "ok" });
+}
+```
+
 ---
 
-## 12. Server Actions
+## 12. Cache Components (Next.js 16)
 
-**All mutations must be implemented as Server Actions.** Never place mutation logic in API route handlers.
+Cache Components are enabled in this project. Use the `"use cache"` directive for server-side data memoization. This is the recommended caching strategy over `unstable_cache` (legacy).
+
+### Basic Usage
+
+```typescript
+"use cache";
+import { cacheLife } from "next/dist/server/use-cache/cache-life";
+import { cacheTag } from "next/dist/server/use-cache/cache-tag";
+
+cacheLife("hours");
+cacheTag("banks");
+
+export async function getCachedBanks(userId: string) {
+  return getUserBanks(userId);
+}
+```
+
+### Cache Profiles
+
+| Profile     | Stale Time | Revalidate |
+| ----------- | ---------- | ---------- |
+| `"seconds"` | 1s         | 1s         |
+| `"minutes"` | 1min       | 1min       |
+| `"hours"`   | 1hr        | 1hr        |
+| `"days"`    | 1day       | 1day       |
+| `"weeks"`   | 1week      | 1week      |
+| `"max"`     | Maximum    | Maximum    |
+
+### Cache Revalidation
+
+```typescript
+import { revalidateTag } from "next/cache";
+import { unstable_updateTag as updateTag } from "next/cache";
+
+// In Server Actions after mutations — prefer updateTag for immediate consistency
+updateTag("banks");
+
+// For background (stale-while-revalidate) revalidation
+revalidateTag("banks");
+// or
+revalidateTag("banks", "max");
+```
+
+### Rules for Cache Components
+
+- Functions with `"use cache"` must be **async**
+- Cache functions cannot use request-time data (cookies, headers) directly — pass as arguments
+- Each `cacheTag()` call registers a tag for later invalidation
+- Use `updateTag()` inside Server Actions after mutations (immediate consistency)
+- Use `revalidateTag()` for background revalidation
+
+### Legacy: `unstable_cache`
+
+`unstable_cache` is the legacy API. Prefer `"use cache"` for all new code.
+
+---
+
+## 13. Suspense & Async APIs (Next.js 16)
+
+In Next.js 16, several APIs are **async** and reading them suspends the component tree. Always wrap components that use these APIs in `<Suspense>` boundaries.
+
+### Async APIs
+
+```typescript
+import { cookies, headers } from "next/headers";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth-options";
+
+// These are async in Next.js 16:
+const cookieStore = await cookies();
+const headersList = await headers();
+const session = await getServerSession(authOptions);
+```
+
+### Suspense for Protected Pages
+
+```tsx
+// app/(root)/layout.tsx
+import { Suspense } from "react";
+import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth-options";
+
+async function AuthGuard({
+  children
+}: {
+  children: React.ReactNode;
+}) {
+  const session = await getServerSession(authOptions);
+  if (!session?.user) redirect("/sign-in");
+  return <>{children}</>;
+}
+
+export default function RootLayout({
+  children
+}: {
+  children: React.ReactNode;
+}): React.JSX.Element {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <AuthGuard>{children}</AuthGuard>
+    </Suspense>
+  );
+}
+```
+
+### Suspense for Data-Fetching Components
+
+```tsx
+import { Suspense } from "react";
+
+export default function Page(): React.JSX.Element {
+  return (
+    <Suspense fallback={<BankListSkeleton />}>
+      <BankList />
+    </Suspense>
+  );
+}
+
+async function BankList(): Promise<React.JSX.Element> {
+  const result = await getUserBanks(); // suspends here
+  if (!result.ok) return <div>Error</div>;
+  return (
+    <ul>
+      {result.banks?.map(bank => (
+        <BankCard key={bank.id} bank={bank} />
+      ))}
+    </ul>
+  );
+}
+```
+
+### Loading Files
+
+Use `loading.tsx` for automatic Suspense wrapping at the route level:
+
+```tsx
+// app/(root)/dashboard/loading.tsx
+export default function DashboardLoading(): React.JSX.Element {
+  return <DashboardSkeleton />;
+}
+```
+
+---
+
+## 14. Server Actions
+
+**All mutations must be implemented as Server Actions.** Never place mutation logic in API routes.
 
 ### Canonical Template
 
@@ -625,34 +939,118 @@ components/
 import { z } from "zod";
 import { auth } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
+import { unstable_updateTag as updateTag } from "next/cache";
 
 const InputSchema = z.object({
-  name: z.string().min(1).max(100)
+  name: z
+    .string()
+    .min(1, "Name is required")
+    .max(100, "Name too long")
 });
 
 export async function doSomething(
   input: unknown
 ): Promise<{ ok: boolean; error?: string }> {
-  // 1. Auth check
-  const session = await auth();
-  if (!session?.user) {
-    return { ok: false, error: "Unauthorized" };
-  }
-
-  // 2. Validate input
+  // 1. Validate input FIRST (before auth for public-safe validation)
   const parsed = InputSchema.safeParse(input);
   if (!parsed.success) {
     return { ok: false, error: parsed.error.message };
   }
 
-  // 3. Execute mutation
+  // 2. Auth check
+  const session = await auth();
+  if (!session?.user) {
+    return { ok: false, error: "Unauthorized" };
+  }
+
+  // 3. Authorization check (if admin-only)
+  if (!session.user.isAdmin) {
+    return { ok: false, error: "Forbidden" };
+  }
+
+  // 4. Execute mutation
   try {
     await someDAL.create(parsed.data);
+    // 5. Revalidate caches
     revalidatePath("/relevant-path");
+    updateTag("relevant-tag");
     return { ok: true };
   } catch {
     return { ok: false, error: "Server error" };
   }
+}
+```
+
+> **Exception:** `disconnectBank` in `lib/actions/bank.actions.ts` intentionally validates BEFORE auth — this is a documented deviation from the template for that specific action.
+
+### File Upload Action
+
+```typescript
+"use server";
+
+import { z } from "zod";
+import { auth } from "@/lib/auth";
+
+const UploadSchema = z.object({
+  fileName: z.string().min(1, "File name required"),
+  fileSize: z.number().max(5 * 1024 * 1024, "Max 5MB"),
+  fileType: z.enum(["image/jpeg", "image/png"], {
+    message: "Only JPEG or PNG allowed"
+  })
+});
+
+export async function uploadAvatar(
+  formData: FormData
+): Promise<{ ok: boolean; url?: string; error?: string }> {
+  const session = await auth();
+  if (!session?.user) return { ok: false, error: "Unauthorized" };
+
+  const file = formData.get("file") as File | null;
+  if (!file) return { ok: false, error: "No file provided" };
+
+  const parsed = UploadSchema.safeParse({
+    fileName: file.name,
+    fileSize: file.size,
+    fileType: file.type
+  });
+  if (!parsed.success)
+    return { ok: false, error: parsed.error.message };
+
+  // ... upload logic
+  return { ok: true, url: "/path/to/uploaded-file" };
+}
+```
+
+### Optimistic Updates with `useActionState`
+
+```tsx
+"use client";
+
+import { useActionState } from "react";
+import { doSomething } from "@/lib/actions/example.actions";
+
+const initialState = {
+  ok: false as boolean,
+  error: undefined as string | undefined
+};
+
+export function OptimisticForm(): React.JSX.Element {
+  const [state, formAction, isPending] = useActionState(
+    doSomething,
+    initialState
+  );
+
+  return (
+    <form action={formAction}>
+      <input name="name" required />
+      {state.error && (
+        <p className="text-destructive">{state.error}</p>
+      )}
+      <button type="submit" disabled={isPending}>
+        {isPending ? "Saving..." : "Save"}
+      </button>
+    </form>
+  );
 }
 ```
 
@@ -671,15 +1069,15 @@ export async function doSomething(
 | --- | --- | --- |
 | `registerUser` | `(input: unknown): Promise<{ ok: boolean; user?: User; error?: string }>` | Also exported as `register` |
 
-`RegisterSchema` fields: `email`, `name`, `password`, `confirmPassword` `RegisterInput = z.infer<typeof RegisterSchema>`
+`RegisterSchema` fields: `email`, `name`, `password`, `confirmPassword`
 
 #### `lib/actions/updateProfile.ts`
 
 | Function | Signature | Notes |
 | --- | --- | --- |
-| `updateProfile` | `(input: unknown): Promise<{ ok: boolean; error?: string }>` | userId from session only, never from input |
+| `updateProfile` | `(input: unknown): Promise<{ ok: boolean; error?: string }>` | userId from session only |
 
-`UpdateProfileSchema` fields: `address?`, `city?`, `email?`, `image?`, `name?`, `newPassword?`, `password?`, `phone?`, `postalCode?`, `state?` `UpdateProfileInput = z.infer<typeof UpdateProfileSchema>`
+`UpdateProfileSchema` fields: `address?`, `city?`, `email?`, `image?`, `name?`, `newPassword?`, `password?`, `phone?`, `postalCode?`, `state?`
 
 #### `lib/actions/admin.actions.ts`
 
@@ -695,7 +1093,7 @@ export async function doSomething(
 | Function | Signature | Notes |
 | --- | --- | --- |
 | `getUserBanks` | `(): Promise<{ ok: boolean; banks?: Bank[]; error?: string }>` |  |
-| `disconnectBank` | `(bankId: string): Promise<{ ok: boolean; error?: string }>` | Validates BEFORE auth — intentional deviation from template |
+| `disconnectBank` | `(bankId: string): Promise<{ ok: boolean; error?: string }>` | Validates BEFORE auth — intentional |
 
 #### `lib/actions/plaid.actions.ts`
 
@@ -706,7 +1104,7 @@ export async function doSomething(
 | `getAccounts` | `(input: unknown) => Promise<{ ok: boolean; accounts?: PlaidAccount[]; error?: string }>` |  |
 | `getTransactions` | `(input: unknown) => Promise<{ ok: boolean; transactions?: PlaidTransaction[]; totalTransactions?: number; error?: string }>` |  |
 | `getBalance` | `(input: unknown) => Promise<{ ok: boolean; balances?: PlaidBalance[]; error?: string }>` |  |
-| `getAllBalances` | `() => Promise<{ ok: boolean; balances?: Record<string, PlaidBalance[]>; error?: string }>` | **DEBT #4**: N+1 — calls Plaid per bank in `Promise.all` loop |
+| `getAllBalances` | `() => Promise<{ ok: boolean; balances?: Record<string, PlaidBalance[]>; error?: string }>` | **DEBT #4**: N+1 |
 | `getInstitution` | `(input: unknown) => Promise<{ ok: boolean; institution?: PlaidInstitution; error?: string }>` |  |
 | `getBankWithDetails` | `(input: unknown) => Promise<{ ok: boolean; balances?: PlaidBalance[]; transactions?: PlaidTransaction[]; error?: string }>` |  |
 | `removeBank` | `(input: unknown) => Promise<{ ok: boolean; error?: string }>` |  |
@@ -739,7 +1137,7 @@ export async function doSomething(
 
 ---
 
-## 13. Data Access Layer (DAL)
+## 15. Data Access Layer (DAL)
 
 All database access must go through `lib/dal/`. Never query the database directly from Server Actions or components.
 
@@ -747,7 +1145,7 @@ All database access must go through `lib/dal/`. Never query the database directl
 
 ```
 lib/dal/
-├── base.dal.ts          # Generic base class with findById, findAll, deleteById
+├── base.dal.ts          # Generic base class (findById, findAll, deleteById)
 ├── user.dal.ts          # UserDal — findByEmail, findById, create, update
 ├── bank.dal.ts          # BankDal — findByUserId, findById, create, delete
 ├── transaction.dal.ts   # TransactionDal — findByUserId, paginated queries
@@ -760,10 +1158,13 @@ lib/dal/
 
 ```typescript
 // lib/dal/base.dal.ts
-// Note: internal `as any` casts are intentional — Drizzle's TableLikeHasEmptySelection
-// conditional type cannot be satisfied with a bare generic. ESLint disabled for this file.
+// Internal `as any` casts are intentional — Drizzle's generic table type cannot be
+// satisfied with a bare generic. ESLint disabled for this file in eslint.config.mts.
 
-import { AnyPgTable, InferSelectModel } from "drizzle-orm/pg-core";
+import type {
+  AnyPgTable,
+  InferSelectModel
+} from "drizzle-orm/pg-core";
 import { eq } from "drizzle-orm";
 import { db } from "@/database/db";
 
@@ -775,27 +1176,43 @@ export class BaseDal<T extends AnyPgTable> {
   ): Promise<InferSelectModel<T> | undefined> {
     const rows = await db
       .select()
-      .from(this.table as any)
-      .where(eq((this.table as any).id, id))
+      .from(this.table as Parameters<typeof db.select>[0])
+      .where(
+        eq(
+          (this.table as Record<string, unknown>).id as Parameters<
+            typeof eq
+          >[0],
+          id
+        )
+      )
       .limit(1);
     return rows[0] as InferSelectModel<T> | undefined;
   }
 
   async findAll(): Promise<InferSelectModel<T>[]> {
-    return db.select().from(this.table as any) as Promise<
+    return db
+      .select()
+      .from(this.table as Parameters<typeof db.select>[0]) as Promise<
       InferSelectModel<T>[]
     >;
   }
 
   async deleteById(id: string): Promise<void> {
     await db
-      .delete(this.table as any)
-      .where(eq((this.table as any).id, id));
+      .delete(this.table as Parameters<typeof db.delete>[0])
+      .where(
+        eq(
+          (this.table as Record<string, unknown>).id as Parameters<
+            typeof eq
+          >[0],
+          id
+        )
+      );
   }
 }
 ```
 
-### DAL Usage Pattern
+### DAL Implementation Pattern
 
 ```typescript
 // lib/dal/user.dal.ts
@@ -803,25 +1220,47 @@ import { eq } from "drizzle-orm";
 import { db } from "@/database/db";
 import { users } from "@/database/schema";
 import { BaseDal } from "./base.dal";
+import type { InferSelectModel } from "drizzle-orm";
+
+type User = InferSelectModel<typeof users>;
 
 export class UserDal extends BaseDal<typeof users> {
   constructor() {
     super(users);
   }
 
-  async findByEmail(email: string) {
+  async findByEmail(email: string): Promise<User[]> {
     return db
       .select()
       .from(users)
       .where(eq(users.email, email))
       .limit(1);
   }
+
+  async create(
+    data: Omit<User, "id" | "createdAt" | "updatedAt">
+  ): Promise<User> {
+    const [user] = await db.insert(users).values(data).returning();
+    return user;
+  }
+
+  async update(
+    id: string,
+    data: Partial<User>
+  ): Promise<User | undefined> {
+    const [updated] = await db
+      .update(users)
+      .set({ ...data, updatedAt: new Date() })
+      .where(eq(users.id, id))
+      .returning();
+    return updated;
+  }
 }
 
 export const userDal = new UserDal();
 ```
 
-### N+1 Prevention
+### N+1 Prevention — CRITICAL
 
 **NEVER query inside a loop.** Use JOINs or batch queries:
 
@@ -833,6 +1272,8 @@ for (const bank of banks) {
 }
 
 // GOOD — single JOIN
+import { banks, transactions } from "@/database/schema";
+
 const banksWithTransactions = await db
   .select({ bank: banks, transaction: transactions })
   .from(banks)
@@ -851,9 +1292,69 @@ await db.transaction(async tx => {
 });
 ```
 
+### Upsert Pattern
+
+```typescript
+import { sql } from "drizzle-orm";
+
+await db
+  .insert(userProfiles)
+  .values({ userId, address, city })
+  .onConflictDoUpdate({
+    target: userProfiles.userId,
+    set: { address, city, updatedAt: sql`now()` }
+  });
+```
+
+### Cursor Pagination Pattern
+
+```typescript
+export async function findTransactionsCursor(
+  userId: string,
+  cursor: string | undefined,
+  limit: number
+): Promise<{ items: Transaction[]; nextCursor: string | undefined }> {
+  const conditions = cursor
+    ? and(
+        eq(transactions.userId, userId),
+        lt(transactions.id, cursor)
+      )
+    : eq(transactions.userId, userId);
+
+  const items = await db
+    .select()
+    .from(transactions)
+    .where(conditions)
+    .orderBy(desc(transactions.createdAt))
+    .limit(limit + 1);
+
+  const hasMore = items.length > limit;
+  return {
+    items: hasMore ? items.slice(0, limit) : items,
+    nextCursor: hasMore ? items[limit - 1]?.id : undefined
+  };
+}
+```
+
+### Soft Delete Pattern
+
+```typescript
+// Instead of hard delete, set a deletedAt timestamp
+await db
+  .update(someTable)
+  .set({ deletedAt: new Date() })
+  .where(eq(someTable.id, id));
+
+// Query active records only
+const activeRecords = await db
+  .select()
+  .from(someTable)
+  .where(isNull(someTable.deletedAt));
+```
+
 ---
 
-## 14. Authentication
+## 16. Authentication
 
 ### Auth Config Debt (CRITICAL — See Debt #6)
 
@@ -876,20 +1377,19 @@ export { auth } from "@/lib/auth-options";
 Defined in `types/next-auth.d.ts`:
 
 ```typescript
-// Session user shape — CONFIRMED
+// Session user shape — CONFIRMED (no `role` field on session)
 interface Session {
   user: {
     id: string;
     name?: string | null;
     email?: string | null;
     image?: string | null;
-    isAdmin: boolean; // boolean (NOT role string)
+    isAdmin: boolean; // boolean (NOT a role string)
     isActive: boolean; // boolean
-    // NO `role` field on session — role enum is DB-only
+    // NOTE: `role` enum is DB-only, NOT on session
   };
 }
 
-// JWT shape
 interface JWT {
   id?: string;
   isAdmin?: boolean;
@@ -904,12 +1404,13 @@ interface JWT {
 
 import { auth } from "@/lib/auth";
 
-export async function protectedAction(input: unknown) {
+export async function protectedAction(
+  input: unknown
+): Promise<{ ok: boolean; error?: string }> {
   const session = await auth();
   if (!session?.user) {
     return { ok: false, error: "Unauthorized" };
   }
-  // session.user.id is available here
   const userId = session.user.id;
   // ...
 }
@@ -918,7 +1419,9 @@ export async function protectedAction(input: unknown) {
 ### Admin Guard
 
 ```typescript
-export async function adminOnlyAction(input: unknown) {
+export async function adminOnlyAction(
+  input: unknown
+): Promise<{ ok: boolean; error?: string }> {
   const session = await auth();
   if (!session?.user) {
     return { ok: false, error: "Unauthorized" };
@@ -938,12 +1441,26 @@ vi.mock("@/lib/auth", () => ({
   auth: vi.fn().mockResolvedValue(undefined)
 }));
 
-// Authenticated mock
+// Unauthenticated
+vi.mocked(auth).mockResolvedValue(undefined);
+
+// Authenticated (non-admin)
 vi.mocked(auth).mockResolvedValue({
   user: {
     id: "user-123",
     email: "test@example.com",
     isAdmin: false,
+    isActive: true
+  },
+  expires: new Date(Date.now() + 86400000).toISOString()
+});
+
+// Authenticated (admin)
+vi.mocked(auth).mockResolvedValue({
+  user: {
+    id: "admin-1",
+    email: "admin@example.com",
+    isAdmin: true,
     isActive: true
   },
   expires: new Date(Date.now() + 86400000).toISOString()
@@ -963,7 +1480,7 @@ export { handler as GET, handler as POST };
 
 ---
 
-## 15. Encryption
+## 17. Encryption
 
 All sensitive fields (account numbers, routing numbers, access tokens) are encrypted at rest using AES-256-GCM via `lib/encryption.ts`.
 
@@ -980,7 +1497,7 @@ const encrypted = encrypt(plaintext, env.ENCRYPTION_KEY);
 const plaintext = decrypt(encrypted, env.ENCRYPTION_KEY);
 ```
 
-### Encrypted Fields in `database/schema.ts`
+### Encrypted Fields in Schema
 
 | Table   | Column                   | Notes              |
 | ------- | ------------------------ | ------------------ |
@@ -997,7 +1514,7 @@ const plaintext = decrypt(encrypted, env.ENCRYPTION_KEY);
 
 ---
 
-## 16. Database Schema
+## 18. Database Schema
 
 Schema defined in `database/schema.ts`. Ten tables + one enum.
 
@@ -1010,6 +1527,8 @@ export const userRole = pgEnum("user_role", [
   "moderator"
 ]);
 ```
+
+> **IMPORTANT:** The `role` enum field exists on the `users` DB table only. It is **NOT** exposed on the NextAuth session. Sessions use `isAdmin: boolean` and `isActive: boolean` instead.
 
 ### `users` Table
 
@@ -1073,7 +1592,7 @@ export const userRole = pgEnum("user_role", [
 
 ### `user_profiles` Table
 
-> **Corrected from v3.0** — fields are address/city/state/postalCode/phone/dateOfBirth, NOT bio/avatarUrl/preferences.
+> Corrected from v3.0 — fields are address/city/state/postalCode/phone/dateOfBirth.
 
 | Column        | Type   | Constraints                 |
 | ------------- | ------ | --------------------------- |
@@ -1149,38 +1668,90 @@ export const userRole = pgEnum("user_role", [
 
 ---
 
-## 17. Validation (Zod v4)
+## 19. Validation (Zod v4)
 
 The project uses Zod v4.3.6. All user inputs must be validated before processing.
+
+### ESLint-Enforced Zod Rules
+
+These are **errors** (not warnings) — violating them blocks `lint:strict`:
+
+| Rule | Requirement |
+| --- | --- |
+| `zod/no-any-schema` | No `z.any()` |
+| `zod/no-empty-custom-schema` | No empty `.refine()` |
+| `zod/no-optional-and-default-together` | No `.optional().default()` combo |
+| `zod/no-unknown-schema` | No `z.unknown()` in schemas |
+| `zod/prefer-meta` | Add `.describe()` metadata |
+| `zod/require-error-message` | All validations need error messages |
 
 ### Schema Patterns
 
 ```typescript
 import { z } from "zod";
 
-// String fields
-const nameSchema = z.string().min(1, "Required").max(100, "Too long");
-const emailSchema = z.string().email("Invalid email");
-const urlSchema = z.string().url("Invalid URL");
-const uuidSchema = z.string().uuid("Invalid ID");
+// String fields — always include error messages (required by zod/require-error-message)
+const nameSchema = z
+  .string()
+  .min(1, "Name is required")
+  .max(100, "Name too long")
+  .describe("User display name");
+
+const emailSchema = z
+  .string()
+  .email("Invalid email address")
+  .describe("User email");
+
+const urlSchema = z
+  .string()
+  .url("Invalid URL")
+  .describe("Resource URL");
+
+const uuidSchema = z
+  .string()
+  .uuid("Invalid ID")
+  .describe("Resource identifier");
 
 // Numeric fields (coerce for form inputs)
-const amountSchema = z.coerce.number().min(0.01, "Must be positive");
-const pageSchema = z.coerce.number().int().min(1).default(1);
+const amountSchema = z.coerce
+  .number()
+  .min(0.01, "Amount must be positive")
+  .describe("Transfer amount");
+
+const pageSchema = z.coerce
+  .number()
+  .int("Must be integer")
+  .min(1, "Min page 1")
+  .default(1);
 
 // Optional fields
-const optionalPhone = z.string().optional();
-const nullableField = z.string().nullable();
+const optionalPhone = z
+  .string()
+  .optional()
+  .describe("Phone number (optional)");
 
 // Enum
-const statusSchema = z.enum(["pending", "completed", "failed"]);
+const statusSchema = z
+  .enum(["pending", "completed", "failed"], {
+    message: "Invalid status"
+  })
+  .describe("Transaction status");
 
 // Object with refinement
 const transferSchema = z
   .object({
-    senderBankId: z.string().min(1),
-    receiverBankId: z.string().min(1),
-    amount: z.coerce.number().min(0.01)
+    senderBankId: z
+      .string()
+      .min(1, "Sender bank required")
+      .describe("Sender bank ID"),
+    receiverBankId: z
+      .string()
+      .min(1, "Receiver bank required")
+      .describe("Receiver bank ID"),
+    amount: z.coerce
+      .number()
+      .min(0.01, "Amount must be positive")
+      .describe("Transfer amount")
   })
   .refine(data => data.senderBankId !== data.receiverBankId, {
     message: "Cannot transfer to same account",
@@ -1196,23 +1767,29 @@ const transferSchema = z
 import { z } from "zod";
 
 const InputSchema = z.object({
-  email: z.string().email(),
-  amount: z.coerce.number().min(0.01)
+  email: z
+    .string()
+    .email("Invalid email")
+    .describe("Recipient email"),
+  amount: z.coerce
+    .number()
+    .min(0.01, "Amount must be positive")
+    .describe("Payment amount")
 });
 
-export async function processPayment(input: unknown) {
+export async function processPayment(
+  input: unknown
+): Promise<{ ok: boolean; error?: string }> {
   const parsed = InputSchema.safeParse(input);
   if (!parsed.success) {
-    // parsed.error.message gives a human-readable summary
     return { ok: false, error: parsed.error.message };
   }
-  // parsed.data is fully typed
-  const { email, amount } = parsed.data;
+  const { email, amount } = parsed.data; // fully typed
   // ...
 }
 ```
 
-### Common Schemas Used in the Project
+### Common Schemas
 
 | Schema | File | Fields |
 | --- | --- | --- |
@@ -1223,13 +1800,11 @@ export async function processPayment(input: unknown) {
 
 ---
 
-## 18. Forms & UI
+## 20. Forms & UI
 
 ### shadcn/ui Components
 
-Components live in `components/ui/`. All components are from shadcn/ui and styled with Tailwind CSS v4.
-
-#### Commonly Used Components
+Components live in `components/ui/`. All styled with Tailwind CSS v4.
 
 ```tsx
 import { Button } from "@/components/ui/button";
@@ -1289,19 +1864,25 @@ import { Button } from "@/components/ui/button";
 import { someAction } from "@/lib/actions/some.actions";
 
 const formSchema = z.object({
-  amount: z.coerce.number().min(0.01, "Amount must be positive"),
-  recipientEmail: z.string().email("Invalid email")
+  amount: z.coerce
+    .number()
+    .min(0.01, "Amount must be positive")
+    .describe("Transfer amount"),
+  recipientEmail: z
+    .string()
+    .email("Invalid email")
+    .describe("Recipient email address")
 });
 
 type FormValues = z.infer<typeof formSchema>;
 
-export function PaymentForm() {
+export function PaymentForm(): React.JSX.Element {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: { amount: 0, recipientEmail: "" }
   });
 
-  async function onSubmit(values: FormValues) {
+  async function onSubmit(values: FormValues): Promise<void> {
     const result = await someAction(values);
     if (!result.ok) {
       form.setError("root", { message: result.error });
@@ -1327,13 +1908,32 @@ export function PaymentForm() {
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="recipientEmail"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Recipient Email</FormLabel>
+              <FormControl>
+                <Input
+                  type="email"
+                  placeholder="user@example.com"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         {form.formState.errors.root && (
-          <p className="text-destructive text-sm">
+          <p className="text-sm text-destructive">
             {form.formState.errors.root.message}
           </p>
         )}
         <Button type="submit" disabled={form.formState.isSubmitting}>
-          {form.formState.isSubmitting ? "Processing..." : "Submit"}
+          {form.formState.isSubmitting
+            ? "Processing..."
+            : "Send Payment"}
         </Button>
       </form>
     </Form>
@@ -1343,7 +1943,7 @@ export function PaymentForm() {
 
 ### Tailwind CSS v4
 
-Tailwind v4 uses CSS-based configuration via `@theme` in `app/globals.css` (not `tailwind.config.js`):
+Tailwind v4 uses CSS-based configuration via `@theme` in `app/globals.css`:
 
 ```css
 /* app/globals.css */
@@ -1355,16 +1955,18 @@ Tailwind v4 uses CSS-based configuration via `@theme` in `app/globals.css` (not 
 }
 ```
 
+> No `tailwind.config.js` — configuration is in CSS only. The `tailwindStylesheet` Prettier plugin option points to `./app/globals.css` for class sorting.
+
 ---
 
-## 19. Testing
+## 21. Testing
 
 ### Framework Overview
 
 | Framework | Version | Purpose | Config |
 | --- | --- | --- | --- |
-| Vitest | 4.1.2 | Unit + integration tests | `vitest.config.ts` |
-| Playwright | 1.59.1 | E2E browser tests (Chromium) | `playwright.config.ts` |
+| Vitest | 4.1.2 | Unit + integration tests (happy-dom) | `vitest.config.ts` |
+| Playwright | 1.59.1 | E2E browser tests (Chromium only) | `playwright.config.ts` |
 
 ### Test Directory Structure
 
@@ -1380,7 +1982,7 @@ tests/
 │   ├── auth.spec.ts
 │   ├── global-setup.ts
 │   └── helpers/
-│       └── auth.ts          # Replaced deleted tests/helpers/auth.ts
+│       └── auth.ts
 └── fixtures/
     └── auth.ts
 ```
@@ -1427,40 +2029,6 @@ describe("getLoggedInUser", () => {
 });
 ```
 
-### Auth Mock Pattern (Unit Tests)
-
-```typescript
-// CORRECT: use undefined, NOT null
-vi.mock("@/lib/auth", () => ({
-  auth: vi.fn().mockResolvedValue(undefined)
-}));
-
-// Unauthenticated
-vi.mocked(auth).mockResolvedValue(undefined);
-
-// Authenticated (non-admin)
-vi.mocked(auth).mockResolvedValue({
-  user: {
-    id: "user-123",
-    email: "test@example.com",
-    isAdmin: false,
-    isActive: true
-  },
-  expires: new Date(Date.now() + 86400000).toISOString()
-});
-
-// Authenticated (admin)
-vi.mocked(auth).mockResolvedValue({
-  user: {
-    id: "admin-1",
-    email: "admin@example.com",
-    isAdmin: true,
-    isActive: true
-  },
-  expires: new Date(Date.now() + 86400000).toISOString()
-});
-```
-
 ### Writing Playwright E2E Tests
 
 ```typescript
@@ -1501,11 +2069,20 @@ test.describe("Authentication", () => {
 
 - Environment: `happy-dom`
 - Config: `vitest.config.ts`
-- `pretest` runs `next typegen` (NOT type-check) before tests
+- `pretest` runs `npm run clean && npm run type-gen` (next typegen — NOT type-check)
+
+### Auth Mock Pattern — CONFIRMED PATTERN
+
+```typescript
+// CORRECT: use undefined, NOT null
+vi.mock("@/lib/auth", () => ({
+  auth: vi.fn().mockResolvedValue(undefined)
+}));
+```
 
 ---
 
-## 20. Port Guard
+## 22. Port Guard
 
 **Before running any test command, free port 3000.**
 
@@ -1531,7 +2108,7 @@ fuser -k 3000/tcp 2>/dev/null || true
 
 ---
 
-## 21. Middleware
+## 23. Middleware
 
 ### Current State (Debt #5)
 
@@ -1548,7 +2125,6 @@ import { NextResponse } from "next/server";
 
 export default withAuth(
   function middleware(req) {
-    // Custom middleware logic
     return NextResponse.next();
   },
   {
@@ -1563,18 +2139,17 @@ export const config = {
 };
 ```
 
-> **Note:** Middleware must live at the **project root** (`proxy.ts`), NOT inside `app/`. The deleted file was `app/middleware.ts` — this location is incorrect regardless.
+> **Note:** Middleware must live at the **project root** (`proxy.ts`), NOT inside `app/`.
 
 ---
 
-## 22. Security
+## 24. Security
 
 ### Input Sanitization
 
-All user input must pass through Zod validation before any database or external API call. Never trust raw form data.
+All user input must pass through Zod validation before any DB or external API call:
 
 ```typescript
-// Always validate before use
 const parsed = SomeSchema.safeParse(input);
 if (!parsed.success)
   return { ok: false, error: parsed.error.message };
@@ -1602,17 +2177,41 @@ const match = await bcrypt.compare(candidatePassword, storedHash);
 
 ### Security Headers
 
-Configured in `next.config.ts` via `headers()`. Headers include:
+Configured in `next.config.ts` via `headers()`:
 
-- `X-Content-Type-Options: nosniff`
-- `X-Frame-Options: DENY`
-- `X-XSS-Protection: 1; mode=block`
-- `Referrer-Policy: strict-origin-when-cross-origin`
-- `Permissions-Policy` (limited feature access)
+| Header                   | Value                             |
+| ------------------------ | --------------------------------- |
+| `X-Content-Type-Options` | `nosniff`                         |
+| `X-Frame-Options`        | `DENY`                            |
+| `X-XSS-Protection`       | `1; mode=block`                   |
+| `Referrer-Policy`        | `strict-origin-when-cross-origin` |
+| `Permissions-Policy`     | Limited feature access            |
+
+### ESLint Security Rules (Errors)
+
+- `security/detect-eval-with-expression` — no `eval()` with dynamic input
+- `security/detect-non-literal-fs-filename` — no dynamic file paths
+- `security/detect-non-literal-require` — no dynamic `require()`
+- `security/detect-unsafe-regex` — no ReDoS-vulnerable regex patterns
 
 ### Rate Limiting
 
-Via `lib/rate-limit.ts` using Upstash Redis. Gracefully skipped if `REDIS_URL` is absent. Apply to auth routes and sensitive mutations.
+Via `lib/rate-limit.ts` using Upstash Redis. Gracefully skipped if `REDIS_URL` is absent. Apply to auth routes and sensitive mutations:
+
+```typescript
+import { ratelimit } from "@/lib/rate-limit";
+import { headers } from "next/headers";
+
+export async function sensitiveAction(input: unknown) {
+  if (ratelimit) {
+    const headersList = await headers();
+    const ip = headersList.get("x-forwarded-for") ?? "127.0.0.1";
+    const { success } = await ratelimit.limit(ip);
+    if (!success) return { ok: false, error: "Too many requests" };
+  }
+  // ...
+}
+```
 
 ### CSRF Protection
 
@@ -1620,34 +2219,31 @@ NextAuth.js handles CSRF automatically for auth endpoints. For custom Server Act
 
 ---
 
-## 23. Known Technical Debt
+## 25. Known Technical Debt
 
 | # | Location | Issue | Severity | Status |
 | --- | --- | --- | --- | --- |
-| 1 | `lib/dal/base.dal.ts` | Generic rewrite done; internal `as any` casts remain (intentional, ESLint disabled for file) | Low | Substantially resolved |
+| 1 | `lib/dal/base.dal.ts` | Internal `as any` casts remain (intentional, ESLint disabled for file) | Low | Substantially resolved |
 | 2 | `lib/actions/admin.actions.ts` | Auth + isAdmin guard added; signature changed to `input: unknown` | — | **RESOLVED** |
 | 3 | `lib/actions/updateProfile.ts` | userId now sourced from session only | — | **RESOLVED** |
 | 4 | `lib/actions/plaid.actions.ts` | `getAllBalances()` N+1 — calls Plaid per bank in `Promise.all` loop | Medium | Open |
 | 5 | `proxy.ts` | `app/middleware.ts` deleted; no root middleware — routes unprotected at edge | Critical | Partially resolved |
-| 6 | `lib/auth-options.ts` + `lib/auth-config.ts` | Two conflicting auth configs (JWT vs database strategy); `auth-config.ts` should be removed | Critical | Open |
+| 6 | `lib/auth-options.ts` + `lib/auth-config.ts` | Two conflicting auth configs (JWT vs database strategy) | Critical | Open |
 | 7 | `app/api/health/route.ts` | DB/Redis health checks always return `true` (stub, not real) | Low | Open |
 | 8 | `types/index.d.ts` | Legacy types with numeric `id` conflict with Drizzle string IDs | Medium | Open |
 | 9 | `app/(root)/layout.tsx` | `user as unknown as User` unsafe cast — legacy type mismatch | Low | Open |
 
 ---
 
-## 24. Integrations
+## 26. Integrations
 
 ### Plaid
 
 Configured via `PLAID_CLIENT_ID`, `PLAID_SECRET`, `PLAID_ENV`, `PLAID_BASE_URL`.
 
-- **Link flow:** `createLinkToken` → user completes Plaid Link → `exchangePublicToken`
-- **Data:** `getAccounts`, `getTransactions`, `getBalance`, `getInstitution`
-- **Remove:** `removeBank` deletes item from Plaid and `banks` table
+Flow: `createLinkToken` → user completes Plaid Link UI → `exchangePublicToken` → bank record created.
 
 ```typescript
-// Plaid client configured in lib/plaid.ts (or lib/actions/plaid.actions.ts)
 import { PlaidApi, PlaidEnvironments, Configuration } from "plaid";
 import { env } from "@/lib/env";
 
@@ -1668,20 +2264,17 @@ export const plaidClient = new PlaidApi(configuration);
 
 Configured via `DWOLLA_KEY`, `DWOLLA_SECRET`, `DWOLLA_ENV`, `DWOLLA_BASE_URL`.
 
-- **Customer setup:** `createDwollaCustomer` → store `customerUrl` on bank record
-- **Funding source:** `createFundingSource` / `addFundingSource` → store `fundingSourceUrl`
-- **Transfer:** `createOnDemandAuthorization` → `createTransfer`
+Flow: `createDwollaCustomer` → store `customerUrl` → `createFundingSource` → store `fundingSourceUrl` → `createOnDemandAuthorization` → `createTransfer`.
 
 ### Upstash Redis (Rate Limiting)
 
-Configured via `REDIS_URL`. If absent, `lib/rate-limit.ts` silently skips all rate limit checks.
+Configured via `REDIS_URL`. If absent, `lib/rate-limit.ts` silently skips all rate limit checks:
 
 ```typescript
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 import { env } from "@/lib/env";
 
-// Only instantiate if REDIS_URL is present
 export const ratelimit = env.REDIS_URL
   ? new Ratelimit({
       redis: new Redis({ url: env.REDIS_URL }),
@@ -1692,7 +2285,7 @@ export const ratelimit = env.REDIS_URL
 
 ### SMTP Email
 
-Configured via `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`. Optional — app functions without it.
+Configured via `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`. Optional:
 
 ```typescript
 import { sendEmail } from "@/lib/email";
@@ -1706,77 +2299,102 @@ await sendEmail({
 
 ---
 
-## 25. Cursor Rules
+## 27. Cursor Rules
 
-Cursor rules live in `.cursor/rules/` (12 files). They are enforced during Cursor AI sessions.
+Cursor rules live in `.cursor/rules/` (12 files, `.mdc` format). They are enforced during Cursor AI sessions but apply broadly as coding standards.
 
-| File | Scope | Summary |
-| --- | --- | --- |
-| `banking-coding-standards.mdc` | All files | Core standards — no `any`, no `process.env`, Server Actions for mutations, no N+1 |
-| `typescript-no-any.mdc` | All files | Disallow `any`, require `unknown` + type guards |
-| `env-access-via-lib-env.mdc` | All files | Ban `process.env` — use `lib/env.ts` |
-| `mutations-via-server-actions.mdc` | All files | Write ops in Server Actions only |
-| `no-n-plus-one-queries.mdc` | All files | Eager loading required |
-| `workflow-and-steps.mdc` | All files | 9-step implementation workflow; plan required for >3 file changes |
-| `plan-file-standards.mdc` | All files | Plans in `.cursor/plans/`, 8 required sections, markdown lint required |
-| `kill-port-3000-before-tests.mdc` | All files | Free port 3000 before any test run |
-| `project-coding-standards.mdc` | All files | Index pointer to coding rules |
-| `project-workflow-process.mdc` | All files | Pointer to workflow-and-steps |
-| `project-testing-validation.mdc` | All files | Pointer to testing/validation requirements |
-| `project-documentation-style.mdc` | All files | Pointer to documentation standards |
+| File | Summary |
+| --- | --- |
+| `banking-coding-standards.mdc` | Core: no `any`, no `process.env`, Server Actions for mutations, no N+1 |
+| `typescript-no-any.mdc` | Disallow `any`, require `unknown` + type guards, explicit return types |
+| `env-access-via-lib-env.mdc` | Ban `process.env` — use `lib/env.ts` exclusively |
+| `mutations-via-server-actions.mdc` | Write ops in Server Actions only; `{ ok, error? }` return shape |
+| `no-n-plus-one-queries.mdc` | Eager loading required; never query inside loops |
+| `workflow-and-steps.mdc` | 9-step implementation workflow; plan required for >3 file changes |
+| `plan-file-standards.mdc` | Plans in `.cursor/plans/`, 8 required sections, markdown lint required |
+| `kill-port-3000-before-tests.mdc` | Free port 3000 before any test run |
+| `project-coding-standards.mdc` | Index pointer to the four coding rule files |
+| `project-workflow-process.mdc` | Pointer to `workflow-and-steps.mdc` |
+| `project-testing-validation.mdc` | Pointer to testing/validation requirements |
+| `project-documentation-style.mdc` | Pointer to documentation and markdown standards |
+
+### Workflow (from `workflow-and-steps.mdc`)
+
+For every task:
+
+1. Understand the request and define the expected outcome
+2. Inspect relevant files and existing patterns before editing
+3. If the change touches >3 files, propose a plan first
+4. Save that plan as `.cursor/plans/<short-kebab-task>_<8-char-id>.plan.md`
+5. Plan minimal, safe changes aligned with project standards
+6. Implement changes in small, focused edits
+7. Verify behavior with targeted checks or tests
+8. Confirm no regressions in touched areas
+9. Summarize what changed, why, and how it was validated
+
+### Plan File Requirements (from `plan-file-standards.mdc`)
+
+Every plan must include:
+
+- `# <Plan Title>`
+- `## Goals`
+- `## Scope`
+- `## Target Files`
+- `## Risks`
+- `## Planned Changes`
+- `## Validation`
+- `## Rollback or Mitigation`
 
 ---
 
-## 26. GitHub Copilot Instructions
+## 28. GitHub Copilot Instructions
 
-Main file: `.github/copilot-instructions.md`
+Main file: `.github/copilot-instructions.md` — concise quick-reference that defers to `AGENTS.md`.
 
-Additional scoped instructions in `.github/instructions/` (23 files):
+### Actual `.github/instructions/` File Listing
+
+> **Correction from v4.0:** The v4.0 table had fabricated filenames (`01-project-overview.instructions.md`, etc.) that do not exist. Below are the actual files present in `.github/instructions/`.
 
 | File | Purpose |
 | --- | --- |
-| `01-project-overview.instructions.md` | Stack, architecture summary |
-| `02-typescript-strict.instructions.md` | No `any`, explicit types |
-| `03-nextjs-patterns.instructions.md` | Server/Client components, Cache Components |
-| `04-server-actions.instructions.md` | Mutation pattern and template |
-| `05-dal-patterns.instructions.md` | DAL usage, N+1 prevention |
-| `06-auth-patterns.instructions.md` | NextAuth session, guards |
-| `07-validation-zod.instructions.md` | Zod v4 patterns |
-| `08-forms-ui.instructions.md` | React Hook Form + shadcn/ui |
-| `09-database-schema.instructions.md` | Drizzle schema reference |
-| `10-encryption.instructions.md` | AES-256-GCM usage |
-| `11-env-vars.instructions.md` | lib/env.ts pattern |
-| `12-testing-vitest.instructions.md` | Vitest unit test patterns |
-| `13-testing-playwright.instructions.md` | Playwright E2E patterns |
-| `14-error-handling.instructions.md` | Result type, error surfaces |
-| `15-plaid-integration.instructions.md` | Plaid API patterns |
-| `16-dwolla-integration.instructions.md` | Dwolla ACH patterns |
-| `17-rate-limiting.instructions.md` | Upstash Redis usage |
-| `18-security.instructions.md` | Security headers, sanitization |
-| `19-import-order.instructions.md` | Import ordering rules |
-| `20-naming-conventions.instructions.md` | Naming patterns |
-| `21-eslint-config.instructions.md` | ESLint rules + noInlineConfig warning |
-| `22-prettier-config.instructions.md` | Prettier settings |
-| `23-technical-debt.instructions.md` | Current debt table |
+| `agents.instructions.md` | How to create GitHub Copilot custom agent files (`.agent.md` format, frontmatter schema, handoffs, sub-agent orchestration, variable extraction) |
+| `agent-safety.instructions.md` | Agent safety principles: fail closed, least privilege, policy-as-config, append-only audit, content safety, multi-agent safety |
+| `agent-skills.instructions.md` | How to create SKILL.md files: frontmatter, resource bundling (`scripts/`, `references/`, `assets/`, `templates/`), progressive loading |
+| `task-implementation.instructions.md` | Task plan implementation via `.copilot-tracking/` workflow: read plan → implement → track in changes file → mark complete |
+| `nextjs.instructions.md` | Next.js 16 best practices: Server vs Client, caching with `"use cache"`, `cacheTag()`, `cacheLife()`, `revalidateTag()`, `updateTag()`, Turbopack |
+| `nextjs-tailwind.instructions.md` | Next.js + Tailwind CSS standards: App Router, strict TypeScript, Zod validation, Server Components default, React Suspense |
+
+### `.copilot-tracking/` Task Tracking Workflow
+
+When implementing a task plan:
+
+1. Read the plan from `.cursor/plans/` (or wherever it lives)
+2. Create a changes file in `.copilot-tracking/` to track progress
+3. Implement tasks systematically, one at a time
+4. Mark tasks complete in the changes file as you finish them
+5. Do not skip steps or batch-mark completions
 
 ---
 
-## 27. OpenCode Skills & Instructions
+## 29. OpenCode Skills & Instructions
 
 ### Skills (`.opencode/skills/`)
 
-| Skill | Trigger | Coverage |
+| Skill | Subdirectory / File | Coverage |
 | --- | --- | --- |
-| `AuthSkill` | Auth, sessions, OAuth | NextAuth v4, session shape, protected routes |
-| `DBSkill` | Database, schema, DAL | Drizzle ORM, migrations, N+1 prevention |
-| `DeploymentSkill` | Deploy, CI/CD | Vercel, Docker, Railway |
-| `DwollaSkill` | Transfers, ACH | Dwolla API integration |
-| `PlaidSkill` | Bank linking, transactions | Plaid API, PlaidLink |
-| `SecuritySkill` | Security, encryption | AES-256-GCM, CSRF, headers |
-| `ServerActionSkill` | Forms, mutations | Server Action template, revalidation |
-| `TestingSkill` | Tests, Vitest, Playwright | Unit + E2E patterns |
-| `UISkill` | UI, components, forms | shadcn/ui + Tailwind v4 |
-| `ValidationSkill` | Zod, schemas, forms | Zod v4 patterns |
+| `AuthSkill` | `auth-skill/SKILL.md` | NextAuth v4, session shape, protected routes |
+| `DBSkill` | `db-skill/SKILL.md` | Drizzle ORM, migrations, N+1 prevention |
+| `DeploymentSkill` | `deployment-skill/SKILL.md` | Vercel, Docker, Railway |
+| `DwollaSkill` | `dwolla-skill/SKILL.md` | Dwolla API integration |
+| `PlaidSkill` | `plaid-skill/SKILL.md` | Plaid API, PlaidLink |
+| `SecuritySkill` | `security-skill/SKILL.md` | AES-256-GCM, CSRF, headers |
+| `ServerActionSkill` | `server-action-skill/SKILL.md` | Server Action template, revalidation, file upload |
+| `TestingSkill` | `testing-skill/SKILL.md` | Unit + E2E patterns |
+| `UISkill` | `ui-skill/SKILL.md` | shadcn/ui + Tailwind v4 |
+| `ValidationSkill` | `validation-skill/SKILL.md` | Zod v4 patterns |
+| DAL Skill | `dal-skill.md` | N+1 prevention, cursor pagination, upsert, transactions |
+| Server Action Skill (flat) | `server-action-skill.md` | Server Action flat-file reference (mirrors `server-action-skill/SKILL.md`) |
+| Suspense Skill | `suspense-skill.md` | Suspense boundaries, async `cookies()`, `headers()` |
 
 ### Instructions (`.opencode/instructions/`)
 
@@ -1786,13 +2404,13 @@ Additional scoped instructions in `.github/instructions/` (23 files):
 | `01-core-standards.md` | 1 | PR-blocking rules, type safety, env vars, security essentials |
 | `02-nextjs-patterns.md` | 2 | Server/Client components, Cache Components, Suspense |
 | `03-dal-patterns.md` | 3 | DAL usage, N+1 prevention, transactions |
-| `04-auth-testing.md` | 4 | NextAuth patterns, Vitest + Playwright |
+| `04-auth-testing.md` | 4 | NextAuth patterns, Vitest + Playwright — **⚠ KNOWN INACCURACY**: references `session.user.role !== "admin"` which does not exist on session; correct field is `session.user.isAdmin: boolean` |
 | `05-ui-validation.md` | 5 | shadcn/ui components, React Hook Form, Zod patterns |
 | `06-commands-ref.md` | 6 | Full command reference |
 
 ---
 
-## 28. External Documentation & Sync Checklist
+## 30. External Documentation & Sync Checklist
 
 ### Key External Docs
 
@@ -1809,27 +2427,32 @@ Additional scoped instructions in `.github/instructions/` (23 files):
 | Tailwind CSS v4 | https://tailwindcss.com/docs |
 | Vitest | https://vitest.dev/guide/ |
 | Playwright | https://playwright.dev/docs/intro |
+| React Hook Form | https://react-hook-form.com/docs |
+| bcryptjs | https://github.com/dcodeIO/bcrypt.js |
 
 ### AGENTS.md Sync Checklist
 
 When any of the following change, update the relevant section(s) in this file:
 
-- [ ] `database/schema.ts` — update Section 16
+- [ ] `database/schema.ts` — update Section 18
 - [ ] `lib/env.ts` — update Section 4 (env var count, required/optional status)
-- [ ] `lib/actions/*.ts` — update Section 12 (action inventory)
-- [ ] `types/next-auth.d.ts` — update Section 14 (session shape)
-- [ ] `lib/dal/*.ts` — update Section 13
+- [ ] `lib/actions/*.ts` — update Section 14 (action inventory)
+- [ ] `types/next-auth.d.ts` — update Section 16 (session shape)
+- [ ] `lib/dal/*.ts` — update Section 15
 - [ ] `package.json` scripts — update Sections 2, 3
 - [ ] `eslint.config.mts` — update Section 7
 - [ ] `.prettierrc.ts` — update Section 8
-- [ ] Technical debt resolved — update Section 23
-- [ ] New test files added — update Section 19
+- [ ] Technical debt resolved — update Section 25
+- [ ] New test files added — update Section 21
+- [ ] `.cursor/rules/` changes — update Section 27
+- [ ] `.github/instructions/` changes — update Section 28
+- [ ] `.opencode/skills/` changes — update Section 29
 
 ### Version Bump Protocol
 
 When updating AGENTS.md:
 
-1. Increment version number in the header (e.g., `4.0` → `4.1`)
+1. Increment version number in the header (e.g., `5.0` → `5.1`)
 2. Update `Last Generated` date
 3. Add a changelog entry at the top describing what changed and why
 4. Re-verify all affected sections against the actual source files before writing

@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import type { SiderbarProps } from "@/types";
+import type { SidebarProps } from "@/types";
 
 import { sidebarLinks } from "@/constants";
 
@@ -13,11 +13,11 @@ import { default as Footer } from "./Footer";
 /**
  * Description placeholder
  *
- * @param {SiderbarProps} param0
- * @param {SiderbarProps} param0.user
+ * @param {SidebarProps} param0
+ * @param {SidebarProps} param0.user
  * @returns {JSX.Element}
  */
-const Sidebar = ({ user }: SiderbarProps): JSX.Element => {
+const Sidebar = ({ user }: SidebarProps): JSX.Element => {
   const pathname = usePathname();
   return (
     <section className="sidebar">
@@ -58,7 +58,6 @@ const Sidebar = ({ user }: SiderbarProps): JSX.Element => {
             </Link>
           );
         })}
-        USER
       </nav>
       <Footer user={user} />
     </section>

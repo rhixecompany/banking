@@ -1,10 +1,6 @@
 import type { Metadata } from "next";
 
-import { redirect } from "next/navigation";
-
-import { DashboardClient } from "@/components/dashboard/DashboardClient";
-import { auth } from "@/lib/auth";
-import { bankDal } from "@/lib/dal";
+import { DashboardServerWrapper } from "@/components/dashboard/dashboard-server-wrapper";
 
 export const metadata: Metadata = {
   description: "Your financial overview",
@@ -12,27 +8,12 @@ export const metadata: Metadata = {
 };
 
 /**
- * Dashboard page component.
- * Displays user overview with linked banks, total balance, and quick actions.
+ * Dashboard page.
+ * Delegates all auth, data-fetching, and rendering to DashboardServerWrapper.
  *
  * @export
- * @async
- * @returns {Promise<JSX.Element>}
+ * @returns {JSX.Element}
  */
-export default async function DashboardPage(): Promise<JSX.Element> {
-  const session = await auth();
-  if (!session?.user?.id) {
-    redirect("/sign-in");
-  }
-
-  const userId = session.user.id;
-  const banks = await bankDal.findByUserId(userId);
-
-  return (
-    <DashboardClient
-      banks={banks}
-      userId={userId}
-      userName={session.user.name ?? "User"}
-    />
-  );
+export default function DashboardPage(): JSX.Element {
+  return <DashboardServerWrapper />;
 }

@@ -1,8 +1,22 @@
 # Refactor Frontend ui
 
+- Fetch `https://reactbits.dev/get-started/index` and Fetch `https://shadcnstudio.com/blocks` then read them install all components and blocks you need for this project.
+- As Reviewer read `database/schema.ts` and ensure it can handle all necessary data models and relationships for the application.
+- As Reviewer Persona start by ensuring all bugs are fixed by executing npm run type-check 2>&1 > type-check.txt ; npm run lint:fix 2>&1 > lint-fix.txt ; npm run lint:strict 2>&1 > lint-strict.txt ; npm run test:browser 2>&1 > test-browser.txt ; npm run test:ui 2>&1 > test-ui.txt then reading type-check.txt, lint-fix.txt, lint-strict.txt, and test results, and triage and reviewing the relevant code and test files.
 - As Reviewer Persona start by listing all pages in `./app` and triage then get the title of each page in the list.
 - Refactor all pages to ensure consistent structure and naming conventions.
-- For each page, create a folder with the page title at `./components` and a server and client components file.
+- For each page, create a folder with the page title at `./components` and a server and client components file with the file name `{componentTitle}-{server|client}-wrapper` include all its props and state management.
 - For each page, review the content and functionality, making necessary improvements and documenting changes.
 - For each page, review its Playwright and Vitest tests and ensure they are up-to-date and comprehensive.
-- Ask all needed questions.
+- As Reviewer Persona start by listing all components in `./components` and triage.
+- Refactor all components to ensure consistent structure, naming conventions, uses actions and not dal review the content and functionality, making necessary improvements and documenting changes.
+- Containerize my project following Docker's best practices, generate Dockerfile and Compose files.
+- Optimize my Dockerfiles for development and production and explain the differences.
+- Ensure all environment variables and secrets are properly managed and documented.
+- Review and optimize the project's performance, including load times and responsiveness.
+- Conduct a final review of the entire project to ensure all tasks have been completed and documented.
+- Prepare a comprehensive report summarizing all changes, improvements, and remaining issues.
+- Create a deployment pipeline for this app.
+- Help me set up my Github Actions for this project, suggest any Docker steps I should include.
+- Document all processes and configurations for future reference.
+- Ask all needed questions one at a time.

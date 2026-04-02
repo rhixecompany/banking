@@ -1,10 +1,26 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "../../tests/fixtures/auth";
 
 test.beforeEach(async ({ page }) => {
   await page.context().clearCookies();
 });
 
 test.describe("Authentication", () => {
+  test.describe("Home Redirect", () => {
+    test("should redirect unauthenticated users from / to sign-in", async ({
+      page,
+    }) => {
+      await page.goto("/");
+      await expect.soft(page).toHaveURL(/\/sign-in/, { timeout: 10_000 });
+    });
+
+    test("should redirect authenticated users from / to dashboard", async ({
+      authenticatedPage: page,
+    }) => {
+      await page.goto("/");
+      await expect.soft(page).toHaveURL(/\/dashboard/, { timeout: 10_000 });
+    });
+  });
+
   test.describe("Navigation Flow", () => {
     test("should navigate from sign-in to sign-up and back", async ({
       page,
@@ -82,6 +98,21 @@ test.describe("Authentication", () => {
       await page.goto("/sign-up");
       await page.getByRole("link", { name: /sign in/i }).click();
       await expect.soft(page).toHaveURL(/\/sign-in/, { timeout: 10_000 });
+    });
+
+    test("should show all sign-up form fields", async ({ page }) => {
+      await page.goto("/sign-up");
+      await expect.soft(page.getByLabel("First Name")).toBeVisible();
+      await expect.soft(page.getByLabel("Last Name")).toBeVisible();
+      await expect.soft(page.getByLabel("Address")).toBeVisible();
+      await expect.soft(page.getByLabel("City")).toBeVisible();
+      await expect.soft(page.getByLabel("State")).toBeVisible();
+      await expect.soft(page.getByLabel("Postal Code")).toBeVisible();
+      await expect.soft(page.getByLabel("Date of Birth")).toBeVisible();
+      await expect.soft(page.getByLabel("SSN")).toBeVisible();
+      await expect.soft(page.getByLabel("Email")).toBeVisible();
+      await expect.soft(page.getByLabel(/^Password$/)).toBeVisible();
+      await expect.soft(page.getByLabel("Confirm Password")).toBeVisible();
     });
 
     test("should show validation error for short password", async ({

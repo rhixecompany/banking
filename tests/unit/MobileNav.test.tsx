@@ -1,0 +1,123 @@
+import { render, screen } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
+
+import type { User } from "@/types";
+
+// ---------------------------------------------------------------------------
+// Module mocks
+// ---------------------------------------------------------------------------
+
+vi.mock("next/image", () => ({
+  default: (props: Record<string, unknown>) => (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img alt={props.alt as string} src={props.src as string} />
+  ),
+}));
+
+vi.mock("next/link", () => ({
+  default: ({
+    children,
+    href,
+  }: {
+    children: React.ReactNode;
+    href: string;
+  }) => <a href={href}>{children}</a>,
+}));
+
+const mockPathname = vi.fn(() => "/");
+vi.mock("next/navigation", () => ({
+  usePathname: () => mockPathname(),
+}));
+
+// Stub shadcn Sheet components — open state is irrelevant for structural tests
+vi.mock("@/components/ui/sheet", () => ({
+  Sheet: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+  SheetClose: ({ children }: { children: React.ReactNode }) => (
+    <div>{children}</div>
+  ),
+  SheetContent: ({ children }: { children: React.ReactNode }) => (
+    <div>{children}</div>
+  ),
+  SheetHeader: ({ children }: { children: React.ReactNode }) => (
+    <div>{children}</div>
+  ),
+  SheetTitle: ({ children }: { children: React.ReactNode }) => (
+    <div>{children}</div>
+  ),
+  SheetTrigger: ({ children }: { children: React.ReactNode }) => (
+    <div>{children}</div>
+  ),
+}));
+
+vi.mock("@/components/Footer", () => ({
+  default: () => <div data-testid="footer-stub" />,
+}));
+
+import React from "react";
+
+import MobileNav from "@/components/MobileNav";
+
+// ---------------------------------------------------------------------------
+// Minimal user fixture
+// ---------------------------------------------------------------------------
+
+const mockUser: User = {
+  createdAt: new Date(),
+  email: "alice@example.com",
+  id: 1,
+  isActive: true,
+  isAdmin: false,
+  name: "Alice",
+  updatedAt: new Date(),
+};
+
+// ---------------------------------------------------------------------------
+// Tests
+// ---------------------------------------------------------------------------
+
+describe("MobileNav", () => {
+  it("renders the hamburger menu image", () => {
+    render(<MobileNav user={mockUser} />);
+    const hamburger = screen.getByAltText("menu");
+    expect(hamburger).toBeTruthy();
+  });
+
+  it("hamburger image has role=button and aria-label", () => {
+    render(<MobileNav user={mockUser} />);
+    const hamburger = screen.getByAltText("menu");
+    expect((hamburger as HTMLImageElement).getAttribute("role")).toBe("button");
+    expect((hamburger as HTMLImageElement).getAttribute("aria-label")).toBe(
+      "Open navigation menu",
+    );
+  });
+
+  it("renders the Horizon logo link inside the sheet", () => {
+    render(<MobileNav user={mockUser} />);
+    const logoLinks = screen.getAllByRole("link", { name: /horizon logo/i });
+    expect(logoLinks.length).toBeGreaterThan(0);
+  });
+
+  it("renders all navigation links", () => {
+    render(<MobileNav user={mockUser} />);
+    expect(screen.getByRole("link", { name: /home/i })).toBeTruthy();
+    expect(screen.getByRole("link", { name: /my banks/i })).toBeTruthy();
+    expect(
+      screen.getByRole("link", { name: /transaction history/i }),
+    ).toBeTruthy();
+    expect(screen.getByRole("link", { name: /transfer funds/i })).toBeTruthy();
+  });
+
+  it("renders the footer stub", () => {
+    render(<MobileNav user={mockUser} />);
+    expect(screen.getByTestId("footer-stub")).toBeTruthy();
+  });
+
+  it("applies active class when pathname matches a link route", () => {
+    mockPathname.mockReturnValue("/payment-transfer");
+    render(<MobileNav user={mockUser} />);
+    const transferLink = screen.getByRole("link", { name: /transfer funds/i });
+    expect((transferLink as HTMLAnchorElement).className).toContain(
+      "bg-bank-gradient",
+    );
+  });
+});

@@ -1,10 +1,6 @@
 import type { Metadata } from "next";
 
-import { redirect } from "next/navigation";
-
-import { SettingsClient } from "@/components/settings/SettingsClient";
-import { auth } from "@/lib/auth";
-import { userDal } from "@/lib/dal";
+import { SettingsServerWrapper } from "@/components/settings/settings-server-wrapper";
 
 export const metadata: Metadata = {
   description: "Manage your account preferences and profile.",
@@ -12,23 +8,12 @@ export const metadata: Metadata = {
 };
 
 /**
- * Settings page — loads the current user's profile data
- * and renders the profile form.
+ * Settings page — delegates auth, data fetching, and rendering
+ * to SettingsServerWrapper.
  *
  * @export
- * @async
- * @returns {Promise<JSX.Element>}
+ * @returns {JSX.Element}
  */
-export default async function SettingsPage(): Promise<JSX.Element> {
-  const session = await auth();
-  if (!session?.user?.id) {
-    redirect("/sign-in");
-  }
-
-  const userWithProfile = await userDal.findByIdWithProfile(session.user.id);
-  if (!userWithProfile) {
-    redirect("/sign-in");
-  }
-
-  return <SettingsClient userWithProfile={userWithProfile} />;
+export default function SettingsPage(): JSX.Element {
+  return <SettingsServerWrapper />;
 }

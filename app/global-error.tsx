@@ -1,18 +1,27 @@
 "use client";
 
-import NextError from "next/error";
+import { GlobalErrorClientWrapper } from "@/components/global-error/global-error-client-wrapper";
+
 /**
- * Description placeholder
+ * Global error boundary — required to be a Client Component by Next.js.
+ * Must render <html> + <body> because it replaces the entire document on error.
+ * Delegates content to GlobalErrorClientWrapper.
  *
  * @export
- * @returns {*}
+ * @param {{ error: { digest?: string } & Error; reset: () => void }} props
+ * @returns {JSX.Element}
  */
-
-export default function GlobalError(): JSX.Element {
+export default function GlobalError({
+  error,
+  reset,
+}: {
+  error: { digest?: string } & Error;
+  reset: () => void;
+}): JSX.Element {
   return (
     <html>
       <body>
-        <NextError statusCode={0} />
+        <GlobalErrorClientWrapper error={error} reset={reset} />
       </body>
     </html>
   );

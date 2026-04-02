@@ -18,17 +18,26 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-interface DashboardClientProps {
+interface DashboardClientWrapperProps {
   banks: Bank[];
   userId: string;
   userName: string;
 }
 
-export function DashboardClient({
+/**
+ * Client wrapper for the dashboard page.
+ * Wraps content in PlaidProvider for bank-linking functionality.
+ * Renders the greeting header, statistics cards, sales metrics, and linked banks overview.
+ *
+ * @export
+ * @param {DashboardClientWrapperProps} props
+ * @returns {JSX.Element}
+ */
+export function DashboardClientWrapper({
   banks,
   userId,
   userName,
-}: DashboardClientProps): JSX.Element {
+}: DashboardClientWrapperProps): JSX.Element {
   const linkedBanksCount = banks.length.toString();
   const accountType = banks[0]?.accountType ?? "N/A";
   const lastUpdated = banks[0]?.updatedAt
@@ -47,7 +56,6 @@ export function DashboardClient({
           />
         </header>
 
-        {/* Stats grid using StatisticsCard */}
         <div className="grid gap-4 md:grid-cols-3">
           <StatisticsCard
             icon={<BanknoteIcon className="size-4" />}
@@ -71,10 +79,8 @@ export function DashboardClient({
           />
         </div>
 
-        {/* Decorative sales metrics panel */}
         <SalesMetricsCard />
 
-        {/* Quick actions + linked banks */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           <Card>
             <CardHeader>

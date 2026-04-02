@@ -1,10 +1,6 @@
 import type { Metadata } from "next";
 
-import { redirect } from "next/navigation";
-
-import { TransactionHistoryClient } from "@/components/transaction-history/TransactionHistoryClient";
-import { getTransactionHistory } from "@/lib/actions/transaction.actions";
-import { auth } from "@/lib/auth";
+import { TransactionHistoryServerWrapper } from "@/components/transaction-history/transaction-history-server-wrapper";
 
 export const metadata: Metadata = {
   description: "Browse your full transaction history.",
@@ -12,21 +8,12 @@ export const metadata: Metadata = {
 };
 
 /**
- * Transaction History page — fetches transactions server-side
- * and passes them to the client datatable.
+ * Transaction History page — delegates auth, data fetching, and rendering
+ * to TransactionHistoryServerWrapper.
  *
  * @export
- * @async
- * @returns {Promise<JSX.Element>}
+ * @returns {JSX.Element}
  */
-export default async function TransactionHistoryPage(): Promise<JSX.Element> {
-  const session = await auth();
-  if (!session?.user?.id) {
-    redirect("/sign-in");
-  }
-
-  const result = await getTransactionHistory(1, 50);
-  const transactions = result.ok ? (result.transactions ?? []) : [];
-
-  return <TransactionHistoryClient transactions={transactions} />;
+export default function TransactionHistoryPage(): JSX.Element {
+  return <TransactionHistoryServerWrapper />;
 }

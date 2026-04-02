@@ -36,6 +36,8 @@ const MobileNav = ({ user }: MobileNavProps): JSX.Element => {
             alt="menu"
             width={30}
             height={30}
+            role="button"
+            aria-label="Open navigation menu"
             className="cursor-pointer"
           />
         </SheetTrigger>
@@ -71,7 +73,6 @@ const MobileNav = ({ user }: MobileNavProps): JSX.Element => {
                   return (
                     <SheetClose asChild key={item.label}>
                       <Link
-                        key={item.label}
                         href={item.route as "/"}
                         className={`mobilenav-sheet_close w-full${isActive ? " bg-bank-gradient" : ""}`}
                       >
@@ -93,7 +94,6 @@ const MobileNav = ({ user }: MobileNavProps): JSX.Element => {
                     </SheetClose>
                   );
                 })}
-                USER
               </nav>
             </SheetClose>
             <Footer user={user} type="mobile" />
