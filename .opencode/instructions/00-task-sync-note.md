@@ -6,8 +6,7 @@ applyTo: "**"
 
 # TaskSync Protocol Note
 
-This project uses TaskSync for terminal-based task management. However, TaskSync
-protocol (PowerShell-based) is not compatible with OpenCode Docker environment.
+This project uses TaskSync for terminal-based task management. However, TaskSync protocol (PowerShell-based) is not compatible with OpenCode Docker environment.
 
 ## For OpenCode Sessions
 

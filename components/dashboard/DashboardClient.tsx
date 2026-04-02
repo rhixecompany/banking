@@ -1,10 +1,15 @@
 "use client";
 
+import { BanknoteIcon, CalendarIcon, LayoutListIcon } from "lucide-react";
 import Link from "next/link";
+
+import type { Bank } from "@/types/bank";
 
 import HeaderBox from "@/components/HeaderBox";
 import { PlaidProvider } from "@/components/plaid-context";
 import { PlaidLinkButton } from "@/components/plaid-link-button";
+import SalesMetricsCard from "@/components/shadcn-studio/blocks/chart-sales-metrics";
+import StatisticsCard from "@/components/shadcn-studio/blocks/statistics-card-01";
 import {
   Card,
   CardContent,
@@ -12,7 +17,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import type { Bank } from "@/types/bank";
 
 interface DashboardClientProps {
   banks: Bank[];
@@ -24,26 +28,12 @@ export function DashboardClient({
   banks,
   userId,
   userName,
-}: DashboardClientProps) {
-  const stats = [
-    {
-      description: "Total connected accounts",
-      label: "Linked Banks",
-      value: banks.length.toString(),
-    },
-    {
-      description: banks.length > 0 ? "Primary account" : "No accounts linked",
-      label: "Account Type",
-      value: banks[0]?.accountType ?? "N/A",
-    },
-    {
-      description: "Most recent activity",
-      label: "Last Updated",
-      value: banks[0]?.updatedAt
-        ? new Date(banks[0].updatedAt).toLocaleDateString()
-        : "N/A",
-    },
-  ];
+}: DashboardClientProps): JSX.Element {
+  const linkedBanksCount = banks.length.toString();
+  const accountType = banks[0]?.accountType ?? "N/A";
+  const lastUpdated = banks[0]?.updatedAt
+    ? new Date(banks[0].updatedAt).toLocaleDateString()
+    : "N/A";
 
   return (
     <PlaidProvider userId={userId}>
@@ -57,24 +47,34 @@ export function DashboardClient({
           />
         </header>
 
+        {/* Stats grid using StatisticsCard */}
         <div className="grid gap-4 md:grid-cols-3">
-          {stats.map((stat) => (
-            <Card key={stat.label}>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground">
-                  {stat.label}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{stat.value}</div>
-                <p className="text-xs text-muted-foreground">
-                  {stat.description}
-                </p>
-              </CardContent>
-            </Card>
-          ))}
+          <StatisticsCard
+            icon={<BanknoteIcon className="size-4" />}
+            value={linkedBanksCount}
+            title="Linked Banks"
+            changePercentage="Total connected accounts"
+          />
+          <StatisticsCard
+            icon={<LayoutListIcon className="size-4" />}
+            value={accountType}
+            title="Account Type"
+            changePercentage={
+              banks.length > 0 ? "Primary account" : "No accounts linked"
+            }
+          />
+          <StatisticsCard
+            icon={<CalendarIcon className="size-4" />}
+            value={lastUpdated}
+            title="Last Updated"
+            changePercentage="Most recent activity"
+          />
         </div>
 
+        {/* Decorative sales metrics panel */}
+        <SalesMetricsCard />
+
+        {/* Quick actions + linked banks */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           <Card>
             <CardHeader>

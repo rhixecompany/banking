@@ -10,7 +10,7 @@ import { ReactNode } from "react";
  * @returns {*}
  */
 // Auth layout
-export default function RootLayout({
+export default function AuthLayout({
   children,
 }: Readonly<{ children: ReactNode }>): JSX.Element {
   return (

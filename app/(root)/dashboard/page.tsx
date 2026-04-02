@@ -1,9 +1,15 @@
+import type { Metadata } from "next";
+
 import { redirect } from "next/navigation";
 
-import { DashboardClient } from "@/components/DashboardClient";
-import { getLoggedInUser } from "@/lib/actions/user.actions";
+import { DashboardClient } from "@/components/dashboard/DashboardClient";
 import { auth } from "@/lib/auth";
 import { bankDal } from "@/lib/dal";
+
+export const metadata: Metadata = {
+  description: "Your financial overview",
+  title: "Dashboard | Banking",
+};
 
 /**
  * Dashboard page component.
@@ -14,22 +20,19 @@ import { bankDal } from "@/lib/dal";
  * @returns {Promise<JSX.Element>}
  */
 export default async function DashboardPage(): Promise<JSX.Element> {
-  const user = await getLoggedInUser();
-  if (!user) redirect("/sign-in");
-
   const session = await auth();
-  const userId = session?.user?.id;
-  if (!userId) {
+  if (!session?.user?.id) {
     redirect("/sign-in");
   }
 
+  const userId = session.user.id;
   const banks = await bankDal.findByUserId(userId);
 
   return (
     <DashboardClient
       banks={banks}
       userId={userId}
-      userName={user.name ?? "User"}
+      userName={session.user.name ?? "User"}
     />
   );
 }

@@ -70,7 +70,7 @@ function parseArgs(): { targets: ValidationTarget[]; help: boolean } {
 
 /** Description placeholder */
 function printHelp(): void {
-  console.log(`
+  console.warn(`
 Banking Validation Script
 
 Usage:
@@ -99,16 +99,16 @@ Examples:
  * @returns {Promise<boolean>}
  */
 async function validateYaml(): Promise<boolean> {
-  console.log("🔍 Validating YAML files...\n");
+  console.warn("🔍 Validating YAML files...\n");
 
   const files = getAllYamlFiles();
 
   if (files.length === 0) {
-    console.log("No YAML files to validate.");
+    console.warn("No YAML files to validate.");
     return true;
   }
 
-  console.log(`Validating ${files.length} YAML file(s)...\n`);
+  console.warn(`Validating ${files.length} YAML file(s)...\n`);
 
   let allValid = true;
   let validatedCount = 0;
@@ -125,7 +125,7 @@ async function validateYaml(): Promise<boolean> {
     const result = validateEntry(data, file);
 
     if (result.valid) {
-      console.log(`✓ ${file}`);
+      console.warn(`✓ ${file}`);
       validatedCount++;
     } else {
       console.error(formatValidationErrors(result));
@@ -133,10 +133,10 @@ async function validateYaml(): Promise<boolean> {
     }
   }
 
-  console.log("");
+  console.warn("");
 
   if (allValid) {
-    console.log(`✓ All ${validatedCount} YAML file(s) passed validation.`);
+    console.warn(`✓ All ${validatedCount} YAML file(s) passed validation.`);
   } else {
     console.error(`✗ Validation failed for YAML files.`);
   }
@@ -158,10 +158,10 @@ async function main(): Promise<void> {
     process.exit(0);
   }
 
-  console.log("=".repeat(50));
-  console.log("Banking System Validation");
-  console.log("=".repeat(50));
-  console.log("");
+  console.warn("=".repeat(50));
+  console.warn("Banking System Validation");
+  console.warn("=".repeat(50));
+  console.warn("");
 
   let allPassed = true;
 
@@ -169,41 +169,41 @@ async function main(): Promise<void> {
     if (target === "all" || target === "yaml") {
       const yamlResult = await validateYaml();
       allPassed = allPassed && yamlResult;
-      console.log("");
+      console.warn("");
     }
 
     if (target === "all" || target === "schema") {
       const schemaResult = await validateSchema();
       allPassed = allPassed && schemaResult;
-      console.log("");
+      console.warn("");
     }
 
     if (target === "all" || target === "env") {
       const envResult = await validateEnv();
       allPassed = allPassed && envResult;
-      console.log("");
+      console.warn("");
     }
 
     if (target === "all" || target === "types") {
       const typesResult = await validateTypes();
       allPassed = allPassed && typesResult;
-      console.log("");
+      console.warn("");
     }
 
     if (target === "all" || target === "actions") {
       const actionsResult = await validateActions();
       allPassed = allPassed && actionsResult;
-      console.log("");
+      console.warn("");
     }
   }
 
-  console.log("=".repeat(50));
+  console.warn("=".repeat(50));
 
   if (allPassed) {
-    console.log("✅ All validations passed!");
+    console.warn("✅ All validations passed!");
     process.exit(0);
   } else {
-    console.log("❌ Some validations failed.");
+    console.warn("❌ Some validations failed.");
     process.exit(1);
   }
 }

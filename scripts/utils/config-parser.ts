@@ -115,7 +115,7 @@ export function parseDrizzleConfig(): ConfigResult<DrizzleConfig> {
 
       return {
         data: {
-          dialect: dialectMatch?.[1] || "postgresql",
+          dialect: dialectMatch?.[1] ?? "postgresql",
           out: outMatch[1],
           schema: schemaMatch[1],
         },

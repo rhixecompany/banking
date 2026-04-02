@@ -78,6 +78,7 @@ const nextConfig: NextConfig = {
       { hostname: "res.cloudinary.com", protocol: "https" },
       { hostname: "localhost", protocol: "https" },
       { hostname: "localhost", protocol: "http" },
+      { hostname: "cdn.shadcnstudio.com", protocol: "https" },
     ],
   },
 

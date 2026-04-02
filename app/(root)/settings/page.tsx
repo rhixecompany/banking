@@ -1,30 +1,34 @@
+import type { Metadata } from "next";
+
 import { redirect } from "next/navigation";
 
-import HeaderBox from "@/components/HeaderBox";
-import { getLoggedInUser } from "@/lib/actions/user.actions";
+import { SettingsClient } from "@/components/settings/SettingsClient";
+import { auth } from "@/lib/auth";
+import { userDal } from "@/lib/dal";
+
+export const metadata: Metadata = {
+  description: "Manage your account preferences and profile.",
+  title: "Settings | Horizon Banking",
+};
 
 /**
- * Description placeholder
+ * Settings page — loads the current user's profile data
+ * and renders the profile form.
  *
+ * @export
  * @async
  * @returns {Promise<JSX.Element>}
  */
-const SettingsPage = async (): Promise<JSX.Element> => {
-  const user = await getLoggedInUser();
-  if (!user) redirect("/sign-in");
+export default async function SettingsPage(): Promise<JSX.Element> {
+  const session = await auth();
+  if (!session?.user?.id) {
+    redirect("/sign-in");
+  }
 
-  return (
-    <section>
-      <header>
-        <HeaderBox
-          type="title"
-          title="Settings"
-          user={user?.name ?? "Guest"}
-          subtext="Manage your account preferences."
-        />
-      </header>
-    </section>
-  );
-};
+  const userWithProfile = await userDal.findByIdWithProfile(session.user.id);
+  if (!userWithProfile) {
+    redirect("/sign-in");
+  }
 
-export default SettingsPage;
+  return <SettingsClient userWithProfile={userWithProfile} />;
+}

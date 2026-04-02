@@ -112,7 +112,7 @@ async function loadEntries(): Promise<{
     }
 
     for (const entry of entries) {
-      const result = validateEntry(entry, entry._filePath || categoryPath);
+      const result = validateEntry(entry, entry._filePath ?? categoryPath);
       if (!result.valid) {
         errors.push(formatValidationErrors(result));
         continue;
@@ -153,7 +153,7 @@ async function main(): Promise<void> {
       }
     }
     const suffix = errors.length === 1 ? "y" : "ies";
-    console.log(`\n⚠️  Skipped ${errors.length} invalid entr${suffix}.`);
+    console.warn(`\n⚠️  Skipped ${errors.length} invalid entr${suffix}.`);
   }
 
   const json = JSON.stringify(results, null, pretty ? 2 : 0);
@@ -164,7 +164,7 @@ async function main(): Promise<void> {
       fs.mkdirSync(outputDir, { recursive: true });
     }
     fs.writeFileSync(outputPath, json);
-    console.log(`Saved ${results.length} entries to ${outputPath}`);
+    console.warn(`Saved ${results.length} entries to ${outputPath}`);
   } else {
     process.stdout.write(json);
   }

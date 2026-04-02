@@ -350,7 +350,7 @@ export async function getBalance(input: unknown): Promise<{
  *   error?: string;
  * }>}
  */
-export async function getAllBalances(input: unknown): Promise<{
+export async function getAllBalances(): Promise<{
   ok: boolean;
   balances?: Record<string, PlaidBalance[]>;
   error?: string;
@@ -362,30 +362,33 @@ export async function getAllBalances(input: unknown): Promise<{
 
   try {
     const banks = await bankDal.findByUserId(session.user.id);
-    const balances: Record<string, PlaidBalance[]> = {};
 
-    for (const bank of banks) {
-      try {
-        const response = await plaidClient.accountsBalanceGet({
-          access_token: bank.accessToken,
-        });
+    const entries = await Promise.all(
+      banks.map(async (bank): Promise<[string, PlaidBalance[]]> => {
+        try {
+          const response = await plaidClient.accountsBalanceGet({
+            access_token: bank.accessToken,
+          });
+          return [
+            bank.id,
+            response.data.accounts.map((account) => ({
+              accountId: account.account_id,
+              balances: {
+                available: account.balances.available,
+                current: account.balances.current,
+                isoCurrencyCode: account.balances.iso_currency_code ?? null,
+                limit: account.balances.limit,
+              },
+            })),
+          ];
+        } catch (error) {
+          console.error(`Failed to get balance for bank ${bank.id}:`, error);
+          return [bank.id, []];
+        }
+      }),
+    );
 
-        balances[bank.id] = response.data.accounts.map((account) => ({
-          accountId: account.account_id,
-          balances: {
-            available: account.balances.available,
-            current: account.balances.current,
-            isoCurrencyCode: account.balances.iso_currency_code ?? null,
-            limit: account.balances.limit,
-          },
-        }));
-      } catch (error) {
-        console.error(`Failed to get balance for bank ${bank.id}:`, error);
-        balances[bank.id] = [];
-      }
-    }
-
-    return { balances, ok: true };
+    return { balances: Object.fromEntries(entries), ok: true };
   } catch (error) {
     console.error("Plaid getAllBalances error:", error);
     return { error: "Failed to get balances", ok: false };

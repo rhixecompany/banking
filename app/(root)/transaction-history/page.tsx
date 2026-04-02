@@ -1,18 +1,32 @@
-import { cacheLife } from "next/cache";
+import type { Metadata } from "next";
 
-/**
- (Transaction history page component.
-* @returns {JSX.Element}
-*/
+import { redirect } from "next/navigation";
 
-async function getTransactionHistory() {
-  "use cache";
-  cacheLife("hours");
-  return [];
-}
+import { TransactionHistoryClient } from "@/components/transaction-history/TransactionHistoryClient";
+import { getTransactionHistory } from "@/lib/actions/transaction.actions";
+import { auth } from "@/lib/auth";
 
-const TransactionHistory = async (): Promise<JSX.Element> => {
-  return <div>Transaction History</div>;
+export const metadata: Metadata = {
+  description: "Browse your full transaction history.",
+  title: "Transaction History | Horizon Banking",
 };
 
-export default TransactionHistory;
+/**
+ * Transaction History page — fetches transactions server-side
+ * and passes them to the client datatable.
+ *
+ * @export
+ * @async
+ * @returns {Promise<JSX.Element>}
+ */
+export default async function TransactionHistoryPage(): Promise<JSX.Element> {
+  const session = await auth();
+  if (!session?.user?.id) {
+    redirect("/sign-in");
+  }
+
+  const result = await getTransactionHistory(1, 50);
+  const transactions = result.ok ? (result.transactions ?? []) : [];
+
+  return <TransactionHistoryClient transactions={transactions} />;
+}

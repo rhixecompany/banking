@@ -1,15 +1,14 @@
-import { expect, test } from "@playwright/test";
-
-import { signInWithSeedUser } from "./helpers/auth";
+import { expect, test } from "../../tests/fixtures/auth";
 
 test.beforeEach(async ({ page }) => {
   await page.context().clearCookies();
 });
 
 test.describe("Navigation", () => {
-  test("should open mobile navigation sheet on dashboard", async ({ page }) => {
+  test("should open mobile navigation sheet on dashboard", async ({
+    authenticatedPage: page,
+  }) => {
     await page.setViewportSize({ height: 812, width: 375 });
-    await signInWithSeedUser(page);
     await page.goto("/dashboard");
     await page.getByAltText("menu", { exact: true }).click();
     await expect

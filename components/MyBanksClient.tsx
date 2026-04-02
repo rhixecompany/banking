@@ -3,6 +3,8 @@
 import { Trash2 } from "lucide-react";
 import { useTransition } from "react";
 
+import type { BankWithDetails } from "@/types/bank";
+
 import { PlaidProvider } from "@/components/plaid-context";
 import { PlaidLinkButton } from "@/components/plaid-link-button";
 import { Badge } from "@/components/ui/badge";
@@ -16,20 +18,44 @@ import {
 } from "@/components/ui/card";
 import { removeBank } from "@/lib/actions/plaid.actions";
 import { formatAmount, formatDate } from "@/lib/utils";
-import type { Bank } from "@/types/bank";
-import type { PlaidBalance, PlaidTransaction } from "@/types/plaid";
 
-interface BankWithDetails extends Bank {
-  balances: PlaidBalance[];
-  transactions: PlaidTransaction[];
-}
-
+/**
+ * Description placeholder
+ *
+ * @interface MyBanksClientProps
+ * @typedef {MyBanksClientProps}
+ */
 interface MyBanksClientProps {
+  /**
+   * Description placeholder
+   *
+   * @type {BankWithDetails[]}
+   */
   banksWithDetails: BankWithDetails[];
+  /**
+   * Description placeholder
+   *
+   * @type {number}
+   */
   totalBalance: number;
+  /**
+   * Description placeholder
+   *
+   * @type {string}
+   */
   userId: string;
 }
 
+/**
+ * Description placeholder
+ *
+ * @export
+ * @param {MyBanksClientProps} param0
+ * @param {{}} param0.banksWithDetails
+ * @param {number} param0.totalBalance
+ * @param {string} param0.userId
+ * @returns {ReactJSX.Element}
+ */
 export function MyBanksClient({
   banksWithDetails,
   totalBalance,
@@ -46,6 +72,15 @@ export function MyBanksClient({
   );
 }
 
+/**
+ * Description placeholder
+ *
+ * @param {MyBanksClientProps} param0
+ * @param {{}} param0.banksWithDetails
+ * @param {number} param0.totalBalance
+ * @param {string} param0.userId
+ * @returns {ReactJSX.Element}
+ */
 function MyBanksContent({
   banksWithDetails,
   totalBalance,

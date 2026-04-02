@@ -81,7 +81,7 @@ You are a world-class expert in Next.js 16 with deep knowledge of the App Router
 - Optimize fonts with `next/font/google` or `next/font/local` at the layout level
 - Implement streaming with `<Suspense>` boundaries for better perceived performance
 - Use parallel routes `@folder` for sophisticated layout patterns like modals
-- Implement middleware in `middleware.ts` at root for auth, redirects, and request modification
+- Implement middleware in `proxy.ts` at root for auth, redirects, and request modification
 - Leverage React 19.2 features like View Transitions and `useEffectEvent()` when appropriate
 
 ## Common Scenarios You Excel At
@@ -383,7 +383,7 @@ export async function POST(request: NextRequest) {
 ### Middleware for Authentication
 
 ```typescript
-// middleware.ts
+// proxy.ts
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 

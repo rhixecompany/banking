@@ -80,7 +80,7 @@ This plan addresses Critical and High Priority issues to make the banking applic
 | --- | --- |
 | `app/api/sentry-example-api/` | DELETE entire folder |
 | `lib/env.ts` | Add required validations, remove duplicates |
-| `app/middleware.ts` | Add rate limiting back |
+| `proxy.ts` | Add rate limiting back |
 | `lib/utils.ts` | Replace btoa/atob with real encryption |
 | `lib/dal/bank.dal.ts` | Encrypt on write, decrypt on read |
 | `database/schema.ts` | Add errors table |

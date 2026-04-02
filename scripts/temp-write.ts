@@ -1,4 +1,9 @@
-const fs = require("fs"); fs.writeFileSync("app/(root)/payment-transfer/page.tsx", `/**
+import { writeFileSync } from "fs";
+import path from "path";
+
+writeFileSync(
+  path.resolve("app/(root)/payment-transfer/page.tsx"),
+  `/**
  * Payment transfer page component.
  * Handles bank-to-bank transfers using Dwolla ACH.
  *
@@ -6,7 +11,7 @@ const fs = require("fs"); fs.writeFileSync("app/(root)/payment-transfer/page.tsx
  */
 
 // CACHING STRATEGY: Short-lived cache with cacheLife
-async function getTransferConfig() {
+function getTransferConfig() {
   "use cache";
   cacheLife("minutes");
   return {};
@@ -17,4 +22,5 @@ const PaymentTransfer = async (): Promise<JSX.Element> => {
 };
 
 export default PaymentTransfer;
-`);
+`,
+);

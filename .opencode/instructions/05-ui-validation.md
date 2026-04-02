@@ -23,14 +23,14 @@ import {
   Dialog,
   DialogContent,
   DialogHeader,
-  DialogTitle,
+  DialogTitle
 } from "@/components/ui/dialog";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
+  SelectValue
 } from "@/components/ui/select";
 ```
 
@@ -84,19 +84,19 @@ export function PaymentForm() {
 ### String Validations
 
 ```typescript
-z.string().min(1);           // Required
-z.string().max(100);          // Max length
-z.string().email();            // Email format
-z.string().url();              // URL format
-z.enum(["a", "b", "c"]);      // Enum
+z.string().min(1); // Required
+z.string().max(100); // Max length
+z.string().email(); // Email format
+z.string().url(); // URL format
+z.enum(["a", "b", "c"]); // Enum
 ```
 
 ### Number Validations
 
 ```typescript
-z.number().min(0);             // Min value
-z.number().max(100);            // Max value
-z.number().int();              // Integer only
+z.number().min(0); // Min value
+z.number().max(100); // Max value
+z.number().int(); // Integer only
 ```
 
 ### Object Validations
@@ -121,7 +121,7 @@ z.object({
 ### Arrays
 
 ```typescript
-z.array(z.string()).min(1);    // Non-empty array
+z.array(z.string()).min(1); // Non-empty array
 ```
 
 ### Transforms
@@ -133,10 +133,10 @@ z.string().transform(val => val.trim());
 ### Coercion
 
 ```typescript
-z.coerce.string();   // Convert to string
-z.coerce.number();    // Convert to number
-z.coerce.boolean();   // Convert to boolean
-z.coerce.date();      // Convert to Date
+z.coerce.string(); // Convert to string
+z.coerce.number(); // Convert to number
+z.coerce.boolean(); // Convert to boolean
+z.coerce.date(); // Convert to Date
 ```
 
 ## Component Patterns
@@ -171,4 +171,3 @@ export function PaymentForm() {
 ```
 
 See: .opencode/skills/ui-skill/SKILL.md, .opencode/skills/validation-skill/SKILL.md
-

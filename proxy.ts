@@ -7,9 +7,18 @@ import { NextResponse } from "next/server";
 
 /**
  * Lazy-initialized rate limiter with graceful fallback when Redis is unavailable.
- * Rate limiting is skipped if REDIS_URL is not configured.
+ * Rate limiting is skipped if Upstash REST credentials are not configured.
+ * We guard BEFORE calling Redis.fromEnv() because on Windows the Upstash SDK
+ * throws a native error that cannot be caught by a JS try/catch when the
+ * required env vars are absent, crashing the Next.js worker process.
  */
 const ratelimit = (() => {
+  if (
+    !process.env.UPSTASH_REDIS_REST_URL ||
+    !process.env.UPSTASH_REDIS_REST_TOKEN
+  ) {
+    return undefined;
+  }
   try {
     return new Ratelimit({
       analytics: true,
@@ -19,7 +28,6 @@ const ratelimit = (() => {
     });
   } catch {
     // Redis not configured - rate limiting will be skipped
-    // Using undefined instead of null per project linting rules
     return undefined;
   }
 })();
@@ -40,7 +48,7 @@ function getRateLimitKey(request: NextRequest): string {
 }
 
 /**
- * Next.js middleware for authentication and rate limiting.
+ * Next.js proxy function for authentication and rate limiting.
  * - Redirects authenticated users away from auth pages
  * - Rate limits auth page requests when Redis is available
  * - Protects routes requiring authentication
@@ -50,7 +58,7 @@ function getRateLimitKey(request: NextRequest): string {
  * @param {NextRequest} request
  * @returns {Promise<NextResponse>}
  */
-export async function middleware(request: NextRequest): Promise<NextResponse> {
+export async function proxy(request: NextRequest): Promise<NextResponse> {
   const { pathname } = request.nextUrl;
 
   if (pathname.startsWith("/api/auth")) {

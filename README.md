@@ -1455,7 +1455,7 @@ Uses **NextAuth v4** with Drizzle Adapter and Credentials provider.
 | `lib/auth-options.ts` | NextAuth configuration |
 | `lib/auth.ts` | Server-side session helper |
 | `app/api/auth/[...nextauth]/route.ts` | Auth API route |
-| `middleware.ts` | Rate limiting and route protection |
+| `proxy.ts` | Rate limiting and route protection |
 
 ### OAuth Providers
 

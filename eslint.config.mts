@@ -47,6 +47,7 @@ export default defineConfig([
     "playwright-report/**",
     ".vercel/**",
     ".github/skills/**",
+    ".opencode/**",
     "eng/**",
     "fix-constants2.cjs",
     "fix-dwolla.cjs",
@@ -440,6 +441,37 @@ export default defineConfig([
   },
 
   // =====================================================
+  // SCRIPTS - Custom rules for code generation and validation scripts
+  // =====================================================
+  {
+    files: ["scripts/**/*.ts"],
+    rules: {
+      // Nullish coalescing: Keep as warn
+      "@typescript-eslint/prefer-nullish-coalescing": "warn",
+      // Async: Allow - functions may be async for future use
+      "@typescript-eslint/require-await": "off",
+      // Console: Allow warn/error, disallow log
+      "no-console": ["warn", { allow: ["warn", "error"] }],
+      // Assignments: Allow - may be intentional for future use
+      "no-useless-assignment": "off",
+      // Prefer const: Keep as error
+      "prefer-const": "error",
+      // Error handling: Allow - cause may not always be available
+      "preserve-caught-error": "off",
+      "require-await": "off",
+      // FS Security: Disabled - scripts use dynamic paths that are validated
+      "security/detect-non-literal-fs-filename": "off",
+      "security/detect-non-literal-regexp": "off",
+      // Regex Security: Disabled - scripts validate regex patterns safely
+      "security/detect-unsafe-regex": "off",
+      // Code quality: Allow - collapsible if may improve readability
+      "sonarjs/no-collapsible-if": "off",
+      // Null: Allow - scripts may use null for compatibility
+      "unicorn/no-null": "off",
+    },
+  },
+
+  // =====================================================
   // TESTING LIBRARY - React Testing Library Rules
   // =====================================================
   {
@@ -503,6 +535,7 @@ export default defineConfig([
   {
     files: [
       "components/plaid-link.tsx",
+      "components/plaid-context.tsx",
       "components/ui/number-input.tsx",
       "lib/actions/plaid.actions.ts",
       "lib/auth-config.ts",

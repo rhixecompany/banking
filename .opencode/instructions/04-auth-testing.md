@@ -31,7 +31,7 @@ export async function protectedAction(input: unknown) {
   if (!session?.user) {
     return { ok: false, error: "Unauthorized" };
   }
-  
+
   // Continue with action
   return { ok: true };
 }
@@ -128,7 +128,9 @@ test.describe("Bank Linking", () => {
     await page.context().clearCookies();
   });
 
-  test("should redirect unauthenticated users to sign-in", async ({ page }) => {
+  test("should redirect unauthenticated users to sign-in", async ({
+    page
+  }) => {
     await page.goto("/my-banks");
     await expect(page).toHaveURL(/\/sign-in/);
   });
@@ -160,4 +162,3 @@ export const test = base.extend<AuthFixtures>({
 5. Use realistic test data
 
 See: .opencode/skills/auth-skill/SKILL.md, .opencode/skills/testing-skill/SKILL.md
-

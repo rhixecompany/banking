@@ -5,11 +5,11 @@ import { z } from "zod";
 
 import { db } from "@/database/db";
 import { user_profiles, users } from "@/database/schema";
+import { auth } from "@/lib/auth";
 
 /**
- * Description placeholder
- *
- * @type {*}
+ * Input schema for updating a user profile.
+ * `userId` is intentionally omitted — it is resolved from the session.
  */
 const UpdateProfileSchema = z.object({
   address: z.string().trim().optional(),
@@ -22,11 +22,10 @@ const UpdateProfileSchema = z.object({
   phone: z.string().trim().optional(),
   postalCode: z.string().trim().optional(),
   state: z.string().trim().optional(),
-  userId: z.string().trim(),
 });
 
 /**
- * Description placeholder
+ * Inferred type for profile update input (excludes userId — resolved from session).
  *
  * @export
  * @typedef {UpdateProfileInput}
@@ -34,16 +33,24 @@ const UpdateProfileSchema = z.object({
 export type UpdateProfileInput = z.infer<typeof UpdateProfileSchema>;
 
 /**
- * Description placeholder
+ * Updates the authenticated user's profile fields.
+ * The userId is taken exclusively from the active session — never from client input.
  *
  * @export
  * @async
  * @param {unknown} input
- * @returns {unknown}
+ * @returns {Promise<{ ok: boolean; error?: string }>}
  */
 export async function updateProfile(
   input: unknown,
 ): Promise<{ ok: boolean; error?: string }> {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return { error: "Unauthorized", ok: false };
+  }
+
+  const userId = session.user.id;
+
   const parsed = UpdateProfileSchema.safeParse(input);
   if (!parsed.success) {
     return { error: parsed.error.issues[0]?.message, ok: false };
@@ -59,7 +66,6 @@ export async function updateProfile(
     phone,
     postalCode,
     state,
-    userId,
   } = parsed.data;
   try {
     if (newPassword || email) {

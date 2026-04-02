@@ -14,12 +14,9 @@ _Last updated: January 2026 (aligned to Next.js 16.1.1)_
 This document summarizes the latest, authoritative best practices for building, structuring, and maintaining Next.js applications. It is intended for use by LLMs and developers to ensure code quality, maintainability, and scalability.
 
 ---
-name: "nextjs-patterns"
-description: "Best practices for building Next.js (App Router) apps with modern caching, tooling, and server/client boundaries (aligned with Next.js 16.1.1)."
-applyTo: "**/*.tsx, **/*.ts, **/*.jsx, **/*.js, **/*.css"
-priority: "high"
-version: "1.0"
-lastUpdated: "2026-03-31"
+
+name: "nextjs-patterns" description: "Best practices for building Next.js (App Router) apps with modern caching, tooling, and server/client boundaries (aligned with Next.js 16.1.1)." applyTo: "**/\*.tsx, **/_.ts, \*\*/_.jsx, **/\*.js, **/\*.css" priority: "high" version: "1.0" lastUpdated: "2026-03-31"
+
 ---
 
 ## 3. Component Best Practices
@@ -125,4 +122,3 @@ Do not create example/demo files (like ModalExample.tsx) in the main codebase un
 - Use the following tools to fetch and search documentation if they are available:
   - `resolve_library_id` to resolve the package/library name in the docs.
   - `get_library_docs` for up-to-date documentation.
-

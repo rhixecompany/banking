@@ -1,19 +1,47 @@
-import { cacheLife } from "next/cache";
+import type { Metadata } from "next";
 
-/**
- (Payment transfer page component.
-* @handles bank-to-bank transfer using Dwolla ACH.
-* @returns {JSX.Element}
-*/
+import { redirect } from "next/navigation";
 
-async function getTransferConfig() {
-  "use cache";
-  cacheLife("minutes");
-  return {};
-}
+import { PaymentTransferClient } from "@/components/payment-transfer/PaymentTransferClient";
+import { getRecipients } from "@/lib/actions/recipient.actions";
+import { auth } from "@/lib/auth";
+import { bankDal } from "@/lib/dal";
 
-const PaymentTransfer = async (): Promise<JSX.Element> => {
-  return <div>Payment Transfer</div>;
+export const metadata: Metadata = {
+  description: "Send money to recipients using ACH bank transfers.",
+  title: "Payment Transfer | Horizon Banking",
 };
 
-export default PaymentTransfer;
+/**
+ * Payment Transfer page — loads the user's banks and recipients,
+ * then renders the transfer form client component.
+ *
+ * @export
+ * @async
+ * @returns {Promise<JSX.Element>}
+ */
+export default async function PaymentTransferPage(): Promise<JSX.Element> {
+  const session = await auth();
+  if (!session?.user?.id) {
+    redirect("/sign-in");
+  }
+
+  const userId = session.user.id;
+
+  const [banks, recipientsResult] = await Promise.all([
+    bankDal.findByUserId(userId),
+    getRecipients(),
+  ]);
+
+  const recipients = recipientsResult.ok
+    ? (recipientsResult.recipients ?? [])
+    : [];
+
+  return (
+    <PaymentTransferClient
+      banks={banks}
+      recipients={recipients}
+      userId={userId}
+    />
+  );
+}

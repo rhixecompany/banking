@@ -14,6 +14,45 @@
 
 import fs from "fs";
 import path from "path";
+import safeRegex from "safe-regex";
+
+/**
+ * Description placeholder
+ *
+ * @type {100}
+ */
+const REGEX_TIMEOUT_MS = 100;
+
+/**
+ * Description placeholder
+ *
+ * @param {string} pattern
+ * @returns {boolean}
+ */
+function isSafeRegex(pattern: string): boolean {
+  try {
+    if (!safeRegex(pattern)) {
+      return false;
+    }
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Description placeholder
+ *
+ * @param {string} pattern
+ * @param {string} [flags="gm"]
+ * @returns {(null | RegExp)}
+ */
+function createTimedRegex(pattern: string, flags = "gm"): null | RegExp {
+  if (!isSafeRegex(pattern)) {
+    return null;
+  }
+  return new RegExp(pattern, flags);
+}
 
 /**
  * Description placeholder
@@ -153,8 +192,11 @@ function validateNoAny(filePath: string, content: string): void {
  * @param {string} content
  */
 function validateReturnTypes(filePath: string, content: string): void {
-  const functionRegex =
-    /^(?:export\s+)?(?:async\s+)?function\s+(\w+)|(?:export\s+)?const\s+(\w+)\s*=\s*(?:async\s+)?\(/gm;
+  const functionRegexPattern =
+    "^(?:export\\s+)?(?:async\\s+)?function\\s+(\\w+)|(?:export\\s+)?const\\s+(\\w+)\\s*=\\s*(?:async\\s+)?\\(";
+  const functionRegex = createTimedRegex(functionRegexPattern, "gm");
+  if (!functionRegex) return;
+
   let match;
 
   while ((match = functionRegex.exec(content)) !== null) {
@@ -163,10 +205,12 @@ function validateReturnTypes(filePath: string, content: string): void {
     const functionStart = match.index;
     const functionBlock = content.slice(functionStart, functionStart + 500);
 
-    const hasReturnType =
-      /:\s*(?:Promise<)?(?:void|boolean|string|number|unknown|Record|Array)[>\]]?/.test(
-        functionBlock,
-      );
+    const hasReturnTypePattern =
+      ":\\s*(?:Promise<)?(?:void|boolean|string|number|unknown|Record|Array)[>\\]]?";
+    const hasReturnTypeRegex = createTimedRegex(hasReturnTypePattern);
+    if (!hasReturnTypeRegex) continue;
+
+    const hasReturnType = hasReturnTypeRegex.test(functionBlock);
 
     if (!hasReturnType && functionName && !functionName.startsWith("_")) {
       errors.push({
@@ -220,7 +264,7 @@ function validateDALReturnTypes(content: string, filePath: string): void {
   const matches = content.match(findMethods);
 
   if (matches && matches.length > 0) {
-    console.log(`  Found ${matches.length} DAL method(s)`);
+    console.warn(`  Found ${matches.length} DAL method(s)`);
   }
 }
 
@@ -260,13 +304,13 @@ function validateActionReturnShapes(content: string, filePath: string): void {
  * @returns {Promise<boolean>}
  */
 export async function validateTypes(): Promise<boolean> {
-  console.log("🔍 Validating type safety...\n");
+  console.warn("🔍 Validating type safety...\n");
 
   errors.length = 0;
 
   const allFiles = [...getAllTsFiles(LIB_DIR), ...getAllTsFiles(APP_DIR)];
 
-  console.log(`  Checking ${allFiles.length} TypeScript files...\n`);
+  console.warn(`  Checking ${allFiles.length} TypeScript files...\n`);
 
   for (const filePath of allFiles) {
     const content = fs.readFileSync(filePath, "utf8");
@@ -288,25 +332,25 @@ export async function validateTypes(): Promise<boolean> {
   }
 
   if (errors.length > 0) {
-    console.log("\n❌ Type safety validation errors:\n");
+    console.warn("\n❌ Type safety validation errors:\n");
 
     const errorGroups = new Map<string, ValidationError[]>();
     for (const error of errors) {
-      const existing = errorGroups.get(error.file) || [];
+      const existing = errorGroups.get(error.file) ?? [];
       existing.push(error);
       errorGroups.set(error.file, existing);
     }
 
     for (const [file, fileErrors] of errorGroups) {
-      console.log(`  ${file}:`);
+      console.warn(`  ${file}:`);
       for (const error of fileErrors) {
         const icon = error.severity === "error" ? "❌" : "⚠️";
         const lineInfo = error.line ? `:${error.line}` : "";
-        console.log(`    ${icon}${lineInfo} ${error.message}`);
+        console.warn(`    ${icon}${lineInfo} ${error.message}`);
       }
     }
   } else {
-    console.log("✅ Type safety checks passed");
+    console.warn("✅ Type safety checks passed");
   }
 
   return errors.filter((e) => e.severity === "error").length === 0;

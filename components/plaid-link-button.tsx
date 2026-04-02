@@ -2,16 +2,58 @@
 
 import { Loader2 } from "lucide-react";
 
-import { usePlaid } from "@/components/plaid-context";
-import { Button } from "@/components/ui/button";
 import type { Bank } from "@/types/bank";
 
+import { usePlaid } from "@/components/plaid-context";
+import { Button } from "@/components/ui/button";
+
+/**
+ * Description placeholder
+ *
+ * @interface PlaidLinkButtonProps
+ * @typedef {PlaidLinkButtonProps}
+ */
 interface PlaidLinkButtonProps {
+  /**
+   * Description placeholder
+   *
+   * @type {?React.ReactNode}
+   */
   children?: React.ReactNode;
+  /**
+   * Description placeholder
+   *
+   * @type {?string}
+   */
   className?: string;
+  /**
+   * Description placeholder
+   *
+   * @type {?boolean}
+   */
   disabled?: boolean;
+  /**
+   * Description placeholder
+   *
+   * @type {?(bank: Bank) => void}
+   */
   onSuccess?: (bank: Bank) => void;
+  /**
+   * Description placeholder
+   *
+   * @type {?("default" | "icon" | "lg" | "sm")}
+   */
   size?: "default" | "icon" | "lg" | "sm";
+  /**
+   * Description placeholder
+   *
+   * @type {?(| "default"
+   *     | "destructive"
+   *     | "ghost"
+   *     | "link"
+   *     | "outline"
+   *     | "secondary")}
+   */
   variant?:
     | "default"
     | "destructive"
@@ -21,6 +63,18 @@ interface PlaidLinkButtonProps {
     | "secondary";
 }
 
+/**
+ * Description placeholder
+ *
+ * @export
+ * @param {PlaidLinkButtonProps} param0
+ * @param {React.ReactNode} param0.children
+ * @param {string} param0.className
+ * @param {boolean} param0.disabled
+ * @param {("default" | "icon" | "lg" | "sm")} [param0.size="default"]
+ * @param {("default" | "destructive" | "ghost" | "link" | "outline" | "secondary")} [param0.variant="default"]
+ * @returns {ReactJSX.Element}
+ */
 export function PlaidLinkButton({
   children,
   className,
@@ -37,7 +91,7 @@ export function PlaidLinkButton({
   return (
     <Button
       className={className}
-      disabled={disabled || isLoading || !ready}
+      disabled={disabled ?? isLoading ?? !ready}
       onClick={open}
       size={size}
       variant={variant}

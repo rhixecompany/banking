@@ -114,10 +114,10 @@ export async function transferAction(formData: FormData) {
 }
 ```
 
-### Security Headers (middleware.ts)
+### Security Headers (proxy.ts)
 
 ```typescript
-// app/middleware.ts
+// proxy.ts
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
@@ -180,4 +180,4 @@ Run: `npm run type-check` and `npm run lint:strict`
 3. **Rate limit** - Protect against brute force attacks
 4. **Validate input** - Always use Zod schemas
 5. **Use Server Actions** - Built-in CSRF protection
-6. **Security headers** - Configure in middleware.ts
+6. **Security headers** - Configure in proxy.ts

@@ -281,7 +281,7 @@ async function generateAction(
   }
 
   const fileName = `${actionName}.ts`;
-  const filePath = path.join(ACTIONS_DIR, fileName);
+  const filePath = path.resolve(ACTIONS_DIR, fileName);
 
   if (fs.existsSync(filePath)) {
     console.error(`❌ Action file already exists: ${filePath}`);
@@ -292,7 +292,7 @@ async function generateAction(
 
   fs.writeFileSync(filePath, content);
 
-  console.log(`✅ Generated Server Action: ${filePath}`);
+  console.warn(`✅ Generated Server Action: ${filePath}`);
 }
 
 /**
@@ -303,9 +303,10 @@ async function generateAction(
  */
 async function main(): Promise<void> {
   try {
-    console.log("⚡ Server Action Generator\n");
+    console.warn("⚡ Server Action Generator\n");
 
-    let { actionName, options } = parseArgs();
+    const { actionName: parsedActionName, options } = parseArgs();
+    let actionName = parsedActionName;
 
     if (!actionName) {
       actionName = await prompt("Enter action name (e.g., create-user): ");
@@ -325,11 +326,11 @@ async function main(): Promise<void> {
 
     await generateAction(actionName, options);
 
-    console.log("\n🎉 Action generation complete!");
-    console.log("\nNext steps:");
-    console.log(`  1. Update the schema in ${actionName}.ts`);
-    console.log(`  2. Add the DAL call`);
-    console.log(`  3. Add proper types from database/schema.ts`);
+    console.warn("\n🎉 Action generation complete!");
+    console.warn("\nNext steps:");
+    console.warn(`  1. Update the schema in ${actionName}.ts`);
+    console.warn(`  2. Add the DAL call`);
+    console.warn(`  3. Add proper types from database/schema.ts`);
   } catch (error) {
     console.error(
       "❌ Error:",

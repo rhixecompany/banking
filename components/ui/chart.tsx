@@ -5,6 +5,53 @@ import * as RechartsPrimitive from "recharts";
 
 import { cn } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ *
+ * @interface PayloadItem
+ * @typedef {PayloadItem}
+ */
+interface PayloadItem {
+  /**
+   * Description placeholder
+   *
+   * @type {?string}
+   */
+  type?: string;
+  /**
+   * Description placeholder
+   *
+   * @type {?(number | string)}
+   */
+  value?: number | string;
+  /**
+   * Description placeholder
+   *
+   * @type {?string}
+   */
+  name?: string;
+  /**
+   * Description placeholder
+   *
+   * @type {?(number | string)}
+   */
+  dataKey?: number | string;
+  /**
+   * Description placeholder
+   *
+   * @type {?string}
+   */
+  color?: string;
+  /**
+   * Description placeholder
+   *
+   * @type {?Record<string, unknown>}
+   */
+  payload?: Record<string, unknown>;
+  /** Description placeholder */
+  [key: string]: unknown;
+}
+
 // Format: { THEME_NAME: CSS_SELECTOR }
 /**
  * Description placeholder
@@ -167,8 +214,18 @@ const ChartTooltipContent = React.forwardRef<
     indicator?: "dashed" | "dot" | "line";
     nameKey?: string;
     labelKey?: string;
-  } & React.ComponentProps<"div"> &
-    React.ComponentProps<typeof RechartsPrimitive.Tooltip>
+  } & {
+    label?: unknown;
+    payload?: PayloadItem[];
+    active?: boolean;
+    formatter?: unknown;
+    color?: string;
+    labelClassName?: string;
+    labelFormatter?: (
+      value: unknown,
+      payload: PayloadItem[],
+    ) => React.ReactNode;
+  } & React.ComponentProps<"div">
 >(
   (
     {
@@ -184,7 +241,7 @@ const ChartTooltipContent = React.forwardRef<
       labelFormatter,
       labelKey,
       nameKey,
-      payload,
+      payload = [],
     },
     ref,
   ) => {
@@ -236,29 +293,40 @@ const ChartTooltipContent = React.forwardRef<
       <div
         ref={ref}
         className={cn(
-          "grid min-w-[8rem] items-start gap-1.5 rounded-lg border border-border/50 bg-background px-2.5 py-1.5 text-xs shadow-xl",
+          "grid min-w-32 items-start gap-1.5 rounded-lg border border-border/50 bg-background px-2.5 py-1.5 text-xs shadow-xl",
           className,
         )}
       >
         {!nestLabel ? tooltipLabel : undefined}
         <div className="grid gap-1.5">
           {payload
-            .filter((item) => item.type !== "none")
-            .map((item, index) => {
+            .filter((item: PayloadItem) => item.type !== "none")
+            .map((item: PayloadItem, index: number) => {
               const key = `${nameKey ?? item.name ?? item.dataKey ?? "value"}`;
               const itemConfig = getPayloadConfigFromPayload(config, item, key);
-              const indicatorColor = color ?? item.payload.fill ?? item.color;
+              const indicatorColor = color ?? item.payload?.fill ?? item.color;
 
               return (
                 <div
-                  key={item.dataKey}
+                  key={String(item.dataKey)}
                   className={cn(
                     "flex w-full flex-wrap items-stretch gap-2 [&>svg]:size-2.5  [&>svg]:text-muted-foreground",
                     indicator === "dot" && "items-center",
                   )}
                 >
-                  {formatter && item?.value !== undefined && item.name ? (
-                    formatter(item.value, item.name, item, index, item.payload)
+                  {formatter &&
+                  typeof formatter === "function" &&
+                  item?.value !== undefined &&
+                  item.name ? (
+                    (
+                      formatter as (
+                        value: unknown,
+                        name: unknown,
+                        item: PayloadItem,
+                        index: number,
+                        payload?: Record<string, unknown>,
+                      ) => React.ReactNode
+                    )(item.value, item.name, item, index, item.payload)
                   ) : (
                     <>
                       {itemConfig?.icon ? (
@@ -267,7 +335,7 @@ const ChartTooltipContent = React.forwardRef<
                         !hideIndicator && (
                           <div
                             className={cn(
-                              "shrink-0 rounded-[2px] border-[--color-border] bg-[--color-bg]",
+                              "shrink-0 rounded-xs border-[--color-border] bg-[--color-bg]",
                               {
                                 "h-2.5 w-2.5": indicator === "dot",
                                 "my-0.5": nestLabel && indicator === "dashed",
@@ -332,11 +400,18 @@ const ChartLegendContent = React.forwardRef<
   {
     hideIcon?: boolean;
     nameKey?: string;
-  } & Pick<RechartsPrimitive.LegendProps, "payload" | "verticalAlign"> &
-    React.ComponentProps<"div">
+    payload?: PayloadItem[];
+    verticalAlign?: "bottom" | "top";
+  } & React.ComponentProps<"div">
 >(
   (
-    { className, hideIcon = false, nameKey, payload, verticalAlign = "bottom" },
+    {
+      className,
+      hideIcon = false,
+      nameKey,
+      payload = [],
+      verticalAlign = "bottom",
+    },
     ref,
   ) => {
     const { config } = useChart();
@@ -355,14 +430,14 @@ const ChartLegendContent = React.forwardRef<
         )}
       >
         {payload
-          .filter((item) => item.type !== "none")
-          .map((item) => {
+          .filter((item: PayloadItem) => item.type !== "none")
+          .map((item: PayloadItem) => {
             const key = `${nameKey ?? item.dataKey ?? "value"}`;
             const itemConfig = getPayloadConfigFromPayload(config, item, key);
 
             return (
               <div
-                key={item.value}
+                key={String(item.value)}
                 className={cn(
                   "flex items-center gap-1.5 [&>svg]:size-3  [&>svg]:text-muted-foreground",
                 )}
@@ -371,9 +446,9 @@ const ChartLegendContent = React.forwardRef<
                   <itemConfig.icon />
                 ) : (
                   <div
-                    className="size-2  shrink-0 rounded-[2px]"
+                    className="size-2  shrink-0 rounded-xs"
                     style={{
-                      backgroundColor: item.color,
+                      backgroundColor: String(item.color),
                     }}
                   />
                 )}

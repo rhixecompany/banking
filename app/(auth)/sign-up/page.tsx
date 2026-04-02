@@ -1,7 +1,14 @@
+import type { Metadata } from "next";
+
 import { Suspense } from "react";
 
 import AuthForm from "@/components/AuthForm";
 import { LoadingSpinner } from "@/components/ui/spinner";
+
+export const metadata: Metadata = {
+  description: "Create a new Horizon Banking account.",
+  title: "Sign Up | Horizon Banking",
+};
 
 /**
  * Server component that contains the sign-up page content.

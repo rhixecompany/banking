@@ -1,0 +1,390 @@
+
+> banking@0.1.0 test:ui
+> cross-env PLAYWRIGHT_PREPARE_DB=true playwright test --project=chromium --retries=0 --workers=1
+
+[1A[2K[2m[WebServer] [22m
+
+[1A[2K[2m[WebServer] [22m[2m[934.65ms][22m [@tailwindcss/postcss] app\globals.css
+[2m[WebServer] [22m[2m[  0.15ms][22m  [2m ↳ [22mQuick bail check
+[2m[WebServer] [22m[2m[124.85ms][22m  [2m ↳ [22mSetup compiler
+[2m[WebServer] [22m[2m[  1.23ms][22m    [2m ↳ [22mPostCSS AST -> Tailwind CSS AST
+[2m[WebServer] [22m[2m[123.54ms][22m    [2m ↳ [22mCreate compiler
+[2m[WebServer] [22m[2m[  0.22ms][22m  [2m ↳ [22mRegister full rebuild paths
+[2m[WebServer] [22m[2m[ 11.19ms][22m  [2m ↳ [22mSetup scanner
+[2m[WebServer] [22m[2m[358.14ms][22m  [2m ↳ [22mScan for candidates
+[2m[WebServer] [22m[2m[136.43ms][22m  [2m ↳ [22mRegister dependency messages
+[2m[WebServer] [22m[2m[269.47ms][22m  [2m ↳ [22mBuild utilities
+[2m[WebServer] [22m[2m[ 22.61ms][22m  [2m ↳ [22mTransform Tailwind CSS AST into PostCSS AST
+[2m[WebServer] [22m[2m[ 10.49ms][22m  [2m ↳ [22mUpdate PostCSS AST
+[2m[WebServer] [22m
+
+◇ injecting env (0) from .env // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+◇ injecting env (107) from .env.local // tip: ◈ encrypted .env [www.dotenvx.com]
+[playwright] Checking database connectivity...
+[playwright] Database is reachable. Checking seed data...
+[playwright] Database already seeded with test data.
+
+Running 40 tests using 1 worker
+
+[1A[2K[1/40] [chromium] › tests\e2e\auth.spec.ts:9:5 › Authentication › Navigation Flow › should navigate from sign-in to sign-up and back
+[1A[2K[2m[WebServer] [22m[Upstash Redis] Unable to find environment variable: `UPSTASH_REDIS_REST_URL`
+
+[1A[2K[2m[WebServer] [22m[Upstash Redis] Unable to find environment variable: `UPSTASH_REDIS_REST_TOKEN`
+
+[1A[2K[2m[WebServer] [22m[Upstash Redis] The 'url' property is missing or undefined in your Redis config.
+
+[1A[2K[2m[WebServer] [22m[Upstash Redis] The 'token' property is missing or undefined in your Redis config.
+
+[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
+
+[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
+
+[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
+
+[1A[2K[2/40] [chromium] › tests\e2e\auth.spec.ts:24:5 › Authentication › Sign-In Page › should show sign-in form
+[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
+
+[1A[2K[3/40] [chromium] › tests\e2e\auth.spec.ts:30:5 › Authentication › Sign-In Page › should show sign-up link
+[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
+
+[1A[2K[4/40] [chromium] › tests\e2e\auth.spec.ts:37:5 › Authentication › Sign-In Page › should navigate to sign-up page
+[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
+
+[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
+
+[1A[2K[5/40] [chromium] › tests\e2e\auth.spec.ts:43:5 › Authentication › Sign-In Page › should show validation error for invalid email
+[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
+
+[1A[2K[6/40] [chromium] › tests\e2e\auth.spec.ts:53:5 › Authentication › Sign-In Page › should show error toast for non-existent email
+[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
+
+[1A[2K[7/40] [chromium] › tests\e2e\auth.spec.ts:67:5 › Authentication › Sign-Up Page › should show sign-up form
+[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
+
+[1A[2K[8/40] [chromium] › tests\e2e\auth.spec.ts:74:5 › Authentication › Sign-Up Page › should show sign-in link
+[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
+
+[1A[2K[9/40] [chromium] › tests\e2e\auth.spec.ts:81:5 › Authentication › Sign-Up Page › should navigate to sign-in page
+[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
+
+[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
+
+[1A[2K[10/40] [chromium] › tests\e2e\auth.spec.ts:87:5 › Authentication › Sign-Up Page › should show validation error for short password
+[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
+
+[1A[2K[11/40] [chromium] › tests\e2e\auth.spec.ts:107:5 › Authentication › Sign-Up Page › should show validation error for password mismatch
+[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
+
+[1A[2K[12/40] [chromium] › tests\e2e\auth.spec.ts:122:5 › Authentication › Sign-Up Page › should show validation error for short name
+[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
+
+[1A[2K[13/40] [chromium] › tests\e2e\bank-linking.spec.ts:9:5 › Bank Linking › Unauthenticated Access › should redirect to sign-in when accessing my-banks
+[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
+
+[1A[2K[14/40] [chromium] › tests\e2e\bank-linking.spec.ts:22:5 › Bank Linking › Sign-in validation › should show sign-in form
+[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
+
+[1A[2K[15/40] [chromium] › tests\e2e\bank-linking.spec.ts:27:5 › Bank Linking › Sign-in validation › should show error toast for invalid credentials
+[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
+
+[1A[2K[16/40] [chromium] › tests\e2e\forms.spec.ts:8:3 › Navigation › should open mobile navigation sheet on dashboard
+[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
+
+[1A[2K[2m[WebServer] [22mThe width(-1) and height(-1) of chart should be greater than 0,
+[2m[WebServer] [22m       please check the style of container, or the props width(100%) and height(100%),
+[2m[WebServer] [22m       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+[2m[WebServer] [22m       height and width.
+
+[1A[2K[2m[WebServer] [22mThe width(-1) and height(-1) of chart should be greater than 0,
+[2m[WebServer] [22m       please check the style of container, or the props width(100%) and height(100%),
+[2m[WebServer] [22m       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+[2m[WebServer] [22m       height and width.
+
+[1A[2K  1) [chromium] › tests\e2e\forms.spec.ts:8:3 › Navigation › should open mobile navigation sheet on dashboard 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.goto: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - navigating to "http://localhost:3000/dashboard", waiting until "load"[22m
+
+
+      10 |   }) => {
+      11 |     await page.setViewportSize({ height: 812, width: 375 });
+    > 12 |     await page.goto("/dashboard");
+         |                ^
+      13 |     await page.getByAltText("menu", { exact: true }).click();
+      14 |     await expect
+      15 |       .soft(page.getByRole("dialog"))
+        at C:\Users\Alexa\Desktop\SandBox\Banking\tests\e2e\forms.spec.ts:12:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\forms-Navigation-should-op-09177-vigation-sheet-on-dashboard-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\forms-Navigation-should-op-09177-vigation-sheet-on-dashboard-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\forms-Navigation-should-op-09177-vigation-sheet-on-dashboard-chromium\error-context.md
+
+
+[1A[2K[17/40] [chromium] › tests\e2e\forms.spec.ts:19:3 › Navigation › should navigate sign-in to sign-up via footer link
+[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
+
+[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
+
+[1A[2K[18/40] [chromium] › tests\e2e\forms.spec.ts:29:3 › Forms › should have working form inputs
+[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
+
+[1A[2K[19/40] [chromium] › tests\e2e\my-banks.spec.ts:9:5 › My Banks Page › Unauthenticated Access › should redirect unauthenticated users to sign-in
+[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
+
+[1A[2K[20/40] [chromium] › tests\e2e\my-banks.spec.ts:18:5 › My Banks Page › Authenticated › should show page title and description
+[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
+
+[1A[2K[2m[WebServer] [22m[36m[browser][39m [33mThe width(-1) and height(-1) of chart should be greater than 0,
+[2m[WebServer] [22m       please check the style of container, or the props width(100%) and height(100%),
+[2m[WebServer] [22m       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+[2m[WebServer] [22m       height and width.[39m
+
+[1A[2K[2m[WebServer] [22m[36m[browser][39m [33mThe width(-1) and height(-1) of chart should be greater than 0,
+[2m[WebServer] [22m       please check the style of container, or the props width(100%) and height(100%),
+[2m[WebServer] [22m       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+[2m[WebServer] [22m       height and width.[39m
+
+[1A[2K[2m[WebServer] [22m[36m[browser][39m [33mThe width(-1) and height(-1) of chart should be greater than 0,
+[2m[WebServer] [22m       please check the style of container, or the props width(100%) and height(100%),
+[2m[WebServer] [22m       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+[2m[WebServer] [22m       height and width.[39m
+
+[1A[2K[2m[WebServer] [22m[36m[browser][39m [33mThe width(-1) and height(-1) of chart should be greater than 0,
+[2m[WebServer] [22m       please check the style of container, or the props width(100%) and height(100%),
+[2m[WebServer] [22m       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+[2m[WebServer] [22m       height and width.[39m
+
+[1A[2K[21/40] [chromium] › tests\e2e\my-banks.spec.ts:30:5 › My Banks Page › Authenticated › should show total balance card
+[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
+
+[1A[2K[22/40] [chromium] › tests\e2e\my-banks.spec.ts:37:5 › My Banks Page › Authenticated › should list seeded bank accounts
+[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
+
+[1A[2K[2m[WebServer] [22m
+
+[1A[2K[2m[WebServer] [22m[2m[2013.52ms][22m [@tailwindcss/postcss] app\globals.css
+
+[1A[2K[2m[WebServer] [22m[2m[   0.05ms][22m  [2m ↳ [22mQuick bail check
+
+[1A[2K[2m[WebServer] [22m[2m[   7.90ms][22m  [2m ↳ [22mRegister full rebuild paths
+
+[1A[2K[2m[WebServer] [22m[2m[1350.16ms][22m  [2m ↳ [22mScan for candidates
+
+[1A[2K[2m[WebServer] [22m[2m[  60.05ms][22m  [2m ↳ [22mRegister dependency messages
+[2m[WebServer] [22m[2m[ 240.81ms][22m  [2m ↳ [22mBuild utilities
+[2m[WebServer] [22m[2m[ 295.30ms][22m  [2m ↳ [22mUpdate PostCSS AST
+[2m[WebServer] [22m
+
+[1A[2K[2m[WebServer] [22m[31m[1m⨯[22m[39m Failed to generate static paths for /api/auth/[...nextauth]:
+
+[1A[2K[2m[WebServer] [22mError: Jest worker encountered 2 child process exceptions, exceeding retry limit
+[2m[WebServer] [22m    at [3mignore-listed frames[23m {
+[2m[WebServer] [22m  type: [32m'WorkerError'[39m
+[2m[WebServer] [22m}
+
+[1A[2K[2m[WebServer] [22m[31m[1m⨯[22m[39m Error: Jest worker encountered 2 child process exceptions, exceeding retry limit
+[2m[WebServer] [22m    at [3mignore-listed frames[23m {
+[2m[WebServer] [22m  type: [32m'WorkerError'[39m,
+[2m[WebServer] [22m  page: [32m'/api/auth/providers'[39m
+[2m[WebServer] [22m}
+
+[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
+
+[1A[2K[2m[WebServer] [22m[31m[1m⨯[22m[39m Error: Jest worker encountered 2 child process exceptions, exceeding retry limit
+[2m[WebServer] [22m    at [3mignore-listed frames[23m {
+[2m[WebServer] [22m  type: [32m'WorkerError'[39m,
+[2m[WebServer] [22m  page: [32m'/api/auth/error'[39m
+[2m[WebServer] [22m}
+
+[1A[2K[2m[WebServer] [22m[31m[1m⨯[22m[39m Error: Jest worker encountered 2 child process exceptions, exceeding retry limit
+[2m[WebServer] [22m    at [3mignore-listed frames[23m {
+[2m[WebServer] [22m  type: [32m'WorkerError'[39m,
+[2m[WebServer] [22m  page: [32m'/api/auth/error'[39m
+[2m[WebServer] [22m}
+
+[1A[2K[2m[WebServer] [22m[36m[browser][39m [next-auth][error][CLIENT_FETCH_ERROR] 
+[2m[WebServer] [22mhttps://next-auth.js.org/errors#client_fetch_error Unexpected token '<', "<!DOCTYPE "... is not valid JSON {
+[2m[WebServer] [22m  error: {
+[2m[WebServer] [22m    message: [32m`Unexpected token '<', "<!DOCTYPE "... is not valid JSON`[39m,
+[2m[WebServer] [22m    name: [32m'SyntaxError'[39m,
+[2m[WebServer] [22m    stack: [32m`SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON`[39m
+[2m[WebServer] [22m  },
+[2m[WebServer] [22m  message: [32m`Unexpected token '<', "<!DOCTYPE "... is not valid JSON`[39m,
+[2m[WebServer] [22m  url: [32m'/api/auth/providers'[39m
+[2m[WebServer] [22m} 
+[2m[WebServer] [22m[31m    at new Promise (<anonymous>)[39m [2m(<anonymous>)[22m
+
+[1A[2K[2m[WebServer] [22m[36m[browser][39m [31mUncaught Error: Jest worker encountered 2 child process exceptions, exceeding retry limit[39m
+
+[1A[2K  2) [chromium] › tests\e2e\my-banks.spec.ts:37:5 › My Banks Page › Authenticated › should list seeded bank accounts 
+
+    [31mTest timeout of 30000ms exceeded while setting up "authenticatedPage".[39m
+
+    TimeoutError: page.waitForURL: Timeout 25000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation until "load"
+      navigated to "http://localhost:3000/api/auth/error"
+      navigated to "http://localhost:3000/api/auth/error"
+    ============================================================
+
+       at helpers\auth.ts:20
+
+      18 |   await page.getByLabel("Password").fill(SEED_USER.password);
+      19 |   await page.getByRole("button", { name: /sign in/i }).click();
+    > 20 |   await page.waitForURL(/\/dashboard/, { timeout: 25_000 });
+         |              ^
+      21 | }
+      22 |
+        at signInWithSeedUser (C:\Users\Alexa\Desktop\SandBox\Banking\tests\e2e\helpers\auth.ts:20:14)
+        at Object.authenticatedPage (C:\Users\Alexa\Desktop\SandBox\Banking\tests\fixtures\auth.ts:40:5)
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\my-banks-My-Banks-Page-Aut-98f56-d-list-seeded-bank-accounts-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\my-banks-My-Banks-Page-Aut-98f56-d-list-seeded-bank-accounts-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\my-banks-My-Banks-Page-Aut-98f56-d-list-seeded-bank-accounts-chromium\error-context.md
+
+
+[1A[2K[23/40] [chromium] › tests\e2e\pages.spec.ts:9:5 › Pages › Home Page › should redirect to sign-in when not authenticated
+[1A[2K  3) [chromium] › tests\e2e\pages.spec.ts:9:5 › Pages › Home Page › should redirect to sign-in when not authenticated 
+
+    Error: worker process exited unexpectedly (code=3221225794, signal=null)
+
+
+[1A[2K[24/40] [chromium] › tests\e2e\pages.spec.ts:16:5 › Pages › Home Page › should redirect authenticated users from home to dashboard
+[1A[2K  4) [chromium] › tests\e2e\pages.spec.ts:16:5 › Pages › Home Page › should redirect authenticated users from home to dashboard 
+
+    Error: worker process exited unexpectedly (code=3221225794, signal=null)
+
+
+[1A[2K[25/40] [chromium] › tests\e2e\pages.spec.ts:25:5 › Pages › My Banks Page › should redirect to sign-in when not authenticated
+[1A[2K  5) [chromium] › tests\e2e\pages.spec.ts:25:5 › Pages › My Banks Page › should redirect to sign-in when not authenticated 
+
+    Error: worker process exited unexpectedly (code=3221225794, signal=null)
+
+
+[1A[2K[26/40] [chromium] › tests\e2e\pages.spec.ts:34:5 › Pages › Transaction History Page › should redirect to sign-in when not authenticated
+[1A[2K  6) [chromium] › tests\e2e\pages.spec.ts:34:5 › Pages › Transaction History Page › should redirect to sign-in when not authenticated 
+
+    Error: worker process exited unexpectedly (code=3221225794, signal=null)
+
+
+[1A[2K[27/40] [chromium] › tests\e2e\pages.spec.ts:43:5 › Pages › Payment Transfer Page › should redirect to sign-in when not authenticated
+[1A[2K  7) [chromium] › tests\e2e\pages.spec.ts:43:5 › Pages › Payment Transfer Page › should redirect to sign-in when not authenticated 
+
+    Error: worker process exited unexpectedly (code=3221225794, signal=null)
+
+
+[1A[2K[28/40] [chromium] › tests\e2e\pages.spec.ts:52:5 › Pages › Sign In Page › should display sign-in form
+[1A[2K  8) [chromium] › tests\e2e\pages.spec.ts:52:5 › Pages › Sign In Page › should display sign-in form 
+
+    Error: worker process exited unexpectedly (code=3221225794, signal=null)
+
+
+[1A[2K[29/40] [chromium] › tests\e2e\pages.spec.ts:61:5 › Pages › Sign In Page › should have link to sign-up page
+[1A[2K  9) [chromium] › tests\e2e\pages.spec.ts:61:5 › Pages › Sign In Page › should have link to sign-up page 
+
+    Error: worker process exited unexpectedly (code=3221225794, signal=null)
+
+
+[1A[2K[30/40] [chromium] › tests\e2e\pages.spec.ts:67:5 › Pages › Sign In Page › should show validation error for invalid email
+[1A[2K  10) [chromium] › tests\e2e\pages.spec.ts:67:5 › Pages › Sign In Page › should show validation error for invalid email 
+
+    Error: worker process exited unexpectedly (code=3221225794, signal=null)
+
+
+[1A[2K[31/40] [chromium] › tests\e2e\pages.spec.ts:79:5 › Pages › Sign Up Page › should display sign-up form
+[1A[2K  11) [chromium] › tests\e2e\pages.spec.ts:79:5 › Pages › Sign Up Page › should display sign-up form 
+
+    Error: worker process exited unexpectedly (code=3221225794, signal=null)
+
+
+[1A[2K[32/40] [chromium] › tests\e2e\pages.spec.ts:89:5 › Pages › Sign Up Page › should have link to sign-in page
+[1A[2K  12) [chromium] › tests\e2e\pages.spec.ts:89:5 › Pages › Sign Up Page › should have link to sign-in page 
+
+    Error: worker process exited unexpectedly (code=3221225794, signal=null)
+
+
+[1A[2K[33/40] [chromium] › tests\e2e\pages.spec.ts:95:5 › Pages › Sign Up Page › should show validation error for short password
+[1A[2K  13) [chromium] › tests\e2e\pages.spec.ts:95:5 › Pages › Sign Up Page › should show validation error for short password 
+
+    Error: worker process exited unexpectedly (code=3221225794, signal=null)
+
+
+[1A[2K[34/40] [chromium] › tests\e2e\payment-transfer.spec.ts:9:5 › Payment Transfer › Unauthenticated Access › should redirect unauthenticated users to sign-in
+[1A[2K  14) [chromium] › tests\e2e\payment-transfer.spec.ts:9:5 › Payment Transfer › Unauthenticated Access › should redirect unauthenticated users to sign-in 
+
+    Error: worker process exited unexpectedly (code=3221225794, signal=null)
+
+
+[1A[2K[35/40] [chromium] › tests\e2e\payment-transfer.spec.ts:18:5 › Payment Transfer › Authenticated Access › should render payment transfer content
+[1A[2K  15) [chromium] › tests\e2e\payment-transfer.spec.ts:18:5 › Payment Transfer › Authenticated Access › should render payment transfer content 
+
+    Error: worker process exited unexpectedly (code=3221225794, signal=null)
+
+
+[1A[2K[36/40] [chromium] › tests\e2e\protected-pages.spec.ts:9:5 › Protected Pages › Unauthenticated Access › should redirect to sign-in when accessing dashboard
+[1A[2K  16) [chromium] › tests\e2e\protected-pages.spec.ts:9:5 › Protected Pages › Unauthenticated Access › should redirect to sign-in when accessing dashboard 
+
+    Error: worker process exited unexpectedly (code=3221225794, signal=null)
+
+
+[1A[2K[37/40] [chromium] › tests\e2e\protected-pages.spec.ts:16:5 › Protected Pages › Unauthenticated Access › should redirect to sign-in when accessing my-banks
+[1A[2K  17) [chromium] › tests\e2e\protected-pages.spec.ts:16:5 › Protected Pages › Unauthenticated Access › should redirect to sign-in when accessing my-banks 
+
+    Error: worker process exited unexpectedly (code=3221225794, signal=null)
+
+
+[1A[2K[38/40] [chromium] › tests\e2e\protected-pages.spec.ts:23:5 › Protected Pages › Unauthenticated Access › should redirect to sign-in when accessing transaction-history
+[1A[2K  18) [chromium] › tests\e2e\protected-pages.spec.ts:23:5 › Protected Pages › Unauthenticated Access › should redirect to sign-in when accessing transaction-history 
+
+    Error: worker process exited unexpectedly (code=3221225794, signal=null)
+
+
+[1A[2K[39/40] [chromium] › tests\e2e\protected-pages.spec.ts:30:5 › Protected Pages › Unauthenticated Access › should redirect to sign-in when accessing payment-transfer
+[1A[2K  19) [chromium] › tests\e2e\protected-pages.spec.ts:30:5 › Protected Pages › Unauthenticated Access › should redirect to sign-in when accessing payment-transfer 
+
+    Error: worker process exited unexpectedly (code=3221225794, signal=null)
+
+
+[1A[2K[40/40] [chromium] › tests\e2e\protected-pages.spec.ts:37:5 › Protected Pages › Unauthenticated Access › should redirect to sign-in when accessing settings
+[1A[2K  20) [chromium] › tests\e2e\protected-pages.spec.ts:37:5 › Protected Pages › Unauthenticated Access › should redirect to sign-in when accessing settings 
+
+    Error: worker process exited unexpectedly (code=3221225794, signal=null)
+
+
+[1A[2K  20 failed
+    [chromium] › tests\e2e\forms.spec.ts:8:3 › Navigation › should open mobile navigation sheet on dashboard 
+    [chromium] › tests\e2e\my-banks.spec.ts:37:5 › My Banks Page › Authenticated › should list seeded bank accounts 
+    [chromium] › tests\e2e\pages.spec.ts:9:5 › Pages › Home Page › should redirect to sign-in when not authenticated 
+    [chromium] › tests\e2e\pages.spec.ts:16:5 › Pages › Home Page › should redirect authenticated users from home to dashboard 
+    [chromium] › tests\e2e\pages.spec.ts:25:5 › Pages › My Banks Page › should redirect to sign-in when not authenticated 
+    [chromium] › tests\e2e\pages.spec.ts:34:5 › Pages › Transaction History Page › should redirect to sign-in when not authenticated 
+    [chromium] › tests\e2e\pages.spec.ts:43:5 › Pages › Payment Transfer Page › should redirect to sign-in when not authenticated 
+    [chromium] › tests\e2e\pages.spec.ts:52:5 › Pages › Sign In Page › should display sign-in form ─
+    [chromium] › tests\e2e\pages.spec.ts:61:5 › Pages › Sign In Page › should have link to sign-up page 
+    [chromium] › tests\e2e\pages.spec.ts:67:5 › Pages › Sign In Page › should show validation error for invalid email 
+    [chromium] › tests\e2e\pages.spec.ts:79:5 › Pages › Sign Up Page › should display sign-up form ─
+    [chromium] › tests\e2e\pages.spec.ts:89:5 › Pages › Sign Up Page › should have link to sign-in page 
+    [chromium] › tests\e2e\pages.spec.ts:95:5 › Pages › Sign Up Page › should show validation error for short password 
+    [chromium] › tests\e2e\payment-transfer.spec.ts:9:5 › Payment Transfer › Unauthenticated Access › should redirect unauthenticated users to sign-in 
+    [chromium] › tests\e2e\payment-transfer.spec.ts:18:5 › Payment Transfer › Authenticated Access › should render payment transfer content 
+    [chromium] › tests\e2e\protected-pages.spec.ts:9:5 › Protected Pages › Unauthenticated Access › should redirect to sign-in when accessing dashboard 
+    [chromium] › tests\e2e\protected-pages.spec.ts:16:5 › Protected Pages › Unauthenticated Access › should redirect to sign-in when accessing my-banks 
+    [chromium] › tests\e2e\protected-pages.spec.ts:23:5 › Protected Pages › Unauthenticated Access › should redirect to sign-in when accessing transaction-history 
+    [chromium] › tests\e2e\protected-pages.spec.ts:30:5 › Protected Pages › Unauthenticated Access › should redirect to sign-in when accessing payment-transfer 
+    [chromium] › tests\e2e\protected-pages.spec.ts:37:5 › Protected Pages › Unauthenticated Access › should redirect to sign-in when accessing settings 
+  20 passed (5.7m)

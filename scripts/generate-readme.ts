@@ -57,7 +57,7 @@ function parseArgs(): { target: GeneratorOption } {
 
 /** Description placeholder */
 function printHelp(): void {
-  console.log(`
+  console.warn(`
 README Generator for Banking System
 
 Usage:
@@ -100,7 +100,7 @@ async function generateCategorySection(
   for (const entry of entries) {
     const result = validateEntry(
       entry,
-      entry._filePath ||
+      entry._filePath ??
         path.join(categoryPath, `${entry.name || "unknown"}.yaml`),
     );
 
@@ -138,12 +138,12 @@ async function generateCategorySection(
  * @returns {Promise<void>}
  */
 async function generateReadme(): Promise<void> {
-  console.log("Starting README generation...\n");
+  console.warn("Starting README generation...\n");
 
   let template: string;
   try {
     template = readTemplate();
-    console.log("Template loaded successfully");
+    console.warn("Template loaded successfully");
   } catch (err) {
     throw new Error(`Failed to read template: ${(err as Error).message}`);
   }
@@ -154,7 +154,7 @@ async function generateReadme(): Promise<void> {
 
   for (const category of CATEGORIES) {
     const placeholder = CATEGORY_PLACEHOLDERS[category];
-    console.log(`Processing ${category}...`);
+    console.warn(`Processing ${category}...`);
 
     try {
       const result = await generateCategorySection(category);
@@ -163,9 +163,9 @@ async function generateReadme(): Promise<void> {
       allErrors = allErrors.concat(result.errors);
 
       if (result.count > 0) {
-        console.log(`  - Found ${result.count} valid entries`);
+        console.warn(`  - Found ${result.count} valid entries`);
       } else {
-        console.log(`  - No entries found`);
+        console.warn(`  - No entries found`);
       }
     } catch (err) {
       console.error(
@@ -182,21 +182,21 @@ async function generateReadme(): Promise<void> {
 
   try {
     writeReadme(content);
-    console.log("\nREADME.opencode.md written successfully");
+    console.warn("\nREADME.opencode.md written successfully");
   } catch (err) {
     throw new Error(`Failed to write README.md: ${(err as Error).message}`);
   }
 
   const errorCount = allErrors.length;
   if (errorCount > 0) {
-    console.log(
+    console.warn(
       `\n⚠️  Generated README.opencode.md with ${totalEntries} entries across ${CATEGORIES.length} categories`,
     );
-    console.log(
+    console.warn(
       `   ${errorCount} validation error(s) were logged (affected entries were skipped)`,
     );
   } else {
-    console.log(
+    console.warn(
       `\n✅ Generated README.opencode.md with ${totalEntries} entries across ${CATEGORIES.length} categories`,
     );
   }
@@ -209,9 +209,9 @@ async function generateReadme(): Promise<void> {
  * @returns {Promise<void>}
  */
 async function generateDocs(): Promise<void> {
-  console.log("Starting documentation generation...\n");
+  console.warn("Starting documentation generation...\n");
 
-  console.log("✅ Documentation generation complete");
+  console.warn("✅ Documentation generation complete");
 }
 
 /**
@@ -228,23 +228,23 @@ async function main(): Promise<void> {
     process.exit(0);
   }
 
-  console.log("=".repeat(50));
-  console.log("Banking System README/Docs Generator");
-  console.log("=".repeat(50));
-  console.log("");
+  console.warn("=".repeat(50));
+  console.warn("Banking System README/Docs Generator");
+  console.warn("=".repeat(50));
+  console.warn("");
 
   if (target === "readme" || target === "all") {
     await generateReadme();
-    console.log("");
+    console.warn("");
   }
 
   if (target === "docs" || target === "all") {
     await generateDocs();
-    console.log("");
+    console.warn("");
   }
 
-  console.log("=".repeat(50));
-  console.log("✅ Generation complete!");
+  console.warn("=".repeat(50));
+  console.warn("✅ Generation complete!");
 }
 
 main()

@@ -84,13 +84,13 @@ function parseArgs(): ExportOptions {
  * @returns {Promise<void>}
  */
 async function exportUsers(): Promise<void> {
-  console.log("  📊 Exporting user data...");
+  console.warn("  📊 Exporting user data...");
 
   try {
     const { userDal } = await import("@/lib/dal");
-    console.log("    ✅ User DAL loaded (use findById for specific users)");
+    console.warn("    ✅ User DAL loaded (use findById for specific users)");
   } catch {
-    console.log("    ⚠️  Could not load user data (may need db connection)");
+    console.warn("    ⚠️  Could not load user data (may need db connection)");
   }
 }
 
@@ -101,15 +101,15 @@ async function exportUsers(): Promise<void> {
  * @returns {Promise<void>}
  */
 async function exportTransactions(): Promise<void> {
-  console.log("  💳 Exporting transaction data...");
+  console.warn("  💳 Exporting transaction data...");
 
   try {
     const { transactionDal } = await import("@/lib/dal");
-    console.log(
+    console.warn(
       "    ✅ Transaction DAL loaded (use findById for specific transactions)",
     );
   } catch {
-    console.log(
+    console.warn(
       "    ⚠️  Could not load transaction data (may need db connection)",
     );
   }
@@ -122,17 +122,17 @@ async function exportTransactions(): Promise<void> {
  * @returns {Promise<void>}
  */
 async function exportMetrics(): Promise<void> {
-  console.log("  📈 Exporting metrics...");
+  console.warn("  📈 Exporting metrics...");
 
   try {
     const { bankDal, recipientDal, transactionDal, userDal } =
       await import("@/lib/dal");
-    console.log("    ✅ DAL modules loaded for metrics");
+    console.warn("    ✅ DAL modules loaded for metrics");
   } catch {
-    console.log("    ⚠️  Could not load all metrics (may need db connection)");
+    console.warn("    ⚠️  Could not load all metrics (may need db connection)");
   }
 
-  console.log("    ✅ Metrics ready for export");
+  console.warn("    ✅ Metrics ready for export");
 }
 
 /**
@@ -143,7 +143,7 @@ async function exportMetrics(): Promise<void> {
  * @returns {Promise<void>}
  */
 async function exportAll(options: ExportOptions): Promise<void> {
-  console.log(
+  console.warn(
     `\n📦 Exporting data (type: ${options.type}, format: ${options.format})\n`,
   );
 
@@ -173,8 +173,8 @@ async function exportAll(options: ExportOptions): Promise<void> {
 
   fs.writeFileSync(outputFile, JSON.stringify(summary, undefined, 2));
 
-  console.log(`\n✅ Export complete!`);
-  console.log(`   Output: ${outputFile}`);
+  console.warn(`\n✅ Export complete!`);
+  console.warn(`   Output: ${outputFile}`);
 }
 
 /**
@@ -189,7 +189,7 @@ async function main(): Promise<void> {
 
     await exportAll(options);
 
-    console.log("\n🎉 Data export complete!");
+    console.warn("\n🎉 Data export complete!");
   } catch (error) {
     console.error(
       "❌ Error:",

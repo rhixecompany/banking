@@ -1,6 +1,4 @@
-import { expect, test } from "@playwright/test";
-
-import { signInWithSeedUser } from "./helpers/auth";
+import { expect, test } from "../../tests/fixtures/auth";
 
 test.beforeEach(async ({ page }) => {
   await page.context().clearCookies();
@@ -16,9 +14,8 @@ test.describe("Pages", () => {
     });
 
     test("should redirect authenticated users from home to dashboard", async ({
-      page,
+      authenticatedPage: page,
     }) => {
-      await signInWithSeedUser(page);
       await page.goto("/");
       await expect.soft(page).toHaveURL(/\/dashboard/, { timeout: 10_000 });
     });

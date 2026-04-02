@@ -199,7 +199,7 @@ function generateScriptsSection(): DocSection {
 
 /** Description placeholder */
 function generateDocs(): void {
-  console.log("📄 Generating documentation...\n");
+  console.warn("📄 Generating documentation...\n");
 
   const sections: DocSection[] = [
     generateDALSection(),
@@ -212,15 +212,15 @@ function generateDocs(): void {
     .map((s) => `${s.title}\n\n${s.content}`)
     .join("\n\n---\n\n");
 
-  console.log("Documentation sections generated:");
+  console.warn("Documentation sections generated:");
   for (const section of sections) {
     const lines = section.content
       .split("\n")
       .filter((l) => l.startsWith("-")).length;
-    console.log(`  - ${section.title.replace(/^##\s*/, "")}: ${lines} items`);
+    console.warn(`  - ${section.title.replace(/^##\s*/, "")}: ${lines} items`);
   }
 
-  console.log(
+  console.warn(
     `\n✅ Generated documentation content (${content.length} characters)`,
   );
 }
@@ -234,8 +234,8 @@ function generateDocs(): void {
 async function main(): Promise<void> {
   try {
     generateDocs();
-    console.log("\n🎉 Documentation generation complete!");
-    console.log(
+    console.warn("\n🎉 Documentation generation complete!");
+    console.warn(
       "\nNote: Full README generation requires integration with existing generate-readme.ts",
     );
   } catch (error) {

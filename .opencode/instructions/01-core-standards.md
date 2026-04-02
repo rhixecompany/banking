@@ -12,7 +12,7 @@ Critical rules that MUST be followed. PRs will be blocked if violated.
 ## PR-Blocking Rules
 
 | # | Rule | Requirement | Enforcement |
-|---|------|-------------|-------------|
+| --- | --- | --- | --- |
 | 1 | No `any` types | Use `unknown` + type guards | TypeScript strict |
 | 2 | No N+1 queries | Always eager load / JOIN | Code review |
 | 3 | No raw `process.env` | Use `lib/env.ts` | ESLint + TypeScript |
@@ -100,13 +100,13 @@ import { Button } from "@/components/ui/button";
 
 ## Naming Conventions
 
-| Type | Convention | Example |
-|------|------------|---------|
-| Files | kebab-case | `user-dal.ts` |
-| Classes | PascalCase | `UserDal` |
-| Functions | camelCase | `findById` |
-| Variables | camelCase | `currentUser` |
-| Constants | UPPER_SNAKE | `MAX_RETRY` |
-| Types | PascalCase | `UserProfile` |
+| Type      | Convention  | Example       |
+| --------- | ----------- | ------------- |
+| Files     | kebab-case  | `user-dal.ts` |
+| Classes   | PascalCase  | `UserDal`     |
+| Functions | camelCase   | `findById`    |
+| Variables | camelCase   | `currentUser` |
+| Constants | UPPER_SNAKE | `MAX_RETRY`   |
+| Types     | PascalCase  | `UserProfile` |
 
 See: `.opencode/skills/` for detailed patterns.

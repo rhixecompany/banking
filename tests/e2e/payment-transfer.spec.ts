@@ -1,6 +1,4 @@
-import { expect, test } from "@playwright/test";
-
-import { signInWithSeedUser } from "./helpers/auth";
+import { expect, test } from "../../tests/fixtures/auth";
 
 test.beforeEach(async ({ page }) => {
   await page.context().clearCookies();
@@ -17,11 +15,9 @@ test.describe("Payment Transfer", () => {
   });
 
   test.describe("Authenticated Access", () => {
-    test.beforeEach(async ({ page }) => {
-      await signInWithSeedUser(page);
-    });
-
-    test("should render payment transfer content", async ({ page }) => {
+    test("should render payment transfer content", async ({
+      authenticatedPage: page,
+    }) => {
       await page.goto("/payment-transfer");
       await expect.soft(page.getByText("Payment Transfer")).toBeVisible({
         timeout: 15_000,

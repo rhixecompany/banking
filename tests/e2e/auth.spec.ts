@@ -5,6 +5,21 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe("Authentication", () => {
+  test.describe("Navigation Flow", () => {
+    test("should navigate from sign-in to sign-up and back", async ({
+      page,
+    }) => {
+      await page.goto("/sign-in");
+      await expect.soft(page).toHaveURL(/sign-in/);
+
+      await page.getByRole("link", { name: /sign up/i }).click();
+      await expect.soft(page).toHaveURL(/sign-up/, { timeout: 10_000 });
+
+      await page.getByRole("link", { name: /sign in/i }).click();
+      await expect.soft(page).toHaveURL(/sign-in/, { timeout: 10_000 });
+    });
+  });
+
   test.describe("Sign-In Page", () => {
     test("should show sign-in form", async ({ page }) => {
       await page.goto("/sign-in");

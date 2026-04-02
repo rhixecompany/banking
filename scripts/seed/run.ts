@@ -99,13 +99,13 @@ async function main(): Promise<void> {
   assertSeedAllowed();
 
   if (hasResetFlag()) {
-    console.info("Truncating all application tables...");
+    console.warn("Truncating all application tables...");
     await truncateAllTables();
   }
 
-  console.info("Seeding database...");
+  console.warn("Seeding database...");
   await seedAll();
-  console.info("Seed completed.");
+  console.warn("Seed completed.");
 }
 
 main().catch((error: unknown) => {

@@ -158,9 +158,9 @@ function validateIndexes(content: string): void {
   }
 
   if (uniqueIndexRegex.test(content)) {
-    const uniqueIndexMatches = content.match(/uniqueIndex\("[^"]+"/g) || [];
+    const uniqueIndexMatches = content.match(/uniqueIndex\("[^"]+"/g) ?? [];
     if (uniqueIndexMatches.length > 0) {
-      console.log(`  Found ${uniqueIndexMatches.length} unique index(es)`);
+      console.warn(`  Found ${uniqueIndexMatches.length} unique index(es)`);
     }
   }
 }
@@ -246,7 +246,7 @@ function validateColumnTypes(content: string): void {
     const typeRegex = new RegExp(`:\\s*${type}\\(`, "g");
     const matches = content.match(typeRegex);
     if (matches) {
-      console.log(`  Found ${matches.length} ${type} column(s)`);
+      console.warn(`  Found ${matches.length} ${type} column(s)`);
     }
   }
 }
@@ -259,14 +259,14 @@ function validateColumnTypes(content: string): void {
  * @returns {Promise<boolean>}
  */
 export async function validateSchema(): Promise<boolean> {
-  console.log("🔍 Validating database schema...\n");
+  console.warn("🔍 Validating database schema...\n");
 
   errors.length = 0;
 
   validateFileExists();
 
   if (!fs.existsSync(DB_SCHEMA_PATH)) {
-    console.log("❌ Schema validation failed - schema file not found");
+    console.warn("❌ Schema validation failed - schema file not found");
     return false;
   }
 
@@ -280,13 +280,13 @@ export async function validateSchema(): Promise<boolean> {
   validateColumnTypes(content);
 
   if (errors.length > 0) {
-    console.log("\n❌ Schema validation errors:\n");
+    console.warn("\n❌ Schema validation errors:\n");
     for (const error of errors) {
       const icon = error.severity === "error" ? "❌" : "⚠️";
-      console.log(`  ${icon} ${error.message}`);
+      console.warn(`  ${icon} ${error.message}`);
     }
   } else {
-    console.log("\n✅ Database schema is valid");
+    console.warn("\n✅ Database schema is valid");
   }
 
   return errors.filter((e) => e.severity === "error").length === 0;

@@ -1,6 +1,8 @@
+import type { Metadata } from "next";
+
 import { redirect } from "next/navigation";
 
-import type { Bank } from "@/types/bank";
+import type { Bank, BankWithDetails } from "@/types/bank";
 import type { PlaidBalance, PlaidTransaction } from "@/types/plaid";
 
 import { MyBanksClient } from "@/components/MyBanksClient";
@@ -8,10 +10,10 @@ import { getBankWithDetails } from "@/lib/actions/plaid.actions";
 import { auth } from "@/lib/auth";
 import { bankDal } from "@/lib/dal";
 
-interface BankWithDetails extends Bank {
-  balances: PlaidBalance[];
-  transactions: PlaidTransaction[];
-}
+export const metadata: Metadata = {
+  description: "View and manage your linked bank accounts.",
+  title: "My Banks | Horizon Banking",
+};
 
 /**
  * Description placeholder

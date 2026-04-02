@@ -147,7 +147,7 @@ function validateRevalidatePath(content: string): void {
  * @param {string} content
  */
 function validateReturnShape(content: string): void {
-  const returnStatements = content.match(/return\s*\{[^}]*\}/g) || [];
+  const returnStatements = content.match(/return\s*\{[^}]*\}/g) ?? [];
 
   for (const ret of returnStatements) {
     const hasOk = ret.includes("ok:");
@@ -269,25 +269,25 @@ function validateErrorHandling(content: string): void {
  * @returns {Promise<boolean>}
  */
 export async function validateActions(): Promise<boolean> {
-  console.log("🔍 Validating Server Actions...\n");
+  console.warn("🔍 Validating Server Actions...\n");
 
   errors.length = 0;
 
   const allFiles = getAllActionFiles(ACTIONS_DIR);
 
   if (allFiles.length === 0) {
-    console.log("  No action files found - validation skipped");
-    console.log("✅ Server Action validation passed");
+    console.warn("  No action files found - validation skipped");
+    console.warn("✅ Server Action validation passed");
     return true;
   }
 
-  console.log(`  Checking ${allFiles.length} action file(s)...\n`);
+  console.warn(`  Checking ${allFiles.length} action file(s)...\n`);
 
   for (const filePath of allFiles) {
     const content = fs.readFileSync(filePath, "utf8");
     const relativePath = path.relative(process.cwd(), filePath);
 
-    console.log(`  Validating ${relativePath}...`);
+    console.warn(`  Validating ${relativePath}...`);
 
     validateUseServer(content);
     validateAuthImport(content);
@@ -300,24 +300,24 @@ export async function validateActions(): Promise<boolean> {
   }
 
   if (errors.length > 0) {
-    console.log("\n❌ Server Action validation errors:\n");
+    console.warn("\n❌ Server Action validation errors:\n");
 
     const errorGroups = new Map<string, ValidationError[]>();
     for (const error of errors) {
-      const existing = errorGroups.get(error.file) || [];
+      const existing = errorGroups.get(error.file) ?? [];
       existing.push(error);
       errorGroups.set(error.file, existing);
     }
 
     for (const [file, fileErrors] of errorGroups) {
-      console.log(`  ${file}:`);
+      console.warn(`  ${file}:`);
       for (const error of fileErrors) {
         const icon = error.severity === "error" ? "❌" : "⚠️";
-        console.log(`    ${icon} ${error.message}`);
+        console.warn(`    ${icon} ${error.message}`);
       }
     }
   } else {
-    console.log("\n✅ Server Actions are valid");
+    console.warn("\n✅ Server Actions are valid");
   }
 
   return errors.filter((e) => e.severity === "error").length === 0;

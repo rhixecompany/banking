@@ -11,6 +11,7 @@
       "description": "Review code changes and PRs for the Banking project"
     }
   },
+  "autoupdate": false,
   "command": {
     "build": {
       "agent": "build",
@@ -34,6 +35,40 @@
     ".cursor/rules/*.mdc"
   ],
   "mcp": {
+    "context7": {
+      "enabled": true,
+      "timeout": 90000,
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp"
+    },
+    "database-server": {
+      "command": [
+        "npx",
+        "tsx",
+        ".opencode/mcp-runner.ts",
+        "@modelcontextprotocol/server-postgres"
+      ],
+      "enabled": true,
+      "environment": {
+        "DATABASE_URL": "{env:DATABASE_URL}"
+      },
+      "timeout": 90000,
+      "type": "local"
+    },
+    "github-official": {
+      "command": [
+        "npx",
+        "tsx",
+        ".opencode/mcp-runner.ts",
+        "@modelcontextprotocol/server-github"
+      ],
+      "enabled": true,
+      "environment": {
+        "GITHUB_TOKEN": "{env:GITHUB_TOKEN}"
+      },
+      "timeout": 90000,
+      "type": "local"
+    },
     "MCP_DOCKER": {
       "command": [
         "docker",
@@ -44,16 +79,38 @@
         "adminbot"
       ],
       "enabled": true,
+      "timeout": 90000,
+      "type": "local"
+    },
+    "neon": {
+      "enabled": true,
+      "headers": {
+        "Authorization": "Bearer {env:NEON_API_KEY}"
+      },
+      "timeout": 90000,
+      "type": "remote",
+      "url": "https://mcp.neon.tech/mcp"
+    },
+    "playwright": {
+      "command": [
+        "npx",
+        "tsx",
+        ".opencode/mcp-runner.ts",
+        "@playwright/mcp"
+      ],
+      "enabled": true,
+      "timeout": 120000,
       "type": "local"
     },
     "shadcn": {
-      "command": [
-        "npx",
-        "shadcn@latest",
-        "mcp"
-      ],
+      "command": ["npx", "shadcn@latest", "mcp"],
       "enabled": true,
+      "timeout": 90000,
       "type": "local"
     }
+  },
+  "model": "github-copilot/claude-sonnet-4.6",
+  "watcher": {
+    "ignore": ["node_modules", ".next", "dist", ".git", "*.log"]
   }
 }
