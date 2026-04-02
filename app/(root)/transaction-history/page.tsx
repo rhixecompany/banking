@@ -1,10 +1,17 @@
-/**
- * Description placeholder
- *
- * @returns {*}
- */
+import { cacheLife } from "next/cache";
 
-const TransactionHistory = (): JSX.Element => {
+/**
+ (Transaction history page component.
+* @returns {JSX.Element}
+*/
+
+async function getTransactionHistory() {
+  "use cache";
+  cacheLife("hours");
+  return [];
+}
+
+const TransactionHistory = async (): Promise<JSX.Element> => {
   return <div>Transaction History</div>;
 };
 

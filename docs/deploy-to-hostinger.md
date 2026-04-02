@@ -273,6 +273,121 @@ systemctl restart nginx
 
 ---
 
+## Phase 4.5: Enforce HTTPS with Self-Signed Certificate
+
+If you don't have a domain, you can enforce HTTPS using a self-signed SSL certificate. Users will see a browser warning (click "Advanced" → "Proceed to site").
+
+### 4.5.1 Generate Self-Signed SSL Certificate
+
+```bash
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+  -keyout /etc/ssl/private/nginx-selfsigned.key \
+  -out /etc/ssl/certs/nginx-selfsigned.crt \
+  -subj "/C=US/ST=State/L=City/O=Organization/CN=YOUR_VPS_IP"
+```
+
+Replace `YOUR_VPS_IP` with your actual VPS IP address (e.g., `76.13.26.9`).
+
+### 4.5.2 Update Nginx Configuration
+
+Replace the existing Nginx config with HTTPS redirect:
+
+```bash
+sudo nano /etc/nginx/sites-available/banking
+```
+
+```nginx
+# HTTP → HTTPS redirect
+server {
+    listen 80;
+    server_name YOUR_VPS_IP;
+
+    # Redirect all HTTP traffic to HTTPS
+    return 301 https://$server_name$request_uri;
+}
+
+# HTTPS server
+server {
+    listen 443 ssl;
+    server_name YOUR_VPS_IP;
+
+    ssl_certificate /etc/ssl/certs/nginx-selfsigned.crt;
+    ssl_certificate_key /etc/ssl/private/nginx-selfsigned.key;
+
+    # SSL configuration
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_prefer_server_ciphers on;
+    ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384;
+
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+        proxy_read_timeout 86400;
+        proxy_connect_timeout 60s;
+        proxy_send_timeout 60s;
+    }
+}
+```
+
+### 4.5.3 Test and Reload Nginx
+
+```bash
+# Test configuration
+sudo nginx -t
+
+# Reload nginx
+sudo systemctl reload nginx
+```
+
+### 4.5.4 Update Environment Variables
+
+Update your `.env` file to use HTTPS:
+
+```env
+NEXTAUTH_URL=https://YOUR_VPS_IP
+NEXT_PUBLIC_SITE_URL=https://YOUR_VPS_IP
+```
+
+### 4.5.5 Rebuild and Restart Application
+
+```bash
+# Rebuild the application
+npm run build
+
+# Restart PM2
+pm2 restart banking
+```
+
+### 4.5.6 Testing HTTPS
+
+1. Open browser to `https://YOUR_VPS_IP`
+2. Click "Advanced" → "Proceed to site" (browser security warning is expected)
+3. Verify HTTP redirects to HTTPS: `http://YOUR_VPS_IP` → `https://YOUR_VPS_IP`
+
+### Note: SSL Certificate Renewal
+
+Self-signed certificates expire after 365 days. To renew:
+
+```bash
+# Generate new certificate
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+  -keyout /etc/ssl/private/nginx-selfsigned.key \
+  -out /etc/ssl/certs/nginx-selfsigned.crt \
+  -subj "/C=US/ST=State/L=City/O=Organization/CN=YOUR_VPS_IP"
+
+# Reload nginx
+sudo systemctl reload nginx
+```
+
+---
+
 ## Phase 5: Access Your Application
 
 ### 5.1 Verify Everything is Running
@@ -422,20 +537,48 @@ chmod 600 .env
 
 ## Next Steps
 
-### Add a Domain (Optional)
+### Option 1: Free HTTPS Without Domain (Implemented Above)
 
-If you want to use a custom domain:
+Self-signed SSL is already configured in Phase 4.5. This provides encryption but shows browser warnings.
 
-1. Buy a domain from Hostinger or any registrar
-2. In Hostinger DNS settings, add an A record pointing to your VPS IP
-3. Install Certbot for free SSL:
+### Option 2: Cloudflare + Cheap Domain (Recommended for Production)
 
-   ```bash
-   sudo apt install certbot python3-certbot-nginx
-   sudo certbot --nginx -d yourdomain.com
+For proper SSL without browser warnings, use Cloudflare with a cheap domain:
+
+1. **Buy a domain** (~$2/year):
+   - [Porkbun](https://porkbun.com) - .xyz, .click domains
+   - [Namecheap](https://namecheap.com) - .xyz, .online domains
+
+2. **Set up Cloudflare** (free):
+   - Create account at [cloudflare.com](https://cloudflare.com)
+   - Add your domain to Cloudflare
+   - Update nameservers at your domain registrar
+   - Add A record pointing to your VPS IP
+
+3. **Cloudflare provides free SSL automatically** - no Certbot needed
+
+4. **Update environment variables**:
+   ```env
+   NEXTAUTH_URL=https://yourdomain.com
+   NEXT_PUBLIC_SITE_URL=https://yourdomain.com
    ```
 
-4. Update NEXTAUTH_URL and NEXT_PUBLIC_SITE_URL in .env
+### Option 3: Let's Encrypt with Domain
+
+If using a domain, get free SSL from Let's Encrypt:
+
+```bash
+sudo apt install certbot python3-certbot-nginx
+sudo certbot --nginx -d yourdomain.com
+```
+
+### Comparison Table
+
+| Option | Cost | Browser Warning | Setup Complexity |
+| --- | --- | --- | --- |
+| Self-Signed (Phase 4.5) | Free | Yes | Easy |
+| Cloudflare + Domain | ~$2/year | No | Medium |
+| Let's Encrypt + Domain | ~$2/year | No | Medium |
 
 ---
 

@@ -1,6 +1,10 @@
 ---
-applyTo: "**/*.md,**/*.ts,**/*.tsx"
+name: "documentation"
 description: "Documentation standards for Banking project"
+applyTo: "**/*.md,**/*.ts,**/*.tsx"
+priority: "medium"
+version: "1.0"
+lastUpdated: "2026-03-31"
 ---
 
 # Documentation Guidelines
@@ -46,3 +50,4 @@ Maintain comprehensive and accessible documentation throughout the Banking proje
 - **Link Validation:** Ensure all internal links remain valid
 - **Example Updates:** Keep code examples current with latest practices
 - **Accessibility:** Ensure documentation is accessible to all team members
+
