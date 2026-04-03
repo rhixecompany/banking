@@ -3,8 +3,8 @@ import type { Metadata } from "next";
 import { IBM_Plex_Serif, Inter } from "next/font/google";
 import { ReactNode } from "react";
 
-import { SessionProvider } from "@/components/providers/session-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { RootProviders } from "@/providers/root-providers";
 
 import "./globals.css";
 
@@ -52,7 +52,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${ibmPlexSerif.variable}`}>
-        <SessionProvider>{children}</SessionProvider>
+        <RootProviders>{children}</RootProviders>
         <Toaster position="top-right" expand={true} richColors closeButton />
       </body>
     </html>
