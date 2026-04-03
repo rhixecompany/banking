@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
+import type { Account } from "@/types";
 import type { Bank } from "@/types/bank";
 import type { PlaidBalance } from "@/types/plaid";
 
@@ -393,6 +394,60 @@ export async function getAllBalances(): Promise<{
   } catch (error) {
     console.error("Plaid getAllBalances error:", error);
     return { error: "Failed to get balances", ok: false };
+  }
+}
+
+/**
+ * Fetches all Plaid accounts for the authenticated user across all linked banks.
+ * Maps raw Plaid AccountBase objects to the typed Account interface.
+ * Banks that fail to fetch are skipped with a warning (graceful degradation).
+ *
+ * @export
+ * @async
+ * @returns {Promise<{ ok: boolean; accounts?: Account[]; error?: string }>}
+ */
+export async function getAllAccounts(): Promise<{
+  ok: boolean;
+  accounts?: Account[];
+  error?: string;
+}> {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return { error: "Not authenticated", ok: false };
+  }
+
+  try {
+    const banks = await bankDal.findByUserId(session.user.id);
+
+    const accountArrays = await Promise.all(
+      banks.map(async (bank): Promise<Account[]> => {
+        try {
+          const response = await plaidClient.accountsGet({
+            access_token: bank.accessToken,
+          });
+          return response.data.accounts.map((account) => ({
+            availableBalance: account.balances.available ?? 0,
+            currentBalance: account.balances.current ?? 0,
+            id: account.account_id,
+            institutionId: bank.institutionId ?? undefined,
+            mask: account.mask ?? undefined,
+            name: account.name,
+            officialName: account.official_name ?? undefined,
+            sharableId: bank.sharableId,
+            subtype: account.subtype ?? undefined,
+            type: account.type,
+          }));
+        } catch (err) {
+          console.warn(`getAllAccounts: skipping bank ${bank.id}:`, err);
+          return [];
+        }
+      }),
+    );
+
+    return { accounts: accountArrays.flat(), ok: true };
+  } catch (error) {
+    console.error("Plaid getAllAccounts error:", error);
+    return { error: "Failed to get accounts", ok: false };
   }
 }
 

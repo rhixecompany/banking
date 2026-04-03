@@ -23,6 +23,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { logoutAccount } from "@/lib/actions/user.actions";
 
 export function NavUser({
   user,

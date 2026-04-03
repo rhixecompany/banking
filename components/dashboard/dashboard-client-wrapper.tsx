@@ -1,16 +1,19 @@
 "use client";
 
-import { BanknoteIcon, CalendarIcon, LayoutListIcon } from "lucide-react";
 import Link from "next/link";
+import type { JSX } from "react";
 
+import type { Account } from "@/types";
 import type { Bank } from "@/types/bank";
+import type { Transaction } from "@/types/transaction";
 
+import { ChartAreaInteractive } from "@/components/chart-area-interactive/chart-area-interactive";
+import DoughnutChart from "@/components/doughnut-chart/doughnut-chart";
 import HeaderBox from "@/components/header-box/header-box";
 import { PlaidProvider } from "@/components/plaid-context/plaid-context";
 import { PlaidLinkButton } from "@/components/plaid-link-button/plaid-link-button";
-import SalesMetricsCard from "@/components/shadcn-studio/blocks/chart-sales-metrics";
+import { SectionCards } from "@/components/section-cards/section-cards";
 import OnboardingFeed from "@/components/shadcn-studio/blocks/onboarding-feed-01/onboarding-feed-01";
-import StatisticsCard from "@/components/shadcn-studio/blocks/statistics-card-01";
 import {
   Card,
   CardContent,
@@ -19,25 +22,40 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
+/** Props for DashboardClientWrapper. */
 interface DashboardClientWrapperProps {
+  accounts: Account[];
   banks: Bank[];
+  transactions: Transaction[];
   userId: string;
   userName: string;
   showOnboarding: boolean;
 }
 
+/** Returns true when a transaction date falls within the last `days` days. */
+function isWithinDays(date: Date | null, days: number): boolean {
+  if (!date) return false;
+  const cutoff = new Date();
+  cutoff.setDate(cutoff.getDate() - days);
+  return date >= cutoff;
+}
+
 /**
  * Client wrapper for the dashboard page.
  * Wraps content in PlaidProvider for bank-linking functionality.
- * Renders the greeting header, statistics cards, sales metrics, and linked banks overview.
+ * Renders greeting header, section cards with real aggregated stats,
+ * an area chart of transaction activity, a doughnut chart of balances,
+ * and a linked banks overview.
  *
  * @export
  * @param {DashboardClientWrapperProps} props
  * @returns {JSX.Element}
  */
 export function DashboardClientWrapper({
+  accounts,
   banks,
   showOnboarding,
+  transactions,
   userId,
   userName,
 }: DashboardClientWrapperProps): JSX.Element {
@@ -51,11 +69,21 @@ export function DashboardClientWrapper({
     );
   }
 
-  const linkedBanksCount = banks.length.toString();
-  const accountType = banks[0]?.accountType ?? "N/A";
-  const lastUpdated = banks[0]?.updatedAt
-    ? new Date(banks[0].updatedAt).toLocaleDateString()
-    : "N/A";
+  // ── Aggregated stats ────────────────────────────────────────────────────────
+  const totalBalance = accounts.reduce((sum, a) => sum + a.currentBalance, 0);
+
+  const recentTx = transactions.filter((tx) => isWithinDays(tx.createdAt, 30));
+
+  const monthlySpend = recentTx
+    .filter((tx) => tx.type === "debit")
+    .reduce((sum, tx) => sum + Number(tx.amount), 0);
+
+  const monthlyCredits = recentTx
+    .filter((tx) => tx.type === "credit")
+    .reduce((sum, tx) => sum + Number(tx.amount), 0);
+
+  const netChange = monthlyCredits - monthlySpend;
+  const netChangePct = monthlySpend > 0 ? (netChange / monthlySpend) * 100 : 0;
 
   return (
     <PlaidProvider userId={userId}>
@@ -69,31 +97,26 @@ export function DashboardClientWrapper({
           />
         </header>
 
-        <div className="grid gap-4 md:grid-cols-3">
-          <StatisticsCard
-            icon={<BanknoteIcon className="size-4" />}
-            value={linkedBanksCount}
-            title="Linked Banks"
-            changePercentage="Total connected accounts"
-          />
-          <StatisticsCard
-            icon={<LayoutListIcon className="size-4" />}
-            value={accountType}
-            title="Account Type"
-            changePercentage={
-              banks.length > 0 ? "Primary account" : "No accounts linked"
-            }
-          />
-          <StatisticsCard
-            icon={<CalendarIcon className="size-4" />}
-            value={lastUpdated}
-            title="Last Updated"
-            changePercentage="Most recent activity"
-          />
+        {/* Key metric cards */}
+        <SectionCards
+          totalBalance={totalBalance}
+          linkedBanks={banks.length}
+          monthlySpend={monthlySpend}
+          netChange={netChange}
+          netChangePct={netChangePct}
+        />
+
+        {/* Charts row */}
+        <div className="grid gap-4 lg:grid-cols-3">
+          <div className="lg:col-span-2">
+            <ChartAreaInteractive transactions={transactions} />
+          </div>
+          <div className="lg:col-span-1">
+            <DoughnutChart accounts={accounts} />
+          </div>
         </div>
 
-        <SalesMetricsCard />
-
+        {/* Quick Actions + Linked Banks */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           <Card>
             <CardHeader>

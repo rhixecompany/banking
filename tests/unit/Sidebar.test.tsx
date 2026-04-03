@@ -50,7 +50,7 @@ import Sidebar from "@/components/sidebar/sidebar";
 const mockUser: User = {
   createdAt: new Date(),
   email: "alice@example.com",
-  id: 1,
+  id: "1",
   isActive: true,
   isAdmin: false,
   name: "Alice",
