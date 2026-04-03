@@ -1,4 +1,6 @@
 import js from "@eslint/js";
+// @ts-expect-error - no bundled types for @eslint/markdown
+import markdown from "@eslint/markdown";
 import tsEslintParser from "@typescript-eslint/parser";
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
@@ -8,12 +10,17 @@ import betterTailwind from "eslint-plugin-better-tailwindcss";
 import drizzle from "eslint-plugin-drizzle";
 import importX from "eslint-plugin-import-x";
 import jest from "eslint-plugin-jest";
+import jsdoc from "eslint-plugin-jsdoc";
+import jsxA11y from "eslint-plugin-jsx-a11y";
 import nodePlugin from "eslint-plugin-n";
+// @ts-expect-error - no bundled types for eslint-plugin-no-secrets
+import noSecrets from "eslint-plugin-no-secrets";
 import perfectionist from "eslint-plugin-perfectionist";
 import playwright from "eslint-plugin-playwright";
 import reactPlugin from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
+import regexp from "eslint-plugin-regexp";
 import security from "eslint-plugin-security";
 import sonarjs from "eslint-plugin-sonarjs";
 import testingLibrary from "eslint-plugin-testing-library";
@@ -95,13 +102,16 @@ export default defineConfig([
       "import-x": importX,
       jest,
       js,
+      jsdoc,
       n: nodePlugin,
+      "no-secrets": noSecrets,
       perfectionist,
 
       playwright,
       react: reactPlugin,
       "react-hooks": reactHooks as unknown as typeof importX,
       "react-refresh": reactRefresh,
+      regexp,
       security: security as unknown as typeof importX,
       sonarjs,
       "testing-library": testingLibrary,
@@ -266,6 +276,11 @@ export default defineConfig([
             "^jest",
             "^vitest",
             "^playwright",
+            "^README",
+            "^AGENTS",
+            "^CHANGELOG",
+            "^CONTRIBUTING",
+            "^LICENSE",
           ],
         },
       ],
@@ -281,6 +296,58 @@ export default defineConfig([
       "unicorn/prefer-string-replace-all": "warn", // Too strict
       "unicorn/prefer-string-slice": "error",
       "unicorn/throw-new-error": "error",
+      // =====================================================
+      // JSDOC - JSDoc comment quality
+      // =====================================================
+      "jsdoc/check-param-names": "warn",
+      "jsdoc/check-tag-names": ["warn", { definedTags: ["export"] }],
+      "jsdoc/check-types": "warn",
+      "jsdoc/no-undefined-types": "off", // Too strict with TS generics
+      "jsdoc/require-jsdoc": "off", // Don't require JSDoc on every function
+      "jsdoc/require-param": "off", // TypeScript types make this redundant
+      "jsdoc/require-param-description": "off", // Descriptions are optional
+      "jsdoc/require-param-type": "off", // TypeScript types make this redundant
+      "jsdoc/require-returns": "off", // TypeScript return types make this redundant
+      "jsdoc/require-returns-description": "off", // Descriptions are optional
+      "jsdoc/tag-lines": ["warn", "never", { startLines: null }],
+      // =====================================================
+      // NO-SECRETS - Prevent accidental secret commits
+      // Threshold raised to reduce false positives on long tokens/URLs
+      // =====================================================
+      "no-secrets/no-secrets": ["warn", { tolerance: 4.2 }],
+      // =====================================================
+      // REGEXP - Regular expression correctness and safety
+      // Complements security/detect-unsafe-regex
+      // =====================================================
+      "regexp/no-contradiction-with-assertion": "error",
+      "regexp/no-control-character": "warn",
+      "regexp/no-dupe-characters-character-class": "error",
+      "regexp/no-empty-alternative": "warn",
+      "regexp/no-empty-capturing-group": "warn",
+      "regexp/no-empty-character-class": "error",
+      "regexp/no-empty-group": "warn",
+      "regexp/no-invalid-regexp": "error",
+      "regexp/no-lazy-ends": "warn",
+      "regexp/no-obscure-range": "warn",
+      "regexp/no-optional-assertion": "error",
+      "regexp/no-potentially-useless-backreference": "warn",
+      "regexp/no-super-linear-backtracking": "error",
+      "regexp/no-super-linear-move": "warn",
+      "regexp/no-useless-assertions": "warn",
+      "regexp/no-useless-character-class": "warn",
+      "regexp/no-useless-escape": "warn",
+      "regexp/no-useless-flag": "warn",
+      "regexp/no-useless-non-capturing-group": "warn",
+      "regexp/no-useless-quantifier": "warn",
+      "regexp/no-zero-quantifier": "error",
+      "regexp/prefer-character-class": "warn",
+      "regexp/prefer-plus-quantifier": "warn",
+      "regexp/prefer-question-quantifier": "warn",
+      "regexp/prefer-star-quantifier": "warn",
+      "regexp/prefer-w": "warn",
+      "regexp/simplify-set-operations": "warn",
+      "regexp/sort-alternatives": "off", // Too strict — order may be intentional
+      "regexp/use-ignore-case": "warn",
       "zod/no-any-schema": "error",
       "zod/no-empty-custom-schema": "error",
       "zod/no-optional-and-default-together": "error",
@@ -677,6 +744,86 @@ export default defineConfig([
     rules: {
       "@typescript-eslint/prefer-nullish-coalescing": "off", // Plaid boolean logic requires ||
       "unicorn/no-null": "off", // Plaid type definitions require null
+    },
+  },
+
+  // =====================================================
+  // JSX ACCESSIBILITY - jsx-a11y rules for React components
+  // Scoped to JSX/TSX files only
+  // =====================================================
+  {
+    files: ["**/*.{jsx,tsx}"],
+    plugins: {
+      "jsx-a11y": jsxA11y,
+    },
+    rules: {
+      "jsx-a11y/alt-text": "error",
+      "jsx-a11y/anchor-has-content": "warn",
+      "jsx-a11y/anchor-is-valid": "warn",
+      "jsx-a11y/aria-props": "error",
+      "jsx-a11y/aria-proptypes": "error",
+      "jsx-a11y/aria-role": "error",
+      "jsx-a11y/aria-unsupported-elements": "error",
+      "jsx-a11y/click-events-have-key-events": "warn", // Sometimes intentional for mouse-only UX
+      "jsx-a11y/heading-has-content": "warn",
+      "jsx-a11y/html-has-lang": "warn",
+      "jsx-a11y/img-redundant-alt": "warn",
+      "jsx-a11y/interactive-supports-focus": "warn",
+      "jsx-a11y/label-has-associated-control": "warn",
+      "jsx-a11y/mouse-events-have-key-events": "warn",
+      "jsx-a11y/no-access-key": "warn",
+      "jsx-a11y/no-autofocus": "warn", // Intentional autofocus exists in forms
+      "jsx-a11y/no-noninteractive-element-interactions": "warn",
+      "jsx-a11y/no-redundant-roles": "warn",
+      "jsx-a11y/role-has-required-aria-props": "error",
+      "jsx-a11y/role-supports-aria-props": "error",
+      "jsx-a11y/tabindex-no-positive": "warn",
+    },
+  },
+
+  // =====================================================
+  // MARKDOWN - Lint fenced code blocks inside .md files
+  // @eslint/markdown processes JS/TS blocks embedded in markdown
+  // Use the plugin processor to extract fenced code blocks
+  // =====================================================
+  {
+    files: ["**/*.md"],
+    plugins: {
+      markdown,
+    },
+    processor: "markdown/markdown",
+  },
+  // Lint JS/TS code blocks embedded in markdown files
+  {
+    files: ["**/*.md/*.js", "**/*.md/*.ts", "**/*.md/*.jsx", "**/*.md/*.tsx"],
+    languageOptions: {
+      parserOptions: {
+        // Disable project service for markdown virtual files — they're not in tsconfig
+        projectService: false,
+      },
+    },
+    rules: {
+      // Disable all type-aware typescript-eslint rules — no tsconfig for virtual files
+      "@typescript-eslint/await-thenable": "off",
+      "@typescript-eslint/no-floating-promises": "off",
+      "@typescript-eslint/no-for-in-array": "off",
+      "@typescript-eslint/no-misused-promises": "off",
+      "@typescript-eslint/no-unnecessary-type-assertion": "off",
+      "@typescript-eslint/no-unsafe-argument": "off",
+      "@typescript-eslint/no-unsafe-assignment": "off",
+      "@typescript-eslint/no-unsafe-call": "off",
+      "@typescript-eslint/no-unsafe-member-access": "off",
+      "@typescript-eslint/no-unsafe-return": "off",
+      "@typescript-eslint/prefer-nullish-coalescing": "off",
+      "@typescript-eslint/prefer-optional-chain": "off",
+      "@typescript-eslint/require-await": "off",
+      "@typescript-eslint/restrict-plus-operands": "off",
+      "@typescript-eslint/restrict-template-expressions": "off",
+      // Relax general rules that are too strict for inline docs examples
+      "@typescript-eslint/no-unused-vars": "off",
+      "import-x/no-unresolved": "off",
+      "no-console": "off",
+      "no-undef": "off",
     },
   },
 ]);
