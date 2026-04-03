@@ -93,7 +93,11 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                void logoutAccount();
+              }}
+            >
               <LogOutIcon />
               Log out
             </DropdownMenuItem>

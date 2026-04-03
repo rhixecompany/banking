@@ -228,7 +228,7 @@ export const transactions = pgTable(
     amount: numeric("amount", { precision: 12, scale: 2 }).notNull(),
     category: varchar("category", { length: 255 }),
     channel: varchar("channel", { length: 50 }),
-    createdAt: timestamp("created_at").defaultNow(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
     currency: varchar("currency", { length: 3 }).default("USD"),
     email: varchar("email", { length: 255 }),
     id: text("id")
@@ -292,7 +292,7 @@ export const recipients = pgTable(
 export const errors = pgTable(
   "errors",
   {
-    createdAt: timestamp("created_at").defaultNow(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
     id: text("id")
       .primaryKey()
       .notNull()
