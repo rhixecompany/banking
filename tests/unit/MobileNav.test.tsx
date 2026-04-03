@@ -8,19 +8,25 @@ import type { User } from "@/types";
 // ---------------------------------------------------------------------------
 
 vi.mock("next/image", () => ({
-  default: (props: Record<string, unknown>) => (
-    <img alt={props.alt as string} src={props.src as string} />
+  default: ({ alt, src, ...rest }: Record<string, unknown>) => (
+    <img alt={alt as string} src={src as string} {...(rest as object)} />
   ),
 }));
 
 vi.mock("next/link", () => ({
   default: ({
     children,
+    className,
     href,
   }: {
     children: React.ReactNode;
+    className?: string;
     href: string;
-  }) => <a href={href}>{children}</a>,
+  }) => (
+    <a href={href} className={className}>
+      {children}
+    </a>
+  ),
 }));
 
 const mockPathname = vi.fn(() => "/");

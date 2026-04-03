@@ -16,11 +16,17 @@ vi.mock("next/image", () => ({
 vi.mock("next/link", () => ({
   default: ({
     children,
+    className,
     href,
   }: {
     children: React.ReactNode;
+    className?: string;
     href: string;
-  }) => <a href={href}>{children}</a>,
+  }) => (
+    <a href={href} className={className}>
+      {children}
+    </a>
+  ),
 }));
 
 const mockPathname = vi.fn(() => "/");
@@ -91,7 +97,7 @@ describe("Sidebar", () => {
   it("does not apply active class to non-matching links", () => {
     mockPathname.mockReturnValue("/my-banks");
     render(<Sidebar user={mockUser} />);
-    const homeLink = screen.getByRole("link", { name: /^home$/i });
+    const homeLink = screen.getByRole("link", { name: /home home/i });
     expect((homeLink as HTMLAnchorElement).className).not.toContain(
       "bg-bank-gradient",
     );

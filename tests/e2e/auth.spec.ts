@@ -1,9 +1,5 @@
 import { expect, test } from "../../tests/fixtures/auth";
 
-test.beforeEach(async ({ page }) => {
-  await page.context().clearCookies();
-});
-
 test.describe("Authentication", () => {
   test.describe("Home Redirect", () => {
     test("should redirect unauthenticated users from / to sign-in", async ({

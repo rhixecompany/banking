@@ -1,155 +1,93 @@
-"use client";
+'use client'
+
 import {
   BadgePercentIcon,
   ChartNoAxesCombinedIcon,
   CirclePercentIcon,
   DollarSignIcon,
   ShoppingBagIcon,
-  TrendingUpIcon,
-} from "lucide-react";
-import Image from "next/image";
-import { Bar, BarChart, Label, Pie, PieChart } from "recharts";
+  TrendingUpIcon
+} from 'lucide-react'
+import { Bar, BarChart, Label, Pie, PieChart } from 'recharts'
 
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  type ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { type ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart'
 
-/**
- * Description placeholder
- *
- * @type {54}
- */
-const salesPlanPercentage = 54;
-/**
- * Description placeholder
- *
- * @type {24}
- */
-const totalBars = 24;
-/**
- * Description placeholder
- *
- * @type {*}
- */
-const filledBars = Math.round((salesPlanPercentage * totalBars) / 100);
+const salesPlanPercentage = 54
+const totalBars = 24
+const filledBars = Math.round((salesPlanPercentage * totalBars) / 100)
 
 // Sales chart data
-/**
- * Description placeholder
- *
- * @type {*}
- */
 const salesChartData = Array.from({ length: totalBars }, (_, index) => {
-  const date = new Date(2025, 5, 15);
+  const date = new Date(2025, 5, 15)
 
-  const formattedDate = date.toLocaleDateString("en-GB", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  });
+  const formattedDate = date.toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  })
 
   return {
     date: formattedDate,
-    sales: index < filledBars ? 315 : 0,
-  };
-});
+    sales: index < filledBars ? 315 : 0
+  }
+})
 
-/**
- * Description placeholder
- *
- * @type {ChartConfig}
- */
 const salesChartConfig = {
   sales: {
-    label: "Sales",
-  },
-} satisfies ChartConfig;
+    label: 'Sales'
+  }
+} satisfies ChartConfig
 
-/**
- * Description placeholder
- *
- * @type {{}}
- */
 const MetricsData = [
   {
     icons: <TrendingUpIcon className="size-5" />,
-    title: "Sales trend",
-    value: "$11,548",
+    title: 'Sales trend',
+    value: '$11,548'
   },
   {
     icons: <BadgePercentIcon className="size-5" />,
-    title: "Discount offers",
-    value: "$1,326",
+    title: 'Discount offers',
+    value: '$1,326'
   },
   {
     icons: <DollarSignIcon className="size-5" />,
-    title: "Net profit",
-    value: "$17,356",
+    title: 'Net profit',
+    value: '$17,356'
   },
   {
     icons: <ShoppingBagIcon className="size-5" />,
-    title: "Total orders",
-    value: "248",
-  },
-];
+    title: 'Total orders',
+    value: '248'
+  }
+]
 
-/**
- * Description placeholder
- *
- * @type {{}}
- */
 const revenueChartData = [
-  { fill: "var(--color-january)", month: "january", sales: 340 },
-  { fill: "var(--color-february)", month: "february", sales: 200 },
-  { fill: "var(--color-march)", month: "march", sales: 200 },
-];
+  { fill: 'var(--color-january)', month: 'january', sales: 340 },
+  { fill: 'var(--color-february)', month: 'february', sales: 200 },
+  { fill: 'var(--color-march)', month: 'march', sales: 200 }
+]
 
-/**
- * Description placeholder
- *
- * @type {ChartConfig}
- */
 const revenueChartConfig = {
   february: {
-    color: "color-mix(in oklab, var(--primary) 60%, transparent)",
-    label: "February",
+    color: 'color-mix(in oklab, var(--primary) 60%, transparent)',
+    label: 'February'
   },
   january: {
-    color: "var(--primary)",
-    label: "January",
+    color: 'var(--primary)',
+    label: 'January'
   },
   march: {
-    color: "color-mix(in oklab, var(--primary) 20%, transparent)",
-    label: "March",
+    color: 'color-mix(in oklab, var(--primary) 20%, transparent)',
+    label: 'March'
   },
   sales: {
-    label: "Sales",
-  },
-} satisfies ChartConfig;
+    label: 'Sales'
+  }
+} satisfies ChartConfig
 
-/**
- * Description placeholder
- *
- * @param {{ className?: string }} param0
- * @param {string} param0.className
- * @returns {*}
- */
-const SalesMetricsCard = ({
-  className,
-}: {
-  className?: string;
-}): JSX.Element => {
+const SalesMetricsCard = ({ className }: { className?: string }) => {
   return (
     <Card className={className}>
       <CardContent className="space-y-4">
@@ -157,36 +95,27 @@ const SalesMetricsCard = ({
           <div className="flex flex-col gap-7 lg:col-span-3">
             <span className="text-lg font-semibold">Sales metrics</span>
             <div className="flex items-center gap-3">
-              <Image
-                src="https://cdn.shadcnstudio.com/ss-assets/logo/logo-square.png"
-                width={42}
-                height={42}
+              <img
+                src='https://cdn.shadcnstudio.com/ss-assets/logo/logo-square.png'
                 className="size-10.5 rounded-lg"
-                alt="logo"
+                alt='logo'
               />
               <div className="flex flex-col gap-0.5">
                 <span className="text-xl font-medium">Sandy&apos; Company</span>
-                <span className="text-sm text-muted-foreground">
-                  sandy@company.com
-                </span>
+                <span className="text-sm text-muted-foreground">sandy@company.com</span>
               </div>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
               {MetricsData.map((metric, index) => (
-                <div
-                  key={index}
-                  className="flex items-center gap-3 rounded-md border px-4 py-2"
-                >
+                <div key={index} className="flex items-center gap-3 rounded-md border px-4 py-2">
                   <Avatar className="size-8.5 rounded-sm">
                     <AvatarFallback className="shrink-0 rounded-sm bg-primary/10 text-primary">
                       {metric.icons}
                     </AvatarFallback>
                   </Avatar>
                   <div className="flex flex-col gap-0.5">
-                    <span className="text-sm font-medium text-muted-foreground">
-                      {metric.title}
-                    </span>
+                    <span className="text-sm font-medium text-muted-foreground">{metric.title}</span>
                     <span className="text-lg font-medium">{metric.value}</span>
                   </div>
                 </div>
@@ -195,25 +124,17 @@ const SalesMetricsCard = ({
           </div>
           <Card className="gap-4 py-4 shadow-none lg:col-span-2">
             <CardHeader className="gap-1">
-              <CardTitle className="text-lg font-semibold">
-                Revenue goal
-              </CardTitle>
+              <CardTitle className="text-lg font-semibold">Revenue goal</CardTitle>
             </CardHeader>
 
             <CardContent className="px-0">
-              <ChartContainer
-                config={revenueChartConfig}
-                className="h-38.5 w-full"
-              >
+              <ChartContainer config={revenueChartConfig} className="h-38.5 w-full">
                 <PieChart margin={{ bottom: 0, left: 0, right: 0, top: 0 }}>
-                  <ChartTooltip
-                    cursor={false}
-                    content={<ChartTooltipContent hideLabel />}
-                  />
+                  <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
                   <Pie
                     data={revenueChartData}
-                    dataKey="sales"
-                    nameKey="month"
+                    dataKey='sales'
+                    nameKey='month'
                     startAngle={300}
                     endAngle={660}
                     innerRadius={58}
@@ -222,30 +143,25 @@ const SalesMetricsCard = ({
                   >
                     <Label
                       content={({ viewBox }) => {
-                        if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                        if (viewBox && 'cx' in viewBox && 'cy' in viewBox) {
                           return (
-                            <text
-                              x={viewBox.cx}
-                              y={viewBox.cy}
-                              textAnchor="middle"
-                              dominantBaseline="middle"
-                            >
+                            <text x={viewBox.cx} y={viewBox.cy} textAnchor='middle' dominantBaseline='middle'>
                               <tspan
                                 x={viewBox.cx}
-                                y={(viewBox.cy ?? 0) - 12}
+                                y={(viewBox.cy || 0) - 12}
                                 className="fill-card-foreground text-lg font-medium"
                               >
                                 256.24
                               </tspan>
                               <tspan
                                 x={viewBox.cx}
-                                y={(viewBox.cy ?? 0) + 19}
+                                y={(viewBox.cy || 0) + 19}
                                 className="fill-muted-foreground text-sm"
                               >
                                 Total Profit
                               </tspan>
                             </text>
-                          );
+                          )
                         }
                       }}
                     />
@@ -264,18 +180,14 @@ const SalesMetricsCard = ({
           <CardContent className="grid gap-4 px-4 lg:grid-cols-5">
             <div className="flex flex-col justify-center gap-6">
               <span className="text-lg font-semibold">Sales plan</span>
-              <span className="text-6xl max-lg:text-5xl">
-                {salesPlanPercentage}%
-              </span>
-              <span className="text-sm text-muted-foreground">
-                Percentage profit from total sales
-              </span>
+              <span className="max-lg:5xl text-6xl">{salesPlanPercentage}%</span>
+              <span className="text-sm text-muted-foreground">Percentage profit from total sales</span>
             </div>
             <div className="flex flex-col gap-6 text-lg md:col-span-4">
               <span className="font-medium">Cohort analysis indicators</span>
               <span className="text-wrap text-muted-foreground">
-                Analyzes the behaviour of a group of users who joined a
-                product/service at the same time. over a certain period.
+                Analyzes the behaviour of a group of users who joined a product/service at the same time. over a certain
+                period.
               </span>
               <div className="grid gap-6 md:grid-cols-2">
                 <div className="flex items-center gap-2">
@@ -288,26 +200,20 @@ const SalesMetricsCard = ({
                 </div>
               </div>
 
-              <ChartContainer
-                config={salesChartConfig}
-                className="h-7.75 w-full"
-              >
+              <ChartContainer config={salesChartConfig} className="h-7.75 w-full">
                 <BarChart
                   accessibilityLayer
                   data={salesChartData}
                   margin={{
                     left: 0,
-                    right: 0,
+                    right: 0
                   }}
                   maxBarSize={16}
                 >
                   <Bar
-                    dataKey="sales"
-                    fill="var(--primary)"
-                    background={{
-                      fill: "color-mix(in oklab, var(--primary) 10%, transparent)",
-                      radius: 12,
-                    }}
+                    dataKey='sales'
+                    fill='var(--primary)'
+                    background={{ fill: 'color-mix(in oklab, var(--primary) 10%, transparent)', radius: 12 }}
                     radius={12}
                   />
                 </BarChart>
@@ -317,7 +223,7 @@ const SalesMetricsCard = ({
         </Card>
       </CardContent>
     </Card>
-  );
-};
+  )
+}
 
-export default SalesMetricsCard;
+export default SalesMetricsCard

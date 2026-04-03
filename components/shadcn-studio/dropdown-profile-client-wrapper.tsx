@@ -12,6 +12,12 @@ import ProfileDropdown from "@/components/shadcn-studio/blocks/dropdown-profile"
 interface DropdownProfileClientWrapperProps {
   /** The trigger element that opens the dropdown. */
   trigger: ReactNode;
+  /** User display name. */
+  name: string;
+  /** User email address. */
+  email: string;
+  /** Optional user avatar URL. */
+  image?: null | string;
   /** Whether the dropdown starts open. */
   defaultOpen?: boolean;
   /** Alignment of the dropdown menu. */

@@ -11,6 +11,7 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
+  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -53,6 +54,9 @@ const MobileNav = ({ user }: MobileNavProps): JSX.Element => {
                 </h1>
               </Link>
             </SheetTitle>
+            <SheetDescription className="sr-only">
+              Main navigation menu
+            </SheetDescription>
           </SheetHeader>
 
           <div className="mobilenav-sheet">

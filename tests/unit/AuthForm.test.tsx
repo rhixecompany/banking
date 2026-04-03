@@ -84,7 +84,7 @@ describe("AuthForm", () => {
   describe("sign-in mode", () => {
     it("renders the Sign In heading", () => {
       render(<AuthForm type="sign-in" />);
-      expect(screen.getByText("Sign In")).toBeTruthy();
+      expect(screen.getByRole("heading", { name: /sign in/i })).toBeTruthy();
     });
 
     it("renders only Email and Password inputs", () => {
@@ -115,7 +115,7 @@ describe("AuthForm", () => {
   describe("sign-up mode", () => {
     it("renders the Sign Up heading", () => {
       render(<AuthForm type="sign-up" />);
-      expect(screen.getByText("Sign Up")).toBeTruthy();
+      expect(screen.getByRole("heading", { name: /sign up/i })).toBeTruthy();
     });
 
     it("renders all sign-up specific inputs", () => {

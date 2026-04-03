@@ -15,7 +15,6 @@ import {
   ChevronRightIcon,
   EllipsisVerticalIcon,
 } from "lucide-react";
-import Image from "next/image";
 import { useState } from "react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -44,68 +43,17 @@ import {
 } from "@/components/ui/table";
 import { usePagination } from "@/hooks/use-pagination";
 
-/**
- * Description placeholder
- *
- * @export
- * @typedef {Item}
- */
 export interface Item {
-  /**
-   * Description placeholder
-   *
-   * @type {string}
-   */
   id: string;
-  /**
-   * Description placeholder
-   *
-   * @type {string}
-   */
   avatar: string;
-  /**
-   * Description placeholder
-   *
-   * @type {string}
-   */
   avatarFallback: string;
-  /**
-   * Description placeholder
-   *
-   * @type {string}
-   */
   name: string;
-  /**
-   * Description placeholder
-   *
-   * @type {string}
-   */
   email: string;
-  /**
-   * Description placeholder
-   *
-   * @type {number}
-   */
   amount: number;
-  /**
-   * Description placeholder
-   *
-   * @type {("failed" | "paid" | "pending" | "processing")}
-   */
   status: "failed" | "paid" | "pending" | "processing";
-  /**
-   * Description placeholder
-   *
-   * @type {("mastercard" | "visa")}
-   */
   paidBy: "mastercard" | "visa";
 }
 
-/**
- * Description placeholder
- *
- * @type {ColumnDef<Item>[]}
- */
 export const columns: ColumnDef<Item>[] = [
   {
     accessorKey: "name",
@@ -153,15 +101,13 @@ export const columns: ColumnDef<Item>[] = [
   {
     accessorKey: "paidBy",
     cell: ({ row }) => (
-      <Image
+      <img
         src={
           row.getValue("paidBy") === "mastercard"
             ? "https://cdn.shadcnstudio.com/ss-assets/blocks/data-table/image-1.png"
             : "https://cdn.shadcnstudio.com/ss-assets/blocks/data-table/image-2.png"
         }
         alt="Payment platform"
-        width={42}
-        height={28}
         className="w-10.5"
       />
     ),
@@ -176,14 +122,7 @@ export const columns: ColumnDef<Item>[] = [
   },
 ];
 
-/**
- * Description placeholder
- *
- * @param {{ data: Item[] }} param0
- * @param {{}} param0.data
- * @returns {*}
- */
-const TransactionDatatable = ({ data }: { data: Item[] }): JSX.Element => {
+const TransactionDatatable = ({ data }: { data: Item[] }) => {
   const pageSize = 5;
 
   const [pagination, setPagination] = useState<PaginationState>({
@@ -224,7 +163,7 @@ const TransactionDatatable = ({ data }: { data: Item[] }): JSX.Element => {
                       className="h-14 text-muted-foreground first:ps-4"
                     >
                       {header.isPlaceholder
-                        ? undefined
+                        ? null
                         : flexRender(
                             header.column.columnDef.header,
                             header.getContext(),
@@ -358,12 +297,7 @@ const TransactionDatatable = ({ data }: { data: Item[] }): JSX.Element => {
 
 export default TransactionDatatable;
 
-/**
- * Description placeholder
- *
- * @returns {*}
- */
-function RowActions(): JSX.Element {
+function RowActions() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -386,7 +320,7 @@ function RowActions(): JSX.Element {
           <DropdownMenuItem>
             <span>Duplicate</span>
           </DropdownMenuItem>
-          <DropdownMenuItem className="text-destructive">
+          <DropdownMenuItem>
             <span>Delete</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>

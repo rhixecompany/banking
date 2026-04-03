@@ -346,15 +346,14 @@ export function MultiSelectValue({
             )}
           </Badge>
         ))}
-      <Badge
+      <div
+        ref={overflowRef}
         style={{
           display: overflowAmount > 0 && !shouldWrap ? "block" : "none",
         }}
-        variant="outline"
-        ref={overflowRef}
       >
-        +{overflowAmount}
-      </Badge>
+        <Badge variant="outline">+{overflowAmount}</Badge>
+      </div>
     </div>
   );
 }

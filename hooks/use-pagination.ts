@@ -1,65 +1,15 @@
-/**
- * Description placeholder
- *
- * @typedef {UsePaginationProps}
- */
 interface UsePaginationProps {
-  /**
-   * Description placeholder
-   *
-   * @type {number}
-   */
   currentPage: number;
-  /**
-   * Description placeholder
-   *
-   * @type {number}
-   */
   totalPages: number;
-  /**
-   * Description placeholder
-   *
-   * @type {number}
-   */
   paginationItemsToDisplay: number;
 }
 
-/**
- * Description placeholder
- *
- * @typedef {UsePaginationReturn}
- */
 interface UsePaginationReturn {
-  /**
-   * Description placeholder
-   *
-   * @type {number[]}
-   */
   pages: number[];
-  /**
-   * Description placeholder
-   *
-   * @type {boolean}
-   */
   showLeftEllipsis: boolean;
-  /**
-   * Description placeholder
-   *
-   * @type {boolean}
-   */
   showRightEllipsis: boolean;
 }
 
-/**
- * Description placeholder
- *
- * @export
- * @param {UsePaginationProps} param0
- * @param {number} param0.currentPage
- * @param {number} param0.totalPages
- * @param {number} param0.paginationItemsToDisplay
- * @returns {UsePaginationReturn}
- */
 export function usePagination({
   currentPage,
   paginationItemsToDisplay,
@@ -100,16 +50,14 @@ export function usePagination({
   }
 
   const pages = calculatePaginationRange();
-  const lastPage = pages.at(-1);
 
   // Determine ellipsis display based on the actual pages shown
   const showLeftEllipsis = pages.length > 0 && pages[0] > 1 && pages[0] > 2;
 
   const showRightEllipsis =
     pages.length > 0 &&
-    lastPage !== undefined &&
-    lastPage < totalPages &&
-    lastPage < totalPages - 1;
+    (pages.at(-1) ?? 0) < totalPages &&
+    (pages.at(-1) ?? 0) < totalPages - 1;
 
   return {
     pages,

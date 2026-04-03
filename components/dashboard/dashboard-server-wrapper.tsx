@@ -34,6 +34,7 @@ export async function DashboardServerWrapper(): Promise<JSX.Element> {
       banks={banks}
       userId={userId}
       userName={session.user.name ?? "User"}
+      showOnboarding={banks.length === 0}
     />
   );
 }

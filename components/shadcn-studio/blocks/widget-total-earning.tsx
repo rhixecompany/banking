@@ -1,129 +1,48 @@
-import {
-  ChevronDownIcon,
-  ChevronUpIcon,
-  EllipsisVerticalIcon,
-} from "lucide-react";
-import Image from "next/image";
+import { ChevronDownIcon, ChevronUpIcon, EllipsisVerticalIcon } from 'lucide-react'
 
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Progress } from "@/components/ui/progress";
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
+import { Progress } from '@/components/ui/progress'
 
-/**
- * Description placeholder
- *
- * @type {{}}
- */
-const listItems = ["Share", "Update", "Refresh"];
+const listItems = ['Share', 'Update', 'Refresh']
 
-/**
- * Description placeholder
- *
- * @typedef {Props}
- */
 interface Props {
-  /**
-   * Description placeholder
-   *
-   * @type {string}
-   */
-  title: string;
-  /**
-   * Description placeholder
-   *
-   * @type {number}
-   */
-  earning: number;
-  /**
-   * Description placeholder
-   *
-   * @type {("down" | "up")}
-   */
-  trend: "down" | "up";
-  /**
-   * Description placeholder
-   *
-   * @type {number}
-   */
-  percentage: number;
-  /**
-   * Description placeholder
-   *
-   * @type {string}
-   */
-  comparisonText: string;
-  /**
-   * Description placeholder
-   *
-   * @type {{
-   *     img: string;
-   *     platform: string;
-   *     technologies: string;
-   *     earnings: string;
-   *     progressPercentage: number;
-   *   }[]}
-   */
+  title: string
+  earning: number
+  trend: 'down' | 'up'
+  percentage: number
+  comparisonText: string
   earningData: {
-    img: string;
-    platform: string;
-    technologies: string;
-    earnings: string;
-    progressPercentage: number;
-  }[];
-  /**
-   * Description placeholder
-   *
-   * @type {?string}
-   */
-  className?: string;
+    img: string
+    platform: string
+    technologies: string
+    earnings: string
+    progressPercentage: number
+  }[]
+  className?: string
 }
 
-/**
- * Description placeholder
- *
- * @param {Props} param0
- * @param {{}} param0.earningData
- * @param {string} param0.title
- * @param {number} param0.earning
- * @param {("up" | "down")} param0.trend
- * @param {number} param0.percentage
- * @param {string} param0.comparisonText
- * @param {string} param0.className
- * @returns {*}
- */
-const TotalEarningCard = ({
-  className,
-  comparisonText,
-  earning,
-  earningData,
-  percentage,
-  title,
-  trend,
-}: Props): JSX.Element => {
+const TotalEarningCard = ({ className, comparisonText, earning, earningData, percentage, title, trend }: Props) => {
   return (
     <Card className={className}>
       <CardHeader className="flex items-center justify-between">
         <span className="text-lg font-semibold">{title}</span>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="size-6 rounded-full text-muted-foreground"
-            >
+            <Button variant='ghost' size='icon' className="size-6 rounded-full text-muted-foreground">
               <EllipsisVerticalIcon />
               <span className="sr-only">Menu</span>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
+          <DropdownMenuContent align='end'>
             <DropdownMenuGroup>
               {listItems.map((item, index) => (
                 <DropdownMenuItem key={index}>{item}</DropdownMenuItem>
@@ -137,41 +56,24 @@ const TotalEarningCard = ({
           <div className="flex items-center gap-2">
             <span className="text-2xl font-semibold">${earning}</span>
             <span className="flex items-center gap-1">
-              {trend === "up" ? (
-                <ChevronUpIcon className="size-4" />
-              ) : (
-                <ChevronDownIcon className="size-4" />
-              )}
+              {trend === 'up' ? <ChevronUpIcon className="size-4" /> : <ChevronDownIcon className="size-4" />}
               <span className="text-sm">{percentage}%</span>
             </span>
           </div>
-          <span className="text-sm text-muted-foreground">
-            {comparisonText}
-          </span>
+          <span className="text-sm text-muted-foreground">{comparisonText}</span>
         </div>
         <div className="flex flex-1 flex-col justify-evenly gap-4">
           {earningData.map((earning, index) => (
-            <div
-              key={index}
-              className="flex items-center justify-between gap-2.5"
-            >
+            <div key={index} className="flex items-center justify-between gap-2.5">
               <div className="flex items-center justify-between gap-2.5">
                 <Avatar className="size-11 rounded-sm">
                   <AvatarFallback className="shrink-0 rounded-sm bg-primary/10">
-                    <Image
-                      src={earning.img}
-                      alt={earning.platform}
-                      width={24}
-                      height={24}
-                      className="size-6"
-                    />
+                    <img src={earning.img} alt={earning.platform} className="size-6" />
                   </AvatarFallback>
                 </Avatar>
                 <div className="flex flex-col gap-1">
                   <span className="font-medium">{earning.platform}</span>
-                  <span className="text-sm text-muted-foreground">
-                    {earning.technologies}
-                  </span>
+                  <span className="text-sm text-muted-foreground">{earning.technologies}</span>
                 </div>
               </div>
               <div className="space-y-2">
@@ -183,7 +85,7 @@ const TotalEarningCard = ({
         </div>
       </CardContent>
     </Card>
-  );
-};
+  )
+}
 
-export default TotalEarningCard;
+export default TotalEarningCard

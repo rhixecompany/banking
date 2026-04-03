@@ -1,90 +1,55 @@
-"use client";
-import Image from "next/image";
-import { Bar, BarChart } from "recharts";
+'use client'
 
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { type ChartConfig, ChartContainer } from "@/components/ui/chart";
-import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/utils";
+import { Bar, BarChart } from 'recharts'
+
+import { Card, CardContent, CardHeader } from '@/components/ui/card'
+import { type ChartConfig, ChartContainer } from '@/components/ui/chart'
+import { Separator } from '@/components/ui/separator'
+import { cn } from '@/lib/utils'
 
 // Product reached data
-/**
- * Description placeholder
- *
- * @type {{}}
- */
 const productReachChartData = [
-  { month: "January", reached: 168 },
-  { month: "February", reached: 305 },
-  { month: "March", reached: 213 },
-  { month: "April", reached: 330 },
-  { month: "May", reached: 305 },
-];
+  { month: 'January', reached: 168 },
+  { month: 'February', reached: 305 },
+  { month: 'March', reached: 213 },
+  { month: 'April', reached: 330 },
+  { month: 'May', reached: 305 }
+]
 
-/**
- * Description placeholder
- *
- * @type {ChartConfig}
- */
 const productReachChartConfig = {
   reached: {
-    color: "var(--primary)",
-    label: "Reached",
-  },
-} satisfies ChartConfig;
+    color: 'var(--primary)',
+    label: 'Reached'
+  }
+} satisfies ChartConfig
 
 // Order placed data
-/**
- * Description placeholder
- *
- * @type {{}}
- */
 const orderPlacedChartData = [
-  { month: "January", orders: 168 },
-  { month: "February", orders: 305 },
-  { month: "March", orders: 213 },
-  { month: "April", orders: 330 },
-  { month: "May", orders: 305 },
-];
+  { month: 'January', orders: 168 },
+  { month: 'February', orders: 305 },
+  { month: 'March', orders: 213 },
+  { month: 'April', orders: 330 },
+  { month: 'May', orders: 305 }
+]
 
-/**
- * Description placeholder
- *
- * @type {ChartConfig}
- */
 const orderPlacedChartConfig = {
   orders: {
-    color: "color-mix(in oklab, var(--primary) 10%, transparent)",
-    label: "Orders",
-  },
-} satisfies ChartConfig;
+    color: 'color-mix(in oklab, var(--primary) 10%, transparent)',
+    label: 'Orders'
+  }
+} satisfies ChartConfig
 
-/**
- * Description placeholder
- *
- * @param {{ className?: string }} param0
- * @param {string} param0.className
- * @returns {*}
- */
-const ProductInsightsCard = ({
-  className,
-}: {
-  className?: string;
-}): JSX.Element => {
+const ProductInsightsCard = ({ className }: { className?: string }) => {
   return (
     <Card className={cn("gap-4", className)}>
       <CardHeader className="flex justify-between">
         <div className="flex flex-col gap-1">
           <span className="text-lg font-semibold">Product insight</span>
-          <span className="text-sm text-muted-foreground">
-            Published on 12 MAY 2025 - 6:10 PM
-          </span>
+          <span className="text-sm text-muted-foreground">Published on 12 MAY 2025 - 6:10 PM</span>
         </div>
-        <Image
-          src="https://cdn.shadcnstudio.com/ss-assets/blocks/dashboard-application/widgets/image-7.png"
-          alt="Product"
-          width={82}
-          height={82}
+        <img
+          src='https://cdn.shadcnstudio.com/ss-assets/blocks/dashboard-application/widgets/image-7.png'
+          alt='Product'
           className="w-20.5 rounded-md"
         />
       </CardHeader>
@@ -95,16 +60,9 @@ const ProductInsightsCard = ({
             <span className="text-xs">Product reached</span>
             <span className="text-2xl font-semibold">21,153</span>
           </div>
-          <ChartContainer
-            config={productReachChartConfig}
-            className="min-h-13 max-w-18"
-          >
-            <BarChart
-              accessibilityLayer
-              data={productReachChartData}
-              barSize={8}
-            >
-              <Bar dataKey="reached" fill="var(--color-reached)" radius={2} />
+          <ChartContainer config={productReachChartConfig} className="min-h-13 max-w-18">
+            <BarChart accessibilityLayer data={productReachChartData} barSize={8}>
+              <Bar dataKey='reached' fill='var(--color-reached)' radius={2} />
             </BarChart>
           </ChartContainer>
         </div>
@@ -114,22 +72,15 @@ const ProductInsightsCard = ({
             <span className="text-xs">Order placed </span>
             <span className="text-2xl font-semibold">2,123</span>
           </div>
-          <ChartContainer
-            config={orderPlacedChartConfig}
-            className="min-h-13 max-w-18"
-          >
-            <BarChart
-              accessibilityLayer
-              data={orderPlacedChartData}
-              barSize={8}
-            >
-              <Bar dataKey="orders" fill="var(--color-orders)" radius={2} />
+          <ChartContainer config={orderPlacedChartConfig} className="min-h-13 max-w-18">
+            <BarChart accessibilityLayer data={orderPlacedChartData} barSize={8}>
+              <Bar dataKey='orders' fill='var(--color-orders)' radius={2} />
             </BarChart>
           </ChartContainer>
         </div>
       </CardContent>
     </Card>
-  );
-};
+  )
+}
 
-export default ProductInsightsCard;
+export default ProductInsightsCard

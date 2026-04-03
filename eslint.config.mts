@@ -503,7 +503,7 @@ export default defineConfig([
     },
     rules: {
       "testing-library/no-container": "warn",
-      "testing-library/no-manual-cleanup": "error",
+      "testing-library/no-manual-cleanup": "off", // Vitest happy-dom + forks pool requires manual afterEach(cleanup)
       "testing-library/no-render-in-lifecycle": "warn",
       "testing-library/no-unnecessary-act": "warn",
     },
@@ -609,6 +609,74 @@ export default defineConfig([
     files: ["tests/e2e/helpers/**/*.ts"],
     rules: {
       "n/no-process-env": "off", // Playwright helpers require process.env for DB configuration
+    },
+  },
+
+  // =====================================================
+  // SHADCN BLOCKS - Third-party block components
+  // These are vendor-provided UI blocks; not subject to project lint rules
+  // =====================================================
+  {
+    files: ["components/shadcn-studio/blocks/**/*.tsx"],
+    rules: {
+      "@next/next/no-img-element": "off", // Blocks use <img> intentionally for demo images
+      "@typescript-eslint/prefer-nullish-coalescing": "off", // Block code uses || intentionally
+      "@typescript-eslint/require-await": "off", // Some block async fns may not await
+      "better-tailwindcss/no-unknown-classes": "off", // Blocks may use custom/non-standard classes
+      "require-await": "off", // Some block async fns may not await
+      "unicorn/no-null": "off", // Block components may return null intentionally
+    },
+  },
+
+  // =====================================================
+  // SHADCN UI - Generated UI library components
+  // These are shadcn/ui generated files; not subject to project lint rules
+  // =====================================================
+  {
+    files: ["components/ui/**/*.tsx"],
+    rules: {
+      "@typescript-eslint/prefer-nullish-coalescing": "off", // UI lib uses || intentionally
+      "@typescript-eslint/require-await": "off", // UI lib async fns may not await
+      "better-tailwindcss/no-unknown-classes": "off", // UI lib may use data-attribute classes
+      "no-param-reassign": "off", // UI lib assigns to params intentionally
+      "react-hooks/purity": "off", // UI lib uses Math.random() in useMemo intentionally
+      "require-await": "off", // UI lib async fns may not await
+      "unicorn/no-null": "off", // UI lib uses null intentionally for refs/context
+    },
+  },
+
+  // =====================================================
+  // ADMIN SERVER WRAPPER - Allow async server component without await
+  // =====================================================
+  {
+    files: ["components/admin/admin-dashboard-server-wrapper.tsx"],
+    rules: {
+      "@typescript-eslint/require-await": "off", // Server component wrapper may not need await yet
+      "require-await": "off", // Server component wrapper may not need await yet
+    },
+  },
+
+  // =====================================================
+  // ADMIN LAYOUT - Allow null for NextAuth session type compatibility
+  // =====================================================
+  {
+    files: ["app/(admin)/layout.tsx"],
+    rules: {
+      "unicorn/no-null": "off", // NextAuth session type requires null comparison
+    },
+  },
+
+  // =====================================================
+  // PLAID CONTEXT - Allow null for Plaid type compatibility
+  // =====================================================
+  {
+    files: [
+      "components/plaid-context/plaid-context.tsx",
+      "components/plaid-link/plaid-link.tsx",
+    ],
+    rules: {
+      "@typescript-eslint/prefer-nullish-coalescing": "off", // Plaid boolean logic requires ||
+      "unicorn/no-null": "off", // Plaid type definitions require null
     },
   },
 ]);

@@ -9,6 +9,7 @@ import HeaderBox from "@/components/header-box/header-box";
 import { PlaidProvider } from "@/components/plaid-context/plaid-context";
 import { PlaidLinkButton } from "@/components/plaid-link-button/plaid-link-button";
 import SalesMetricsCard from "@/components/shadcn-studio/blocks/chart-sales-metrics";
+import OnboardingFeed from "@/components/shadcn-studio/blocks/onboarding-feed-01/onboarding-feed-01";
 import StatisticsCard from "@/components/shadcn-studio/blocks/statistics-card-01";
 import {
   Card,
@@ -22,6 +23,7 @@ interface DashboardClientWrapperProps {
   banks: Bank[];
   userId: string;
   userName: string;
+  showOnboarding: boolean;
 }
 
 /**
@@ -35,9 +37,20 @@ interface DashboardClientWrapperProps {
  */
 export function DashboardClientWrapper({
   banks,
+  showOnboarding,
   userId,
   userName,
 }: DashboardClientWrapperProps): JSX.Element {
+  if (showOnboarding) {
+    return (
+      <PlaidProvider userId={userId}>
+        <section className="flex min-h-[60vh] items-center justify-center py-12">
+          <OnboardingFeed name={userName} />
+        </section>
+      </PlaidProvider>
+    );
+  }
+
   const linkedBanksCount = banks.length.toString();
   const accountType = banks[0]?.accountType ?? "N/A";
   const lastUpdated = banks[0]?.updatedAt

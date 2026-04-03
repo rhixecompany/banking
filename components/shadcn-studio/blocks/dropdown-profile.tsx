@@ -1,3 +1,5 @@
+"use client";
+
 import type { ReactNode } from "react";
 
 import {
@@ -21,68 +23,47 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-/**
- * Description placeholder
- *
- * @typedef {Props}
- */
 interface Props {
-  /**
-   * Description placeholder
-   *
-   * @type {ReactNode}
-   */
   trigger: ReactNode;
-  /**
-   * Description placeholder
-   *
-   * @type {?boolean}
-   */
+  name: string;
+  email: string;
+  image?: null | string;
   defaultOpen?: boolean;
-  /**
-   * Description placeholder
-   *
-   * @type {?("center" | "end" | "start")}
-   */
   align?: "center" | "end" | "start";
 }
 
-/**
- * Description placeholder
- *
- * @param {Props} param0
- * @param {ReactNode} param0.trigger
- * @param {boolean} param0.defaultOpen
- * @param {("start" | "center" | "end")} [param0.align='end']
- * @returns {*}
- */
 const ProfileDropdown = ({
   align = "end",
   defaultOpen,
+  email,
+  image,
+  name,
   trigger,
-}: Props): JSX.Element => {
+}: Props): React.JSX.Element => {
+  const initials = name
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
+
   return (
     <DropdownMenu defaultOpen={defaultOpen}>
       <DropdownMenuTrigger asChild>{trigger}</DropdownMenuTrigger>
-      <DropdownMenuContent className="w-80" align={align || "end"}>
+      <DropdownMenuContent className="w-80" align={align}>
         <DropdownMenuLabel className="flex items-center gap-4 px-4 py-2.5 font-normal">
           <div className="relative">
             <Avatar className="size-10">
-              <AvatarImage
-                src="https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-1.png"
-                alt="John Doe"
-              />
-              <AvatarFallback>JD</AvatarFallback>
+              {image && <AvatarImage src={image} alt={name} />}
+              <AvatarFallback>{initials}</AvatarFallback>
             </Avatar>
             <span className="absolute end-0 bottom-0 block size-2 rounded-full bg-green-600 ring-2 ring-card" />
           </div>
           <div className="flex flex-1 flex-col items-start">
             <span className="text-lg font-semibold text-foreground">
-              John Doe
+              {name}
             </span>
-            <span className="text-base text-muted-foreground">
-              john.doe@example.com
-            </span>
+            <span className="text-base text-muted-foreground">{email}</span>
           </div>
         </DropdownMenuLabel>
 
@@ -122,7 +103,7 @@ const ProfileDropdown = ({
 
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem className="px-4 py-2.5 text-base text-destructive">
+        <DropdownMenuItem className="px-4 py-2.5 text-base">
           <LogOutIcon className="size-5" />
           <span>Logout</span>
         </DropdownMenuItem>

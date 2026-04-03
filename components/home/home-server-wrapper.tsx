@@ -2,8 +2,38 @@ import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
+import type { MenuData } from "@/components/shadcn-studio/blocks/hero-section-41/hero-section-41";
+
+import Header from "@/components/shadcn-studio/blocks/hero-section-41/header";
+import HeroSection from "@/components/shadcn-studio/blocks/hero-section-41/hero-section-41";
 import { Button } from "@/components/ui/button";
 import { auth } from "@/lib/auth";
+
+const navigationData: never[] = [];
+
+const bankingMenuData: MenuData[] = [
+  {
+    id: 1,
+    img: "https://picsum.photos/seed/banking1/480/480",
+    imgAlt: "Secure online banking dashboard",
+    userAvatar: "https://picsum.photos/seed/avatar1/80/80",
+    userComment: "Horizon makes managing my finances effortless.",
+  },
+  {
+    id: 2,
+    img: "https://picsum.photos/seed/banking2/480/480",
+    imgAlt: "Instant money transfers",
+    userAvatar: "https://picsum.photos/seed/avatar2/80/80",
+    userComment: "Instant transfers with zero fees — game changer!",
+  },
+  {
+    id: 3,
+    img: "https://picsum.photos/seed/banking3/480/480",
+    imgAlt: "Track spending and transactions",
+    userAvatar: "https://picsum.photos/seed/avatar3/80/80",
+    userComment: "I love seeing all my accounts in one place.",
+  },
+];
 
 /**
  * Server wrapper for the home/landing page.
@@ -22,78 +52,10 @@ export async function HomeServerWrapper(): Promise<JSX.Element> {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white/95 backdrop-blur-sm supports-[backdrop-filter]:bg-white/60">
-        <div className="container flex h-16 items-center justify-between px-4">
-          <div className="flex items-center gap-2">
-            <Image
-              src="/icons/logo.svg"
-              alt="Horizon Logo"
-              width={30}
-              height={39}
-              loading="eager"
-              style={{ height: "auto", width: "auto" }}
-              className="h-8 w-auto"
-            />
-            <span className="font-ibm-plex-serif text-[26px] font-bold text-black-1">
-              Horizon
-            </span>
-          </div>
-          <div className="flex items-center gap-4">
-            <Link href="/sign-in">
-              <Button variant="ghost" size="sm">
-                Sign In
-              </Button>
-            </Link>
-            <Link href="/sign-up">
-              <Button
-                size="sm"
-                className="bg-bank-gradient text-white shadow-form hover:bg-blue-600"
-              >
-                Get Started
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </header>
+      <Header navigationData={navigationData} />
 
-      <main className="flex-1">
-        <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-sky-50 py-20 sm:py-32">
-          <div className="absolute inset-0 bg-[url('/icons/gradient-mesh.svg')] bg-cover bg-center opacity-50" />
-          <div className="relative container mx-auto px-4">
-            <div className="mx-auto max-w-4xl text-center">
-              <h1 className="mb-6 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl lg:text-7xl">
-                Modern Banking for{" "}
-                <span className="bg-bank-gradient bg-clip-text text-transparent">
-                  Everyone
-                </span>
-              </h1>
-              <p className="mx-auto mb-10 max-w-2xl text-lg text-gray-600 sm:text-xl">
-                Experience the future of banking with Horizon. Secure, fast, and
-                designed with you in mind. Manage your finances anytime,
-                anywhere.
-              </p>
-              <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-                <Link href="/sign-up">
-                  <Button
-                    size="lg"
-                    className="min-w-[180px] bg-bank-gradient text-lg text-white shadow-form hover:bg-blue-600"
-                  >
-                    Open Free Account
-                  </Button>
-                </Link>
-                <Link href="/sign-in">
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="min-w-[180px] text-lg"
-                  >
-                    Sign In
-                  </Button>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
+      <main className="flex-1 pt-17.5">
+        <HeroSection menudata={bankingMenuData} />
 
         <section className="bg-white py-20">
           <div className="container mx-auto px-4">

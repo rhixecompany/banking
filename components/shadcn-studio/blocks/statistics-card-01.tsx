@@ -1,65 +1,18 @@
-import type { ReactNode } from "react";
+import type { ReactNode } from 'react'
 
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
+import { Card, CardContent, CardHeader } from '@/components/ui/card'
+import { cn } from '@/lib/utils'
 
 // Statistics card data type
-/**
- * Description placeholder
- *
- * @typedef {StatisticsCardProps}
- */
 interface StatisticsCardProps {
-  /**
-   * Description placeholder
-   *
-   * @type {ReactNode}
-   */
-  icon: ReactNode;
-  /**
-   * Description placeholder
-   *
-   * @type {string}
-   */
-  value: string;
-  /**
-   * Description placeholder
-   *
-   * @type {string}
-   */
-  title: string;
-  /**
-   * Description placeholder
-   *
-   * @type {string}
-   */
-  changePercentage: string;
-  /**
-   * Description placeholder
-   *
-   * @type {?string}
-   */
-  className?: string;
+  icon: ReactNode
+  value: string
+  title: string
+  changePercentage: string
+  className?: string
 }
 
-/**
- * Description placeholder
- *
- * @param {StatisticsCardProps} param0
- * @param {ReactNode} param0.icon
- * @param {string} param0.value
- * @param {string} param0.title
- * @param {string} param0.changePercentage
- * @param {string} param0.className
- * @returns {*}
- */
-const StatisticsCard = ({
-  changePercentage,
-  className,
-  icon,
-  title,
-  value,
-}: StatisticsCardProps): JSX.Element => {
+const StatisticsCard = ({ changePercentage, className, icon, title, value }: StatisticsCardProps) => {
   return (
     <Card className={cn("gap-4", className)}>
       <CardHeader className="flex items-center">
@@ -76,7 +29,7 @@ const StatisticsCard = ({
         </p>
       </CardContent>
     </Card>
-  );
-};
+  )
+}
 
-export default StatisticsCard;
+export default StatisticsCard

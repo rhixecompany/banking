@@ -9,14 +9,8 @@ import { LoadingSpinner } from "@/components/ui/spinner";
 import { getLoggedInUser } from "@/lib/actions/user.actions";
 
 /**
- * Protected layout content component.
+ * Protected banking layout content component.
  * Checks authentication and redirects to sign-in if not authenticated.
- *
- * @export
- * @async
- * @param {Readonly<{ children: ReactNode }>} props
- * @param {ReactNode} props.children
- * @returns {Promise<JSX.Element>}
  */
 async function ProtectedLayoutContent({
   children,
@@ -54,15 +48,9 @@ async function ProtectedLayoutContent({
 }
 
 /**
- * Protected layout wrapper with Suspense boundary.
- * Required in Next.js 16 to handle async auth APIs without blocking route rendering.
- *
- * @export
- * @param {Readonly<{ children: ReactNode }>} props
- * @param {ReactNode} props.children
- * @returns {JSX.Element}
+ * Protected banking layout wrapper with Suspense boundary.
  */
-export default function ProtectedLayout({
+export default function BankingLayout({
   children,
 }: Readonly<{
   children: ReactNode;
