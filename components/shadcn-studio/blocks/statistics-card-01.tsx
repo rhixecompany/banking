@@ -1,18 +1,24 @@
-import type { ReactNode } from 'react'
+import type { ReactNode } from "react";
 
-import { Card, CardContent, CardHeader } from '@/components/ui/card'
-import { cn } from '@/lib/utils'
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 
 // Statistics card data type
 interface StatisticsCardProps {
-  icon: ReactNode
-  value: string
-  title: string
-  changePercentage: string
-  className?: string
+  icon: ReactNode;
+  value: string;
+  title: string;
+  changePercentage: string;
+  className?: string;
 }
 
-const StatisticsCard = ({ changePercentage, className, icon, title, value }: StatisticsCardProps) => {
+const StatisticsCard = ({
+  changePercentage,
+  className,
+  icon,
+  title,
+  value,
+}: StatisticsCardProps) => {
   return (
     <Card className={cn("gap-4", className)}>
       <CardHeader className="flex items-center">
@@ -29,7 +35,7 @@ const StatisticsCard = ({ changePercentage, className, icon, title, value }: Sta
         </p>
       </CardContent>
     </Card>
-  )
-}
+  );
+};
 
-export default StatisticsCard
+export default StatisticsCard;

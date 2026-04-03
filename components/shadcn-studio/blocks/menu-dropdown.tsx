@@ -1,49 +1,53 @@
-'use client'
+"use client";
 
-import type { ReactNode } from 'react'
+import type { ReactNode } from "react";
 
-import { ChevronRightIcon, CircleSmallIcon } from 'lucide-react'
+import { ChevronRightIcon, CircleSmallIcon } from "lucide-react";
 
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu'
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export interface NavigationItem {
-  title: string
-  href: string
+  title: string;
+  href: string;
 }
 
 export type NavigationSection = (
   | {
-      items: NavigationItem[]
-      href?: never
+      items: NavigationItem[];
+      href?: never;
     }
   | {
-      items?: never
-      href: string
+      items?: never;
+      href: string;
     }
 ) & {
-  title: string
-  icon?: ReactNode
-}
+  title: string;
+  icon?: ReactNode;
+};
 
 interface Props {
-  trigger: ReactNode
-  navigationData: NavigationSection[]
-  align?: 'center' | 'end' | 'start'
+  trigger: ReactNode;
+  navigationData: NavigationSection[];
+  align?: "center" | "end" | "start";
 }
 
-const MenuDropdown = ({ align = 'start', navigationData, trigger }: Props) => {
+const MenuDropdown = ({ align = "start", navigationData, trigger }: Props) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>{trigger}</DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align={align}>
-        {navigationData.map(navItem => {
+        {navigationData.map((navItem) => {
           if (navItem.href) {
             return (
               <DropdownMenuItem key={navItem.title} asChild>
@@ -52,21 +56,24 @@ const MenuDropdown = ({ align = 'start', navigationData, trigger }: Props) => {
                   {navItem.title}
                 </a>
               </DropdownMenuItem>
-            )
+            );
           }
 
           return (
             <Collapsible key={navItem.title} asChild>
               <DropdownMenuGroup>
                 <CollapsibleTrigger asChild>
-                  <DropdownMenuItem onSelect={event => event.preventDefault()} className="justify-between">
+                  <DropdownMenuItem
+                    onSelect={(event) => event.preventDefault()}
+                    className="justify-between"
+                  >
                     {navItem.icon}
                     <span className="flex-1">{navItem.title}</span>
                     <ChevronRightIcon className="shrink-0 transition-transform [[data-state=open]>&]:rotate-90" />
                   </DropdownMenuItem>
                 </CollapsibleTrigger>
                 <CollapsibleContent className="ps-2">
-                  {navItem.items?.map(item => (
+                  {navItem.items?.map((item) => (
                     <DropdownMenuItem key={item.title} asChild>
                       <a href={item.href}>
                         <CircleSmallIcon />
@@ -77,11 +84,11 @@ const MenuDropdown = ({ align = 'start', navigationData, trigger }: Props) => {
                 </CollapsibleContent>
               </DropdownMenuGroup>
             </Collapsible>
-          )
+          );
         })}
       </DropdownMenuContent>
     </DropdownMenu>
-  )
-}
+  );
+};
 
-export default MenuDropdown
+export default MenuDropdown;
