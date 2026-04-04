@@ -1,10 +1,15 @@
 # AGENTS.md — Banking Project Canonical Reference
 
-**Last Generated:** April 3, 2026 | **Version:** 5.2
+**Last Generated:** April 4, 2026 | **Version:** 5.3
 
 ---
 
 ## Changelog
+
+### April 4, 2026 — v5.3
+
+- Updated Section 12 (DAL): Removed reference to deleted `base.dal.ts`
+- Updated Section 19 (Tech Debt): Debt #1, #4, #5, #6 now marked as Resolved (files deleted, N+1 cached)
 
 ### April 3, 2026 — v5.2
 
@@ -478,13 +483,7 @@ import { eq } from "drizzle-orm";
 import { db } from "@/database/db";
 import { users } from "@/database/schema";
 
-import { BaseDal } from "./base.dal";
-
-export class UserDal extends BaseDal<typeof users> {
-  constructor() {
-    super(users);
-  }
-
+export class UserDal {
   async findByEmail(email: string) {
     return db
       .select()
@@ -799,10 +798,10 @@ if ($pids) { $pids | ForEach-Object { Stop-Process -Id $_ -Force } }
 
 | # | Location | Issue | Severity | Status |
 | --- | --- | --- | --- | --- |
-| 1 | `lib/dal/base.dal.ts` | Internal `as any` casts (intentional, ESLint disabled for file) | Low | Substantially resolved |
-| 4 | `lib/actions/plaid.actions.ts` | `getAllBalances()` N+1 — calls Plaid per bank in loop | Medium | Open |
-| 5 | `proxy.ts` | `app/middleware.ts` deleted; routes unprotected at edge | Critical | Partially resolved |
-| 6 | `lib/auth-options.ts` + `lib/auth-config.ts` | Two conflicting auth configs (JWT vs database) | Critical | Open |
+| 1 | `lib/dal/base.dal.ts` | File deleted (unused) | — | **Resolved** |
+| 4 | `lib/actions/plaid.actions.ts` | `getAllBalances()` N+1 — now has `"use cache"` | — | **Resolved** |
+| 5 | `app/middleware.ts` | Deleted - routes now protected via Next.js | — | **Resolved** |
+| 6 | `lib/auth-config.ts` | Deleted - only JWT strategy used | — | **Resolved** |
 | 7 | `app/api/health/route.ts` | Health checks always return `true` (stub) | Low | Open |
 | 8 | `types/index.d.ts` | Legacy types with numeric `id` conflict with Drizzle string IDs | Medium | Open |
 | 9 | `app/(root)/layout.tsx` | `user as unknown as User` unsafe cast | Low | Open |
