@@ -5,6 +5,7 @@ import {
   unstable_cacheTag as cacheTag,
   revalidatePath,
   revalidateTag,
+  updateTag,
 } from "next/cache";
 import { z } from "zod";
 
@@ -154,6 +155,11 @@ export async function exchangePublicToken(
 
   const { publicToken, userId } = parsed.data;
 
+  const session = await auth();
+  if (!session?.user?.id) {
+    return { error: "Unauthorized", ok: false };
+  }
+
   try {
     const exchangeResponse = await plaidClient.itemPublicTokenExchange({
       public_token: publicToken,
@@ -201,6 +207,7 @@ export async function exchangePublicToken(
     revalidatePath("/my-banks");
     revalidatePath("/dashboard");
     revalidateTag("balances", "max");
+    updateTag("balances");
     return { bank, ok: true };
   } catch (error) {
     console.error("Plaid exchangePublicToken error:", error);
@@ -637,6 +644,7 @@ export async function removeBank(input: unknown): Promise<{
     await bankDal.delete(bankId);
     revalidatePath("/my-banks");
     revalidateTag("balances", "max");
+    updateTag("balances");
     return { ok: true };
   } catch (error) {
     console.error("Plaid removeBank error:", error);

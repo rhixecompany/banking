@@ -3,15 +3,15 @@
   "agent": {
     "build": {
       "description": "Build and implement features for the Banking project",
-      "model": "github-copilot/claude-sonnet-4.6"
+      "model": "opencode/big-pickle"
     },
     "plan": {
       "description": "Review and plan changes for the Banking project",
-      "model": "github-copilot/claude-sonnet-4.6"
+      "model": "opencode/big-pickle"
     },
     "review": {
       "description": "Review code changes and PRs for the Banking project",
-      "model": "github-copilot/claude-sonnet-4.6"
+      "model": "opencode/big-pickle"
     }
   },
   "autoupdate": true,
@@ -32,7 +32,10 @@
       "template": "Run npm run validate and report results. Focus on TypeScript errors, lint warnings, and test failures."
     }
   },
-  "instructions": ["AGENTS.md", ".opencode/instructions/*.md"],
+  "instructions": [
+    "AGENTS.md",
+    ".opencode/instructions/*.md"
+  ],
   "mcp": {
     "MCP_DOCKER": {
       "command": [
@@ -48,14 +51,24 @@
       "type": "local"
     },
     "shadcn": {
-      "command": ["npx", "shadcn@latest", "mcp"],
+      "command": [
+        "npx",
+        "shadcn@latest",
+        "mcp"
+      ],
       "enabled": true,
       "timeout": 900000,
       "type": "local"
     }
   },
-  "model": "github-copilot/claude-sonnet-4.6",
+  "model": "opencode/big-pickle",
   "watcher": {
-    "ignore": ["node_modules", ".next", "dist", ".git", "*.log"]
+    "ignore": [
+      "node_modules",
+      ".next",
+      "dist",
+      ".git",
+      "*.log"
+    ]
   }
 }
