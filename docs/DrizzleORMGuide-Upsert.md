@@ -21,6 +21,7 @@ await db.insert(users).values({ id: 1, name: 'John' })
 
 ```ts
 import { sql } from "drizzle-orm";
+
 import { users } from "./schema";
 const values = [
   { id: 1, lastLogin: new Date() },
@@ -31,8 +32,8 @@ await db
   .insert(users)
   .values(values)
   .onConflictDoUpdate({
-    target: users.id,
-    set: { lastLogin: sql.raw(`excluded.${users.lastLogin.name}`) }
+    set: { lastLogin: sql.raw(`excluded.${users.lastLogin.name}`) },
+    target: users.id
   });
 ```
 
@@ -64,13 +65,14 @@ const buildConflictUpdateColumns = <
 
 ```ts
 import { sql } from "drizzle-orm";
+
 import { inventory } from "./schema";
 await db
   .insert(inventory)
-  .values({ warehouseId: 1, productId: 1, quantity: 100 })
+  .values({ productId: 1, quantity: 100, warehouseId: 1 })
   .onConflictDoUpdate({
-    target: [inventory.warehouseId, inventory.productId],
-    set: { quantity: sql`${inventory.quantity} + 100` }
+    set: { quantity: sql`${inventory.quantity} + 100` },
+    target: [inventory.warehouseId, inventory.productId]
   });
 ```
 
@@ -78,13 +80,14 @@ await db
 
 ```ts
 import { or, sql } from "drizzle-orm";
+
 import { products } from "./schema";
 const data = {
   id: 1,
-  title: "Phone",
+  lastUpdated: new Date(),
   price: "999.99",
   stock: 10,
-  lastUpdated: new Date()
+  title: "Phone"
 };
 const excludedPrice = sql.raw(`excluded.${products.price.name}`);
 const excludedStock = sql.raw(`excluded.${products.stock.name}`);
@@ -92,16 +95,16 @@ await db
   .insert(products)
   .values(data)
   .onConflictDoUpdate({
-    target: products.id,
     set: {
+      lastUpdated: sql.raw(`excluded.${products.lastUpdated.name}`),
       price: excludedPrice,
-      stock: excludedStock,
-      lastUpdated: sql.raw(`excluded.${products.lastUpdated.name}`)
+      stock: excludedStock
     },
     setWhere: or(
       sql`${products.stock} != ${excludedStock}`,
       sql`${products.price} != ${excludedPrice}`
-    )
+    ),
+    target: products.id
   });
 ```
 
@@ -109,19 +112,20 @@ await db
 
 ```ts
 import { sql } from "drizzle-orm";
+
 import { users } from "./schema";
 const data = {
-  id: 1,
-  name: "John",
+  age: 29,
   email: "john@email.com",
-  age: 29
+  id: 1,
+  name: "John"
 };
 await db
   .insert(users)
   .values(data)
   .onConflictDoUpdate({
-    target: users.id,
-    set: { ...data, email: sql`${users.email}` } // leave email as it was
+    set: { ...data, email: sql`${users.email}` }, // leave email as it was
+    target: users.id
   });
 ```
 
@@ -138,6 +142,7 @@ await db
 
 ```ts
 import { sql } from "drizzle-orm";
+
 import { users } from "./schema";
 const values = [
   { id: 1, lastLogin: new Date() },
@@ -179,12 +184,13 @@ const buildConflictUpdateColumns = <
 
 ```ts
 import { sql } from "drizzle-orm";
+
 import { users } from "./schema";
 const data = {
-  id: 1,
-  name: "John",
+  age: 29,
   email: "john@email.com",
-  age: 29
+  id: 1,
+  name: "John"
 };
 await db
   .insert(users)

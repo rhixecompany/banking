@@ -19,7 +19,7 @@ export default function GlobalError({
   reset: () => void;
 }): JSX.Element {
   return (
-    <html>
+    <html lang="en">
       <body>
         <GlobalErrorClientWrapper error={error} reset={reset} />
       </body>

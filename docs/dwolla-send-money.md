@@ -54,12 +54,12 @@ Authorization: Bearer {access_token}
 ```
 
 ```javascript
-var requestBody = {
-  firstName: "Jane",
-  lastName: "Merchant",
+const requestBody = {
   email: "jmerchant@nomail.net",
-  type: "receive-only",
-  ipAddress: "99.99.99.99"
+  firstName: "Jane",
+  ipAddress: "99.99.99.99",
+  lastName: "Merchant",
+  type: "receive-only"
 };
 
 dwolla.post("customers", requestBody).then(function (res) {
@@ -103,12 +103,12 @@ Authorization: Bearer {access_token}
 ```
 
 ```javascript
-var customerUrl = "https://api-sandbox.dwolla.com/customers/{id}";
-var requestBody = {
-  routingNumber: "222222226",
+const customerUrl = "https://api-sandbox.dwolla.com/customers/{id}";
+const requestBody = {
   accountNumber: "123456789",
   bankAccountType: "checking",
-  name: "Jane Merchant - Checking 6789"
+  name: "Jane Merchant - Checking 6789",
+  routingNumber: "222222226"
 };
 
 dwolla
@@ -167,13 +167,13 @@ Authorization: Bearer {access_token}
 ```
 
 ```javascript
-var transferRequest = {
+const transferRequest = {
   _links: {
-    source: {
-      href: "https://api-sandbox.dwolla.com/funding-sources/{source_id}"
-    },
     destination: {
       href: "https://api-sandbox.dwolla.com/funding-sources/{destination_id}"
+    },
+    source: {
+      href: "https://api-sandbox.dwolla.com/funding-sources/{source_id}"
     }
   },
   amount: {

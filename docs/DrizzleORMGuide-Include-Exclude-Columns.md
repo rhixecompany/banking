@@ -47,12 +47,13 @@ await db.select({ ...rest }).from(posts);
 
 ```ts
 import { eq, getColumns } from "drizzle-orm";
+
 import { comments, posts, users } from "./db/schema";
-const { userId, postId, ...rest } = getColumns(comments);
+const { postId, userId, ...rest } = getColumns(comments);
 await db
   .select({
-    postId: posts.id, // include 'id' from posts
     comment: { ...rest }, // all other columns
+    postId: posts.id, // include 'id' from posts
     user: users // all columns from users
   })
   .from(posts)

@@ -8,9 +8,9 @@ import { createStore } from "zustand";
 
 export interface DateRange {
   /** ISO date string for range start, e.g. "2024-01-01". */
-  from: string | null;
+  from: string | undefined;
   /** ISO date string for range end, e.g. "2024-12-31". */
-  to: string | null;
+  to: string | undefined;
 }
 
 export interface FilterState {
@@ -41,14 +41,14 @@ export interface FilterActions {
   resetFilters: () => void;
 }
 
-export type FilterStore = FilterState & FilterActions;
+export type FilterStore = FilterActions & FilterState;
 
 export const defaultFilterState: FilterState = {
-  dateRange: { from: null, to: null },
   category: "",
-  searchQuery: "",
+  dateRange: { from: undefined, to: undefined },
   page: 1,
   pageSize: 20,
+  searchQuery: "",
 };
 
 /**
@@ -60,16 +60,16 @@ export function createFilterStore(initState: Partial<FilterState> = {}) {
     ...defaultFilterState,
     ...initState,
 
-    setDateRange: (range) => set({ dateRange: range, page: 1 }),
+    resetFilters: () => set({ ...defaultFilterState }),
 
     setCategory: (category) => set({ category, page: 1 }),
 
-    setSearchQuery: (searchQuery) => set({ searchQuery, page: 1 }),
+    setDateRange: (range) => set({ dateRange: range, page: 1 }),
 
     setPage: (page) => set({ page }),
 
-    setPageSize: (pageSize) => set({ pageSize, page: 1 }),
+    setPageSize: (pageSize) => set({ page: 1, pageSize }),
 
-    resetFilters: () => set({ ...defaultFilterState }),
+    setSearchQuery: (searchQuery) => set({ page: 1, searchQuery }),
   }));
 }

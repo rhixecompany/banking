@@ -5,7 +5,7 @@
  * and exposes it via React Context. SSR-safe (no module-level singleton).
  */
 
-import { createContext, useContext, useRef, type ReactNode } from "react";
+import { createContext, useContext, useState, type ReactNode } from "react";
 import { useStore } from "zustand";
 import { useShallow } from "zustand/react/shallow";
 
@@ -18,7 +18,9 @@ import {
 
 type TransferStoreApi = ReturnType<typeof createTransferStore>;
 
-const TransferStoreContext = createContext<TransferStoreApi | null>(null);
+const TransferStoreContext = createContext<TransferStoreApi | undefined>(
+  undefined,
+);
 
 interface TransferStoreProviderProps {
   children: ReactNode;
@@ -33,16 +35,12 @@ export function TransferStoreProvider({
   children,
   initialState,
 }: TransferStoreProviderProps): JSX.Element {
-  const storeRef = useRef<TransferStoreApi | null>(null);
-  if (storeRef.current === null) {
-    storeRef.current = createTransferStore({
-      ...defaultTransferState,
-      ...initialState,
-    });
-  }
+  const [store] = useState(() =>
+    createTransferStore({ ...defaultTransferState, ...initialState }),
+  );
 
   return (
-    <TransferStoreContext.Provider value={storeRef.current}>
+    <TransferStoreContext.Provider value={store}>
       {children}
     </TransferStoreContext.Provider>
   );

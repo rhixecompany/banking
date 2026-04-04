@@ -211,7 +211,7 @@ export function HomeServerWrapper(): JSX.Element {
                 style={{ height: "auto", width: "auto" }}
                 className="h-6 w-auto"
               />
-              <span className="font-ibm-plex-serif text-xl font-bold text-black-1">
+              <span className="font-serif text-xl font-bold text-black-1">
                 Horizon
               </span>
             </div>

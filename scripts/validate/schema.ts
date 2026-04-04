@@ -140,7 +140,7 @@ function validateRelations(content: string): void {
  */
 function validateIndexes(content: string): void {
   const indexRegex = /indexes?:\s*\{/g;
-  const uniqueIndexRegex = /uniqueIndex/g;
+  const uniqueIndexRegex = /uniqueIndex/;
 
   let hasIndexes = false;
   let match;

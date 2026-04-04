@@ -54,7 +54,7 @@ const Header = ({ className, navigationData }: HeaderProps) => {
             style={{ height: "auto", width: "auto" }}
             className="h-7 w-auto"
           />
-          <span className="font-ibm-plex-serif text-[20px] font-semibold text-primary">
+          <span className="font-serif text-[20px] font-semibold text-primary">
             Horizon
           </span>
         </Link>

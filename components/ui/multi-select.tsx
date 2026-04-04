@@ -397,6 +397,7 @@ export function MultiSelectContent({
               }
             />
           ) : (
+            // eslint-disable-next-line jsx-a11y/no-autofocus
             <button autoFocus className="sr-only" />
           )}
           <CommandList>

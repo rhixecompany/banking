@@ -2,7 +2,7 @@
  * @file nextSitemap.config.ts
  * @description Sitemap and robots.txt configuration for Banking
  * @author Banking Team
- * @updated 2026-02-01
+ * @since 2026-02-01
  */
 
 const siteUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3000";

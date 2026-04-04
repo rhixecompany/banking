@@ -77,22 +77,18 @@ Migrate from legacy auth/ORM (Appwrite/Prisma) to Drizzle ORM + next-auth (Drizz
 - Example minimal config:
 
   ```ts
+  import { DrizzleAdapter } from "@auth/drizzle-adapter";
+  import { compare } from "bcryptjs";
   import NextAuth from "next-auth";
   import CredentialsProvider from "next-auth/providers/credentials";
-  import { DrizzleAdapter } from "@auth/drizzle-adapter";
+
   import { db } from "@/database/db";
   import { users } from "@/database/schema";
-  import { compare } from "bcryptjs";
 
   export const authOptions = {
     adapter: DrizzleAdapter(db),
     providers: [
       CredentialsProvider({
-        name: "Credentials",
-        credentials: {
-          email: { label: "Email", type: "email" },
-          password: { label: "Password", type: "password" }
-        },
         async authorize(credentials) {
           const user = await db
             .select()
@@ -106,7 +102,12 @@ Migrate from legacy auth/ORM (Appwrite/Prisma) to Drizzle ORM + next-auth (Drizz
           );
           if (!valid) return null;
           return user;
-        }
+        },
+        credentials: {
+          email: { label: "Email", type: "email" },
+          password: { label: "Password", type: "password" }
+        },
+        name: "Credentials"
       })
     ],
     session: { strategy: "database" }

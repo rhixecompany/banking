@@ -8,13 +8,13 @@ import { createStore } from "zustand";
 
 /** All wizard steps, in order. */
 export type TransferStep =
-  | "select-banks"
   | "enter-amount"
-  | "review"
   | "processing"
-  | "result";
+  | "result"
+  | "review"
+  | "select-banks";
 
-export type TransferStatus = "idle" | "pending" | "success" | "error";
+export type TransferStatus = "error" | "idle" | "pending" | "success";
 
 export interface TransferFormData {
   /** Sender's bank record ID (from banks table). */
@@ -35,9 +35,9 @@ export interface TransferState {
   /** Processing/result status. */
   status: TransferStatus;
   /** Error message if status is "error". */
-  errorMessage: string | null;
+  errorMessage: string | undefined;
   /** Transfer URL returned by Dwolla on success. */
-  transferUrl: string | null;
+  transferUrl: string | undefined;
 }
 
 export interface TransferActions {
@@ -59,7 +59,7 @@ export interface TransferActions {
   reset: () => void;
 }
 
-export type TransferStore = TransferState & TransferActions;
+export type TransferStore = TransferActions & TransferState;
 
 const STEPS: TransferStep[] = [
   "select-banks",
@@ -70,18 +70,18 @@ const STEPS: TransferStep[] = [
 ];
 
 const defaultFormData: TransferFormData = {
-  senderBankId: "",
-  receiverBankId: "",
   amount: "",
   note: "",
+  receiverBankId: "",
+  senderBankId: "",
 };
 
 export const defaultTransferState: TransferState = {
   currentStep: "select-banks",
+  errorMessage: undefined,
   formData: defaultFormData,
   status: "idle",
-  errorMessage: null,
-  transferUrl: null,
+  transferUrl: undefined,
 };
 
 /**
@@ -92,6 +92,8 @@ export function createTransferStore(initState: Partial<TransferState> = {}) {
   return createStore<TransferStore>()((set, get) => ({
     ...defaultTransferState,
     ...initState,
+
+    goToStep: (step) => set({ currentStep: step }),
 
     nextStep: () => {
       const current = get().currentStep;
@@ -109,23 +111,21 @@ export function createTransferStore(initState: Partial<TransferState> = {}) {
       }
     },
 
-    goToStep: (step) => set({ currentStep: step }),
-
-    updateFormData: (data) =>
-      set((state) => ({
-        formData: { ...state.formData, ...data },
-      })),
-
-    setStatus: (status) => set({ status }),
-
-    setError: (message) => set({ status: "error", errorMessage: message }),
-
-    setTransferUrl: (url) => set({ transferUrl: url, status: "success" }),
-
     reset: () =>
       set({
         ...defaultTransferState,
         formData: { ...defaultFormData },
       }),
+
+    setError: (message) => set({ errorMessage: message, status: "error" }),
+
+    setStatus: (status) => set({ status }),
+
+    setTransferUrl: (url) => set({ status: "success", transferUrl: url }),
+
+    updateFormData: (data) =>
+      set((state) => ({
+        formData: { ...state.formData, ...data },
+      })),
   }));
 }

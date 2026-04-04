@@ -5,7 +5,7 @@
  * and exposes it via React Context. SSR-safe (no module-level singleton).
  */
 
-import { createContext, useContext, useRef, type ReactNode } from "react";
+import { createContext, useContext, useState, type ReactNode } from "react";
 import { useStore } from "zustand";
 import { useShallow } from "zustand/react/shallow";
 
@@ -18,7 +18,7 @@ import {
 
 type FilterStoreApi = ReturnType<typeof createFilterStore>;
 
-const FilterStoreContext = createContext<FilterStoreApi | null>(null);
+const FilterStoreContext = createContext<FilterStoreApi | undefined>(undefined);
 
 interface FilterStoreProviderProps {
   children: ReactNode;
@@ -33,16 +33,12 @@ export function FilterStoreProvider({
   children,
   initialState,
 }: FilterStoreProviderProps): JSX.Element {
-  const storeRef = useRef<FilterStoreApi | null>(null);
-  if (storeRef.current === null) {
-    storeRef.current = createFilterStore({
-      ...defaultFilterState,
-      ...initialState,
-    });
-  }
+  const [store] = useState(() =>
+    createFilterStore({ ...defaultFilterState, ...initialState }),
+  );
 
   return (
-    <FilterStoreContext.Provider value={storeRef.current}>
+    <FilterStoreContext.Provider value={store}>
       {children}
     </FilterStoreContext.Provider>
   );

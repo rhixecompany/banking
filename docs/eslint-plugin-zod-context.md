@@ -23,10 +23,10 @@ export default [
       zod: zod
     },
     rules: {
-      "zod/require-error-message": "error",
-      "zod/require-validation": "error",
       "zod/no-default-exports": "error",
-      "zod/no-unknown-types": "warn"
+      "zod/no-unknown-types": "warn",
+      "zod/require-error-message": "error",
+      "zod/require-validation": "error"
     }
   }
 ];
@@ -60,9 +60,9 @@ export default [
 
 ```javascript
 const UserSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
+  age: z.number().positive("Age must be positive"),
   email: z.string().email("Invalid email format"),
-  age: z.number().positive("Age must be positive")
+  name: z.string().min(2, "Name must be at least 2 characters")
 });
 ```
 

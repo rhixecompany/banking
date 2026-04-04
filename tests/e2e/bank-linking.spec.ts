@@ -81,10 +81,12 @@ test.describe("Bank Linking (Plaid Link)", () => {
           .locator("body")
           .waitFor({ state: "visible", timeout: 10_000 })
           .then(() => "iframe")
+          // eslint-disable-next-line unicorn/no-null
           .catch(() => null),
         anyDialog
           .waitFor({ state: "visible", timeout: 10_000 })
           .then(() => "dialog")
+          // eslint-disable-next-line unicorn/no-null
           .catch(() => null),
       ]);
 

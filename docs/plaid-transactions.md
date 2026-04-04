@@ -80,7 +80,7 @@ async function fetchAllTransactions(accessToken: string) {
       access_token: accessToken,
       cursor
     });
-    const { added, modified, removed, next_cursor, has_more } =
+    const { added, has_more, modified, next_cursor, removed } =
       response.data;
     // process added/modified/removed...
     cursor = next_cursor;

@@ -6,7 +6,7 @@
  * and ensures SSR safety (no module-level singleton).
  */
 
-import { createContext, useContext, useRef, type ReactNode } from "react";
+import { createContext, useContext, useState, type ReactNode } from "react";
 import { useStore } from "zustand";
 import { useShallow } from "zustand/react/shallow";
 
@@ -19,7 +19,7 @@ import {
 
 type UIStoreApi = ReturnType<typeof createUIStore>;
 
-const UIStoreContext = createContext<UIStoreApi | null>(null);
+const UIStoreContext = createContext<UIStoreApi | undefined>(undefined);
 
 interface UIStoreProviderProps {
   children: ReactNode;
@@ -34,18 +34,12 @@ export function UIStoreProvider({
   children,
   initialState,
 }: UIStoreProviderProps): JSX.Element {
-  const storeRef = useRef<UIStoreApi | null>(null);
-  if (storeRef.current === null) {
-    storeRef.current = createUIStore({
-      ...defaultUIState,
-      ...initialState,
-    });
-  }
+  const [store] = useState(() =>
+    createUIStore({ ...defaultUIState, ...initialState }),
+  );
 
   return (
-    <UIStoreContext.Provider value={storeRef.current}>
-      {children}
-    </UIStoreContext.Provider>
+    <UIStoreContext.Provider value={store}>{children}</UIStoreContext.Provider>
   );
 }
 

@@ -56,7 +56,7 @@ describe("createUIStore", () => {
       const store = createUIStore();
       store.getState().openModal("disconnect-bank");
       store.getState().closeModal();
-      expect(store.getState().activeModal).toBeNull();
+      expect(store.getState().activeModal).toBeUndefined();
     });
 
     it("switches between modal IDs", () => {

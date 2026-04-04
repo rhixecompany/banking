@@ -269,9 +269,9 @@ export async function createPost(formData: FormData) {
 
   // Create post
   const res = await fetch("https://api.example.com/posts", {
-    method: "POST",
+    body: JSON.stringify({ body, title }),
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ title, body })
+    method: "POST"
   });
 
   if (!res.ok) {
@@ -351,7 +351,7 @@ export async function GET(request: NextRequest) {
     const data = await res.json();
 
     return NextResponse.json(data);
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Failed to fetch posts" },
       { status: 500 }
@@ -364,14 +364,14 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
 
     const res = await fetch("https://api.example.com/posts", {
-      method: "POST",
+      body: JSON.stringify(body),
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body)
+      method: "POST"
     });
 
     const data = await res.json();
     return NextResponse.json(data, { status: 201 });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Failed to create post" },
       { status: 500 }
@@ -383,9 +383,10 @@ export async function POST(request: NextRequest) {
 ### Middleware for Authentication
 
 ```typescript
+import type { NextRequest } from "next/server";
+
 // proxy.ts
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
   // Check authentication
@@ -448,9 +449,9 @@ export async function updateProduct(productId: string, data: any) {
   const res = await fetch(
     `https://api.example.com/products/${productId}`,
     {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
+      headers: { "Content-Type": "application/json" },
+      method: "PUT",
       next: { tags: [`product-${productId}`, "products"] }
     }
   );

@@ -7,10 +7,10 @@ import { createStore } from "zustand";
 
 /** Supported modal identifiers. Extend as new modals are added. */
 export type ModalId =
+  | "confirm-transfer"
   | "connect-bank"
   | "disconnect-bank"
-  | "confirm-transfer"
-  | null;
+  | undefined;
 
 export interface UIState {
   /** Whether the sidebar is open (used on mobile / collapsed desktop). */
@@ -36,12 +36,12 @@ export interface UIActions {
   toggleDrawer: () => void;
 }
 
-export type UIStore = UIState & UIActions;
+export type UIStore = UIActions & UIState;
 
 export const defaultUIState: UIState = {
-  sidebarOpen: false,
-  activeModal: null,
+  activeModal: undefined,
   drawerOpen: false,
+  sidebarOpen: false,
 };
 
 /**
@@ -53,13 +53,13 @@ export function createUIStore(initState: Partial<UIState> = {}) {
     ...defaultUIState,
     ...initState,
 
-    setSidebarOpen: (open) => set({ sidebarOpen: open }),
-    toggleSidebar: () => set((state) => ({ sidebarOpen: !state.sidebarOpen })),
-
+    closeModal: () => set({ activeModal: undefined }),
     openModal: (id) => set({ activeModal: id }),
-    closeModal: () => set({ activeModal: null }),
 
     setDrawerOpen: (open) => set({ drawerOpen: open }),
+    setSidebarOpen: (open) => set({ sidebarOpen: open }),
+
     toggleDrawer: () => set((state) => ({ drawerOpen: !state.drawerOpen })),
+    toggleSidebar: () => set((state) => ({ sidebarOpen: !state.sidebarOpen })),
   }));
 }

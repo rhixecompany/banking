@@ -23,8 +23,8 @@ export default [
       "react-refresh": reactRefresh
     },
     rules: {
-      "react-refresh/only-export-components": "warn",
-      "react-refresh/no-unused-vars": "warn"
+      "react-refresh/no-unused-vars": "warn",
+      "react-refresh/only-export-components": "warn"
     }
   }
 ];

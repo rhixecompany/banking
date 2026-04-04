@@ -50,12 +50,15 @@ import Sidebar from "@/components/sidebar/sidebar";
 const mockUser: User = {
   createdAt: new Date(),
   email: "alice@example.com",
+  // eslint-disable-next-line unicorn/no-null
   emailVerified: null,
   id: "1",
+  // eslint-disable-next-line unicorn/no-null
   image: null,
   isActive: true,
   isAdmin: false,
   name: "Alice",
+  // eslint-disable-next-line unicorn/no-null
   password: null,
   role: "user",
   updatedAt: new Date(),

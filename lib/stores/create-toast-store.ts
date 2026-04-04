@@ -7,7 +7,7 @@
 
 import { createStore } from "zustand";
 
-export type ToastType = "success" | "error" | "info" | "warning";
+export type ToastType = "error" | "info" | "success" | "warning";
 
 export interface ToastItem {
   /** Unique identifier for deduplication and dismissal. */
@@ -30,14 +30,14 @@ export interface ToastActions {
    * Add a new toast to the queue.
    * Auto-generates an ID if not provided.
    */
-  addToast: (toast: Omit<ToastItem, "id"> & { id?: string }) => void;
+  addToast: (toast: { id?: string } & Omit<ToastItem, "id">) => void;
   /** Remove a toast from the queue by ID. */
   removeToast: (id: string) => void;
   /** Clear all toasts from the queue. */
   clearToasts: () => void;
 }
 
-export type ToastStore = ToastState & ToastActions;
+export type ToastStore = ToastActions & ToastState;
 
 export const defaultToastState: ToastState = {
   toasts: [],
@@ -62,19 +62,19 @@ export function createToastStore(initState: Partial<ToastState> = {}) {
         toasts: [
           ...state.toasts,
           {
+            duration: toast.duration ?? 4000,
             id: toast.id ?? generateId(),
             message: toast.message,
             type: toast.type,
-            duration: toast.duration ?? 4000,
           },
         ],
       })),
+
+    clearToasts: () => set({ toasts: [] }),
 
     removeToast: (id) =>
       set((state) => ({
         toasts: state.toasts.filter((t) => t.id !== id),
       })),
-
-    clearToasts: () => set({ toasts: [] }),
   }));
 }

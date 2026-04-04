@@ -23,9 +23,9 @@ export default [
       "import-x": importX
     },
     rules: {
-      "import-x/order": "error",
+      "import-x/named": "error",
       "import-x/no-duplicates": "error",
-      "import-x/named": "error"
+      "import-x/order": "error"
     }
   }
 ];

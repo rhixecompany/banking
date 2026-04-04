@@ -119,6 +119,7 @@ function buildAuthenticatorRow(
     credentialBackedUp: true,
     credentialDeviceType: "singleDevice",
     credentialID: "seed-credential-id-unique-001",
+    // eslint-disable-next-line no-secrets/no-secrets
     credentialPublicKey: "c2VlZC1wdWJsaWMta2V5LXBsYWNlaG9sZGVy",
     providerAccountId: "seed-webauthn-provider",
     transports: "internal",

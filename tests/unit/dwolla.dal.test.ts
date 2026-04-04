@@ -39,6 +39,7 @@ const BANK_ROW = {
   createdAt: new Date("2024-01-01"),
   dwollaCustomerUrl: "https://api.dwolla.com/customers/cust-1",
   dwollaFundingSourceUrl: "https://api.dwolla.com/funding-sources/fs-1",
+  // eslint-disable-next-line unicorn/no-null
   fundingSourceUrl: null,
   id: "bank-1",
   institutionId: "ins_1",
@@ -52,6 +53,7 @@ const BANK_ROW = {
 // A variant without a funding source URL (for filter tests)
 const BANK_ROW_NO_FS = {
   ...BANK_ROW,
+  // eslint-disable-next-line unicorn/no-null
   dwollaFundingSourceUrl: null,
   id: "bank-2",
   sharableId: "sharable-2",
@@ -121,6 +123,7 @@ describe("DwollaDal", () => {
     });
 
     it("skips accountNumberEncrypted decryption when field is null", async () => {
+      // eslint-disable-next-line unicorn/no-null
       const row = { ...BANK_ROW, accountNumberEncrypted: null };
       setupSelectMock([row]);
       const { dwollaDal } = await import("@/lib/dal");
@@ -273,8 +276,10 @@ describe("DwollaDal", () => {
     });
   });
 
+  // eslint-disable-next-line no-secrets/no-secrets
   // ── findBanksWithDwollaCustomer ──────────────────────────────────────────
 
+  // eslint-disable-next-line no-secrets/no-secrets
   describe("findBanksWithDwollaCustomer", () => {
     it("returns all banks for a given userId with decrypted tokens", async () => {
       setupSelectMock([{ ...BANK_ROW }, { ...BANK_ROW_NO_FS }]);
@@ -284,9 +289,9 @@ describe("DwollaDal", () => {
 
       expect(result).toHaveLength(2);
       // Every returned bank must have its token decrypted
-      result.forEach((bank) => {
+      for (const bank of result) {
         expect(bank.accessToken).toMatch(/^decrypted\(/);
-      });
+      }
     });
 
     it("returns an empty array when no banks exist for the user", async () => {

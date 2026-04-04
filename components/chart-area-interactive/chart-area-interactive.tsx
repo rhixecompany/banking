@@ -1,8 +1,11 @@
 "use client";
 
 import type { JSX } from "react";
+
 import * as React from "react";
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
+
+import type { Transaction } from "@/types/transaction";
 
 import {
   Card,
@@ -26,7 +29,6 @@ import {
 } from "@/components/ui/select";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useIsMobile } from "@/hooks/use-mobile";
-import type { Transaction } from "@/types/transaction";
 
 /** Shape of a single aggregated day entry for the chart. */
 interface DayEntry {
@@ -75,7 +77,7 @@ export function ChartAreaInteractive({
     for (const tx of transactions) {
       const date = tx.createdAt.toISOString().slice(0, 10);
 
-      const existing = map.get(date) ?? { date, credits: 0, debits: 0 };
+      const existing = map.get(date) ?? { credits: 0, date, debits: 0 };
 
       if (tx.type === "credit") {
         existing.credits += Number(tx.amount);

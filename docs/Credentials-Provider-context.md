@@ -19,23 +19,14 @@ The Credentials provider is specified like other providers, except that you need
 ```js
 import CredentialsProvider from "next-auth/providers/credentials";
 
-providers: [
+[
   CredentialsProvider({
-    name: "Credentials",
-    credentials: {
-      username: {
-        label: "Username",
-        type: "text",
-        placeholder: "jsmith"
-      },
-      password: { label: "Password", type: "password" }
-    },
     async authorize(credentials, req) {
       // Add logic here to look up the user from the credentials supplied
       const user = {
+        email: "jsmith@example.com",
         id: "1",
-        name: "J Smith",
-        email: "jsmith@example.com"
+        name: "J Smith"
       };
       if (user) {
         // Any object returned will be saved in `user` property of the JWT
@@ -44,7 +35,16 @@ providers: [
         // If you return null then an error will be displayed advising the user to check their details.
         return null;
       }
-    }
+    },
+    credentials: {
+      password: { label: "Password", type: "password" },
+      username: {
+        label: "Username",
+        placeholder: "jsmith",
+        type: "text"
+      }
+    },
+    name: "Credentials"
   })
 ];
 ```

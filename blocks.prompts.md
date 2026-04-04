@@ -44,8 +44,6 @@ File path: components/shadcn-studio/blocks/onboarding-feed-01/onboarding-feed-01
 ```tsx
 "use client";
 
-import { useState } from "react";
-
 import {
   CircleDashedIcon,
   LogIn,
@@ -53,14 +51,8 @@ import {
   PlusIcon,
   CircleCheckIcon
 } from "lucide-react";
+import { useState } from "react";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle
-} from "@/components/ui/card";
 import {
   Accordion,
   AccordionContent,
@@ -68,27 +60,34 @@ import {
   AccordionTrigger
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle
+} from "@/components/ui/card";
 
 const items = [
   {
-    title: "Sign up and create an account",
     content: `To get started, log in with your organization account from your company.`,
     icon: LogIn,
-    label: "Sign up"
+    label: "Sign up",
+    title: "Sign up and create an account"
   },
   {
-    title: "Import your data",
     content:
       "Connect your database to the new workspace by using one of 20+ database connectors.",
     icon: ImportIcon,
-    label: "Import"
+    label: "Import",
+    title: "Import your data"
   },
   {
-    title: "Create your first report",
     content:
       "Use our drag-and-drop report builder to create your first report and share it with your team.",
     icon: PlusIcon,
-    label: "Create"
+    label: "Create",
+    title: "Create your first report"
   }
 ];
 
@@ -154,7 +153,7 @@ function OnboardingFeed() {
                     <span>{item.title}</span>
                   </span>
                 </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground flex flex-col items-start gap-2 px-5">
+                <AccordionContent className="flex flex-col items-start gap-2 px-5 text-muted-foreground">
                   {item.content}
                   <Button
                     size="sm"
@@ -216,26 +215,27 @@ If it doesn't, provide instructions on how to setup project via shadcn CLI, inst
 Here are the files for the block component: npx shadcn@latest add @ss-blocks/hero-section-41 File path: app/hero-section-41/page.tsx
 
 ```tsx
+import type { NavigationSection } from "@/components/shadcn-studio/blocks/menu-navigation";
+
 import Header from "@/components/shadcn-studio/blocks/hero-section-41/header";
 import HeroSection from "@/components/shadcn-studio/blocks/hero-section-41/hero-section-41";
-import type { NavigationSection } from "@/components/shadcn-studio/blocks/menu-navigation";
 
 const navigationData: NavigationSection[] = [
   {
-    title: "About Us",
-    href: "#"
+    href: "#",
+    title: "About Us"
   },
   {
-    title: "Testimonials",
-    href: "#"
+    href: "#",
+    title: "Testimonials"
   },
   {
-    title: "Contact us",
-    href: "#"
+    href: "#",
+    title: "Contact us"
   },
   {
-    title: "Offers",
-    href: "#"
+    href: "#",
+    title: "Offers"
   }
 ];
 
@@ -244,46 +244,46 @@ const menudata = [
     id: 1,
     img: "https://cdn.shadcnstudio.com/ss-assets/template/landing-page/bistro/image-18.png",
     imgAlt: "plate-1",
-    userComment:
-      "The ambiance is perfect and the food is absolutely delicious. Highly recommended!",
     userAvatar:
-      "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-56.png"
+      "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-56.png",
+    userComment:
+      "The ambiance is perfect and the food is absolutely delicious. Highly recommended!"
   },
   {
     id: 2,
     img: "https://cdn.shadcnstudio.com/ss-assets/template/landing-page/bistro/image-19.png",
     imgAlt: "plate-2",
-    userComment:
-      "Best dining experience in town. The staff is friendly and the menu is exceptional.",
     userAvatar:
-      "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-46.png"
+      "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-46.png",
+    userComment:
+      "Best dining experience in town. The staff is friendly and the menu is exceptional."
   },
   {
     id: 3,
     img: "https://cdn.shadcnstudio.com/ss-assets/template/landing-page/bistro/image-20.png",
     imgAlt: "plate-3",
-    userComment:
-      "Every dish is crafted with care. This place never disappoints!",
     userAvatar:
-      "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-57.png"
+      "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-57.png",
+    userComment:
+      "Every dish is crafted with care. This place never disappoints!"
   },
   {
     id: 4,
     img: "https://cdn.shadcnstudio.com/ss-assets/template/landing-page/bistro/image-05.png",
     imgAlt: "plate-4",
-    userComment:
-      "Great atmosphere and incredible flavors. A must-visit restaurant!",
     userAvatar:
-      "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-58.png"
+      "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-58.png",
+    userComment:
+      "Great atmosphere and incredible flavors. A must-visit restaurant!"
   },
   {
     id: 5,
     img: "https://cdn.shadcnstudio.com/ss-assets/template/landing-page/bistro/image-20.png",
     imgAlt: "plate-3",
-    userComment:
-      "Every dish is crafted with care. This place never disappoints!",
     userAvatar:
-      "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-57.png"
+      "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-57.png",
+    userComment:
+      "Every dish is crafted with care. This place never disappoints!"
   }
 ];
 
@@ -345,26 +345,23 @@ File path: components/shadcn-studio/blocks/hero-section-41/header.tsx
 ```tsx
 "use client";
 
+import { CalendarClockIcon, MenuIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
-import { CalendarClockIcon, MenuIcon } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
-
-import MenuDropdown from "@/components/shadcn-studio/blocks/menu-dropdown";
-import MenuNavigation from "@/components/shadcn-studio/blocks/menu-navigation";
 import type { NavigationSection } from "@/components/shadcn-studio/blocks/menu-navigation";
 
+import BistroLogo from "@/assets/svg/bistro-logo";
+import MenuDropdown from "@/components/shadcn-studio/blocks/menu-dropdown";
+import MenuNavigation from "@/components/shadcn-studio/blocks/menu-navigation";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-import BistroLogo from "@/assets/svg/bistro-logo";
-
-type HeaderProps = {
+interface HeaderProps {
   navigationData: NavigationSection[];
   className?: string;
-};
+}
 
-const Header = ({ navigationData, className }: HeaderProps) => {
+const Header = ({ className, navigationData }: HeaderProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -394,7 +391,7 @@ const Header = ({ navigationData, className }: HeaderProps) => {
         {/* Logo */}
         <a href="#" className="flex items-center gap-3">
           <BistroLogo />
-          <span className="text-primary text-[20px] font-semibold">
+          <span className="text-[20px] font-semibold text-primary">
             Bistro
           </span>
         </a>
@@ -453,13 +450,9 @@ File path: components/shadcn-studio/blocks/hero-section-41/hero-section-41.tsx
 ```tsx
 "use client";
 
-import { useEffect, useState, useRef, useCallback } from "react";
-
-import { ArrowRightIcon } from "lucide-react";
-
 import Autoplay from "embla-carousel-autoplay";
-
-import { Separator } from "@/components/ui/separator";
+import { ArrowRightIcon } from "lucide-react";
+import { useEffect, useState, useRef, useCallback } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -468,15 +461,16 @@ import {
   CarouselContent,
   CarouselItem
 } from "@/components/ui/carousel";
+import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 
-export type MenuData = {
+export interface MenuData {
   id: number;
   img: string;
   imgAlt: string;
   userAvatar: string;
   userComment: string;
-};
+}
 
 const HeroSection = ({ menudata }: { menudata: MenuData[] }) => {
   const [mainApi, setMainApi] = useState<CarouselApi>();
@@ -554,7 +548,7 @@ const HeroSection = ({ menudata }: { menudata: MenuData[] }) => {
               Savor the taste of perfection
             </h1>
 
-            <p className="text-muted-foreground max-w-xl text-xl max-lg:text-center">
+            <p className="max-w-xl text-xl text-muted-foreground max-lg:text-center">
               Welcome to Restaurant where passion meets the plate.From
               sizzling appetisers to signature desserts, every dish is
               crafted to delight your senses.
@@ -574,7 +568,7 @@ const HeroSection = ({ menudata }: { menudata: MenuData[] }) => {
               <Button
                 size="lg"
                 asChild
-                className="bg-primary/10 hover:bg-primary/20 text-primary rounded-full text-base"
+                className="rounded-full bg-primary/10 text-base text-primary hover:bg-primary/20"
               >
                 <a href="#">Book table</a>
               </Button>
@@ -614,8 +608,8 @@ const HeroSection = ({ menudata }: { menudata: MenuData[] }) => {
               loop: true
             }}
           >
-            <div className="from-background pointer-events-none absolute inset-y-0 left-0 z-1 w-25 bg-gradient-to-r via-85% to-transparent" />
-            <div className="from-background pointer-events-none absolute inset-y-0 right-0 z-1 w-25 bg-gradient-to-l via-85% to-transparent" />
+            <div className="pointer-events-none absolute inset-y-0 left-0 z-1 w-25 bg-gradient-to-r from-background via-85% to-transparent" />
+            <div className="pointer-events-none absolute inset-y-0 right-0 z-1 w-25 bg-gradient-to-l from-background via-85% to-transparent" />
             <CarouselContent className="my-1 flex">
               {menudata.map((item, index) => (
                 <CarouselItem
@@ -668,16 +662,16 @@ const HeroSection = ({ menudata }: { menudata: MenuData[] }) => {
               {menudata.map(item => (
                 <CarouselItem
                   key={item.id}
-                  className="flex h-full min-h-14 w-full justify-center gap-4 px-6 lg:items-center"
+                  className="flex size-full min-h-14  justify-center gap-4 px-6 lg:items-center"
                 >
                   <img
                     src={item.userAvatar}
                     alt={item.imgAlt}
-                    className="border-background size-10 rounded-full border-4 drop-shadow-lg"
+                    className="size-10 rounded-full border-4 border-background drop-shadow-lg"
                   />
                   <Separator
                     orientation="vertical"
-                    className="bg-primary hidden !h-6 !w-0.5 !rounded-full sm:block"
+                    className="hidden !h-6 !w-0.5 !rounded-full bg-primary sm:block"
                   />
                   <p className="text-card-foreground">
                     {item.userComment}
@@ -717,15 +711,12 @@ import {
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 
-export type NavigationItem = {
+export interface NavigationItem {
   title: string;
   href: string;
-};
+}
 
-export type NavigationSection = {
-  title: string;
-  icon?: ReactNode;
-} & (
+export type NavigationSection = (
   | {
       items: NavigationItem[];
       href?: never;
@@ -734,18 +725,21 @@ export type NavigationSection = {
       items?: never;
       href: string;
     }
-);
+) & {
+  title: string;
+  icon?: ReactNode;
+};
 
-type Props = {
+interface Props {
   trigger: ReactNode;
   navigationData: NavigationSection[];
   align?: "center" | "end" | "start";
-};
+}
 
 const MenuDropdown = ({
-  trigger,
+  align = "start",
   navigationData,
-  align = "start"
+  trigger
 }: Props) => {
   return (
     <DropdownMenu>
@@ -812,18 +806,14 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle
 } from "@/components/ui/navigation-menu";
-
 import { cn } from "@/lib/utils";
 
-export type NavigationItem = {
+export interface NavigationItem {
   title: string;
   href: string;
-};
+}
 
-export type NavigationSection = {
-  title: string;
-  icon?: ReactNode;
-} & (
+export type NavigationSection = (
   | {
       items: NavigationItem[];
       href?: never;
@@ -832,16 +822,19 @@ export type NavigationSection = {
       items?: never;
       href: string;
     }
-);
-
-type MenuNavigationProps = {
-  navigationData: NavigationSection[];
-  className?: string;
+) & {
+  title: string;
+  icon?: ReactNode;
 };
 
+interface MenuNavigationProps {
+  navigationData: NavigationSection[];
+  className?: string;
+}
+
 const MenuNavigation = ({
-  navigationData,
-  className
+  className,
+  navigationData
 }: MenuNavigationProps) => {
   return (
     <NavigationMenu viewport={false} className={className}>
@@ -855,7 +848,7 @@ const MenuNavigation = ({
                   href={navItem.href}
                   className={cn(
                     navigationMenuTriggerStyle(),
-                    "text-muted-foreground hover:text-primary dark:hover:bg-accent/50 bg-transparent px-3 py-1.5 text-base!"
+                    "bg-transparent px-3 py-1.5 text-base! text-muted-foreground hover:text-primary dark:hover:bg-accent/50"
                   )}
                 >
                   {navItem.title}
@@ -867,7 +860,7 @@ const MenuNavigation = ({
           // Section with dropdown
           return (
             <NavigationMenuItem key={navItem.title}>
-              <NavigationMenuTrigger className="dark:data-[state=open]:hover:bg-accent/50 text-muted-foreground hover:text-primary dark:hover:bg-accent/50 bg-transparent px-3 py-1.5 text-base [&>svg]:size-4">
+              <NavigationMenuTrigger className="bg-transparent px-3 py-1.5 text-base text-muted-foreground hover:text-primary dark:hover:bg-accent/50 dark:data-[state=open]:hover:bg-accent/50 [&>svg]:size-4">
                 {navItem.title}
               </NavigationMenuTrigger>
               <NavigationMenuContent className="data-[motion=from-start]:slide-in-from-left-30! data-[motion=to-start]:slide-out-to-left-30! data-[motion=from-end]:slide-in-from-right-30! data-[motion=to-end]:slide-out-to-right-30! absolute w-auto">
@@ -949,6 +942,15 @@ import {
   UsersIcon
 } from "lucide-react";
 
+import SalesMetricsCard from "@/components/shadcn-studio/blocks/chart-sales-metrics";
+import TransactionDatatable, {
+  type Item
+} from "@/components/shadcn-studio/blocks/datatable-transaction";
+import LanguageDropdown from "@/components/shadcn-studio/blocks/dropdown-language";
+import ProfileDropdown from "@/components/shadcn-studio/blocks/dropdown-profile";
+import StatisticsCard from "@/components/shadcn-studio/blocks/statistics-card-01";
+import ProductInsightsCard from "@/components/shadcn-studio/blocks/widget-product-insights";
+import TotalEarningCard from "@/components/shadcn-studio/blocks/widget-total-earning";
 import {
   Avatar,
   AvatarFallback,
@@ -979,332 +981,322 @@ import {
   SidebarTrigger
 } from "@/components/ui/sidebar";
 
-import LanguageDropdown from "@/components/shadcn-studio/blocks/dropdown-language";
-import ProductInsightsCard from "@/components/shadcn-studio/blocks/widget-product-insights";
-import ProfileDropdown from "@/components/shadcn-studio/blocks/dropdown-profile";
-import SalesMetricsCard from "@/components/shadcn-studio/blocks/chart-sales-metrics";
-import StatisticsCard from "@/components/shadcn-studio/blocks/statistics-card-01";
-import TotalEarningCard from "@/components/shadcn-studio/blocks/widget-total-earning";
-import TransactionDatatable, {
-  type Item
-} from "@/components/shadcn-studio/blocks/datatable-transaction";
-
 // Statistics card data
 const StatisticsCardData = [
   {
+    changePercentage: "+18.2%",
     icon: <TruckIcon className="size-4" />,
-    value: "42",
     title: "Shipped Orders",
-    changePercentage: "+18.2%"
+    value: "42"
   },
   {
+    changePercentage: "-8.7%",
     icon: <TriangleAlertIcon className="size-4" />,
-    value: "8",
     title: "Damaged Returns",
-    changePercentage: "-8.7%"
+    value: "8"
   },
   {
+    changePercentage: "+4.3%",
     icon: <CalendarX2Icon className="size-4" />,
-    value: "27",
     title: "Missed Delivery Slots",
-    changePercentage: "+4.3%"
+    value: "27"
   }
 ];
 
 // Earning data for Total Earning card
 const earningData = [
   {
+    earnings: "-$23,569.26",
     img: "https://cdn.shadcnstudio.com/ss-assets/blocks/dashboard-application/widgets/zipcar.png",
     platform: "Zipcar",
-    technologies: "Vuejs & HTML",
-    earnings: "-$23,569.26",
-    progressPercentage: 75
+    progressPercentage: 75,
+    technologies: "Vuejs & HTML"
   },
   {
+    earnings: "-$12,650.31",
     img: "https://cdn.shadcnstudio.com/ss-assets/blocks/dashboard-application/widgets/bitbank.png",
     platform: "Bitbank",
-    technologies: "Figma & React",
-    earnings: "-$12,650.31",
-    progressPercentage: 25
+    progressPercentage: 25,
+    technologies: "Figma & React"
   }
 ];
 
 // Transaction table data
 const transactionData: Item[] = [
   {
-    id: "1",
+    amount: 316.0,
     avatar:
       "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-1.png",
     avatarFallback: "JA",
-    name: "Jack Alfredo",
-    amount: 316.0,
-    status: "paid",
     email: "jack@shadcnstudio.com",
-    paidBy: "mastercard"
+    id: "1",
+    name: "Jack Alfredo",
+    paidBy: "mastercard",
+    status: "paid"
   },
   {
-    id: "2",
+    amount: 253.4,
     avatar:
       "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-2.png",
     avatarFallback: "MG",
-    name: "Maria Gonzalez",
-    amount: 253.4,
-    status: "pending",
     email: "maria.g@shadcnstudio.com",
-    paidBy: "visa"
+    id: "2",
+    name: "Maria Gonzalez",
+    paidBy: "visa",
+    status: "pending"
   },
   {
-    id: "3",
+    amount: 852.0,
     avatar:
       "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-3.png",
     avatarFallback: "JD",
-    name: "John Doe",
-    amount: 852.0,
-    status: "paid",
     email: "john.doe@shadcnstudio.com",
-    paidBy: "mastercard"
+    id: "3",
+    name: "John Doe",
+    paidBy: "mastercard",
+    status: "paid"
   },
   {
-    id: "4",
+    amount: 889.0,
     avatar:
       "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-4.png",
     avatarFallback: "EC",
-    name: "Emily Carter",
-    amount: 889.0,
-    status: "pending",
     email: "emily.carter@shadcnstudio.com",
-    paidBy: "visa"
+    id: "4",
+    name: "Emily Carter",
+    paidBy: "visa",
+    status: "pending"
   },
   {
-    id: "5",
+    amount: 723.16,
     avatar:
       "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-5.png",
     avatarFallback: "DL",
-    name: "David Lee",
-    amount: 723.16,
-    status: "paid",
     email: "david.lee@shadcnstudio.com",
-    paidBy: "mastercard"
+    id: "5",
+    name: "David Lee",
+    paidBy: "mastercard",
+    status: "paid"
   },
   {
-    id: "6",
+    amount: 612.0,
     avatar:
       "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-6.png",
     avatarFallback: "SP",
-    name: "Sophia Patel",
-    amount: 612.0,
-    status: "failed",
     email: "sophia.patel@shadcnstudio.com",
-    paidBy: "mastercard"
+    id: "6",
+    name: "Sophia Patel",
+    paidBy: "mastercard",
+    status: "failed"
   },
   {
-    id: "7",
+    amount: 445.25,
     avatar:
       "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-7.png",
     avatarFallback: "RW",
-    name: "Robert Wilson",
-    amount: 445.25,
-    status: "paid",
     email: "robert.wilson@shadcnstudio.com",
-    paidBy: "visa"
+    id: "7",
+    name: "Robert Wilson",
+    paidBy: "visa",
+    status: "paid"
   },
   {
-    id: "8",
+    amount: 297.8,
     avatar:
       "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-8.png",
     avatarFallback: "LM",
-    name: "Lisa Martinez",
-    amount: 297.8,
-    status: "processing",
     email: "lisa.martinez@shadcnstudio.com",
-    paidBy: "mastercard"
+    id: "8",
+    name: "Lisa Martinez",
+    paidBy: "mastercard",
+    status: "processing"
   },
   {
-    id: "9",
+    amount: 756.9,
     avatar:
       "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-9.png",
     avatarFallback: "MT",
-    name: "Michael Thompson",
-    amount: 756.9,
-    status: "paid",
     email: "michael.thompson@shadcnstudio.com",
-    paidBy: "visa"
+    id: "9",
+    name: "Michael Thompson",
+    paidBy: "visa",
+    status: "paid"
   },
   {
-    id: "10",
+    amount: 189.5,
     avatar:
       "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-10.png",
     avatarFallback: "AJ",
-    name: "Amanda Johnson",
-    amount: 189.5,
-    status: "pending",
     email: "amanda.johnson@shadcnstudio.com",
-    paidBy: "mastercard"
+    id: "10",
+    name: "Amanda Johnson",
+    paidBy: "mastercard",
+    status: "pending"
   },
   {
-    id: "11",
+    amount: 1024.75,
     avatar:
       "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-11.png",
     avatarFallback: "KB",
-    name: "Kevin Brown",
-    amount: 1024.75,
-    status: "paid",
     email: "kevin.brown@shadcnstudio.com",
-    paidBy: "visa"
+    id: "11",
+    name: "Kevin Brown",
+    paidBy: "visa",
+    status: "paid"
   },
   {
-    id: "12",
+    amount: 367.2,
     avatar:
       "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-12.png",
     avatarFallback: "SD",
-    name: "Sarah Davis",
-    amount: 367.2,
-    status: "failed",
     email: "sarah.davis@shadcnstudio.com",
-    paidBy: "mastercard"
+    id: "12",
+    name: "Sarah Davis",
+    paidBy: "mastercard",
+    status: "failed"
   },
   {
-    id: "13",
+    amount: 598.45,
     avatar:
       "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-13.png",
     avatarFallback: "CG",
-    name: "Christopher Garcia",
-    amount: 598.45,
-    status: "processing",
     email: "christopher.garcia@shadcnstudio.com",
-    paidBy: "visa"
+    id: "13",
+    name: "Christopher Garcia",
+    paidBy: "visa",
+    status: "processing"
   },
   {
-    id: "14",
+    amount: 821.3,
     avatar:
       "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-14.png",
     avatarFallback: "JR",
-    name: "Jennifer Rodriguez",
-    amount: 821.3,
-    status: "paid",
     email: "jennifer.rodriguez@shadcnstudio.com",
-    paidBy: "mastercard"
+    id: "14",
+    name: "Jennifer Rodriguez",
+    paidBy: "mastercard",
+    status: "paid"
   },
   {
-    id: "15",
+    amount: 156.75,
     avatar:
       "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-15.png",
     avatarFallback: "DM",
-    name: "Daniel Miller",
-    amount: 156.75,
-    status: "pending",
     email: "daniel.miller@shadcnstudio.com",
-    paidBy: "visa"
+    id: "15",
+    name: "Daniel Miller",
+    paidBy: "visa",
+    status: "pending"
   },
   {
-    id: "16",
+    amount: 934.1,
     avatar:
       "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-16.png",
     avatarFallback: "NW",
-    name: "Nicole White",
-    amount: 934.1,
-    status: "paid",
     email: "nicole.white@shadcnstudio.com",
-    paidBy: "mastercard"
+    id: "16",
+    name: "Nicole White",
+    paidBy: "mastercard",
+    status: "paid"
   },
   {
-    id: "17",
+    amount: 412.85,
     avatar:
       "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-17.png",
     avatarFallback: "AL",
-    name: "Anthony Lopez",
-    amount: 412.85,
-    status: "failed",
     email: "anthony.lopez@shadcnstudio.com",
-    paidBy: "visa"
+    id: "17",
+    name: "Anthony Lopez",
+    paidBy: "visa",
+    status: "failed"
   },
   {
-    id: "18",
+    amount: 675.5,
     avatar:
       "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-18.png",
     avatarFallback: "MH",
-    name: "Michelle Harris",
-    amount: 675.5,
-    status: "processing",
     email: "michelle.harris@shadcnstudio.com",
-    paidBy: "mastercard"
+    id: "18",
+    name: "Michelle Harris",
+    paidBy: "mastercard",
+    status: "processing"
   },
   {
-    id: "19",
+    amount: 289.95,
     avatar:
       "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-19.png",
     avatarFallback: "JC",
-    name: "James Clark",
-    amount: 289.95,
-    status: "paid",
     email: "james.clark@shadcnstudio.com",
-    paidBy: "visa"
+    id: "19",
+    name: "James Clark",
+    paidBy: "visa",
+    status: "paid"
   },
   {
-    id: "20",
+    amount: 1156.25,
     avatar:
       "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-20.png",
     avatarFallback: "RL",
-    name: "Rachel Lewis",
-    amount: 1156.25,
-    status: "pending",
     email: "rachel.lewis@shadcnstudio.com",
-    paidBy: "mastercard"
+    id: "20",
+    name: "Rachel Lewis",
+    paidBy: "mastercard",
+    status: "pending"
   },
   {
-    id: "21",
+    amount: 543.6,
     avatar:
       "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-21.png",
     avatarFallback: "TY",
-    name: "Thomas Young",
-    amount: 543.6,
-    status: "paid",
     email: "thomas.young@shadcnstudio.com",
-    paidBy: "visa"
+    id: "21",
+    name: "Thomas Young",
+    paidBy: "visa",
+    status: "paid"
   },
   {
-    id: "22",
+    amount: 789.3,
     avatar:
       "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-22.png",
     avatarFallback: "SB",
-    name: "Stephanie Brown",
-    amount: 789.3,
-    status: "processing",
     email: "stephanie.brown@shadcnstudio.com",
-    paidBy: "mastercard"
+    id: "22",
+    name: "Stephanie Brown",
+    paidBy: "mastercard",
+    status: "processing"
   },
   {
-    id: "23",
+    amount: 425.75,
     avatar:
       "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-23.png",
     avatarFallback: "BM",
-    name: "Brandon Moore",
-    amount: 425.75,
-    status: "failed",
     email: "brandon.moore@shadcnstudio.com",
-    paidBy: "visa"
+    id: "23",
+    name: "Brandon Moore",
+    paidBy: "visa",
+    status: "failed"
   },
   {
-    id: "24",
+    amount: 1203.5,
     avatar:
       "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-24.png",
     avatarFallback: "KT",
-    name: "Kelly Taylor",
-    amount: 1203.5,
-    status: "paid",
     email: "kelly.taylor@shadcnstudio.com",
-    paidBy: "mastercard"
+    id: "24",
+    name: "Kelly Taylor",
+    paidBy: "mastercard",
+    status: "paid"
   },
   {
-    id: "25",
+    amount: 356.2,
     avatar:
       "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-25.png",
     avatarFallback: "MA",
-    name: "Mark Anderson",
-    amount: 356.2,
-    status: "pending",
     email: "mark.anderson@shadcnstudio.com",
-    paidBy: "visa"
+    id: "25",
+    name: "Mark Anderson",
+    paidBy: "visa",
+    status: "pending"
   }
 ];
 
@@ -1324,7 +1316,7 @@ const DashboardShell = () => {
                         <span>Dashboard</span>
                       </a>
                     </SidebarMenuButton>
-                    <SidebarMenuBadge className="bg-primary/10 rounded-full">
+                    <SidebarMenuBadge className="rounded-full bg-primary/10">
                       5
                     </SidebarMenuBadge>
                   </SidebarMenuItem>
@@ -1366,7 +1358,7 @@ const DashboardShell = () => {
                         <span>Hashtag Performance</span>
                       </a>
                     </SidebarMenuButton>
-                    <SidebarMenuBadge className="bg-primary/10 rounded-full">
+                    <SidebarMenuBadge className="rounded-full bg-primary/10">
                       3
                     </SidebarMenuBadge>
                   </SidebarMenuItem>
@@ -1457,7 +1449,7 @@ const DashboardShell = () => {
           </SidebarContent>
         </Sidebar>
         <div className="flex flex-1 flex-col">
-          <header className="bg-card sticky top-0 z-50 border-b">
+          <header className="sticky top-0 z-50 border-b bg-card">
             <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-2 sm:px-6">
               <div className="flex items-center gap-4">
                 <SidebarTrigger className="[&_svg]:!size-5" />
@@ -1547,7 +1539,7 @@ const DashboardShell = () => {
             </div>
           </main>
           <footer>
-            <div className="text-muted-foreground mx-auto flex size-full max-w-7xl items-center justify-between gap-3 px-4 py-3 max-sm:flex-col sm:gap-6 sm:px-6">
+            <div className="mx-auto flex size-full max-w-7xl items-center justify-between gap-3 px-4 py-3 text-muted-foreground max-sm:flex-col sm:gap-6 sm:px-6">
               <p className="text-sm text-balance max-sm:text-center">
                 {`©${new Date().getFullYear()}`}{" "}
                 <a href="#" className="text-primary">
@@ -1593,7 +1585,6 @@ import {
   ShoppingBagIcon,
   TrendingUpIcon
 } from "lucide-react";
-
 import { Bar, BarChart, Label, Pie, PieChart } from "recharts";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -1666,26 +1657,26 @@ const MetricsData = [
 ];
 
 const revenueChartData = [
-  { month: "january", sales: 340, fill: "var(--color-january)" },
-  { month: "february", sales: 200, fill: "var(--color-february)" },
-  { month: "march", sales: 200, fill: "var(--color-march)" }
+  { fill: "var(--color-january)", month: "january", sales: 340 },
+  { fill: "var(--color-february)", month: "february", sales: 200 },
+  { fill: "var(--color-march)", month: "march", sales: 200 }
 ];
 
 const revenueChartConfig = {
-  sales: {
-    label: "Sales"
+  february: {
+    color: "color-mix(in oklab, var(--primary) 60%, transparent)",
+    label: "February"
   },
   january: {
-    label: "January",
-    color: "var(--primary)"
-  },
-  february: {
-    label: "February",
-    color: "color-mix(in oklab, var(--primary) 60%, transparent)"
+    color: "var(--primary)",
+    label: "January"
   },
   march: {
-    label: "March",
-    color: "color-mix(in oklab, var(--primary) 20%, transparent)"
+    color: "color-mix(in oklab, var(--primary) 20%, transparent)",
+    label: "March"
+  },
+  sales: {
+    label: "Sales"
   }
 } satisfies ChartConfig;
 
@@ -1708,7 +1699,7 @@ const SalesMetricsCard = ({ className }: { className?: string }) => {
                 <span className="text-xl font-medium">
                   Sandy&apos; Company
                 </span>
-                <span className="text-muted-foreground text-sm">
+                <span className="text-sm text-muted-foreground">
                   sandy@company.com
                 </span>
               </div>
@@ -1721,12 +1712,12 @@ const SalesMetricsCard = ({ className }: { className?: string }) => {
                   className="flex items-center gap-3 rounded-md border px-4 py-2"
                 >
                   <Avatar className="size-8.5 rounded-sm">
-                    <AvatarFallback className="bg-primary/10 text-primary shrink-0 rounded-sm">
+                    <AvatarFallback className="shrink-0 rounded-sm bg-primary/10 text-primary">
                       {metric.icons}
                     </AvatarFallback>
                   </Avatar>
                   <div className="flex flex-col gap-0.5">
-                    <span className="text-muted-foreground text-sm font-medium">
+                    <span className="text-sm font-medium text-muted-foreground">
                       {metric.title}
                     </span>
                     <span className="text-lg font-medium">
@@ -1750,7 +1741,7 @@ const SalesMetricsCard = ({ className }: { className?: string }) => {
                 className="h-38.5 w-full"
               >
                 <PieChart
-                  margin={{ top: 0, bottom: 0, left: 0, right: 0 }}
+                  margin={{ bottom: 0, left: 0, right: 0, top: 0 }}
                 >
                   <ChartTooltip
                     cursor={false}
@@ -1819,7 +1810,7 @@ const SalesMetricsCard = ({ className }: { className?: string }) => {
               <span className="max-lg:5xl text-6xl">
                 {salesPlanPercentage}%
               </span>
-              <span className="text-muted-foreground text-sm">
+              <span className="text-sm text-muted-foreground">
                 Percentage profit from total sales
               </span>
             </div>
@@ -1827,7 +1818,7 @@ const SalesMetricsCard = ({ className }: { className?: string }) => {
               <span className="font-medium">
                 Cohort analysis indicators
               </span>
-              <span className="text-muted-foreground text-wrap">
+              <span className="text-wrap text-muted-foreground">
                 Analyzes the behaviour of a group of users who joined
                 a product/service at the same time. over a certain
                 period.
@@ -1887,18 +1878,11 @@ File path: components/shadcn-studio/blocks/datatable-transaction.tsx
 ```tsx
 "use client";
 
-import { useState } from "react";
-
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  EllipsisVerticalIcon
-} from "lucide-react";
-
 import type {
   ColumnDef,
   PaginationState
 } from "@tanstack/react-table";
+
 import {
   flexRender,
   getCoreRowModel,
@@ -1907,6 +1891,12 @@ import {
   getSortedRowModel,
   useReactTable
 } from "@tanstack/react-table";
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  EllipsisVerticalIcon
+} from "lucide-react";
+import { useState } from "react";
 
 import {
   Avatar,
@@ -1936,24 +1926,22 @@ import {
   TableHeader,
   TableRow
 } from "@/components/ui/table";
-
 import { usePagination } from "@/hooks/use-pagination";
 
-export type Item = {
+export interface Item {
   id: string;
   avatar: string;
   avatarFallback: string;
   name: string;
   email: string;
   amount: number;
-  status: "pending" | "processing" | "paid" | "failed";
+  status: "failed" | "paid" | "pending" | "processing";
   paidBy: "mastercard" | "visa";
-};
+}
 
 export const columns: ColumnDef<Item>[] = [
   {
     accessorKey: "name",
-    header: "Customer",
     cell: ({ row }) => (
       <div className="flex items-center gap-2">
         <Avatar className="size-9">
@@ -1966,7 +1954,7 @@ export const columns: ColumnDef<Item>[] = [
           </AvatarFallback>
         </Avatar>
         <div className="flex flex-col text-sm">
-          <span className="text-card-foreground font-medium">
+          <span className="font-medium text-card-foreground">
             {row.getValue("name")}
           </span>
           <span className="text-muted-foreground">
@@ -1974,34 +1962,34 @@ export const columns: ColumnDef<Item>[] = [
           </span>
         </div>
       </div>
-    )
+    ),
+    header: "Customer"
   },
   {
     accessorKey: "amount",
-    header: "Amount",
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
+      const amount = Number.parseFloat(row.getValue("amount"));
 
       const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD"
+        currency: "USD",
+        style: "currency"
       }).format(amount);
 
       return <span>{formatted}</span>;
-    }
+    },
+    header: "Amount"
   },
   {
     accessorKey: "status",
-    header: "Status",
     cell: ({ row }) => (
-      <Badge className="bg-primary/10 text-primary rounded-sm px-1.5 capitalize">
+      <Badge className="rounded-sm bg-primary/10 px-1.5 text-primary capitalize">
         {row.getValue("status")}
       </Badge>
-    )
+    ),
+    header: "Status"
   },
   {
     accessorKey: "paidBy",
-    header: () => <span className="w-fit">Paid by</span>,
     cell: ({ row }) => (
       <img
         src={
@@ -2012,14 +2000,15 @@ export const columns: ColumnDef<Item>[] = [
         alt="Payment platform"
         className="w-10.5"
       />
-    )
+    ),
+    header: () => <span className="w-fit">Paid by</span>
   },
   {
-    id: "actions",
-    header: () => "Actions",
     cell: () => <RowActions />,
-    size: 60,
-    enableHiding: false
+    enableHiding: false,
+    header: () => "Actions",
+    id: "actions",
+    size: 60
   }
 ];
 
@@ -2032,12 +2021,12 @@ const TransactionDatatable = ({ data }: { data: Item[] }) => {
   });
 
   const table = useReactTable({
-    data,
     columns,
+    data,
     getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
     onPaginationChange: setPagination,
     state: {
       pagination
@@ -2047,8 +2036,8 @@ const TransactionDatatable = ({ data }: { data: Item[] }) => {
   const { pages, showLeftEllipsis, showRightEllipsis } =
     usePagination({
       currentPage: table.getState().pagination.pageIndex + 1,
-      totalPages: table.getPageCount(),
-      paginationItemsToDisplay: 2
+      paginationItemsToDisplay: 2,
+      totalPages: table.getPageCount()
     });
 
   return (
@@ -2062,7 +2051,7 @@ const TransactionDatatable = ({ data }: { data: Item[] }) => {
                   return (
                     <TableHead
                       key={header.id}
-                      className="text-muted-foreground h-14 first:pl-4"
+                      className="h-14 text-muted-foreground first:pl-4"
                     >
                       {header.isPlaceholder
                         ? null
@@ -2109,7 +2098,7 @@ const TransactionDatatable = ({ data }: { data: Item[] }) => {
 
       <div className="flex items-center justify-between gap-3 px-6 py-4 max-sm:flex-col md:max-lg:flex-col">
         <p
-          className="text-muted-foreground text-sm whitespace-nowrap"
+          className="text-sm whitespace-nowrap text-muted-foreground"
           aria-live="polite"
         >
           Showing{" "}
@@ -2240,8 +2229,9 @@ File path: components/shadcn-studio/blocks/dropdown-language.tsx
 ```tsx
 "use client";
 
-import { useState } from "react";
 import type { ReactNode } from "react";
+
+import { useState } from "react";
 
 import {
   DropdownMenu,
@@ -2251,13 +2241,13 @@ import {
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 
-type Props = {
+interface Props {
   trigger: ReactNode;
   defaultOpen?: boolean;
-  align?: "start" | "center" | "end";
-};
+  align?: "center" | "end" | "start";
+}
 
-const LanguageDropdown = ({ defaultOpen, align, trigger }: Props) => {
+const LanguageDropdown = ({ align, defaultOpen, trigger }: Props) => {
   const [language, setLanguage] = useState("english");
 
   return (
@@ -2270,31 +2260,31 @@ const LanguageDropdown = ({ defaultOpen, align, trigger }: Props) => {
         >
           <DropdownMenuRadioItem
             value="english"
-            className="data-[state=checked]:bg-accent data-[state=checked]:text-accent-foreground pl-2 text-base [&>span]:hidden"
+            className="pl-2 text-base data-[state=checked]:bg-accent data-[state=checked]:text-accent-foreground [&>span]:hidden"
           >
             English
           </DropdownMenuRadioItem>
           <DropdownMenuRadioItem
             value="german"
-            className="data-[state=checked]:bg-accent data-[state=checked]:text-accent-foreground pl-2 text-base [&>span]:hidden"
+            className="pl-2 text-base data-[state=checked]:bg-accent data-[state=checked]:text-accent-foreground [&>span]:hidden"
           >
             Deutsch
           </DropdownMenuRadioItem>
           <DropdownMenuRadioItem
             value="spanish"
-            className="data-[state=checked]:bg-accent data-[state=checked]:text-accent-foreground pl-2 text-base [&>span]:hidden"
+            className="pl-2 text-base data-[state=checked]:bg-accent data-[state=checked]:text-accent-foreground [&>span]:hidden"
           >
             Española
           </DropdownMenuRadioItem>
           <DropdownMenuRadioItem
             value="portuguese"
-            className="data-[state=checked]:bg-accent data-[state=checked]:text-accent-foreground pl-2 text-base [&>span]:hidden"
+            className="pl-2 text-base data-[state=checked]:bg-accent data-[state=checked]:text-accent-foreground [&>span]:hidden"
           >
             Português
           </DropdownMenuRadioItem>
           <DropdownMenuRadioItem
             value="korean"
-            className="data-[state=checked]:bg-accent data-[state=checked]:text-accent-foreground pl-2 text-base [&>span]:hidden"
+            className="pl-2 text-base data-[state=checked]:bg-accent data-[state=checked]:text-accent-foreground [&>span]:hidden"
           >
             한국인
           </DropdownMenuRadioItem>
@@ -2337,16 +2327,16 @@ import {
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 
-type Props = {
+interface Props {
   trigger: ReactNode;
   defaultOpen?: boolean;
-  align?: "start" | "center" | "end";
-};
+  align?: "center" | "end" | "start";
+}
 
 const ProfileDropdown = ({
-  trigger,
+  align = "end",
   defaultOpen,
-  align = "end"
+  trigger
 }: Props) => {
   return (
     <DropdownMenu defaultOpen={defaultOpen}>
@@ -2361,13 +2351,13 @@ const ProfileDropdown = ({
               />
               <AvatarFallback>JD</AvatarFallback>
             </Avatar>
-            <span className="ring-card absolute right-0 bottom-0 block size-2 rounded-full bg-green-600 ring-2" />
+            <span className="absolute right-0 bottom-0 block size-2 rounded-full bg-green-600 ring-2 ring-card" />
           </div>
           <div className="flex flex-1 flex-col items-start">
-            <span className="text-foreground text-lg font-semibold">
+            <span className="text-lg font-semibold text-foreground">
               John Doe
             </span>
-            <span className="text-muted-foreground text-base">
+            <span className="text-base text-muted-foreground">
               john.doe@example.com
             </span>
           </div>
@@ -2377,15 +2367,15 @@ const ProfileDropdown = ({
 
         <DropdownMenuGroup>
           <DropdownMenuItem className="px-4 py-2.5 text-base">
-            <UserIcon className="text-foreground size-5" />
+            <UserIcon className="size-5 text-foreground" />
             <span>My account</span>
           </DropdownMenuItem>
           <DropdownMenuItem className="px-4 py-2.5 text-base">
-            <SettingsIcon className="text-foreground size-5" />
+            <SettingsIcon className="size-5 text-foreground" />
             <span>Settings</span>
           </DropdownMenuItem>
           <DropdownMenuItem className="px-4 py-2.5 text-base">
-            <CreditCardIcon className="text-foreground size-5" />
+            <CreditCardIcon className="size-5 text-foreground" />
             <span>Billing</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
@@ -2394,15 +2384,15 @@ const ProfileDropdown = ({
 
         <DropdownMenuGroup>
           <DropdownMenuItem className="px-4 py-2.5 text-base">
-            <UsersIcon className="text-foreground size-5" />
+            <UsersIcon className="size-5 text-foreground" />
             <span>Manage team</span>
           </DropdownMenuItem>
           <DropdownMenuItem className="px-4 py-2.5 text-base">
-            <SquarePenIcon className="text-foreground size-5" />
+            <SquarePenIcon className="size-5 text-foreground" />
             <span>Customization</span>
           </DropdownMenuItem>
           <DropdownMenuItem className="px-4 py-2.5 text-base">
-            <CirclePlusIcon className="text-foreground size-5" />
+            <CirclePlusIcon className="size-5 text-foreground" />
             <span>Add team account</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
@@ -2430,29 +2420,28 @@ File path: components/shadcn-studio/blocks/statistics-card-01.tsx
 import type { ReactNode } from "react";
 
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-
 import { cn } from "@/lib/utils";
 
 // Statistics card data type
-type StatisticsCardProps = {
+interface StatisticsCardProps {
   icon: ReactNode;
   value: string;
   title: string;
   changePercentage: string;
   className?: string;
-};
+}
 
 const StatisticsCard = ({
-  icon,
-  value,
-  title,
   changePercentage,
-  className
+  className,
+  icon,
+  title,
+  value
 }: StatisticsCardProps) => {
   return (
     <Card className={cn("gap-4", className)}>
       <CardHeader className="flex items-center">
-        <div className="bg-primary/10 text-primary flex size-8 shrink-0 items-center justify-center rounded-md">
+        <div className="flex size-8 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary">
           {icon}
         </div>
         <span className="text-2xl">{value}</span>
@@ -2461,7 +2450,7 @@ const StatisticsCard = ({
         <span className="font-semibold">{title}</span>
         <p className="space-x-2">
           <span className="text-sm">{changePercentage}</span>
-          <span className="text-muted-foreground text-sm">
+          <span className="text-sm text-muted-foreground">
             than last week
           </span>
         </p>
@@ -2486,7 +2475,6 @@ import {
   ChartContainer
 } from "@/components/ui/chart";
 import { Separator } from "@/components/ui/separator";
-
 import { cn } from "@/lib/utils";
 
 // Product reached data
@@ -2500,8 +2488,8 @@ const productReachChartData = [
 
 const productReachChartConfig = {
   reached: {
-    label: "Reached",
-    color: "var(--primary)"
+    color: "var(--primary)",
+    label: "Reached"
   }
 } satisfies ChartConfig;
 
@@ -2516,8 +2504,8 @@ const orderPlacedChartData = [
 
 const orderPlacedChartConfig = {
   orders: {
-    label: "Orders",
-    color: "color-mix(in oklab, var(--primary) 10%, transparent)"
+    color: "color-mix(in oklab, var(--primary) 10%, transparent)",
+    label: "Orders"
   }
 } satisfies ChartConfig;
 
@@ -2533,7 +2521,7 @@ const ProductInsightsCard = ({
           <span className="text-lg font-semibold">
             Product insight
           </span>
-          <span className="text-muted-foreground text-sm">
+          <span className="text-sm text-muted-foreground">
             Published on 12 MAY 2025 - 6:10 PM
           </span>
         </div>
@@ -2621,10 +2609,10 @@ import { Progress } from "@/components/ui/progress";
 
 const listItems = ["Share", "Update", "Refresh"];
 
-type Props = {
+interface Props {
   title: string;
   earning: number;
-  trend: "up" | "down";
+  trend: "down" | "up";
   percentage: number;
   comparisonText: string;
   earningData: {
@@ -2635,16 +2623,16 @@ type Props = {
     progressPercentage: number;
   }[];
   className?: string;
-};
+}
 
 const TotalEarningCard = ({
-  earningData,
-  title,
-  earning,
-  trend,
-  percentage,
+  className,
   comparisonText,
-  className
+  earning,
+  earningData,
+  percentage,
+  title,
+  trend
 }: Props) => {
   return (
     <Card className={className}>
@@ -2655,7 +2643,7 @@ const TotalEarningCard = ({
             <Button
               variant="ghost"
               size="icon"
-              className="text-muted-foreground size-6 rounded-full"
+              className="size-6 rounded-full text-muted-foreground"
             >
               <EllipsisVerticalIcon />
               <span className="sr-only">Menu</span>
@@ -2685,7 +2673,7 @@ const TotalEarningCard = ({
               <span className="text-sm">{percentage}%</span>
             </span>
           </div>
-          <span className="text-muted-foreground text-sm">
+          <span className="text-sm text-muted-foreground">
             {comparisonText}
           </span>
         </div>
@@ -2697,7 +2685,7 @@ const TotalEarningCard = ({
             >
               <div className="flex items-center justify-between gap-2.5">
                 <Avatar className="size-11 rounded-sm">
-                  <AvatarFallback className="bg-primary/10 shrink-0 rounded-sm">
+                  <AvatarFallback className="shrink-0 rounded-sm bg-primary/10">
                     <img
                       src={earning.img}
                       alt={earning.platform}
@@ -2709,7 +2697,7 @@ const TotalEarningCard = ({
                   <span className="font-medium">
                     {earning.platform}
                   </span>
-                  <span className="text-muted-foreground text-sm">
+                  <span className="text-sm text-muted-foreground">
                     {earning.technologies}
                   </span>
                 </div>
@@ -2735,22 +2723,22 @@ export default TotalEarningCard;
 File path: hooks/use-pagination.ts
 
 ```ts
-type UsePaginationProps = {
+interface UsePaginationProps {
   currentPage: number;
   totalPages: number;
   paginationItemsToDisplay: number;
-};
+}
 
-type UsePaginationReturn = {
+interface UsePaginationReturn {
   pages: number[];
   showLeftEllipsis: boolean;
   showRightEllipsis: boolean;
-};
+}
 
 export function usePagination({
   currentPage,
-  totalPages,
-  paginationItemsToDisplay
+  paginationItemsToDisplay,
+  totalPages
 }: UsePaginationProps): UsePaginationReturn {
   function calculatePaginationRange(): number[] {
     if (totalPages <= paginationItemsToDisplay) {
@@ -2760,13 +2748,13 @@ export function usePagination({
     const halfDisplay = Math.floor(paginationItemsToDisplay / 2);
 
     const initialRange = {
-      start: currentPage - halfDisplay,
-      end: currentPage + halfDisplay
+      end: currentPage + halfDisplay,
+      start: currentPage - halfDisplay
     };
 
     const adjustedRange = {
-      start: Math.max(1, initialRange.start),
-      end: Math.min(totalPages, initialRange.end)
+      end: Math.min(totalPages, initialRange.end),
+      start: Math.max(1, initialRange.start)
     };
 
     if (adjustedRange.start === 1) {
@@ -2797,8 +2785,8 @@ export function usePagination({
 
   const showRightEllipsis =
     pages.length > 0 &&
-    pages[pages.length - 1] < totalPages &&
-    pages[pages.length - 1] < totalPages - 1;
+    pages.at(-1) < totalPages &&
+    pages.at(-1) < totalPages - 1;
 
   return {
     pages,
@@ -2859,9 +2847,8 @@ import {
   UsersIcon
 } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { Card, CardContent } from "@/components/ui/card";
+import LanguageDropdown from "@/components/shadcn-studio/blocks/dropdown-language";
+import ProfileDropdown from "@/components/shadcn-studio/blocks/dropdown-profile";
 import {
   Avatar,
   AvatarFallback,
@@ -2875,6 +2862,9 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import {
   Sidebar,
   SidebarContent,
@@ -2888,9 +2878,6 @@ import {
   SidebarProvider,
   SidebarTrigger
 } from "@/components/ui/sidebar";
-
-import LanguageDropdown from "@/components/shadcn-studio/blocks/dropdown-language";
-import ProfileDropdown from "@/components/shadcn-studio/blocks/dropdown-profile";
 
 const ApplicationShell = () => {
   return (
@@ -2908,7 +2895,7 @@ const ApplicationShell = () => {
                         <span>Dashboard</span>
                       </a>
                     </SidebarMenuButton>
-                    <SidebarMenuBadge className="bg-primary/10 rounded-full">
+                    <SidebarMenuBadge className="rounded-full bg-primary/10">
                       5
                     </SidebarMenuBadge>
                   </SidebarMenuItem>
@@ -2950,7 +2937,7 @@ const ApplicationShell = () => {
                         <span>Hashtag Performance</span>
                       </a>
                     </SidebarMenuButton>
-                    <SidebarMenuBadge className="bg-primary/10 rounded-full">
+                    <SidebarMenuBadge className="rounded-full bg-primary/10">
                       3
                     </SidebarMenuBadge>
                   </SidebarMenuItem>
@@ -3041,7 +3028,7 @@ const ApplicationShell = () => {
           </SidebarContent>
         </Sidebar>
         <div className="flex flex-1 flex-col">
-          <header className="bg-card sticky top-0 z-50 border-b">
+          <header className="sticky top-0 z-50 border-b bg-card">
             <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-2 sm:px-6">
               <div className="flex items-center gap-4">
                 <SidebarTrigger className="[&_svg]:!size-5" />
@@ -3100,7 +3087,7 @@ const ApplicationShell = () => {
             </Card>
           </main>
           <footer>
-            <div className="text-muted-foreground mx-auto flex size-full max-w-7xl items-center justify-between gap-3 px-4 py-3 max-sm:flex-col sm:gap-6 sm:px-6">
+            <div className="mx-auto flex size-full max-w-7xl items-center justify-between gap-3 px-4 py-3 text-muted-foreground max-sm:flex-col sm:gap-6 sm:px-6">
               <p className="text-sm text-balance max-sm:text-center">
                 {`©${new Date().getFullYear()}`}{" "}
                 <a href="#" className="text-primary">
@@ -3138,8 +3125,9 @@ File path: components/shadcn-studio/blocks/dropdown-language.tsx
 ```tsx
 "use client";
 
-import { useState } from "react";
 import type { ReactNode } from "react";
+
+import { useState } from "react";
 
 import {
   DropdownMenu,
@@ -3149,13 +3137,13 @@ import {
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 
-type Props = {
+interface Props {
   trigger: ReactNode;
   defaultOpen?: boolean;
-  align?: "start" | "center" | "end";
-};
+  align?: "center" | "end" | "start";
+}
 
-const LanguageDropdown = ({ defaultOpen, align, trigger }: Props) => {
+const LanguageDropdown = ({ align, defaultOpen, trigger }: Props) => {
   const [language, setLanguage] = useState("english");
 
   return (
@@ -3168,31 +3156,31 @@ const LanguageDropdown = ({ defaultOpen, align, trigger }: Props) => {
         >
           <DropdownMenuRadioItem
             value="english"
-            className="data-[state=checked]:bg-accent data-[state=checked]:text-accent-foreground pl-2 text-base [&>span]:hidden"
+            className="pl-2 text-base data-[state=checked]:bg-accent data-[state=checked]:text-accent-foreground [&>span]:hidden"
           >
             English
           </DropdownMenuRadioItem>
           <DropdownMenuRadioItem
             value="german"
-            className="data-[state=checked]:bg-accent data-[state=checked]:text-accent-foreground pl-2 text-base [&>span]:hidden"
+            className="pl-2 text-base data-[state=checked]:bg-accent data-[state=checked]:text-accent-foreground [&>span]:hidden"
           >
             Deutsch
           </DropdownMenuRadioItem>
           <DropdownMenuRadioItem
             value="spanish"
-            className="data-[state=checked]:bg-accent data-[state=checked]:text-accent-foreground pl-2 text-base [&>span]:hidden"
+            className="pl-2 text-base data-[state=checked]:bg-accent data-[state=checked]:text-accent-foreground [&>span]:hidden"
           >
             Española
           </DropdownMenuRadioItem>
           <DropdownMenuRadioItem
             value="portuguese"
-            className="data-[state=checked]:bg-accent data-[state=checked]:text-accent-foreground pl-2 text-base [&>span]:hidden"
+            className="pl-2 text-base data-[state=checked]:bg-accent data-[state=checked]:text-accent-foreground [&>span]:hidden"
           >
             Português
           </DropdownMenuRadioItem>
           <DropdownMenuRadioItem
             value="korean"
-            className="data-[state=checked]:bg-accent data-[state=checked]:text-accent-foreground pl-2 text-base [&>span]:hidden"
+            className="pl-2 text-base data-[state=checked]:bg-accent data-[state=checked]:text-accent-foreground [&>span]:hidden"
           >
             한국인
           </DropdownMenuRadioItem>
@@ -3235,16 +3223,16 @@ import {
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 
-type Props = {
+interface Props {
   trigger: ReactNode;
   defaultOpen?: boolean;
-  align?: "start" | "center" | "end";
-};
+  align?: "center" | "end" | "start";
+}
 
 const ProfileDropdown = ({
-  trigger,
+  align = "end",
   defaultOpen,
-  align = "end"
+  trigger
 }: Props) => {
   return (
     <DropdownMenu defaultOpen={defaultOpen}>
@@ -3259,13 +3247,13 @@ const ProfileDropdown = ({
               />
               <AvatarFallback>JD</AvatarFallback>
             </Avatar>
-            <span className="ring-card absolute right-0 bottom-0 block size-2 rounded-full bg-green-600 ring-2" />
+            <span className="absolute right-0 bottom-0 block size-2 rounded-full bg-green-600 ring-2 ring-card" />
           </div>
           <div className="flex flex-1 flex-col items-start">
-            <span className="text-foreground text-lg font-semibold">
+            <span className="text-lg font-semibold text-foreground">
               John Doe
             </span>
-            <span className="text-muted-foreground text-base">
+            <span className="text-base text-muted-foreground">
               john.doe@example.com
             </span>
           </div>
@@ -3275,15 +3263,15 @@ const ProfileDropdown = ({
 
         <DropdownMenuGroup>
           <DropdownMenuItem className="px-4 py-2.5 text-base">
-            <UserIcon className="text-foreground size-5" />
+            <UserIcon className="size-5 text-foreground" />
             <span>My account</span>
           </DropdownMenuItem>
           <DropdownMenuItem className="px-4 py-2.5 text-base">
-            <SettingsIcon className="text-foreground size-5" />
+            <SettingsIcon className="size-5 text-foreground" />
             <span>Settings</span>
           </DropdownMenuItem>
           <DropdownMenuItem className="px-4 py-2.5 text-base">
-            <CreditCardIcon className="text-foreground size-5" />
+            <CreditCardIcon className="size-5 text-foreground" />
             <span>Billing</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
@@ -3292,15 +3280,15 @@ const ProfileDropdown = ({
 
         <DropdownMenuGroup>
           <DropdownMenuItem className="px-4 py-2.5 text-base">
-            <UsersIcon className="text-foreground size-5" />
+            <UsersIcon className="size-5 text-foreground" />
             <span>Manage team</span>
           </DropdownMenuItem>
           <DropdownMenuItem className="px-4 py-2.5 text-base">
-            <SquarePenIcon className="text-foreground size-5" />
+            <SquarePenIcon className="size-5 text-foreground" />
             <span>Customization</span>
           </DropdownMenuItem>
           <DropdownMenuItem className="px-4 py-2.5 text-base">
-            <CirclePlusIcon className="text-foreground size-5" />
+            <CirclePlusIcon className="size-5 text-foreground" />
             <span>Add team account</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
@@ -3352,8 +3340,8 @@ Here are the files for the block component:
 File path: app/account-settings-01/page.tsx npx shadcn@latest add @ss-blocks/account-settings-01
 
 ```tsx
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import UserGeneral from "@/components/shadcn-studio/blocks/account-settings-01/account-settings-01";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const tabs = [
   { name: "General", value: "general" },
@@ -3371,7 +3359,7 @@ const TabsUnderlineDemo = () => {
               <TabsTrigger
                 key={tab.value}
                 value={tab.value}
-                className="data-[state=active]:border-primary dark:data-[state=active]:border-primary rounded-none border-0 border-b-2 border-transparent data-[state=active]:shadow-none! sm:flex-0 dark:data-[state=active]:bg-transparent"
+                className="rounded-none border-0 border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:shadow-none! sm:flex-0 dark:data-[state=active]:border-primary dark:data-[state=active]:bg-transparent"
               >
                 {tab.name}
               </TabsTrigger>
@@ -3392,13 +3380,12 @@ export default TabsUnderlineDemo;
 File path: components/shadcn-studio/blocks/account-settings-01/account-settings-01.tsx
 
 ```tsx
-import { Separator } from "@/components/ui/separator";
-
-import PersonalInfo from "@/components/shadcn-studio/blocks/account-settings-01/content/personal-info";
-import EmailPass from "@/components/shadcn-studio/blocks/account-settings-01/content/email-password";
 import ConnectAccount from "@/components/shadcn-studio/blocks/account-settings-01/content/connect-account";
-import SocialUrl from "@/components/shadcn-studio/blocks/account-settings-01/content/social-url";
 import DangerZone from "@/components/shadcn-studio/blocks/account-settings-01/content/danger-zone";
+import EmailPass from "@/components/shadcn-studio/blocks/account-settings-01/content/email-password";
+import PersonalInfo from "@/components/shadcn-studio/blocks/account-settings-01/content/personal-info";
+import SocialUrl from "@/components/shadcn-studio/blocks/account-settings-01/content/social-url";
+import { Separator } from "@/components/ui/separator";
 
 const UserGeneral = () => {
   return (
@@ -3426,10 +3413,10 @@ File path: components/shadcn-studio/blocks/account-settings-01/content/connect-a
 ```tsx
 "use client";
 
+import { XIcon, PlusIcon } from "lucide-react";
 import { useState } from "react";
 
-import { XIcon, PlusIcon } from "lucide-react";
-
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -3439,7 +3426,6 @@ import {
   DialogFooter,
   DialogTrigger
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
@@ -3451,16 +3437,16 @@ interface ConnectedAccount {
 
 const initialAccounts: ConnectedAccount[] = [
   {
-    id: "google",
-    name: "Google",
     iconUrl:
-      "https://cdn.shadcnstudio.com/ss-assets/brand-logo/google-icon.png"
+      "https://cdn.shadcnstudio.com/ss-assets/brand-logo/google-icon.png",
+    id: "google",
+    name: "Google"
   },
   {
-    id: "slack",
-    name: "Slack",
     iconUrl:
-      "https://cdn.shadcnstudio.com/ss-assets/brand-logo/slack-icon.png"
+      "https://cdn.shadcnstudio.com/ss-assets/brand-logo/slack-icon.png",
+    id: "slack",
+    name: "Slack"
   }
 ];
 
@@ -3490,14 +3476,14 @@ const ConnectedAccount = () => {
   const handleConnect = () => {
     if (!appName.trim() || !appUrl.trim()) return;
 
-    const id = appName.toLowerCase().replace(/\s+/g, "-");
+    const id = appName.toLowerCase().replaceAll(/\s+/g, "-");
 
     setConnectedAccounts(prev => [
       ...prev,
       {
+        iconUrl: appIconUrl.trim() || "",
         id,
-        name: appName,
-        iconUrl: appIconUrl.trim() || ""
+        name: appName
       }
     ]);
 
@@ -3509,10 +3495,10 @@ const ConnectedAccount = () => {
     <div className="grid grid-cols-1 gap-10 lg:grid-cols-3">
       {/* Vertical Tabs List */}
       <div className="flex flex-col">
-        <h3 className="text-foreground font-semibold">
+        <h3 className="font-semibold text-foreground">
           Connect Accounts
         </h3>
-        <p className="text-muted-foreground text-sm">
+        <p className="text-sm text-muted-foreground">
           Manage your connected accounts.
         </p>
       </div>
@@ -3529,10 +3515,10 @@ const ConnectedAccount = () => {
                 <img
                   src={account.iconUrl}
                   alt={account.name}
-                  className="size-4 rounded"
+                  className="size-4 rounded-sm"
                 />
               ) : (
-                <div className="bg-muted-foreground/10 text-muted-foreground flex size-4 items-center justify-center rounded text-sm font-medium">
+                <div className="flex size-4 items-center justify-center rounded-sm bg-muted-foreground/10 text-sm font-medium text-muted-foreground">
                   {account.name.charAt(0)}
                 </div>
               )}
@@ -3541,7 +3527,7 @@ const ConnectedAccount = () => {
               <Button
                 size="xs"
                 variant="ghost"
-                className="text-primary bg-primary/10 rounded-md transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none"
+                className="rounded-md bg-primary/10 text-primary transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none"
                 aria-label={`Remove ${account.name}`}
                 onClick={() => handleRemoveAccount(account.id)}
               >
@@ -3621,7 +3607,7 @@ const ConnectedAccount = () => {
             </DialogContent>
           </Dialog>
         </div>
-        <p className="text-muted-foreground text-sm">
+        <p className="text-sm text-muted-foreground">
           Connected accounts allow you to integrate with third-party
           services for enhanced functionality.
         </p>
@@ -3638,8 +3624,8 @@ File path: components/shadcn-studio/blocks/account-settings-01/content/danger-zo
 ```tsx
 import { Trash2Icon } from "lucide-react";
 
-import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Dialog,
   DialogTrigger,
@@ -3656,12 +3642,12 @@ const DangerZone = () => {
       {/* Vertical Tabs List */}
       <div className="flex flex-col space-y-1">
         <h3 className="font-semibold">Danger Zone</h3>
-        <p className="text-muted-foreground text-sm">
+        <p className="text-sm text-muted-foreground">
           Delete your account permanently. This action will remove all
           your data and cannot be undone{" "}
           <a
             href="#"
-            className="text-card-foreground font-medium hover:underline"
+            className="font-medium text-card-foreground hover:underline"
           >
             Learn more
           </a>
@@ -3677,7 +3663,7 @@ const DangerZone = () => {
                 <h3 className="text-sm font-medium">
                   Delete account
                 </h3>
-                <p className="text-muted-foreground text-sm">
+                <p className="text-sm text-muted-foreground">
                   Delete your account permanently. This action will
                   remove all your data and cannot be undone.
                 </p>
@@ -3686,7 +3672,7 @@ const DangerZone = () => {
                 <DialogTrigger asChild>
                   <Button
                     variant="outline"
-                    className="hover:bg-destructive/10! text-destructive! border-destructive! focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 max-lg:w-full"
+                    className="border-destructive! text-destructive! hover:bg-destructive/10! focus-visible:ring-destructive/20 max-lg:w-full dark:focus-visible:ring-destructive/40"
                   >
                     <Trash2Icon />
                     Delete
@@ -3695,7 +3681,7 @@ const DangerZone = () => {
                 <DialogContent className="sm:max-w-md">
                   <DialogHeader className="space-y-2">
                     <DialogTitle>Delete account</DialogTitle>
-                    <div className="text-muted-foreground text-sm">
+                    <div className="text-sm text-muted-foreground">
                       Delete your account permanently. This action
                       will remove all your data and cannot be undone.
                     </div>
@@ -3726,8 +3712,6 @@ File path: components/shadcn-studio/blocks/account-settings-01/content/email-pas
 ```tsx
 "use client";
 
-import { useMemo, useState } from "react";
-
 import {
   CheckIcon,
   MailIcon,
@@ -3735,11 +3719,11 @@ import {
   EyeIcon,
   EyeOffIcon
 } from "lucide-react";
+import { useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-
 import { cn } from "@/lib/utils";
 
 const requirements = [
@@ -3748,7 +3732,7 @@ const requirements = [
   { regex: /[A-Z]/, text: "At least 1 uppercase letter" },
   { regex: /[0-9]/, text: "At least 1 number" },
   {
-    regex: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>/?]/,
+    regex: /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/,
     text: "At least 1 special character"
   }
 ];
@@ -3794,7 +3778,7 @@ const EmailPass = () => {
       {/* Vertical Tabs List */}
       <div className="flex flex-col space-y-1">
         <h3 className="font-semibold">Email & Password</h3>
-        <p className="text-muted-foreground text-sm">
+        <p className="text-sm text-muted-foreground">
           Manage your email and password settings.
         </p>
       </div>
@@ -3814,7 +3798,7 @@ const EmailPass = () => {
                 className="peer pr-9"
                 required
               />
-              <div className="text-muted-foreground pointer-events-none absolute inset-y-0 right-0 flex items-center justify-center pr-3 peer-disabled:opacity-50">
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center justify-center pr-3 text-muted-foreground peer-disabled:opacity-50">
                 <MailIcon className="size-4" />
                 <span className="sr-only">Email</span>
               </div>
@@ -3837,7 +3821,7 @@ const EmailPass = () => {
                 variant="ghost"
                 size="icon"
                 onClick={() => setIsVisible(prevState => !prevState)}
-                className="text-muted-foreground focus-visible:ring-ring/50 absolute inset-y-0 right-0 rounded-l-none hover:bg-transparent"
+                className="absolute inset-y-0 right-0 rounded-l-none text-muted-foreground hover:bg-transparent focus-visible:ring-ring/50"
               >
                 {isVisible ? <EyeOffIcon /> : <EyeIcon />}
                 <span className="sr-only">
@@ -3865,7 +3849,7 @@ const EmailPass = () => {
                 variant="ghost"
                 size="icon"
                 onClick={toggleVisibility}
-                className="text-muted-foreground focus-visible:ring-ring/50 absolute inset-y-0 right-0 rounded-l-none hover:bg-transparent"
+                className="absolute inset-y-0 right-0 rounded-l-none text-muted-foreground hover:bg-transparent focus-visible:ring-ring/50"
               >
                 {isVisible ? <EyeOffIcon /> : <EyeIcon />}
                 <span className="sr-only">
@@ -3888,7 +3872,7 @@ const EmailPass = () => {
               ))}
             </div>
 
-            <p className="text-foreground text-sm font-medium">
+            <p className="text-sm font-medium text-foreground">
               {getText(strengthScore)}. Must contain :
             </p>
 
@@ -3898,7 +3882,7 @@ const EmailPass = () => {
                   {req.met ? (
                     <CheckIcon className="size-4 text-green-600 dark:text-green-400" />
                   ) : (
-                    <XIcon className="text-muted-foreground size-4" />
+                    <XIcon className="size-4 text-muted-foreground" />
                   )}
                   <span
                     className={cn(
@@ -3939,9 +3923,8 @@ File path: components/shadcn-studio/blocks/account-settings-01/content/personal-
 ```tsx
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-
 import { UploadCloudIcon, TrashIcon, ImageIcon } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -3957,61 +3940,61 @@ import {
 
 const countries = [
   {
-    value: "india",
+    flag: "https://cdn.shadcnstudio.com/ss-assets/flags/india.png",
     label: "India",
-    flag: "https://cdn.shadcnstudio.com/ss-assets/flags/india.png"
+    value: "india"
   },
   {
-    value: "china",
+    flag: "https://cdn.shadcnstudio.com/ss-assets/flags/china.png",
     label: "China",
-    flag: "https://cdn.shadcnstudio.com/ss-assets/flags/china.png"
+    value: "china"
   },
   {
-    value: "monaco",
+    flag: "https://cdn.shadcnstudio.com/ss-assets/flags/monaco.png",
     label: "Monaco",
-    flag: "https://cdn.shadcnstudio.com/ss-assets/flags/monaco.png"
+    value: "monaco"
   },
   {
-    value: "serbia",
+    flag: "https://cdn.shadcnstudio.com/ss-assets/flags/serbia.png",
     label: "Serbia",
-    flag: "https://cdn.shadcnstudio.com/ss-assets/flags/serbia.png"
+    value: "serbia"
   },
   {
-    value: "romania",
+    flag: "https://cdn.shadcnstudio.com/ss-assets/flags/romania.png",
     label: "Romania",
-    flag: "https://cdn.shadcnstudio.com/ss-assets/flags/romania.png"
+    value: "romania"
   },
   {
-    value: "mayotte",
+    flag: "https://cdn.shadcnstudio.com/ss-assets/flags/mayotte.png",
     label: "Mayotte",
-    flag: "https://cdn.shadcnstudio.com/ss-assets/flags/mayotte.png"
+    value: "mayotte"
   },
   {
-    value: "iraq",
+    flag: "https://cdn.shadcnstudio.com/ss-assets/flags/iraq.png",
     label: "Iraq",
-    flag: "https://cdn.shadcnstudio.com/ss-assets/flags/iraq.png"
+    value: "iraq"
   },
   {
-    value: "syria",
+    flag: "https://cdn.shadcnstudio.com/ss-assets/flags/syria.png",
     label: "Syria",
-    flag: "https://cdn.shadcnstudio.com/ss-assets/flags/syria.png"
+    value: "syria"
   },
   {
-    value: "korea",
+    flag: "https://cdn.shadcnstudio.com/ss-assets/flags/korea.png",
     label: "Korea",
-    flag: "https://cdn.shadcnstudio.com/ss-assets/flags/korea.png"
+    value: "korea"
   },
   {
-    value: "zimbabwe",
+    flag: "https://cdn.shadcnstudio.com/ss-assets/flags/zimbabwe.png",
     label: "Zimbabwe",
-    flag: "https://cdn.shadcnstudio.com/ss-assets/flags/zimbabwe.png"
+    value: "zimbabwe"
   }
 ];
 
 const PersonalInfo = () => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [file, setFile] = useState<File | null>(null);
-  const [preview, setPreview] = useState<string | null>(null);
+  const [preview, setPreview] = useState<null | string>(null);
 
   useEffect(() => {
     if (!file) {
@@ -4064,7 +4047,7 @@ const PersonalInfo = () => {
       {/* Vertical Tabs List */}
       <div className="flex flex-col space-y-1">
         <h3 className="font-semibold">Personal Information</h3>
-        <p className="text-muted-foreground text-sm">
+        <p className="text-sm text-muted-foreground">
           Manage your personal information and role.
         </p>
       </div>
@@ -4086,13 +4069,13 @@ const PersonalInfo = () => {
                     openPicker();
                   }
                 }}
-                className="flex h-20 w-20 cursor-pointer items-center justify-center overflow-hidden rounded-full border border-dashed hover:opacity-95"
+                className="flex size-20  cursor-pointer items-center justify-center overflow-hidden rounded-full border border-dashed hover:opacity-95"
               >
                 {preview ? (
                   <img
                     src={preview}
                     alt="avatar preview"
-                    className="h-full w-full object-cover"
+                    className="size-full  object-cover"
                   />
                 ) : (
                   <ImageIcon />
@@ -4127,7 +4110,7 @@ const PersonalInfo = () => {
                 </Button>
               </div>
             </div>
-            <p className="text-muted-foreground text-sm">
+            <p className="text-sm text-muted-foreground">
               Pick a photo up to 1MB.
             </p>
           </div>
@@ -4165,11 +4148,11 @@ const PersonalInfo = () => {
               <Select>
                 <SelectTrigger
                   id="country"
-                  className="[&>span_svg]:text-muted-foreground/80 w-full [&>span]:flex [&>span]:items-center [&>span]:gap-2 [&>span_svg]:shrink-0"
+                  className="w-full [&>span]:flex [&>span]:items-center [&>span]:gap-2 [&>span_svg]:shrink-0 [&>span_svg]:text-muted-foreground/80"
                 >
                   <SelectValue placeholder="Select country" />
                 </SelectTrigger>
-                <SelectContent className="[&_*[role=option]>span>svg]:text-muted-foreground/80 max-h-100 [&_*[role=option]]:pr-8 [&_*[role=option]]:pl-2 [&_*[role=option]>span]:right-2 [&_*[role=option]>span]:left-auto [&_*[role=option]>span]:flex [&_*[role=option]>span]:items-center [&_*[role=option]>span]:gap-2 [&_*[role=option]>span>svg]:shrink-0">
+                <SelectContent className="max-h-100 [&_*[role=option]]:pr-8 [&_*[role=option]]:pl-2 [&_*[role=option]>span]:right-2 [&_*[role=option]>span]:left-auto [&_*[role=option]>span]:flex [&_*[role=option]>span]:items-center [&_*[role=option]>span]:gap-2 [&_*[role=option]>span>svg]:shrink-0 [&_*[role=option]>span>svg]:text-muted-foreground/80">
                   {countries.map(country => (
                     <SelectItem
                       key={country.value}
@@ -4240,12 +4223,11 @@ File path: components/shadcn-studio/blocks/account-settings-01/content/social-ur
 ```tsx
 "use client";
 
+import { PlusIcon } from "lucide-react";
 import { useState } from "react";
 
-import { PlusIcon } from "lucide-react";
-
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 const SocialUrl = () => {
   const [urls, setUrls] = useState<string[]>(["", "", ""]);
@@ -4259,8 +4241,8 @@ const SocialUrl = () => {
     <div className="grid grid-cols-1 gap-10 lg:grid-cols-3">
       {/* Vertical Tabs List */}
       <div className="flex flex-col">
-        <h3 className="text-foreground font-semibold">Social URLs</h3>
-        <p className="text-muted-foreground text-sm">
+        <h3 className="font-semibold text-foreground">Social URLs</h3>
+        <p className="text-sm text-muted-foreground">
           Manage your social URLs.
         </p>
       </div>

@@ -11,8 +11,8 @@ describe("createTransferStore", () => {
     const state = store.getState();
     expect(state.currentStep).toBe(defaultTransferState.currentStep);
     expect(state.status).toBe(defaultTransferState.status);
-    expect(state.errorMessage).toBeNull();
-    expect(state.transferUrl).toBeNull();
+    expect(state.errorMessage).toBeUndefined();
+    expect(state.transferUrl).toBeUndefined();
     expect(state.formData).toEqual(defaultTransferState.formData);
   });
 
@@ -132,8 +132,8 @@ describe("createTransferStore", () => {
       expect(state.currentStep).toBe("select-banks");
       expect(state.formData).toEqual(defaultTransferState.formData);
       expect(state.status).toBe("idle");
-      expect(state.errorMessage).toBeNull();
-      expect(state.transferUrl).toBeNull();
+      expect(state.errorMessage).toBeUndefined();
+      expect(state.transferUrl).toBeUndefined();
     });
   });
 });

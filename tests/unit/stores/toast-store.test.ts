@@ -15,7 +15,7 @@ describe("createToastStore", () => {
 
   it("accepts partial initial state override", () => {
     const existing = [
-      { id: "t1", message: "Hello", type: "info" as const, duration: 4000 },
+      { duration: 4000, id: "t1", message: "Hello", type: "info" as const },
     ];
     const store = createToastStore({ toasts: existing });
     expect(store.getState().toasts).toHaveLength(1);
@@ -26,7 +26,7 @@ describe("createToastStore", () => {
       const store = createToastStore();
       store
         .getState()
-        .addToast({ message: "Saved!", type: "success", duration: 3000 });
+        .addToast({ duration: 3000, message: "Saved!", type: "success" });
       const { toasts } = store.getState();
       expect(toasts).toHaveLength(1);
       expect(toasts[0].message).toBe("Saved!");
@@ -39,10 +39,10 @@ describe("createToastStore", () => {
     it("uses the provided ID when supplied", () => {
       const store = createToastStore();
       store.getState().addToast({
+        duration: 4000,
         id: "custom-id",
         message: "Done",
         type: "info",
-        duration: 4000,
       });
       expect(store.getState().toasts[0].id).toBe("custom-id");
     });
@@ -61,10 +61,10 @@ describe("createToastStore", () => {
       const store = createToastStore();
       store
         .getState()
-        .addToast({ message: "First", type: "info", duration: 4000 });
+        .addToast({ duration: 4000, message: "First", type: "info" });
       store
         .getState()
-        .addToast({ message: "Second", type: "error", duration: 5000 });
+        .addToast({ duration: 5000, message: "Second", type: "error" });
       const { toasts } = store.getState();
       expect(toasts).toHaveLength(2);
       expect(toasts[0].message).toBe("First");
@@ -77,10 +77,10 @@ describe("createToastStore", () => {
       const store = createToastStore();
       store
         .getState()
-        .addToast({ id: "t1", message: "A", type: "success", duration: 4000 });
+        .addToast({ duration: 4000, id: "t1", message: "A", type: "success" });
       store
         .getState()
-        .addToast({ id: "t2", message: "B", type: "error", duration: 4000 });
+        .addToast({ duration: 4000, id: "t2", message: "B", type: "error" });
       store.getState().removeToast("t1");
       const { toasts } = store.getState();
       expect(toasts).toHaveLength(1);
@@ -91,7 +91,7 @@ describe("createToastStore", () => {
       const store = createToastStore();
       store
         .getState()
-        .addToast({ id: "t1", message: "A", type: "info", duration: 4000 });
+        .addToast({ duration: 4000, id: "t1", message: "A", type: "info" });
       store.getState().removeToast("nonexistent");
       expect(store.getState().toasts).toHaveLength(1);
     });
@@ -102,10 +102,10 @@ describe("createToastStore", () => {
       const store = createToastStore();
       store
         .getState()
-        .addToast({ message: "One", type: "success", duration: 4000 });
+        .addToast({ duration: 4000, message: "One", type: "success" });
       store
         .getState()
-        .addToast({ message: "Two", type: "info", duration: 4000 });
+        .addToast({ duration: 4000, message: "Two", type: "info" });
       store.getState().clearToasts();
       expect(store.getState().toasts).toHaveLength(0);
     });

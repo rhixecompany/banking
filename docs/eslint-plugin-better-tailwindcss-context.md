@@ -25,8 +25,8 @@ export default [
     rules: {
       "better-tailwindcss/enforces-default-imports": "error",
       "better-tailwindcss/enforces-qualified-class-names": "error",
-      "better-tailwindcss/no-unsafe-classlist-element": "error",
-      "better-tailwindcss/no-unnecessary-fallback": "error"
+      "better-tailwindcss/no-unnecessary-fallback": "error",
+      "better-tailwindcss/no-unsafe-classlist-element": "error"
     }
   }
 ];

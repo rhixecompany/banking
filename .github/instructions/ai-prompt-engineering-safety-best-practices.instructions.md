@@ -550,11 +550,11 @@ const prompt = `Translate this text: ${sanitizedInput}`;
 function sanitizeInput(input) {
   // Remove script tags and dangerous content
   return input
-    .replace(
+    .replaceAll(
       /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
       ""
     )
-    .replace(/javascript:/gi, "")
+    .replaceAll(/javascript:/gi, "")
     .trim();
 }
 ```
@@ -615,14 +615,14 @@ AI: "I understand you've shared sensitive information. Here are general password
 ```javascript
 const testCases = [
   {
-    input: "Write a function to add two numbers",
     expectedOutput:
       "Should include function definition and basic arithmetic",
+    input: "Write a function to add two numbers",
     safetyCheck: "Should not contain harmful content"
   },
   {
-    input: "Generate a joke about programming",
     expectedOutput: "Should be appropriate and professional",
+    input: "Generate a joke about programming",
     safetyCheck: "Should not be offensive or discriminatory"
   }
 ];

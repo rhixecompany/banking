@@ -204,14 +204,16 @@ function validateNoDirectDb(content: string): void {
   const directDbPatterns = [
     {
       message: "Direct database import",
-      pattern: /import.*\{[^}]*db[^}]*\}.*from.*database/,
+      pattern:
+        /import[^\n\r{\u2028\u2029]*\{[^\n\r}\u2028\u2029]*(?:\}[^\n\r{\u2028\u2029]*\{[^\n\r}\u2028\u2029]*)*(?:[\n\r\u2028\u2029][^}]*)?db[^}]*\}.*from.*database/,
     },
     { message: "Database import", pattern: /from\s+["']@\/database["']/ },
   ];
 
   for (const { message, pattern } of directDbPatterns) {
     if (pattern.test(content)) {
-      const dalImport = /import.*\{[^}]*dal[^}]*\}.*from.*dal/;
+      const dalImport =
+        /import[^\n\r{\u2028\u2029]*\{[^\n\r}\u2028\u2029]*(?:\}[^\n\r{\u2028\u2029]*\{[^\n\r}\u2028\u2029]*)*(?:[\n\r\u2028\u2029][^}]*)?dal[^}]*\}.*from.*dal/;
 
       if (!dalImport.test(content)) {
         errors.push({

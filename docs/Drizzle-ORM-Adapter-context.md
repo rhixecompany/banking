@@ -35,8 +35,9 @@ To use this adapter, you must have setup Drizzle ORM and Drizzle Kit in your pro
 If you want to use your own tables, you can pass them as a second argument to `DrizzleAdapter`.
 
 ```ts
-import NextAuth from "next-auth";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
+import NextAuth from "next-auth";
+
 import {
   db,
   accounts,
@@ -45,11 +46,11 @@ import {
   verificationTokens
 } from "./schema";
 
-export const { handlers, auth } = NextAuth({
+export const { auth, handlers } = NextAuth({
   adapter: DrizzleAdapter(db, {
-    usersTable: users,
     accountsTable: accounts,
     sessionsTable: sessions,
+    usersTable: users,
     verificationTokensTable: verificationTokens
   }),
   providers: []
@@ -63,6 +64,7 @@ With your schema now described in your code, you’ll need to migrate your datab
 ```ts
 import "dotenv/config";
 import { migrate } from "drizzle-orm/mysql2/migrator";
+
 import { db, connection } from "./db";
 
 // This will run migrations on the database, skipping the ones already applied

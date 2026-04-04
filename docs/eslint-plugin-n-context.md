@@ -23,9 +23,9 @@ export default [
       n: n
     },
     rules: {
+      "n/no-deprecated-api": "error",
       "n/no-process-env": "error",
-      "n/no-process-exit": "error",
-      "n/no-deprecated-api": "error"
+      "n/no-process-exit": "error"
     }
   }
 ];

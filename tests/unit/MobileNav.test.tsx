@@ -43,13 +43,13 @@ vi.mock("@/components/ui/sheet", () => ({
   SheetContent: ({ children }: { children: React.ReactNode }) => (
     <div>{children}</div>
   ),
+  SheetDescription: ({ children }: { children: React.ReactNode }) => (
+    <div>{children}</div>
+  ),
   SheetHeader: ({ children }: { children: React.ReactNode }) => (
     <div>{children}</div>
   ),
   SheetTitle: ({ children }: { children: React.ReactNode }) => (
-    <div>{children}</div>
-  ),
-  SheetDescription: ({ children }: { children: React.ReactNode }) => (
     <div>{children}</div>
   ),
   SheetTrigger: ({ children }: { children: React.ReactNode }) => (
@@ -72,12 +72,15 @@ import MobileNav from "@/components/mobile-nav/mobile-nav";
 const mockUser: User = {
   createdAt: new Date(),
   email: "alice@example.com",
+  // eslint-disable-next-line unicorn/no-null
   emailVerified: null,
   id: "1",
+  // eslint-disable-next-line unicorn/no-null
   image: null,
   isActive: true,
   isAdmin: false,
   name: "Alice",
+  // eslint-disable-next-line unicorn/no-null
   password: null,
   role: "user",
   updatedAt: new Date(),

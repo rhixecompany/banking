@@ -30,8 +30,13 @@ const Footer = ({ type = "desktop", user }: FooterProps): JSX.Element => {
       </div>
       <div
         className="footer_image"
+        role="button"
+        tabIndex={0}
         onClick={(): void => {
           void handleLogOut();
+        }}
+        onKeyDown={(e): void => {
+          if (e.key === "Enter" || e.key === " ") void handleLogOut();
         }}
       >
         <Image src="/icons/logout.svg" fill sizes="24px" alt="jsm" />

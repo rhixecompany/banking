@@ -119,24 +119,25 @@ npm exec playwright test tests/e2e/sign-in.spec.ts
 ```typescript
 "use server";
 
-import { auth } from "@/lib/auth";
-import { bankDal } from "@/lib/dal";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
+import { auth } from "@/lib/auth";
+import { bankDal } from "@/lib/dal";
+
 const DisconnectBankSchema = z.object({
-  bankId: z.string().min(1)
+  bankId: z.string().trim().min(1)
 });
 
 export async function disconnectBank(input: unknown) {
   const session = await auth();
   if (!session?.user?.id) {
-    return { ok: false, error: "Not authenticated" };
+    return { error: "Not authenticated", ok: false };
   }
 
   const parsed = DisconnectBankSchema.safeParse(input);
   if (!parsed.success) {
-    return { ok: false, error: "Invalid input" };
+    return { error: "Invalid input", ok: false };
   }
 
   try {
@@ -145,7 +146,7 @@ export async function disconnectBank(input: unknown) {
     return { ok: true };
   } catch {
     console.error("Disconnect bank error");
-    return { ok: false, error: "Failed to disconnect bank" };
+    return { error: "Failed to disconnect bank", ok: false };
   }
 }
 ```

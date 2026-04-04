@@ -56,9 +56,10 @@ await db
 
 ```ts
 import { count, eq } from "drizzle-orm";
+
 import { countries, cities } from "./schema";
 await db
-  .select({ country: countries.name, citiesCount: count(cities.id) })
+  .select({ citiesCount: count(cities.id), country: countries.name })
   .from(countries)
   .leftJoin(cities, eq(countries.id, cities.countryId))
   .groupBy(countries.id)

@@ -629,6 +629,7 @@ export interface PlaidInstitutionGetByIdResponse {
   requestId: string;
 }
 
+// eslint-disable-next-line no-secrets/no-secrets
 /**
  * Input payload for exchanging a public token for a permanent access token
  * via `/item/public_token/exchange`.
@@ -646,6 +647,7 @@ export interface PlaidItemPublicTokenExchangeRequest {
   publicToken: string;
 }
 
+// eslint-disable-next-line no-secrets/no-secrets
 /**
  * Response from `/item/public_token/exchange` with the permanent access token.
  *

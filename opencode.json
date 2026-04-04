@@ -2,16 +2,19 @@
   "$schema": "https://opencode.ai/config.json",
   "agent": {
     "build": {
-      "description": "Build and implement features for the Banking project"
+      "description": "Build and implement features for the Banking project",
+      "model": "github-copilot/claude-sonnet-4.6"
     },
     "plan": {
-      "description": "Review and plan changes for the Banking project"
+      "description": "Review and plan changes for the Banking project",
+      "model": "github-copilot/claude-sonnet-4.6"
     },
     "review": {
-      "description": "Review code changes and PRs for the Banking project"
+      "description": "Review code changes and PRs for the Banking project",
+      "model": "github-copilot/claude-sonnet-4.6"
     }
   },
-  "autoupdate": false,
+  "autoupdate": true,
   "command": {
     "build": {
       "agent": "build",
@@ -29,11 +32,7 @@
       "template": "Run npm run validate and report results. Focus on TypeScript errors, lint warnings, and test failures."
     }
   },
-  "instructions": [
-    "AGENTS.md",
-    ".opencode/instructions/*.md",
-    ".cursor/rules/*.mdc"
-  ],
+  "instructions": ["AGENTS.md", ".opencode/instructions/*.md"],
   "mcp": {
     "MCP_DOCKER": {
       "command": [
@@ -45,13 +44,13 @@
         "adminbot"
       ],
       "enabled": true,
-      "timeout": 90000,
+      "timeout": 900000,
       "type": "local"
     },
     "shadcn": {
       "command": ["npx", "shadcn@latest", "mcp"],
       "enabled": true,
-      "timeout": 90000,
+      "timeout": 900000,
       "type": "local"
     }
   },

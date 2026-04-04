@@ -24,7 +24,7 @@ export type NewBank = InferInsertModel<typeof banks>;
  *
  * @export
  * @interface BankWithDetails
- * @extends {Bank}
+ * @augments {Bank}
  */
 export interface BankWithDetails extends Bank {
   /** Live balance snapshots from Plaid. */

@@ -36,13 +36,13 @@ Call `/link/token/create` to create a temporary `link_token`:
 
 ```javascript
 const linkTokenRequest = {
+  client_name: "Plaid Test App",
+  country_codes: ["US"],
+  language: "en",
+  products: ["auth"],
   user: {
     client_user_id: user.id
-  },
-  client_name: "Plaid Test App",
-  products: ["auth"],
-  language: "en",
-  country_codes: ["US"]
+  }
 };
 
 const createTokenResponse =
@@ -55,10 +55,10 @@ Use the `link_token` to open Plaid Link on the client side. Link provides a `pub
 
 ```javascript
 const { open, ready } = usePlaidLink({
-  token: linkToken,
   onSuccess: async (public_token, metadata) => {
     // Send public_token to server
-  }
+  },
+  token: linkToken
 });
 ```
 
@@ -98,26 +98,26 @@ const PLAID_CLIENT_ID = process.env.PLAID_CLIENT_ID!;
 const PLAID_SECRET = process.env.PLAID_SECRET!;
 
 const configuration = new Configuration({
-  basePath: PLAID_BASE_URL
-    ? PLAID_BASE_URL
-    : PlaidEnvironments[PLAID_ENV as keyof typeof PlaidEnvironments],
   baseOptions: {
     headers: {
       "PLAID-CLIENT-ID": PLAID_CLIENT_ID,
       "PLAID-SECRET": PLAID_SECRET
     }
-  }
+  },
+  basePath: PLAID_BASE_URL
+    ? PLAID_BASE_URL
+    : PlaidEnvironments[PLAID_ENV as keyof typeof PlaidEnvironments]
 });
 
 const client = new PlaidApi(configuration);
 
 export async function createLinkToken(userId: string) {
   const response = await client.linkTokenCreate({
-    user: { client_user_id: userId },
     client_name: "Banking App",
-    products: ["auth", "transactions"],
     country_codes: ["US"],
-    language: "en"
+    language: "en",
+    products: ["auth", "transactions"],
+    user: { client_user_id: userId }
   });
 
   return response.data.link_token;

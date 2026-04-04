@@ -5,7 +5,7 @@
  * and exposes it via React Context. SSR-safe (no module-level singleton).
  */
 
-import { createContext, useContext, useRef, type ReactNode } from "react";
+import { createContext, useContext, useState, type ReactNode } from "react";
 import { useStore } from "zustand";
 import { useShallow } from "zustand/react/shallow";
 
@@ -18,7 +18,7 @@ import {
 
 type ToastStoreApi = ReturnType<typeof createToastStore>;
 
-const ToastStoreContext = createContext<ToastStoreApi | null>(null);
+const ToastStoreContext = createContext<ToastStoreApi | undefined>(undefined);
 
 interface ToastStoreProviderProps {
   children: ReactNode;
@@ -34,16 +34,12 @@ export function ToastStoreProvider({
   children,
   initialState,
 }: ToastStoreProviderProps): JSX.Element {
-  const storeRef = useRef<ToastStoreApi | null>(null);
-  if (storeRef.current === null) {
-    storeRef.current = createToastStore({
-      ...defaultToastState,
-      ...initialState,
-    });
-  }
+  const [store] = useState(() =>
+    createToastStore({ ...defaultToastState, ...initialState }),
+  );
 
   return (
-    <ToastStoreContext.Provider value={storeRef.current}>
+    <ToastStoreContext.Provider value={store}>
       {children}
     </ToastStoreContext.Provider>
   );

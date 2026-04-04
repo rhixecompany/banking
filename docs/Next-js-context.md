@@ -7,8 +7,8 @@ You can use `getServerSession` in various contexts in Next.js:
 ### In getServerSideProps
 
 ```js
-import { authOptions } from "pages/api/auth/[...nextauth]";
 import { getServerSession } from "next-auth/next";
+import { authOptions } from "pages/api/auth/[...nextauth]";
 
 export async function getServerSideProps(context) {
   const session = await getServerSession(
@@ -33,8 +33,8 @@ export async function getServerSideProps(context) {
 ### In API Routes
 
 ```js
-import { authOptions } from "pages/api/auth/[...nextauth]";
 import { getServerSession } from "next-auth/next";
+import { authOptions } from "pages/api/auth/[...nextauth]";
 
 export default async function handler(req, res) {
   const session = await getServerSession(req, res, authOptions);

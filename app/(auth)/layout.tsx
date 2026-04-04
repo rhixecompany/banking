@@ -14,7 +14,7 @@ export default function AuthLayout({
   children,
 }: Readonly<{ children: ReactNode }>): JSX.Element {
   return (
-    <main className="flex min-h-screen w-full justify-between font-inter">
+    <main className="flex min-h-screen w-full justify-between font-sans">
       {children}
       <div className="auth-asset">
         <div>

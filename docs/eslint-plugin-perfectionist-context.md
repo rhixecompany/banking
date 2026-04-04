@@ -23,9 +23,9 @@ export default [
       perfectionist: perfectionist
     },
     rules: {
+      "perfectionist/sort-enums": "error",
       "perfectionist/sort-imports": "error",
       "perfectionist/sort-objects": "error",
-      "perfectionist/sort-enums": "error",
       "perfectionist/sort-types": "error"
     }
   }

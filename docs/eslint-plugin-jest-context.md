@@ -23,10 +23,10 @@ export default [
       jest: jest
     },
     rules: {
+      "jest/expect-expect": "error",
       "jest/no-disabled-tests": "warn",
       "jest/no-focused-tests": "error",
-      "jest/prefer-to-have-length": "error",
-      "jest/expect-expect": "error"
+      "jest/prefer-to-have-length": "error"
     }
   }
 ];

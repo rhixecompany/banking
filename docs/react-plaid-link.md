@@ -92,7 +92,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { usePlaidLink, PlaidLinkOnSuccess } from "react-plaid-link";
 
 export function PlaidLinkButton() {
-  const [linkToken, setLinkToken] = useState<string | null>(null);
+  const [linkToken, setLinkToken] = useState<null | string>(null);
 
   useEffect(() => {
     // Fetch link_token from your server
@@ -105,17 +105,17 @@ export function PlaidLinkButton() {
     (public_token, metadata) => {
       // Exchange public_token for access_token on your server
       fetch("/api/exchange_public_token", {
-        method: "POST",
+        body: JSON.stringify({ public_token }),
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ public_token })
+        method: "POST"
       });
     },
     []
   );
 
   const { open, ready } = usePlaidLink({
-    token: linkToken,
-    onSuccess
+    onSuccess,
+    token: linkToken
   });
 
   return (

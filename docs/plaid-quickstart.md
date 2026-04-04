@@ -26,13 +26,13 @@ app.post(
   "/api/create_link_token",
   async function (request, response) {
     const linkTokenRequest = {
-      user: { client_user_id: clientUserId },
       client_name: "Plaid Test App",
-      products: ["auth"],
+      country_codes: ["US"],
       language: "en",
-      webhook: "https://webhook.example.com",
+      products: ["auth"],
       redirect_uri: "https://domainname.com/oauth-page.html",
-      country_codes: ["US"]
+      user: { client_user_id: clientUserId },
+      webhook: "https://webhook.example.com"
     };
     const createTokenResponse =
       await client.linkTokenCreate(linkTokenRequest);
@@ -57,26 +57,30 @@ const App = () => {
       .then(data => setLinkToken(data.link_token));
   }, []);
 
-  return linkToken != null ? <Link linkToken={linkToken} /> : <></>;
+  return linkToken != undefined ? (
+    <Link linkToken={linkToken} />
+  ) : (
+    <></>
+  );
 };
 
-const Link: React.FC<{ linkToken: string | null }> = ({
+const Link: React.FC<{ linkToken: null | string }> = ({
   linkToken
 }) => {
   const onSuccess = React.useCallback(
     async (public_token, metadata) => {
       await fetch("/api/set_access_token", {
-        method: "POST",
+        body: JSON.stringify({ public_token }),
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ public_token })
+        method: "POST"
       });
     },
     []
   );
 
   const { open, ready } = usePlaidLink({
-    token: linkToken!,
-    onSuccess
+    onSuccess,
+    token: linkToken!
   });
 
   return (

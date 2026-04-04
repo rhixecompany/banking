@@ -23,10 +23,10 @@ export default [
       security: security
     },
     rules: {
-      "security/detect-unsafe-regex": "error",
       "security/detect-non-literal-fs-filename": "error",
       "security/detect-non-literal-regexp": "error",
-      "security/detect-non-literal-require": "error"
+      "security/detect-non-literal-require": "error",
+      "security/detect-unsafe-regex": "error"
     }
   }
 ];

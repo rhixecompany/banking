@@ -1,7 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import type { JSX } from "react";
+
+import Link from "next/link";
 
 import type { Account } from "@/types";
 import type { Bank } from "@/types/bank";

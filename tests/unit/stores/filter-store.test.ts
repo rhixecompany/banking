@@ -9,7 +9,7 @@ describe("createFilterStore", () => {
   it("initialises with default state", () => {
     const store = createFilterStore();
     const state = store.getState();
-    expect(state.dateRange).toEqual({ from: null, to: null });
+    expect(state.dateRange).toEqual({ from: undefined, to: undefined });
     expect(state.category).toBe("");
     expect(state.searchQuery).toBe("");
     expect(state.page).toBe(1);
@@ -34,11 +34,14 @@ describe("createFilterStore", () => {
       expect(store.getState().page).toBe(1);
     });
 
-    it("clears the date range when nulls are passed", () => {
+    it("clears the date range when undefined is passed", () => {
       const store = createFilterStore();
       store.getState().setDateRange({ from: "2024-01-01", to: "2024-03-31" });
-      store.getState().setDateRange({ from: null, to: null });
-      expect(store.getState().dateRange).toEqual({ from: null, to: null });
+      store.getState().setDateRange({ from: undefined, to: undefined });
+      expect(store.getState().dateRange).toEqual({
+        from: undefined,
+        to: undefined,
+      });
     });
   });
 

@@ -51,10 +51,18 @@ export default defineConfig([
     "playwright-report/**",
     ".vercel/**",
     ".github/skills/**",
+    ".github/agents/**",
+    ".github/instructions/**",
+    ".github/prompts/**",
     ".opencode/**",
     "eng/**",
     "fix-constants2.cjs",
     "fix-dwolla.cjs",
+    // Documentation and markdown files — not source code
+    "**/*.md",
+    "docs/**",
+    "blocks.prompts.md",
+    "DOCKER-SETUP.md",
   ]),
   {
     files: ["**/*.{js,jsx,ts,tsx,cjs,mts,cts}"],
@@ -89,7 +97,7 @@ export default defineConfig([
       sourceType: "module",
     },
     linterOptions: {
-      noInlineConfig: true,
+      noInlineConfig: false,
       reportUnusedDisableDirectives: true, // Too strict
     },
     plugins: {
@@ -183,11 +191,26 @@ export default defineConfig([
       "import-x/order": "off", // Conflicts with perfectionist/sort-imports
 
       // =====================================================
+      // JSDOC - JSDoc comment quality
+      // =====================================================
+      "jsdoc/check-param-names": "warn",
+      "jsdoc/check-tag-names": ["warn", { definedTags: ["export"] }],
+
+      "jsdoc/check-types": "warn",
+      "jsdoc/no-undefined-types": "off", // Too strict with TS generics
+      "jsdoc/require-jsdoc": "off", // Don't require JSDoc on every function
+      "jsdoc/require-param": "off", // TypeScript types make this redundant
+      "jsdoc/require-param-description": "off", // Descriptions are optional
+      "jsdoc/require-param-type": "off", // TypeScript types make this redundant
+      "jsdoc/require-returns": "off", // TypeScript return types make this redundant
+      "jsdoc/require-returns-description": "off", // Descriptions are optional
+
+      "jsdoc/tag-lines": "off",
+      // =====================================================
       // NODE.JS - Node.js Best Practices
       // =====================================================
       "n/no-process-env": "warn", // Config files need this
       "n/no-unpublished-import": "warn", // Too strict
-
       "n/no-unsupported-features/es-builtins": "warn", // Too strict
       // =====================================================
       // GENERAL JavaScript - Base ESLint Rules
@@ -195,14 +218,21 @@ export default defineConfig([
       "no-console": "warn", // Console.log is intentional
       "no-debugger": "error",
       "no-dupe-else-if": "error",
+
       "no-duplicate-case": "error",
       "no-empty": "warn",
       "no-extra-semi": "warn", // Handled by Prettier
       "no-param-reassign": "warn", // Sometimes needed
-
+      // =====================================================
+      // NO-SECRETS - Prevent accidental secret commits
+      // Threshold raised to reduce false positives on long tokens/URLs
+      // =====================================================
+      "no-secrets/no-secrets": ["warn", { tolerance: 4.2 }],
       "no-unreachable": "error",
+
       "no-unsafe-negation": "error",
       "no-unsafe-optional-chaining": "error",
+
       // Disable strict rules that cause errors
       "no-useless-assignment": "warn", // Too strict
       "no-var": "error",
@@ -211,17 +241,16 @@ export default defineConfig([
       // =====================================================
       "perfectionist/sort-imports": "warn", // Too strict
       "perfectionist/sort-intersection-types": "warn", // Too strict
-
       "perfectionist/sort-objects": "warn", // Too strict
       "perfectionist/sort-union-types": "warn", // Too strict
+
       "prefer-const": "error",
       "preserve-caught-error": "warn", // Not all errors need cause
       "react-hooks/exhaustive-deps": "warn",
-      "react-hooks/incompatible-library": "off", // TanStack Table can't be fixed
 
+      "react-hooks/incompatible-library": "off", // TanStack Table can't be fixed
       "react-hooks/purity": "warn", // React compiler warnings
       "react-hooks/rules-of-hooks": "error",
-
       // =====================================================
       // REACT REFRESH - Hot Reloading Compatibility
       // =====================================================
@@ -232,13 +261,45 @@ export default defineConfig([
       "react/jsx-uses-react": "warn", // Automatic JSX transform in React 17+
       "react/prop-types": "warn", // Using TypeScript
       "react/react-in-jsx-scope": "off", // Not needed for React 17+
+      // =====================================================
+      // REGEXP - Regular expression correctness and safety
+      // Complements security/detect-unsafe-regex
+      // =====================================================
+      "regexp/no-contradiction-with-assertion": "error",
+      "regexp/no-control-character": "warn",
+      "regexp/no-dupe-characters-character-class": "error",
+      "regexp/no-empty-alternative": "warn",
+      "regexp/no-empty-capturing-group": "warn",
+
+      "regexp/no-empty-character-class": "error",
+      "regexp/no-empty-group": "warn",
+      "regexp/no-invalid-regexp": "error",
+      "regexp/no-lazy-ends": "warn",
+      "regexp/no-obscure-range": "warn",
+      "regexp/no-optional-assertion": "error",
+      "regexp/no-potentially-useless-backreference": "warn",
+      "regexp/no-super-linear-backtracking": "error",
+      "regexp/no-super-linear-move": "warn",
+      "regexp/no-useless-assertions": "warn",
+      "regexp/no-useless-character-class": "warn",
+      "regexp/no-useless-escape": "warn",
+      "regexp/no-useless-flag": "warn",
+      "regexp/no-useless-non-capturing-group": "warn",
+      "regexp/no-useless-quantifier": "warn",
+      "regexp/no-zero-quantifier": "error",
+      "regexp/prefer-character-class": "warn",
+      "regexp/prefer-plus-quantifier": "warn",
+      "regexp/prefer-question-quantifier": "warn",
+      "regexp/prefer-star-quantifier": "warn",
+      "regexp/prefer-w": "warn",
+      "regexp/simplify-set-operations": "warn",
+      "regexp/sort-alternatives": "off", // Too strict — order may be intentional
+      "regexp/use-ignore-case": "warn",
       "require-await": "warn", // Too strict
       "security/detect-eval-with-expression": "error",
-
       "security/detect-non-literal-fs-filename": "error",
       "security/detect-non-literal-regexp": "warn", // Test files use dynamic regex
       "security/detect-non-literal-require": "error",
-
       "security/detect-possible-timing-attacks": "warn", // Too strict
       // =====================================================
       // SECURITY - Node.js Security
@@ -284,7 +345,6 @@ export default defineConfig([
       "unicorn/no-abusive-eslint-disable": "error",
       "unicorn/no-array-for-each": "warn", // forEach is readable
       "unicorn/no-null": "warn", // Project uses null intentionally
-
       "unicorn/prefer-at": "warn", // Too strict
       "unicorn/prefer-includes": "error",
       "unicorn/prefer-number-properties": "warn", // Too strict
@@ -293,58 +353,6 @@ export default defineConfig([
       "unicorn/prefer-string-replace-all": "warn", // Too strict
       "unicorn/prefer-string-slice": "error",
       "unicorn/throw-new-error": "error",
-      // =====================================================
-      // JSDOC - JSDoc comment quality
-      // =====================================================
-      "jsdoc/check-param-names": "warn",
-      "jsdoc/check-tag-names": ["warn", { definedTags: ["export"] }],
-      "jsdoc/check-types": "warn",
-      "jsdoc/no-undefined-types": "off", // Too strict with TS generics
-      "jsdoc/require-jsdoc": "off", // Don't require JSDoc on every function
-      "jsdoc/require-param": "off", // TypeScript types make this redundant
-      "jsdoc/require-param-description": "off", // Descriptions are optional
-      "jsdoc/require-param-type": "off", // TypeScript types make this redundant
-      "jsdoc/require-returns": "off", // TypeScript return types make this redundant
-      "jsdoc/require-returns-description": "off", // Descriptions are optional
-      "jsdoc/tag-lines": ["warn", "never", { startLines: null }],
-      // =====================================================
-      // NO-SECRETS - Prevent accidental secret commits
-      // Threshold raised to reduce false positives on long tokens/URLs
-      // =====================================================
-      "no-secrets/no-secrets": ["warn", { tolerance: 4.2 }],
-      // =====================================================
-      // REGEXP - Regular expression correctness and safety
-      // Complements security/detect-unsafe-regex
-      // =====================================================
-      "regexp/no-contradiction-with-assertion": "error",
-      "regexp/no-control-character": "warn",
-      "regexp/no-dupe-characters-character-class": "error",
-      "regexp/no-empty-alternative": "warn",
-      "regexp/no-empty-capturing-group": "warn",
-      "regexp/no-empty-character-class": "error",
-      "regexp/no-empty-group": "warn",
-      "regexp/no-invalid-regexp": "error",
-      "regexp/no-lazy-ends": "warn",
-      "regexp/no-obscure-range": "warn",
-      "regexp/no-optional-assertion": "error",
-      "regexp/no-potentially-useless-backreference": "warn",
-      "regexp/no-super-linear-backtracking": "error",
-      "regexp/no-super-linear-move": "warn",
-      "regexp/no-useless-assertions": "warn",
-      "regexp/no-useless-character-class": "warn",
-      "regexp/no-useless-escape": "warn",
-      "regexp/no-useless-flag": "warn",
-      "regexp/no-useless-non-capturing-group": "warn",
-      "regexp/no-useless-quantifier": "warn",
-      "regexp/no-zero-quantifier": "error",
-      "regexp/prefer-character-class": "warn",
-      "regexp/prefer-plus-quantifier": "warn",
-      "regexp/prefer-question-quantifier": "warn",
-      "regexp/prefer-star-quantifier": "warn",
-      "regexp/prefer-w": "warn",
-      "regexp/simplify-set-operations": "warn",
-      "regexp/sort-alternatives": "off", // Too strict — order may be intentional
-      "regexp/use-ignore-case": "warn",
       "zod/no-any-schema": "error",
       "zod/no-empty-custom-schema": "error",
       "zod/no-optional-and-default-together": "error",
@@ -808,13 +816,13 @@ export default defineConfig([
       "@typescript-eslint/no-unsafe-call": "off",
       "@typescript-eslint/no-unsafe-member-access": "off",
       "@typescript-eslint/no-unsafe-return": "off",
+      // Relax general rules that are too strict for inline docs examples
+      "@typescript-eslint/no-unused-vars": "off",
       "@typescript-eslint/prefer-nullish-coalescing": "off",
       "@typescript-eslint/prefer-optional-chain": "off",
       "@typescript-eslint/require-await": "off",
       "@typescript-eslint/restrict-plus-operands": "off",
       "@typescript-eslint/restrict-template-expressions": "off",
-      // Relax general rules that are too strict for inline docs examples
-      "@typescript-eslint/no-unused-vars": "off",
       "import-x/no-unresolved": "off",
       "no-console": "off",
       "no-undef": "off",
