@@ -11,7 +11,8 @@ import { db } from "@/database/db";
 import { user_profiles, users } from "@/database/schema";
 
 /**
- * Description placeholder
+ * Data access layer for the `users` and `user_profiles` tables.
+ * Provides authentication, profile management, and admin operations.
  *
  * @export
  * @class UserDal
@@ -19,11 +20,11 @@ import { user_profiles, users } from "@/database/schema";
  */
 export class UserDal {
   /**
-   * Description placeholder
+   * Finds a single user by email address.
    *
    * @async
-   * @param {string} email
-   * @returns {unknown}
+   * @param {string} email - The email address to look up.
+   * @returns {Promise<User | undefined>} The matching user, or `undefined` if not found.
    */
   async findByEmail(email: string): Promise<undefined | User> {
     const [user] = await db.select().from(users).where(eq(users.email, email));
@@ -31,11 +32,11 @@ export class UserDal {
   }
 
   /**
-   * Description placeholder
+   * Finds a single user by their primary key.
    *
    * @async
-   * @param {string} id
-   * @returns {unknown}
+   * @param {string} id - The user ID to look up.
+   * @returns {Promise<User | undefined>} The matching user, or `undefined` if not found.
    */
   async findById(id: string): Promise<undefined | User> {
     const [user] = await db.select().from(users).where(eq(users.id, id));
@@ -43,11 +44,13 @@ export class UserDal {
   }
 
   /**
-   * Description placeholder
+   * Finds a user by ID along with their profile via a single JOIN query (no N+1).
+   * Returns `undefined` if the user does not exist; the `profile` field will be
+   * `undefined` if no profile row exists yet.
    *
    * @async
-   * @param {string} id
-   * @returns {unknown}
+   * @param {string} id - The user ID to look up.
+   * @returns {Promise<UserWithProfile | undefined>} The user with their profile, or `undefined` if not found.
    */
   async findByIdWithProfile(id: string): Promise<undefined | UserWithProfile> {
     // Single query with JOIN - avoids N+1
@@ -92,11 +95,11 @@ export class UserDal {
   }
 
   /**
-   * Description placeholder
+   * Inserts a new user record and returns the created row.
    *
    * @async
-   * @param {{ email: string; password: string; name?: string }} data
-   * @returns {unknown}
+   * @param {{ email: string; password: string; name?: string }} data - User fields to insert.
+   * @returns {Promise<User>} The newly created user record.
    */
   async create(data: {
     email: string;
@@ -108,12 +111,12 @@ export class UserDal {
   }
 
   /**
-   * Description placeholder
+   * Applies a partial update to a user record by ID and returns the updated row.
    *
    * @async
-   * @param {string} id
-   * @param {Partial<typeof users.\$inferInsert>} data
-   * @returns {unknown}
+   * @param {string} id - The user ID to update.
+   * @param {Partial<typeof users.$inferInsert>} data - Partial fields to apply.
+   * @returns {Promise<User>} The updated user record.
    */
   async update(
     id: string,
@@ -128,16 +131,17 @@ export class UserDal {
   }
 
   /**
-   * Description placeholder
+   * Creates a user and, optionally, a linked profile row in a single database transaction.
+   * After the transaction commits, fetches and returns the full `UserWithProfile` via a JOIN.
    *
    * @async
    * @param {{
    *     email: string;
    *     password: string;
    *     name?: string;
-   *     profile?: Partial<typeof user_profiles.\$inferInsert>;
-   *   }} data
-   * @returns {unknown}
+   *     profile?: Partial<typeof user_profiles.$inferInsert>;
+   *   }} data - User and optional profile fields to insert.
+   * @returns {Promise<UserWithProfile | undefined>} The created user with their profile, or `undefined` on failure.
    */
   async createWithProfile(data: {
     email: string;
@@ -179,12 +183,13 @@ export class UserDal {
   }
 
   /**
-   * Description placeholder
+   * Upserts the profile row for a user — updates if one exists, inserts if it does not.
+   * Returns the resulting profile row(s).
    *
    * @async
-   * @param {string} userId
-   * @param {Partial<typeof user_profiles.\$inferInsert>} profileData
-   * @returns {unknown}
+   * @param {string} userId - The user ID whose profile to update or create.
+   * @param {Partial<typeof user_profiles.$inferInsert>} profileData - Profile fields to apply.
+   * @returns {Promise<UserProfile[]>} The upserted profile records.
    */
   async updateProfile(
     userId: string,
@@ -210,11 +215,12 @@ export class UserDal {
   }
 
   /**
-   * Description placeholder
+   * Toggles the `isAdmin` flag on a user. Reads current state first, then flips it.
+   * Returns `undefined` if the user does not exist.
    *
    * @async
-   * @param {string} id
-   * @returns {unknown}
+   * @param {string} id - The user ID to toggle admin status for.
+   * @returns {Promise<User[] | undefined>} The updated user rows, or `undefined` if the user was not found.
    */
   async toggleAdmin(id: string): Promise<undefined | User[]> {
     const [user] = await db.select().from(users).where(eq(users.id, id));
@@ -229,11 +235,12 @@ export class UserDal {
   }
 
   /**
-   * Description placeholder
+   * Toggles the `isActive` flag on a user. Reads current state first, then flips it.
+   * Returns `undefined` if the user does not exist.
    *
    * @async
-   * @param {string} id
-   * @returns {unknown}
+   * @param {string} id - The user ID to toggle active status for.
+   * @returns {Promise<User[] | undefined>} The updated user rows, or `undefined` if the user was not found.
    */
   async toggleActive(id: string): Promise<undefined | User[]> {
     const [user] = await db.select().from(users).where(eq(users.id, id));
@@ -248,11 +255,11 @@ export class UserDal {
   }
 
   /**
-   * Description placeholder
+   * Hard-deletes a user record by ID.
    *
    * @async
-   * @param {string} id
-   * @returns {*}
+   * @param {string} id - The user ID to delete.
+   * @returns {Promise<void>}
    */
   async delete(id: string) {
     await db.delete(users).where(eq(users.id, id));
@@ -260,7 +267,7 @@ export class UserDal {
 }
 
 /**
- * Description placeholder
+ * Singleton instance of {@link UserDal} for use throughout the application.
  *
  * @type {UserDal}
  */

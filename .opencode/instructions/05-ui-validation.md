@@ -81,6 +81,8 @@ export function PaymentForm() {
 
 ## Zod Validation Patterns
 
+> **ESLint rule:** `zod/prefer-meta` is enforced as an error. Every schema field **must** include `.describe("...")`. The `zod/require-error-message` rule also requires a message string on all validators (`min`, `email`, etc.). `zod/no-optional-and-default-together` prevents combining `.optional()` with `.default()` on the same field.
+
 ### String Validations
 
 ```typescript

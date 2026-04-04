@@ -54,15 +54,22 @@ If you're getting started and need assistance or face any bugs, join our active 
 
 ## <a name="tech-stack">⚙️ Tech Stack</a>
 
-- Next.js
-- TypeScript
-- Plaid
-- Dwolla
-- React Hook Form
-- Zod
-- TailwindCSS
-- Chart.js
-- ShadCN
+| Technology | Version | Purpose |
+| --- | --- | --- |
+| **Next.js** | 16.2.2 | App Router, RSC, Cache Components |
+| **React** | 19 | UI (React Compiler enabled) |
+| **TypeScript** | 6.0.2 | Strict mode, typed routes |
+| **PostgreSQL** | via Neon | Relational database |
+| **Drizzle ORM** | 0.45.2 | Type-safe SQL + schema management |
+| **NextAuth.js** | v4.24.13 | JWT sessions, OAuth, credentials |
+| **shadcn/ui** | latest | Accessible UI components |
+| **Tailwind CSS** | v4 | CSS-based config (`@theme` in globals.css) |
+| **React Hook Form** | latest | Form state management |
+| **Zod** | v4.3.6 | Runtime validation + type inference |
+| **Plaid** | latest | Bank account linking |
+| **Dwolla** | latest | ACH transfers |
+| **Vitest** | 4.1.2 | Unit/integration testing |
+| **Playwright** | 1.59.1 | E2E browser automation |
 
 ## <a name="features">🔋 Features</a>
 
@@ -130,23 +137,27 @@ npm install
 Create a new file named `.env` in the root of your project and add the following content:
 
 ```env
-#NEXT
-NEXT_PUBLIC_SITE_URL=
+# NEXT
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
 
+# SECURITY (required)
+ENCRYPTION_KEY=                    # 32+ character random key (openssl rand -hex 32)
+NEXTAUTH_SECRET=                   # Random secret (openssl rand -base64 32)
+NEXTAUTH_URL=http://localhost:3000
 
-#PLAID
+# PLAID
 PLAID_CLIENT_ID=
 PLAID_SECRET=
-PLAID_ENV=
-PLAID_PRODUCTS=
-PLAID_COUNTRY_CODES=
+PLAID_ENV=sandbox
 
-#DWOLLA
+# DWOLLA
 DWOLLA_KEY=
 DWOLLA_SECRET=
 DWOLLA_BASE_URL=https://api-sandbox.dwolla.com
 DWOLLA_ENV=sandbox
 
+# DATABASE
+DATABASE_URL=
 ```
 
 Replace the placeholder values with your actual respective account credentials. You can obtain these credentials by signing up on [Plaid](https://plaid.com/) and [Dwolla](https://www.dwolla.com/)
@@ -1446,7 +1457,9 @@ The schema is located in `database/schema.ts` with the following tables:
 
 ## <a name="auth">🔐 Authentication</a>
 
-Uses **NextAuth v4** with Drizzle Adapter and Credentials provider.
+Uses **NextAuth v4** with a **JWT session strategy** and Credentials + OAuth providers.
+
+> **Note:** The tutorial code snippets in this README show an older `"database"` session strategy with `DrizzleAdapter`. The **live implementation** uses `strategy: "jwt"` (configured in `lib/auth-options.ts`). Refer to `lib/auth-options.ts` and `lib/auth.ts` for the current active configuration.
 
 ### Auth Files
 

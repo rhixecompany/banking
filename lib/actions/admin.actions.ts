@@ -1,10 +1,8 @@
 "use server";
-import { eq } from "drizzle-orm";
 import { z } from "zod";
 
-import { db } from "@/database/db";
-import { users } from "@/database/schema";
 import { auth } from "@/lib/auth";
+import { userDal } from "@/lib/dal";
 
 /**
  * Input schema for toggling a user's admin status.
@@ -47,10 +45,9 @@ export async function toggleAdmin(
   }
 
   try {
-    await db
-      .update(users)
-      .set({ isAdmin: parsed.data.makeAdmin })
-      .where(eq(users.id, parsed.data.userId));
+    await userDal.update(parsed.data.userId, {
+      isAdmin: parsed.data.makeAdmin,
+    });
     return { ok: true };
   } catch {
     return { error: "Failed to update admin status", ok: false };
@@ -82,10 +79,9 @@ export async function setActive(
   }
 
   try {
-    await db
-      .update(users)
-      .set({ isActive: parsed.data.isActive })
-      .where(eq(users.id, parsed.data.userId));
+    await userDal.update(parsed.data.userId, {
+      isActive: parsed.data.isActive,
+    });
     return { ok: true };
   } catch {
     return { error: "Failed to update active status", ok: false };

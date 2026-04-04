@@ -1,18 +1,16 @@
 "use client";
 
+import { signOut } from "next-auth/react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 
 import type { FooterProps } from "@/types";
 
 import { logoutAccount } from "@/lib/actions/user.actions";
 
 const Footer = ({ type = "desktop", user }: FooterProps): JSX.Element => {
-  const router = useRouter();
-
   const handleLogOut = async (): Promise<void> => {
-    const loggedOut = await logoutAccount();
-    if (loggedOut) router.push("/sign-in");
+    await logoutAccount();
+    await signOut({ callbackUrl: "/sign-in" });
   };
 
   return (

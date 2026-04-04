@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import type { User } from "@/types";
+import type { User } from "@/types/user";
 
 // ---------------------------------------------------------------------------
 // Module mocks
@@ -49,6 +49,9 @@ vi.mock("@/components/ui/sheet", () => ({
   SheetTitle: ({ children }: { children: React.ReactNode }) => (
     <div>{children}</div>
   ),
+  SheetDescription: ({ children }: { children: React.ReactNode }) => (
+    <div>{children}</div>
+  ),
   SheetTrigger: ({ children }: { children: React.ReactNode }) => (
     <div>{children}</div>
   ),
@@ -69,10 +72,14 @@ import MobileNav from "@/components/mobile-nav/mobile-nav";
 const mockUser: User = {
   createdAt: new Date(),
   email: "alice@example.com",
+  emailVerified: null,
   id: "1",
+  image: null,
   isActive: true,
   isAdmin: false,
   name: "Alice",
+  password: null,
+  role: "user",
   updatedAt: new Date(),
 };
 

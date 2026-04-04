@@ -4,7 +4,7 @@
 
 > **Project:** Next.js 16, TypeScript (strict), Drizzle ORM, PostgreSQL, NextAuth, shadcn/UI, Tailwind CSS v4
 >
-> **Last Updated:** 2026-03-29
+> **Last Updated:** 2026-04-03
 
 <!-- markdownlint-enable MD013 -->
 
@@ -14,7 +14,7 @@
 
 This file is a quick reference for GitHub Copilot. For detailed patterns, see:
 
-- **[AGENTS.md](./AGENTS.md)** — Stack, PR-blocking rules, commands, core patterns (Reference + How-to)
+- **[AGENTS.md](../AGENTS.md)** — Stack, PR-blocking rules, commands, core patterns (Reference + How-to)
 - **[README.md](./README.md)** — Project overview, setup, deployment
 
 ### Sync Checklist
@@ -85,7 +85,7 @@ npm run start           # Start production server
 ```bash
 npm run validate        # Run all checks (format, type-check, lint, test)
 npm run format          # Format code with Prettier
-npm run format:check    # Check formatting
+npm run format:check    # WARNING: destructive — runs format (writes files) first, then checks
 npm run lint:strict     # Strict ESLint (blocks PR)
 npm run type-check      # TypeScript type checking
 ```
@@ -143,8 +143,8 @@ export async function disconnectBank(input: unknown) {
     await bankDal.delete(parsed.data.bankId);
     revalidatePath("/dashboard");
     return { ok: true };
-  } catch (error) {
-    console.error("Disconnect bank error:", error);
+  } catch {
+    console.error("Disconnect bank error");
     return { ok: false, error: "Failed to disconnect bank" };
   }
 }

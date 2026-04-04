@@ -5,12 +5,12 @@ import { auth } from "@/lib/auth";
 import { transactionDal } from "@/lib/dal";
 
 /**
- * Description placeholder
+ * Returns the most recent transactions for the authenticated user, up to the given limit.
  *
  * @export
  * @async
- * @param {number} [limit=10]
- * @returns {unknown}
+ * @param {number} [limit=10] - Maximum number of transactions to return
+ * @returns {Promise<{ ok: boolean; transactions?: Transaction[]; error?: string }>}
  */
 export async function getRecentTransactions(
   limit = 10,
@@ -26,13 +26,13 @@ export async function getRecentTransactions(
 }
 
 /**
- * Description placeholder
+ * Returns a paginated list of transactions for the authenticated user.
  *
  * @export
  * @async
- * @param {number} [page=1]
- * @param {number} [pageSize=20]
- * @returns {unknown}
+ * @param {number} [page=1] - 1-based page number
+ * @param {number} [pageSize=20] - Number of transactions per page
+ * @returns {Promise<{ ok: boolean; transactions?: Transaction[]; error?: string }>}
  */
 export async function getTransactionHistory(
   page = 1,

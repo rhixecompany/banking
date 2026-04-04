@@ -9,9 +9,7 @@ import { auth } from "@/lib/auth";
 import { recipientDal } from "@/lib/dal";
 
 /**
- * Description placeholder
- *
- * @type {*}
+ * Zod schema for validating recipient creation input.
  */
 const RecipientSchema = z.object({
   bankAccountId: z.string().trim().min(1).optional(),
@@ -20,38 +18,30 @@ const RecipientSchema = z.object({
 });
 
 /**
- * Description placeholder
- *
- * @type {*}
+ * Zod schema for validating a recipient ID lookup.
  */
 const RecipientIdSchema = z.object({
   id: z.string().trim().min(1),
 });
 
 /**
- * Description placeholder
- *
- * @type {*}
+ * Zod schema for validating partial recipient update input (requires id).
  */
 const RecipientUpdateSchema =
   RecipientSchema.partial().merge(RecipientIdSchema);
 
-/** Description placeholder */
+/** Revalidates all paths that depend on the recipients list. */
 const revalidateRecipients = () => {
   revalidatePath("/payment-transfer");
   revalidatePath("/");
 };
 
 /**
- * Description placeholder
+ * Returns all saved payment recipients for the authenticated user.
  *
  * @export
  * @async
- * @returns {Promise<{
- *   ok: boolean;
- *   recipients?: Recipient[];
- *   error?: string;
- * }>}
+ * @returns {Promise<{ ok: boolean; recipients?: Recipient[]; error?: string }>}
  */
 export async function getRecipients(): Promise<{
   ok: boolean;
@@ -73,16 +63,12 @@ export async function getRecipients(): Promise<{
 }
 
 /**
- * Description placeholder
+ * Creates a new payment recipient for the authenticated user.
  *
  * @export
  * @async
- * @param {unknown} input
- * @returns {Promise<{
- *   ok: boolean;
- *   recipient?: Recipient;
- *   error?: string;
- * }>}
+ * @param {unknown} input - Must satisfy RecipientSchema: email, optional name and bankAccountId
+ * @returns {Promise<{ ok: boolean; recipient?: Recipient; error?: string }>}
  */
 export async function createRecipient(input: unknown): Promise<{
   ok: boolean;
@@ -113,16 +99,12 @@ export async function createRecipient(input: unknown): Promise<{
 }
 
 /**
- * Description placeholder
+ * Updates an existing recipient record for the authenticated user.
  *
  * @export
  * @async
- * @param {unknown} input
- * @returns {Promise<{
- *   ok: boolean;
- *   recipient?: Recipient;
- *   error?: string;
- * }>}
+ * @param {unknown} input - Must satisfy RecipientUpdateSchema: id plus partial recipient fields
+ * @returns {Promise<{ ok: boolean; recipient?: Recipient; error?: string }>}
  */
 export async function updateRecipient(input: unknown): Promise<{
   ok: boolean;
@@ -152,15 +134,12 @@ export async function updateRecipient(input: unknown): Promise<{
 }
 
 /**
- * Description placeholder
+ * Deletes a recipient record by ID for the authenticated user.
  *
  * @export
  * @async
- * @param {unknown} input
- * @returns {Promise<{
- *   ok: boolean;
- *   error?: string;
- * }>}
+ * @param {unknown} input - Must satisfy RecipientIdSchema: { id: string }
+ * @returns {Promise<{ ok: boolean; error?: string }>}
  */
 export async function deleteRecipient(input: unknown): Promise<{
   ok: boolean;

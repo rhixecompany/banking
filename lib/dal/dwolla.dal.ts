@@ -7,7 +7,9 @@ import { banks } from "@/database/schema";
 import { decrypt, encrypt } from "@/lib/encryption";
 
 /**
- * Description placeholder
+ * Data access layer for Dwolla-related bank operations.
+ * Handles encrypted read/write access to the `banks` table for ACH transfer fields
+ * including Dwolla customer URLs, funding source URLs, and account info.
  *
  * @export
  * @class DwollaDal
@@ -15,11 +17,11 @@ import { decrypt, encrypt } from "@/lib/encryption";
  */
 export class DwollaDal {
   /**
-   * Description placeholder
+   * Finds a bank record by its Dwolla customer URL, decrypting sensitive fields before returning.
    *
    * @async
-   * @param {string} dwollaCustomerUrl
-   * @returns {Promise<Bank | undefined>}
+   * @param {string} dwollaCustomerUrl - The Dwolla customer URL to match.
+   * @returns {Promise<Bank | undefined>} The decrypted bank record, or `undefined` if not found.
    */
   async findByDwollaCustomerUrl(
     dwollaCustomerUrl: string,
@@ -38,11 +40,11 @@ export class DwollaDal {
   }
 
   /**
-   * Description placeholder
+   * Finds a bank record by its Dwolla funding source URL, decrypting sensitive fields before returning.
    *
    * @async
-   * @param {string} dwollaFundingSourceUrl
-   * @returns {Promise<Bank | undefined>}
+   * @param {string} dwollaFundingSourceUrl - The Dwolla funding source URL to match.
+   * @returns {Promise<Bank | undefined>} The decrypted bank record, or `undefined` if not found.
    */
   async findByDwollaFundingSourceUrl(
     dwollaFundingSourceUrl: string,
@@ -61,12 +63,12 @@ export class DwollaDal {
   }
 
   /**
-   * Description placeholder
+   * Updates the Dwolla customer URL on a bank record and returns the updated row with decrypted access token.
    *
    * @async
-   * @param {string} bankId
-   * @param {string} dwollaCustomerUrl
-   * @returns {Promise<Bank | undefined>}
+   * @param {string} bankId - The bank record ID to update.
+   * @param {string} dwollaCustomerUrl - The new Dwolla customer URL to set.
+   * @returns {Promise<Bank | undefined>} The updated bank record, or `undefined` if not found.
    */
   async updateDwollaCustomerUrl(
     bankId: string,
@@ -84,12 +86,12 @@ export class DwollaDal {
   }
 
   /**
-   * Description placeholder
+   * Updates the Dwolla funding source URL on a bank record and returns the updated row with decrypted access token.
    *
    * @async
-   * @param {string} bankId
-   * @param {string} dwollaFundingSourceUrl
-   * @returns {Promise<Bank | undefined>}
+   * @param {string} bankId - The bank record ID to update.
+   * @param {string} dwollaFundingSourceUrl - The new Dwolla funding source URL to set.
+   * @returns {Promise<Bank | undefined>} The updated bank record, or `undefined` if not found.
    */
   async updateDwollaFundingSourceUrl(
     bankId: string,
@@ -107,15 +109,16 @@ export class DwollaDal {
   }
 
   /**
-   * Description placeholder
+   * Updates the routing number and/or account number (encrypted) on a bank record.
+   * Returns the updated bank record with sensitive fields decrypted.
    *
    * @async
-   * @param {string} bankId
+   * @param {string} bankId - The bank record ID to update.
    * @param {{
    *       routingNumber?: string;
    *       accountNumber?: string;
-   *     }} data
-   * @returns {Promise<Bank | undefined>}
+   *     }} data - Fields to update; `accountNumber` is encrypted before storage.
+   * @returns {Promise<Bank | undefined>} The updated bank record, or `undefined` if not found.
    */
   async updateBankAccountInfo(
     bankId: string,
@@ -149,11 +152,12 @@ export class DwollaDal {
   }
 
   /**
-   * Description placeholder
+   * Retrieves all bank records for a user that have a Dwolla customer association,
+   * decrypting sensitive fields on each record before returning.
    *
    * @async
-   * @param {string} userId
-   * @returns {Promise<Bank[]>}
+   * @param {string} userId - The user ID whose bank records to fetch.
+   * @returns {Promise<Bank[]>} All bank records for the user, with decrypted fields.
    */
   async findBanksWithDwollaCustomer(userId: string): Promise<Bank[]> {
     const bankRecords = await db
@@ -171,11 +175,12 @@ export class DwollaDal {
   }
 
   /**
-   * Description placeholder
+   * Retrieves all bank records for a user that have a non-null `dwollaFundingSourceUrl`,
+   * decrypting sensitive fields on each record before returning.
    *
    * @async
-   * @param {string} userId
-   * @returns {Promise<Bank[]>}
+   * @param {string} userId - The user ID whose verified funding sources to fetch.
+   * @returns {Promise<Bank[]>} Bank records that have a funding source URL set.
    */
   async findVerifiedFundingSources(userId: string): Promise<Bank[]> {
     const bankRecords = await db
@@ -197,7 +202,8 @@ export class DwollaDal {
   }
 
   /**
-   * Description placeholder
+   * Creates a new bank record with encrypted access token and account number,
+   * then returns the created row with sensitive fields in plain text.
    *
    * @async
    * @param {{
@@ -213,8 +219,8 @@ export class DwollaDal {
    *     dwollaFundingSourceUrl?: string;
    *     routingNumber?: string;
    *     accountNumber?: string;
-   *   }} data
-   * @returns {Promise<Bank>}
+   *   }} data - Bank creation payload; `accessToken` and `accountNumber` are encrypted before storage.
+   * @returns {Promise<Bank>} The newly created bank record with sensitive fields in plain text.
    */
   async createBankWithDwolla(data: {
     userId: string;
@@ -260,7 +266,7 @@ export class DwollaDal {
 }
 
 /**
- * Description placeholder
+ * Singleton instance of {@link DwollaDal} for use throughout the application.
  *
  * @type {DwollaDal}
  */

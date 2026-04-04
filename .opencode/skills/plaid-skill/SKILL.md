@@ -18,19 +18,26 @@ This skill provides guidance on Plaid API integration for the Banking project.
 "use client";
 
 import { usePlaidLink } from "react-plaid-link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { createLinkToken, exchangePublicToken } from "@/lib/actions/plaid.actions";
 
-export function PlaidLinkButton({ userId, onSuccess }: { userId: string; onSuccess: () => void }) {
+export function PlaidLinkButton({
+  userId,
+  onSuccess
+}: {
+  userId: string;
+  onSuccess: () => void;
+}) {
   const [linkToken, setLinkToken] = useState<string | null>(null);
 
-  // Fetch link token from server action
+  // Call the Server Action directly — do NOT fetch "/api/plaid/..." routes.
+  // Mutations and sensitive operations belong in Server Actions, not API routes.
   useEffect(() => {
     async function fetchLinkToken() {
-      const response = await fetch("/api/plaid/create-link-token", {
-        method: "POST",
-      });
-      const data = await response.json();
-      setLinkToken(data.linkToken);
+      const result = await createLinkToken({ userId });
+      if (result.ok && result.linkToken) {
+        setLinkToken(result.linkToken);
+      }
     }
     fetchLinkToken();
   }, [userId]);
@@ -38,12 +45,14 @@ export function PlaidLinkButton({ userId, onSuccess }: { userId: string; onSucce
   const { open, ready } = usePlaidLink({
     token: linkToken,
     onSuccess: async (public_token, metadata) => {
-      await fetch("/api/plaid/exchange-token", {
-        method: "POST",
-        body: JSON.stringify({ publicToken: public_token, metadata }),
+      const result = await exchangePublicToken({
+        publicToken: public_token,
+        metadata
       });
-      onSuccess();
-    },
+      if (result.ok) {
+        onSuccess();
+      }
+    }
   });
 
   return (
@@ -101,8 +110,7 @@ export async function linkBankAccount(
 
     revalidatePath("/dashboard");
     return { ok: true };
-  } catch (error) {
-    console.error("Plaid link error:", error);
+  } catch {
     return { ok: false, error: "Failed to link bank account" };
   }
 }

@@ -1,6 +1,11 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import {
+  unstable_cacheLife as cacheLife,
+  unstable_cacheTag as cacheTag,
+  revalidatePath,
+  revalidateTag,
+} from "next/cache";
 import { z } from "zod";
 
 import type { Account } from "@/types";
@@ -12,7 +17,8 @@ import { bankDal } from "@/lib/dal";
 import { plaidClient } from "@/lib/plaid";
 
 /**
- * Description placeholder
+ * Zod schema for validating the input to {@link createLinkToken}.
+ * Requires a non-empty user ID string.
  *
  * @type {*}
  */
@@ -21,7 +27,8 @@ const CreateLinkTokenSchema = z.object({
 });
 
 /**
- * Description placeholder
+ * Zod schema for validating the input to {@link exchangePublicToken}.
+ * Requires a non-empty Plaid public token and the user ID.
  *
  * @type {*}
  */
@@ -31,7 +38,8 @@ const ExchangePublicTokenSchema = z.object({
 });
 
 /**
- * Description placeholder
+ * Zod schema for validating the input to {@link getAccounts}.
+ * Requires a non-empty bank record ID.
  *
  * @type {*}
  */
@@ -40,7 +48,8 @@ const GetAccountsSchema = z.object({
 });
 
 /**
- * Description placeholder
+ * Zod schema for validating the input to {@link getTransactions}.
+ * Requires a bank ID, ISO date strings for start/end, and optional count/offset.
  *
  * @type {*}
  */
@@ -53,7 +62,8 @@ const GetTransactionsSchema = z.object({
 });
 
 /**
- * Description placeholder
+ * Zod schema for validating the input to {@link getBalance}.
+ * Requires a non-empty bank record ID.
  *
  * @type {*}
  */
@@ -62,7 +72,8 @@ const GetBalanceSchema = z.object({
 });
 
 /**
- * Description placeholder
+ * Zod schema for validating the input to a single-bank account refresh.
+ * Requires a non-empty bank record ID.
  *
  * @type {*}
  */
@@ -71,7 +82,8 @@ const RefreshAccountsSchema = z.object({
 });
 
 /**
- * Description placeholder
+ * Zod schema for validating the input to {@link getInstitution}.
+ * Requires a non-empty Plaid institution ID string.
  *
  * @type {*}
  */
@@ -80,7 +92,8 @@ const GetInstitutionSchema = z.object({
 });
 
 /**
- * Description placeholder
+ * Creates a Plaid Link token for the given user, which is used to initialise
+ * the Plaid Link UI in the browser.
  *
  * @export
  * @async
@@ -122,7 +135,9 @@ export async function createLinkToken(
 }
 
 /**
- * Description placeholder
+ * Exchanges a Plaid public token for a permanent access token, stores the
+ * linked bank record in the database, and revalidates the dashboard and
+ * my-banks pages.
  *
  * @export
  * @async
@@ -185,7 +200,7 @@ export async function exchangePublicToken(
 
     revalidatePath("/my-banks");
     revalidatePath("/dashboard");
-
+    revalidateTag("balances", "max");
     return { bank, ok: true };
   } catch (error) {
     console.error("Plaid exchangePublicToken error:", error);
@@ -194,7 +209,7 @@ export async function exchangePublicToken(
 }
 
 /**
- * Description placeholder
+ * Retrieves all Plaid accounts for a single linked bank record.
  *
  * @export
  * @async
@@ -235,7 +250,8 @@ export async function getAccounts(input: unknown): Promise<{
 }
 
 /**
- * Description placeholder
+ * Retrieves paginated Plaid transactions for a single linked bank record
+ * within the given date range.
  *
  * @export
  * @async
@@ -290,7 +306,8 @@ export async function getTransactions(input: unknown): Promise<{
 }
 
 /**
- * Description placeholder
+ * Retrieves real-time account balances for a single linked bank record
+ * via the Plaid `/accounts/balance/get` endpoint.
  *
  * @export
  * @async
@@ -341,11 +358,15 @@ export async function getBalance(input: unknown): Promise<{
 }
 
 /**
- * Description placeholder
+ * Retrieves real-time account balances for all linked bank records belonging
+ * to the authenticated user. Each bank is queried in parallel; banks that
+ * fail are returned as empty arrays (graceful degradation).
+ *
+ * Results are cached with a "minutes" lifetime and tagged "balances" so
+ * they can be invalidated after bank link/unlink operations.
  *
  * @export
  * @async
- * @param {unknown} input
  * @returns {Promise<{
  *   ok: boolean;
  *   balances?: Record<string, PlaidBalance[]>;
@@ -357,6 +378,10 @@ export async function getAllBalances(): Promise<{
   balances?: Record<string, PlaidBalance[]>;
   error?: string;
 }> {
+  "use cache";
+  cacheLife("minutes");
+  cacheTag("balances");
+
   const session = await auth();
   if (!session?.user?.id) {
     return { error: "Not authenticated", ok: false };
@@ -452,7 +477,8 @@ export async function getAllAccounts(): Promise<{
 }
 
 /**
- * Description placeholder
+ * Retrieves Plaid institution metadata (name, logo, colours) for the given
+ * Plaid institution ID.
  *
  * @export
  * @async
@@ -491,7 +517,8 @@ export async function getInstitution(input: unknown): Promise<{
 }
 
 /**
- * Description placeholder
+ * Zod schema for validating the input to {@link getBankWithDetails}.
+ * Requires a non-empty bank record ID.
  *
  * @type {*}
  */
@@ -500,7 +527,8 @@ const GetBankWithDetailsSchema = z.object({
 });
 
 /**
- * Description placeholder
+ * Fetches both real-time balances and recent transactions (last 30 days,
+ * up to 10) for a single linked bank record in a single parallel call.
  *
  * @export
  * @async
@@ -560,7 +588,8 @@ export async function getBankWithDetails(input: unknown): Promise<{
 }
 
 /**
- * Description placeholder
+ * Zod schema for validating the input to {@link removeBank}.
+ * Requires a non-empty bank record ID.
  *
  * @type {*}
  */
@@ -569,7 +598,8 @@ const RemoveBankSchema = z.object({
 });
 
 /**
- * Description placeholder
+ * Removes a linked bank record owned by the authenticated user from the
+ * database and revalidates the my-banks page cache.
  *
  * @export
  * @async
@@ -606,6 +636,7 @@ export async function removeBank(input: unknown): Promise<{
 
     await bankDal.delete(bankId);
     revalidatePath("/my-banks");
+    revalidateTag("balances", "max");
     return { ok: true };
   } catch (error) {
     console.error("Plaid removeBank error:", error);

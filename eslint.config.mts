@@ -1,5 +1,4 @@
 import js from "@eslint/js";
-// @ts-expect-error - no bundled types for @eslint/markdown
 import markdown from "@eslint/markdown";
 import tsEslintParser from "@typescript-eslint/parser";
 import nextVitals from "eslint-config-next/core-web-vitals";
@@ -11,9 +10,7 @@ import drizzle from "eslint-plugin-drizzle";
 import importX from "eslint-plugin-import-x";
 import jest from "eslint-plugin-jest";
 import jsdoc from "eslint-plugin-jsdoc";
-import jsxA11y from "eslint-plugin-jsx-a11y";
 import nodePlugin from "eslint-plugin-n";
-// @ts-expect-error - no bundled types for eslint-plugin-no-secrets
 import noSecrets from "eslint-plugin-no-secrets";
 import perfectionist from "eslint-plugin-perfectionist";
 import playwright from "eslint-plugin-playwright";
@@ -753,9 +750,6 @@ export default defineConfig([
   // =====================================================
   {
     files: ["**/*.{jsx,tsx}"],
-    plugins: {
-      "jsx-a11y": jsxA11y,
-    },
     rules: {
       "jsx-a11y/alt-text": "error",
       "jsx-a11y/anchor-has-content": "warn",
@@ -789,7 +783,7 @@ export default defineConfig([
   {
     files: ["**/*.md"],
     plugins: {
-      markdown,
+      markdown: markdown as unknown as import("eslint").ESLint.Plugin,
     },
     processor: "markdown/markdown",
   },

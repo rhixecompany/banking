@@ -4,7 +4,7 @@ import { DashboardServerWrapper } from "@/components/dashboard/dashboard-server-
 
 export const metadata: Metadata = {
   description: "Your financial overview",
-  title: "Dashboard | Banking",
+  title: "Dashboard | Horizon Banking",
 };
 
 /**

@@ -1,13 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
 import type { MenuData } from "@/components/shadcn-studio/blocks/hero-section-41/hero-section-41";
 
 import Header from "@/components/shadcn-studio/blocks/hero-section-41/header";
 import HeroSection from "@/components/shadcn-studio/blocks/hero-section-41/hero-section-41";
 import { Button } from "@/components/ui/button";
-import { auth } from "@/lib/auth";
 
 const navigationData: never[] = [];
 
@@ -36,20 +34,12 @@ const bankingMenuData: MenuData[] = [
 ];
 
 /**
- * Server wrapper for the home/landing page.
- * Checks if the user is authenticated and redirects to dashboard if so.
- * Renders the full landing page (header, hero, features, CTA, stats, footer) for unauthenticated visitors.
+ * Landing page component — publicly accessible, no auth required.
  *
  * @export
- * @async
- * @returns {Promise<JSX.Element>}
+ * @returns {JSX.Element}
  */
-export async function HomeServerWrapper(): Promise<JSX.Element> {
-  const session = await auth();
-  if (session?.user) {
-    redirect("/dashboard");
-  }
-
+export function HomeServerWrapper(): JSX.Element {
   return (
     <div className="flex min-h-screen flex-col">
       <Header navigationData={navigationData} />

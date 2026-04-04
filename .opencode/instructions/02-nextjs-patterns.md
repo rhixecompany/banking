@@ -78,7 +78,7 @@ export async function createUser(
     await userDal.create(parsed.data);
     revalidatePath("/users");
     return { ok: true };
-  } catch (error) {
+  } catch {
     return { ok: false, error: "Failed to create user" };
   }
 }
@@ -102,12 +102,13 @@ export default async function MyBanksPage() {
 
 ```typescript
 import { revalidateTag } from "next/cache";
+import { unstable_updateTag as updateTag } from "next/cache";
 
-// Prefer revalidateTag with max for stale-while-revalidate
-revalidateTag("banks", "max");
-
-// Use updateTag in Server Actions for immediate consistency
+// Use updateTag in Server Actions for immediate cache invalidation
 updateTag("banks");
+
+// Use revalidateTag for background stale-while-revalidate
+revalidateTag("banks");
 ```
 
 ## Suspense Boundaries

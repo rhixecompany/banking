@@ -21,7 +21,7 @@ npm run clean           # Clean build artifacts
 ```bash
 npm run validate        # Run all checks (format + type-check + lint + test)
 npm run format         # Format code with Prettier
-npm run format:check   # Check formatting without fixing
+npm run format:check   # WARNING: destructive — runs format (writes files) first, then checks
 npm run lint           # ESLint with compact output
 npm run lint:fix       # ESLint with auto-fix
 npm run lint:strict   # Strict ESLint (blocks PR at 0 warnings)
@@ -88,13 +88,6 @@ npm run generate:dal       # Generate DAL files
 npm run generate:action   # Generate Server Action files
 npm run generate:component # Generate React components
 npm run generate:feature  # Generate feature scaffolding
-```
-
-## Project-Specific Commands
-
-```bash
-npm run banking:validate    # Run all banking validation checks
-npm run banking:generate     # Generate documentation
 ```
 
 ## OpenCode Agents

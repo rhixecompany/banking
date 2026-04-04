@@ -1,23 +1,9 @@
-import { Suspense } from "react";
-
-import { HomeServerWrapper } from "@/components/home/home-server-wrapper";
-import { LoadingSpinner } from "@/components/ui/spinner";
+import { redirect } from "next/navigation";
 
 /**
- * Home page route.
- * Wraps HomeServerWrapper in a Suspense boundary as required by Next.js 16
- * for routes that call async auth APIs.
+ * This route has been moved to app/page.tsx (root-level, public).
+ * Redirect any direct hits to the canonical home URL.
  */
-export default function HomePage(): JSX.Element {
-  return (
-    <Suspense
-      fallback={
-        <div className="flex-center min-h-screen">
-          <LoadingSpinner className="size-12" />
-        </div>
-      }
-    >
-      <HomeServerWrapper />
-    </Suspense>
-  );
+export default function RootHomePage(): never {
+  redirect("/");
 }

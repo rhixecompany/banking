@@ -40,13 +40,15 @@ export async function protectedAction(input: unknown) {
 ### Authorization Check
 
 ```typescript
+// IMPORTANT: session.user has NO `role` field.
+// Use `isAdmin: boolean` for admin checks (see types/next-auth.d.ts).
 export async function adminOnlyAction(input: unknown) {
   const session = await auth();
   if (!session?.user) {
     return { ok: false, error: "Unauthorized" };
   }
 
-  if (session.user.role !== "admin") {
+  if (!session.user.isAdmin) {
     return { ok: false, error: "Forbidden: Admin access required" };
   }
 

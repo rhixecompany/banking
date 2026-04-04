@@ -103,7 +103,10 @@ const ProfileDropdown = ({
 
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem className="px-4 py-2.5 text-base">
+        <DropdownMenuItem
+          variant="destructive"
+          className="px-4 py-2.5 text-base"
+        >
           <LogOutIcon className="size-5" />
           <span>Logout</span>
         </DropdownMenuItem>

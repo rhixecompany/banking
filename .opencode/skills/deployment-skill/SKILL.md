@@ -94,10 +94,30 @@ CMD ["node", "server.js"]
 
 ## Database Migrations on Deploy
 
+**Never override the `build` script in `package.json`.** The project's `prebuild` hook already runs `clean && type-check` automatically. Overriding `build` with `npm run db:push && next build` would break the `prebuild` lifecycle.
+
+Instead, run migrations as a **separate pre-deploy step** before the build:
+
 ```bash
-# Vercel - Add to build script in package.json
-"build": "npm run db:push && next build"
+# CI/CD pre-deploy step (run before npm run build)
+npm run db:migrate
 ```
+
+For Vercel, use the **"Build & Development Settings → Build Command"** override in the dashboard:
+
+```
+npm run db:migrate && npm run build
+```
+
+Or use a Vercel `vercel.json` build command:
+
+```json
+{
+  "buildCommand": "npm run db:migrate && npm run build"
+}
+```
+
+> Use `db:migrate` (runs pending migrations from files) rather than `db:push` (schema drift push — use only in development). In production, always use migration files.
 
 ## CI/CD Pipeline
 
@@ -139,14 +159,9 @@ jobs:
 ## Environment-Specific Config
 
 ```typescript
-// lib/env.ts - Use different configs per environment
-const envSchema = z.object({
-  NODE_ENV: z.enum(["development", "production", "test"]),
-  DATABASE_URL: z.string().url()
-  // ...
-});
-
-const env = envSchema.parse(process.env);
+// lib/env.ts already validates all env vars via Zod.
+// Import from lib/env.ts — never use process.env directly.
+import { env } from "@/lib/env";
 
 // Use different logic based on environment
 if (env.NODE_ENV === "production") {
@@ -169,12 +184,11 @@ export async function GET() {
       status: "healthy",
       timestamp: new Date().toISOString()
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       {
         status: "unhealthy",
-        error:
-          error instanceof Error ? error.message : "Unknown error"
+        error: "Unknown error"
       },
       { status: 503 }
     );
@@ -190,6 +204,6 @@ Run: `npm run build` before deploying
 
 1. **Never commit secrets** - Use environment variables
 2. **Test locally first** - Use `npm run build` and `npm run start`
-3. **Database migrations** - Run `db:push` during build
+3. **Database migrations** - Run `npm run db:migrate` as a separate pre-deploy step (never override the `build` script)
 4. **Health endpoints** - Implement `/api/health`
 5. **Static assets** - Use CDN for uploads in production

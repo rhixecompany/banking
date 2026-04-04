@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import type { User } from "@/types";
+import type { User } from "@/types/user";
 
 // ---------------------------------------------------------------------------
 // Module mocks
@@ -50,10 +50,14 @@ import Sidebar from "@/components/sidebar/sidebar";
 const mockUser: User = {
   createdAt: new Date(),
   email: "alice@example.com",
+  emailVerified: null,
   id: "1",
+  image: null,
   isActive: true,
   isAdmin: false,
   name: "Alice",
+  password: null,
+  role: "user",
   updatedAt: new Date(),
 };
 

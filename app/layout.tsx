@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { IBM_Plex_Serif, Inter } from "next/font/google";
+import { Merriweather, Roboto } from "next/font/google";
 import { ReactNode } from "react";
 
 import { Toaster } from "@/components/ui/sonner";
@@ -13,15 +13,15 @@ import "./globals.css";
  *
  * @type {*}
  */
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const roboto = Roboto({ subsets: ["latin"], variable: "--font-sans" });
 /**
  * Description placeholder
  *
  * @type {*}
  */
-const ibmPlexSerif = IBM_Plex_Serif({
+const merriweather = Merriweather({
   subsets: ["latin"],
-  variable: "--font-ibm-plex-serif",
+  variable: "--font-serif",
   weight: ["400", "700"],
 });
 
@@ -51,7 +51,7 @@ export default function RootLayout({
 }: Readonly<{ children: ReactNode }>): JSX.Element {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${ibmPlexSerif.variable}`}>
+      <body className={`${roboto.variable} ${merriweather.variable}`}>
         <RootProviders>{children}</RootProviders>
         <Toaster position="top-right" expand={true} richColors closeButton />
       </body>

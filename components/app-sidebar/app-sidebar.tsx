@@ -16,6 +16,7 @@ import {
   SettingsIcon,
   UsersIcon,
 } from "lucide-react";
+import Link from "next/link";
 import * as React from "react";
 
 import { NavDocuments } from "@/components/nav-documents/nav-documents";
@@ -161,12 +162,12 @@ export function AppSidebar({
           <SidebarMenuItem>
             <SidebarMenuButton
               asChild
-              className="data-[slot=sidebar-menu-button]:!p-1.5"
+              className="data-[slot=sidebar-menu-button]:p-1.5!"
             >
-              <a href="#">
+              <Link href="#">
                 <ArrowUpCircleIcon className="size-5 " />
                 <span className="text-base font-semibold">Acme Inc.</span>
-              </a>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

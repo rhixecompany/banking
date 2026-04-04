@@ -1,3 +1,5 @@
+import type { User } from "@/types/user";
+
 /**
  * Props for the `CreditCard` component that renders a styled bank card tile.
  *
@@ -51,9 +53,9 @@ export interface FooterProps {
   /**
    * The currently authenticated user whose info is displayed in the footer.
    *
-   * @type {User}
+   * @type {UserWithProfile}
    */
-  user: User;
+  user: UserWithProfile;
   /**
    * Layout variant: "desktop" renders a full footer row; "mobile" renders a compact version.
    *
@@ -108,9 +110,9 @@ export interface MobileNavProps {
   /**
    * The currently authenticated user, used to personalise the nav header.
    *
-   * @type {User}
+   * @type {UserWithProfile}
    */
-  user: User;
+  user: UserWithProfile;
 }
 
 /**
@@ -151,9 +153,9 @@ export interface SidebarProps {
   /**
    * The currently authenticated user, used to personalise the sidebar header and footer.
    *
-   * @type {User}
+   * @type {UserWithProfile}
    */
-  user: User;
+  user: UserWithProfile;
 }
 
 /**
@@ -206,69 +208,6 @@ export interface SearchParamProps {
    * @type {Promise<Record<string, string | string[] | undefined>>}
    */
   searchParams: Promise<Record<string, string | string[] | undefined>>;
-}
-
-/**
- * Represents an authenticated application user, sourced from the database `users` table.
- *
- * @export
- * @typedef {User}
- */
-export interface User {
-  /**
-   * Unique user identifier (UUID string from the `users` table primary key).
-   *
-   * @type {string}
-   */
-  id: string;
-  /**
-   * The user's unique email address. Used for login and notifications.
-   *
-   * @type {string}
-   */
-  email: string;
-  /**
-   * Bcrypt-hashed password. Present only for Credentials provider accounts; absent for OAuth-only accounts.
-   *
-   * @type {?string}
-   */
-  password?: string;
-  /**
-   * Display name for the user. May be null if not yet set.
-   *
-   * @type {?(null | string)}
-   */
-  name?: null | string;
-  /**
-   * URL of the user's profile avatar image. May be null if not set.
-   *
-   * @type {?(null | string)}
-   */
-  image?: null | string;
-  /**
-   * Whether the user has administrator privileges. Reflected directly on the NextAuth session.
-   *
-   * @type {boolean}
-   */
-  isAdmin: boolean;
-  /**
-   * Whether the user account is active. Inactive accounts are denied access. Reflected on the NextAuth session.
-   *
-   * @type {boolean}
-   */
-  isActive: boolean;
-  /**
-   * Timestamp when the user record was created.
-   *
-   * @type {Date}
-   */
-  createdAt: Date;
-  /**
-   * Timestamp when the user record was last updated.
-   *
-   * @type {Date}
-   */
-  updatedAt: Date;
 }
 
 /**

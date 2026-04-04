@@ -2,18 +2,18 @@
 
 import type { UserWithProfile } from "@/types/user";
 
+import { db } from "@/database/db";
+import { errors } from "@/database/schema";
 import { auth } from "@/lib/auth";
 import { userDal } from "@/lib/dal";
 
 /**
- * Description placeholder
+ * Returns the name and email of the currently authenticated user from the session.
+ * Returns undefined when no session exists.
  *
  * @export
  * @async
- * @returns {Promise<{
- *   name?: string;
- *   email?: string;
- * } | null>}
+ * @returns {Promise<{ name?: string; email?: string } | undefined>}
  */
 export async function getLoggedInUser(): Promise<
   | {
@@ -31,16 +31,26 @@ export async function getLoggedInUser(): Promise<
 }
 
 /**
- * Logs out the current user by clearing the server-side session.
- * The client is responsible for calling signOut() from next-auth/react.
+ * Performs pre-logout server-side work: validates the session exists and
+ * writes an audit record to the errors table (severity "info").
+ * The caller is responsible for invoking signOut() from next-auth/react
+ * to clear the JWT cookie on the client.
  *
  * @export
  * @async
- * @returns {Promise<boolean>} True if logout was successful
+ * @returns {Promise<boolean>} True if the session existed and audit log was written
  */
 export async function logoutAccount(): Promise<boolean> {
   const session = await auth();
   if (!session?.user) return false;
+
+  await db.insert(errors).values({
+    message: "User logout",
+    path: "/sign-out",
+    severity: "info",
+    userId: session.user.id,
+  });
+
   return true;
 }
 

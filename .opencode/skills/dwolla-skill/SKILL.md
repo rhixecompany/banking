@@ -90,16 +90,20 @@ export async function initiateTransfer(
 // app/api/webhooks/dwolla/route.ts
 import { dwollaClient } from "@/lib/dwolla";
 import { headers } from "next/headers";
+import { env } from "@/lib/env";
 
 export async function POST(request: Request) {
   const body = await request.text();
-  const signature = headers().get("x-dwolla-signature");
+  // headers() is async in Next.js 16 — must be awaited
+  const headersList = await headers();
+  const signature = headersList.get("x-dwolla-signature");
 
   // Verify webhook signature
+  // DWOLLA_WEBHOOK_URL must be defined in lib/env.ts before use
   const isValid = dwollaClient.webhookVerify(
     {
       "x-dwolla-signature": signature,
-      "webhook-url": process.env.DWOLLA_WEBHOOK_URL!
+      "webhook-url": env.DWOLLA_BASE_URL ?? ""
     },
     body
   );
@@ -108,7 +112,7 @@ export async function POST(request: Request) {
     return new Response("Invalid signature", { status: 401 });
   }
 
-  const event = JSON.parse(body);
+  const event = JSON.parse(body) as { topic: string };
 
   switch (event.topic) {
     case "transfer_completed":
@@ -129,8 +133,10 @@ Required in `lib/env.ts`:
 
 - `DWOLLA_KEY`
 - `DWOLLA_SECRET`
-- `DWOLLA_ENV` (sandbox/development/production)
-- `DWOLLA_WEBHOOK_URL`
+- `DWOLLA_ENV` (`"sandbox"` or `"production"`)
+- `DWOLLA_BASE_URL` - Optional base URL override
+
+> **Note:** `DWOLLA_WEBHOOK_URL` does **not** exist in `lib/env.ts`. Use `DWOLLA_BASE_URL` or add a new env var to `lib/env.ts` if a dedicated webhook URL is needed. Always import from `lib/env.ts`, never use `process.env` directly.
 
 ## Verification Methods
 
