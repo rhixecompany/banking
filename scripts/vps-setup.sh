@@ -1,5 +1,5 @@
 #!/bin/bash
-# vps-setup.sh - Automated Banking App VPS Setup v1.4
+# vps-setup.sh - Automated Banking App VPS Setup v1.5
 # Usage: curl -sSL https://raw.githubusercontent.com/rhixecompany/banking/main/scripts/vps-setup.sh | bash
 
 set -e
@@ -16,7 +16,7 @@ REPO_URL="https://github.com/rhixecompany/banking.git"
 INSTALL_DIR="/opt/banking"
 
 echo -e "${BLUE}========================================${NC}"
-echo -e "${BLUE}  Banking App VPS Setup v1.2${NC}"
+echo -e "${BLUE}  Banking App VPS Setup v1.5${NC}"
 echo -e "${BLUE}========================================${NC}"
 echo ""
 
@@ -100,6 +100,8 @@ PLAID_CLIENT_ID="${PLAID_CLIENT_ID:-}"
 PLAID_SECRET="${PLAID_SECRET:-}"
 DWOLLA_KEY="${DWOLLA_KEY:-}"
 DWOLLA_SECRET="${DWOLLA_SECRET:-}"
+DWOLLA_BASE_URL="https://api-sandbox.dwolla.com"
+DWOLLA_ENV="sandbox"
 
 echo ""
 echo -e "${GREEN}Step 6: Creating Docker secrets...${NC}"
@@ -153,7 +155,13 @@ cd "$INSTALL_DIR"
 
 echo -e "${GREEN}Building Docker image locally...${NC}"
 echo -e "${YELLOW}This may take 10-15 minutes...${NC}"
-docker build -t ghcr.io/rhixecompany/banking:latest \
+docker build \
+    --build-arg ENCRYPTION_KEY="$ENCRYPTION_KEY" \
+    --build-arg NEXTAUTH_SECRET="$NEXTAUTH_SECRET" \
+    --build-arg DWOLLA_BASE_URL="https://api-sandbox.dwolla.com" \
+    --build-arg DWOLLA_ENV=sandbox \
+    --build-arg NODE_ENV=production \
+    -t ghcr.io/rhixecompany/banking:latest \
     -f compose/production/node/Dockerfile .
 
 echo ""
