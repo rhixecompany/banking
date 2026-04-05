@@ -2,497 +2,571 @@
 
 ## Overview
 
-This guide covers deploying the banking app to a Hostinger KVM VPS with Neon PostgreSQL database.
+This guide covers deploying the Banking app to a Hostinger KVM VPS using **Docker Swarm**. The application uses a containerized architecture with Traefik as a reverse proxy, PostgreSQL for data storage, Redis for caching/rate-limiting, and optional Prometheus + Grafana for monitoring.
+
+### Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                        Hostinger VPS                              │
+│                                                                  │
+│  ┌─────────────────────────────────────────────────────────┐    │
+│  │                     Docker Swarm                         │    │
+│  │                                                          │    │
+│  │   ┌──────────┐   ┌──────────┐   ┌──────────────┐     │    │
+│  │   │ Traefik  │◄──│ Banking  │   │  Prometheus  │     │    │
+│  │   │  (HTTP/  │   │   App   │   │   + Grafana  │     │    │
+│  │   │   HTTPS) │   │  x2 replicas             │     │    │
+│  │   └──────────┘   └──────────┘   └──────────────┘     │    │
+│  │        │              │                 │               │    │
+│  │        ▼              ▼                 ▼               │    │
+│  │   ┌─────────────────────────────────────────────┐      │    │
+│  │   │              Overlay Networks               │      │    │
+│  │   │   traefik-public  │  app-internal         │      │    │
+│  │   └─────────────────────────────────────────────┘      │    │
+│  │                                                      │    │
+│  │   ┌──────────┐   ┌──────────┐                      │    │
+│  │   │PostgreSQL│   │  Redis   │                      │    │
+│  │   │ (stateful)│   │ (cache)  │                      │    │
+│  │   └──────────┘   └──────────┘                      │    │
+│  └─────────────────────────────────────────────────────────┘    │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### Included Services
+
+| Service | Description | Replicas |
+| --- | --- | --- |
+| **Traefik** | Reverse proxy, SSL termination, routing | 1 |
+| **Banking App** | Next.js 16 application | 2 |
+| **PostgreSQL** | Primary database | 1 |
+| **Redis** | Cache & rate limiting | 1 |
+| **Prometheus** | Metrics collection | 1 |
+| **Grafana** | Monitoring dashboard | 1 |
+| **Node Exporter** | System metrics | Global |
+
+---
 
 ## Prerequisites
 
-- Hostinger KVM 1 plan (or higher)
-- Neon account (free tier at [neon.tech](https://neon.tech))
+- Hostinger KVM 2 plan (or higher - requires 4GB+ RAM for all services)
 - GitHub repository with the banking app code
+- Domain name with DNS access (optional, for HTTPS)
+- Docker Hub or GitHub Container Registry account (for image hosting)
+
+### Resource Requirements
+
+| Resource | Minimum | Recommended |
+| -------- | ------- | ----------- |
+| RAM      | 4 GB    | 8 GB        |
+| CPU      | 2 cores | 4 cores     |
+| Storage  | 40 GB   | 80 GB       |
 
 ---
 
-## Phase 1: Neon Database Setup
+## Phase 1: VPS Initial Setup
 
-### 1.1 Create Neon Account
-
-1. Go to [neon.tech](https://neon.tech)
-2. Click "Sign Up" → "GitHub" to sign in with your GitHub account
-3. Authorize Neon to access your GitHub repositories
-
-### 1.2 Create a New Project
-
-1. In Neon dashboard, click "Create Project"
-2. Name your project (e.g., `banking-app`)
-3. Select the closest region to your Hostinger VPS location
-4. Click "Create Project"
-
-### 1.3 Get Connection String
-
-1. Once the project is created, click "Connection Details"
-2. Select "Pooled connection" (recommended) or "Direct connection"
-3. Copy the connection string — it will look like:
-
-```
-postgresql://username:password@ep-xxx.us-east-1.aws.neon.tech/banking?sslmode=require
-
-```
-
-1. **Save this connection string** — you'll need it for the DATABASE_URL environment variable
-
-> **Note**: For security, create a separate user with limited permissions instead of using the default root user. In Neon: Settings → Roles → Create Role.
-
----
-
-## Phase 2: Hostinger VPS Setup
-
-### 2.1 Access Your VPS
+### 1.1 Access Your VPS
 
 1. Log in to Hostinger hPanel
 2. Go to VPS → Your VPS plan
-3. Click "SSH Access" to get your credentials:
+3. Click "SSH Access" to get credentials:
    - IP Address
    - Username (usually `root`)
    - Password
 
-4. Connect via terminal (Mac/Linux) or PuTTY (Windows):
+4. Connect via terminal:
 
-   ```bash
-   ssh root@YOUR_VPS_IP
-   ```
+```bash
+ssh root@YOUR_VPS_IP
+```
 
-### 2.2 Update System Packages
+### 1.2 Update System Packages
 
 ```bash
 apt update && apt upgrade -y
 ```
 
-### 2.3 Install Node.js 20.x
+### 1.3 Install Docker
 
 ```bash
-# Install NodeSource repository for Node.js 20
-curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+# Install Docker
+curl -fsSL https://get.docker.com | sh
 
-# Install Node.js
-sudo apt install -y nodejs
+# Add current user to docker group
+usermod -aG docker $USER
+
+# Enable and start Docker
+systemctl enable docker
+systemctl start docker
 
 # Verify installation
-node --version  # Should show v20.x.x
-npm --version
+docker --version
+docker compose version
 ```
 
-### 2.4 Install PM2 (Process Manager)
-
-PM2 keeps your Next.js app running even after you close the SSH connection.
+### 1.4 Initialize Docker Swarm
 
 ```bash
-sudo npm install -g pm2
+# Initialize swarm with your VPS IP
+docker swarm init --advertise-addr $(hostname -I | awk '{print $1}')
 
-# Verify installation
-pm2 --version
-```
-
-### 2.5 Install nginx
-
-nginx will act as a reverse proxy to forward traffic to your Next.js app.
-
-```bash
-sudo apt install -y nginx
+# Verify swarm is active
+docker node ls
 ```
 
 ---
 
-## Phase 3: Application Deployment
+## Phase 2: Project Setup
 
-### 3.1 Clone the Repository
+### 2.1 Clone the Repository
 
 ```bash
-# Navigate to web directory
-cd /var/www
+# Create project directory
+mkdir -p /opt/banking
+cd /opt/banking
 
-# Clone your repository (replace with your actual repo URL)
+# Clone your repository
 git clone https://github.com/rhixecompany/banking.git
 
-# Navigate to the project directory
 cd banking
 ```
 
-### 3.2 Install Dependencies
+### 2.2 Copy Deployment Files
 
 ```bash
-npm install
+# Copy stack files to convenient location
+cp -r stacks /opt/banking/
+cp -r compose/production/traefik /opt/banking/compose/production/
+cp -r scripts /opt/banking/
+
+# Create certificates directory
+mkdir -p /opt/banking/compose/production/traefik/certs
 ```
 
-### 3.3 Configure Environment Variables
-
-1. Create the `.env` file:
+### 2.3 Create Directory Structure
 
 ```bash
-nano .env
+mkdir -p /opt/banking/.envs/production
 ```
 
-1. Add the following variables:
+---
 
-```env
-# ============ DATABASE ============
-# From Neon dashboard (Phase 1)
-DATABASE_URL=postgresql://neondb_owner:npg_f3MZAHjDJ0lz@ep-weathered-hall-amij2m6x-pooler.c-5.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
+## Phase 3: Secrets Management
 
-# ============ AUTH ============
-# Generate with: openssl rand -base64 32
-NEXTAUTH_SECRET=uXhdStI+pNRt0YsNktJ1QxePMala6d/OEdDoS885kE0=
-NEXTAUTH_URL=[http://YOUR_VPS_IP](http://76.13.26.9/)
-NEXT_PUBLIC_SITE_URL=[http://YOUR_VPS_IP](http://76.13.26.9/)
+All sensitive values are stored as Docker Swarm secrets.
 
-# ============ PLAID (Banking Integration) ============
-PLAID_CLIENT_ID=your-plaid-client-id
-PLAID_SECRET=your-plaid-secret
-PLAID_ENV=sandbox
-PLAID_PRODUCTS=auth,transactions,identity
-PLAID_COUNTRY_CODES=US,CA
-
-# ============ DWOLLA (Fund Transfers) ============
-DWOLLA_KEY=your-dwolla-key
-DWOLLA_SECRET=your-dwolla-secret
-DWOLLA_BASE_URL=https://api-sandbox.dwolla.com
-DWOLLA_ENV=sandbox
-
-# ============ SMTP (Email - Optional) ============
-SMTP_HOST=smtp.gmail.com
-SMTP_PORT=587
-SMTP_USER=your-email@gmail.com
-SMTP_PASS=your-app-password
-SMTP_FROM=noreply@yourdomain.com
-```
-
-1. Save and exit (Ctrl+O, Enter, Ctrl+X)
-
-### 3.4 Generate NEXTAUTH_SECRET
-
-If you haven't generated a secret yet, run:
+### 3.1 Generate Required Secrets
 
 ```bash
+# Generate encryption key (32+ characters)
+openssl rand -hex 32
+
+# Generate NextAuth secret
 openssl rand -base64 32
+
+# Generate random passwords
+openssl rand -base64 24  # For PostgreSQL
+openssl rand -base64 24  # For Redis
+openssl rand -base64 24  # For Grafana
 ```
 
-Copy the output and add it as `NEXTAUTH_SECRET` in your `.env` file.
-
-### 3.5 Run Database Migrations
-
-```bash
-npm run db:push
-```
-
-Or if you need to generate and run migrations:
-
-```bash
-npm run db:generate
-npm run db:migrate
-```
-
-### 3.6 Build the Application
-
-```bash
-npm run build
-```
-
-This may take several minutes. Ensure the build completes without errors.
-
-### 3.7 Start the Application with PM2
-
-```bash
-pm2 start npm --name "banking" -- start
-```
-
-Verify it's running:
-
-```bash
-pm2 status
-pm2 logs banking
-```
-
-### 3.8 Configure PM2 Auto-Restart
-
-```bash
-# Save current PM2 process list
-pm2 save
-
-# Generate startup script
-pm2 startup
-```
-
-Copy and run the output command to enable auto-restart on server reboot.
-
----
-
-## Phase 4: Nginx Reverse Proxy
-
-### 4.1 Create Nginx Configuration
-
-```bash
-nano /etc/nginx/sites-available/banking
-```
-
-Add the following configuration:
-
-```nginx
-server {
-    listen 80;
-    server_name YOUR_VPS_IP;
-
-    # Forward all requests to Next.js app
-    location / {
-        proxy_pass http://localhost:3000;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_cache_bypass $http_upgrade;
-        proxy_read_timeout 86400;
-        proxy_connect_timeout 60s;
-        proxy_send_timeout 60s;
-    }
-}
-```
-
-### 4.2 Enable the Site
-
-```bash
-# Create symbolic link
-ln -s /etc/nginx/sites-available/banking /etc/nginx/sites-enabled/
-
-# Test nginx configuration
-nginx -t
-
-# Restart nginx
-systemctl restart nginx
-```
-
----
-
-## Phase 4.5: Enforce HTTPS with Self-Signed Certificate
-
-If you don't have a domain, you can enforce HTTPS using a self-signed SSL certificate. Users will see a browser warning (click "Advanced" → "Proceed to site").
-
-### 4.5.1 Generate Self-Signed SSL Certificate
-
-```bash
-sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-  -keyout /etc/ssl/private/nginx-selfsigned.key \
-  -out /etc/ssl/certs/nginx-selfsigned.crt \
-  -subj "/C=US/ST=State/L=City/O=Organization/CN=YOUR_VPS_IP"
-```
-
-Replace `YOUR_VPS_IP` with your actual VPS IP address (e.g., `76.13.26.9`).
-
-### 4.5.2 Update Nginx Configuration
-
-Replace the existing Nginx config with HTTPS redirect:
-
-```bash
-sudo nano /etc/nginx/sites-available/banking
-```
-
-```nginx
-# HTTP → HTTPS redirect
-server {
-    listen 80;
-    server_name YOUR_VPS_IP;
-
-    # Redirect all HTTP traffic to HTTPS
-    return 301 https://$server_name$request_uri;
-}
-
-# HTTPS server
-server {
-    listen 443 ssl;
-    server_name YOUR_VPS_IP;
-
-    ssl_certificate /etc/ssl/certs/nginx-selfsigned.crt;
-    ssl_certificate_key /etc/ssl/private/nginx-selfsigned.key;
-
-    # SSL configuration
-    ssl_protocols TLSv1.2 TLSv1.3;
-    ssl_prefer_server_ciphers on;
-    ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384;
-
-    location / {
-        proxy_pass http://localhost:3000;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_cache_bypass $http_upgrade;
-        proxy_read_timeout 86400;
-        proxy_connect_timeout 60s;
-        proxy_send_timeout 60s;
-    }
-}
-```
-
-### 4.5.3 Test and Reload Nginx
-
-```bash
-# Test configuration
-sudo nginx -t
-
-# Reload nginx
-sudo systemctl reload nginx
-```
-
-### 4.5.4 Update Environment Variables
-
-Update your `.env` file to use HTTPS:
-
-```env
-NEXTAUTH_URL=https://YOUR_VPS_IP
-NEXT_PUBLIC_SITE_URL=https://YOUR_VPS_IP
-```
-
-### 4.5.5 Rebuild and Restart Application
-
-```bash
-# Rebuild the application
-npm run build
-
-# Restart PM2
-pm2 restart banking
-```
-
-### 4.5.6 Testing HTTPS
-
-1. Open browser to `https://YOUR_VPS_IP`
-2. Click "Advanced" → "Proceed to site" (browser security warning is expected)
-3. Verify HTTP redirects to HTTPS: `http://YOUR_VPS_IP` → `https://YOUR_VPS_IP`
-
-### Note: SSL Certificate Renewal
-
-Self-signed certificates expire after 365 days. To renew:
-
-```bash
-# Generate new certificate
-sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-  -keyout /etc/ssl/private/nginx-selfsigned.key \
-  -out /etc/ssl/certs/nginx-selfsigned.crt \
-  -subj "/C=US/ST=State/L=City/O=Organization/CN=YOUR_VPS_IP"
-
-# Reload nginx
-sudo systemctl reload nginx
-```
-
----
-
-## Phase 5: Access Your Application
-
-### 5.1 Verify Everything is Running
-
-```bash
-# Check PM2 status
-pm2 status
-
-# Check nginx status
-systemctl status nginx
-
-# Check application logs
-pm2 logs banking --lines 50
-```
-
-### 5.2 Access the App
-
-Open your browser and navigate to:
-
-```
-[http://YOUR_VPS_IP](http://76.13.26.9/)
-```
-
-Replace `YOUR_VPS_IP` with your actual Hostinger VPS IP address.
-
----
-
-## Phase 6: Maintenance & Updates
-
-### 6.1 Updating the Application
-
-When you push changes to your GitHub repository:
+### 3.2 Create Docker Secrets
 
 ```bash
 # Navigate to project directory
-cd /var/www/banking
+cd /opt/banking
 
-# Pull latest changes
-git pull origin main
+# Create secrets (replace values with your generated/actual values)
+echo "your-32-char-hex-encryption-key" | docker secret create banking_encryption_key -
+echo "your-base64-nextauth-secret" | docker secret create banking_nextauth_secret -
+echo "postgresql://postgres:password@postgres/banking" | docker secret create banking_database_url -
+echo "your-plaid-client-id" | docker secret create banking_plaid_client_id -
+echo "your-plaid-secret" | docker secret create banking_plaid_secret -
+echo "your-dwolla-key" | docker secret create banking_dwolla_key -
+echo "your-dwolla-secret" | docker secret create banking_dwolla_secret -
+echo "your-github-oauth-id" | docker secret create banking_auth_github_id -
+echo "your-github-oauth-secret" | docker secret create banking_auth_github_secret -
+echo "your-google-oauth-id" | docker secret create banking_auth_google_id -
+echo "your-google-oauth-secret" | docker secret create banking_auth_google_secret -
+echo "redis://:your-redis-password@redis:6379" | docker secret create banking_redis_url -
+echo "your-postgres-password" | docker secret create banking_postgres_password -
 
-# Install any new dependencies
-npm install
+# Optional: SMTP secrets
+echo "smtp.gmail.com" | docker secret create banking_smtp_host -
+echo "587" | docker secret create banking_smtp_port -
+echo "your-email@gmail.com" | docker secret create banking_smtp_user -
+echo "your-app-password" | docker secret create banking_smtp_pass -
 
-# Rebuild the application
-npm run build
-
-# Restart PM2
-pm2 restart banking
+# Verify secrets created
+docker secret ls
 ```
 
-### 6.2 Useful Commands
+### 3.3 Environment Variables
+
+Create `/opt/banking/.envs/production/.env.production`:
+
+```env
+# Application
+NODE_ENV=production
+PORT=3000
+
+# Domain (replace with your domain or VPS IP)
+DOMAIN=banking.yourdomain.com
+
+# Registry
+REGISTRY=ghcr.io
+IMAGE_NAME=rhixecompany/banking
+VERSION=latest
+
+# PostgreSQL
+POSTGRES_USER=postgres
+POSTGRES_DB=banking
+
+# Redis
+REDIS_PASSWORD=your-redis-password
+
+# Grafana
+GRAFANA_PASSWORD=your-grafana-password
+```
+
+---
+
+## Phase 4: Build & Push Docker Image
+
+### 4.1 Build the Image
 
 ```bash
-# View application logs
-pm2 logs banking
+cd /opt/banking/banking
 
-# View logs with timestamps
-pm2 logs banking --time
-
-# Monitor CPU/Memory usage
-pm2 monit
-
-# Restart the application
-pm2 restart banking
-
-# Stop the application
-pm2 stop banking
-
-# View all PM2 processes
-pm2 list
+# Build the Docker image
+docker build -t ghcr.io/rhixecompany/banking:latest \
+  -f compose/production/node/Dockerfile .
 ```
 
-### 6.3 Troubleshooting
+### 4.2 Push to Registry
 
-#### App Won't Start
+**Option A: GitHub Container Registry (GHCR)**
 
 ```bash
-# Check for errors
-pm2 logs banking --err --lines 100
+# Login to GHCR
+echo $GITHUB_TOKEN | docker login ghcr.io -u $GITHUB_USERNAME --password-stdin
 
-# Common issues:
-# - DATABASE_URL is incorrect
-# - Missing environment variables
-# - Port 3000 is already in use
+# Push image
+docker push ghcr.io/rhixecompany/banking:latest
 ```
 
-#### Database Connection Failed
+**Option B: Docker Hub**
 
-1. Verify DATABASE_URL is correct
-2. Check Neon dashboard — ensure project is active
-3. Test connection from VPS:
+```bash
+# Login to Docker Hub
+docker login
 
-   ```bash
-   apt install -y postgresql-client
-   psql "your-database-url"
+# Tag image
+docker tag ghcr.io/rhixecompany/banking:latest yourdockerhub/banking:latest
+
+# Push image
+docker push yourdockerhub/banking:latest
+```
+
+---
+
+## Phase 5: Deploy Stacks
+
+### 5.1 Create Networks
+
+```bash
+# Create overlay networks
+docker network create --driver overlay --attachable traefik-public
+docker network create --driver overlay --attachable app-internal
+```
+
+### 5.2 Deploy Traefik (Reverse Proxy)
+
+```bash
+cd /opt/banking
+
+docker stack deploy -c stacks/traefik.stack.yml traefik
+
+# Verify
+docker stack ps traefik
+```
+
+Wait for Traefik to be running, then continue.
+
+### 5.3 Deploy Monitoring (Optional)
+
+```bash
+cd /opt/banking
+
+# Set Grafana password
+export GRAFANA_PASSWORD=your-grafana-password
+
+docker stack deploy -c stacks/monitoring.stack.yml monitoring
+
+# Verify
+docker stack ps monitoring
+```
+
+### 5.4 Deploy Banking Application
+
+```bash
+cd /opt/banking
+
+# Deploy the app stack
+docker stack deploy -c stacks/app.stack.yml banking
+
+# Verify all services are running
+docker stack ps banking
+```
+
+### 5.5 Check Service Health
+
+```bash
+# View all stacks
+docker stack ls
+
+# View service status
+docker service ls
+
+# Check specific service logs
+docker service logs banking_app
+
+# Check health status
+docker service inspect banking_app --pretty
+```
+
+---
+
+## Phase 6: DNS & HTTPS Configuration
+
+### 6.1 With Domain (Recommended)
+
+#### Option A: Cloudflare (Free SSL)
+
+1. **Buy a domain** (~$2/year):
+   - [Porkbun](https://porkbun.com)
+   - [Namecheap](https://namecheap.com)
+
+2. **Set up Cloudflare**:
+   - Create Cloudflare account
+   - Add your domain
+   - Update nameservers at registrar
+
+3. **Create DNS Records** in Cloudflare:
+
+   ```
+   Type: A
+   Name: banking
+   Value: YOUR_VPS_IP
+   Proxy: Proxied (orange cloud)
    ```
 
-#### nginx 502 Bad Gateway
+4. **Update Traefik configuration**:
+
+   Edit `stacks/app.stack.yml` and update:
+
+   ```yaml
+   labels:
+     - "traefik.http.routers.banking.rule=Host(`banking.yourdomain.com`)"
+   ```
+
+#### Option B: Let's Encrypt (Automatic SSL)
+
+Traefik v3 automatically requests Let's Encrypt certificates. Ensure your domain DNS is pointing to your VPS IP.
+
+### 6.2 Without Domain (Self-Signed SSL)
+
+If you don't have a domain, you can use a self-signed certificate:
 
 ```bash
-# Check if Next.js is running
-pm2 status
+# Generate self-signed certificate
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+  -keyout /opt/banking/compose/production/traefik/certs/key.pem \
+  -out /opt/banking/compose/production/traefik/certs/cert.pem \
+  -subj "/C=US/ST=State/L=City/O=Banking/CN=YOUR_VPS_IP"
 
-# Check nginx error logs
-tail -f /var/log/nginx/error.log
+# Update app stack labels to use IP instead of domain
+# Edit stacks/app.stack.yml and replace ${DOMAIN:-banking.example.com} with your VPS IP
+```
+
+---
+
+## Phase 7: Verification
+
+### 7.1 Check Service Endpoints
+
+```bash
+# Test health endpoint
+curl http://localhost:3000/api/health
+
+# If using domain
+curl https://banking.yourdomain.com/api/health
+```
+
+### 7.2 View Logs
+
+```bash
+# All banking app logs
+docker service logs banking_app
+
+# Follow logs in real-time
+docker service logs -f banking_app
+
+# View with timestamps
+docker service logs -f --tail 100 banking_app
+```
+
+### 7.3 Access Services
+
+| Service           | URL                                           |
+| ----------------- | --------------------------------------------- |
+| Banking App       | `https://banking.yourdomain.com`              |
+| Traefik Dashboard | `https://traefik.banking.yourdomain.com`      |
+| Grafana           | `https://grafana.banking.yourdomain.com:3001` |
+
+### 7.4 Default Credentials
+
+| Service | Username | Password                   |
+| ------- | -------- | -------------------------- |
+| Grafana | admin    | (GRAFANA_PASSWORD you set) |
+
+---
+
+## Phase 8: Maintenance
+
+### 8.1 Update the Application
+
+```bash
+# Pull latest image
+docker pull ghcr.io/rhixecompany/banking:latest
+
+# Update the service
+docker service update --image ghcr.io/rhixecompany/banking:latest banking_app
+
+# Or use stack deploy (will update all services)
+docker stack deploy -c stacks/app.stack.yml banking
+```
+
+### 8.2 Rollback
+
+```bash
+# Rollback to previous version
+docker service rollback banking_app
+
+# View service history
+docker service history banking_app
+```
+
+### 8.3 Scaling
+
+```bash
+# Scale app replicas
+docker service scale banking_app=3
+
+# Scale back down
+docker service scale banking_app=2
+```
+
+### 8.4 Useful Commands
+
+```bash
+# View all stacks
+docker stack ls
+
+# View services in a stack
+docker stack services banking
+
+# View all containers
+docker ps
+
+# View resource usage
+docker stats
+
+# View service details
+docker service inspect banking_app
+
+# Remove a stack
+docker stack rm banking
+
+# Remove all stacks
+docker stack rm traefik banking monitoring
+```
+
+### 8.5 Backup Database
+
+```bash
+# Create database backup
+docker exec $(docker ps -q -f name=banking_db) pg_dump -U postgres banking > backup.sql
+
+# Restore database
+docker exec -i $(docker ps -q -f name=banking_db) psql -U postgres banking < backup.sql
+```
+
+---
+
+## Troubleshooting
+
+### Service Won't Start
+
+```bash
+# Check logs
+docker service logs banking_app --no-trunc
+
+# Check for secret issues
+docker secret ls
+
+# Inspect service
+docker service inspect banking_app
+```
+
+### Database Connection Failed
+
+```bash
+# Check if database is running
+docker service ls
+
+# Check database logs
+docker service logs banking_db
+
+# Test connection
+docker exec -it $(docker ps -q -f name=banking_db) psql -U postgres -c "SELECT 1"
+```
+
+### SSL Certificate Issues
+
+```bash
+# Check Traefik logs
+docker service logs traefik_traefik
+
+# List certificates
+docker exec $(docker ps -q -f name=traefik) ls -la /certs/
+
+# Force certificate regeneration
+docker service update --force traefik_traefik
+```
+
+### Out of Memory
+
+```bash
+# Check memory usage
+docker stats
+
+# Reduce replicas
+docker service scale banking_app=1
+```
+
+### Networking Issues
+
+```bash
+# List networks
+docker network ls
+
+# Inspect network
+docker network inspect app-internal
+
+# Verify containers can reach each other
+docker exec -it $(docker ps -q -f name=banking_app) ping banking_db
 ```
 
 ---
@@ -502,89 +576,125 @@ tail -f /var/log/nginx/error.log
 ### 1. Firewall Configuration
 
 ```bash
-# Allow SSH, HTTP, HTTPS
+# Allow only SSH, HTTP, HTTPS
 ufw allow 22/tcp
 ufw allow 80/tcp
 ufw allow 443/tcp
 ufw enable
 ```
 
-### 2. Keep Software Updated
+### 2. Secure Docker Socket
+
+The Traefik container needs access to the Docker socket. For production, consider using Docker Socket Proxy.
+
+### 3. Regular Updates
 
 ```bash
-# Regular updates
-apt update && apt upgrade -y
+# Update Docker
+apt update && apt upgrade docker.io
+
+# Update images regularly
+docker pull ghcr.io/rhixecompany/banking:latest
+docker service update --image ghcr.io/rhixecompany/banking:latest banking_app
 ```
 
-### 3. Secure .env File
+### 4. secrets Rotation
 
 ```bash
-# Prevent others from reading .env
-chmod 600 .env
+# Update a secret
+echo "new-secret-value" | docker secret create banking_nextauth_secret_v2 -
+
+# Update service to use new secret
+docker service update --secret-rm banking_nextauth_secret --secret-add source=banking_nextauth_secret_v2,target=banking_nextauth_secret banking_app
 ```
 
 ---
 
 ## Cost Summary
 
-| Service          | Cost            |
-| ---------------- | --------------- |
-| Hostinger KVM 1  | $6.49/month     |
-| Neon (Free Tier) | $0              |
-| **Total**        | **$6.49/month** |
+| Service           | Cost            |
+| ----------------- | --------------- |
+| Hostinger KVM 2   | $9.99/month     |
+| Domain (optional) | ~$2/year        |
+| **Total**         | **$9.99/month** |
+
+---
+
+## Environment Variables Reference
+
+### Required Secrets
+
+| Secret | Description | Example |
+| --- | --- | --- |
+| `encryption_key` | AES-256-GCM key | 32+ char hex string |
+| `nextauth_secret` | Session signing key | Base64 string |
+| `database_url` | PostgreSQL connection | `postgresql://user:pass@host/db` |
+| `plaid_client_id` | Plaid API client ID | From plaid.com |
+| `plaid_secret` | Plaid API secret | From plaid.com |
+| `dwolla_key` | Dwolla API key | From dwolla.com |
+| `dwolla_secret` | Dwolla API secret | From dwolla.com |
+| `auth_github_id` | GitHub OAuth app ID | From GitHub |
+| `auth_github_secret` | GitHub OAuth secret | From GitHub |
+| `auth_google_id` | Google OAuth client ID | From Google Cloud |
+| `auth_google_secret` | Google OAuth secret | From Google Cloud |
+| `redis_url` | Redis connection | `redis://:pass@host:6379` |
+| `postgres_password` | PostgreSQL password | Strong random string |
+
+### Optional Secrets
+
+| Secret      | Description          |
+| ----------- | -------------------- |
+| `smtp_host` | SMTP server hostname |
+| `smtp_port` | SMTP port (587)      |
+| `smtp_user` | SMTP username        |
+| `smtp_pass` | SMTP password        |
+
+---
+
+## File Reference
+
+### Key Deployment Files
+
+| File | Purpose |
+| --- | --- |
+| `stacks/app.stack.yml` | Main application stack (app, PostgreSQL, Redis) |
+| `stacks/traefik.stack.yml` | Traefik reverse proxy stack |
+| `stacks/monitoring.stack.yml` | Prometheus + Grafana stack |
+| `compose/production/node/Dockerfile` | Multi-stage Next.js build |
+| `compose/production/traefik/traefik.yml` | Traefik static configuration |
+| `compose/production/traefik/dynamic/middlewares.yml` | Rate limiting, security headers |
+| `compose/production/traefik/dynamic/tls.yml` | TLS configuration |
+| `scripts/server-setup.sh` | Docker Swarm bootstrap script |
+| `scripts/read-secrets.sh` | Secret loading script |
 
 ---
 
 ## Next Steps
 
-### Option 1: Free HTTPS Without Domain (Implemented Above)
+1. **Configure OAuth Providers**:
+   - GitHub: https://github.com/settings/developers
+   - Google: https://console.cloud.google.com
 
-Self-signed SSL is already configured in Phase 4.5. This provides encryption but shows browser warnings.
+2. **Set up Plaid Sandbox**:
+   - Sign up at https://plaid.com
+   - Create sandbox environment
+   - Get API keys
 
-### Option 2: Cloudflare + Cheap Domain (Recommended for Production)
+3. **Set up Dwolla Sandbox**:
+   - Sign up at https://dwolla.com
+   - Create sandbox account
+   - Get API keys
 
-For proper SSL without browser warnings, use Cloudflare with a cheap domain:
-
-1. **Buy a domain** (~$2/year):
-   - [Porkbun](https://porkbun.com) - .xyz, .click domains
-   - [Namecheap](https://namecheap.com) - .xyz, .online domains
-
-2. **Set up Cloudflare** (free):
-   - Create account at [cloudflare.com](https://cloudflare.com)
-   - Add your domain to Cloudflare
-   - Update nameservers at your domain registrar
-   - Add A record pointing to your VPS IP
-
-3. **Cloudflare provides free SSL automatically** - no Certbot needed
-
-4. **Update environment variables**:
-   ```env
-   NEXTAUTH_URL=https://yourdomain.com
-   NEXT_PUBLIC_SITE_URL=https://yourdomain.com
-   ```
-
-### Option 3: Let's Encrypt with Domain
-
-If using a domain, get free SSL from Let's Encrypt:
-
-```bash
-sudo apt install certbot python3-certbot-nginx
-sudo certbot --nginx -d yourdomain.com
-```
-
-### Comparison Table
-
-| Option | Cost | Browser Warning | Setup Complexity |
-| --- | --- | --- | --- |
-| Self-Signed (Phase 4.5) | Free | Yes | Easy |
-| Cloudflare + Domain | ~$2/year | No | Medium |
-| Let's Encrypt + Domain | ~$2/year | No | Medium |
+4. **Configure Webhooks** (for production):
+   - Plaid: Add webhook URL
+   - Dwolla: Add webhook URL
 
 ---
 
 ## Useful Links
 
-- [Neon Documentation](https://neon.tech/docs)
-- [PM2 Documentation](https://pm2.keymetrics.io/docs/usage/quick-start/)
-- [Next.js Deployment](https://nextjs.org/docs/app/building-your-application/deploying)
-- [Hostinger VPS Knowledge Base](https://www.hostinger.com/tutorials)
+- [Docker Swarm Documentation](https://docs.docker.com/engine/swarm/)
+- [Traefik v3 Documentation](https://doc.traefik.io/traefik/)
+- [Prometheus Documentation](https://prometheus.io/docs/)
+- [Grafana Documentation](https://grafana.com/docs/)
+- [Neon Database](https://neon.tech) (alternative to local PostgreSQL)
