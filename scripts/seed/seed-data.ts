@@ -172,7 +172,7 @@ function buildBankRow(
   index: number,
 ): typeof banks.$inferInsert {
   return {
-    accessToken: encrypt(getSeedAccessToken(index)),
+    accessToken: encrypt(getSeedAccessToken()),
     accountId: `seed-account-${sharableId}`,
     accountSubtype: "checking",
     accountType: "depository",
