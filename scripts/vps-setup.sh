@@ -1,5 +1,5 @@
 #!/bin/bash
-# vps-setup.sh - Automated Banking App VPS Setup
+# vps-setup.sh - Automated Banking App VPS Setup v1.1
 # Usage: curl -sSL https://raw.githubusercontent.com/rhixecompany/banking/main/scripts/vps-setup.sh | bash
 #
 # Or download and run locally:
