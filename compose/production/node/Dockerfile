@@ -22,12 +22,18 @@ COPY . .
 # Only NEXT_PUBLIC_* vars are embedded in build; others must be runtime
 ARG NODE_ENV=production
 ARG NEXT_PUBLIC_SITE_URL=http://localhost:3000
+ARG ENCRYPTION_KEY=""
+ARG NEXTAUTH_SECRET=""
+ARG DWOLLA_BASE_URL=""
+ARG DWOLLA_ENV="sandbox"
 
 ENV NODE_ENV=$NODE_ENV \
     NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL \
     DATABASE_URL="" \
-    ENCRYPTION_KEY="" \
-    NEXTAUTH_SECRET=""
+    ENCRYPTION_KEY=$ENCRYPTION_KEY \
+    NEXTAUTH_SECRET=$NEXTAUTH_SECRET \
+    DWOLLA_BASE_URL=$DWOLLA_BASE_URL \
+    DWOLLA_ENV=$DWOLLA_ENV
 
 # Run type check and build
 RUN --mount=type=cache,target=/root/.npm \
