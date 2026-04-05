@@ -1,4 +1,3 @@
-
 /**
  * Seed configuration for E2E tests
  * Generated tokens from Plaid Sandbox
