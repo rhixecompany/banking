@@ -109,15 +109,12 @@ echo ""
 
 # Copy deployment files
 echo -e "${GREEN}Step 5: Setting up deployment files...${NC}"
-mkdir -p "$INSTALL_DIR/stacks"
 mkdir -p "$INSTALL_DIR/compose/production/traefik/certs"
 mkdir -p "$INSTALL_DIR/.envs/production"
 
-cp -r stacks "$INSTALL_DIR/"
-cp -r compose/production/traefik "$INSTALL_DIR/compose/production/"
-cp -r scripts "$INSTALL_DIR/"
-
-echo -e "${GREEN}Deployment files copied${NC}"
+# Files are already in the cloned repo at /opt/banking, just ensure directories exist
+# The stacks and compose files will be used directly from the repo
+echo -e "${GREEN}Deployment files ready in ${INSTALL_DIR}${NC}"
 echo ""
 
 # Collect secrets
@@ -259,7 +256,7 @@ echo ""
 
 # Deploy stacks
 echo -e "${GREEN}Step 8: Deploying Traefik stack...${NC}"
-cd "$INSTALL_DIR"
+cd /opt/banking
 docker stack deploy -c stacks/traefik.stack.yml traefik
 echo -e "${GREEN}Waiting for Traefik to be ready...${NC}"
 sleep 10
