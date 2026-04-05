@@ -1,5 +1,5 @@
 #!/bin/bash
-# vps-setup.sh - Automated Banking App VPS Setup v1.3
+# vps-setup.sh - Automated Banking App VPS Setup v1.4
 # Usage: curl -sSL https://raw.githubusercontent.com/rhixecompany/banking/main/scripts/vps-setup.sh | bash
 
 set -e
@@ -28,6 +28,16 @@ fi
 
 SWARM_ADVERTISE_ADDR=$(hostname -I | awk '{print $1}')
 echo -e "${YELLOW}Using IP address: ${SWARM_ADVERTISE_ADDR}${NC}"
+echo ""
+
+# Cleanup previous runs if any
+echo -e "${YELLOW}Cleaning up any previous deployments...${NC}"
+docker stack rm banking 2>/dev/null || true
+docker stack rm traefik 2>/dev/null || true
+sleep 5
+docker swarm leave --force 2>/dev/null || true
+rm -rf /opt/banking 2>/dev/null || true
+echo -e "${GREEN}Cleanup complete${NC}"
 echo ""
 
 echo -e "${GREEN}Step 1: Installing Docker...${NC}"
@@ -193,4 +203,29 @@ echo -e "${GREEN}To update later:${NC}"
 echo "  cd $INSTALL_DIR && git pull origin main"
 echo "  docker build -t ghcr.io/rhixecompany/banking:latest -f compose/production/node/Dockerfile ."
 echo "  docker service update --image ghcr.io/rhixecompany/banking:latest banking_app"
+echo ""
+
+# ========================================
+# CLEANUP COMMANDS (run manually if needed)
+# ========================================
+echo -e "${YELLOW}========================================${NC}"
+echo -e "${YELLOW}  Cleanup Commands${NC}"
+echo -e "${YELLOW}========================================${NC}"
+echo ""
+echo "To remove all stacks and start fresh:"
+echo "  docker stack rm banking"
+echo "  docker stack rm traefik"
+echo "  sleep 10"
+echo "  docker swarm leave --force"
+echo "  rm -rf /opt/banking"
+echo ""
+echo "To remove specific stack:"
+echo "  docker stack rm banking"
+echo ""
+echo "To view logs:"
+echo "  docker service logs banking_app"
+echo "  docker service logs traefik_traefik"
+echo ""
+echo "To restart services:"
+echo "  docker service update --force banking_app"
 echo ""
