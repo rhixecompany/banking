@@ -1,10 +1,43 @@
-import { expect, test } from "@playwright/test";
-
-test.beforeEach(async ({ page }) => {
-  await page.context().clearCookies();
-});
+import { expect, test } from "../../tests/fixtures/auth";
 
 test.describe("Authentication", () => {
+  test.describe("Home Page", () => {
+    test("should show landing page for unauthenticated users", async ({
+      page,
+    }) => {
+      await page.goto("/");
+      await expect(page).toHaveTitle(/Horizon Banking/i);
+      await expect(
+        page.getByRole("heading", { name: /ready to get started/i }),
+      ).toBeVisible();
+    });
+
+    test("should show landing page for authenticated users", async ({
+      authenticatedPage: page,
+    }) => {
+      await page.goto("/");
+      await expect(page).toHaveTitle(/Horizon Banking/i);
+      await expect(
+        page.getByRole("heading", { name: /ready to get started/i }),
+      ).toBeVisible();
+    });
+  });
+
+  test.describe("Navigation Flow", () => {
+    test("should navigate from sign-in to sign-up and back", async ({
+      page,
+    }) => {
+      await page.goto("/sign-in");
+      await expect.soft(page).toHaveURL(/sign-in/);
+
+      await page.getByRole("link", { name: /sign up/i }).click();
+      await expect.soft(page).toHaveURL(/sign-up/, { timeout: 10_000 });
+
+      await page.getByRole("link", { name: /sign in/i }).click();
+      await expect.soft(page).toHaveURL(/sign-in/, { timeout: 10_000 });
+    });
+  });
+
   test.describe("Sign-In Page", () => {
     test("should show sign-in form", async ({ page }) => {
       await page.goto("/sign-in");
@@ -67,6 +100,21 @@ test.describe("Authentication", () => {
       await page.goto("/sign-up");
       await page.getByRole("link", { name: /sign in/i }).click();
       await expect.soft(page).toHaveURL(/\/sign-in/, { timeout: 10_000 });
+    });
+
+    test("should show all sign-up form fields", async ({ page }) => {
+      await page.goto("/sign-up");
+      await expect.soft(page.getByLabel("First Name")).toBeVisible();
+      await expect.soft(page.getByLabel("Last Name")).toBeVisible();
+      await expect.soft(page.getByLabel("Address")).toBeVisible();
+      await expect.soft(page.getByLabel("City")).toBeVisible();
+      await expect.soft(page.getByLabel("State")).toBeVisible();
+      await expect.soft(page.getByLabel("Postal Code")).toBeVisible();
+      await expect.soft(page.getByLabel("Date of Birth")).toBeVisible();
+      await expect.soft(page.getByLabel("SSN")).toBeVisible();
+      await expect.soft(page.getByLabel("Email")).toBeVisible();
+      await expect.soft(page.getByLabel(/^Password$/)).toBeVisible();
+      await expect.soft(page.getByLabel("Confirm Password")).toBeVisible();
     });
 
     test("should show validation error for short password", async ({

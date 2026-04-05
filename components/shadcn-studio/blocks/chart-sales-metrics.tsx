@@ -1,4 +1,5 @@
 "use client";
+
 import {
   BadgePercentIcon,
   ChartNoAxesCombinedIcon,
@@ -7,7 +8,6 @@ import {
   ShoppingBagIcon,
   TrendingUpIcon,
 } from "lucide-react";
-import Image from "next/image";
 import { Bar, BarChart, Label, Pie, PieChart } from "recharts";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -27,18 +27,21 @@ import {
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {54}
  */
 const salesPlanPercentage = 54;
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {24}
  */
 const totalBars = 24;
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -47,6 +50,7 @@ const filledBars = Math.round((salesPlanPercentage * totalBars) / 100);
 // Sales chart data
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -67,6 +71,7 @@ const salesChartData = Array.from({ length: totalBars }, (_, index) => {
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {ChartConfig}
  */
@@ -78,6 +83,7 @@ const salesChartConfig = {
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {{}}
  */
@@ -106,6 +112,7 @@ const MetricsData = [
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {{}}
  */
@@ -117,6 +124,7 @@ const revenueChartData = [
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {ChartConfig}
  */
@@ -140,16 +148,13 @@ const revenueChartConfig = {
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @param {{ className?: string }} param0
  * @param {string} param0.className
- * @returns {*}
+ * @returns {ReactJSX.Element}
  */
-const SalesMetricsCard = ({
-  className,
-}: {
-  className?: string;
-}): JSX.Element => {
+const SalesMetricsCard = ({ className }: { className?: string }) => {
   return (
     <Card className={className}>
       <CardContent className="space-y-4">
@@ -157,10 +162,8 @@ const SalesMetricsCard = ({
           <div className="flex flex-col gap-7 lg:col-span-3">
             <span className="text-lg font-semibold">Sales metrics</span>
             <div className="flex items-center gap-3">
-              <Image
+              <img
                 src="https://cdn.shadcnstudio.com/ss-assets/logo/logo-square.png"
-                width={42}
-                height={42}
                 className="size-10.5 rounded-lg"
                 alt="logo"
               />
@@ -232,14 +235,14 @@ const SalesMetricsCard = ({
                             >
                               <tspan
                                 x={viewBox.cx}
-                                y={(viewBox.cy ?? 0) - 12}
+                                y={(viewBox.cy || 0) - 12}
                                 className="fill-card-foreground text-lg font-medium"
                               >
                                 256.24
                               </tspan>
                               <tspan
                                 x={viewBox.cx}
-                                y={(viewBox.cy ?? 0) + 19}
+                                y={(viewBox.cy || 0) + 19}
                                 className="fill-muted-foreground text-sm"
                               >
                                 Total Profit
@@ -264,7 +267,7 @@ const SalesMetricsCard = ({
           <CardContent className="grid gap-4 px-4 lg:grid-cols-5">
             <div className="flex flex-col justify-center gap-6">
               <span className="text-lg font-semibold">Sales plan</span>
-              <span className="text-6xl max-lg:text-5xl">
+              <span className="max-lg:5xl text-6xl">
                 {salesPlanPercentage}%
               </span>
               <span className="text-sm text-muted-foreground">

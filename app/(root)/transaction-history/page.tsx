@@ -1,18 +1,25 @@
-import { cacheLife } from "next/cache";
+import type { Metadata } from "next";
+
+import { TransactionHistoryServerWrapper } from "@/components/transaction-history/transaction-history-server-wrapper";
 
 /**
- (Transaction history page component.
-* @returns {JSX.Element}
-*/
-
-async function getTransactionHistory() {
-  "use cache";
-  cacheLife("hours");
-  return [];
-}
-
-const TransactionHistory = async (): Promise<JSX.Element> => {
-  return <div>Transaction History</div>;
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {Metadata}
+ */
+export const metadata: Metadata = {
+  description: "Browse your full transaction history.",
+  title: "Transaction History | Horizon Banking",
 };
 
-export default TransactionHistory;
+/**
+ * Transaction History page — delegates auth, data fetching, and rendering
+ * to TransactionHistoryServerWrapper.
+ *
+ * @export
+ * @returns {JSX.Element}
+ */
+export default function TransactionHistoryPage(): JSX.Element {
+  return <TransactionHistoryServerWrapper />;
+}

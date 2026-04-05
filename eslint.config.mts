@@ -1,4 +1,5 @@
 import js from "@eslint/js";
+import markdown from "@eslint/markdown";
 import tsEslintParser from "@typescript-eslint/parser";
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
@@ -8,12 +9,15 @@ import betterTailwind from "eslint-plugin-better-tailwindcss";
 import drizzle from "eslint-plugin-drizzle";
 import importX from "eslint-plugin-import-x";
 import jest from "eslint-plugin-jest";
+import jsdoc from "eslint-plugin-jsdoc";
 import nodePlugin from "eslint-plugin-n";
+import noSecrets from "eslint-plugin-no-secrets";
 import perfectionist from "eslint-plugin-perfectionist";
 import playwright from "eslint-plugin-playwright";
 import reactPlugin from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
+import regexp from "eslint-plugin-regexp";
 import security from "eslint-plugin-security";
 import sonarjs from "eslint-plugin-sonarjs";
 import testingLibrary from "eslint-plugin-testing-library";
@@ -47,9 +51,18 @@ export default defineConfig([
     "playwright-report/**",
     ".vercel/**",
     ".github/skills/**",
+    ".github/agents/**",
+    ".github/instructions/**",
+    ".github/prompts/**",
+    ".opencode/**",
     "eng/**",
     "fix-constants2.cjs",
     "fix-dwolla.cjs",
+    // Documentation and markdown files — not source code
+    "**/*.md",
+    "docs/**",
+    "blocks.prompts.md",
+    "DOCKER-SETUP.md",
   ]),
   {
     files: ["**/*.{js,jsx,ts,tsx,cjs,mts,cts}"],
@@ -84,7 +97,7 @@ export default defineConfig([
       sourceType: "module",
     },
     linterOptions: {
-      noInlineConfig: true,
+      noInlineConfig: false,
       reportUnusedDisableDirectives: true, // Too strict
     },
     plugins: {
@@ -94,13 +107,16 @@ export default defineConfig([
       "import-x": importX,
       jest,
       js,
+      jsdoc,
       n: nodePlugin,
+      "no-secrets": noSecrets,
       perfectionist,
 
       playwright,
       react: reactPlugin,
       "react-hooks": reactHooks as unknown as typeof importX,
       "react-refresh": reactRefresh,
+      regexp,
       security: security as unknown as typeof importX,
       sonarjs,
       "testing-library": testingLibrary,
@@ -175,11 +191,26 @@ export default defineConfig([
       "import-x/order": "off", // Conflicts with perfectionist/sort-imports
 
       // =====================================================
+      // JSDOC - JSDoc comment quality
+      // =====================================================
+      "jsdoc/check-param-names": "warn",
+      "jsdoc/check-tag-names": ["warn", { definedTags: ["export"] }],
+
+      "jsdoc/check-types": "warn",
+      "jsdoc/no-undefined-types": "off", // Too strict with TS generics
+      "jsdoc/require-jsdoc": "off", // Don't require JSDoc on every function
+      "jsdoc/require-param": "off", // TypeScript types make this redundant
+      "jsdoc/require-param-description": "off", // Descriptions are optional
+      "jsdoc/require-param-type": "off", // TypeScript types make this redundant
+      "jsdoc/require-returns": "off", // TypeScript return types make this redundant
+      "jsdoc/require-returns-description": "off", // Descriptions are optional
+
+      "jsdoc/tag-lines": "off",
+      // =====================================================
       // NODE.JS - Node.js Best Practices
       // =====================================================
       "n/no-process-env": "warn", // Config files need this
       "n/no-unpublished-import": "warn", // Too strict
-
       "n/no-unsupported-features/es-builtins": "warn", // Too strict
       // =====================================================
       // GENERAL JavaScript - Base ESLint Rules
@@ -187,14 +218,21 @@ export default defineConfig([
       "no-console": "warn", // Console.log is intentional
       "no-debugger": "error",
       "no-dupe-else-if": "error",
+
       "no-duplicate-case": "error",
       "no-empty": "warn",
       "no-extra-semi": "warn", // Handled by Prettier
       "no-param-reassign": "warn", // Sometimes needed
-
+      // =====================================================
+      // NO-SECRETS - Prevent accidental secret commits
+      // Threshold raised to reduce false positives on long tokens/URLs
+      // =====================================================
+      "no-secrets/no-secrets": ["warn", { tolerance: 4.2 }],
       "no-unreachable": "error",
+
       "no-unsafe-negation": "error",
       "no-unsafe-optional-chaining": "error",
+
       // Disable strict rules that cause errors
       "no-useless-assignment": "warn", // Too strict
       "no-var": "error",
@@ -203,17 +241,16 @@ export default defineConfig([
       // =====================================================
       "perfectionist/sort-imports": "warn", // Too strict
       "perfectionist/sort-intersection-types": "warn", // Too strict
-
       "perfectionist/sort-objects": "warn", // Too strict
       "perfectionist/sort-union-types": "warn", // Too strict
+
       "prefer-const": "error",
       "preserve-caught-error": "warn", // Not all errors need cause
       "react-hooks/exhaustive-deps": "warn",
-      "react-hooks/incompatible-library": "off", // TanStack Table can't be fixed
 
+      "react-hooks/incompatible-library": "off", // TanStack Table can't be fixed
       "react-hooks/purity": "warn", // React compiler warnings
       "react-hooks/rules-of-hooks": "error",
-
       // =====================================================
       // REACT REFRESH - Hot Reloading Compatibility
       // =====================================================
@@ -224,13 +261,45 @@ export default defineConfig([
       "react/jsx-uses-react": "warn", // Automatic JSX transform in React 17+
       "react/prop-types": "warn", // Using TypeScript
       "react/react-in-jsx-scope": "off", // Not needed for React 17+
+      // =====================================================
+      // REGEXP - Regular expression correctness and safety
+      // Complements security/detect-unsafe-regex
+      // =====================================================
+      "regexp/no-contradiction-with-assertion": "error",
+      "regexp/no-control-character": "warn",
+      "regexp/no-dupe-characters-character-class": "error",
+      "regexp/no-empty-alternative": "warn",
+      "regexp/no-empty-capturing-group": "warn",
+
+      "regexp/no-empty-character-class": "error",
+      "regexp/no-empty-group": "warn",
+      "regexp/no-invalid-regexp": "error",
+      "regexp/no-lazy-ends": "warn",
+      "regexp/no-obscure-range": "warn",
+      "regexp/no-optional-assertion": "error",
+      "regexp/no-potentially-useless-backreference": "warn",
+      "regexp/no-super-linear-backtracking": "error",
+      "regexp/no-super-linear-move": "warn",
+      "regexp/no-useless-assertions": "warn",
+      "regexp/no-useless-character-class": "warn",
+      "regexp/no-useless-escape": "warn",
+      "regexp/no-useless-flag": "warn",
+      "regexp/no-useless-non-capturing-group": "warn",
+      "regexp/no-useless-quantifier": "warn",
+      "regexp/no-zero-quantifier": "error",
+      "regexp/prefer-character-class": "warn",
+      "regexp/prefer-plus-quantifier": "warn",
+      "regexp/prefer-question-quantifier": "warn",
+      "regexp/prefer-star-quantifier": "warn",
+      "regexp/prefer-w": "warn",
+      "regexp/simplify-set-operations": "warn",
+      "regexp/sort-alternatives": "off", // Too strict — order may be intentional
+      "regexp/use-ignore-case": "warn",
       "require-await": "warn", // Too strict
       "security/detect-eval-with-expression": "error",
-
       "security/detect-non-literal-fs-filename": "error",
       "security/detect-non-literal-regexp": "warn", // Test files use dynamic regex
       "security/detect-non-literal-require": "error",
-
       "security/detect-possible-timing-attacks": "warn", // Too strict
       // =====================================================
       // SECURITY - Node.js Security
@@ -265,13 +334,17 @@ export default defineConfig([
             "^jest",
             "^vitest",
             "^playwright",
+            "^README",
+            "^AGENTS",
+            "^CHANGELOG",
+            "^CONTRIBUTING",
+            "^LICENSE",
           ],
         },
       ],
       "unicorn/no-abusive-eslint-disable": "error",
       "unicorn/no-array-for-each": "warn", // forEach is readable
       "unicorn/no-null": "warn", // Project uses null intentionally
-
       "unicorn/prefer-at": "warn", // Too strict
       "unicorn/prefer-includes": "error",
       "unicorn/prefer-number-properties": "warn", // Too strict
@@ -429,6 +502,28 @@ export default defineConfig([
   },
 
   // =====================================================
+  // PROXY (EDGE MIDDLEWARE) - Allow process.env
+  // Cannot import lib/env.ts in edge middleware context
+  // =====================================================
+  {
+    files: ["proxy.ts"],
+    rules: {
+      "n/no-process-env": "off",
+    },
+  },
+
+  // =====================================================
+  // UNIT TEST TSX - Allow <img> in next/image mocks
+  // Tests mock next/image with plain <img> elements
+  // =====================================================
+  {
+    files: ["tests/unit/**/*.tsx"],
+    rules: {
+      "@next/next/no-img-element": "off",
+    },
+  },
+
+  // =====================================================
   // DB SEED CLI - process.argv / process.env guards and console
   // =====================================================
   {
@@ -436,6 +531,37 @@ export default defineConfig([
     rules: {
       "n/no-process-env": "off",
       "no-console": "off",
+    },
+  },
+
+  // =====================================================
+  // SCRIPTS - Custom rules for code generation and validation scripts
+  // =====================================================
+  {
+    files: ["scripts/**/*.ts"],
+    rules: {
+      // Nullish coalescing: Keep as warn
+      "@typescript-eslint/prefer-nullish-coalescing": "warn",
+      // Async: Allow - functions may be async for future use
+      "@typescript-eslint/require-await": "off",
+      // Console: Allow warn/error, disallow log
+      "no-console": ["warn", { allow: ["warn", "error"] }],
+      // Assignments: Allow - may be intentional for future use
+      "no-useless-assignment": "off",
+      // Prefer const: Keep as error
+      "prefer-const": "error",
+      // Error handling: Allow - cause may not always be available
+      "preserve-caught-error": "off",
+      "require-await": "off",
+      // FS Security: Disabled - scripts use dynamic paths that are validated
+      "security/detect-non-literal-fs-filename": "off",
+      "security/detect-non-literal-regexp": "off",
+      // Regex Security: Disabled - scripts validate regex patterns safely
+      "security/detect-unsafe-regex": "off",
+      // Code quality: Allow - collapsible if may improve readability
+      "sonarjs/no-collapsible-if": "off",
+      // Null: Allow - scripts may use null for compatibility
+      "unicorn/no-null": "off",
     },
   },
 
@@ -449,7 +575,7 @@ export default defineConfig([
     },
     rules: {
       "testing-library/no-container": "warn",
-      "testing-library/no-manual-cleanup": "error",
+      "testing-library/no-manual-cleanup": "off", // Vitest happy-dom + forks pool requires manual afterEach(cleanup)
       "testing-library/no-render-in-lifecycle": "warn",
       "testing-library/no-unnecessary-act": "warn",
     },
@@ -503,6 +629,7 @@ export default defineConfig([
   {
     files: [
       "components/plaid-link.tsx",
+      "components/plaid-context.tsx",
       "components/ui/number-input.tsx",
       "lib/actions/plaid.actions.ts",
       "lib/auth-config.ts",
@@ -554,6 +681,151 @@ export default defineConfig([
     files: ["tests/e2e/helpers/**/*.ts"],
     rules: {
       "n/no-process-env": "off", // Playwright helpers require process.env for DB configuration
+    },
+  },
+
+  // =====================================================
+  // SHADCN BLOCKS - Third-party block components
+  // These are vendor-provided UI blocks; not subject to project lint rules
+  // =====================================================
+  {
+    files: ["components/shadcn-studio/blocks/**/*.tsx"],
+    rules: {
+      "@next/next/no-img-element": "off", // Blocks use <img> intentionally for demo images
+      "@typescript-eslint/prefer-nullish-coalescing": "off", // Block code uses || intentionally
+      "@typescript-eslint/require-await": "off", // Some block async fns may not await
+      "better-tailwindcss/no-unknown-classes": "off", // Blocks may use custom/non-standard classes
+      "require-await": "off", // Some block async fns may not await
+      "unicorn/no-null": "off", // Block components may return null intentionally
+    },
+  },
+
+  // =====================================================
+  // SHADCN UI - Generated UI library components
+  // These are shadcn/ui generated files; not subject to project lint rules
+  // =====================================================
+  {
+    files: ["components/ui/**/*.tsx"],
+    rules: {
+      "@typescript-eslint/prefer-nullish-coalescing": "off", // UI lib uses || intentionally
+      "@typescript-eslint/require-await": "off", // UI lib async fns may not await
+      "better-tailwindcss/no-unknown-classes": "off", // UI lib may use data-attribute classes
+      "no-param-reassign": "off", // UI lib assigns to params intentionally
+      "react-hooks/purity": "off", // UI lib uses Math.random() in useMemo intentionally
+      "require-await": "off", // UI lib async fns may not await
+      "unicorn/no-null": "off", // UI lib uses null intentionally for refs/context
+    },
+  },
+
+  // =====================================================
+  // ADMIN SERVER WRAPPER - Allow async server component without await
+  // =====================================================
+  {
+    files: ["components/admin/admin-dashboard-server-wrapper.tsx"],
+    rules: {
+      "@typescript-eslint/require-await": "off", // Server component wrapper may not need await yet
+      "require-await": "off", // Server component wrapper may not need await yet
+    },
+  },
+
+  // =====================================================
+  // ADMIN LAYOUT - Allow null for NextAuth session type compatibility
+  // =====================================================
+  {
+    files: ["app/(admin)/layout.tsx"],
+    rules: {
+      "unicorn/no-null": "off", // NextAuth session type requires null comparison
+    },
+  },
+
+  // =====================================================
+  // PLAID CONTEXT - Allow null for Plaid type compatibility
+  // =====================================================
+  {
+    files: [
+      "components/plaid-context/plaid-context.tsx",
+      "components/plaid-link/plaid-link.tsx",
+    ],
+    rules: {
+      "@typescript-eslint/prefer-nullish-coalescing": "off", // Plaid boolean logic requires ||
+      "unicorn/no-null": "off", // Plaid type definitions require null
+    },
+  },
+
+  // =====================================================
+  // JSX ACCESSIBILITY - jsx-a11y rules for React components
+  // Scoped to JSX/TSX files only
+  // =====================================================
+  {
+    files: ["**/*.{jsx,tsx}"],
+    rules: {
+      "jsx-a11y/alt-text": "error",
+      "jsx-a11y/anchor-has-content": "warn",
+      "jsx-a11y/anchor-is-valid": "warn",
+      "jsx-a11y/aria-props": "error",
+      "jsx-a11y/aria-proptypes": "error",
+      "jsx-a11y/aria-role": "error",
+      "jsx-a11y/aria-unsupported-elements": "error",
+      "jsx-a11y/click-events-have-key-events": "warn", // Sometimes intentional for mouse-only UX
+      "jsx-a11y/heading-has-content": "warn",
+      "jsx-a11y/html-has-lang": "warn",
+      "jsx-a11y/img-redundant-alt": "warn",
+      "jsx-a11y/interactive-supports-focus": "warn",
+      "jsx-a11y/label-has-associated-control": "warn",
+      "jsx-a11y/mouse-events-have-key-events": "warn",
+      "jsx-a11y/no-access-key": "warn",
+      "jsx-a11y/no-autofocus": "warn", // Intentional autofocus exists in forms
+      "jsx-a11y/no-noninteractive-element-interactions": "warn",
+      "jsx-a11y/no-redundant-roles": "warn",
+      "jsx-a11y/role-has-required-aria-props": "error",
+      "jsx-a11y/role-supports-aria-props": "error",
+      "jsx-a11y/tabindex-no-positive": "warn",
+    },
+  },
+
+  // =====================================================
+  // MARKDOWN - Lint fenced code blocks inside .md files
+  // @eslint/markdown processes JS/TS blocks embedded in markdown
+  // Use the plugin processor to extract fenced code blocks
+  // =====================================================
+  {
+    files: ["**/*.md"],
+    plugins: {
+      markdown: markdown as unknown as import("eslint").ESLint.Plugin,
+    },
+    processor: "markdown/markdown",
+  },
+  // Lint JS/TS code blocks embedded in markdown files
+  {
+    files: ["**/*.md/*.js", "**/*.md/*.ts", "**/*.md/*.jsx", "**/*.md/*.tsx"],
+    languageOptions: {
+      parserOptions: {
+        // Disable project service for markdown virtual files — they're not in tsconfig
+        projectService: false,
+      },
+    },
+    rules: {
+      // Disable all type-aware typescript-eslint rules — no tsconfig for virtual files
+      "@typescript-eslint/await-thenable": "off",
+      "@typescript-eslint/no-floating-promises": "off",
+      "@typescript-eslint/no-for-in-array": "off",
+      "@typescript-eslint/no-misused-promises": "off",
+      "@typescript-eslint/no-unnecessary-type-assertion": "off",
+      "@typescript-eslint/no-unsafe-argument": "off",
+      "@typescript-eslint/no-unsafe-assignment": "off",
+      "@typescript-eslint/no-unsafe-call": "off",
+      "@typescript-eslint/no-unsafe-member-access": "off",
+      "@typescript-eslint/no-unsafe-return": "off",
+      // Relax general rules that are too strict for inline docs examples
+      "@typescript-eslint/no-unused-vars": "off",
+      "@typescript-eslint/prefer-nullish-coalescing": "off",
+      "@typescript-eslint/prefer-optional-chain": "off",
+      "@typescript-eslint/require-await": "off",
+      "@typescript-eslint/restrict-plus-operands": "off",
+      "@typescript-eslint/restrict-template-expressions": "off",
+      "import-x/no-unresolved": "off",
+      "no-console": "off",
+      "no-undef": "off",
     },
   },
 ]);

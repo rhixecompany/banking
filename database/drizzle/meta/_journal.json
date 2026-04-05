@@ -7,6 +7,13 @@
       "when": 1774894721261,
       "tag": "0000_broken_khan",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1775202610912,
+      "tag": "0001_silent_tempest",
+      "breakpoints": true
     }
   ],
   "version": "7"

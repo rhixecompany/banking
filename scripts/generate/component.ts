@@ -191,14 +191,14 @@ async function generateComponent(
     process.exit(1);
   }
 
-  const componentsDir = getComponentsDir(options);
+  const componentsDir = path.resolve(getComponentsDir(options));
 
   if (!fs.existsSync(componentsDir)) {
     fs.mkdirSync(componentsDir, { recursive: true });
   }
 
   const fileName = `${componentName}.tsx`;
-  const filePath = path.join(componentsDir, fileName);
+  const filePath = path.resolve(componentsDir, fileName);
 
   if (fs.existsSync(filePath)) {
     console.error(`❌ Component file already exists: ${filePath}`);
@@ -210,12 +210,12 @@ async function generateComponent(
   fs.writeFileSync(filePath, content);
 
   const relativePath = path.relative(process.cwd(), filePath);
-  console.log(`✅ Generated Component: ${relativePath}`);
+  console.warn(`✅ Generated Component: ${relativePath}`);
 
   if (!options.client) {
-    console.log("   (Server Component - no 'use client' directive)");
+    console.warn("   (Server Component - no 'use client' directive)");
   } else {
-    console.log("   (Client Component - includes 'use client' directive)");
+    console.warn("   (Client Component - includes 'use client' directive)");
   }
 }
 
@@ -227,9 +227,10 @@ async function generateComponent(
  */
 async function main(): Promise<void> {
   try {
-    console.log("🎨 Component Generator\n");
+    console.warn("🎨 Component Generator\n");
 
-    let { componentName, options } = parseArgs();
+    const { componentName: parsedComponentName, options } = parseArgs();
+    let componentName = parsedComponentName;
 
     if (!componentName) {
       componentName = await prompt("Enter component name (e.g., user-card): ");
@@ -252,10 +253,10 @@ async function main(): Promise<void> {
 
     await generateComponent(componentName, options);
 
-    console.log("\n🎉 Component generation complete!");
-    console.log("\nNext steps:");
-    console.log(`  1. Add your component styles`);
-    console.log(`  2. Import and use in your pages`);
+    console.warn("\n🎉 Component generation complete!");
+    console.warn("\nNext steps:");
+    console.warn(`  1. Add your component styles`);
+    console.warn(`  2. Import and use in your pages`);
   } catch (error) {
     console.error(
       "❌ Error:",

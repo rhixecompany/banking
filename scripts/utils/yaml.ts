@@ -74,10 +74,10 @@ export async function readYamlDir(dirPath: string): Promise<Entry[]> {
  * Convert a name to a filename-safe slug
  */
 export function slugify(name: string): string {
-  return name
-    .toLowerCase()
-    .replaceAll(/[^a-z0-9]+/g, "-")
-    .replaceAll(/^-+|-+$/g, "");
+  let slug = name.toLowerCase().replaceAll(/[^a-z0-9]+/gu, "-");
+  while (slug.startsWith("-")) slug = slug.slice(1);
+  while (slug.endsWith("-")) slug = slug.slice(0, -1);
+  return slug;
 }
 
 /**

@@ -1,19 +1,24 @@
-import { cacheLife } from "next/cache";
+import type { Metadata } from "next";
+
+import { PaymentTransferServerWrapper } from "@/components/payment-transfer/payment-transfer-server-wrapper";
 
 /**
- (Payment transfer page component.
-* @handles bank-to-bank transfer using Dwolla ACH.
-* @returns {JSX.Element}
-*/
-
-async function getTransferConfig() {
-  "use cache";
-  cacheLife("minutes");
-  return {};
-}
-
-const PaymentTransfer = async (): Promise<JSX.Element> => {
-  return <div>Payment Transfer</div>;
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {Metadata}
+ */
+export const metadata: Metadata = {
+  description: "Send money to recipients using ACH bank transfers.",
+  title: "Payment Transfer | Horizon Banking",
 };
 
-export default PaymentTransfer;
+/**
+ * Payment Transfer page — delegates to PaymentTransferServerWrapper.
+ *
+ * @export
+ * @returns {JSX.Element}
+ */
+export default function PaymentTransferPage(): JSX.Element {
+  return <PaymentTransferServerWrapper />;
+}

@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @param {React.ComponentProps<"nav">} param0
  * @param {React.ComponentProps<"nav">} param0.className
@@ -24,6 +25,7 @@ Pagination.displayName = "Pagination";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -41,6 +43,7 @@ PaginationContent.displayName = "PaginationContent";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -54,6 +57,7 @@ PaginationItem.displayName = "PaginationItem";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @typedef {PaginationLinkProps}
  */
@@ -64,6 +68,7 @@ type PaginationLinkProps = {
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @param {PaginationLinkProps} param0
  * @param {*} param0.className
@@ -78,6 +83,7 @@ const PaginationLink = ({
   size = "icon",
   ...props
 }: PaginationLinkProps) => (
+  // eslint-disable-next-line jsx-a11y/anchor-has-content
   <a
     aria-current={isActive ? "page" : undefined}
     className={cn(
@@ -94,10 +100,11 @@ PaginationLink.displayName = "PaginationLink";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @param {React.ComponentProps<typeof PaginationLink>} param0
- * @param {React.ComponentProps<{ ({ className, isActive, size, ...props }: any): any; displayName: string; }>} param0.className
- * @param {React.ComponentProps<{ ({ className, isActive, size, ...props }: any): any; displayName: string; }>} param0....props
+ * @param {React.ComponentProps<{ ({ className, isActive, size, ...props }: any): ReactJSX.Element; displayName: string; }>} param0.className
+ * @param {React.ComponentProps<{ ({ className, isActive, size, ...props }: any): ReactJSX.Element; displayName: string; }>} param0....props
  * @returns
  */
 const PaginationPrevious = ({
@@ -118,10 +125,11 @@ PaginationPrevious.displayName = "PaginationPrevious";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @param {React.ComponentProps<typeof PaginationLink>} param0
- * @param {React.ComponentProps<{ ({ className, isActive, size, ...props }: any): any; displayName: string; }>} param0.className
- * @param {React.ComponentProps<{ ({ className, isActive, size, ...props }: any): any; displayName: string; }>} param0....props
+ * @param {React.ComponentProps<{ ({ className, isActive, size, ...props }: any): ReactJSX.Element; displayName: string; }>} param0.className
+ * @param {React.ComponentProps<{ ({ className, isActive, size, ...props }: any): ReactJSX.Element; displayName: string; }>} param0....props
  * @returns
  */
 const PaginationNext = ({
@@ -142,6 +150,7 @@ PaginationNext.displayName = "PaginationNext";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @param {React.ComponentProps<"span">} param0
  * @param {React.ComponentProps<"span">} param0.className

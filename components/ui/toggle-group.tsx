@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -21,6 +22,7 @@ const ToggleGroupContext = React.createContext<
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -44,6 +46,7 @@ ToggleGroup.displayName = ToggleGroupPrimitive.Root.displayName;
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -59,8 +62,8 @@ const ToggleGroupItem = React.forwardRef<
       ref={ref}
       className={cn(
         toggleVariants({
-          size: context.size ?? size,
-          variant: context.variant ?? variant,
+          size: context.size || size,
+          variant: context.variant || variant,
         }),
         className,
       )}

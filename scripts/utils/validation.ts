@@ -59,7 +59,7 @@ export function validateEntry(
   if (!valid && validate.errors) {
     const errors: ValidationError[] = validate.errors.map((err) => ({
       keyword: err.keyword,
-      message: err.message || "Unknown error",
+      message: err.message ?? "Unknown error",
       params: err.params as Record<string, unknown>,
       path: err.instancePath || "/",
     }));

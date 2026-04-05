@@ -1,38 +1,29 @@
 import Image from "next/image";
+import { redirect } from "next/navigation";
 import { ReactNode, Suspense } from "react";
 
-import type { User } from "@/types";
-
-import MobileNav from "@/components/MobileNav";
-import Sidebar from "@/components/Sidebar";
+import MobileNav from "@/components/mobile-nav/mobile-nav";
+import Sidebar from "@/components/sidebar/sidebar";
 import { LoadingSpinner } from "@/components/ui/spinner";
-import { getLoggedInUser } from "@/lib/actions/user.actions";
+import { getUserWithProfile } from "@/lib/actions/user.actions";
 
 /**
- * Protected layout content component.
+ * Protected banking layout content component.
  * Checks authentication and redirects to sign-in if not authenticated.
- *
- * @export
- * @async
- * @param {Readonly<{ children: ReactNode }>} props
- * @param {ReactNode} props.children
- * @returns {Promise<JSX.Element>}
  */
 async function ProtectedLayoutContent({
   children,
 }: Readonly<{
   children: ReactNode;
 }>): Promise<JSX.Element> {
-  const user = await getLoggedInUser();
-  if (!user) {
-    const { redirect } = await import("next/navigation");
+  const { ok, user } = await getUserWithProfile();
+  if (!ok || !user) {
     redirect("/sign-in");
   }
-  const typedUser = user as unknown as User;
 
   return (
-    <main className="flex h-screen w-full font-inter">
-      <Sidebar user={typedUser} />
+    <main className="flex h-screen w-full font-sans">
+      <Sidebar user={user} />
       <div className="flex size-full flex-col">
         <div className="root-layout">
           <Image
@@ -44,7 +35,7 @@ async function ProtectedLayoutContent({
             style={{ height: "auto", width: "auto" }}
           />
           <div className="">
-            <MobileNav user={typedUser} />
+            <MobileNav user={user} />
           </div>
         </div>
         {children}
@@ -54,15 +45,9 @@ async function ProtectedLayoutContent({
 }
 
 /**
- * Protected layout wrapper with Suspense boundary.
- * Required in Next.js 16 to handle async auth APIs without blocking route rendering.
- *
- * @export
- * @param {Readonly<{ children: ReactNode }>} props
- * @param {ReactNode} props.children
- * @returns {JSX.Element}
+ * Protected banking layout wrapper with Suspense boundary.
  */
-export default function ProtectedLayout({
+export default function BankingLayout({
   children,
 }: Readonly<{
   children: ReactNode;

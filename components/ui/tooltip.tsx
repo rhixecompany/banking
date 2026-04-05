@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -14,6 +15,7 @@ const TooltipProvider = TooltipPrimitive.Provider;
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -21,6 +23,7 @@ const Tooltip = TooltipPrimitive.Root;
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -28,6 +31,7 @@ const TooltipTrigger = TooltipPrimitive.Trigger;
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */

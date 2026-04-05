@@ -6,7 +6,8 @@ import { db } from "@/database/db";
 import { transactions } from "@/database/schema";
 
 /**
- * Description placeholder
+ * Data access layer for the `transactions` table.
+ * Provides methods for querying and inserting transaction records.
  *
  * @export
  * @class TransactionDal
@@ -14,11 +15,11 @@ import { transactions } from "@/database/schema";
  */
 export class TransactionDal {
   /**
-   * Description placeholder
+   * Finds a single transaction by its primary key.
    *
    * @async
-   * @param {string} id
-   * @returns {unknown}
+   * @param {string} id - The transaction ID to look up.
+   * @returns {Promise<Transaction | undefined>} The matching transaction, or `undefined` if not found.
    */
   async findById(id: string): Promise<Transaction | undefined> {
     const [txn] = await db
@@ -29,13 +30,12 @@ export class TransactionDal {
   }
 
   /**
-   * Description placeholder
+   * Retrieves a paginated list of transactions for a given user, ordered by most recent first.
    *
-   * @async
-   * @param {string} userId
-   * @param {number} [limitVal=50]
-   * @param {number} [offsetVal=0]
-   * @returns {unknown}
+   * @param {string} userId - The ID of the user whose transactions to fetch.
+   * @param {number} [limitVal=50] - Maximum number of records to return (default: 50).
+   * @param {number} [offsetVal=0] - Number of records to skip for pagination (default: 0).
+   * @returns {Promise<Transaction[]>} The list of matching transactions.
    */
   findByUserId(
     userId: string,
@@ -52,11 +52,10 @@ export class TransactionDal {
   }
 
   /**
-   * Description placeholder
+   * Retrieves all transactions where the given bank is the sender, ordered by most recent first.
    *
-   * @async
-   * @param {string} bankId
-   * @returns {unknown}
+   * @param {string} bankId - The bank ID to filter by `senderBankId`.
+   * @returns {Promise<Transaction[]>} The list of matching transactions.
    */
   findByBankId(bankId: string): Promise<Transaction[]> {
     return db
@@ -67,7 +66,7 @@ export class TransactionDal {
   }
 
   /**
-   * Description placeholder
+   * Inserts a new transaction record and returns the created row.
    *
    * @async
    * @param {{
@@ -81,8 +80,8 @@ export class TransactionDal {
    *     status?: string;
    *     channel?: string;
    *     category?: string;
-   *   }} data
-   * @returns {unknown}
+   *   }} data - Transaction fields to insert.
+   * @returns {Promise<Transaction>} The newly created transaction record.
    */
   async createTransaction(data: {
     userId: string;
@@ -102,11 +101,11 @@ export class TransactionDal {
   }
 
   /**
-   * Description placeholder
+   * Returns aggregated transaction statistics (count, total amount) grouped by type for a user.
    *
    * @async
-   * @param {string} userId
-   * @returns {unknown}
+   * @param {string} userId - The ID of the user to aggregate stats for.
+   * @returns {Promise<TransactionStats[]>} Aggregated stats records grouped by transaction type.
    */
   async getStatsByUser(userId: string): Promise<TransactionStats[]> {
     const result = await db
@@ -124,7 +123,7 @@ export class TransactionDal {
 }
 
 /**
- * Description placeholder
+ * Singleton instance of {@link TransactionDal} for use throughout the application.
  *
  * @type {TransactionDal}
  */

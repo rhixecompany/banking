@@ -7,7 +7,9 @@ import { banks } from "@/database/schema";
 import { decrypt, encrypt } from "@/lib/encryption";
 
 /**
- * Description placeholder
+ * Data Access Layer for the `banks` table.
+ * Handles all read/write operations for linked Plaid bank records,
+ * including transparent AES-256-GCM encryption of the access token.
  *
  * @export
  * @class BankDal
@@ -15,11 +17,12 @@ import { decrypt, encrypt } from "@/lib/encryption";
  */
 export class BankDal {
   /**
-   * Description placeholder
+   * Finds a single bank record by its primary key and decrypts the
+   * access token before returning.
    *
    * @async
    * @param {string} id
-   * @returns {unknown}
+   * @returns {Promise<Bank | undefined>}
    */
   async findById(id: string): Promise<Bank | undefined> {
     const [bank] = await db.select().from(banks).where(eq(banks.id, id));
@@ -30,11 +33,12 @@ export class BankDal {
   }
 
   /**
-   * Description placeholder
+   * Finds all bank records belonging to a user and decrypts each
+   * access token before returning.
    *
    * @async
    * @param {string} userId
-   * @returns {unknown}
+   * @returns {Promise<Bank[]>}
    */
   async findByUserId(userId: string): Promise<Bank[]> {
     const bankRecords = await db
@@ -48,11 +52,12 @@ export class BankDal {
   }
 
   /**
-   * Description placeholder
+   * Finds a single bank record by its public-safe sharable ID and
+   * decrypts the access token before returning.
    *
    * @async
    * @param {string} sharableId
-   * @returns {unknown}
+   * @returns {Promise<Bank | undefined>}
    */
   async findBySharableId(sharableId: string): Promise<Bank | undefined> {
     const [bank] = await db
@@ -66,11 +71,12 @@ export class BankDal {
   }
 
   /**
-   * Description placeholder
+   * Finds a single bank record by its Plaid account ID and decrypts
+   * the access token before returning.
    *
    * @async
    * @param {string} accountId
-   * @returns {unknown}
+   * @returns {Promise<Bank | undefined>}
    */
   async findByAccountId(accountId: string): Promise<Bank | undefined> {
     const [bank] = await db
@@ -84,7 +90,9 @@ export class BankDal {
   }
 
   /**
-   * Description placeholder
+   * Inserts a new bank record, encrypting the access token at rest.
+   * Returns the inserted record with the plaintext access token restored
+   * so callers receive a usable value.
    *
    * @async
    * @param {{
@@ -98,7 +106,7 @@ export class BankDal {
    *     accountType?: string;
    *     accountSubtype?: string;
    *   }} data
-   * @returns {unknown}
+   * @returns {Promise<Bank>}
    */
   async createBank(data: {
     userId: string;
@@ -121,22 +129,22 @@ export class BankDal {
   }
 
   /**
-   * Description placeholder
+   * Deletes a bank record by its primary key.
    *
    * @async
    * @param {string} id
-   * @returns {*}
+   * @returns {Promise<void>}
    */
   async delete(id: string): Promise<void> {
     await db.delete(banks).where(eq(banks.id, id));
   }
 
   /**
-   * Description placeholder
+   * Deletes all bank records belonging to the given user.
    *
    * @async
    * @param {string} userId
-   * @returns {*}
+   * @returns {Promise<void>}
    */
   async deleteByUserId(userId: string): Promise<void> {
     await db.delete(banks).where(eq(banks.userId, userId));
@@ -144,7 +152,8 @@ export class BankDal {
 }
 
 /**
- * Description placeholder
+ * Shared singleton instance of {@link BankDal}.
+ * Import this instead of instantiating the class directly.
  *
  * @type {BankDal}
  */

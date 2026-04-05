@@ -1,16 +1,19 @@
 "use server";
 
+import type { UserWithProfile } from "@/types/user";
+
+import { db } from "@/database/db";
+import { errors } from "@/database/schema";
 import { auth } from "@/lib/auth";
+import { userDal } from "@/lib/dal";
 
 /**
- * Description placeholder
+ * Returns the name and email of the currently authenticated user from the session.
+ * Returns undefined when no session exists.
  *
  * @export
  * @async
- * @returns {Promise<{
- *   name?: string;
- *   email?: string;
- * } | null>}
+ * @returns {Promise<{ name?: string; email?: string } | undefined>}
  */
 export async function getLoggedInUser(): Promise<
   | {
@@ -28,14 +31,53 @@ export async function getLoggedInUser(): Promise<
 }
 
 /**
- * Logs out the current user by signing out from NextAuth and redirecting to sign-in page.
+ * Performs pre-logout server-side work: validates the session exists and
+ * writes an audit record to the errors table (severity "info").
+ * The caller is responsible for invoking signOut() from next-auth/react
+ * to clear the JWT cookie on the client.
  *
  * @export
  * @async
- * @returns {Promise<boolean>} True if logout was successful
+ * @returns {Promise<boolean>} True if the session existed and audit log was written
  */
 export async function logoutAccount(): Promise<boolean> {
-  const { signOut } = await import("next-auth/react");
-  await signOut({ callbackUrl: "/sign-in", redirect: false });
+  const session = await auth();
+  if (!session?.user) return false;
+
+  await db.insert(errors).values({
+    message: "User logout",
+    path: "/sign-out",
+    severity: "info",
+    userId: session.user.id,
+  });
+
   return true;
+}
+
+/**
+ * Returns the full user record with profile for the currently authenticated user.
+ *
+ * @export
+ * @async
+ * @returns {Promise<{ ok: boolean; user?: UserWithProfile; error?: string }>}
+ */
+export async function getUserWithProfile(): Promise<{
+  ok: boolean;
+  user?: UserWithProfile;
+  error?: string;
+}> {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return { error: "Unauthorized", ok: false };
+  }
+
+  try {
+    const user = await userDal.findByIdWithProfile(session.user.id);
+    if (!user) {
+      return { error: "User not found", ok: false };
+    }
+    return { ok: true, user };
+  } catch {
+    return { error: "Failed to fetch user profile", ok: false };
+  }
 }

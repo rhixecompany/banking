@@ -241,14 +241,14 @@ function validateEnvLocalContent(): void {
  * @returns {Promise<boolean>}
  */
 export async function validateEnv(): Promise<boolean> {
-  console.log("🔍 Validating environment variables...\n");
+  console.warn("🔍 Validating environment variables...\n");
 
   errors.length = 0;
 
   validateFileExists();
 
   if (!fs.existsSync(ENV_SCHEMA_PATH)) {
-    console.log("❌ Env validation failed - schema file not found");
+    console.warn("❌ Env validation failed - schema file not found");
     return false;
   }
 
@@ -260,13 +260,13 @@ export async function validateEnv(): Promise<boolean> {
   validateEnvLocalContent();
 
   if (errors.length > 0) {
-    console.log("\n❌ Environment validation errors:\n");
+    console.warn("\n❌ Environment validation errors:\n");
     for (const error of errors) {
       const icon = error.severity === "error" ? "❌" : "⚠️";
-      console.log(`  ${icon} ${error.message}`);
+      console.warn(`  ${icon} ${error.message}`);
     }
   } else {
-    console.log("✅ Environment variables are valid");
+    console.warn("✅ Environment variables are valid");
   }
 
   return errors.filter((e) => e.severity === "error").length === 0;

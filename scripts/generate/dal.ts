@@ -82,7 +82,7 @@ function parseArgs(): { tableName: string; options: DALOptions } {
     timestamps: true,
   };
 
-  const tableName = args.find((a) => !a.startsWith("--")) || "";
+  const tableName = args.find((a) => !a.startsWith("--")) ?? "";
 
   return { options, tableName };
 }
@@ -206,14 +206,14 @@ async function generateDAL(
   }
 
   const fileName = `${tableName}.dal.ts`;
-  const filePath = path.join(DAL_DIR, fileName);
+  const filePath = path.resolve(DAL_DIR, fileName);
 
   if (fs.existsSync(filePath)) {
     console.error(`❌ DAL file already exists: ${filePath}`);
     process.exit(1);
   }
 
-  const schemaExists = fs.existsSync(SCHEMA_PATH);
+  const schemaExists = fs.existsSync(path.resolve(SCHEMA_PATH));
   if (!schemaExists) {
     console.warn(`⚠️  Database schema not found at ${SCHEMA_PATH}`);
     console.warn("   You may need to add the table to the schema manually");
@@ -223,9 +223,9 @@ async function generateDAL(
 
   fs.writeFileSync(filePath, content);
 
-  console.log(`✅ Generated DAL: ${filePath}`);
+  console.warn(`✅ Generated DAL: ${filePath}`);
 
-  const indexPath = path.join(DAL_DIR, "index.ts");
+  const indexPath = path.resolve(DAL_DIR, "index.ts");
   if (fs.existsSync(indexPath)) {
     let indexContent = fs.readFileSync(indexPath, "utf8");
     const exportLine = `export { ${toCamelCase(tableName)}Dal } from "./${tableName}.dal";`;
@@ -240,7 +240,7 @@ async function generateDAL(
         `export {\n  ${toCamelCase(tableName)}Dal,`,
       );
       fs.writeFileSync(indexPath, indexContent);
-      console.log(`✅ Updated DAL index: ${indexPath}`);
+      console.warn(`✅ Updated DAL index: ${indexPath}`);
     }
   }
 }
@@ -253,9 +253,11 @@ async function generateDAL(
  */
 async function main(): Promise<void> {
   try {
-    console.log("📦 DAL Generator\n");
+    console.warn("📦 DAL Generator\n");
 
-    let { options, tableName } = parseArgs();
+    const { options: parsedOptions, tableName: parsedTableName } = parseArgs();
+    let tableName = parsedTableName;
+    const options = parsedOptions;
 
     if (!tableName) {
       tableName = await prompt("Enter table name (e.g., user, transaction): ");
@@ -274,11 +276,11 @@ async function main(): Promise<void> {
 
     await generateDAL(tableName, options);
 
-    console.log("\n🎉 DAL generation complete!");
-    console.log("\nNext steps:");
-    console.log(`  1. Add table "${tableName}" to database/schema.ts`);
-    console.log(`  2. Run npm run db:generate to create types`);
-    console.log(`  3. Add any custom queries to ${tableName}.dal.ts`);
+    console.warn("\n🎉 DAL generation complete!");
+    console.warn("\nNext steps:");
+    console.warn(`  1. Add table "${tableName}" to database/schema.ts`);
+    console.warn(`  2. Run npm run db:generate to create types`);
+    console.warn(`  3. Add any custom queries to ${tableName}.dal.ts`);
   } catch (error) {
     console.error(
       "❌ Error:",

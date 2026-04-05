@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -24,6 +25,7 @@ Card.displayName = "Card";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -41,6 +43,7 @@ CardHeader.displayName = "CardHeader";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -61,6 +64,7 @@ CardTitle.displayName = "CardTitle";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -78,6 +82,7 @@ CardDescription.displayName = "CardDescription";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -91,6 +96,7 @@ CardContent.displayName = "CardContent";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */

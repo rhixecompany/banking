@@ -5,7 +5,7 @@ import { z } from "zod";
 import { userDal } from "@/lib/dal";
 
 /**
- * Description placeholder
+ * Zod schema for validating new user registration input.
  *
  * @type {*}
  */
@@ -24,7 +24,7 @@ const RegisterSchema = z.object({
 });
 
 /**
- * Description placeholder
+ * Inferred TypeScript type from RegisterSchema.
  *
  * @export
  * @typedef {RegisterInput}
@@ -32,7 +32,8 @@ const RegisterSchema = z.object({
 export type RegisterInput = z.infer<typeof RegisterSchema>;
 
 /**
- * Description placeholder
+ * Registers a new user account, hashing the password and creating a profile row.
+ * Returns the created user on success or an error message on failure.
  *
  * @export
  * @async

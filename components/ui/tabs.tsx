@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -14,6 +15,7 @@ const Tabs = TabsPrimitive.Root;
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -34,6 +36,7 @@ TabsList.displayName = TabsPrimitive.List.displayName;
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -54,6 +57,7 @@ TabsTrigger.displayName = TabsPrimitive.Trigger.displayName;
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */

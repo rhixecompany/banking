@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -17,6 +18,7 @@ const labelVariants = cva(
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */

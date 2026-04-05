@@ -57,11 +57,11 @@ export async function disconnectBank(
 }
 
 /**
- * Description placeholder
+ * Returns all bank accounts linked to the currently authenticated user.
  *
  * @export
  * @async
- * @returns {unknown}
+ * @returns {Promise<{ ok: boolean; banks?: Bank[]; error?: string }>}
  */
 export async function getUserBanks(): Promise<{
   ok: boolean;

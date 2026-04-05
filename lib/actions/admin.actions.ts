@@ -1,27 +1,53 @@
 "use server";
-import { eq } from "drizzle-orm";
+import { z } from "zod";
 
-import { db } from "@/database/db";
-import { users } from "@/database/schema";
+import { auth } from "@/lib/auth";
+import { userDal } from "@/lib/dal";
 
 /**
- * Description placeholder
+ * Input schema for toggling a user's admin status.
+ */
+const ToggleAdminSchema = z.object({
+  makeAdmin: z.boolean(),
+  userId: z.string().trim().min(1),
+});
+
+/**
+ * Input schema for toggling a user's active status.
+ */
+const SetActiveSchema = z.object({
+  isActive: z.boolean(),
+  userId: z.string().trim().min(1),
+});
+
+/**
+ * Toggles the admin flag on a user account.
+ * Requires an authenticated admin session.
  *
  * @export
  * @async
- * @param {string} userId
- * @param {boolean} makeAdmin
- * @returns {unknown}
+ * @param {unknown} input - Must satisfy { userId: string; makeAdmin: boolean }
+ * @returns {Promise<{ ok: boolean; error?: string }>}
  */
 export async function toggleAdmin(
-  userId: string,
-  makeAdmin: boolean,
+  input: unknown,
 ): Promise<{ ok: boolean; error?: string }> {
+  const session = await auth();
+  if (!session?.user?.id) return { error: "Unauthorized", ok: false };
+  if (!session.user.isAdmin) return { error: "Forbidden", ok: false };
+
+  const parsed = ToggleAdminSchema.safeParse(input);
+  if (!parsed.success) {
+    return {
+      error: parsed.error.issues[0]?.message ?? "Invalid input",
+      ok: false,
+    };
+  }
+
   try {
-    await db
-      .update(users)
-      .set({ isAdmin: makeAdmin })
-      .where(eq(users.id, userId));
+    await userDal.update(parsed.data.userId, {
+      isAdmin: parsed.data.makeAdmin,
+    });
     return { ok: true };
   } catch {
     return { error: "Failed to update admin status", ok: false };
@@ -29,20 +55,33 @@ export async function toggleAdmin(
 }
 
 /**
- * Description placeholder
+ * Sets the active/inactive status of a user account.
+ * Requires an authenticated admin session.
  *
  * @export
  * @async
- * @param {string} userId
- * @param {boolean} isActive
- * @returns {unknown}
+ * @param {unknown} input - Must satisfy { userId: string; isActive: boolean }
+ * @returns {Promise<{ ok: boolean; error?: string }>}
  */
 export async function setActive(
-  userId: string,
-  isActive: boolean,
+  input: unknown,
 ): Promise<{ ok: boolean; error?: string }> {
+  const session = await auth();
+  if (!session?.user?.id) return { error: "Unauthorized", ok: false };
+  if (!session.user.isAdmin) return { error: "Forbidden", ok: false };
+
+  const parsed = SetActiveSchema.safeParse(input);
+  if (!parsed.success) {
+    return {
+      error: parsed.error.issues[0]?.message ?? "Invalid input",
+      ok: false,
+    };
+  }
+
   try {
-    await db.update(users).set({ isActive }).where(eq(users.id, userId));
+    await userDal.update(parsed.data.userId, {
+      isActive: parsed.data.isActive,
+    });
     return { ok: true };
   } catch {
     return { error: "Failed to update active status", ok: false };

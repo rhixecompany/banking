@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 /**
- * Description placeholder
+ * Represents a Dwolla customer record as stored or returned by the application layer.
  *
  * @export
  * @interface DwollaCustomer
@@ -9,55 +9,55 @@ import { z } from "zod";
  */
 export interface DwollaCustomer {
   /**
-   * Description placeholder
+   * Unique Dwolla customer identifier (UUID).
    *
    * @type {string}
    */
   id: string;
   /**
-   * Description placeholder
+   * Customer's legal first name.
    *
    * @type {string}
    */
   firstName: string;
   /**
-   * Description placeholder
+   * Customer's legal last name.
    *
    * @type {string}
    */
   lastName: string;
   /**
-   * Description placeholder
+   * Customer's email address used for Dwolla communications.
    *
    * @type {string}
    */
   email: string;
   /**
-   * Description placeholder
+   * Indicates whether this is a business or personal Dwolla customer account.
    *
    * @type {("business" | "personal")}
    */
   type: "business" | "personal";
   /**
-   * Description placeholder
+   * Sub-type of business (e.g., "llc", "corporation"). Only present for business accounts.
    *
    * @type {?string}
    */
   businessType?: string;
   /**
-   * Description placeholder
+   * Legal business name. Only present for business accounts.
    *
    * @type {?string}
    */
   businessName?: string;
   /**
-   * Description placeholder
+   * IP address of the end-user at the time of customer creation, used for fraud prevention.
    *
    * @type {?string}
    */
   ipAddress?: string;
   /**
-   * Description placeholder
+   * ISO 8601 timestamp of when the customer was created.
    *
    * @type {string}
    */
@@ -65,7 +65,7 @@ export interface DwollaCustomer {
 }
 
 /**
- * Description placeholder
+ * Full Dwolla API response object for a customer resource, including HAL-style `_links`.
  *
  * @export
  * @interface DwollaCustomerResponse
@@ -73,7 +73,7 @@ export interface DwollaCustomer {
  */
 export interface DwollaCustomerResponse {
   /**
-   * Description placeholder
+   * HAL-style hypermedia links for navigating related Dwolla resources.
    *
    * @type {{
    *     self: { href: string };
@@ -87,49 +87,49 @@ export interface DwollaCustomerResponse {
     transfers: { href: string };
   };
   /**
-   * Description placeholder
+   * Unique Dwolla customer identifier (UUID).
    *
    * @type {string}
    */
   id: string;
   /**
-   * Description placeholder
+   * Customer's legal first name.
    *
    * @type {string}
    */
   firstName: string;
   /**
-   * Description placeholder
+   * Customer's legal last name.
    *
    * @type {string}
    */
   lastName: string;
   /**
-   * Description placeholder
+   * Customer's email address.
    *
    * @type {string}
    */
   email: string;
   /**
-   * Description placeholder
+   * Indicates whether this is a business or personal Dwolla customer account.
    *
    * @type {("business" | "personal")}
    */
   type: "business" | "personal";
   /**
-   * Description placeholder
+   * Sub-type of business. Only present for business accounts.
    *
    * @type {?string}
    */
   businessType?: string;
   /**
-   * Description placeholder
+   * Legal business name. Only present for business accounts.
    *
    * @type {?string}
    */
   businessName?: string;
   /**
-   * Description placeholder
+   * ISO 8601 timestamp of when the customer was created, as returned by the Dwolla API.
    *
    * @type {string}
    */
@@ -137,7 +137,8 @@ export interface DwollaCustomerResponse {
 }
 
 /**
- * Description placeholder
+ * Represents a funding source (bank account) linked to a Dwolla customer,
+ * as stored or returned by the application layer.
  *
  * @export
  * @interface DwollaFundingSource
@@ -145,55 +146,56 @@ export interface DwollaCustomerResponse {
  */
 export interface DwollaFundingSource {
   /**
-   * Description placeholder
+   * Unique Dwolla funding source identifier (UUID).
    *
    * @type {string}
    */
   id: string;
   /**
-   * Description placeholder
+   * Name of the financial institution (e.g., "Chase", "Wells Fargo").
    *
    * @type {string}
    */
   bankName: string;
   /**
-   * Description placeholder
+   * Indicates whether the linked bank account is a checking or savings account.
    *
    * @type {("checking" | "savings")}
    */
   bankAccountType: "checking" | "savings";
   /**
-   * Description placeholder
+   * Full bank account number. Store encrypted; only use for display after masking.
    *
    * @type {string}
    */
   bankAccountNumber: string;
   /**
-   * Description placeholder
+   * ABA routing number of the financial institution (9 digits).
    *
    * @type {string}
    */
   routingNumber: string;
   /**
-   * Description placeholder
+   * Current verification status of the funding source.
    *
    * @type {("failed" | "pending" | "unverified" | "verified")}
    */
   status: "failed" | "pending" | "unverified" | "verified";
   /**
-   * Description placeholder
+   * How the funding source was added — via manual bank entry ("bank") or instant account
+   * verification ("iav").
    *
    * @type {("bank" | "iav")}
    */
   type: "bank" | "iav";
   /**
-   * Description placeholder
+   * ACH network channel used for this funding source (e.g., "ACH"). Optional.
    *
    * @type {?string}
    */
   channel?: string;
   /**
-   * Description placeholder
+   * ISO 8601 timestamp of when the funding source was created.
    *
    * @type {string}
    */
@@ -201,7 +203,7 @@ export interface DwollaFundingSource {
 }
 
 /**
- * Description placeholder
+ * Full Dwolla API response object for a funding source resource, including HAL-style `_links`.
  *
  * @export
  * @interface DwollaFundingSourceResponse
@@ -209,7 +211,7 @@ export interface DwollaFundingSource {
  */
 export interface DwollaFundingSourceResponse {
   /**
-   * Description placeholder
+   * HAL-style hypermedia links for navigating related Dwolla resources.
    *
    * @type {{
    *     self: { href: string };
@@ -221,61 +223,62 @@ export interface DwollaFundingSourceResponse {
     customer: { href: string };
   };
   /**
-   * Description placeholder
+   * Unique Dwolla funding source identifier (UUID).
    *
    * @type {string}
    */
   id: string;
   /**
-   * Description placeholder
+   * Normalized account type — "checking" or "savings".
    *
    * @type {("checking" | "savings")}
    */
   bankAccountType: "checking" | "savings";
   /**
-   * Description placeholder
+   * Raw account type string as returned by the bank, before normalization.
    *
    * @type {?string}
    */
   bankAccountTypeRaw?: string;
   /**
-   * Description placeholder
+   * Name of the financial institution.
    *
    * @type {string}
    */
   bankName: string;
   /**
-   * Description placeholder
+   * ABA routing number of the financial institution (9 digits).
    *
    * @type {string}
    */
   bankRoutingNumber: string;
   /**
-   * Description placeholder
+   * Last 4 digits of the bank account number, safe for display.
    *
    * @type {string}
    */
   bankAccountNumberLast4: string;
   /**
-   * Description placeholder
+   * Current verification status of the funding source.
    *
    * @type {("failed" | "pending" | "unverified" | "verified")}
    */
   status: "failed" | "pending" | "unverified" | "verified";
   /**
-   * Description placeholder
+   * How the funding source was added — via manual bank entry ("bank") or instant account
+   * verification ("iav").
    *
    * @type {("bank" | "iav")}
    */
   type: "bank" | "iav";
   /**
-   * Description placeholder
+   * List of ACH channels supported by this funding source (e.g., ["ACH"]).
    *
    * @type {?string[]}
    */
   channels?: string[];
   /**
-   * Description placeholder
+   * ISO 8601 timestamp of when the funding source was created, as returned by the Dwolla API.
    *
    * @type {string}
    */
@@ -283,7 +286,8 @@ export interface DwollaFundingSourceResponse {
 }
 
 /**
- * Description placeholder
+ * Represents an ACH transfer between two Dwolla funding sources,
+ * as stored or returned by the application layer.
  *
  * @export
  * @interface DwollaTransfer
@@ -291,55 +295,56 @@ export interface DwollaFundingSourceResponse {
  */
 export interface DwollaTransfer {
   /**
-   * Description placeholder
+   * Unique Dwolla transfer identifier (UUID).
    *
    * @type {string}
    */
   id: string;
   /**
-   * Description placeholder
+   * Transfer amount as a decimal string (e.g., "25.00").
    *
    * @type {string}
    */
   amount: string;
   /**
-   * Description placeholder
+   * ISO 4217 currency code for the transfer (e.g., "USD").
    *
    * @type {string}
    */
   currency: string;
   /**
-   * Description placeholder
+   * Current lifecycle status of the transfer.
+   * Note: "rucked" is a Dwolla-specific status indicating the transfer was returned.
    *
    * @type {("cancelled" | "failed" | "pending" | "processed" | "rucked")}
    */
   status: "cancelled" | "failed" | "pending" | "processed" | "rucked";
   /**
-   * Description placeholder
+   * ISO 8601 timestamp of when the transfer was initiated.
    *
    * @type {string}
    */
   createdAt: string;
   /**
-   * Description placeholder
+   * ISO 8601 timestamp of when the transfer cleared the ACH network.
    *
    * @type {?string}
    */
   clearedAt?: string;
   /**
-   * Description placeholder
+   * Human-readable date on which the transfer cleared (YYYY-MM-DD).
    *
    * @type {?string}
    */
   clearedDate?: string;
   /**
-   * Description placeholder
+   * Optional memo or description attached to the transfer.
    *
    * @type {?string}
    */
   description?: string;
   /**
-   * Description placeholder
+   * Arbitrary key-value pairs attached to the transfer for tracking or reconciliation.
    *
    * @type {?Record<string, string>}
    */
@@ -347,7 +352,7 @@ export interface DwollaTransfer {
 }
 
 /**
- * Description placeholder
+ * Full Dwolla API response object for a transfer resource, including HAL-style `_links`.
  *
  * @export
  * @interface DwollaTransferResponse
@@ -355,7 +360,7 @@ export interface DwollaTransfer {
  */
 export interface DwollaTransferResponse {
   /**
-   * Description placeholder
+   * HAL-style hypermedia links for navigating related Dwolla resources.
    *
    * @type {{
    *     self: { href: string };
@@ -373,13 +378,13 @@ export interface DwollaTransferResponse {
     "destination-funding-source": { href: string };
   };
   /**
-   * Description placeholder
+   * Unique Dwolla transfer identifier (UUID).
    *
    * @type {string}
    */
   id: string;
   /**
-   * Description placeholder
+   * Transfer amount with value and currency separated into sub-fields.
    *
    * @type {{
    *     value: string;
@@ -391,37 +396,38 @@ export interface DwollaTransferResponse {
     currency: string;
   };
   /**
-   * Description placeholder
+   * Current lifecycle status of the transfer.
+   * Note: "rucked" is a Dwolla-specific status indicating the transfer was returned.
    *
    * @type {("cancelled" | "failed" | "pending" | "processed" | "rucked")}
    */
   status: "cancelled" | "failed" | "pending" | "processed" | "rucked";
   /**
-   * Description placeholder
+   * ISO 8601 timestamp of when the transfer was created, as returned by the Dwolla API.
    *
    * @type {string}
    */
   created: string;
   /**
-   * Description placeholder
+   * ISO 8601 timestamp of when the transfer cleared the ACH network.
    *
    * @type {?string}
    */
   cleared?: string;
   /**
-   * Description placeholder
+   * Human-readable date on which the transfer cleared (YYYY-MM-DD).
    *
    * @type {?string}
    */
   clearedDate?: string;
   /**
-   * Description placeholder
+   * Optional memo or description attached to the transfer.
    *
    * @type {?string}
    */
   description?: string;
   /**
-   * Description placeholder
+   * Arbitrary key-value pairs attached to the transfer for tracking or reconciliation.
    *
    * @type {?Record<string, string>}
    */
@@ -429,7 +435,7 @@ export interface DwollaTransferResponse {
 }
 
 /**
- * Description placeholder
+ * Represents a Dwolla webhook event notification sent to the application's webhook endpoint.
  *
  * @export
  * @interface DwollaWebhookEvent
@@ -437,19 +443,19 @@ export interface DwollaTransferResponse {
  */
 export interface DwollaWebhookEvent {
   /**
-   * Description placeholder
+   * Unique Dwolla webhook event identifier (UUID).
    *
    * @type {string}
    */
   id: string;
   /**
-   * Description placeholder
+   * ID of the Dwolla resource (customer, funding source, or transfer) that triggered the event.
    *
    * @type {string}
    */
   resourceId: string;
   /**
-   * Description placeholder
+   * The event topic identifying what happened (e.g., "transfer_created", "customer_verified").
    *
    * @type {(| "customer_activated"
    *     | "customer_activation_sent"
@@ -486,7 +492,7 @@ export interface DwollaWebhookEvent {
     | "transfer_pending"
     | "transfer_processed";
   /**
-   * Description placeholder
+   * ISO 8601 timestamp of when the webhook event was emitted by Dwolla.
    *
    * @type {string}
    */
@@ -494,7 +500,8 @@ export interface DwollaWebhookEvent {
 }
 
 /**
- * Description placeholder
+ * Represents a micro-deposit verification attempt for a Dwolla funding source,
+ * as stored or returned by the application layer.
  *
  * @export
  * @interface DwollaMicroDeposit
@@ -502,31 +509,31 @@ export interface DwollaWebhookEvent {
  */
 export interface DwollaMicroDeposit {
   /**
-   * Description placeholder
+   * Unique Dwolla micro-deposit identifier (UUID).
    *
    * @type {string}
    */
   id: string;
   /**
-   * Description placeholder
+   * First micro-deposit amount in USD (e.g., 0.03). The customer must confirm both amounts.
    *
    * @type {number}
    */
   amount1: number;
   /**
-   * Description placeholder
+   * Second micro-deposit amount in USD (e.g., 0.07). The customer must confirm both amounts.
    *
    * @type {number}
    */
   amount2: number;
   /**
-   * Description placeholder
+   * Current verification status of the micro-deposit.
    *
    * @type {("failed" | "pending" | "verified")}
    */
   status: "failed" | "pending" | "verified";
   /**
-   * Description placeholder
+   * ISO 8601 timestamp of when the micro-deposit was initiated.
    *
    * @type {string}
    */
@@ -534,7 +541,7 @@ export interface DwollaMicroDeposit {
 }
 
 /**
- * Description placeholder
+ * Full Dwolla API response object for a micro-deposit resource, including HAL-style `_links`.
  *
  * @export
  * @interface DwollaMicroDepositResponse
@@ -542,7 +549,7 @@ export interface DwollaMicroDeposit {
  */
 export interface DwollaMicroDepositResponse {
   /**
-   * Description placeholder
+   * HAL-style hypermedia links for navigating related Dwolla resources.
    *
    * @type {{
    *     self: { href: string };
@@ -554,13 +561,13 @@ export interface DwollaMicroDepositResponse {
     fundingSource: { href: string };
   };
   /**
-   * Description placeholder
+   * Unique Dwolla micro-deposit identifier (UUID).
    *
    * @type {string}
    */
   id: string;
   /**
-   * Description placeholder
+   * The two micro-deposit amounts that the customer must verify to confirm bank ownership.
    *
    * @type {{
    *     amount1: number;
@@ -572,13 +579,13 @@ export interface DwollaMicroDepositResponse {
     amount2: number;
   };
   /**
-   * Description placeholder
+   * Current verification status of the micro-deposit.
    *
    * @type {("failed" | "pending" | "verified")}
    */
   status: "failed" | "pending" | "verified";
   /**
-   * Description placeholder
+   * ISO 8601 timestamp of when the micro-deposit was created, as returned by the Dwolla API.
    *
    * @type {string}
    */
@@ -586,7 +593,7 @@ export interface DwollaMicroDepositResponse {
 }
 
 /**
- * Description placeholder
+ * Input payload for initiating a Dwolla ACH transfer between two funding sources.
  *
  * @export
  * @interface DwollaTransferRequest
@@ -594,37 +601,39 @@ export interface DwollaMicroDepositResponse {
  */
 export interface DwollaTransferRequest {
   /**
-   * Description placeholder
+   * Transfer amount as a decimal string (e.g., "25.00").
    *
    * @type {string}
    */
   amount: string;
   /**
-   * Description placeholder
+   * ISO 4217 currency code (e.g., "USD").
    *
    * @type {string}
    */
   currency: string;
   /**
-   * Description placeholder
+   * Dwolla funding source URL for the sending account
+   * (e.g., "https://api-sandbox.dwolla.com/funding-sources/{id}").
    *
    * @type {string}
    */
   sourceFundingSourceUrl: string;
   /**
-   * Description placeholder
+   * Dwolla funding source URL for the receiving account
+   * (e.g., "https://api-sandbox.dwolla.com/funding-sources/{id}").
    *
    * @type {string}
    */
   destinationFundingSourceUrl: string;
   /**
-   * Description placeholder
+   * Arbitrary key-value pairs to attach to the transfer for tracking or reconciliation.
    *
    * @type {?Record<string, string>}
    */
   metadata?: Record<string, string>;
   /**
-   * Description placeholder
+   * Optional memo or description for the transfer, visible in the Dwolla dashboard.
    *
    * @type {?string}
    */
@@ -632,7 +641,7 @@ export interface DwollaTransferRequest {
 }
 
 /**
- * Description placeholder
+ * Input payload for creating a new Dwolla customer (personal or business).
  *
  * @export
  * @interface DwollaCreateCustomerRequest
@@ -640,43 +649,43 @@ export interface DwollaTransferRequest {
  */
 export interface DwollaCreateCustomerRequest {
   /**
-   * Description placeholder
+   * Customer's legal first name.
    *
    * @type {string}
    */
   firstName: string;
   /**
-   * Description placeholder
+   * Customer's legal last name.
    *
    * @type {string}
    */
   lastName: string;
   /**
-   * Description placeholder
+   * Customer's email address — must be unique within the Dwolla environment.
    *
    * @type {string}
    */
   email: string;
   /**
-   * Description placeholder
+   * Indicates whether this is a business or personal Dwolla customer account.
    *
    * @type {("business" | "personal")}
    */
   type: "business" | "personal";
   /**
-   * Description placeholder
+   * Sub-type of business (e.g., "llc", "corporation"). Required for business accounts.
    *
    * @type {?string}
    */
   businessType?: string;
   /**
-   * Description placeholder
+   * Legal business name. Required for business accounts.
    *
    * @type {?string}
    */
   businessName?: string;
   /**
-   * Description placeholder
+   * IP address of the end-user at time of customer creation, used for fraud prevention.
    *
    * @type {?string}
    */
@@ -684,7 +693,7 @@ export interface DwollaCreateCustomerRequest {
 }
 
 /**
- * Description placeholder
+ * Input payload for adding a bank account as a funding source to a Dwolla customer.
  *
  * @export
  * @interface DwollaAddFundingSourceRequest
@@ -692,37 +701,38 @@ export interface DwollaCreateCustomerRequest {
  */
 export interface DwollaAddFundingSourceRequest {
   /**
-   * Description placeholder
+   * Dwolla customer URL to attach the funding source to
+   * (e.g., "https://api-sandbox.dwolla.com/customers/{id}").
    *
    * @type {string}
    */
   fundingSourceUrl: string;
   /**
-   * Description placeholder
+   * Indicates whether the bank account is a checking or savings account.
    *
    * @type {("checking" | "savings")}
    */
   bankAccountType: "checking" | "savings";
   /**
-   * Description placeholder
+   * ABA routing number of the financial institution (9 digits).
    *
    * @type {string}
    */
   routingNumber: string;
   /**
-   * Description placeholder
+   * Full bank account number to link as a funding source.
    *
    * @type {string}
    */
   accountNumber: string;
   /**
-   * Description placeholder
+   * Display name for the funding source shown in the Dwolla dashboard (e.g., "My Chase Checking").
    *
    * @type {string}
    */
   name: string;
   /**
-   * Description placeholder
+   * Optional description for the funding source.
    *
    * @type {?string}
    */
@@ -730,7 +740,8 @@ export interface DwollaAddFundingSourceRequest {
 }
 
 /**
- * Description placeholder
+ * Zod schema for validating the create-customer request payload.
+ * Enforces required fields, trims whitespace, and validates email format.
  *
  * @type {*}
  */
@@ -745,7 +756,8 @@ export const createCustomerSchema = z.object({
 });
 
 /**
- * Description placeholder
+ * Zod schema for validating the add-funding-source request payload.
+ * Ensures account number length, routing number is exactly 9 digits, and URL is valid.
  *
  * @type {*}
  */
@@ -762,7 +774,8 @@ export const createFundingSourceSchema = z.object({
 });
 
 /**
- * Description placeholder
+ * Zod schema for validating the create-transfer request payload.
+ * Ensures amount is a positive decimal string and both funding source URLs are valid.
  *
  * @type {*}
  */
@@ -791,7 +804,8 @@ export const createTransferSchema = z.object({
 });
 
 /**
- * Description placeholder
+ * Zod schema for validating the verify-micro-deposit request payload.
+ * Both deposit amounts must be at least $0.01 and the funding source URL must be valid.
  *
  * @type {*}
  */

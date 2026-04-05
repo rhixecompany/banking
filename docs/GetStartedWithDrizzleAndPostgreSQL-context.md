@@ -50,10 +50,10 @@ Create a `schema.ts` file in the `database` directory and declare your table:
 ```ts
 import { integer, pgTable, varchar } from "drizzle-orm/pg-core";
 export const usersTable = pgTable("users", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  name: varchar({ length: 255 }).notNull(),
   age: integer().notNull(),
-  email: varchar({ length: 255 }).notNull().unique()
+  email: varchar({ length: 255 }).notNull().unique(),
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  name: varchar({ length: 255 }).notNull()
 });
 ```
 
@@ -67,12 +67,12 @@ Create a `drizzle.config.ts` file in the root of your project and add the follow
 import "dotenv/config";
 import { defineConfig } from "drizzle-kit";
 export default defineConfig({
-  out: "./drizzle",
-  schema: "./database/schema.ts",
-  dialect: "postgresql",
   dbCredentials: {
     url: process.env["DATABASE_URL"]!
-  }
+  },
+  dialect: "postgresql",
+  out: "./drizzle",
+  schema: "./database/schema.ts"
 });
 ```
 
@@ -97,17 +97,18 @@ Let’s update the `scripts/seed/run.ts` file with queries to create, read, upda
 
 ```ts
 import "dotenv/config";
-import { drizzle } from "drizzle-orm/node-postgres";
 import { eq } from "drizzle-orm";
+import { drizzle } from "drizzle-orm/node-postgres";
+
 import { usersTable } from "./database/schema";
 
 const db = drizzle(process.env["DATABASE_URL"]!);
 
 async function main() {
   const user: typeof usersTable.$inferInsert = {
-    name: "John",
     age: 30,
-    email: "john@example.com"
+    email: "john@example.com",
+    name: "John"
   };
   await db.insert(usersTable).values(user);
   console.log("New user created!");

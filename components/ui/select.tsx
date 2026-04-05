@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -15,6 +16,7 @@ const Select = SelectPrimitive.Root;
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -22,6 +24,7 @@ const SelectGroup = SelectPrimitive.Group;
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -29,6 +32,7 @@ const SelectValue = SelectPrimitive.Value;
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -54,6 +58,7 @@ SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -76,6 +81,7 @@ SelectScrollUpButton.displayName = SelectPrimitive.ScrollUpButton.displayName;
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -99,6 +105,7 @@ SelectScrollDownButton.displayName =
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -136,6 +143,7 @@ SelectContent.displayName = SelectPrimitive.Content.displayName;
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -153,6 +161,7 @@ SelectLabel.displayName = SelectPrimitive.Label.displayName;
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -181,6 +190,7 @@ SelectItem.displayName = SelectPrimitive.Item.displayName;
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */

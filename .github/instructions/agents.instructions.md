@@ -752,19 +752,19 @@ Use consistent variable naming conventions:
 ```javascript
 // Good: Clear, descriptive naming
 const variables = {
-  projectName, // What project to work on
   basePath, // Where project files are located
+  configurationPath, // Where config files are
   outputDirectory, // Where to save results
   processingMode, // How to process (detail level)
-  configurationPath // Where config files are
+  projectName // What project to work on
 };
 
 // Avoid: Ambiguous or inconsistent
 const bad_variables = {
-  name, // Too generic
-  path, // Unclear which path
+  config, // Too vague
   mode, // Too short
-  config // Too vague
+  name, // Too generic
+  path // Unclear which path
 };
 ```
 

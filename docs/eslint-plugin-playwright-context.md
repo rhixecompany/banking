@@ -23,9 +23,9 @@ export default [
       playwright: playwright
     },
     rules: {
-      "playwright/no-wait-for-selector": "error",
       "playwright/no-element-handle": "error",
       "playwright/no-page-pause": "error",
+      "playwright/no-wait-for-selector": "error",
       "playwright/prefer-to-have-count": "error"
     }
   }

@@ -1,5 +1,5 @@
 /**
- * Description placeholder
+ * Represents the Plaid link token response used to initialize the Plaid Link UI.
  *
  * @export
  * @interface PlaidLinkToken
@@ -7,19 +7,20 @@
  */
 export interface PlaidLinkToken {
   /**
-   * Description placeholder
+   * Short-lived token used to open the Plaid Link widget in the browser.
+   * Pass this to the `PlaidLink` component as `token`.
    *
    * @type {string}
    */
   linkToken: string;
   /**
-   * Description placeholder
+   * ISO 8601 expiration timestamp for the link token. Tokens expire after 30 minutes.
    *
    * @type {string}
    */
   expiration: string;
   /**
-   * Description placeholder
+   * Plaid request ID for debugging and support inquiries.
    *
    * @type {string}
    */
@@ -27,7 +28,7 @@ export interface PlaidLinkToken {
 }
 
 /**
- * Description placeholder
+ * Input payload for creating a Plaid link token via `/link/token/create`.
  *
  * @export
  * @interface PlaidLinkTokenCreateRequest
@@ -35,19 +36,21 @@ export interface PlaidLinkToken {
  */
 export interface PlaidLinkTokenCreateRequest {
   /**
-   * Description placeholder
+   * Identifies the end-user; `clientUserId` should be a stable, unique ID for the user
+   * in your system (e.g., database user ID).
    *
    * @type {{ clientUserId: string }}
    */
   user: { clientUserId: string };
   /**
-   * Description placeholder
+   * Name of your application, displayed to the user during the Plaid Link flow.
    *
    * @type {string}
    */
   clientName: string;
   /**
-   * Description placeholder
+   * List of Plaid products to initialize. Determines what data can be retrieved
+   * after the user completes the Link flow.
    *
    * @type {(
    *     | "auth"
@@ -65,13 +68,14 @@ export interface PlaidLinkTokenCreateRequest {
     | "transactions"
   )[];
   /**
-   * Description placeholder
+   * ISO 3166-1 alpha-2 country codes for the institutions shown during Link
+   * (e.g., ["US", "CA"]).
    *
    * @type {string[]}
    */
   countryCodes: string[];
   /**
-   * Description placeholder
+   * IETF BCP 47 language tag for the Link UI language (e.g., "en").
    *
    * @type {string}
    */
@@ -79,7 +83,7 @@ export interface PlaidLinkTokenCreateRequest {
 }
 
 /**
- * Description placeholder
+ * Input payload for exchanging a Plaid public token for a permanent access token.
  *
  * @export
  * @interface PlaidExchangePublicTokenRequest
@@ -87,7 +91,8 @@ export interface PlaidLinkTokenCreateRequest {
  */
 export interface PlaidExchangePublicTokenRequest {
   /**
-   * Description placeholder
+   * Short-lived public token returned by the Plaid Link `onSuccess` callback.
+   * Exchange this for a permanent access token via `/item/public_token/exchange`.
    *
    * @type {string}
    */
@@ -95,7 +100,7 @@ export interface PlaidExchangePublicTokenRequest {
 }
 
 /**
- * Description placeholder
+ * Response from `/item/public_token/exchange` containing the permanent access token.
  *
  * @export
  * @interface PlaidExchangePublicTokenResponse
@@ -103,19 +108,19 @@ export interface PlaidExchangePublicTokenRequest {
  */
 export interface PlaidExchangePublicTokenResponse {
   /**
-   * Description placeholder
+   * Permanent access token used to retrieve data for the linked Item. Store encrypted.
    *
    * @type {string}
    */
   accessToken: string;
   /**
-   * Description placeholder
+   * Plaid Item ID uniquely identifying this bank connection.
    *
    * @type {string}
    */
   itemId: string;
   /**
-   * Description placeholder
+   * Plaid request ID for debugging and support inquiries.
    *
    * @type {string}
    */
@@ -123,7 +128,7 @@ export interface PlaidExchangePublicTokenResponse {
 }
 
 /**
- * Description placeholder
+ * Represents a single bank account returned by the Plaid API.
  *
  * @export
  * @interface PlaidAccount
@@ -131,13 +136,14 @@ export interface PlaidExchangePublicTokenResponse {
  */
 export interface PlaidAccount {
   /**
-   * Description placeholder
+   * Plaid's unique identifier for this account within an Item.
    *
    * @type {string}
    */
   accountId: string;
   /**
-   * Description placeholder
+   * Current balance data for this account. Values may be null if the institution
+   * does not provide real-time balance information.
    *
    * @type {{
    *     available: null | number;
@@ -153,31 +159,31 @@ export interface PlaidAccount {
     limit: null | number;
   };
   /**
-   * Description placeholder
+   * Last 2–4 digits of the account number for display purposes. May be null.
    *
    * @type {(null | string)}
    */
   mask: null | string;
   /**
-   * Description placeholder
+   * Account name as set by the financial institution (e.g., "Plaid Checking").
    *
    * @type {string}
    */
   name: string;
   /**
-   * Description placeholder
+   * Full legal name of the account as registered with the institution. May be null.
    *
    * @type {(null | string)}
    */
   officialName: null | string;
   /**
-   * Description placeholder
+   * Account sub-type (e.g., "checking", "savings", "credit card"). May be null.
    *
    * @type {(null | string)}
    */
   subtype: null | string;
   /**
-   * Description placeholder
+   * High-level account category.
    *
    * @type {("credit" | "depository" | "investment" | "loan" | "other")}
    */
@@ -185,7 +191,7 @@ export interface PlaidAccount {
 }
 
 /**
- * Description placeholder
+ * Response from `/accounts/get` returning all accounts for a linked Item.
  *
  * @export
  * @interface PlaidAccountsGetResponse
@@ -193,13 +199,13 @@ export interface PlaidAccount {
  */
 export interface PlaidAccountsGetResponse {
   /**
-   * Description placeholder
+   * All accounts associated with the linked Plaid Item.
    *
    * @type {PlaidAccount[]}
    */
   accounts: PlaidAccount[];
   /**
-   * Description placeholder
+   * Metadata about the Plaid Item (bank connection) itself.
    *
    * @type {{
    *     itemId: string;
@@ -211,7 +217,7 @@ export interface PlaidAccountsGetResponse {
     institutionId: null | string;
   };
   /**
-   * Description placeholder
+   * Plaid request ID for debugging and support inquiries.
    *
    * @type {string}
    */
@@ -219,7 +225,7 @@ export interface PlaidAccountsGetResponse {
 }
 
 /**
- * Description placeholder
+ * Represents a single financial transaction returned by the Plaid Transactions API.
  *
  * @export
  * @interface PlaidTransaction
@@ -227,85 +233,89 @@ export interface PlaidAccountsGetResponse {
  */
 export interface PlaidTransaction {
   /**
-   * Description placeholder
+   * Plaid's unique identifier for this transaction.
    *
    * @type {string}
    */
   transactionId: string;
   /**
-   * Description placeholder
+   * Plaid account ID of the account this transaction belongs to.
    *
    * @type {string}
    */
   accountId: string;
   /**
-   * Description placeholder
+   * Transaction amount in the account's currency. Positive values are debits
+   * (money leaving the account); negative values are credits.
    *
    * @type {number}
    */
   amount: number;
   /**
-   * Description placeholder
+   * ISO 4217 currency code for the transaction amount. May be null.
    *
    * @type {(null | string)}
    */
   isoCurrencyCode: null | string;
   /**
-   * Description placeholder
+   * Date on which the transaction was posted (YYYY-MM-DD format).
    *
    * @type {string}
    */
   date: string;
   /**
-   * Description placeholder
+   * Merchant name or transaction description as returned by the institution.
    *
    * @type {string}
    */
   name: string;
   /**
-   * Description placeholder
+   * Cleaned merchant name from Plaid's enrichment. May be null if unavailable.
    *
    * @type {(null | string)}
    */
   merchantName: null | string;
   /**
-   * Description placeholder
+   * Array of Plaid category strings (e.g., ["Food and Drink", "Restaurants"]).
+   * May be null for unclassified transactions.
    *
    * @type {(null | string[])}
    */
   category: null | string[];
   /**
-   * Description placeholder
+   * Plaid category ID corresponding to the primary category. May be null.
    *
    * @type {(null | string)}
    */
   categoryId: null | string;
   /**
-   * Description placeholder
+   * Whether the transaction is still pending settlement. Pending transactions
+   * may change amount or be removed entirely once settled.
    *
    * @type {boolean}
    */
   pending: boolean;
   /**
-   * Description placeholder
+   * If this transaction is the settled version of a pending transaction,
+   * contains the ID of the original pending transaction. May be null.
    *
    * @type {(null | string)}
    */
   pendingTransactionId: null | string;
   /**
-   * Description placeholder
+   * Plaid's personal finance category label for the transaction. May be null.
    *
    * @type {(null | string)}
    */
   personalFinanceCategory: null | string;
   /**
-   * Description placeholder
+   * The channel through which the transaction was made.
    *
    * @type {("in store" | "online" | "other")}
    */
   paymentChannel: "in store" | "online" | "other";
   /**
-   * Description placeholder
+   * Plaid transaction type classification used for categorization and display.
    *
    * @type {(| "adjustment"
    *     | "advance"
@@ -402,7 +412,7 @@ export interface PlaidTransaction {
 }
 
 /**
- * Description placeholder
+ * Input payload for fetching transactions via `/transactions/get`.
  *
  * @export
  * @interface PlaidTransactionsGetRequest
@@ -410,25 +420,25 @@ export interface PlaidTransaction {
  */
 export interface PlaidTransactionsGetRequest {
   /**
-   * Description placeholder
+   * Permanent Plaid access token for the linked Item.
    *
    * @type {string}
    */
   accessToken: string;
   /**
-   * Description placeholder
+   * Start of the date range for transactions (YYYY-MM-DD, inclusive).
    *
    * @type {string}
    */
   startDate: string;
   /**
-   * Description placeholder
+   * End of the date range for transactions (YYYY-MM-DD, inclusive).
    *
    * @type {string}
    */
   endDate: string;
   /**
-   * Description placeholder
+   * Optional pagination and filtering options for the transactions request.
    *
    * @type {?{
    *     count?: number;
@@ -444,7 +454,7 @@ export interface PlaidTransactionsGetRequest {
 }
 
 /**
- * Description placeholder
+ * Response from `/transactions/get` containing accounts, transactions, and pagination info.
  *
  * @export
  * @interface PlaidTransactionsGetResponse
@@ -452,25 +462,25 @@ export interface PlaidTransactionsGetRequest {
  */
 export interface PlaidTransactionsGetResponse {
   /**
-   * Description placeholder
+   * All accounts associated with the linked Plaid Item.
    *
    * @type {PlaidAccount[]}
    */
   accounts: PlaidAccount[];
   /**
-   * Description placeholder
+   * Transactions for the requested date range and accounts.
    *
    * @type {PlaidTransaction[]}
    */
   transactions: PlaidTransaction[];
   /**
-   * Description placeholder
+   * Total number of transactions available for the date range, used for pagination.
    *
    * @type {number}
    */
   totalTransactions: number;
   /**
-   * Description placeholder
+   * Plaid request ID for debugging and support inquiries.
    *
    * @type {string}
    */
@@ -478,7 +488,7 @@ export interface PlaidTransactionsGetResponse {
 }
 
 /**
- * Description placeholder
+ * Balance snapshot for a single Plaid account, returned by `/accounts/balance/get`.
  *
  * @export
  * @interface PlaidBalance
@@ -486,13 +496,14 @@ export interface PlaidTransactionsGetResponse {
  */
 export interface PlaidBalance {
   /**
-   * Description placeholder
+   * Plaid's unique identifier for the account.
    *
    * @type {string}
    */
   accountId: string;
   /**
-   * Description placeholder
+   * Current balance data for the account. Values may be null if the institution
+   * does not provide real-time balance information.
    *
    * @type {{
    *     available: null | number;
@@ -510,7 +521,7 @@ export interface PlaidBalance {
 }
 
 /**
- * Description placeholder
+ * Response from `/accounts/balance/get` with real-time balance data for all accounts.
  *
  * @export
  * @interface PlaidBalanceGetResponse
@@ -518,13 +529,13 @@ export interface PlaidBalance {
  */
 export interface PlaidBalanceGetResponse {
   /**
-   * Description placeholder
+   * All accounts with their latest balance data.
    *
    * @type {PlaidAccount[]}
    */
   accounts: PlaidAccount[];
   /**
-   * Description placeholder
+   * Plaid request ID for debugging and support inquiries.
    *
    * @type {string}
    */
@@ -532,7 +543,7 @@ export interface PlaidBalanceGetResponse {
 }
 
 /**
- * Description placeholder
+ * Represents a financial institution as returned by the Plaid Institutions API.
  *
  * @export
  * @interface PlaidInstitution
@@ -540,49 +551,50 @@ export interface PlaidBalanceGetResponse {
  */
 export interface PlaidInstitution {
   /**
-   * Description placeholder
+   * Plaid's unique identifier for the institution (e.g., "ins_3").
    *
    * @type {string}
    */
   institutionId: string;
   /**
-   * Description placeholder
+   * Human-readable name of the financial institution (e.g., "Chase", "Bank of America").
    *
    * @type {string}
    */
   name: string;
   /**
-   * Description placeholder
+   * Base64-encoded institution logo image, or null if not available.
    *
    * @type {(null | string)}
    */
   logo: null | string;
   /**
-   * Description placeholder
+   * Hex color code representing the institution's primary brand color, or null if unavailable.
    *
    * @type {(null | string)}
    */
   primaryColor: null | string;
   /**
-   * Description placeholder
+   * Institution's public website URL, or null if not available.
    *
    * @type {(null | string)}
    */
   url: null | string;
   /**
-   * Description placeholder
+   * List of Plaid products supported by this institution.
    *
    * @type {string[]}
    */
   products: string[];
   /**
-   * Description placeholder
+   * ISO 3166-1 alpha-2 country codes where this institution operates.
    *
    * @type {string[]}
    */
   countryCodes: string[];
   /**
-   * Description placeholder
+   * Current operational status of the institution for key Plaid product categories.
+   * Only present when requested via `include_status: true`.
    *
    * @type {?{
    *     itemLogin: { status: "error" | "healthy" | "warning" };
@@ -596,7 +608,7 @@ export interface PlaidInstitution {
 }
 
 /**
- * Description placeholder
+ * Response from `/institutions/get_by_id` with institution details.
  *
  * @export
  * @interface PlaidInstitutionGetByIdResponse
@@ -604,21 +616,23 @@ export interface PlaidInstitution {
  */
 export interface PlaidInstitutionGetByIdResponse {
   /**
-   * Description placeholder
+   * Full institution details including name, logo, status, and supported products.
    *
    * @type {PlaidInstitution}
    */
   institution: PlaidInstitution;
   /**
-   * Description placeholder
+   * Plaid request ID for debugging and support inquiries.
    *
    * @type {string}
    */
   requestId: string;
 }
 
+// eslint-disable-next-line no-secrets/no-secrets
 /**
- * Description placeholder
+ * Input payload for exchanging a public token for a permanent access token
+ * via `/item/public_token/exchange`.
  *
  * @export
  * @interface PlaidItemPublicTokenExchangeRequest
@@ -626,15 +640,16 @@ export interface PlaidInstitutionGetByIdResponse {
  */
 export interface PlaidItemPublicTokenExchangeRequest {
   /**
-   * Description placeholder
+   * Short-lived public token received from the Plaid Link `onSuccess` callback.
    *
    * @type {string}
    */
   publicToken: string;
 }
 
+// eslint-disable-next-line no-secrets/no-secrets
 /**
- * Description placeholder
+ * Response from `/item/public_token/exchange` with the permanent access token.
  *
  * @export
  * @interface PlaidItemPublicTokenExchangeResponse
@@ -642,13 +657,13 @@ export interface PlaidItemPublicTokenExchangeRequest {
  */
 export interface PlaidItemPublicTokenExchangeResponse {
   /**
-   * Description placeholder
+   * Permanent access token for the linked Item. Store encrypted — never expose to the client.
    *
    * @type {string}
    */
   accessToken: string;
   /**
-   * Description placeholder
+   * Plaid Item ID uniquely identifying this bank connection.
    *
    * @type {string}
    */
@@ -656,7 +671,7 @@ export interface PlaidItemPublicTokenExchangeResponse {
 }
 
 /**
- * Description placeholder
+ * Response from `/item/remove` confirming that a Plaid Item has been deleted.
  *
  * @export
  * @interface PlaidItemRemoveResponse
@@ -664,13 +679,14 @@ export interface PlaidItemPublicTokenExchangeResponse {
  */
 export interface PlaidItemRemoveResponse {
   /**
-   * Description placeholder
+   * `true` if the Item was successfully removed from Plaid. The access token
+   * is permanently invalidated after removal.
    *
    * @type {boolean}
    */
   removed: boolean;
   /**
-   * Description placeholder
+   * Plaid request ID for debugging and support inquiries.
    *
    * @type {string}
    */
@@ -678,7 +694,7 @@ export interface PlaidItemRemoveResponse {
 }
 
 /**
- * Description placeholder
+ * Represents a Plaid webhook event notification delivered to the application's webhook endpoint.
  *
  * @export
  * @interface PlaidWebhookEvent
@@ -686,7 +702,7 @@ export interface PlaidItemRemoveResponse {
  */
 export interface PlaidWebhookEvent {
   /**
-   * Description placeholder
+   * High-level category of the webhook event corresponding to the Plaid product.
    *
    * @type {(| "AUTH"
    *     | "IDENTITY"
@@ -703,19 +719,20 @@ export interface PlaidWebhookEvent {
     | "LIABILITIES"
     | "TRANSACTIONS";
   /**
-   * Description placeholder
+   * Specific event code within the webhook type (e.g., "TRANSACTIONS_REMOVED",
+   * "SYNC_UPDATES_AVAILABLE", "ERROR").
    *
    * @type {string}
    */
   webhookCode: string;
   /**
-   * Description placeholder
+   * Plaid Item ID of the Item that generated the webhook event.
    *
    * @type {string}
    */
   itemId: string;
   /**
-   * Description placeholder
+   * Error details if the webhook represents a failure condition. Absent on success events.
    *
    * @type {?{
    *     errorCode: string;
@@ -729,19 +746,19 @@ export interface PlaidWebhookEvent {
     displayMessage: string;
   };
   /**
-   * Description placeholder
+   * Transactions that were newly added since the last webhook (TRANSACTIONS type only).
    *
    * @type {?PlaidTransaction[]}
    */
   added?: PlaidTransaction[];
   /**
-   * Description placeholder
+   * Transactions that were updated since the last webhook (TRANSACTIONS type only).
    *
    * @type {?PlaidTransaction[]}
    */
   modified?: PlaidTransaction[];
   /**
-   * Description placeholder
+   * Transactions that were removed or voided since the last webhook (TRANSACTIONS type only).
    *
    * @type {?{ transactionId: string }[]}
    */
@@ -749,7 +766,7 @@ export interface PlaidWebhookEvent {
 }
 
 /**
- * Description placeholder
+ * Response from `/auth/get` containing account and ACH routing number data.
  *
  * @export
  * @interface PlaidAuthGetResponse
@@ -757,13 +774,13 @@ export interface PlaidWebhookEvent {
  */
 export interface PlaidAuthGetResponse {
   /**
-   * Description placeholder
+   * All accounts associated with the linked Plaid Item.
    *
    * @type {PlaidAccount[]}
    */
   accounts: PlaidAccount[];
   /**
-   * Description placeholder
+   * ACH routing and account number data for each account, used for initiating ACH transfers.
    *
    * @type {{
    *     ach: {
@@ -781,7 +798,7 @@ export interface PlaidAuthGetResponse {
     }[];
   };
   /**
-   * Description placeholder
+   * Plaid request ID for debugging and support inquiries.
    *
    * @type {string}
    */
@@ -789,7 +806,7 @@ export interface PlaidAuthGetResponse {
 }
 
 /**
- * Description placeholder
+ * Response from `/identity/get` with account ownership and contact information.
  *
  * @export
  * @interface PlaidIdentityGetResponse
@@ -797,7 +814,8 @@ export interface PlaidAuthGetResponse {
  */
 export interface PlaidIdentityGetResponse {
   /**
-   * Description placeholder
+   * Account identity data including owner names, emails, phone numbers, and addresses
+   * as registered with the financial institution.
    *
    * @type {{
    *     accountId: string;
@@ -837,7 +855,7 @@ export interface PlaidIdentityGetResponse {
     }[];
   }[];
   /**
-   * Description placeholder
+   * Plaid request ID for debugging and support inquiries.
    *
    * @type {string}
    */
@@ -845,7 +863,7 @@ export interface PlaidIdentityGetResponse {
 }
 
 /**
- * Description placeholder
+ * Represents a Plaid API error returned when a request fails.
  *
  * @export
  * @interface PlaidError
@@ -853,31 +871,31 @@ export interface PlaidIdentityGetResponse {
  */
 export interface PlaidError {
   /**
-   * Description placeholder
+   * Machine-readable error code (e.g., "INVALID_ACCESS_TOKEN", "ITEM_LOGIN_REQUIRED").
    *
    * @type {string}
    */
   errorCode: string;
   /**
-   * Description placeholder
+   * Detailed developer-facing error message describing the failure cause.
    *
    * @type {string}
    */
   errorMessage: string;
   /**
-   * Description placeholder
+   * User-safe message suitable for display in the UI (e.g., "Please reconnect your bank").
    *
    * @type {string}
    */
   displayMessage: string;
   /**
-   * Description placeholder
+   * High-level error category (e.g., "INVALID_REQUEST", "ITEM_ERROR", "API_ERROR").
    *
    * @type {string}
    */
   errorType: string;
   /**
-   * Description placeholder
+   * Plaid request ID for debugging and support inquiries.
    *
    * @type {string}
    */

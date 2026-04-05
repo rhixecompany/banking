@@ -77,7 +77,7 @@ const nextUserPage = async (
     .limit(pageSize)
     .orderBy(asc(users.firstName), asc(users.id));
 };
-await nextUserPage({ id: 2, firstName: "Alex" });
+await nextUserPage({ firstName: "Alex", id: 2 });
 ```
 
 ### With UUID or non-sequential PK
@@ -105,8 +105,8 @@ const nextUserPage = async (
     .orderBy(asc(users.createdAt), asc(users.id));
 };
 await nextUserPage({
-  id: "uuid",
-  createdAt: new Date("2024-03-09T17:59:36.406Z")
+  createdAt: new Date("2024-03-09T17:59:36.406Z"),
+  id: "uuid"
 });
 ```
 

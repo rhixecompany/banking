@@ -1,4 +1,5 @@
 "use client";
+
 import type { ReactNode } from "react";
 
 import { useState } from "react";
@@ -13,24 +14,29 @@ import {
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
+ * @interface Props
  * @typedef {Props}
  */
 interface Props {
   /**
    * Description placeholder
+   * @author [object Object]
    *
    * @type {ReactNode}
    */
   trigger: ReactNode;
   /**
    * Description placeholder
+   * @author [object Object]
    *
    * @type {?boolean}
    */
   defaultOpen?: boolean;
   /**
    * Description placeholder
+   * @author [object Object]
    *
    * @type {?("center" | "end" | "start")}
    */
@@ -39,25 +45,21 @@ interface Props {
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @param {Props} param0
+ * @param {("center" | "end" | "start")} param0.align
  * @param {boolean} param0.defaultOpen
- * @param {("start" | "center" | "end")} param0.align
  * @param {ReactNode} param0.trigger
- * @returns {*}
+ * @returns {ReactJSX.Element}
  */
-
-const LanguageDropdown = ({
-  align,
-  defaultOpen,
-  trigger,
-}: Props): JSX.Element => {
+const LanguageDropdown = ({ align, defaultOpen, trigger }: Props) => {
   const [language, setLanguage] = useState("english");
 
   return (
     <DropdownMenu defaultOpen={defaultOpen}>
       <DropdownMenuTrigger asChild>{trigger}</DropdownMenuTrigger>
-      <DropdownMenuContent className="w-50" align={align ?? "end"}>
+      <DropdownMenuContent className="w-50" align={align || "end"}>
         <DropdownMenuRadioGroup value={language} onValueChange={setLanguage}>
           <DropdownMenuRadioItem
             value="english"

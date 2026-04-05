@@ -1,24 +1,26 @@
+import type { User } from "@/types/user";
+
 /**
- * Description placeholder
+ * Props for the `CreditCard` component that renders a styled bank card tile.
  *
  * @export
  * @typedef {CreditCardProps}
  */
 export interface CreditCardProps {
   /**
-   * Description placeholder
+   * The bank account to display on the card.
    *
    * @type {Account}
    */
   account: Account;
   /**
-   * Description placeholder
+   * The display name of the account holder shown on the card.
    *
    * @type {string}
    */
   userName: string;
   /**
-   * Description placeholder
+   * When true, shows the current balance on the card face. Defaults to false.
    *
    * @type {?boolean}
    */
@@ -26,14 +28,15 @@ export interface CreditCardProps {
 }
 
 /**
- * Description placeholder
+ * Props for the `DoughnutChart` component that renders a doughnut chart
+ * showing balance distribution across all linked bank accounts.
  *
  * @export
  * @typedef {DoughnutChartProps}
  */
 export interface DoughnutChartProps {
   /**
-   * Description placeholder
+   * Array of linked accounts whose balances are visualized in the chart.
    *
    * @type {Account[]}
    */
@@ -41,20 +44,20 @@ export interface DoughnutChartProps {
 }
 
 /**
- * Description placeholder
+ * Props for the `Footer` component that renders user info and a logout link.
  *
  * @export
  * @typedef {FooterProps}
  */
 export interface FooterProps {
   /**
-   * Description placeholder
+   * The currently authenticated user whose info is displayed in the footer.
    *
-   * @type {User}
+   * @type {UserWithProfile}
    */
-  user: User;
+  user: UserWithProfile;
   /**
-   * Description placeholder
+   * Layout variant: "desktop" renders a full footer row; "mobile" renders a compact version.
    *
    * @type {?("desktop" | "mobile")}
    */
@@ -62,32 +65,34 @@ export interface FooterProps {
 }
 
 /**
- * Description placeholder
+ * Props for the `HeaderBox` component that renders a page header with an optional
+ * personalized greeting or a plain title depending on the `type` variant.
  *
  * @export
  * @typedef {HeaderBoxProps}
  */
 export interface HeaderBoxProps {
   /**
-   * Description placeholder
+   * Display variant: "greeting" renders a welcome message with the user's name;
+   * "title" renders a plain heading without personalization.
    *
    * @type {?("greeting" | "title")}
    */
   type?: "greeting" | "title";
   /**
-   * Description placeholder
+   * Primary heading text displayed in the header.
    *
    * @type {string}
    */
   title: string;
   /**
-   * Description placeholder
+   * Optional secondary text displayed below the title.
    *
    * @type {?string}
    */
   subtext?: string;
   /**
-   * Description placeholder
+   * User's first name, appended to the greeting when `type` is "greeting".
    *
    * @type {?string}
    */
@@ -95,41 +100,43 @@ export interface HeaderBoxProps {
 }
 
 /**
- * Description placeholder
+ * Props for the `MobileNav` component that renders the slide-out navigation drawer
+ * on small screens.
  *
  * @export
  * @typedef {MobileNavProps}
  */
 export interface MobileNavProps {
   /**
-   * Description placeholder
+   * The currently authenticated user, used to personalise the nav header.
    *
-   * @type {User}
+   * @type {UserWithProfile}
    */
-  user: User;
+  user: UserWithProfile;
 }
 
 /**
- * Description placeholder
+ * Props for the `RightSidebar` component that renders the contextual panel
+ * showing the user's linked banks and recent transactions.
  *
  * @export
  * @typedef {RightSidebarProps}
  */
 export interface RightSidebarProps {
   /**
-   * Description placeholder
+   * The currently authenticated user displayed at the top of the sidebar.
    *
    * @type {User}
    */
   user: User;
   /**
-   * Description placeholder
+   * Array of linked bank records used to render the banks summary section.
    *
    * @type {Bank[]}
    */
   banks: Bank[];
   /**
-   * Description placeholder
+   * Array of recent transactions to display in the sidebar transaction list.
    *
    * @type {Transaction[]}
    */
@@ -137,41 +144,42 @@ export interface RightSidebarProps {
 }
 
 /**
- * Description placeholder
+ * Props for the `Sidebar` component that renders the main left-hand navigation.
  *
  * @export
- * @typedef {SiderbarProps}
+ * @typedef {SidebarProps}
  */
-export interface SiderbarProps {
+export interface SidebarProps {
   /**
-   * Description placeholder
+   * The currently authenticated user, used to personalise the sidebar header and footer.
    *
-   * @type {User}
+   * @type {UserWithProfile}
    */
-  user: User;
+  user: UserWithProfile;
 }
 
 /**
- * Description placeholder
+ * Props for the `TotalBalanceBox` component that renders the aggregated balance
+ * summary card at the top of the dashboard.
  *
  * @export
- * @typedef {TotlaBalanceBoxProps}
+ * @typedef {TotalBalanceBoxProps}
  */
-export interface TotlaBalanceBoxProps {
+export interface TotalBalanceBoxProps {
   /**
-   * Description placeholder
+   * Array of linked accounts whose balances are summed. Optional — renders a loading state when absent.
    *
-   * @type {Account[]}
+   * @type {?Account[]}
    */
-  accounts: Account[];
+  accounts?: Account[];
   /**
-   * Description placeholder
+   * Total number of linked bank connections, displayed alongside the balance.
    *
    * @type {number}
    */
   totalBanks: number;
   /**
-   * Description placeholder
+   * Sum of current balances across all linked accounts, in USD.
    *
    * @type {number}
    */
@@ -179,20 +187,23 @@ export interface TotlaBalanceBoxProps {
 }
 
 /**
- * Description placeholder
+ * Standard Next.js 16 page props shape for App Router pages that receive
+ * dynamic route segments and/or URL query parameters.
  *
  * @export
  * @typedef {SearchParamProps}
  */
 export interface SearchParamProps {
   /**
-   * Description placeholder
+   * Promise resolving to an object of dynamic route segment key/value pairs
+   * (e.g., `{ id: "abc123" }` for `[id]` segments).
    *
    * @type {Promise<Record<string, string>>}
    */
   params: Promise<Record<string, string>>;
   /**
-   * Description placeholder
+   * Promise resolving to the URL query string parameters. Values may be a string,
+   * an array of strings (for repeated keys), or undefined.
    *
    * @type {Promise<Record<string, string | string[] | undefined>>}
    */
@@ -200,194 +211,128 @@ export interface SearchParamProps {
 }
 
 /**
- * Description placeholder
- *
- * @export
- * @typedef {User}
- */
-export interface User {
-  /**
-   * Description placeholder
-   *
-   * @type {number}
-   */
-  id: number;
-  /**
-   * Description placeholder
-   *
-   * @type {string}
-   */
-  email: string;
-  /**
-   * Description placeholder
-   *
-   * @type {?string}
-   */
-  password?: string;
-  /**
-   * Description placeholder
-   *
-   * @type {?(null | string)}
-   */
-  name?: null | string;
-  /**
-   * Description placeholder
-   *
-   * @type {?(null | string)}
-   */
-  image?: null | string;
-  /**
-   * Description placeholder
-   *
-   * @type {boolean}
-   */
-  isAdmin: boolean;
-  /**
-   * Description placeholder
-   *
-   * @type {boolean}
-   */
-  isActive: boolean;
-  /**
-   * Description placeholder
-   *
-   * @type {Date}
-   */
-  createdAt: Date;
-  /**
-   * Description placeholder
-   *
-   * @type {Date}
-   */
-  updatedAt: Date;
-}
-
-/**
- * Description placeholder
+ * Extended profile data for a user, stored in the `user_profiles` table.
+ * Supplements the core `User` record with address and personal contact fields.
  *
  * @export
  * @typedef {UserProfile}
  */
 export interface UserProfile {
   /**
-   * Description placeholder
+   * Unique profile record identifier (UUID string).
    *
-   * @type {number}
+   * @type {string}
    */
-  id: number;
+  id: string;
   /**
-   * Description placeholder
+   * Foreign key referencing the associated `users.id` (UUID string).
    *
-   * @type {number}
+   * @type {string}
    */
-  userId: number;
+  userId: string;
   /**
-   * Description placeholder
+   * Street address line. May be null if not yet provided.
    *
    * @type {?(null | string)}
    */
   address?: null | string;
   /**
-   * Description placeholder
+   * City of residence. May be null if not yet provided.
    *
    * @type {?(null | string)}
    */
   city?: null | string;
   /**
-   * Description placeholder
+   * US state or territory abbreviation. May be null if not yet provided.
    *
    * @type {?(null | string)}
    */
   state?: null | string;
   /**
-   * Description placeholder
+   * ZIP or postal code. May be null if not yet provided.
    *
    * @type {?(null | string)}
    */
   postalCode?: null | string;
   /**
-   * Description placeholder
+   * Contact phone number. May be null if not yet provided.
    *
    * @type {?(null | string)}
    */
   phone?: null | string;
   /**
-   * Description placeholder
+   * Date of birth in ISO 8601 format (YYYY-MM-DD). May be null if not yet provided.
    *
    * @type {?(null | string)}
    */
   dateOfBirth?: null | string;
-  /**
-   * Description placeholder
-   *
-   * @type {?(null | string)}
-   */
-  ssn?: null | string;
 }
 
 /**
- * Description placeholder
+ * A bank account returned by Plaid. Combines Plaid balance data with the app's
+ * `banks` record metadata for display in the UI.
  *
  * @export
  * @typedef {Account}
  */
 export interface Account {
   /**
-   * Description placeholder
+   * Plaid account ID, unique within a Plaid Item.
    *
    * @type {string}
    */
   id: string;
   /**
-   * Description placeholder
+   * Amount of funds available for spending, withdrawal, or other transactions, in the account's currency.
    *
    * @type {number}
    */
   availableBalance: number;
   /**
-   * Description placeholder
+   * Total amount of funds in the account, including pending transactions, in the account's currency.
    *
    * @type {number}
    */
   currentBalance: number;
   /**
-   * Description placeholder
+   * The official name of the account as it appears at the financial institution.
    *
    * @type {?string}
    */
   officialName?: string;
   /**
-   * Description placeholder
+   * The last 2–4 digits of the account number, as returned by Plaid.
    *
    * @type {?string}
    */
   mask?: string;
   /**
-   * Description placeholder
+   * The Plaid institution ID for the bank that holds this account.
    *
    * @type {?string}
    */
   institutionId?: string;
   /**
-   * Description placeholder
+   * The user-friendly account name, either set by the user or returned by Plaid.
    *
    * @type {string}
    */
   name: string;
   /**
-   * Description placeholder
+   * High-level account type: "depository", "credit", "loan", "investment", or "other".
    *
    * @type {string}
    */
   type: string;
   /**
-   * Description placeholder
+   * Account subtype (e.g., "checking", "savings", "credit card").
    *
    * @type {?string}
    */
   subtype?: string;
   /**
-   * Description placeholder
+   * Public-safe shareable identifier for this account, stored in the `banks` table.
+   * Used in transfer flows to identify recipient accounts without exposing internal IDs.
    *
    * @type {?string}
    */
@@ -395,86 +340,87 @@ export interface Account {
 }
 
 /**
- * Description placeholder
+ * A financial transaction record, either sourced from Plaid or created internally
+ * for an ACH transfer via Dwolla. Stored in the `transactions` table.
  *
  * @export
  * @typedef {Transaction}
  */
 export interface Transaction {
   /**
-   * Description placeholder
+   * Unique transaction identifier (UUID string, primary key in `transactions` table).
    *
    * @type {string}
    */
   id: string;
   /**
-   * Description placeholder
+   * Human-readable description of the transaction (merchant name, transfer memo, etc.).
    *
    * @type {?string}
    */
   name?: string;
   /**
-   * Description placeholder
+   * The channel through which the payment was made (e.g., "online", "in store", "other").
    *
    * @type {?string}
    */
   paymentChannel?: string;
   /**
-   * Description placeholder
+   * Transaction type: "debit" for outflows, "credit" for inflows.
    *
    * @type {?string}
    */
   type?: string;
   /**
-   * Description placeholder
+   * The Plaid account ID associated with this transaction.
    *
    * @type {?string}
    */
   accountId?: string;
   /**
-   * Description placeholder
+   * Transaction amount in the account's currency. Positive = debit; negative = credit (Plaid convention).
    *
    * @type {number}
    */
   amount: number;
   /**
-   * Description placeholder
+   * Whether the transaction is pending (not yet settled).
    *
    * @type {?boolean}
    */
   pending?: boolean;
   /**
-   * Description placeholder
+   * Plaid-assigned transaction category (e.g., "Food and Drink", "Travel").
    *
    * @type {?string}
    */
   category?: string;
   /**
-   * Description placeholder
+   * ISO 8601 date string (YYYY-MM-DD) of when the transaction occurred.
    *
    * @type {?string}
    */
   date?: string;
   /**
-   * Description placeholder
+   * URL of a merchant logo or category image associated with the transaction.
    *
    * @type {?string}
    */
   image?: string;
   /**
-   * Description placeholder
+   * Foreign key referencing the `banks.id` of the account that sent this transaction.
    *
    * @type {?string}
    */
   senderBankId?: string;
   /**
-   * Description placeholder
+   * Foreign key referencing the `banks.id` of the account that received this transaction.
    *
    * @type {?string}
    */
   receiverBankId?: string;
   /**
-   * Description placeholder
+   * Current status of the transaction (e.g., "pending", "completed", "failed").
    *
    * @type {?string}
    */
@@ -482,80 +428,84 @@ export interface Transaction {
 }
 
 /**
- * Description placeholder
+ * A linked bank account record from the `banks` table. Stores Plaid and Dwolla
+ * integration data alongside account metadata for the owning user.
  *
  * @export
  * @typedef {Bank}
  */
 export interface Bank {
   /**
-   * Description placeholder
+   * Unique bank record identifier (UUID string, primary key in `banks` table).
    *
-   * @type {number}
+   * @type {string}
    */
-  id: number;
+  id: string;
   /**
-   * Description placeholder
+   * Foreign key referencing the `users.id` (UUID string) of the account owner.
    *
-   * @type {number}
+   * @type {string}
    */
-  userId: number;
+  userId: string;
   /**
-   * Description placeholder
+   * Plaid access token used to retrieve account data and initiate transfers.
+   * Stored encrypted (AES-256-GCM) in the database; decrypted before use.
    *
    * @type {string}
    */
   accessToken: string;
   /**
-   * Description placeholder
+   * Dwolla funding source URL for this bank account. Used as the source or destination
+   * in ACH transfer requests. Null until a Dwolla funding source has been created.
    *
    * @type {?(null | string)}
    */
   fundingSourceUrl?: null | string;
   /**
-   * Description placeholder
+   * Public-safe shareable identifier generated at link time. Used in transfer flows
+   * to identify recipient accounts without exposing internal database IDs.
    *
    * @type {string}
    */
   sharableId: string;
   /**
-   * Description placeholder
+   * Plaid institution ID for the financial institution holding this account.
    *
    * @type {?(null | string)}
    */
   institutionId?: null | string;
   /**
-   * Description placeholder
+   * Human-readable name of the financial institution (e.g., "Chase", "Bank of America").
    *
    * @type {?(null | string)}
    */
   institutionName?: null | string;
   /**
-   * Description placeholder
+   * Plaid account ID, unique within the Plaid Item for this bank connection.
    *
    * @type {?(null | string)}
    */
   accountId?: null | string;
   /**
-   * Description placeholder
+   * High-level account type as returned by Plaid (e.g., "depository", "credit").
    *
    * @type {?(null | string)}
    */
   accountType?: null | string;
   /**
-   * Description placeholder
+   * Account subtype as returned by Plaid (e.g., "checking", "savings", "credit card").
    *
    * @type {?(null | string)}
    */
   accountSubtype?: null | string;
   /**
-   * Description placeholder
+   * Timestamp when the bank record was created (i.e., when the account was linked).
    *
    * @type {Date}
    */
   createdAt: Date;
   /**
-   * Description placeholder
+   * Timestamp when the bank record was last updated.
    *
    * @type {Date}
    */
@@ -563,7 +513,7 @@ export interface Bank {
 }
 
 /**
- * Description placeholder
+ * Union of valid Plaid account types used to categorize linked bank accounts.
  *
  * @export
  * @typedef {AccountTypes}
@@ -576,7 +526,8 @@ export type AccountTypes =
   | "other";
 
 /**
- * Description placeholder
+ * The set of transaction categories used to classify and filter transactions
+ * in the spending breakdown and category badge components.
  *
  * @export
  * @typedef {Category}
@@ -589,26 +540,27 @@ export type Category =
   | "Travel";
 
 /**
- * Description placeholder
+ * Aggregated transaction count data for a single spending category,
+ * used by the `Category` component to render proportional progress bars.
  *
  * @export
  * @typedef {CategoryCount}
  */
 export interface CategoryCount {
   /**
-   * Description placeholder
+   * The category label (e.g., "Food and Drink", "Travel").
    *
    * @type {string}
    */
   name: string;
   /**
-   * Description placeholder
+   * Number of transactions in this category for the current period.
    *
    * @type {number}
    */
   count: number;
   /**
-   * Description placeholder
+   * Total number of transactions across all categories, used to compute the percentage share.
    *
    * @type {number}
    */
@@ -616,26 +568,26 @@ export interface CategoryCount {
 }
 
 /**
- * Description placeholder
+ * Parameters required to initiate a Dwolla ACH transfer between two funding sources.
  *
  * @export
  * @typedef {TransferParams}
  */
 export interface TransferParams {
   /**
-   * Description placeholder
+   * Dwolla funding source URL of the sending bank account.
    *
    * @type {string}
    */
   sourceFundingSourceUrl: string;
   /**
-   * Description placeholder
+   * Dwolla funding source URL of the receiving bank account.
    *
    * @type {string}
    */
   destinationFundingSourceUrl: string;
   /**
-   * Description placeholder
+   * Transfer amount as a string (e.g., "10.00"), in USD. Dwolla requires string format.
    *
    * @type {string}
    */
@@ -643,26 +595,28 @@ export interface TransferParams {
 }
 
 /**
- * Description placeholder
+ * Parameters for adding a Plaid-verified bank account as a Dwolla funding source
+ * via the processor token exchange flow.
  *
  * @export
  * @typedef {AddFundingSourceParams}
  */
 export interface AddFundingSourceParams {
   /**
-   * Description placeholder
+   * The Dwolla customer ID (UUID) of the user adding the funding source.
    *
    * @type {string}
    */
   dwollaCustomerId: string;
   /**
-   * Description placeholder
+   * Plaid processor token exchanged for Dwolla use. Single-use; obtained via
+   * the `processorTokenCreate` Plaid endpoint.
    *
    * @type {string}
    */
   processorToken: string;
   /**
-   * Description placeholder
+   * Human-readable label for the funding source (typically the institution name).
    *
    * @type {string}
    */
@@ -670,76 +624,72 @@ export interface AddFundingSourceParams {
 }
 
 /**
- * Description placeholder
+ * Parameters required to create a new Dwolla personal verified customer.
+ * These fields are submitted directly to the Dwolla Customers API.
  *
  * @export
  * @typedef {NewDwollaCustomerParams}
  */
 export interface NewDwollaCustomerParams {
   /**
-   * Description placeholder
+   * Customer's legal first name.
    *
    * @type {string}
    */
   firstName: string;
   /**
-   * Description placeholder
+   * Customer's legal last name.
    *
    * @type {string}
    */
   lastName: string;
   /**
-   * Description placeholder
+   * Customer's email address. Must be unique within the Dwolla environment.
    *
    * @type {string}
    */
   email: string;
   /**
-   * Description placeholder
+   * Dwolla customer type. Use "personal" for individual verified customers.
    *
    * @type {string}
    */
   type: string;
   /**
-   * Description placeholder
+   * Customer's primary street address line.
    *
    * @type {string}
    */
   address1: string;
   /**
-   * Description placeholder
+   * Customer's city of residence.
    *
    * @type {string}
    */
   city: string;
   /**
-   * Description placeholder
+   * Customer's US state abbreviation (e.g., "CA", "NY").
    *
    * @type {string}
    */
   state: string;
   /**
-   * Description placeholder
+   * Customer's 5-digit US postal code.
    *
    * @type {string}
    */
   postalCode: string;
   /**
-   * Description placeholder
+   * Customer's date of birth in ISO 8601 format (YYYY-MM-DD).
    *
    * @type {string}
    */
   dateOfBirth: string;
-  /**
-   * Description placeholder
-   *
-   * @type {string}
-   */
-  ssn: string;
 }
 
 /**
- * Description placeholder
+ * Props for the `PageHeader` component that renders a two-line header with
+ * optional bank connection prompt used on the My Banks and Payment Transfer pages.
  *
  * @export
  * @interface PageHeaderProps
@@ -747,31 +697,32 @@ export interface NewDwollaCustomerParams {
  */
 export interface PageHeaderProps {
   /**
-   * Description placeholder
+   * Primary heading text displayed at the top of the header section.
    *
    * @type {string}
    */
   topTitle: string;
   /**
-   * Description placeholder
+   * Secondary heading text displayed below the top title.
    *
    * @type {string}
    */
   bottomTitle: string;
   /**
-   * Description placeholder
+   * Descriptive subtitle displayed beneath the top title.
    *
    * @type {string}
    */
   topDescription: string;
   /**
-   * Description placeholder
+   * Descriptive subtitle displayed beneath the bottom title.
    *
    * @type {string}
    */
   bottomDescription: string;
   /**
-   * Description placeholder
+   * When true, renders a "Connect Bank" button prompt in the header. Used on pages
+   * where the user has not yet linked any bank accounts.
    *
    * @type {?boolean}
    */
@@ -779,7 +730,8 @@ export interface PageHeaderProps {
 }
 
 /**
- * Description placeholder
+ * Props for the `Pagination` component that renders previous/next navigation
+ * controls for paginated lists.
  *
  * @export
  * @interface PaginationProps
@@ -787,13 +739,13 @@ export interface PageHeaderProps {
  */
 export interface PaginationProps {
   /**
-   * Description placeholder
+   * The current active page number (1-based).
    *
    * @type {number}
    */
   page: number;
   /**
-   * Description placeholder
+   * Total number of pages available, used to disable the "next" button on the last page.
    *
    * @type {number}
    */
@@ -801,7 +753,8 @@ export interface PaginationProps {
 }
 
 /**
- * Description placeholder
+ * Props for the `PlaidLink` component that initiates the Plaid Link flow
+ * to connect a new bank account.
  *
  * @export
  * @interface PlaidLinkProps
@@ -809,19 +762,21 @@ export interface PaginationProps {
  */
 export interface PlaidLinkProps {
   /**
-   * Description placeholder
+   * The currently authenticated user. Used to create the Plaid link token
+   * and associate the resulting bank account with the correct user record.
    *
    * @type {User}
    */
   user: User;
   /**
-   * Description placeholder
+   * Button visual variant. "primary" renders a filled button; "ghost" renders a borderless link-style button.
    *
    * @type {?("primary" | "ghost")}
    */
   variant?: "ghost" | "primary";
   /**
-   * Description placeholder
+   * The user's Dwolla customer ID, required to create a funding source after
+   * successfully linking a bank account via Plaid.
    *
    * @type {?string}
    */
@@ -829,7 +784,8 @@ export interface PlaidLinkProps {
 }
 
 /**
- * Description placeholder
+ * Props for the `BankDropdown` component that renders a styled dropdown
+ * for selecting a source or destination bank account in the transfer form.
  *
  * @export
  * @interface BankDropdownProps
@@ -837,19 +793,20 @@ export interface PlaidLinkProps {
  */
 export interface BankDropdownProps {
   /**
-   * Description placeholder
+   * Array of linked accounts to populate the dropdown options.
    *
    * @type {Account[]}
    */
   accounts: Account[];
   /**
-   * Description placeholder
+   * React Hook Form `setValue` callback used to update the selected account
+   * field when the user picks an option from the dropdown.
    *
    * @type {?(name: string, value: unknown) => void}
    */
   setValue?: (name: string, value: unknown) => void;
   /**
-   * Description placeholder
+   * Additional Tailwind CSS class names applied to the dropdown trigger element.
    *
    * @type {?string}
    */
@@ -857,7 +814,8 @@ export interface BankDropdownProps {
 }
 
 /**
- * Description placeholder
+ * Props for the `BankTabItem` component that renders a single tab button
+ * in the bank account tab switcher on the Transaction History page.
  *
  * @export
  * @interface BankTabItemProps
@@ -865,21 +823,16 @@ export interface BankDropdownProps {
  */
 export interface BankTabItemProps {
   /**
-   * Description placeholder
+   * The linked bank account this tab represents.
    *
    * @type {Account}
    */
   account: Account;
-  /**
-   * Description placeholder
-   *
-   * @type {?string}
-   */
-  appwriteItemId?: string;
 }
 
 /**
- * Description placeholder
+ * Props for the `RecentTransactions` component that renders a tabbed view
+ * of recent transactions grouped by linked bank account.
  *
  * @export
  * @interface RecentTransactionsProps
@@ -887,19 +840,19 @@ export interface BankTabItemProps {
  */
 export interface RecentTransactionsProps {
   /**
-   * Description placeholder
+   * Array of linked accounts used to generate the account tab selectors.
    *
    * @type {Account[]}
    */
   accounts: Account[];
   /**
-   * Description placeholder
+   * Array of transactions to display in the active account's transaction list.
    *
    * @type {Transaction[]}
    */
   transactions: Transaction[];
   /**
-   * Description placeholder
+   * Current page number (1-based) used by the pagination controls.
    *
    * @type {number}
    */
@@ -907,7 +860,8 @@ export interface RecentTransactionsProps {
 }
 
 /**
- * Description placeholder
+ * Props for the `TransactionHistoryTable` component that renders the full
+ * paginated transaction table on the Transaction History page.
  *
  * @export
  * @interface TransactionHistoryTableProps
@@ -915,13 +869,13 @@ export interface RecentTransactionsProps {
  */
 export interface TransactionHistoryTableProps {
   /**
-   * Description placeholder
+   * Array of transactions for the current page to render in the table rows.
    *
    * @type {Transaction[]}
    */
   transactions: Transaction[];
   /**
-   * Description placeholder
+   * Current page number (1-based), forwarded to the pagination footer.
    *
    * @type {number}
    */
@@ -929,7 +883,8 @@ export interface TransactionHistoryTableProps {
 }
 
 /**
- * Description placeholder
+ * Props for the `CategoryBadge` component that renders a styled pill badge
+ * representing a transaction's spending category.
  *
  * @export
  * @interface CategoryBadgeProps
@@ -937,7 +892,8 @@ export interface TransactionHistoryTableProps {
  */
 export interface CategoryBadgeProps {
   /**
-   * Description placeholder
+   * The category label string to display inside the badge
+   * (e.g., "Food and Drink", "Travel", "Shopping").
    *
    * @type {string}
    */
@@ -945,7 +901,8 @@ export interface CategoryBadgeProps {
 }
 
 /**
- * Description placeholder
+ * Props for the `TransactionTable` component that renders a sortable table
+ * of transaction rows with category badges and status indicators.
  *
  * @export
  * @interface TransactionTableProps
@@ -953,7 +910,7 @@ export interface CategoryBadgeProps {
  */
 export interface TransactionTableProps {
   /**
-   * Description placeholder
+   * Array of transactions to render as rows in the table.
    *
    * @type {Transaction[]}
    */
@@ -961,7 +918,8 @@ export interface TransactionTableProps {
 }
 
 /**
- * Description placeholder
+ * Props for the `Category` component that renders a single spending-category
+ * row with a proportional progress bar inside the spending breakdown section.
  *
  * @export
  * @interface CategoryProps
@@ -969,7 +927,8 @@ export interface TransactionTableProps {
  */
 export interface CategoryProps {
   /**
-   * Description placeholder
+   * Aggregated category data including the category name, transaction count,
+   * and total count across all categories used to compute the progress width.
    *
    * @type {CategoryCount}
    */
@@ -977,7 +936,8 @@ export interface CategoryProps {
 }
 
 /**
- * Description placeholder
+ * Props for the `PaymentTransferForm` component that renders the multi-field
+ * ACH transfer form allowing users to send money between linked bank accounts.
  *
  * @export
  * @interface PaymentTransferFormProps
@@ -985,7 +945,8 @@ export interface CategoryProps {
  */
 export interface PaymentTransferFormProps {
   /**
-   * Description placeholder
+   * Array of the user's linked bank accounts, used to populate the
+   * source account dropdown in the transfer form.
    *
    * @type {Account[]}
    */
@@ -993,7 +954,8 @@ export interface PaymentTransferFormProps {
 }
 
 /**
- * Description placeholder
+ * Props for the `AuthForm` component that renders either the sign-in or
+ * sign-up form depending on the current authentication page context.
  *
  * @export
  * @interface AuthFormProps
@@ -1001,7 +963,9 @@ export interface PaymentTransferFormProps {
  */
 export interface AuthFormProps {
   /**
-   * Description placeholder
+   * Determines which form variant to render:
+   * - "sign-in" renders email + password login fields.
+   * - "sign-up" renders the full registration form with profile fields.
    *
    * @type {("sign-in" | "sign-up")}
    */
@@ -1009,15 +973,15 @@ export interface AuthFormProps {
 }
 
 /**
- * Description placeholder
+ * Input parameters for retrieving a user's Plaid-linked bank accounts.
  *
  * @export
- * @interface getAccountsProps
- * @typedef {getAccountsProps}
+ * @interface GetAccountsProps
+ * @typedef {GetAccountsProps}
  */
-export interface getAccountsProps {
+export interface GetAccountsProps {
   /**
-   * Description placeholder
+   * The UUID of the user whose linked bank accounts should be fetched.
    *
    * @type {string}
    */
@@ -1025,15 +989,16 @@ export interface getAccountsProps {
 }
 
 /**
- * Description placeholder
+ * Input parameters for fetching Plaid institution metadata by institution ID.
  *
  * @export
- * @interface getInstitutionProps
- * @typedef {getInstitutionProps}
+ * @interface GetInstitutionProps
+ * @typedef {GetInstitutionProps}
  */
-export interface getInstitutionProps {
+export interface GetInstitutionProps {
   /**
-   * Description placeholder
+   * Plaid institution ID (e.g., "ins_3" for Chase). Used to retrieve the
+   * institution's name, logo, and color from the Plaid Institutions API.
    *
    * @type {string}
    */
@@ -1041,15 +1006,16 @@ export interface getInstitutionProps {
 }
 
 /**
- * Description placeholder
+ * Input parameters for retrieving transactions from Plaid for a linked account.
  *
  * @export
- * @interface getTransactionsProps
- * @typedef {getTransactionsProps}
+ * @interface GetTransactionsProps
+ * @typedef {GetTransactionsProps}
  */
-export interface getTransactionsProps {
+export interface GetTransactionsProps {
   /**
-   * Description placeholder
+   * Plaid access token for the linked bank Item. Obtained after the
+   * public token exchange and stored encrypted in the `banks` table.
    *
    * @type {string}
    */
@@ -1057,7 +1023,8 @@ export interface getTransactionsProps {
 }
 
 /**
- * Description placeholder
+ * Options required to create a new Dwolla funding source for a customer
+ * using a Plaid processor token via the Dwolla Funding Sources API.
  *
  * @export
  * @interface CreateFundingSourceOptions
@@ -1065,25 +1032,27 @@ export interface getTransactionsProps {
  */
 export interface CreateFundingSourceOptions {
   /**
-   * Description placeholder
+   * The Dwolla customer ID (UUID) of the customer to attach the funding source to.
    *
    * @type {string}
    */
   customerId: string;
   /**
-   * Description placeholder
+   * Human-readable label for this funding source (typically the bank/institution name).
    *
    * @type {string}
    */
   fundingSourceName: string;
   /**
-   * Description placeholder
+   * Single-use Plaid processor token obtained via `processorTokenCreate`,
+   * used by Dwolla to verify and link the bank account.
    *
    * @type {string}
    */
   plaidToken: string;
   /**
-   * Description placeholder
+   * HAL-style `_links` object for navigating Dwolla API resource relationships.
+   * Provided by the Dwolla on-demand authorization response when present.
    *
    * @type {?object}
    */
@@ -1091,7 +1060,8 @@ export interface CreateFundingSourceOptions {
 }
 
 /**
- * Description placeholder
+ * Parameters required to record a new ACH transfer transaction in the
+ * application's `transactions` table after a Dwolla transfer is initiated.
  *
  * @export
  * @interface CreateTransactionProps
@@ -1099,43 +1069,44 @@ export interface CreateFundingSourceOptions {
  */
 export interface CreateTransactionProps {
   /**
-   * Description placeholder
+   * Human-readable memo or description for the transaction (e.g., "Rent payment").
    *
    * @type {string}
    */
   name: string;
   /**
-   * Description placeholder
+   * Transfer amount as a string (e.g., "50.00"), in USD. Stored as string
+   * to match Dwolla's API format before being persisted as a numeric value.
    *
    * @type {string}
    */
   amount: string;
   /**
-   * Description placeholder
+   * User ID (UUID) of the sender, referencing `users.id`.
    *
    * @type {string}
    */
   senderId: string;
   /**
-   * Description placeholder
+   * Bank record ID (UUID) of the sender's funding source, referencing `banks.id`.
    *
    * @type {string}
    */
   senderBankId: string;
   /**
-   * Description placeholder
+   * User ID (UUID) of the recipient, referencing `users.id`.
    *
    * @type {string}
    */
   receiverId: string;
   /**
-   * Description placeholder
+   * Bank record ID (UUID) of the recipient's funding source, referencing `banks.id`.
    *
    * @type {string}
    */
   receiverBankId: string;
   /**
-   * Description placeholder
+   * Email address of the recipient, used for transfer confirmation notifications.
    *
    * @type {string}
    */
@@ -1143,15 +1114,17 @@ export interface CreateTransactionProps {
 }
 
 /**
- * Description placeholder
+ * Input parameters for querying all transactions associated with a specific
+ * bank record in the `transactions` table.
  *
  * @export
- * @interface getTransactionsByBankIdProps
- * @typedef {getTransactionsByBankIdProps}
+ * @interface GetTransactionsByBankIdProps
+ * @typedef {GetTransactionsByBankIdProps}
  */
-export interface getTransactionsByBankIdProps {
+export interface GetTransactionsByBankIdProps {
   /**
-   * Description placeholder
+   * The UUID of the bank record (`banks.id`) whose transactions should be fetched.
+   * Matches on either `senderBankId` or `receiverBankId`.
    *
    * @type {string}
    */
@@ -1159,21 +1132,23 @@ export interface getTransactionsByBankIdProps {
 }
 
 /**
- * Description placeholder
+ * Credentials passed to the NextAuth Credentials provider to authenticate
+ * a user with email and password.
  *
  * @export
- * @interface signInProps
- * @typedef {signInProps}
+ * @interface SignInProps
+ * @typedef {SignInProps}
  */
-export interface signInProps {
+export interface SignInProps {
   /**
-   * Description placeholder
+   * The user's registered email address.
    *
    * @type {string}
    */
   email: string;
   /**
-   * Description placeholder
+   * The user's plaintext password, verified against the bcrypt hash stored
+   * in the `users` table. Never stored or logged in plaintext.
    *
    * @type {string}
    */
@@ -1181,15 +1156,15 @@ export interface signInProps {
 }
 
 /**
- * Description placeholder
+ * Input parameters for fetching a user's core record from the `users` table.
  *
  * @export
- * @interface getUserInfoProps
- * @typedef {getUserInfoProps}
+ * @interface GetUserInfoProps
+ * @typedef {GetUserInfoProps}
  */
-export interface getUserInfoProps {
+export interface GetUserInfoProps {
   /**
-   * Description placeholder
+   * The UUID of the user to look up, referencing `users.id`.
    *
    * @type {string}
    */
@@ -1197,21 +1172,24 @@ export interface getUserInfoProps {
 }
 
 /**
- * Description placeholder
+ * Parameters for the Plaid public token exchange flow that links a bank
+ * account after the user completes the Plaid Link UI.
  *
  * @export
- * @interface exchangePublicTokenProps
- * @typedef {exchangePublicTokenProps}
+ * @interface ExchangePublicTokenProps
+ * @typedef {ExchangePublicTokenProps}
  */
-export interface exchangePublicTokenProps {
+export interface ExchangePublicTokenProps {
   /**
-   * Description placeholder
+   * The short-lived public token returned by the Plaid Link `onSuccess`
+   * callback. Exchanged for a permanent access token via `itemPublicTokenExchange`.
    *
    * @type {string}
    */
   publicToken: string;
   /**
-   * Description placeholder
+   * The currently authenticated user. Used to associate the resulting bank
+   * record with the correct user and to create the Dwolla customer if needed.
    *
    * @type {User}
    */
@@ -1219,45 +1197,50 @@ export interface exchangePublicTokenProps {
 }
 
 /**
- * Description placeholder
+ * Parameters for creating a new bank record in the `banks` table after
+ * successfully completing the Plaid public token exchange.
  *
  * @export
- * @interface createBankAccountProps
- * @typedef {createBankAccountProps}
+ * @interface CreateBankAccountProps
+ * @typedef {CreateBankAccountProps}
  */
-export interface createBankAccountProps {
+export interface CreateBankAccountProps {
   /**
-   * Description placeholder
+   * Plaid access token for the linked Item. Stored encrypted (AES-256-GCM) in
+   * the `banks.accessToken` column.
    *
    * @type {string}
    */
   accessToken: string;
   /**
-   * Description placeholder
+   * UUID of the user who linked this account, referencing `users.id`.
    *
    * @type {string}
    */
   userId: string;
   /**
-   * Description placeholder
+   * Plaid account ID for the specific account within the linked Item.
    *
    * @type {string}
    */
   accountId: string;
   /**
-   * Description placeholder
+   * Internal bank record ID (UUID) generated at creation time, used as the
+   * primary key in the `banks` table.
    *
    * @type {string}
    */
   bankId: string;
   /**
-   * Description placeholder
+   * Dwolla funding source URL created for this bank account. Stored in
+   * `banks.fundingSourceUrl` and used as source/destination in ACH transfers.
    *
    * @type {string}
    */
   fundingSourceUrl: string;
   /**
-   * Description placeholder
+   * Public-safe shareable identifier generated at link time. Used in transfer
+   * flows to identify recipient accounts without exposing database IDs.
    *
    * @type {string}
    */
@@ -1265,15 +1248,16 @@ export interface createBankAccountProps {
 }
 
 /**
- * Description placeholder
+ * Input parameters for fetching all bank records linked to a specific user.
  *
  * @export
- * @interface getBanksProps
- * @typedef {getBanksProps}
+ * @interface GetBanksProps
+ * @typedef {GetBanksProps}
  */
-export interface getBanksProps {
+export interface GetBanksProps {
   /**
-   * Description placeholder
+   * The UUID of the user whose linked bank records should be fetched,
+   * referencing `users.id`.
    *
    * @type {string}
    */
@@ -1281,31 +1265,32 @@ export interface getBanksProps {
 }
 
 /**
- * Description placeholder
+ * Input parameters for fetching a single bank record by its primary key.
  *
  * @export
- * @interface getBankProps
- * @typedef {getBankProps}
+ * @interface GetBankProps
+ * @typedef {GetBankProps}
  */
-export interface getBankProps {
+export interface GetBankProps {
   /**
-   * Description placeholder
+   * The UUID primary key of the bank record to fetch (`banks.id`).
    *
    * @type {string}
    */
-  documentId: string;
+  bankId: string;
 }
 
 /**
- * Description placeholder
+ * Input parameters for fetching a bank record by its associated Plaid account ID.
  *
  * @export
- * @interface getBankByAccountIdProps
- * @typedef {getBankByAccountIdProps}
+ * @interface GetBankByAccountIdProps
+ * @typedef {GetBankByAccountIdProps}
  */
-export interface getBankByAccountIdProps {
+export interface GetBankByAccountIdProps {
   /**
-   * Description placeholder
+   * The Plaid account ID (`banks.accountId`) used to look up the corresponding
+   * bank record. Useful when mapping Plaid transaction data back to internal records.
    *
    * @type {string}
    */

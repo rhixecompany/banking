@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -23,6 +24,7 @@ Table.displayName = "Table";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -36,6 +38,7 @@ TableHeader.displayName = "TableHeader";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -53,6 +56,7 @@ TableBody.displayName = "TableBody";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -73,6 +77,7 @@ TableFooter.displayName = "TableFooter";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -93,6 +98,7 @@ TableRow.displayName = "TableRow";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -113,6 +119,7 @@ TableHead.displayName = "TableHead";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -130,6 +137,7 @@ TableCell.displayName = "TableCell";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */

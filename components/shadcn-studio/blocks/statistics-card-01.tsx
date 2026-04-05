@@ -6,36 +6,43 @@ import { cn } from "@/lib/utils";
 // Statistics card data type
 /**
  * Description placeholder
+ * @author [object Object]
  *
+ * @interface StatisticsCardProps
  * @typedef {StatisticsCardProps}
  */
 interface StatisticsCardProps {
   /**
    * Description placeholder
+   * @author [object Object]
    *
    * @type {ReactNode}
    */
   icon: ReactNode;
   /**
    * Description placeholder
+   * @author [object Object]
    *
    * @type {string}
    */
   value: string;
   /**
    * Description placeholder
+   * @author [object Object]
    *
    * @type {string}
    */
   title: string;
   /**
    * Description placeholder
+   * @author [object Object]
    *
    * @type {string}
    */
   changePercentage: string;
   /**
    * Description placeholder
+   * @author [object Object]
    *
    * @type {?string}
    */
@@ -44,14 +51,15 @@ interface StatisticsCardProps {
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @param {StatisticsCardProps} param0
- * @param {ReactNode} param0.icon
- * @param {string} param0.value
- * @param {string} param0.title
  * @param {string} param0.changePercentage
  * @param {string} param0.className
- * @returns {*}
+ * @param {ReactNode} param0.icon
+ * @param {string} param0.title
+ * @param {string} param0.value
+ * @returns {ReactJSX.Element}
  */
 const StatisticsCard = ({
   changePercentage,
@@ -59,7 +67,7 @@ const StatisticsCard = ({
   icon,
   title,
   value,
-}: StatisticsCardProps): JSX.Element => {
+}: StatisticsCardProps) => {
   return (
     <Card className={cn("gap-4", className)}>
       <CardHeader className="flex items-center">

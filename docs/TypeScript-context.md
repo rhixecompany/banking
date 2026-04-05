@@ -18,7 +18,7 @@ function MyAdapter(): Adapter {
 When writing your own custom Adapter in plain JavaScript, you can use JSDoc for editor hints:
 
 ```js
-/** @return { import("next-auth/adapters").Adapter } */
+/** @returns { import("next-auth/adapters").Adapter } */
 function MyAdapter() {
   return {
     // your adapter methods here

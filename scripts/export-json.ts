@@ -13,6 +13,7 @@ import path from "path";
 import type { CategoryType, Entry, ExportedEntry } from "./types/index.js";
 
 import { CATEGORIES, CATEGORY_PATHS } from "./utils/constants.js";
+import { readOpenCodeEntries } from "./utils/markdown.js";
 import { formatValidationErrors, validateEntry } from "./utils/validation.js";
 import { readYamlDir, slugify } from "./utils/yaml.js";
 
@@ -98,6 +99,20 @@ async function loadEntries(): Promise<{
   const results: ExportedEntry[] = [];
   const errors: string[] = [];
 
+  // Load OpenCode entries once
+  let openCodeEntries: Entry[] = [];
+  try {
+    openCodeEntries = await readOpenCodeEntries();
+    console.warn(`Loaded ${openCodeEntries.length} OpenCode entries`);
+  } catch (err) {
+    console.warn(
+      `Warning: Could not load OpenCode entries: ${(err as Error).message}`,
+    );
+  }
+
+  // Track existing names to avoid duplicates
+  const existingNames = new Set<string>();
+
   for (const category of CATEGORIES) {
     const categoryPath = CATEGORY_PATHS[category];
     let entries: Entry[] = [];
@@ -112,7 +127,7 @@ async function loadEntries(): Promise<{
     }
 
     for (const entry of entries) {
-      const result = validateEntry(entry, entry._filePath || categoryPath);
+      const result = validateEntry(entry, entry._filePath ?? categoryPath);
       if (!result.valid) {
         errors.push(formatValidationErrors(result));
         continue;
@@ -121,7 +136,22 @@ async function loadEntries(): Promise<{
       const mapped = mapEntry(entry, category);
       if (mapped) {
         results.push(mapped);
+        existingNames.add(mapped.displayName.toLowerCase());
       }
+    }
+  }
+
+  // Add OpenCode entries to resources category
+  for (const entry of openCodeEntries) {
+    // Skip if already exists (deduplicate)
+    if (existingNames.has(entry.name.toLowerCase())) {
+      console.warn(`Skipping duplicate: ${entry.name}`);
+      continue;
+    }
+
+    const mapped = mapEntry(entry, "resources");
+    if (mapped) {
+      results.push(mapped);
     }
   }
 
@@ -153,7 +183,7 @@ async function main(): Promise<void> {
       }
     }
     const suffix = errors.length === 1 ? "y" : "ies";
-    console.log(`\n⚠️  Skipped ${errors.length} invalid entr${suffix}.`);
+    console.warn(`\n⚠️  Skipped ${errors.length} invalid entr${suffix}.`);
   }
 
   const json = JSON.stringify(results, null, pretty ? 2 : 0);
@@ -164,7 +194,7 @@ async function main(): Promise<void> {
       fs.mkdirSync(outputDir, { recursive: true });
     }
     fs.writeFileSync(outputPath, json);
-    console.log(`Saved ${results.length} entries to ${outputPath}`);
+    console.warn(`Saved ${results.length} entries to ${outputPath}`);
   } else {
     process.stdout.write(json);
   }

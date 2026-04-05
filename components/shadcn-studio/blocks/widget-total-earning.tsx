@@ -3,7 +3,6 @@ import {
   ChevronUpIcon,
   EllipsisVerticalIcon,
 } from "lucide-react";
-import Image from "next/image";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -19,6 +18,7 @@ import { Progress } from "@/components/ui/progress";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {{}}
  */
@@ -26,42 +26,50 @@ const listItems = ["Share", "Update", "Refresh"];
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
+ * @interface Props
  * @typedef {Props}
  */
 interface Props {
   /**
    * Description placeholder
+   * @author [object Object]
    *
    * @type {string}
    */
   title: string;
   /**
    * Description placeholder
+   * @author [object Object]
    *
    * @type {number}
    */
   earning: number;
   /**
    * Description placeholder
+   * @author [object Object]
    *
    * @type {("down" | "up")}
    */
   trend: "down" | "up";
   /**
    * Description placeholder
+   * @author [object Object]
    *
    * @type {number}
    */
   percentage: number;
   /**
    * Description placeholder
+   * @author [object Object]
    *
    * @type {string}
    */
   comparisonText: string;
   /**
    * Description placeholder
+   * @author [object Object]
    *
    * @type {{
    *     img: string;
@@ -80,6 +88,7 @@ interface Props {
   }[];
   /**
    * Description placeholder
+   * @author [object Object]
    *
    * @type {?string}
    */
@@ -88,16 +97,17 @@ interface Props {
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @param {Props} param0
- * @param {{}} param0.earningData
- * @param {string} param0.title
- * @param {number} param0.earning
- * @param {("up" | "down")} param0.trend
- * @param {number} param0.percentage
- * @param {string} param0.comparisonText
  * @param {string} param0.className
- * @returns {*}
+ * @param {string} param0.comparisonText
+ * @param {number} param0.earning
+ * @param {{}} param0.earningData
+ * @param {number} param0.percentage
+ * @param {string} param0.title
+ * @param {("down" | "up")} param0.trend
+ * @returns {ReactJSX.Element}
  */
 const TotalEarningCard = ({
   className,
@@ -107,7 +117,7 @@ const TotalEarningCard = ({
   percentage,
   title,
   trend,
-}: Props): JSX.Element => {
+}: Props) => {
   return (
     <Card className={className}>
       <CardHeader className="flex items-center justify-between">
@@ -158,11 +168,9 @@ const TotalEarningCard = ({
               <div className="flex items-center justify-between gap-2.5">
                 <Avatar className="size-11 rounded-sm">
                   <AvatarFallback className="shrink-0 rounded-sm bg-primary/10">
-                    <Image
+                    <img
                       src={earning.img}
                       alt={earning.platform}
-                      width={24}
-                      height={24}
                       className="size-6"
                     />
                   </AvatarFallback>

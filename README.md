@@ -54,15 +54,22 @@ If you're getting started and need assistance or face any bugs, join our active 
 
 ## <a name="tech-stack">⚙️ Tech Stack</a>
 
-- Next.js
-- TypeScript
-- Plaid
-- Dwolla
-- React Hook Form
-- Zod
-- TailwindCSS
-- Chart.js
-- ShadCN
+| Technology | Version | Purpose |
+| --- | --- | --- |
+| **Next.js** | 16.2.2 | App Router, RSC, Cache Components |
+| **React** | 19 | UI (React Compiler enabled) |
+| **TypeScript** | 6.0.2 | Strict mode, typed routes |
+| **PostgreSQL** | via Neon | Relational database |
+| **Drizzle ORM** | 0.45.2 | Type-safe SQL + schema management |
+| **NextAuth.js** | v4.24.13 | JWT sessions, OAuth, credentials |
+| **shadcn/ui** | latest | Accessible UI components |
+| **Tailwind CSS** | v4 | CSS-based config (`@theme` in globals.css) |
+| **React Hook Form** | latest | Form state management |
+| **Zod** | v4.3.6 | Runtime validation + type inference |
+| **Plaid** | latest | Bank account linking |
+| **Dwolla** | latest | ACH transfers |
+| **Vitest** | 4.1.2 | Unit/integration testing |
+| **Playwright** | 1.59.1 | E2E browser automation |
 
 ## <a name="features">🔋 Features</a>
 
@@ -130,23 +137,27 @@ npm install
 Create a new file named `.env` in the root of your project and add the following content:
 
 ```env
-#NEXT
-NEXT_PUBLIC_SITE_URL=
+# NEXT
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
 
+# SECURITY (required)
+ENCRYPTION_KEY=                    # 32+ character random key (openssl rand -hex 32)
+NEXTAUTH_SECRET=                   # Random secret (openssl rand -base64 32)
+NEXTAUTH_URL=http://localhost:3000
 
-#PLAID
+# PLAID
 PLAID_CLIENT_ID=
 PLAID_SECRET=
-PLAID_ENV=
-PLAID_PRODUCTS=
-PLAID_COUNTRY_CODES=
+PLAID_ENV=sandbox
 
-#DWOLLA
+# DWOLLA
 DWOLLA_KEY=
 DWOLLA_SECRET=
 DWOLLA_BASE_URL=https://api-sandbox.dwolla.com
 DWOLLA_ENV=sandbox
 
+# DATABASE
+DATABASE_URL=
 ```
 
 Replace the placeholder values with your actual respective account credentials. You can obtain these credentials by signing up on [Plaid](https://plaid.com/) and [Dwolla](https://www.dwolla.com/)
@@ -224,9 +235,9 @@ export const exchangePublicToken = async ({
 
     // Create a funding source URL for the account using the Dwolla customer ID, processor token, and bank name
     const fundingSourceUrl = await addFundingSource({
+      bankName: accountData.name,
       dwollaCustomerId: user.dwollaCustomerId,
-      processorToken,
-      bankName: accountData.name
+      processorToken
     });
 
     // If the funding source URL is not created, throw an error
@@ -234,12 +245,12 @@ export const exchangePublicToken = async ({
 
     // Create a bank account using the user ID, item ID, account ID, access token, funding source URL, and sharable ID
     await createBankAccount({
-      userId: user.$id,
-      bankId: itemId,
-      accountId: accountData.account_id,
       accessToken,
+      accountId: accountData.account_id,
+      bankId: itemId,
       fundingSourceUrl,
-      sharableId: encryptId(accountData.account_id)
+      sharableId: encryptId(accountData.account_id),
+      userId: user.$id
     });
 
     // Revalidate the path to reflect the changes
@@ -267,35 +278,36 @@ export const exchangePublicToken = async ({
 
 ```typescript
 "use server";
-import { db } from "@/database/db";
-import { users, user_profiles } from "@/database/schema";
 import { hash } from "bcryptjs";
 import { z } from "zod";
 
+import { db } from "@/database/db";
+import { users, user_profiles } from "@/database/schema";
+
 const RegisterSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8),
-  name: z.string()
+  email: z.string().trim().email(),
+  name: z.string().trim(),
+  password: z.string().trim().min(8)
   // ...other fields
 });
 
 export async function registerUser(input: unknown) {
   const parsed = RegisterSchema.safeParse(input);
   if (!parsed.success)
-    return { ok: false, error: parsed.error.errors[0]?.message };
-  const { email, password, name } = parsed.data;
+    return { error: parsed.error.errors[0]?.message, ok: false };
+  const { email, name, password } = parsed.data;
   const hashed = await hash(password, 12);
   try {
     const [user] = await db
       .insert(users)
-      .values({ email, password: hashed, name })
+      .values({ email, name, password: hashed })
       .returning();
     await db
       .insert(user_profiles)
       .values({ user_id: user.id /* ...other fields */ });
     return { ok: true, user };
-  } catch (e) {
-    return { ok: false, error: "Registration failed" };
+  } catch {
+    return { error: "Registration failed", ok: false };
   }
 }
 ```
@@ -303,22 +315,18 @@ export async function registerUser(input: unknown) {
 <summary><code>[...nextauth].ts (Drizzle Adapter)</code></summary>
 
 ```typescript
+import { DrizzleAdapter } from "@auth/drizzle-adapter";
+import { compare } from "bcryptjs";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { DrizzleAdapter } from "@auth/drizzle-adapter";
+
 import { db } from "@/database/db";
 import { users } from "@/database/schema";
-import { compare } from "bcryptjs";
 
 export const authOptions = {
   adapter: DrizzleAdapter(db),
   providers: [
     CredentialsProvider({
-      name: "Credentials",
-      credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" }
-      },
       async authorize(credentials) {
         const user = await db
           .select()
@@ -332,7 +340,12 @@ export const authOptions = {
         );
         if (!valid) return null;
         return user;
-      }
+      },
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" }
+      },
+      name: "Credentials"
     })
   ],
   session: { strategy: "database" }
@@ -416,18 +429,18 @@ export const createDwollaCustomer = async (
 };
 
 export const createTransfer = async ({
-  sourceFundingSourceUrl,
+  amount,
   destinationFundingSourceUrl,
-  amount
+  sourceFundingSourceUrl
 }: TransferParams) => {
   try {
     const requestBody = {
       _links: {
-        source: {
-          href: sourceFundingSourceUrl
-        },
         destination: {
           href: destinationFundingSourceUrl
+        },
+        source: {
+          href: sourceFundingSourceUrl
         }
       },
       amount: {
@@ -444,9 +457,9 @@ export const createTransfer = async ({
 };
 
 export const addFundingSource = async ({
+  bankName,
   dwollaCustomerId,
-  processorToken,
-  bankName
+  processorToken
 }: AddFundingSourceParams) => {
   try {
     // create dwolla auth link
@@ -454,10 +467,10 @@ export const addFundingSource = async ({
 
     // add funding source to the dwolla customer & get the funding source url
     const fundingSourceOptions = {
+      _links: dwollaAuthLinks,
       customerId: dwollaCustomerId,
       fundingSourceName: bankName,
-      plaidToken: processorToken,
-      _links: dwollaAuthLinks
+      plaidToken: processorToken
     };
     return await createFundingSource(fundingSourceOptions);
   } catch (err) {
@@ -485,7 +498,6 @@ import {
 
 import { plaidClient } from "../plaid.config";
 import { parseStringify } from "../utils";
-
 import { getTransactionsByBankId } from "./transaction.actions";
 import { getBanks, getBank } from "./user.actions";
 
@@ -509,17 +521,17 @@ export const getAccounts = async ({ userId }: getAccountsProps) => {
         });
 
         const account = {
-          id: accountData.account_id,
+          appwriteItemId: bank.$id,
           availableBalance: accountData.balances.available!,
           currentBalance: accountData.balances.current!,
+          id: accountData.account_id,
           institutionId: institution.institution_id,
+          mask: accountData.mask!,
           name: accountData.name,
           officialName: accountData.official_name,
-          mask: accountData.mask!,
-          type: accountData.type as string,
+          sharableId: bank.sharableId,
           subtype: accountData.subtype! as string,
-          appwriteItemId: bank.$id,
-          sharableId: bank.sharableId
+          type: accountData.type as string
         };
 
         return account;
@@ -566,12 +578,12 @@ export const getAccount = async ({
     const transferTransactions =
       transferTransactionsData.documents.map(
         (transferData: Transaction) => ({
+          amount: transferData.amount!,
+          category: transferData.category,
+          date: transferData.$createdAt,
           id: transferData.$id,
           name: transferData.name!,
-          amount: transferData.amount!,
-          date: transferData.$createdAt,
           paymentChannel: transferData.channel,
-          category: transferData.category,
           type:
             transferData.senderBankId === bank.$id
               ? "debit"
@@ -589,16 +601,16 @@ export const getAccount = async ({
     });
 
     const account = {
-      id: accountData.account_id,
+      appwriteItemId: bank.$id,
       availableBalance: accountData.balances.available!,
       currentBalance: accountData.balances.current!,
+      id: accountData.account_id,
       institutionId: institution.institution_id,
+      mask: accountData.mask!,
       name: accountData.name,
       officialName: accountData.official_name,
-      mask: accountData.mask!,
-      type: accountData.type as string,
       subtype: accountData.subtype! as string,
-      appwriteItemId: bank.$id
+      type: accountData.type as string
     };
 
     // sort transactions by date such that the most recent transaction is first
@@ -629,8 +641,8 @@ export const getInstitution = async ({
   try {
     const institutionResponse = await plaidClient.institutionsGetById(
       {
-        institution_id: institutionId,
-        country_codes: ["US"] as CountryCode[]
+        country_codes: ["US"] as CountryCode[],
+        institution_id: institutionId
       }
     );
 
@@ -662,16 +674,16 @@ export const getTransactions = async ({
       const data = response.data;
 
       transactions = response.data.added.map(transaction => ({
-        id: transaction.transaction_id,
-        name: transaction.name,
-        paymentChannel: transaction.payment_channel,
-        type: transaction.payment_channel,
         accountId: transaction.account_id,
         amount: transaction.amount,
-        pending: transaction.pending,
         category: transaction.category ? transaction.category[0] : "",
         date: transaction.date,
-        image: transaction.logo_url
+        id: transaction.transaction_id,
+        image: transaction.logo_url,
+        name: transaction.name,
+        paymentChannel: transaction.payment_channel,
+        pending: transaction.pending,
+        type: transaction.payment_channel
       }));
 
       hasMore = data.has_more;
@@ -692,11 +704,11 @@ export const createTransfer = async () => {
     access_token:
       "access-sandbox-cddd20c1-5ba8-4193-89f9-3a0b91034c25",
     account_id: "Zl8GWV1jqdTgjoKnxQn1HBxxVBanm5FxZpnQk",
-    funding_account_id: "442d857f-fe69-4de2-a550-0c19dc4af467",
-    type: "credit" as TransferType,
-    network: "ach" as TransferNetwork,
-    amount: "10.00",
     ach_class: "ppd" as ACHClass,
+    amount: "10.00",
+    funding_account_id: "442d857f-fe69-4de2-a550-0c19dc4af467",
+    network: "ach" as TransferNetwork,
+    type: "credit" as TransferType,
     user: {
       legal_name: "Anne Charleston"
     }
@@ -713,8 +725,8 @@ export const createTransfer = async () => {
       access_token:
         "access-sandbox-cddd20c1-5ba8-4193-89f9-3a0b91034c25",
       account_id: "Zl8GWV1jqdTgjoKnxQn1HBxxVBanm5FxZpnQk",
-      description: "payment",
-      authorization_id: authorizationId
+      authorization_id: authorizationId,
+      description: "payment"
     };
 
     const responseCreateResponse = await plaidClient.transferCreate(
@@ -1446,7 +1458,9 @@ The schema is located in `database/schema.ts` with the following tables:
 
 ## <a name="auth">🔐 Authentication</a>
 
-Uses **NextAuth v4** with Drizzle Adapter and Credentials provider.
+Uses **NextAuth v4** with a **JWT session strategy** and Credentials + OAuth providers.
+
+> **Note:** The tutorial code snippets in this README show an older `"database"` session strategy with `DrizzleAdapter`. The **live implementation** uses `strategy: "jwt"` (configured in `lib/auth-options.ts`). Refer to `lib/auth-options.ts` and `lib/auth.ts` for the current active configuration.
 
 ### Auth Files
 
@@ -1455,7 +1469,7 @@ Uses **NextAuth v4** with Drizzle Adapter and Credentials provider.
 | `lib/auth-options.ts` | NextAuth configuration |
 | `lib/auth.ts` | Server-side session helper |
 | `app/api/auth/[...nextauth]/route.ts` | Auth API route |
-| `middleware.ts` | Rate limiting and route protection |
+| `proxy.ts` | Rate limiting and route protection |
 
 ### OAuth Providers
 
@@ -1504,8 +1518,8 @@ const userWithProfile = await userDal.findByIdWithProfile(1);
 // Create user with profile
 await userDal.createWithProfile({
   email: "new@example.com",
-  password: hashedPassword,
   name: "New User",
+  password: hashedPassword,
   profile: { address: "123 Main St" }
 });
 ```
@@ -1535,8 +1549,8 @@ import { registerUser } from "@/lib/actions/register";
 async function handleSubmit(formData: FormData) {
   const result = await registerUser({
     email: formData.get("email"),
-    password: formData.get("password"),
-    name: formData.get("name")
+    name: formData.get("name"),
+    password: formData.get("password")
   });
 
   if (!result.ok) {

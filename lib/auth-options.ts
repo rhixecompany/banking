@@ -94,9 +94,8 @@ export const authOptions: NextAuthOptions = {
     },
   },
   pages: {
-    error: "/(auth)/error",
-    signIn: "/(auth)/sign-in",
-    signOut: "/(auth)/sign-out",
+    error: "/error",
+    signIn: "/sign-in",
   },
   providers: [
     ...(env.AUTH_GITHUB_ID && env.AUTH_GITHUB_SECRET

@@ -30,6 +30,25 @@ export const ROOT_FOLDER = path.resolve(__dirname, "../..");
 export const DATA_DIR = path.join(ROOT_FOLDER, "data");
 
 /**
+ * OpenCode folders containing skills and instructions
+ */
+export const OPENCODE_DIR = path.join(ROOT_FOLDER, ".opencode");
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
+export const SKILLS_DIR = path.join(OPENCODE_DIR, "skills");
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
+export const INSTRUCTIONS_DIR = path.join(OPENCODE_DIR, "instructions");
+
+/**
  * Supported categories in order
  */
 export const CATEGORIES: CategoryType[] = [

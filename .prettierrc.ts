@@ -2,7 +2,7 @@
  * @file .prettierrc.ts
  * @description Prettier configuration for Banking
  * @author Banking Team
- * @date 2026-03-29
+ * @since 2026-03-29
  */
 
 import type { Options } from "prettier";

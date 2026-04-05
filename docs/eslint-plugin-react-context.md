@@ -24,9 +24,9 @@ export default [
     },
     rules: {
       "react/jsx-uses-react": "error",
-      "react/react-in-jsx-scope": "error",
+      "react/no-unused-prop-types": "warn",
       "react/prop-types": "warn",
-      "react/no-unused-prop-types": "warn"
+      "react/react-in-jsx-scope": "error"
     }
   },
   {

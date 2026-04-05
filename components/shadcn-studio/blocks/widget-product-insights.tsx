@@ -1,5 +1,5 @@
 "use client";
-import Image from "next/image";
+
 import { Bar, BarChart } from "recharts";
 
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 // Product reached data
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {{}}
  */
@@ -23,6 +24,7 @@ const productReachChartData = [
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {ChartConfig}
  */
@@ -36,6 +38,7 @@ const productReachChartConfig = {
 // Order placed data
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {{}}
  */
@@ -49,6 +52,7 @@ const orderPlacedChartData = [
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {ChartConfig}
  */
@@ -61,16 +65,13 @@ const orderPlacedChartConfig = {
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @param {{ className?: string }} param0
  * @param {string} param0.className
- * @returns {*}
+ * @returns {ReactJSX.Element}
  */
-const ProductInsightsCard = ({
-  className,
-}: {
-  className?: string;
-}): JSX.Element => {
+const ProductInsightsCard = ({ className }: { className?: string }) => {
   return (
     <Card className={cn("gap-4", className)}>
       <CardHeader className="flex justify-between">
@@ -80,11 +81,9 @@ const ProductInsightsCard = ({
             Published on 12 MAY 2025 - 6:10 PM
           </span>
         </div>
-        <Image
+        <img
           src="https://cdn.shadcnstudio.com/ss-assets/blocks/dashboard-application/widgets/image-7.png"
           alt="Product"
-          width={82}
-          height={82}
           className="w-20.5 rounded-md"
         />
       </CardHeader>

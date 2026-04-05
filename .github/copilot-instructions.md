@@ -4,7 +4,7 @@
 
 > **Project:** Next.js 16, TypeScript (strict), Drizzle ORM, PostgreSQL, NextAuth, shadcn/UI, Tailwind CSS v4
 >
-> **Last Updated:** 2026-03-29
+> **Last Updated:** 2026-04-03
 
 <!-- markdownlint-enable MD013 -->
 
@@ -14,7 +14,7 @@
 
 This file is a quick reference for GitHub Copilot. For detailed patterns, see:
 
-- **[AGENTS.md](./AGENTS.md)** — Stack, PR-blocking rules, commands, core patterns (Reference + How-to)
+- **[AGENTS.md](../AGENTS.md)** — Stack, PR-blocking rules, commands, core patterns (Reference + How-to)
 - **[README.md](./README.md)** — Project overview, setup, deployment
 
 ### Sync Checklist
@@ -85,7 +85,7 @@ npm run start           # Start production server
 ```bash
 npm run validate        # Run all checks (format, type-check, lint, test)
 npm run format          # Format code with Prettier
-npm run format:check    # Check formatting
+npm run format:check    # WARNING: destructive — runs format (writes files) first, then checks
 npm run lint:strict     # Strict ESLint (blocks PR)
 npm run type-check      # TypeScript type checking
 ```
@@ -119,33 +119,34 @@ npm exec playwright test tests/e2e/sign-in.spec.ts
 ```typescript
 "use server";
 
-import { auth } from "@/lib/auth";
-import { bankDal } from "@/lib/dal";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
+import { auth } from "@/lib/auth";
+import { bankDal } from "@/lib/dal";
+
 const DisconnectBankSchema = z.object({
-  bankId: z.string().min(1)
+  bankId: z.string().trim().min(1)
 });
 
 export async function disconnectBank(input: unknown) {
   const session = await auth();
   if (!session?.user?.id) {
-    return { ok: false, error: "Not authenticated" };
+    return { error: "Not authenticated", ok: false };
   }
 
   const parsed = DisconnectBankSchema.safeParse(input);
   if (!parsed.success) {
-    return { ok: false, error: "Invalid input" };
+    return { error: "Invalid input", ok: false };
   }
 
   try {
     await bankDal.delete(parsed.data.bankId);
     revalidatePath("/dashboard");
     return { ok: true };
-  } catch (error) {
-    console.error("Disconnect bank error:", error);
-    return { ok: false, error: "Failed to disconnect bank" };
+  } catch {
+    console.error("Disconnect bank error");
+    return { error: "Failed to disconnect bank", ok: false };
   }
 }
 ```

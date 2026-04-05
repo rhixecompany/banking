@@ -6,9 +6,7 @@ import { auth } from "@/lib/auth";
 import { getDwollaClient } from "@/lib/dwolla";
 
 /**
- * Description placeholder
- *
- * @type {*}
+ * Zod schema for validating Dwolla customer creation payload.
  */
 const CreateCustomerSchema = z.object({
   address1: z.string().trim().min(1),
@@ -24,9 +22,7 @@ const CreateCustomerSchema = z.object({
 });
 
 /**
- * Description placeholder
- *
- * @type {*}
+ * Zod schema for validating an ACH transfer payload.
  */
 const TransferSchema = z.object({
   amount: z.string().trim().min(1),
@@ -35,9 +31,7 @@ const TransferSchema = z.object({
 });
 
 /**
- * Description placeholder
- *
- * @type {*}
+ * Zod schema for validating a Dwolla funding source creation payload.
  */
 const FundingSourceSchema = z.object({
   customerId: z.string().trim().min(1),
@@ -49,9 +43,7 @@ const FundingSourceSchema = z.object({
 });
 
 /**
- * Description placeholder
- *
- * @type {*}
+ * Zod schema for validating the add-funding-source payload (bank name, customer ID, processor token).
  */
 const AddFundingSourceSchema = z.object({
   bankName: z.string().trim().min(1),
@@ -60,16 +52,12 @@ const AddFundingSourceSchema = z.object({
 });
 
 /**
- * Description placeholder
+ * Creates a new Dwolla verified customer for the authenticated user.
  *
  * @export
  * @async
- * @param {unknown} input
- * @returns {Promise<{
- *   ok: boolean;
- *   customerUrl?: string;
- *   error?: string;
- * }>}
+ * @param {unknown} input - Must satisfy CreateCustomerSchema fields
+ * @returns {Promise<{ ok: boolean; customerUrl?: string; error?: string }>}
  */
 export async function createDwollaCustomer(input: unknown): Promise<{
   ok: boolean;
@@ -98,7 +86,7 @@ export async function createDwollaCustomer(input: unknown): Promise<{
 }
 
 /**
- * Description placeholder
+ * Creates a Dwolla on-demand authorization and returns the resulting HAL links.
  *
  * @export
  * @async
@@ -136,7 +124,7 @@ export async function createOnDemandAuthorization(): Promise<{
 }
 
 /**
- * Description placeholder
+ * Creates a Dwolla funding source for the given customer using a Plaid processor token.
  *
  * @export
  * @async
@@ -181,7 +169,7 @@ export async function createFundingSource(input: unknown): Promise<{
 }
 
 /**
- * Description placeholder
+ * Initiates an ACH transfer between two Dwolla funding sources.
  *
  * @export
  * @async
@@ -229,7 +217,8 @@ export async function createTransfer(input: unknown): Promise<{
 }
 
 /**
- * Description placeholder
+ * Orchestrates on-demand authorization and funding source creation for a bank account.
+ * Calls createOnDemandAuthorization then createFundingSource in sequence.
  *
  * @export
  * @async

@@ -1,30 +1,25 @@
-import { redirect } from "next/navigation";
+import type { Metadata } from "next";
 
-import HeaderBox from "@/components/HeaderBox";
-import { getLoggedInUser } from "@/lib/actions/user.actions";
+import { SettingsServerWrapper } from "@/components/settings/settings-server-wrapper";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
- * @async
- * @returns {Promise<JSX.Element>}
+ * @type {Metadata}
  */
-const SettingsPage = async (): Promise<JSX.Element> => {
-  const user = await getLoggedInUser();
-  if (!user) redirect("/sign-in");
-
-  return (
-    <section>
-      <header>
-        <HeaderBox
-          type="title"
-          title="Settings"
-          user={user?.name ?? "Guest"}
-          subtext="Manage your account preferences."
-        />
-      </header>
-    </section>
-  );
+export const metadata: Metadata = {
+  description: "Manage your account preferences and profile.",
+  title: "Settings | Horizon Banking",
 };
 
-export default SettingsPage;
+/**
+ * Settings page — delegates auth, data fetching, and rendering
+ * to SettingsServerWrapper.
+ *
+ * @export
+ * @returns {JSX.Element}
+ */
+export default function SettingsPage(): JSX.Element {
+  return <SettingsServerWrapper />;
+}

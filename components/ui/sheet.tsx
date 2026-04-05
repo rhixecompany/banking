@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -16,6 +17,7 @@ const Sheet = SheetPrimitive.Root;
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -23,6 +25,7 @@ const SheetTrigger = SheetPrimitive.Trigger;
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -30,6 +33,7 @@ const SheetClose = SheetPrimitive.Close;
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -37,6 +41,7 @@ const SheetPortal = SheetPrimitive.Portal;
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -57,6 +62,7 @@ SheetOverlay.displayName = SheetPrimitive.Overlay.displayName;
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -81,51 +87,48 @@ const sheetVariants = cva(
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @interface SheetContentProps
  * @typedef {SheetContentProps}
- * @extends {React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>}
- * @extends {VariantProps<typeof sheetVariants>}
+ * @augments {React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>}
+ * @augments {VariantProps<typeof sheetVariants>}
  */
 interface SheetContentProps
   extends
     React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>,
-    VariantProps<typeof sheetVariants> {
-  descriptionId?: string;
-}
+    VariantProps<typeof sheetVariants> {}
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
 const SheetContent = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Content>,
   SheetContentProps
->(({ children, className, descriptionId, side = "right", ...props }, ref) => {
-  const generatedId = React.useId();
-  return (
-    <SheetPortal>
-      <SheetOverlay />
-      <SheetPrimitive.Content
-        ref={ref}
-        aria-describedby={descriptionId ?? generatedId}
-        className={cn(sheetVariants({ side }), className)}
-        {...props}
-      >
-        {children}
-        <SheetPrimitive.Close className="absolute end-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-none disabled:pointer-events-none data-[state=open]:bg-secondary">
-          <X className="size-4 " />
-          <span className="sr-only">Close</span>
-        </SheetPrimitive.Close>
-      </SheetPrimitive.Content>
-    </SheetPortal>
-  );
-});
+>(({ children, className, side = "right", ...props }, ref) => (
+  <SheetPortal>
+    <SheetOverlay />
+    <SheetPrimitive.Content
+      ref={ref}
+      className={cn(sheetVariants({ side }), className)}
+      {...props}
+    >
+      {children}
+      <SheetPrimitive.Close className="absolute end-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-none disabled:pointer-events-none data-[state=open]:bg-secondary">
+        <X className="size-4 " />
+        <span className="sr-only">Close</span>
+      </SheetPrimitive.Close>
+    </SheetPrimitive.Content>
+  </SheetPortal>
+));
 SheetContent.displayName = SheetPrimitive.Content.displayName;
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @param {React.HTMLAttributes<HTMLDivElement>} param0
  * @param {React.HTMLAttributes<HTMLDivElement>} param0.className
@@ -148,6 +151,7 @@ SheetHeader.displayName = "SheetHeader";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @param {React.HTMLAttributes<HTMLDivElement>} param0
  * @param {React.HTMLAttributes<HTMLDivElement>} param0.className
@@ -170,6 +174,7 @@ SheetFooter.displayName = "SheetFooter";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -187,6 +192,7 @@ SheetTitle.displayName = SheetPrimitive.Title.displayName;
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */

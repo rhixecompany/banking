@@ -1,10 +1,4 @@
-import { expect, test } from "@playwright/test";
-
-import { signInWithSeedUser } from "./helpers/auth";
-
-test.beforeEach(async ({ page }) => {
-  await page.context().clearCookies();
-});
+import { expect, test } from "../../tests/fixtures/auth";
 
 test.describe("My Banks Page", () => {
   test.describe("Unauthenticated Access", () => {
@@ -17,11 +11,9 @@ test.describe("My Banks Page", () => {
   });
 
   test.describe("Authenticated", () => {
-    test.beforeEach(async ({ page }) => {
-      await signInWithSeedUser(page);
-    });
-
-    test("should show page title and description", async ({ page }) => {
+    test("should show page title and description", async ({
+      authenticatedPage: page,
+    }) => {
       await page.goto("/my-banks");
       await expect
         .soft(page.getByRole("heading", { exact: true, name: "My Banks" }))
@@ -31,12 +23,16 @@ test.describe("My Banks Page", () => {
         .toBeVisible();
     });
 
-    test("should show total balance card", async ({ page }) => {
+    test("should show total balance card", async ({
+      authenticatedPage: page,
+    }) => {
       await page.goto("/my-banks");
       await expect.soft(page.getByText("Total Balance").first()).toBeVisible();
     });
 
-    test("should list seeded bank accounts", async ({ page }) => {
+    test("should list seeded bank accounts", async ({
+      authenticatedPage: page,
+    }) => {
       await page.goto("/my-banks");
       await expect
         .soft(page.getByText("Seed Checking Bank").first())

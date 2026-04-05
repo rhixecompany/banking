@@ -27,36 +27,42 @@ import { cn } from "@/lib/utils";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {"sidebar_state"}
  */
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {number}
  */
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {"16rem"}
  */
 const SIDEBAR_WIDTH = "16rem";
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {"18rem"}
  */
 const SIDEBAR_WIDTH_MOBILE = "18rem";
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {"3rem"}
  */
 const SIDEBAR_WIDTH_ICON = "3rem";
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {"b"}
  */
@@ -64,48 +70,57 @@ const SIDEBAR_KEYBOARD_SHORTCUT = "b";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
+ * @interface SidebarContextProps
  * @typedef {SidebarContextProps}
  */
 interface SidebarContextProps {
   /**
    * Description placeholder
+   * @author [object Object]
    *
    * @type {("collapsed" | "expanded")}
    */
   state: "collapsed" | "expanded";
   /**
    * Description placeholder
+   * @author [object Object]
    *
    * @type {boolean}
    */
   open: boolean;
   /**
    * Description placeholder
+   * @author [object Object]
    *
    * @type {(open: boolean) => void}
    */
   setOpen: (open: boolean) => void;
   /**
    * Description placeholder
+   * @author [object Object]
    *
    * @type {boolean}
    */
   openMobile: boolean;
   /**
    * Description placeholder
+   * @author [object Object]
    *
    * @type {(open: boolean) => void}
    */
   setOpenMobile: (open: boolean) => void;
   /**
    * Description placeholder
+   * @author [object Object]
    *
    * @type {boolean}
    */
   isMobile: boolean;
   /**
    * Description placeholder
+   * @author [object Object]
    *
    * @type {() => void}
    */
@@ -114,21 +129,21 @@ interface SidebarContextProps {
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
-const SidebarContext = React.createContext<SidebarContextProps | undefined>(
-  undefined,
-);
+const SidebarContext = React.createContext<null | SidebarContextProps>(null);
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @returns {*}
  */
-function useSidebar(): SidebarContextProps {
+function useSidebar() {
   const context = React.useContext(SidebarContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error("useSidebar must be used within a SidebarProvider.");
   }
 
@@ -137,6 +152,7 @@ function useSidebar(): SidebarContextProps {
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -209,15 +225,26 @@ const SidebarProvider = React.forwardRef<
     // This makes it easier to style the sidebar with Tailwind classes.
     const state = open ? "expanded" : "collapsed";
 
-    const contextValue: SidebarContextProps = {
-      isMobile,
-      open,
-      openMobile,
-      setOpen,
-      setOpenMobile,
-      state,
-      toggleSidebar,
-    };
+    const contextValue = React.useMemo<SidebarContextProps>(
+      () => ({
+        isMobile,
+        open,
+        openMobile,
+        setOpen,
+        setOpenMobile,
+        state,
+        toggleSidebar,
+      }),
+      [
+        state,
+        open,
+        setOpen,
+        isMobile,
+        openMobile,
+        setOpenMobile,
+        toggleSidebar,
+      ],
+    );
 
     return (
       <SidebarContext.Provider value={contextValue}>
@@ -248,6 +275,7 @@ SidebarProvider.displayName = "SidebarProvider";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -360,6 +388,7 @@ Sidebar.displayName = "Sidebar";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -391,6 +420,7 @@ SidebarTrigger.displayName = "SidebarTrigger";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -425,6 +455,7 @@ SidebarRail.displayName = "SidebarRail";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -448,6 +479,7 @@ SidebarInset.displayName = "SidebarInset";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -471,6 +503,7 @@ SidebarInput.displayName = "SidebarInput";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -491,6 +524,7 @@ SidebarHeader.displayName = "SidebarHeader";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -511,6 +545,7 @@ SidebarFooter.displayName = "SidebarFooter";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -531,6 +566,7 @@ SidebarSeparator.displayName = "SidebarSeparator";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -554,6 +590,7 @@ SidebarContent.displayName = "SidebarContent";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -574,6 +611,7 @@ SidebarGroup.displayName = "SidebarGroup";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -600,6 +638,7 @@ SidebarGroupLabel.displayName = "SidebarGroupLabel";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -628,6 +667,7 @@ SidebarGroupAction.displayName = "SidebarGroupAction";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -646,6 +686,7 @@ SidebarGroupContent.displayName = "SidebarGroupContent";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -664,6 +705,7 @@ SidebarMenu.displayName = "SidebarMenu";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -682,6 +724,7 @@ SidebarMenuItem.displayName = "SidebarMenuItem";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -709,6 +752,7 @@ const sidebarMenuButtonVariants = cva(
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -751,8 +795,11 @@ const SidebarMenuButton = React.forwardRef<
       return button;
     }
 
-    const normalizedTooltip =
-      typeof tooltip === "string" ? { children: tooltip } : tooltip;
+    if (typeof tooltip === "string") {
+      tooltip = {
+        children: tooltip,
+      };
+    }
 
     return (
       <Tooltip>
@@ -761,7 +808,7 @@ const SidebarMenuButton = React.forwardRef<
           side="right"
           align="center"
           hidden={state !== "collapsed" || isMobile}
-          {...normalizedTooltip}
+          {...tooltip}
         />
       </Tooltip>
     );
@@ -771,6 +818,7 @@ SidebarMenuButton.displayName = "SidebarMenuButton";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -807,6 +855,7 @@ SidebarMenuAction.displayName = "SidebarMenuAction";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -833,6 +882,7 @@ SidebarMenuBadge.displayName = "SidebarMenuBadge";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -843,9 +893,9 @@ const SidebarMenuSkeleton = React.forwardRef<
   } & React.ComponentProps<"div">
 >(({ className, showIcon = false, ...props }, ref) => {
   // Random width between 50 to 90%.
-  const [width] = React.useState(
-    () => `${Math.floor(Math.random() * 40) + 50}%`,
-  );
+  const width = React.useMemo(() => {
+    return `${Math.floor(Math.random() * 40) + 50}%`;
+  }, []);
 
   return (
     <div
@@ -876,6 +926,7 @@ SidebarMenuSkeleton.displayName = "SidebarMenuSkeleton";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -898,6 +949,7 @@ SidebarMenuSub.displayName = "SidebarMenuSub";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -909,6 +961,7 @@ SidebarMenuSubItem.displayName = "SidebarMenuSubItem";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */

@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -15,6 +16,7 @@ const DropdownMenu = DropdownMenuPrimitive.Root;
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -22,6 +24,7 @@ const DropdownMenuTrigger = DropdownMenuPrimitive.Trigger;
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -29,6 +32,7 @@ const DropdownMenuGroup = DropdownMenuPrimitive.Group;
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -36,6 +40,7 @@ const DropdownMenuPortal = DropdownMenuPrimitive.Portal;
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -43,6 +48,7 @@ const DropdownMenuSub = DropdownMenuPrimitive.Sub;
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -50,6 +56,7 @@ const DropdownMenuRadioGroup = DropdownMenuPrimitive.RadioGroup;
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -77,6 +84,7 @@ DropdownMenuSubTrigger.displayName =
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -98,6 +106,7 @@ DropdownMenuSubContent.displayName =
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -121,6 +130,7 @@ DropdownMenuContent.displayName = DropdownMenuPrimitive.Content.displayName;
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -128,13 +138,16 @@ const DropdownMenuItem = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Item>,
   {
     inset?: boolean;
+    variant?: "default" | "destructive";
   } & React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item>
->(({ className, inset, ...props }, ref) => (
+>(({ className, inset, variant = "default", ...props }, ref) => (
   <DropdownMenuPrimitive.Item
     ref={ref}
     className={cn(
       "relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm transition-colors outline-none select-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
       inset && "ps-8",
+      variant === "destructive" &&
+        "text-destructive focus:bg-destructive/10 focus:text-destructive",
       className,
     )}
     {...props}
@@ -144,6 +157,7 @@ DropdownMenuItem.displayName = DropdownMenuPrimitive.Item.displayName;
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -173,6 +187,7 @@ DropdownMenuCheckboxItem.displayName =
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -200,6 +215,7 @@ DropdownMenuRadioItem.displayName = DropdownMenuPrimitive.RadioItem.displayName;
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -223,6 +239,7 @@ DropdownMenuLabel.displayName = DropdownMenuPrimitive.Label.displayName;
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -240,6 +257,7 @@ DropdownMenuSeparator.displayName = DropdownMenuPrimitive.Separator.displayName;
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @param {React.HTMLAttributes<HTMLSpanElement>} param0
  * @param {React.HTMLAttributes<HTMLSpanElement>} param0.className

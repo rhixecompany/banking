@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -40,12 +41,13 @@ const buttonVariants = cva(
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @export
  * @interface ButtonProps
  * @typedef {ButtonProps}
- * @extends {React.ButtonHTMLAttributes<HTMLButtonElement>}
- * @extends {VariantProps<typeof buttonVariants>}
+ * @augments {React.ButtonHTMLAttributes<HTMLButtonElement>}
+ * @augments {VariantProps<typeof buttonVariants>}
  */
 export interface ButtonProps
   extends
@@ -53,6 +55,7 @@ export interface ButtonProps
     VariantProps<typeof buttonVariants> {
   /**
    * Description placeholder
+   * @author [object Object]
    *
    * @type {?boolean}
    */
@@ -61,6 +64,7 @@ export interface ButtonProps
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */

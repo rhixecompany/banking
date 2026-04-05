@@ -346,15 +346,14 @@ export function MultiSelectValue({
             )}
           </Badge>
         ))}
-      <Badge
+      <div
+        ref={overflowRef}
         style={{
           display: overflowAmount > 0 && !shouldWrap ? "block" : "none",
         }}
-        variant="outline"
-        ref={overflowRef}
       >
-        +{overflowAmount}
-      </Badge>
+        <Badge variant="outline">+{overflowAmount}</Badge>
+      </div>
     </div>
   );
 }
@@ -398,6 +397,7 @@ export function MultiSelectContent({
               }
             />
           ) : (
+            // eslint-disable-next-line jsx-a11y/no-autofocus
             <button autoFocus className="sr-only" />
           )}
           <CommandList>

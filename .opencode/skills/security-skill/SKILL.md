@@ -14,54 +14,13 @@ This skill provides guidance on security patterns for the Banking project.
 ### Encryption (AES-256-GCM)
 
 ```typescript
-// lib/encryption.ts
-import {
-  createCipheriv,
-  createDecipheriv,
-  randomBytes,
-  scryptSync
-} from "crypto";
+// Usage — always import env from lib/env.ts
+import { encrypt, decrypt } from "@/lib/encryption";
+import { env } from "@/lib/env";
 
-const ALGORITHM = "aes-256-gcm";
-const IV_LENGTH = 16;
-const AUTH_TAG_LENGTH = 16;
-const SALT_LENGTH = 32;
-const KEY_LENGTH = 32;
-
-function getKey(salt: Buffer): Buffer {
-  return scryptSync(process.env.ENCRYPTION_KEY!, salt, KEY_LENGTH);
-}
-
-export function encrypt(text: string): string {
-  const iv = randomBytes(IV_LENGTH);
-  const salt = randomBytes(SALT_LENGTH);
-  const key = getKey(salt);
-
-  const cipher = createCipheriv(ALGORITHM, key, iv);
-  let encrypted = cipher.update(text, "utf8", "hex");
-  encrypted += cipher.final("hex");
-  const authTag = cipher.getAuthTag();
-
-  return `${salt.toString("hex")}:${iv.toString("hex")}:${authTag.toString("hex")}:${encrypted}`;
-}
-
-export function decrypt(encryptedText: string): string {
-  const [saltHex, ivHex, authTagHex, encrypted] =
-    encryptedText.split(":");
-
-  const salt = Buffer.from(saltHex, "hex");
-  const iv = Buffer.from(ivHex, "hex");
-  const authTag = Buffer.from(authTagHex, "hex");
-  const key = getKey(salt);
-
-  const decipher = createDecipheriv(ALGORITHM, key, iv);
-  decipher.setAuthTag(authTag);
-
-  let decrypted = decipher.update(encrypted, "hex", "utf8");
-  decrypted += decipher.final("utf8");
-
-  return decrypted;
-}
+// encrypt(plaintext, key) → "iv:authTag:ciphertext" (hex, colon-separated)
+const encrypted = encrypt(accountNumber, env.ENCRYPTION_KEY);
+const plaintext = decrypt(encrypted, env.ENCRYPTION_KEY);
 ```
 
 ### Input Sanitization
@@ -87,37 +46,38 @@ export const sanitizedHtml = z
 
 ```typescript
 // lib/rate-limit.ts
+// Rate limiting uses REDIS_URL from lib/env.ts.
+// If REDIS_URL is absent, ratelimit is null and rate limiting is silently skipped.
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
+import { env } from "@/lib/env";
 
-const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL!,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN!
-});
-
-export const rateLimit = new Ratelimit({
-  redis,
-  limiter: Ratelimit.slidingWindow(10, "10 s"),
-  analytics: true
-});
+export const ratelimit = env.REDIS_URL
+  ? new Ratelimit({
+      redis: new Redis({ url: env.REDIS_URL }),
+      limiter: Ratelimit.slidingWindow(10, "10 s")
+    })
+  : null;
 
 // Usage in Server Action
 export async function transferAction(formData: FormData) {
-  const { success } = await rateLimit.limit("transfer");
-  if (!success) {
-    return {
-      ok: false,
-      error: "Too many requests. Please try again."
-    };
+  if (ratelimit) {
+    const { success } = await ratelimit.limit("transfer");
+    if (!success) {
+      return {
+        ok: false,
+        error: "Too many requests. Please try again."
+      };
+    }
   }
   // Process transfer...
 }
 ```
 
-### Security Headers (middleware.ts)
+### Security Headers (proxy.ts)
 
 ```typescript
-// app/middleware.ts
+// proxy.ts
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
@@ -166,8 +126,9 @@ Next.js includes built-in CSRF protection for Server Actions. Always use:
 Required in `lib/env.ts`:
 
 - `ENCRYPTION_KEY` - 32+ character key for AES-256
-- `UPSTASH_REDIS_REST_URL` - For rate limiting
-- `UPSTASH_REDIS_REST_TOKEN`
+- `REDIS_URL` - Optional. Upstash Redis URL for rate limiting. If absent, rate limiting is silently skipped.
+
+> **Note:** `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` do **not** exist in `lib/env.ts`. The single env var is `REDIS_URL`. Always import from `lib/env.ts`, never use `process.env` directly.
 
 ## Validation
 
@@ -180,4 +141,4 @@ Run: `npm run type-check` and `npm run lint:strict`
 3. **Rate limit** - Protect against brute force attacks
 4. **Validate input** - Always use Zod schemas
 5. **Use Server Actions** - Built-in CSRF protection
-6. **Security headers** - Configure in middleware.ts
+6. **Security headers** - Configure in proxy.ts

@@ -3,6 +3,17 @@ import { Configuration, PlaidApi, PlaidEnvironments } from "plaid";
 import { env } from "@/lib/env";
 
 /**
+ * Check if an access token is a mock/seed token (not a real Plaid token)
+ * Mock tokens start with "seed-" or "mock-" and will fail when calling Plaid API
+ *
+ * @param token - The access token to check
+ * @returns true if token appears to be a mock/seed token
+ */
+export function isMockAccessToken(token: string): boolean {
+  return token.startsWith("seed-") || token.startsWith("mock-");
+}
+
+/**
  * Description placeholder
  *
  * @type {*}

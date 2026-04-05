@@ -39,9 +39,9 @@ import * as schema from "./db/schema";
 const db = drizzle({ schema });
 const getUsers = async (page = 1, pageSize = 3) => {
   await db.query.users.findMany({
-    orderBy: (users, { asc }) => asc(users.id),
     limit: pageSize,
-    offset: (page - 1) * pageSize
+    offset: (page - 1) * pageSize,
+    orderBy: (users, { asc }) => asc(users.id)
   });
 };
 await getUsers();

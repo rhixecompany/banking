@@ -39,7 +39,7 @@ export function setupGracefulShutdown(name: string): void {
   scriptName = name;
 
   const log = (message: string) => {
-    console.log(`[${scriptName}] ${message}`);
+    console.warn(`[${scriptName}] ${message}`);
   };
 
   const cleanup = async () => {
@@ -104,7 +104,7 @@ export function onShutdown(callback: ShutdownCallback): void {
  * @returns {Promise<void>}
  */
 export async function cleanupConnections(): Promise<void> {
-  console.log(
+  console.warn(
     "[cleanup] Database cleanup not implemented (connections handled by Next.js)",
   );
 }
@@ -116,5 +116,5 @@ export async function cleanupConnections(): Promise<void> {
  * @param {string} reason
  */
 export function logShutdown(reason: string): void {
-  console.log(`[${scriptName}] Shutdown reason: ${reason}`);
+  console.warn(`[${scriptName}] Shutdown reason: ${reason}`);
 }

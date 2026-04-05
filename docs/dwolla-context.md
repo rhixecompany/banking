@@ -61,11 +61,11 @@ Create, list, cancel, or retrieve transfer details.
 // Create a transfer
 const transfer = await dwolla.post("transfers", {
   _links: {
-    source: {
-      href: "https://api-sandbox.dwolla.com/funding-sources/{source_id}"
-    },
     destination: {
       href: "https://api-sandbox.dwolla.com/funding-sources/{destination_id}"
+    },
+    source: {
+      href: "https://api-sandbox.dwolla.com/funding-sources/{source_id}"
     }
   },
   amount: {
@@ -84,10 +84,10 @@ Attach bank accounts to customers for funding transfers.
 const fundingSource = await dwolla.post(
   "customers/{customer_id}/funding-sources",
   {
-    routingNumber: "222222226",
     accountNumber: "12345678",
     accountType: "checking",
-    name: "My Bank Account"
+    name: "My Bank Account",
+    routingNumber: "222222226"
   }
 );
 ```

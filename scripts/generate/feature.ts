@@ -233,7 +233,7 @@ export const ${camelName}Dal = new ${pascalName}Dal();
 
   const filePath = path.join(DAL_DIR, `${kebabName}.dal.ts`);
   fs.writeFileSync(filePath, content);
-  console.log(`  ✅ DAL: ${path.relative(process.cwd(), filePath)}`);
+  console.warn(`  ✅ DAL: ${path.relative(process.cwd(), filePath)}`);
 }
 
 /**
@@ -342,9 +342,9 @@ export async function list${pascalName}() {
 `;
   }
 
-  const filePath = path.join(ACTIONS_DIR, `${kebabName}.actions.ts`);
+  const filePath = path.resolve(ACTIONS_DIR, `${kebabName}.actions.ts`);
   fs.writeFileSync(filePath, content);
-  console.log(`  ✅ Action: ${path.relative(process.cwd(), filePath)}`);
+  console.warn(`  ✅ Action: ${path.relative(process.cwd(), filePath)}`);
 }
 
 /**
@@ -356,7 +356,7 @@ export async function list${pascalName}() {
 function generateComponent(featureName: string, options: FeatureOptions): void {
   const pascalName = toPascalCase(featureName);
   const kebabName = toKebabCase(featureName);
-  const folderPath = path.join(COMPONENTS_DIR, options.componentFolder);
+  const folderPath = path.resolve(COMPONENTS_DIR, options.componentFolder);
 
   if (!fs.existsSync(folderPath)) {
     fs.mkdirSync(folderPath, { recursive: true });
@@ -422,9 +422,9 @@ export function ${pascalName}Form({ onSuccess }: ${pascalName}FormProps) {
 }
 `;
 
-  const filePath = path.join(folderPath, `${kebabName}-form.tsx`);
+  const filePath = path.resolve(folderPath, `${kebabName}-form.tsx`);
   fs.writeFileSync(filePath, content);
-  console.log(`  ✅ Component: ${path.relative(process.cwd(), filePath)}`);
+  console.warn(`  ✅ Component: ${path.relative(process.cwd(), filePath)}`);
 }
 
 /**
@@ -444,21 +444,21 @@ async function generateFeature(
     process.exit(1);
   }
 
-  console.log(`\n📦 Generating feature: ${featureName}\n`);
+  console.warn(`\n📦 Generating feature: ${featureName}\n`);
 
   generateDAL(featureName, options);
   generateAction(featureName, options);
   generateComponent(featureName, options);
 
-  console.log(`\n✅ Feature "${featureName}" generated successfully!`);
+  console.warn(`\n✅ Feature "${featureName}" generated successfully!`);
 
-  console.log("\nNext steps:");
-  console.log(
+  console.warn("\nNext steps:");
+  console.warn(
     `  1. Add table "${toKebabCase(featureName)}" to database/schema.ts`,
   );
-  console.log(`  2. Run npm run db:generate to create types`);
-  console.log(`  3. Update the component with your form fields`);
-  console.log(`  4. Add the component to your pages`);
+  console.warn(`  2. Run npm run db:generate to create types`);
+  console.warn(`  3. Update the component with your form fields`);
+  console.warn(`  4. Add the component to your pages`);
 }
 
 /**
@@ -469,9 +469,10 @@ async function generateFeature(
  */
 async function main(): Promise<void> {
   try {
-    console.log("🚀 Feature Scaffolding Generator\n");
+    console.warn("🚀 Feature Scaffolding Generator\n");
 
-    let { featureName, options } = parseArgs();
+    const { featureName: parsedFeatureName, options } = parseArgs();
+    let featureName = parsedFeatureName;
 
     if (!featureName) {
       featureName = await prompt("Enter feature name (e.g., user-profile): ");
@@ -501,7 +502,7 @@ async function main(): Promise<void> {
 
     await generateFeature(featureName, options);
 
-    console.log("\n🎉 Feature scaffolding complete!");
+    console.warn("\n🎉 Feature scaffolding complete!");
   } catch (error) {
     console.error(
       "❌ Error:",

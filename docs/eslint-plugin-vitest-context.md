@@ -25,10 +25,10 @@ export default [
       vitest: vitest
     },
     rules: {
-      "vitest/prefer-vi-mocked": "error",
+      "vitest/consistent-test-it": "error",
       "vitest/no-commented-out-tests": "error",
       "vitest/no-duplicate-hooks": "error",
-      "vitest/consistent-test-it": "error"
+      "vitest/prefer-vi-mocked": "error"
     }
   }
 ];

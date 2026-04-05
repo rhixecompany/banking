@@ -110,7 +110,7 @@ export async function createUser(input: unknown) {
   if (!parsed.success) {
     return { ok: false, error: parsed.error.message };
   }
-  
+
   await userDal.create(parsed.data);
   return { ok: true };
 }
@@ -121,4 +121,3 @@ export async function createUser(input: unknown) {
 Schema is defined in `database/schema.ts`.
 
 See: .opencode/skills/db-skill/SKILL.md
-

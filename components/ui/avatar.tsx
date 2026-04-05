@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -27,6 +28,7 @@ Avatar.displayName = AvatarPrimitive.Root.displayName;
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -44,6 +46,7 @@ AvatarImage.displayName = AvatarPrimitive.Image.displayName;
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */

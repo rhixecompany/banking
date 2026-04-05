@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -30,12 +31,13 @@ const badgeVariants = cva(
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @export
  * @interface BadgeProps
  * @typedef {BadgeProps}
- * @extends {React.HTMLAttributes<HTMLDivElement>}
- * @extends {VariantProps<typeof badgeVariants>}
+ * @augments {React.HTMLAttributes<HTMLDivElement>}
+ * @augments {VariantProps<typeof badgeVariants>}
  */
 export interface BadgeProps
   extends
@@ -44,20 +46,18 @@ export interface BadgeProps
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
- * @type {*}
+ * @param {BadgeProps} param0
+ * @param {*} param0.className
+ * @param {*} param0.variant
+ * @param {{}} param0....props
+ * @returns {ReactJSX.Element}
  */
-const Badge = React.forwardRef<HTMLDivElement, BadgeProps>(
-  ({ className, variant, ...props }, ref) => {
-    return (
-      <div
-        ref={ref}
-        className={cn(badgeVariants({ variant }), className)}
-        {...props}
-      />
-    );
-  },
-);
-Badge.displayName = "Badge";
+function Badge({ className, variant, ...props }: BadgeProps) {
+  return (
+    <div className={cn(badgeVariants({ variant }), className)} {...props} />
+  );
+}
 
 export { Badge, badgeVariants };

@@ -1,0 +1,45 @@
+version: "3.8"
+
+services:
+  traefik:
+    image: traefik:v3.3
+    command:
+      - "--configFile=/etc/traefik/traefik.yml"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./compose/production/traefik/traefik.yml:/etc/traefik/traefik.yml:ro
+      - ./compose/production/traefik/dynamic:/etc/traefik/dynamic:ro
+      - ./compose/production/traefik/certs:/certs:ro
+    environment:
+      - TZ=UTC
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    networks:
+      - traefik-public
+      - app-internal
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.rule=Host(`traefik.banking.example.com`)"
+      - "traefik.http.routers.dashboard.entrypoints=websecure"
+      - "traefik.http.routers.dashboard.tls=true"
+      - "traefik.http.routers.dashboard.service=api@internal"
+      - "traefik.http.routers.dashboard.middlewares=auth"
+      - "traefik.http.middlewares.auth.basicauth.usersfile=/auth/htpasswd"
+      - "traefik.docker.network=traefik-public"
+
+networks:
+  traefik-public:
+    external: true
+  app-internal:
+    external: true

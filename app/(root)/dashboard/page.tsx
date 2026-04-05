@@ -1,35 +1,25 @@
-import { redirect } from "next/navigation";
+import type { Metadata } from "next";
 
-import { DashboardClient } from "@/components/DashboardClient";
-import { getLoggedInUser } from "@/lib/actions/user.actions";
-import { auth } from "@/lib/auth";
-import { bankDal } from "@/lib/dal";
+import { DashboardServerWrapper } from "@/components/dashboard/dashboard-server-wrapper";
 
 /**
- * Dashboard page component.
- * Displays user overview with linked banks, total balance, and quick actions.
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {Metadata}
+ */
+export const metadata: Metadata = {
+  description: "Your financial overview",
+  title: "Dashboard | Horizon Banking",
+};
+
+/**
+ * Dashboard page.
+ * Delegates all auth, data-fetching, and rendering to DashboardServerWrapper.
  *
  * @export
- * @async
- * @returns {Promise<JSX.Element>}
+ * @returns {JSX.Element}
  */
-export default async function DashboardPage(): Promise<JSX.Element> {
-  const user = await getLoggedInUser();
-  if (!user) redirect("/sign-in");
-
-  const session = await auth();
-  const userId = session?.user?.id;
-  if (!userId) {
-    redirect("/sign-in");
-  }
-
-  const banks = await bankDal.findByUserId(userId);
-
-  return (
-    <DashboardClient
-      banks={banks}
-      userId={userId}
-      userName={user.name ?? "User"}
-    />
-  );
+export default function DashboardPage(): JSX.Element {
+  return <DashboardServerWrapper />;
 }

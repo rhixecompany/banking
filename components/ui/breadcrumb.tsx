@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -19,6 +20,7 @@ Breadcrumb.displayName = "Breadcrumb";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -39,6 +41,7 @@ BreadcrumbList.displayName = "BreadcrumbList";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -56,6 +59,7 @@ BreadcrumbItem.displayName = "BreadcrumbItem";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -79,6 +83,7 @@ BreadcrumbLink.displayName = "BreadcrumbLink";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -99,6 +104,7 @@ BreadcrumbPage.displayName = "BreadcrumbPage";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @param {React.ComponentProps<"li">} param0
  * @param {React.ComponentProps<"li">} param0.children
@@ -124,6 +130,7 @@ BreadcrumbSeparator.displayName = "BreadcrumbSeparator";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @param {React.ComponentProps<"span">} param0
  * @param {React.ComponentProps<"span">} param0.className

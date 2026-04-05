@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */
@@ -35,6 +36,7 @@ const toggleVariants = cva(
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {*}
  */

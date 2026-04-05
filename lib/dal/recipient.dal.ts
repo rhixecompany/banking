@@ -6,7 +6,8 @@ import { db } from "@/database/db";
 import { recipients } from "@/database/schema";
 
 /**
- * Description placeholder
+ * Data access layer for the `recipients` table.
+ * Provides CRUD operations for payment recipient records.
  *
  * @export
  * @class RecipientDal
@@ -14,11 +15,11 @@ import { recipients } from "@/database/schema";
  */
 export class RecipientDal {
   /**
-   * Description placeholder
+   * Finds a single recipient by its primary key.
    *
    * @async
-   * @param {string} id
-   * @returns {Promise<Recipient | undefined>}
+   * @param {string} id - The recipient ID to look up.
+   * @returns {Promise<Recipient | undefined>} The matching recipient, or `undefined` if not found.
    */
   async findById(id: string): Promise<Recipient | undefined> {
     const [recipient] = await db
@@ -29,21 +30,21 @@ export class RecipientDal {
   }
 
   /**
-   * Description placeholder
+   * Retrieves all recipients belonging to a given user.
    *
-   * @param {string} userId
-   * @returns {Promise<Recipient[]>}
+   * @param {string} userId - The ID of the user whose recipients to fetch.
+   * @returns {Promise<Recipient[]>} The list of recipients for that user.
    */
   findByUserId(userId: string): Promise<Recipient[]> {
     return db.select().from(recipients).where(eq(recipients.userId, userId));
   }
 
   /**
-   * Description placeholder
+   * Inserts a new recipient record and returns the created row.
    *
    * @async
-   * @param {NewRecipient} data
-   * @returns {Promise<Recipient>}
+   * @param {NewRecipient} data - Recipient fields to insert.
+   * @returns {Promise<Recipient>} The newly created recipient record.
    */
   async createRecipient(data: NewRecipient): Promise<Recipient> {
     const [recipient] = await db.insert(recipients).values(data).returning();
@@ -51,11 +52,11 @@ export class RecipientDal {
   }
 
   /**
-   * Description placeholder
+   * Updates a recipient record by ID and returns the updated rows.
    *
-   * @param {string} id
-   * @param {Partial<NewRecipient>} data
-   * @returns {Promise<Recipient[]>}
+   * @param {string} id - The ID of the recipient to update.
+   * @param {Partial<NewRecipient>} data - Partial fields to apply to the recipient.
+   * @returns {Promise<Recipient[]>} The updated recipient rows.
    */
   updateRecipient(
     id: string,
@@ -69,10 +70,10 @@ export class RecipientDal {
   }
 
   /**
-   * Description placeholder
+   * Deletes a recipient record by its primary key.
    *
    * @async
-   * @param {string} id
+   * @param {string} id - The ID of the recipient to delete.
    * @returns {Promise<void>}
    */
   async delete(id: string): Promise<void> {
@@ -80,10 +81,10 @@ export class RecipientDal {
   }
 
   /**
-   * Description placeholder
+   * Deletes all recipient records belonging to a given user.
    *
    * @async
-   * @param {string} userId
+   * @param {string} userId - The user ID whose recipients to remove.
    * @returns {Promise<void>}
    */
   async deleteByUserId(userId: string): Promise<void> {
@@ -92,7 +93,7 @@ export class RecipientDal {
 }
 
 /**
- * Description placeholder
+ * Singleton instance of {@link RecipientDal} for use throughout the application.
  *
  * @type {RecipientDal}
  */

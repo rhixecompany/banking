@@ -15,7 +15,6 @@ import {
   ChevronRightIcon,
   EllipsisVerticalIcon,
 } from "lucide-react";
-import Image from "next/image";
 import { useState } from "react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -46,55 +45,65 @@ import { usePagination } from "@/hooks/use-pagination";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @export
+ * @interface Item
  * @typedef {Item}
  */
 export interface Item {
   /**
    * Description placeholder
+   * @author [object Object]
    *
    * @type {string}
    */
   id: string;
   /**
    * Description placeholder
+   * @author [object Object]
    *
    * @type {string}
    */
   avatar: string;
   /**
    * Description placeholder
+   * @author [object Object]
    *
    * @type {string}
    */
   avatarFallback: string;
   /**
    * Description placeholder
+   * @author [object Object]
    *
    * @type {string}
    */
   name: string;
   /**
    * Description placeholder
+   * @author [object Object]
    *
    * @type {string}
    */
   email: string;
   /**
    * Description placeholder
+   * @author [object Object]
    *
    * @type {number}
    */
   amount: number;
   /**
    * Description placeholder
+   * @author [object Object]
    *
    * @type {("failed" | "paid" | "pending" | "processing")}
    */
   status: "failed" | "paid" | "pending" | "processing";
   /**
    * Description placeholder
+   * @author [object Object]
    *
    * @type {("mastercard" | "visa")}
    */
@@ -103,6 +112,7 @@ export interface Item {
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @type {ColumnDef<Item>[]}
  */
@@ -153,15 +163,13 @@ export const columns: ColumnDef<Item>[] = [
   {
     accessorKey: "paidBy",
     cell: ({ row }) => (
-      <Image
+      <img
         src={
           row.getValue("paidBy") === "mastercard"
             ? "https://cdn.shadcnstudio.com/ss-assets/blocks/data-table/image-1.png"
             : "https://cdn.shadcnstudio.com/ss-assets/blocks/data-table/image-2.png"
         }
         alt="Payment platform"
-        width={42}
-        height={28}
         className="w-10.5"
       />
     ),
@@ -178,12 +186,13 @@ export const columns: ColumnDef<Item>[] = [
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @param {{ data: Item[] }} param0
  * @param {{}} param0.data
- * @returns {*}
+ * @returns {ReactJSX.Element}
  */
-const TransactionDatatable = ({ data }: { data: Item[] }): JSX.Element => {
+const TransactionDatatable = ({ data }: { data: Item[] }) => {
   const pageSize = 5;
 
   const [pagination, setPagination] = useState<PaginationState>({
@@ -224,7 +233,7 @@ const TransactionDatatable = ({ data }: { data: Item[] }): JSX.Element => {
                       className="h-14 text-muted-foreground first:ps-4"
                     >
                       {header.isPlaceholder
-                        ? undefined
+                        ? null
                         : flexRender(
                             header.column.columnDef.header,
                             header.getContext(),
@@ -360,10 +369,11 @@ export default TransactionDatatable;
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
- * @returns {*}
+ * @returns {ReactJSX.Element}
  */
-function RowActions(): JSX.Element {
+function RowActions() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -386,7 +396,7 @@ function RowActions(): JSX.Element {
           <DropdownMenuItem>
             <span>Duplicate</span>
           </DropdownMenuItem>
-          <DropdownMenuItem className="text-destructive">
+          <DropdownMenuItem variant="destructive">
             <span>Delete</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>

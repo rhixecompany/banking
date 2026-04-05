@@ -2,11 +2,12 @@ import { cn } from "@/lib/utils";
 
 /**
  * Description placeholder
+ * @author [object Object]
  *
  * @param {React.HTMLAttributes<HTMLDivElement>} param0
  * @param {React.HTMLAttributes<HTMLDivElement>} param0.className
  * @param {React.HTMLAttributes<HTMLDivElement>} param0....props
- * @returns {*}
+ * @returns {ReactJSX.Element}
  */
 function Skeleton({
   className,
