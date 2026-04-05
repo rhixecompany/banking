@@ -1,11 +1,6 @@
 #!/bin/bash
-# vps-setup.sh - Automated Banking App VPS Setup v1.1
+# vps-setup.sh - Automated Banking App VPS Setup v1.2
 # Usage: curl -sSL https://raw.githubusercontent.com/rhixecompany/banking/main/scripts/vps-setup.sh | bash
-#
-# Or download and run locally:
-# wget -O vps-setup.sh https://raw.githubusercontent.com/rhixecompany/banking/main/scripts/vps-setup.sh
-# chmod +x vps-setup.sh
-# ./vps-setup.sh
 
 set -e
 
@@ -14,15 +9,14 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+NC='\033[0m'
 
 # Configuration
 REPO_URL="https://github.com/rhixecompany/banking.git"
 INSTALL_DIR="/opt/banking"
-SWARM_ADVERTISE_ADDR=""
 
 echo -e "${BLUE}========================================${NC}"
-echo -e "${BLUE}  Banking App VPS Setup${NC}"
+echo -e "${BLUE}  Banking App VPS Setup v1.2${NC}"
 echo -e "${BLUE}========================================${NC}"
 echo ""
 
@@ -32,41 +26,9 @@ if [ "$EUID" -ne 0 ]; then
     exit 1
 fi
 
-# Get IP address if not provided
-if [ -z "$SWARM_ADVERTISE_ADDR" ]; then
-    SWARM_ADVERTISE_ADDR=$(hostname -I | awk '{print $1}')
-fi
-
+SWARM_ADVERTISE_ADDR=$(hostname -I | awk '{print $1}')
 echo -e "${YELLOW}Using IP address: ${SWARM_ADVERTISE_ADDR}${NC}"
 echo ""
-
-# Function to prompt for secret
-prompt_secret() {
-    local name="$1"
-    local description="$2"
-    local secret=""
-    
-    while [ -z "$secret" ]; do
-        echo -n "Enter $description: "
-        read -s secret
-        echo ""
-        if [ -z "$secret" ]; then
-            echo -e "${RED}$name cannot be empty${NC}"
-        fi
-    done
-    
-    echo "$secret"
-}
-
-# Function to create secret
-create_secret() {
-    local name="$1"
-    local value="$2"
-    
-    if [ -n "$value" ]; then
-        echo "$value" | docker secret create "${name}" - 2>/dev/null || true
-    fi
-}
 
 echo -e "${GREEN}Step 1: Installing Docker...${NC}"
 if ! command -v docker &> /dev/null; then
@@ -84,12 +46,7 @@ if ! docker info &> /dev/null; then
     docker swarm init --advertise-addr "$SWARM_ADVERTISE_ADDR"
     echo -e "${GREEN}Docker Swarm initialized${NC}"
 else
-    if docker swarm inspect &> /dev/null; then
-        echo -e "${GREEN}Already in Docker Swarm${NC}"
-    else
-        docker swarm init --advertise-addr "$SWARM_ADVERTISE_ADDR"
-        echo -e "${GREEN}Docker Swarm initialized${NC}"
-    fi
+    echo -e "${GREEN}Already in Docker Swarm${NC}"
 fi
 echo ""
 
@@ -107,84 +64,44 @@ cd banking
 echo -e "${GREEN}Repository cloned${NC}"
 echo ""
 
-# Copy deployment files
+# Setup directories
 echo -e "${GREEN}Step 5: Setting up deployment files...${NC}"
 mkdir -p "$INSTALL_DIR/compose/production/traefik/certs"
 mkdir -p "$INSTALL_DIR/.envs/production"
-
-# Files are already in the cloned repo at /opt/banking, just ensure directories exist
-# The stacks and compose files will be used directly from the repo
-echo -e "${GREEN}Deployment files ready in ${INSTALL_DIR}${NC}"
+echo -e "${GREEN}Deployment files ready${NC}"
 echo ""
 
-# Collect secrets
+# Auto-generate secrets
 echo -e "${YELLOW}========================================${NC}"
-echo -e "${YELLOW}  Secret Configuration${NC}"
+echo -e "${YELLOW}  Auto-generating Secrets${NC}"
 echo -e "${YELLOW}========================================${NC}"
-echo -e "${YELLOW}Enter your secrets below (input is hidden):${NC}"
 echo ""
 
-# Encryption key
-echo -n "Enter ENCRYPTION_KEY (32+ char hex): "
-read -s ENCRYPTION_KEY
-echo ""
-if [ -z "$ENCRYPTION_KEY" ]; then
-    ENCRYPTION_KEY=$(openssl rand -hex 32)
-    echo -e "${GREEN}Generated random encryption key${NC}"
-fi
+ENCRYPTION_KEY=$(openssl rand -hex 32)
+echo -e "${GREEN}Generated ENCRYPTION_KEY${NC}"
 
-# NextAuth secret  
-echo -n "Enter NEXTAUTH_SECRET: "
-read -s NEXTAUTH_SECRET
-echo ""
-if [ -z "$NEXTAUTH_SECRET" ]; then
-    NEXTAUTH_SECRET=$(openssl rand -base64 32)
-    echo -e "${GREEN}Generated random NextAuth secret${NC}"
-fi
+NEXTAUTH_SECRET=$(openssl rand -base64 32)
+echo -e "${GREEN}Generated NEXTAUTH_SECRET${NC}"
 
-# Database URL (or use local PostgreSQL)
-echo -n "Enter DATABASE_URL (or press Enter for local): "
-read DATABASE_URL
-if [ -z "$DATABASE_URL" ]; then
-    # Will use local PostgreSQL from stack
-    DATABASE_URL="postgresql://postgres:banking_secure_pass@postgres/banking"
-fi
+DATABASE_URL="postgresql://postgres:banking_secure_pass@postgres/banking"
+echo -e "${GREEN}Using local PostgreSQL${NC}"
 
-# Plaid credentials
-echo -n "Enter PLAID_CLIENT_ID: "
-read PLAID_CLIENT_ID
-
-echo -n "Enter PLAID_SECRET: "
-read -s PLAID_SECRET
-echo ""
-
-# Dwolla credentials
-echo -n "Enter DWOLLA_KEY: "
-read DWOLLA_KEY
-
-echo -n "Enter DWOLLA_SECRET: "
-read -s DWOLLA_SECRET
-echo ""
-
-# OAuth (optional)
-echo -n "Enter AUTH_GITHUB_ID (optional): "
-read AUTH_GITHUB_ID
-
-echo -n "Enter AUTH_GITHUB_SECRET (optional): "
-read -s AUTH_GITHUB_SECRET
-echo ""
-
-echo -n "Enter AUTH_GOOGLE_ID (optional): "
-read AUTH_GOOGLE_ID
-
-echo -n "Enter AUTH_GOOGLE_SECRET (optional): "
-read -s AUTH_GOOGLE_SECRET
-echo ""
+PLAID_CLIENT_ID="${PLAID_CLIENT_ID:-}"
+PLAID_SECRET="${PLAID_SECRET:-}"
+DWOLLA_KEY="${DWOLLA_KEY:-}"
+DWOLLA_SECRET="${DWOLLA_SECRET:-}"
 
 echo ""
-
-# Create secrets
 echo -e "${GREEN}Step 6: Creating Docker secrets...${NC}"
+
+create_secret() {
+    local name="$1"
+    local value="$2"
+    if [ -n "$value" ]; then
+        echo "$value" | docker secret create "${name}" - 2>/dev/null || true
+    fi
+}
+
 create_secret "banking_encryption_key" "$ENCRYPTION_KEY"
 create_secret "banking_nextauth_secret" "$NEXTAUTH_SECRET"
 create_secret "banking_database_url" "$DATABASE_URL"
@@ -192,21 +109,17 @@ create_secret "banking_plaid_client_id" "$PLAID_CLIENT_ID"
 create_secret "banking_plaid_secret" "$PLAID_SECRET"
 create_secret "banking_dwolla_key" "$DWOLLA_KEY"
 create_secret "banking_dwolla_secret" "$DWOLLA_SECRET"
-create_secret "banking_auth_github_id" "$AUTH_GITHUB_ID"
-create_secret "banking_auth_github_secret" "$AUTH_GITHUB_SECRET"
-create_secret "banking_auth_google_id" "$AUTH_GOOGLE_ID"
-create_secret "banking_auth_google_secret" "$AUTH_GOOGLE_SECRET"
 create_secret "banking_postgres_password" "banking_secure_pass"
 
 echo -e "${GREEN}Secrets created${NC}"
 echo ""
 
-# Create environment file
+# Environment file
 echo -e "${GREEN}Step 7: Creating environment configuration...${NC}"
-cat > "$INSTALL_DIR/.envs/production/.env.production" << EOF
+cat > "$INSTALL_DIR/.envs/production/.env.production" << 'EOF'
 NODE_ENV=production
 PORT=3000
-DOMAIN=$SWARM_ADVERTISE_ADDR
+DOMAIN=76.13.26.9
 REGISTRY=ghcr.io
 IMAGE_NAME=rhixecompany/banking
 VERSION=latest
@@ -220,57 +133,34 @@ EOF
 echo -e "${GREEN}Environment file created${NC}"
 echo ""
 
-# Ask if user wants to build locally or pull from registry
+# Build or pull
 echo -e "${YELLOW}========================================${NC}"
 echo -e "${YELLOW}  Build Option${NC}"
 echo -e "${YELLOW}========================================${NC}"
-echo "Do you want to:"
-echo "  1) Build Docker image locally (slower, no registry needed)"
-echo "  2) Pull pre-built image from GitHub Container Registry (faster)"
+echo "Note: Building locally takes 10-15 minutes"
 echo ""
-read -p "Choose (1/2): " BUILD_CHOICE
+cd "$INSTALL_DIR"
 
-if [ "$BUILD_CHOICE" = "1" ]; then
-    echo -e "${GREEN}Building Docker image locally...${NC}"
-    echo -e "${YELLOW}This may take 10-15 minutes...${NC}"
-    cd "$INSTALL_DIR/banking"
-    docker build -t ghcr.io/rhixecompany/banking:latest \
-        -f compose/production/node/Dockerfile .
-    IMAGE_BUILT=true
-else
-    # Login to GHCR
-    echo -e "${YELLOW}To pull from GHCR, you need to login${NC}"
-    echo -n "Enter GitHub username: "
-    read GHCR_USERNAME
-    echo -n "Enter GitHub token (classic, with repo scope): "
-    read -s GHCR_TOKEN
-    echo ""
-    
-    echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_USERNAME" --password-stdin
-    
-    echo -e "${GREEN}Pulling image...${NC}"
-    docker pull ghcr.io/rhixecompany/banking:latest
-fi
+echo -e "${GREEN}Building Docker image locally...${NC}"
+echo -e "${YELLOW}This may take 10-15 minutes...${NC}"
+docker build -t ghcr.io/rhixecompany/banking:latest \
+    -f compose/production/node/Dockerfile .
 
 echo ""
 
 # Deploy stacks
 echo -e "${GREEN}Step 8: Deploying Traefik stack...${NC}"
-cd /opt/banking
 docker stack deploy -c stacks/traefik.stack.yml traefik
-echo -e "${GREEN}Waiting for Traefik to be ready...${NC}"
+echo -e "${GREEN}Waiting for Traefik...${NC}"
 sleep 10
-echo ""
 
 echo -e "${GREEN}Step 9: Deploying Banking stack...${NC}"
 docker stack deploy -c stacks/app.stack.yml banking
 echo ""
 
-# Wait for services
-echo -e "${GREEN}Step 10: Waiting for services to start...${NC}"
+echo -e "${GREEN}Step 10: Waiting for services...${NC}"
 sleep 30
 
-# Show status
 echo ""
 echo -e "${BLUE}========================================${NC}"
 echo -e "${BLUE}  Deployment Complete!${NC}"
@@ -293,18 +183,14 @@ echo -e "Banking App: http://${SWARM_ADVERTISE_ADDR}"
 echo -e "Banking App (HTTPS): https://${SWARM_ADVERTISE_ADDR}"
 echo ""
 echo -e "${YELLOW}Note: HTTPS uses self-signed certificate${NC}"
-echo -e "${YELLOW}Browser will show security warning - click 'Advanced' to proceed${NC}"
 echo ""
 
-# Show logs command
 echo -e "${GREEN}To view logs:${NC}"
 echo "  docker service logs banking_app"
 echo ""
 
-# Show how to update
-echo -e "${GREEN}To update the app later:${NC}"
-echo "  cd $INSTALL_DIR/banking"
-echo "  git pull origin main"
+echo -e "${GREEN}To update later:${NC}"
+echo "  cd $INSTALL_DIR && git pull origin main"
 echo "  docker build -t ghcr.io/rhixecompany/banking:latest -f compose/production/node/Dockerfile ."
 echo "  docker service update --image ghcr.io/rhixecompany/banking:latest banking_app"
 echo ""
