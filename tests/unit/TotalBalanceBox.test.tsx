@@ -25,6 +25,12 @@ import TotalBalanceBox from "@/components/total-balance-box/total-balance-box";
 // Fixtures
 // ---------------------------------------------------------------------------
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {Account[]}
+ */
 const mockAccounts: Account[] = [
   {
     availableBalance: 1000,

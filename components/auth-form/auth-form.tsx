@@ -19,9 +19,28 @@ import { Form } from "@/components/ui/form";
 import { register } from "@/lib/actions/register";
 import { getAuthFormSchema, signInSchema, signUpSchema } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @typedef {SignInFormData}
+ */
 type SignInFormData = z.infer<typeof signInSchema>;
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @typedef {SignUpFormData}
+ */
 type SignUpFormData = z.infer<typeof signUpSchema>;
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @param {boolean} isSignInFlag
+ * @returns {Partial<SignInFormData & SignUpFormData>}
+ */
 function getDefaultValues(
   isSignInFlag: boolean,
 ): Partial<SignInFormData & SignUpFormData> {
@@ -42,6 +61,14 @@ function getDefaultValues(
   };
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @param {AuthFormProps} param0
+ * @param {AuthFormProps} param0.type
+ * @returns {JSX.Element}
+ */
 const AuthForm = ({ type }: AuthFormProps): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false);
   const isSignIn = type === "sign-in";

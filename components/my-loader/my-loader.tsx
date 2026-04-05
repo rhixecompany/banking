@@ -1,5 +1,11 @@
 import { Loader2 } from "lucide-react";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @returns {JSX.Element}
+ */
 const MyLoader = (): JSX.Element => {
   return (
     <>

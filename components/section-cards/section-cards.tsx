@@ -27,6 +27,12 @@ export interface SectionCardsProps {
   netChangePct: number;
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const usd = new Intl.NumberFormat("en-US", {
   currency: "USD",
   maximumFractionDigits: 2,
@@ -34,6 +40,13 @@ const usd = new Intl.NumberFormat("en-US", {
   style: "currency",
 });
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @param {number} value
+ * @returns {string}
+ */
 const pct = (value: number): string =>
   `${value >= 0 ? "+" : ""}${value.toFixed(1)}%`;
 

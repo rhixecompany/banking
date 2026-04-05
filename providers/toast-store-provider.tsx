@@ -16,12 +16,43 @@ import {
   type ToastStore,
 } from "@/lib/stores/create-toast-store";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @typedef {ToastStoreApi}
+ */
 type ToastStoreApi = ReturnType<typeof createToastStore>;
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const ToastStoreContext = createContext<ToastStoreApi | undefined>(undefined);
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @interface ToastStoreProviderProps
+ * @typedef {ToastStoreProviderProps}
+ */
 interface ToastStoreProviderProps {
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {ReactNode}
+   */
   children: ReactNode;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {?Partial<ToastState>}
+   */
   initialState?: Partial<ToastState>;
 }
 

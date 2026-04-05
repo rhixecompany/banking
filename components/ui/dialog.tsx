@@ -6,14 +6,44 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const Dialog = DialogPrimitive.Root;
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const DialogTrigger = DialogPrimitive.Trigger;
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const DialogPortal = DialogPrimitive.Portal;
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const DialogClose = DialogPrimitive.Close;
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const DialogOverlay = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
@@ -29,6 +59,12 @@ const DialogOverlay = React.forwardRef<
 ));
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
@@ -53,6 +89,15 @@ const DialogContent = React.forwardRef<
 ));
 DialogContent.displayName = DialogPrimitive.Content.displayName;
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @param {React.HTMLAttributes<HTMLDivElement>} param0
+ * @param {React.HTMLAttributes<HTMLDivElement>} param0.className
+ * @param {React.HTMLAttributes<HTMLDivElement>} param0....props
+ * @returns
+ */
 const DialogHeader = ({
   className,
   ...props
@@ -67,6 +112,15 @@ const DialogHeader = ({
 );
 DialogHeader.displayName = "DialogHeader";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @param {React.HTMLAttributes<HTMLDivElement>} param0
+ * @param {React.HTMLAttributes<HTMLDivElement>} param0.className
+ * @param {React.HTMLAttributes<HTMLDivElement>} param0....props
+ * @returns
+ */
 const DialogFooter = ({
   className,
   ...props
@@ -81,6 +135,12 @@ const DialogFooter = ({
 );
 DialogFooter.displayName = "DialogFooter";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const DialogTitle = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Title>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
@@ -96,6 +156,12 @@ const DialogTitle = React.forwardRef<
 ));
 DialogTitle.displayName = DialogPrimitive.Title.displayName;
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const DialogDescription = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Description>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>

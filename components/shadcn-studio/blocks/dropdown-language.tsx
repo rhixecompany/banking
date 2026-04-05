@@ -12,12 +12,47 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @interface Props
+ * @typedef {Props}
+ */
 interface Props {
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {ReactNode}
+   */
   trigger: ReactNode;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {?boolean}
+   */
   defaultOpen?: boolean;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {?("center" | "end" | "start")}
+   */
   align?: "center" | "end" | "start";
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @param {Props} param0
+ * @param {("center" | "end" | "start")} param0.align
+ * @param {boolean} param0.defaultOpen
+ * @param {ReactNode} param0.trigger
+ * @returns {ReactJSX.Element}
+ */
 const LanguageDropdown = ({ align, defaultOpen, trigger }: Props) => {
   const [language, setLanguage] = useState("english");
 

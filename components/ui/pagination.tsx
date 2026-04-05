@@ -4,6 +4,15 @@ import * as React from "react";
 import { ButtonProps, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @param {React.ComponentProps<"nav">} param0
+ * @param {React.ComponentProps<"nav">} param0.className
+ * @param {React.ComponentProps<"nav">} param0....props
+ * @returns
+ */
 const Pagination = ({ className, ...props }: React.ComponentProps<"nav">) => (
   <nav
     role="navigation"
@@ -14,6 +23,12 @@ const Pagination = ({ className, ...props }: React.ComponentProps<"nav">) => (
 );
 Pagination.displayName = "Pagination";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const PaginationContent = React.forwardRef<
   HTMLUListElement,
   React.ComponentProps<"ul">
@@ -26,6 +41,12 @@ const PaginationContent = React.forwardRef<
 ));
 PaginationContent.displayName = "PaginationContent";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const PaginationItem = React.forwardRef<
   HTMLLIElement,
   React.ComponentProps<"li">
@@ -34,11 +55,28 @@ const PaginationItem = React.forwardRef<
 ));
 PaginationItem.displayName = "PaginationItem";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @typedef {PaginationLinkProps}
+ */
 type PaginationLinkProps = {
   isActive?: boolean;
 } & Pick<ButtonProps, "size"> &
   React.ComponentProps<"a">;
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @param {PaginationLinkProps} param0
+ * @param {*} param0.className
+ * @param {*} param0.isActive
+ * @param {*} [param0.size="icon"]
+ * @param {*} param0....props
+ * @returns
+ */
 const PaginationLink = ({
   className,
   isActive,
@@ -60,6 +98,15 @@ const PaginationLink = ({
 );
 PaginationLink.displayName = "PaginationLink";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @param {React.ComponentProps<typeof PaginationLink>} param0
+ * @param {React.ComponentProps<{ ({ className, isActive, size, ...props }: any): ReactJSX.Element; displayName: string; }>} param0.className
+ * @param {React.ComponentProps<{ ({ className, isActive, size, ...props }: any): ReactJSX.Element; displayName: string; }>} param0....props
+ * @returns
+ */
 const PaginationPrevious = ({
   className,
   ...props
@@ -76,6 +123,15 @@ const PaginationPrevious = ({
 );
 PaginationPrevious.displayName = "PaginationPrevious";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @param {React.ComponentProps<typeof PaginationLink>} param0
+ * @param {React.ComponentProps<{ ({ className, isActive, size, ...props }: any): ReactJSX.Element; displayName: string; }>} param0.className
+ * @param {React.ComponentProps<{ ({ className, isActive, size, ...props }: any): ReactJSX.Element; displayName: string; }>} param0....props
+ * @returns
+ */
 const PaginationNext = ({
   className,
   ...props
@@ -92,6 +148,15 @@ const PaginationNext = ({
 );
 PaginationNext.displayName = "PaginationNext";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @param {React.ComponentProps<"span">} param0
+ * @param {React.ComponentProps<"span">} param0.className
+ * @param {React.ComponentProps<"span">} param0....props
+ * @returns
+ */
 const PaginationEllipsis = ({
   className,
   ...props

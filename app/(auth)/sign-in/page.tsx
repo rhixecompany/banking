@@ -5,6 +5,12 @@ import { Suspense } from "react";
 import { SignInServerWrapper } from "@/components/sign-in/sign-in-server-wrapper";
 import { LoadingSpinner } from "@/components/ui/spinner";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {Metadata}
+ */
 export const metadata: Metadata = {
   description: "Sign in to your Horizon Banking account.",
   title: "Sign In | Horizon Banking",

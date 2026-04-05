@@ -4,6 +4,12 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const buttonVariants = cva(
   "inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap ring-offset-background transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
@@ -33,13 +39,35 @@ const buttonVariants = cva(
   },
 );
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @export
+ * @interface ButtonProps
+ * @typedef {ButtonProps}
+ * @augments {React.ButtonHTMLAttributes<HTMLButtonElement>}
+ * @augments {VariantProps<typeof buttonVariants>}
+ */
 export interface ButtonProps
   extends
     React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {?boolean}
+   */
   asChild?: boolean;
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ asChild = false, className, size, variant, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";

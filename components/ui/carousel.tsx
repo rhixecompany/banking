@@ -9,18 +9,79 @@ import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @typedef {CarouselApi}
+ */
 type CarouselApi = UseEmblaCarouselType[1];
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @typedef {UseCarouselParameters}
+ */
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @typedef {CarouselOptions}
+ */
 type CarouselOptions = UseCarouselParameters[0];
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @typedef {CarouselPlugin}
+ */
 type CarouselPlugin = UseCarouselParameters[1];
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @interface CarouselProps
+ * @typedef {CarouselProps}
+ */
 interface CarouselProps {
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {?CarouselOptions}
+   */
   opts?: CarouselOptions;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {?CarouselPlugin}
+   */
   plugins?: CarouselPlugin;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {?("horizontal" | "vertical")}
+   */
   orientation?: "horizontal" | "vertical";
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {?(api: CarouselApi) => void}
+   */
   setApi?: (api: CarouselApi) => void;
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @typedef {CarouselContextProps}
+ */
 type CarouselContextProps = {
   carouselRef: ReturnType<typeof useEmblaCarousel>[0];
   api: ReturnType<typeof useEmblaCarousel>[1];
@@ -30,8 +91,20 @@ type CarouselContextProps = {
   canScrollNext: boolean;
 } & CarouselProps;
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const CarouselContext = React.createContext<CarouselContextProps | null>(null);
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @returns {*}
+ */
 function useCarousel() {
   const context = React.useContext(CarouselContext);
 
@@ -42,6 +115,12 @@ function useCarousel() {
   return context;
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const Carousel = React.forwardRef<
   HTMLDivElement,
   CarouselProps & React.HTMLAttributes<HTMLDivElement>
@@ -150,6 +229,12 @@ const Carousel = React.forwardRef<
 );
 Carousel.displayName = "Carousel";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const CarouselContent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -172,6 +257,12 @@ const CarouselContent = React.forwardRef<
 });
 CarouselContent.displayName = "CarouselContent";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const CarouselItem = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -194,6 +285,12 @@ const CarouselItem = React.forwardRef<
 });
 CarouselItem.displayName = "CarouselItem";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const CarouselPrevious = React.forwardRef<
   HTMLButtonElement,
   React.ComponentProps<typeof Button>
@@ -223,6 +320,12 @@ const CarouselPrevious = React.forwardRef<
 });
 CarouselPrevious.displayName = "CarouselPrevious";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const CarouselNext = React.forwardRef<
   HTMLButtonElement,
   React.ComponentProps<typeof Button>

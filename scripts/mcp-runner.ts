@@ -1,18 +1,44 @@
 #!/usr/bin/env node
+/* eslint-disable n/no-process-env */
 // Small helper to run an MCP package using bun if available, otherwise npx.
-// Usage: npx tsx .opencode/mcp-runner.ts <package> [args...]
+// Usage: npx tsx .scripts/mcp-runner.ts <package> [args...]
 
 import { spawn, spawnSync, type ChildProcess } from "child_process";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {string[]}
+ */
 const args: string[] = process.argv.slice(2);
 if (args.length === 0) {
-  console.error("Usage: npx tsx .opencode/mcp-runner.ts <package> [args...]");
+  console.error("Usage: npx tsx .scripts/mcp-runner.ts <package> [args...]");
   process.exit(2);
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {string}
+ */
 const pkg: string = args[0];
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {string[]}
+ */
 const extra: string[] = args.slice(1);
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @param {string} name
+ * @returns {boolean}
+ */
 function hasCommand(name: string): boolean {
   try {
     const r = spawnSync(name, ["--version"], { stdio: "ignore" });
@@ -22,8 +48,20 @@ function hasCommand(name: string): boolean {
   }
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {boolean}
+ */
 let useBun: boolean = hasCommand("bun");
-let bunPath: string | null = null;
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {(string | null)}
+ */
+let bunPath: null | string = null;
 
 // If bun isn't on PATH, check the default Windows install location.
 if (!useBun) {
@@ -42,10 +80,34 @@ if (!useBun) {
   }
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {boolean}
+ */
 const useNpx: boolean = hasCommand("npx");
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {boolean}
+ */
 const useNpm: boolean = hasCommand("npm");
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {string}
+ */
 let cmd: string;
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {string[]}
+ */
 let cmdArgs: string[];
 
 if (useBun) {
@@ -64,17 +126,29 @@ if (useBun) {
   console.error(
     "Windows: install Node.js from https://nodejs.org/ or install Bun from https://bun.sh/",
   );
-  console.error("After installing, re-run the opencode command.");
+  console.error("After installing, re-run the scripts command.");
   process.exit(2);
 }
 
 // Spawn the MCP server process and forward stdio so OpenCode can communicate with it.
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {ChildProcess}
+ */
 const child: ChildProcess = spawn(cmd, cmdArgs, {
-  stdio: "inherit",
   env: process.env,
+  stdio: "inherit",
 });
 
 // Forward termination signals to the child so it can shut down cleanly.
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @param {NodeJS.Signals} signal
+ */
 function forwardSignal(signal: NodeJS.Signals): void {
   if (!child.killed) {
     child.kill(signal);
@@ -89,7 +163,7 @@ child.on("error", (err: Error) => {
   process.exit(1);
 });
 
-child.on("exit", (code: number | null, signal: NodeJS.Signals | null) => {
+child.on("exit", (code: null | number, signal: NodeJS.Signals | null) => {
   if (signal !== null) {
     console.error(`MCP process terminated with signal ${signal}`);
     process.exit(1);

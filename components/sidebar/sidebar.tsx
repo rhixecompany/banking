@@ -9,6 +9,14 @@ import type { SidebarProps } from "@/types";
 import Footer from "@/components/footer/footer";
 import { sidebarLinks } from "@/constants";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @param {SidebarProps} param0
+ * @param {SidebarProps} param0.user
+ * @returns {JSX.Element}
+ */
 const Sidebar = ({ user }: SidebarProps): JSX.Element => {
   const pathname = usePathname();
   return (

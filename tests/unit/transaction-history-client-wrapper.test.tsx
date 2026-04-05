@@ -17,14 +17,56 @@ import { describe, expect, it, vi } from "vitest";
 // ---------------------------------------------------------------------------
 
 interface CapturedItem {
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {string}
+   */
   id: string;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {string}
+   */
   paidBy: string;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {string}
+   */
   status: string;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {string}
+   */
   name: string;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {string}
+   */
   email: string;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {number}
+   */
   amount: number;
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {CapturedItem[]}
+ */
 let capturedData: CapturedItem[] = [];
 
 vi.mock("@/components/shadcn-studio/blocks/datatable-transaction", () => ({
@@ -48,6 +90,13 @@ import { TransactionHistoryClientWrapper } from "@/components/transaction-histor
 // Fixtures
 // ---------------------------------------------------------------------------
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @param {Partial<Transaction>} [overrides={}]
+ * @returns {Transaction}
+ */
 function makeTransaction(overrides: Partial<Transaction> = {}): Transaction {
   return {
     amount: "100.00",

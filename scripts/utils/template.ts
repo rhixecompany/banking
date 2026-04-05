@@ -36,11 +36,32 @@ export function generateEntryHtml(entry: {
   tagline: string;
   description: string;
 }): string {
-  let linkText = "🔗 <b>View Repository</b>";
-  if (entry.repo.includes("gist.github.com")) {
+  // Check if this is a local .opencode entry (not a GitHub URL)
+  const isLocalOpenCode =
+    entry.repo.startsWith(".opencode/") ||
+    entry.repo.startsWith("/.opencode/") ||
+    entry.repo.includes("opencode/skills") ||
+    entry.repo.includes("opencode/instructions");
+
+  let linkText: string;
+  let linkHtml: string;
+
+  if (isLocalOpenCode) {
+    // Local file - show as local path
+    linkText = "📁 <b>Local File</b>";
+    linkHtml = `<span class="local-path">${entry.repo}</span>`;
+  } else if (entry.repo.includes("gist.github.com")) {
     linkText = "🔗 <b>View Gist</b>";
+    linkHtml = `<a href="${entry.repo}">${linkText}</a>`;
   } else if (entry.repo.includes("/discussions/")) {
     linkText = "🔗 <b>View Discussion</b>";
+    linkHtml = `<a href="${entry.repo}">${linkText}</a>`;
+  } else if (entry.repo) {
+    linkText = "🔗 <b>View Repository</b>";
+    linkHtml = `<a href="${entry.repo}">${linkText}</a>`;
+  } else {
+    linkText = "";
+    linkHtml = "";
   }
 
   const isGist = entry.repo.includes("gist.github.com");
@@ -49,11 +70,17 @@ export function generateEntryHtml(entry: {
 
   let summaryContent = `<b>${entry.name}</b>`;
 
-  if (repoMatch && !isGist && !isDiscussion) {
+  // Only show GitHub stars for remote repos, not local
+  if (repoMatch && !isGist && !isDiscussion && !isLocalOpenCode) {
     const owner = repoMatch[1];
     const repo = repoMatch[2].replace(/\.git$/, "").replace(/\/$/, "");
     const starBadge = `https://badgen.net/github/stars/${owner}/${repo}`;
     summaryContent += ` <img src="${starBadge}" height="14"/>`;
+  }
+
+  // Add local indicator for .opencode entries
+  if (isLocalOpenCode) {
+    summaryContent += ` <span title="Local .opencode entry">📂</span>`;
   }
 
   summaryContent += ` - <i>${entry.tagline}</i>`;
@@ -62,8 +89,7 @@ export function generateEntryHtml(entry: {
   <summary>${summaryContent}</summary>
   <blockquote>
     ${entry.description}
-    <br><br>
-    <a href="${entry.repo}">${linkText}</a>
+    ${linkHtml ? `<br><br>${linkHtml}` : ""}
   </blockquote>
 </details>`;
 }

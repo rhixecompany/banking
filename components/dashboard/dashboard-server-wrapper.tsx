@@ -9,6 +9,12 @@ import { getAllAccounts } from "@/lib/actions/plaid.actions";
 import { getRecentTransactions } from "@/lib/actions/transaction.actions";
 import { auth } from "@/lib/auth";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {Metadata}
+ */
 export const metadata: Metadata = {
   description: "Your financial overview",
   title: "Dashboard | Banking",

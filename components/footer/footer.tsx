@@ -7,6 +7,15 @@ import type { FooterProps } from "@/types";
 
 import { logoutAccount } from "@/lib/actions/user.actions";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @param {FooterProps} param0
+ * @param {FooterProps} [param0.type="desktop"]
+ * @param {FooterProps} param0.user
+ * @returns {JSX.Element}
+ */
 const Footer = ({ type = "desktop", user }: FooterProps): JSX.Element => {
   const handleLogOut = async (): Promise<void> => {
     await logoutAccount();

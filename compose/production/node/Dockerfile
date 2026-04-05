@@ -1,5 +1,9 @@
 # Build stage
-FROM node:22-alpine AS builder
+FROM node:22.13.1-alpine AS builder
+
+LABEL org.opencontainers.image.source="https://github.com/rhixecompany/banking" \
+    org.opencontainers.image.description="Banking App - Next.js 16 with Drizzle ORM" \
+    org.opencontainers.image.licenses="MIT"
 
 WORKDIR /app
 
@@ -54,5 +58,12 @@ ENV NODE_ENV=production \
 
 EXPOSE 3000
 
-ENTRYPOINT ["/nodejs/bin/node"]
-CMD ["server.js"]
+# HEALTHCHECK for production monitoring
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+    CMD wget -qO- http://localhost:3000/api/health || exit 1
+
+# Copy scripts for secret loading
+COPY --from=builder --chown=nonroot:nonroot /app/scripts/ ./scripts/ 2>/dev/null || true
+
+ENTRYPOINT ["/bin/sh", "-c"]
+CMD ["if [ -f ./scripts/read-secrets.sh ]; then chmod +x ./scripts/read-secrets.sh && ./scripts/read-secrets.sh; fi && /nodejs/bin/node server.js"]

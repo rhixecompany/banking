@@ -11,11 +11,38 @@ import {
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @export
+ * @interface NavigationItem
+ * @typedef {NavigationItem}
+ */
 export interface NavigationItem {
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {string}
+   */
   title: string;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {string}
+   */
   href: string;
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @export
+ * @typedef {NavigationSection}
+ */
 export type NavigationSection = (
   | {
       items: NavigationItem[];
@@ -30,11 +57,39 @@ export type NavigationSection = (
   icon?: ReactNode;
 };
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @interface MenuNavigationProps
+ * @typedef {MenuNavigationProps}
+ */
 interface MenuNavigationProps {
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {NavigationSection[]}
+   */
   navigationData: NavigationSection[];
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {?string}
+   */
   className?: string;
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @param {MenuNavigationProps} param0
+ * @param {string} param0.className
+ * @param {{}} param0.navigationData
+ * @returns {ReactJSX.Element}
+ */
 const MenuNavigation = ({ className, navigationData }: MenuNavigationProps) => {
   return (
     <NavigationMenu className={className}>

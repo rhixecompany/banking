@@ -9,17 +9,35 @@ import { defineConfig, devices } from "@playwright/test";
 // dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 /**
+ * Timeout configurations for E2E tests
+ * Increased from defaults to accommodate slower dev server cold starts
+ */
+const TIMEOUTS = {
+  /** Test timeout - 60 seconds */
+  TEST: 60_000,
+  /** Navigation timeout - 90 seconds */
+  NAVIGATION: 90_000,
+  /** Action timeout - 30 seconds */
+  ACTION: 30_000,
+  /** Assertion timeout - 10 seconds */
+  ASSERTION: 10_000,
+  /** Web server startup timeout - 180 seconds */
+  WEB_SERVER: 180_000,
+} as const;
+
+/**
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  /* Assertion timeout */
-  expect: { timeout: 5_000 },
+  /* Assertion timeout - increased for slower pages */
+  expect: { timeout: TIMEOUTS.ASSERTION },
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env["CI"],
   /* Run tests sequentially — app state is shared (auth, DB). */
   fullyParallel: false,
   globalSetup: "./tests/e2e/global-setup.ts",
   globalTeardown: "./tests/e2e/global-teardown.ts",
+
   /* Configure projects for major browsers */
   projects: [
     {
@@ -57,41 +75,60 @@ export default defineConfig({
     //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
     // },
   ],
-  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: [["html", { outputFolder: "playwright-report" }]],
+
+  /* Reporter configuration with better error reporting */
+  reporter: process.env["CI"]
+    ? [
+        ["github"],
+        ["html", { open: "never", outputFolder: "playwright-report" }],
+        ["list"],
+      ]
+    : [
+        ["html", { open: "on-failure", outputFolder: "playwright-report" }],
+        ["list"],
+      ],
+
   /* Retry on CI only — no retries locally to surface real failures immediately */
   retries: process.env["CI"] ? 2 : 0,
   testDir: "./tests/e2e",
-  /* Per-test timeout */
-  timeout: 30_000,
-  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+
+  /* Per-test timeout - increased for dev server cold start */
+  timeout: TIMEOUTS.TEST,
+
+  /* Shared settings for all the projects below. */
   use: {
-    /* Fail fast on slow actions */
-    actionTimeout: 15_000,
+    /* Fail fast on slow actions - increased for slower pages */
+    actionTimeout: TIMEOUTS.ACTION,
+
     /* Base URL to use in actions like `await page.goto('')`. */
-    baseURL: "http://localhost:3000",
+    baseURL: process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3000",
 
     headless: true,
 
-    /* Fail fast on slow navigation */
-    navigationTimeout: 60_000,
+    /* Fail fast on slow navigation - increased for dev server */
+    navigationTimeout: TIMEOUTS.NAVIGATION,
 
     /* Screenshots only on failure to save disk space */
     screenshot: "only-on-failure",
 
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
+    /* Collect trace when retrying the failed test. */
     trace: "on-first-retry",
 
     /* Video only on failure to save disk space */
     video: "retain-on-failure",
+
+    /* Accept downloads to default directory */
+    acceptDownloads: true,
   },
 
   /* Run your local dev server before starting the tests */
   webServer: {
     command: "npm run dev",
     reuseExistingServer: !process.env["CI"],
-    timeout: 180 * 1000,
+    timeout: TIMEOUTS.WEB_SERVER,
     url: "http://localhost:3000",
+    stdout: "pipe",
+    stderr: "pipe",
   },
 
   /* Always 1 worker — stateful app (auth sessions, shared DB). */

@@ -18,6 +18,18 @@ import { Separator } from "@/components/ui/separator";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { auth } from "@/lib/auth";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @export
+ * @async
+ * @param {{
+ *   children: React.ReactNode;
+ * }} param0
+ * @param {React.ReactNode} param0.children
+ * @returns {Promise<React.JSX.Element>}
+ */
 export default async function AdminLayout({
   children,
 }: {

@@ -33,6 +33,12 @@ import { updateProfile } from "@/lib/actions/updateProfile";
 // rather than re-defining them locally.
 // ---------------------------------------------------------------------------
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const ProfileSchema = z.object({
   address: z.string().trim().optional(),
   city: z.string().trim().optional(),
@@ -53,6 +59,12 @@ const ProfileSchema = z.object({
   state: z.string().trim().optional(),
 });
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const PasswordSchema = z
   .object({
     newPassword: z
@@ -66,14 +78,39 @@ const PasswordSchema = z
     path: ["newPassword"],
   });
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @typedef {ProfileFormData}
+ */
 type ProfileFormData = z.infer<typeof ProfileSchema>;
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @typedef {PasswordFormData}
+ */
 type PasswordFormData = z.infer<typeof PasswordSchema>;
 
 // ---------------------------------------------------------------------------
 // Props
 // ---------------------------------------------------------------------------
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @interface SettingsClientWrapperProps
+ * @typedef {SettingsClientWrapperProps}
+ */
 interface SettingsClientWrapperProps {
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {UserWithProfile}
+   */
   userWithProfile: UserWithProfile;
 }
 

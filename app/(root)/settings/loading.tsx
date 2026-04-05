@@ -1,5 +1,12 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @export
+ * @returns {JSX.Element}
+ */
 export default function SettingsLoading(): JSX.Element {
   return (
     <section className="space-y-6">

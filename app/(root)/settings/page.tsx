@@ -2,6 +2,12 @@ import type { Metadata } from "next";
 
 import { SettingsServerWrapper } from "@/components/settings/settings-server-wrapper";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {Metadata}
+ */
 export const metadata: Metadata = {
   description: "Manage your account preferences and profile.",
   title: "Settings | Horizon Banking",

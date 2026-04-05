@@ -16,12 +16,43 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @interface ConnectedAccount
+ * @typedef {ConnectedAccount}
+ */
 interface ConnectedAccount {
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {string}
+   */
   id: string;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {string}
+   */
   name: string;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {string}
+   */
   iconUrl: string;
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {ConnectedAccount[]}
+ */
 const initialAccounts: ConnectedAccount[] = [
   {
     iconUrl:
@@ -36,6 +67,12 @@ const initialAccounts: ConnectedAccount[] = [
   },
 ];
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @returns {ReactJSX.Element}
+ */
 const ConnectedAccount = () => {
   const [connectedAccounts, setConnectedAccounts] =
     useState<ConnectedAccount[]>(initialAccounts);

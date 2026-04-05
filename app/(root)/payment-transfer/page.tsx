@@ -2,6 +2,12 @@ import type { Metadata } from "next";
 
 import { PaymentTransferServerWrapper } from "@/components/payment-transfer/payment-transfer-server-wrapper";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {Metadata}
+ */
 export const metadata: Metadata = {
   description: "Send money to recipients using ACH bank transfers.",
   title: "Payment Transfer | Horizon Banking",

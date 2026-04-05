@@ -25,11 +25,35 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {54}
+ */
 const salesPlanPercentage = 54;
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {24}
+ */
 const totalBars = 24;
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const filledBars = Math.round((salesPlanPercentage * totalBars) / 100);
 
 // Sales chart data
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const salesChartData = Array.from({ length: totalBars }, (_, index) => {
   const date = new Date(2025, 5, 15);
 
@@ -45,12 +69,24 @@ const salesChartData = Array.from({ length: totalBars }, (_, index) => {
   };
 });
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {ChartConfig}
+ */
 const salesChartConfig = {
   sales: {
     label: "Sales",
   },
 } satisfies ChartConfig;
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {{}}
+ */
 const MetricsData = [
   {
     icons: <TrendingUpIcon className="size-5" />,
@@ -74,12 +110,24 @@ const MetricsData = [
   },
 ];
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {{}}
+ */
 const revenueChartData = [
   { fill: "var(--color-january)", month: "january", sales: 340 },
   { fill: "var(--color-february)", month: "february", sales: 200 },
   { fill: "var(--color-march)", month: "march", sales: 200 },
 ];
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {ChartConfig}
+ */
 const revenueChartConfig = {
   february: {
     color: "color-mix(in oklab, var(--primary) 60%, transparent)",
@@ -98,6 +146,14 @@ const revenueChartConfig = {
   },
 } satisfies ChartConfig;
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @param {{ className?: string }} param0
+ * @param {string} param0.className
+ * @returns {ReactJSX.Element}
+ */
 const SalesMetricsCard = ({ className }: { className?: string }) => {
   return (
     <Card className={className}>

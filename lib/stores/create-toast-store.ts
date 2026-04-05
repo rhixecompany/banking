@@ -7,8 +7,23 @@
 
 import { createStore } from "zustand";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @export
+ * @typedef {ToastType}
+ */
 export type ToastType = "error" | "info" | "success" | "warning";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @export
+ * @interface ToastItem
+ * @typedef {ToastItem}
+ */
 export interface ToastItem {
   /** Unique identifier for deduplication and dismissal. */
   id: string;
@@ -20,11 +35,27 @@ export interface ToastItem {
   duration: number;
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @export
+ * @interface ToastState
+ * @typedef {ToastState}
+ */
 export interface ToastState {
   /** Ordered queue of pending/active toasts. */
   toasts: ToastItem[];
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @export
+ * @interface ToastActions
+ * @typedef {ToastActions}
+ */
 export interface ToastActions {
   /**
    * Add a new toast to the queue.
@@ -37,8 +68,21 @@ export interface ToastActions {
   clearToasts: () => void;
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @export
+ * @typedef {ToastStore}
+ */
 export type ToastStore = ToastActions & ToastState;
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {ToastState}
+ */
 export const defaultToastState: ToastState = {
   toasts: [],
 };

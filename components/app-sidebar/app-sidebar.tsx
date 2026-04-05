@@ -33,8 +33,20 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {"Active Proposals"}
+ */
 const ACTIVE_PROPOSALS = "Active Proposals";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {{ documents: {}; navClouds: {}; navMain: {}; navSecondary: {}; user: { avatar: string; email: string; name: string; }; }}
+ */
 const data = {
   documents: [
     {
@@ -152,6 +164,15 @@ const data = {
   },
 };
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @export
+ * @param {React.ComponentProps<typeof Sidebar>} param0
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {JSX.Element}
+ */
 export function AppSidebar({
   ...props
 }: React.ComponentProps<typeof Sidebar>): JSX.Element {

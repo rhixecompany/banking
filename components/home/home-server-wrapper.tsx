@@ -7,8 +7,20 @@ import Header from "@/components/shadcn-studio/blocks/hero-section-41/header";
 import HeroSection from "@/components/shadcn-studio/blocks/hero-section-41/hero-section-41";
 import { Button } from "@/components/ui/button";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {never[]}
+ */
 const navigationData: never[] = [];
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {MenuData[]}
+ */
 const bankingMenuData: MenuData[] = [
   {
     id: 1,

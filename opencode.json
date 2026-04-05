@@ -34,7 +34,9 @@
   },
   "instructions": [
     "AGENTS.md",
-    ".opencode/instructions/*.md"
+    ".opencode/instructions/*.md",
+    "docs/README.md",
+    "README.md"
   ],
   "mcp": {
     "MCP_DOCKER": {
@@ -51,11 +53,7 @@
       "type": "local"
     },
     "shadcn": {
-      "command": [
-        "npx",
-        "shadcn@latest",
-        "mcp"
-      ],
+      "command": ["npx", "shadcn@latest", "mcp"],
       "enabled": true,
       "timeout": 900000,
       "type": "local"
@@ -63,12 +61,6 @@
   },
   "model": "opencode/big-pickle",
   "watcher": {
-    "ignore": [
-      "node_modules",
-      ".next",
-      "dist",
-      ".git",
-      "*.log"
-    ]
+    "ignore": ["node_modules", ".next", "dist", ".git", "*.log"]
   }
 }

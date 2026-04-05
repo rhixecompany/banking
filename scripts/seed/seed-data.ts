@@ -16,6 +16,8 @@ import {
 } from "@/database/schema";
 import { encrypt } from "@/lib/encryption";
 
+import { getSeedAccessToken } from "./seed-config";
+
 /** Dev-only login for all seeded users (matches E2E tests). */
 const SEED_PASSWORD_PLAIN = "password123";
 
@@ -167,9 +169,10 @@ function buildBankRow(
   userId: string,
   sharableId: string,
   institutionName: string,
+  index: number,
 ): typeof banks.$inferInsert {
   return {
-    accessToken: encrypt(`seed-plain-access-${sharableId}`),
+    accessToken: encrypt(getSeedAccessToken(index)),
     accountId: `seed-account-${sharableId}`,
     accountSubtype: "checking",
     accountType: "depository",
@@ -324,12 +327,14 @@ export async function seedAll(): Promise<void> {
         SEED_IDS.users.user,
         "seed-share-checking-001",
         "Seed Checking Bank",
+        0,
       ),
       buildBankRow(
         SEED_IDS.banks.savings,
         SEED_IDS.users.user,
         "seed-share-savings-002",
         "Seed Savings Bank",
+        1,
       ),
     ]);
 

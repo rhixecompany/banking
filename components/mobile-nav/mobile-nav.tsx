@@ -18,6 +18,14 @@ import {
 } from "@/components/ui/sheet";
 import { sidebarLinks } from "@/constants";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @param {MobileNavProps} param0
+ * @param {MobileNavProps} param0.user
+ * @returns {JSX.Element}
+ */
 const MobileNav = ({ user }: MobileNavProps): JSX.Element => {
   const pathname = usePathname();
   return (

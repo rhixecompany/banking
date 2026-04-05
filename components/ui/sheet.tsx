@@ -7,14 +7,44 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const Sheet = SheetPrimitive.Root;
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const SheetTrigger = SheetPrimitive.Trigger;
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const SheetClose = SheetPrimitive.Close;
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const SheetPortal = SheetPrimitive.Portal;
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const SheetOverlay = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof SheetPrimitive.Overlay>
@@ -30,6 +60,12 @@ const SheetOverlay = React.forwardRef<
 ));
 SheetOverlay.displayName = SheetPrimitive.Overlay.displayName;
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const sheetVariants = cva(
   "data-[state=open]:animate-in data-[state=closed]:animate-out fixed z-50 gap-4 bg-background p-6 shadow-lg transition ease-in-out data-[state=closed]:duration-300 data-[state=open]:duration-500",
   {
@@ -49,11 +85,26 @@ const sheetVariants = cva(
   },
 );
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @interface SheetContentProps
+ * @typedef {SheetContentProps}
+ * @augments {React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>}
+ * @augments {VariantProps<typeof sheetVariants>}
+ */
 interface SheetContentProps
   extends
     React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>,
     VariantProps<typeof sheetVariants> {}
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const SheetContent = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Content>,
   SheetContentProps
@@ -75,6 +126,15 @@ const SheetContent = React.forwardRef<
 ));
 SheetContent.displayName = SheetPrimitive.Content.displayName;
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @param {React.HTMLAttributes<HTMLDivElement>} param0
+ * @param {React.HTMLAttributes<HTMLDivElement>} param0.className
+ * @param {React.HTMLAttributes<HTMLDivElement>} param0....props
+ * @returns
+ */
 const SheetHeader = ({
   className,
   ...props
@@ -89,6 +149,15 @@ const SheetHeader = ({
 );
 SheetHeader.displayName = "SheetHeader";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @param {React.HTMLAttributes<HTMLDivElement>} param0
+ * @param {React.HTMLAttributes<HTMLDivElement>} param0.className
+ * @param {React.HTMLAttributes<HTMLDivElement>} param0....props
+ * @returns
+ */
 const SheetFooter = ({
   className,
   ...props
@@ -103,6 +172,12 @@ const SheetFooter = ({
 );
 SheetFooter.displayName = "SheetFooter";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const SheetTitle = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Title>,
   React.ComponentPropsWithoutRef<typeof SheetPrimitive.Title>
@@ -115,6 +190,12 @@ const SheetTitle = React.forwardRef<
 ));
 SheetTitle.displayName = SheetPrimitive.Title.displayName;
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const SheetDescription = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Description>,
   React.ComponentPropsWithoutRef<typeof SheetPrimitive.Description>

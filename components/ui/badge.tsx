@@ -3,6 +3,12 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const badgeVariants = cva(
   "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-none",
   {
@@ -23,11 +29,31 @@ const badgeVariants = cva(
   },
 );
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @export
+ * @interface BadgeProps
+ * @typedef {BadgeProps}
+ * @augments {React.HTMLAttributes<HTMLDivElement>}
+ * @augments {VariantProps<typeof badgeVariants>}
+ */
 export interface BadgeProps
   extends
     React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof badgeVariants> {}
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @param {BadgeProps} param0
+ * @param {*} param0.className
+ * @param {*} param0.variant
+ * @param {{}} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function Badge({ className, variant, ...props }: BadgeProps) {
   return (
     <div className={cn(badgeVariants({ variant }), className)} {...props} />

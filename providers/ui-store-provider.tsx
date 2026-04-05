@@ -17,12 +17,43 @@ import {
   type UIStore,
 } from "@/lib/stores/create-ui-store";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @typedef {UIStoreApi}
+ */
 type UIStoreApi = ReturnType<typeof createUIStore>;
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const UIStoreContext = createContext<UIStoreApi | undefined>(undefined);
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @interface UIStoreProviderProps
+ * @typedef {UIStoreProviderProps}
+ */
 interface UIStoreProviderProps {
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {ReactNode}
+   */
   children: ReactNode;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {?Partial<UIState>}
+   */
   initialState?: Partial<UIState>;
 }
 

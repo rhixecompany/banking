@@ -12,11 +12,39 @@ import MenuNavigation from "@/components/shadcn-studio/blocks/menu-navigation";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @interface HeaderProps
+ * @typedef {HeaderProps}
+ */
 interface HeaderProps {
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {NavigationSection[]}
+   */
   navigationData: NavigationSection[];
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {?string}
+   */
   className?: string;
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @param {HeaderProps} param0
+ * @param {string} param0.className
+ * @param {{}} param0.navigationData
+ * @returns {ReactJSX.Element}
+ */
 const Header = ({ className, navigationData }: HeaderProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
 

@@ -2,10 +2,26 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { z } from "zod";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @export
+ * @param {...ClassValue[]} inputs
+ * @returns {string}
+ */
 export function cn(...inputs: ClassValue[]): string {
   return twMerge(clsx(inputs));
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @export
+ * @param {number} amount
+ * @returns {string}
+ */
 export function formatAmount(amount: number): string {
   return new Intl.NumberFormat("en-US", {
     currency: "USD",
@@ -13,6 +29,14 @@ export function formatAmount(amount: number): string {
   }).format(amount);
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @export
+ * @param {string} dateStr
+ * @returns {string}
+ */
 export function formatDate(dateStr: string): string {
   return new Date(dateStr).toLocaleDateString("en-US", {
     day: "numeric",
@@ -21,6 +45,12 @@ export function formatDate(dateStr: string): string {
   });
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 export const signInSchema = z.object({
   email: z
     .string()
@@ -34,6 +64,12 @@ export const signInSchema = z.object({
     .meta({ description: "User password" }),
 });
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 export const signUpSchema = z
   .object({
     address1: z.string().trim().optional().meta({ description: "Address" }),
@@ -84,6 +120,14 @@ export const signUpSchema = z
     },
   );
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @export
+ * @param {("sign-in" | "sign-up")} type
+ * @returns {(typeof signInSchema | typeof signUpSchema)}
+ */
 export function getAuthFormSchema(
   type: "sign-in" | "sign-up",
 ): typeof signInSchema | typeof signUpSchema {

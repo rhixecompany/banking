@@ -11,6 +11,22 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @export
+ * @param {({
+ *   items: {
+ *     title: string;
+ *     url: string;
+ *     icon: LucideIcon;
+ *   }[];
+ * } & React.ComponentPropsWithoutRef<typeof SidebarGroup>)} param0
+ * @param {*} param0.items
+ * @param {*} param0....props
+ * @returns {JSX.Element}
+ */
 export function NavSecondary({
   items,
   ...props

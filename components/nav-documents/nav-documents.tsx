@@ -22,6 +22,21 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @export
+ * @param {{
+ *   items: {
+ *     name: string;
+ *     url: string;
+ *     icon: LucideIcon;
+ *   }[];
+ * }} param0
+ * @param {{}} param0.items
+ * @returns {JSX.Element}
+ */
 export function NavDocuments({
   items,
 }: {

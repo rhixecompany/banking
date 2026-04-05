@@ -9,6 +9,12 @@ import { Card } from "@/components/ui/card";
 
 import { earningData, statisticsCardData, transactionData } from "./admin-data";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @returns {React.JSX.Element}
+ */
 const AdminDashboardContent = (): React.JSX.Element => {
   return (
     <main className="mx-auto size-full max-w-7xl flex-1 px-4 py-6 sm:px-6">

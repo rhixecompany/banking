@@ -5,6 +5,15 @@ import type { CreditCardProps } from "@/types";
 
 import { formatAmount } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @param {CreditCardProps} param0
+ * @param {CreditCardProps} param0.account
+ * @param {CreditCardProps} param0.userName
+ * @returns {JSX.Element}
+ */
 const BankCard = ({ account, userName }: CreditCardProps): JSX.Element => {
   return (
     <div className="flex flex-col">

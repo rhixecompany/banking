@@ -22,6 +22,247 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SEED_USER_EMAIL = "seed-user@example.com";
 
 /**
+ * Base URL for the dev server
+ */
+const BASE_URL = process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3000";
+
+/**
+ * Timeout configurations
+ */
+const TIMEOUTS = {
+  DATABASE_CONNECTION: 10_000,
+  WARMUP_REQUEST: 120_000,
+  SEED_CHECK_RETRIES: 3,
+  SEED_CHECK_DELAY: 2000,
+} as const;
+
+/**
+ * Print a section header for better log readability
+ *
+ * @param {string} title
+ * @returns {void}
+ */
+function printSection(title: string): void {
+  console.info("");
+  console.info("═══════════════════════════════════════════════════");
+  console.info(`  ${title}`);
+  console.info("═══════════════════════════════════════════════════");
+}
+
+/**
+ * Print a step progress indicator
+ *
+ * @param {number} step
+ * @param {number} total
+ * @param {string} description
+ * @returns {void}
+ */
+function printStep(step: number, total: number, description: string): void {
+  console.info(`  [${step}/${total}] ${description}`);
+}
+
+/**
+ * Measure and log execution time
+ *
+ * @param {() => Promise<void>} fn
+ * @param {string} label
+ * @returns {Promise<void>}
+ */
+async function measureTime<T>(fn: () => Promise<T>, label: string): Promise<T> {
+  const start = Date.now();
+  const result = await fn();
+  const elapsed = Date.now() - start;
+  console.info(`    ✓ ${label} (${elapsed}ms)`);
+  return result;
+}
+
+/**
+ * Retry a function multiple times with delay
+ *
+ * @param {() => Promise<T>} fn
+ * @param {number} retries
+ * @param {number} delay
+ * @param {string} label
+ * @returns {Promise<T>}
+ */
+async function retry<T>(
+  fn: () => Promise<T>,
+  retries: number,
+  delay: number,
+  label: string,
+): Promise<T> {
+  let lastError: unknown;
+
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    try {
+      return await fn();
+    } catch (error) {
+      lastError = error;
+      console.info(`    Attempt ${attempt}/${retries} failed for ${label}`);
+      if (attempt < retries) {
+        await new Promise((resolve) => setTimeout(resolve, delay));
+      }
+    }
+  }
+
+  throw lastError;
+}
+
+/**
+ * Warm up the dev server by making a request to trigger compilation
+ * This avoids the 20+ second cold start on first request during tests
+ *
+ * @async
+ * @returns {Promise<boolean>} True if warm-up succeeded, false otherwise
+ */
+async function warmUpDevServer(): Promise<boolean> {
+  console.info("    Attempting to warm up dev server...");
+
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(
+      () => controller.abort(),
+      TIMEOUTS.WARMUP_REQUEST,
+    );
+
+    const response = await fetch(BASE_URL, {
+      method: "GET",
+      signal: controller.signal,
+    });
+
+    clearTimeout(timeoutId);
+
+    if (
+      response.ok ||
+      response.status === 404 ||
+      response.status === 301 ||
+      response.status === 302
+    ) {
+      console.info("    ✓ Dev server warm-up complete");
+      return true;
+    }
+
+    console.warn(`    ⚠ Dev server responded with status: ${response.status}`);
+    return false;
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Unknown error";
+
+    if (message.includes("abort")) {
+      console.warn(
+        "    ⚠ Dev server warm-up timed out (this is OK - server may still be starting)",
+      );
+    } else {
+      console.warn(`    ⚠ Dev server warm-up failed: ${message}`);
+    }
+
+    return false;
+  }
+}
+
+/**
+ * Load environment variables with error handling
+ *
+ * @param {string} root
+ * @returns {void}
+ */
+function loadEnvironmentVariables(root: string): void {
+  const envFiles = [
+    { name: ".env", path: path.join(root, ".env") },
+    { name: ".env.local", path: path.join(root, ".env.local") },
+    { name: ".env.test", path: path.join(root, ".env.test") },
+  ];
+
+  for (const envFile of envFiles) {
+    try {
+      loadEnv({ path: envFile.path });
+      console.info(`    ✓ ${envFile.name} loaded`);
+    } catch {
+      console.info(`    - ${envFile.name} not found (this is OK)`);
+    }
+  }
+}
+
+/**
+ * Validate database URL is configured
+ *
+ * @returns {string}
+ */
+function validateDatabaseUrl(): string {
+  const databaseUrl = getDatabaseUrl();
+
+  if (!databaseUrl) {
+    throw new Error(
+      "DATABASE_URL is not set. E2E tests require a database connection.\n" +
+        "Please set DATABASE_URL in .env.local or as an environment variable.\n" +
+        "See tests/e2e/README.md for setup instructions.",
+    );
+  }
+
+  return databaseUrl;
+}
+
+/**
+ * Check database connectivity with timeout and retries
+ *
+ * @param {string} databaseUrl
+ * @returns {Promise<boolean>}
+ */
+async function checkDatabaseConnection(databaseUrl: string): Promise<boolean> {
+  console.info("    Checking database connectivity (with timeout)...");
+
+  return await retry(
+    async () => {
+      return await isDatabaseReachable(databaseUrl);
+    },
+    TIMEOUTS.SEED_CHECK_RETRIES,
+    TIMEOUTS.SEED_CHECK_DELAY,
+    "database connection",
+  );
+}
+
+/**
+ * Check if database is seeded, seed if not
+ *
+ * @param {string} databaseUrl
+ * @returns {Promise<void>}
+ */
+async function ensureSeededData(databaseUrl: string): Promise<void> {
+  console.info("    Checking if database is seeded...");
+
+  const isSeeded = await retry(
+    async () => {
+      return await isDatabaseSeeded(databaseUrl, SEED_USER_EMAIL);
+    },
+    TIMEOUTS.SEED_CHECK_RETRIES,
+    TIMEOUTS.SEED_CHECK_DELAY,
+    "seed data check",
+  );
+
+  if (isSeeded) {
+    console.info("    ✓ Database already seeded with test data");
+    return;
+  }
+
+  console.info("    ⚠ Database not seeded, running db:push && db:seed...");
+
+  try {
+    execSync("npm run db:push", { env: process.env, stdio: "inherit" });
+    execSync("npm run db:seed -- --reset", {
+      env: process.env,
+      stdio: "inherit",
+    });
+    console.info("    ✓ Database schema pushed and seeded successfully");
+  } catch (error) {
+    throw new Error(
+      "Database setup failed (db:push / db:seed).\n" +
+        "Authenticated tests will fail until the database is properly seeded.\n" +
+        "See tests/e2e/README.md for troubleshooting.",
+      { cause: error },
+    );
+  }
+}
+
+/**
  * Ensures schema + seed data exist before E2E tests run.
  * Enable with PLAYWRIGHT_PREPARE_DB=true (set by npm script test:ui).
  *
@@ -32,72 +273,59 @@ const SEED_USER_EMAIL = "seed-user@example.com";
  * @returns {Promise<void>}
  */
 export default async function globalSetup(): Promise<void> {
+  printSection("PLAYWRIGHT E2E GLOBAL SETUP");
+
+  // Skip if not enabled
   if (process.env.PLAYWRIGHT_PREPARE_DB !== "true") {
+    console.info("  SKIP: PLAYWRIGHT_PREPARE_DB is not set to 'true'");
+    console.info(
+      "  Run tests with: PLAYWRIGHT_PREPARE_DB=true npx playwright test",
+    );
+    printSection("SETUP COMPLETE (SKIPPED)");
     return;
   }
 
+  // Step 1: Load environment variables
+  printStep(1, 5, "Loading environment variables");
   const root = path.resolve(__dirname, "../..");
-  loadEnv({ path: path.join(root, ".env") });
-  loadEnv({ path: path.join(root, ".env.local") });
+  await measureTime(async () => {
+    loadEnvironmentVariables(root);
+  }, "Environment variables loaded");
 
-  const databaseUrl = getDatabaseUrl();
+  // Step 2: Validate database URL
+  printStep(2, 5, "Validating database configuration");
+  const databaseUrl = await measureTime(async () => {
+    return validateDatabaseUrl();
+  }, "Database URL validated");
 
-  if (!databaseUrl) {
-    console.error(
-      "[playwright] DATABASE_URL is not set. E2E tests require a database connection.\n" +
-        "Please set DATABASE_URL in .env.local or as an environment variable.\n" +
-        "See tests/e2e/README.md for setup instructions.",
-    );
+  // Step 3: Check database connectivity
+  printStep(3, 5, "Checking database connectivity");
+  const isConnected = await measureTime(async () => {
+    return await checkDatabaseConnection(databaseUrl);
+  }, "Database connection verified");
+
+  if (!isConnected) {
     throw new Error(
-      "DATABASE_URL environment variable is required for E2E tests",
-    );
-  }
-
-  console.info("[playwright] Checking database connectivity...");
-
-  // Check if database is reachable
-  const reachable = await isDatabaseReachable(databaseUrl);
-  if (!reachable) {
-    console.error(
-      `[playwright] Cannot connect to database at ${databaseUrl}.\n` +
+      `Cannot connect to database at ${databaseUrl}.\n` +
         "Please ensure:\n" +
         "  1. PostgreSQL server is running\n" +
         "  2. The connection URL is correct\n" +
         "  3. Network/firewall allows connection\n" +
         "See tests/e2e/README.md for setup instructions.",
     );
-    throw new Error(
-      `Database connection failed: ${databaseUrl}. E2E tests require a reachable database.`,
-    );
   }
 
-  console.info("[playwright] Database is reachable. Checking seed data...");
+  // Step 4: Ensure seeded data
+  printStep(4, 5, "Ensuring seed data");
+  await measureTime(async () => {
+    await ensureSeededData(databaseUrl);
+  }, "Seed data ready");
 
-  // Check if already seeded
-  const seeded = await isDatabaseSeeded(databaseUrl, SEED_USER_EMAIL);
-  if (seeded) {
-    console.info("[playwright] Database already seeded with test data.");
-    return;
-  }
+  // Step 5: Warm up dev server
+  printStep(5, 5, "Warming up dev server");
+  await measureTime(async () => {
+    await warmUpDevServer();
+  }, "Dev server warm-up attempted");
 
-  console.info("[playwright] Running db:push && db:seed --reset ...");
-
-  try {
-    execSync("npm run db:push", { env: process.env, stdio: "inherit" });
-    execSync("npm run db:seed -- --reset", {
-      env: process.env,
-      stdio: "inherit",
-    });
-    console.info(
-      "[playwright] Database schema pushed and seeded successfully.",
-    );
-  } catch (error) {
-    console.error(
-      "[playwright] Database setup failed (db:push / db:seed).\n" +
-        "Authenticated tests will fail until the database is properly seeded.\n" +
-        "See tests/e2e/README.md for troubleshooting.",
-      error,
-    );
-    throw error;
-  }
+  printSection("SETUP COMPLETE - READY TO RUN TESTS");
 }

@@ -2,6 +2,12 @@ import type { Metadata } from "next";
 
 import { MyBanksServerWrapper } from "@/components/my-banks/my-banks-server-wrapper";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {Metadata}
+ */
 export const metadata: Metadata = {
   description: "View and manage your linked bank accounts.",
   title: "My Banks | Horizon Banking",

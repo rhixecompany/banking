@@ -25,11 +25,47 @@ import {
 
 /** Props for DashboardClientWrapper. */
 interface DashboardClientWrapperProps {
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {Account[]}
+   */
   accounts: Account[];
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {Bank[]}
+   */
   banks: Bank[];
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {Transaction[]}
+   */
   transactions: Transaction[];
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {string}
+   */
   userId: string;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {string}
+   */
   userName: string;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {boolean}
+   */
   showOnboarding: boolean;
 }
 

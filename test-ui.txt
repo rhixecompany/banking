@@ -1,390 +1,2832 @@
-
-> banking@0.1.0 test:ui
-> cross-env PLAYWRIGHT_PREPARE_DB=true playwright test --project=chromium --retries=0 --workers=1
-
-[1A[2K[2m[WebServer] [22m
-
-[1A[2K[2m[WebServer] [22m[2m[934.65ms][22m [@tailwindcss/postcss] app\globals.css
-[2m[WebServer] [22m[2m[  0.15ms][22m  [2m ↳ [22mQuick bail check
-[2m[WebServer] [22m[2m[124.85ms][22m  [2m ↳ [22mSetup compiler
-[2m[WebServer] [22m[2m[  1.23ms][22m    [2m ↳ [22mPostCSS AST -> Tailwind CSS AST
-[2m[WebServer] [22m[2m[123.54ms][22m    [2m ↳ [22mCreate compiler
-[2m[WebServer] [22m[2m[  0.22ms][22m  [2m ↳ [22mRegister full rebuild paths
-[2m[WebServer] [22m[2m[ 11.19ms][22m  [2m ↳ [22mSetup scanner
-[2m[WebServer] [22m[2m[358.14ms][22m  [2m ↳ [22mScan for candidates
-[2m[WebServer] [22m[2m[136.43ms][22m  [2m ↳ [22mRegister dependency messages
-[2m[WebServer] [22m[2m[269.47ms][22m  [2m ↳ [22mBuild utilities
-[2m[WebServer] [22m[2m[ 22.61ms][22m  [2m ↳ [22mTransform Tailwind CSS AST into PostCSS AST
-[2m[WebServer] [22m[2m[ 10.49ms][22m  [2m ↳ [22mUpdate PostCSS AST
 [2m[WebServer] [22m
+[2m[WebServer] [22m> banking@0.1.0 predev
+[2m[WebServer] [22m> npm run clean
+[2m[WebServer] [22m
+[2m[WebServer] [22m
+[2m[WebServer] [22m> banking@0.1.0 clean
+[2m[WebServer] [22m> rimraf .next out dist build .turbo coverage .react-email playwright-report test-results nul
+[2m[WebServer] [22m
+[2m[WebServer] [22m
+[2m[WebServer] [22m> banking@0.1.0 dev
+[2m[WebServer] [22m> cross-env NODE_OPTIONS='--max-old-space-size=4096' next dev
+[2m[WebServer] [22m
+[2m[WebServer] [22m[1m[38;2;173;127;168mΓû▓ Next.js 16.2.2[39m[22m (Turbopack)
+[2m[WebServer] [22m- Local:         http://localhost:3000
+[2m[WebServer] [22m- Network:       http://192.168.100.2:3000
+[2m[WebServer] [22m- Environments: .env.local
+[2m[WebServer] [22m[32m[1mΓ£ô[22m[39m Ready in 1341ms
+[2m[WebServer] [22mCreating turbopack project { dir: [32m'C:\\Users\\Alexa\\Desktop\\SandBox\\Banking'[39m, testMode: [33mtrue[39m }
+[2m[WebServer] [22m- Cache Components enabled
+[2m[WebServer] [22m- Experiments (use with caution):
+[2m[WebServer] [22m  ┬╖ optimizePackageImports
+[2m[WebServer] [22m  ┬╖ serverActions
+[2m[WebServer] [22m  ┬╖ staleTimes
+[2m[WebServer] [22m  [1mΓ£ô[22m typedEnv
+[2m[WebServer] [22m
+[2m[WebServer] [22m[37m[1mΓùï[22m[39m Compiling / ...
+[WebServer] 
+[WebServer] [1079.21ms] [@tailwindcss/postcss] app\globals.css
+[WebServer] [   0.24ms]   Γå│ Quick bail check
+[WebServer] [ 154.53ms]   Γå│ Setup compiler
+[WebServer] [   2.36ms]     Γå│ PostCSS AST -> Tailwind CSS AST
+[WebServer] [ 152.08ms]     Γå│ Create compiler
+[WebServer] [   0.34ms]   Γå│ Register full rebuild paths
+[WebServer] [  13.05ms]   Γå│ Setup scanner
+[WebServer] [ 364.06ms]   Γå│ Scan for candidates
+[WebServer] [ 136.45ms]   Γå│ Register dependency messages
+[WebServer] [ 358.56ms]   Γå│ Build utilities
+[WebServer] [  27.23ms]   Γå│ Transform Tailwind CSS AST into PostCSS AST
+[WebServer] [  23.48ms]   Γå│ Update PostCSS AST
+[WebServer] 
 
-◇ injecting env (0) from .env // tip: ⌘ custom filepath { path: '/custom/path/.env' }
-◇ injecting env (107) from .env.local // tip: ◈ encrypted .env [www.dotenvx.com]
-[playwright] Checking database connectivity...
-[playwright] Database is reachable. Checking seed data...
-[playwright] Database already seeded with test data.
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+  PLAYWRIGHT E2E GLOBAL SETUP
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+  SKIP: PLAYWRIGHT_PREPARE_DB is not set to 'true'
+  Run tests with: PLAYWRIGHT_PREPARE_DB=true npx playwright test
+
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+  SETUP COMPLETE (SKIPPED)
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+[2m[WebServer] [22m GET / [32m200[39m in 14.0s[2m (next.js: 12.8s, application-code: 1288ms)[22m
 
 Running 40 tests using 1 worker
 
-[1A[2K[1/40] [chromium] › tests\e2e\auth.spec.ts:9:5 › Authentication › Navigation Flow › should navigate from sign-in to sign-up and back
-[1A[2K[2m[WebServer] [22m[Upstash Redis] Unable to find environment variable: `UPSTASH_REDIS_REST_URL`
-
-[1A[2K[2m[WebServer] [22m[Upstash Redis] Unable to find environment variable: `UPSTASH_REDIS_REST_TOKEN`
-
-[1A[2K[2m[WebServer] [22m[Upstash Redis] The 'url' property is missing or undefined in your Redis config.
-
-[1A[2K[2m[WebServer] [22m[Upstash Redis] The 'token' property is missing or undefined in your Redis config.
-
-[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
-
-[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
-
-[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
-
-[1A[2K[2/40] [chromium] › tests\e2e\auth.spec.ts:24:5 › Authentication › Sign-In Page › should show sign-in form
-[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
-
-[1A[2K[3/40] [chromium] › tests\e2e\auth.spec.ts:30:5 › Authentication › Sign-In Page › should show sign-up link
-[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
-
-[1A[2K[4/40] [chromium] › tests\e2e\auth.spec.ts:37:5 › Authentication › Sign-In Page › should navigate to sign-up page
-[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
-
-[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
-
-[1A[2K[5/40] [chromium] › tests\e2e\auth.spec.ts:43:5 › Authentication › Sign-In Page › should show validation error for invalid email
-[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
-
-[1A[2K[6/40] [chromium] › tests\e2e\auth.spec.ts:53:5 › Authentication › Sign-In Page › should show error toast for non-existent email
-[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
-
-[1A[2K[7/40] [chromium] › tests\e2e\auth.spec.ts:67:5 › Authentication › Sign-Up Page › should show sign-up form
-[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
-
-[1A[2K[8/40] [chromium] › tests\e2e\auth.spec.ts:74:5 › Authentication › Sign-Up Page › should show sign-in link
-[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
-
-[1A[2K[9/40] [chromium] › tests\e2e\auth.spec.ts:81:5 › Authentication › Sign-Up Page › should navigate to sign-in page
-[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
-
-[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
-
-[1A[2K[10/40] [chromium] › tests\e2e\auth.spec.ts:87:5 › Authentication › Sign-Up Page › should show validation error for short password
-[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
-
-[1A[2K[11/40] [chromium] › tests\e2e\auth.spec.ts:107:5 › Authentication › Sign-Up Page › should show validation error for password mismatch
-[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
-
-[1A[2K[12/40] [chromium] › tests\e2e\auth.spec.ts:122:5 › Authentication › Sign-Up Page › should show validation error for short name
-[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
-
-[1A[2K[13/40] [chromium] › tests\e2e\bank-linking.spec.ts:9:5 › Bank Linking › Unauthenticated Access › should redirect to sign-in when accessing my-banks
-[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
-
-[1A[2K[14/40] [chromium] › tests\e2e\bank-linking.spec.ts:22:5 › Bank Linking › Sign-in validation › should show sign-in form
-[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
-
-[1A[2K[15/40] [chromium] › tests\e2e\bank-linking.spec.ts:27:5 › Bank Linking › Sign-in validation › should show error toast for invalid credentials
-[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
-
-[1A[2K[16/40] [chromium] › tests\e2e\forms.spec.ts:8:3 › Navigation › should open mobile navigation sheet on dashboard
-[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
-
-[1A[2K[2m[WebServer] [22mThe width(-1) and height(-1) of chart should be greater than 0,
-[2m[WebServer] [22m       please check the style of container, or the props width(100%) and height(100%),
-[2m[WebServer] [22m       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
-[2m[WebServer] [22m       height and width.
-
-[1A[2K[2m[WebServer] [22mThe width(-1) and height(-1) of chart should be greater than 0,
-[2m[WebServer] [22m       please check the style of container, or the props width(100%) and height(100%),
-[2m[WebServer] [22m       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
-[2m[WebServer] [22m       height and width.
-
-[1A[2K  1) [chromium] › tests\e2e\forms.spec.ts:8:3 › Navigation › should open mobile navigation sheet on dashboard 
-
-    [31mTest timeout of 30000ms exceeded.[39m
-
-    Error: page.goto: Test timeout of 30000ms exceeded.
-    Call log:
-    [2m  - navigating to "http://localhost:3000/dashboard", waiting until "load"[22m
-
-
-      10 |   }) => {
-      11 |     await page.setViewportSize({ height: 812, width: 375 });
-    > 12 |     await page.goto("/dashboard");
-         |                ^
-      13 |     await page.getByAltText("menu", { exact: true }).click();
-      14 |     await expect
-      15 |       .soft(page.getByRole("dialog"))
-        at C:\Users\Alexa\Desktop\SandBox\Banking\tests\e2e\forms.spec.ts:12:16
-
-    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
-    test-results\forms-Navigation-should-op-09177-vigation-sheet-on-dashboard-chromium\test-failed-1.png
-    ────────────────────────────────────────────────────────────────────────────────────────────────
-
-    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
-    test-results\forms-Navigation-should-op-09177-vigation-sheet-on-dashboard-chromium\video.webm
-    ────────────────────────────────────────────────────────────────────────────────────────────────
-
-    Error Context: test-results\forms-Navigation-should-op-09177-vigation-sheet-on-dashboard-chromium\error-context.md
-
-
-[1A[2K[17/40] [chromium] › tests\e2e\forms.spec.ts:19:3 › Navigation › should navigate sign-in to sign-up via footer link
-[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
-
-[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
-
-[1A[2K[18/40] [chromium] › tests\e2e\forms.spec.ts:29:3 › Forms › should have working form inputs
-[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
-
-[1A[2K[19/40] [chromium] › tests\e2e\my-banks.spec.ts:9:5 › My Banks Page › Unauthenticated Access › should redirect unauthenticated users to sign-in
-[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
-
-[1A[2K[20/40] [chromium] › tests\e2e\my-banks.spec.ts:18:5 › My Banks Page › Authenticated › should show page title and description
-[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
-
-[1A[2K[2m[WebServer] [22m[36m[browser][39m [33mThe width(-1) and height(-1) of chart should be greater than 0,
-[2m[WebServer] [22m       please check the style of container, or the props width(100%) and height(100%),
-[2m[WebServer] [22m       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
-[2m[WebServer] [22m       height and width.[39m
-
-[1A[2K[2m[WebServer] [22m[36m[browser][39m [33mThe width(-1) and height(-1) of chart should be greater than 0,
-[2m[WebServer] [22m       please check the style of container, or the props width(100%) and height(100%),
-[2m[WebServer] [22m       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
-[2m[WebServer] [22m       height and width.[39m
-
-[1A[2K[2m[WebServer] [22m[36m[browser][39m [33mThe width(-1) and height(-1) of chart should be greater than 0,
-[2m[WebServer] [22m       please check the style of container, or the props width(100%) and height(100%),
-[2m[WebServer] [22m       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
-[2m[WebServer] [22m       height and width.[39m
-
-[1A[2K[2m[WebServer] [22m[36m[browser][39m [33mThe width(-1) and height(-1) of chart should be greater than 0,
-[2m[WebServer] [22m       please check the style of container, or the props width(100%) and height(100%),
-[2m[WebServer] [22m       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
-[2m[WebServer] [22m       height and width.[39m
-
-[1A[2K[21/40] [chromium] › tests\e2e\my-banks.spec.ts:30:5 › My Banks Page › Authenticated › should show total balance card
-[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
-
-[1A[2K[22/40] [chromium] › tests\e2e\my-banks.spec.ts:37:5 › My Banks Page › Authenticated › should list seeded bank accounts
-[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
-
-[1A[2K[2m[WebServer] [22m
-
-[1A[2K[2m[WebServer] [22m[2m[2013.52ms][22m [@tailwindcss/postcss] app\globals.css
-
-[1A[2K[2m[WebServer] [22m[2m[   0.05ms][22m  [2m ↳ [22mQuick bail check
-
-[1A[2K[2m[WebServer] [22m[2m[   7.90ms][22m  [2m ↳ [22mRegister full rebuild paths
-
-[1A[2K[2m[WebServer] [22m[2m[1350.16ms][22m  [2m ↳ [22mScan for candidates
-
-[1A[2K[2m[WebServer] [22m[2m[  60.05ms][22m  [2m ↳ [22mRegister dependency messages
-[2m[WebServer] [22m[2m[ 240.81ms][22m  [2m ↳ [22mBuild utilities
-[2m[WebServer] [22m[2m[ 295.30ms][22m  [2m ↳ [22mUpdate PostCSS AST
-[2m[WebServer] [22m
-
-[1A[2K[2m[WebServer] [22m[31m[1m⨯[22m[39m Failed to generate static paths for /api/auth/[...nextauth]:
-
-[1A[2K[2m[WebServer] [22mError: Jest worker encountered 2 child process exceptions, exceeding retry limit
-[2m[WebServer] [22m    at [3mignore-listed frames[23m {
-[2m[WebServer] [22m  type: [32m'WorkerError'[39m
-[2m[WebServer] [22m}
-
-[1A[2K[2m[WebServer] [22m[31m[1m⨯[22m[39m Error: Jest worker encountered 2 child process exceptions, exceeding retry limit
-[2m[WebServer] [22m    at [3mignore-listed frames[23m {
-[2m[WebServer] [22m  type: [32m'WorkerError'[39m,
-[2m[WebServer] [22m  page: [32m'/api/auth/providers'[39m
-[2m[WebServer] [22m}
-
-[1A[2K[2m[WebServer] [22m[Upstash Redis] Redis client was initialized without url or token. Failed to execute command.
-
-[1A[2K[2m[WebServer] [22m[31m[1m⨯[22m[39m Error: Jest worker encountered 2 child process exceptions, exceeding retry limit
-[2m[WebServer] [22m    at [3mignore-listed frames[23m {
-[2m[WebServer] [22m  type: [32m'WorkerError'[39m,
-[2m[WebServer] [22m  page: [32m'/api/auth/error'[39m
-[2m[WebServer] [22m}
-
-[1A[2K[2m[WebServer] [22m[31m[1m⨯[22m[39m Error: Jest worker encountered 2 child process exceptions, exceeding retry limit
-[2m[WebServer] [22m    at [3mignore-listed frames[23m {
-[2m[WebServer] [22m  type: [32m'WorkerError'[39m,
-[2m[WebServer] [22m  page: [32m'/api/auth/error'[39m
-[2m[WebServer] [22m}
-
-[1A[2K[2m[WebServer] [22m[36m[browser][39m [next-auth][error][CLIENT_FETCH_ERROR] 
-[2m[WebServer] [22mhttps://next-auth.js.org/errors#client_fetch_error Unexpected token '<', "<!DOCTYPE "... is not valid JSON {
-[2m[WebServer] [22m  error: {
-[2m[WebServer] [22m    message: [32m`Unexpected token '<', "<!DOCTYPE "... is not valid JSON`[39m,
-[2m[WebServer] [22m    name: [32m'SyntaxError'[39m,
-[2m[WebServer] [22m    stack: [32m`SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON`[39m
-[2m[WebServer] [22m  },
-[2m[WebServer] [22m  message: [32m`Unexpected token '<', "<!DOCTYPE "... is not valid JSON`[39m,
-[2m[WebServer] [22m  url: [32m'/api/auth/providers'[39m
-[2m[WebServer] [22m} 
-[2m[WebServer] [22m[31m    at new Promise (<anonymous>)[39m [2m(<anonymous>)[22m
-
-[1A[2K[2m[WebServer] [22m[36m[browser][39m [31mUncaught Error: Jest worker encountered 2 child process exceptions, exceeding retry limit[39m
-
-[1A[2K  2) [chromium] › tests\e2e\my-banks.spec.ts:37:5 › My Banks Page › Authenticated › should list seeded bank accounts 
-
-    [31mTest timeout of 30000ms exceeded while setting up "authenticatedPage".[39m
-
-    TimeoutError: page.waitForURL: Timeout 25000ms exceeded.
-    =========================== logs ===========================
-    waiting for navigation until "load"
-      navigated to "http://localhost:3000/api/auth/error"
-      navigated to "http://localhost:3000/api/auth/error"
-    ============================================================
-
-       at helpers\auth.ts:20
-
-      18 |   await page.getByLabel("Password").fill(SEED_USER.password);
-      19 |   await page.getByRole("button", { name: /sign in/i }).click();
-    > 20 |   await page.waitForURL(/\/dashboard/, { timeout: 25_000 });
-         |              ^
-      21 | }
-      22 |
-        at signInWithSeedUser (C:\Users\Alexa\Desktop\SandBox\Banking\tests\e2e\helpers\auth.ts:20:14)
-        at Object.authenticatedPage (C:\Users\Alexa\Desktop\SandBox\Banking\tests\fixtures\auth.ts:40:5)
-
-    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
-    test-results\my-banks-My-Banks-Page-Aut-98f56-d-list-seeded-bank-accounts-chromium\test-failed-1.png
-    ────────────────────────────────────────────────────────────────────────────────────────────────
-
-    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
-    test-results\my-banks-My-Banks-Page-Aut-98f56-d-list-seeded-bank-accounts-chromium\video.webm
-    ────────────────────────────────────────────────────────────────────────────────────────────────
-
-    Error Context: test-results\my-banks-My-Banks-Page-Aut-98f56-d-list-seeded-bank-accounts-chromium\error-context.md
-
-
-[1A[2K[23/40] [chromium] › tests\e2e\pages.spec.ts:9:5 › Pages › Home Page › should redirect to sign-in when not authenticated
-[1A[2K  3) [chromium] › tests\e2e\pages.spec.ts:9:5 › Pages › Home Page › should redirect to sign-in when not authenticated 
-
-    Error: worker process exited unexpectedly (code=3221225794, signal=null)
-
-
-[1A[2K[24/40] [chromium] › tests\e2e\pages.spec.ts:16:5 › Pages › Home Page › should redirect authenticated users from home to dashboard
-[1A[2K  4) [chromium] › tests\e2e\pages.spec.ts:16:5 › Pages › Home Page › should redirect authenticated users from home to dashboard 
-
-    Error: worker process exited unexpectedly (code=3221225794, signal=null)
-
-
-[1A[2K[25/40] [chromium] › tests\e2e\pages.spec.ts:25:5 › Pages › My Banks Page › should redirect to sign-in when not authenticated
-[1A[2K  5) [chromium] › tests\e2e\pages.spec.ts:25:5 › Pages › My Banks Page › should redirect to sign-in when not authenticated 
-
-    Error: worker process exited unexpectedly (code=3221225794, signal=null)
-
-
-[1A[2K[26/40] [chromium] › tests\e2e\pages.spec.ts:34:5 › Pages › Transaction History Page › should redirect to sign-in when not authenticated
-[1A[2K  6) [chromium] › tests\e2e\pages.spec.ts:34:5 › Pages › Transaction History Page › should redirect to sign-in when not authenticated 
-
-    Error: worker process exited unexpectedly (code=3221225794, signal=null)
-
-
-[1A[2K[27/40] [chromium] › tests\e2e\pages.spec.ts:43:5 › Pages › Payment Transfer Page › should redirect to sign-in when not authenticated
-[1A[2K  7) [chromium] › tests\e2e\pages.spec.ts:43:5 › Pages › Payment Transfer Page › should redirect to sign-in when not authenticated 
-
-    Error: worker process exited unexpectedly (code=3221225794, signal=null)
-
-
-[1A[2K[28/40] [chromium] › tests\e2e\pages.spec.ts:52:5 › Pages › Sign In Page › should display sign-in form
-[1A[2K  8) [chromium] › tests\e2e\pages.spec.ts:52:5 › Pages › Sign In Page › should display sign-in form 
-
-    Error: worker process exited unexpectedly (code=3221225794, signal=null)
-
-
-[1A[2K[29/40] [chromium] › tests\e2e\pages.spec.ts:61:5 › Pages › Sign In Page › should have link to sign-up page
-[1A[2K  9) [chromium] › tests\e2e\pages.spec.ts:61:5 › Pages › Sign In Page › should have link to sign-up page 
-
-    Error: worker process exited unexpectedly (code=3221225794, signal=null)
-
-
-[1A[2K[30/40] [chromium] › tests\e2e\pages.spec.ts:67:5 › Pages › Sign In Page › should show validation error for invalid email
-[1A[2K  10) [chromium] › tests\e2e\pages.spec.ts:67:5 › Pages › Sign In Page › should show validation error for invalid email 
-
-    Error: worker process exited unexpectedly (code=3221225794, signal=null)
-
-
-[1A[2K[31/40] [chromium] › tests\e2e\pages.spec.ts:79:5 › Pages › Sign Up Page › should display sign-up form
-[1A[2K  11) [chromium] › tests\e2e\pages.spec.ts:79:5 › Pages › Sign Up Page › should display sign-up form 
-
-    Error: worker process exited unexpectedly (code=3221225794, signal=null)
-
-
-[1A[2K[32/40] [chromium] › tests\e2e\pages.spec.ts:89:5 › Pages › Sign Up Page › should have link to sign-in page
-[1A[2K  12) [chromium] › tests\e2e\pages.spec.ts:89:5 › Pages › Sign Up Page › should have link to sign-in page 
-
-    Error: worker process exited unexpectedly (code=3221225794, signal=null)
-
-
-[1A[2K[33/40] [chromium] › tests\e2e\pages.spec.ts:95:5 › Pages › Sign Up Page › should show validation error for short password
-[1A[2K  13) [chromium] › tests\e2e\pages.spec.ts:95:5 › Pages › Sign Up Page › should show validation error for short password 
-
-    Error: worker process exited unexpectedly (code=3221225794, signal=null)
-
-
-[1A[2K[34/40] [chromium] › tests\e2e\payment-transfer.spec.ts:9:5 › Payment Transfer › Unauthenticated Access › should redirect unauthenticated users to sign-in
-[1A[2K  14) [chromium] › tests\e2e\payment-transfer.spec.ts:9:5 › Payment Transfer › Unauthenticated Access › should redirect unauthenticated users to sign-in 
-
-    Error: worker process exited unexpectedly (code=3221225794, signal=null)
-
-
-[1A[2K[35/40] [chromium] › tests\e2e\payment-transfer.spec.ts:18:5 › Payment Transfer › Authenticated Access › should render payment transfer content
-[1A[2K  15) [chromium] › tests\e2e\payment-transfer.spec.ts:18:5 › Payment Transfer › Authenticated Access › should render payment transfer content 
-
-    Error: worker process exited unexpectedly (code=3221225794, signal=null)
-
-
-[1A[2K[36/40] [chromium] › tests\e2e\protected-pages.spec.ts:9:5 › Protected Pages › Unauthenticated Access › should redirect to sign-in when accessing dashboard
-[1A[2K  16) [chromium] › tests\e2e\protected-pages.spec.ts:9:5 › Protected Pages › Unauthenticated Access › should redirect to sign-in when accessing dashboard 
-
-    Error: worker process exited unexpectedly (code=3221225794, signal=null)
-
-
-[1A[2K[37/40] [chromium] › tests\e2e\protected-pages.spec.ts:16:5 › Protected Pages › Unauthenticated Access › should redirect to sign-in when accessing my-banks
-[1A[2K  17) [chromium] › tests\e2e\protected-pages.spec.ts:16:5 › Protected Pages › Unauthenticated Access › should redirect to sign-in when accessing my-banks 
-
-    Error: worker process exited unexpectedly (code=3221225794, signal=null)
-
-
-[1A[2K[38/40] [chromium] › tests\e2e\protected-pages.spec.ts:23:5 › Protected Pages › Unauthenticated Access › should redirect to sign-in when accessing transaction-history
-[1A[2K  18) [chromium] › tests\e2e\protected-pages.spec.ts:23:5 › Protected Pages › Unauthenticated Access › should redirect to sign-in when accessing transaction-history 
-
-    Error: worker process exited unexpectedly (code=3221225794, signal=null)
-
-
-[1A[2K[39/40] [chromium] › tests\e2e\protected-pages.spec.ts:30:5 › Protected Pages › Unauthenticated Access › should redirect to sign-in when accessing payment-transfer
-[1A[2K  19) [chromium] › tests\e2e\protected-pages.spec.ts:30:5 › Protected Pages › Unauthenticated Access › should redirect to sign-in when accessing payment-transfer 
-
-    Error: worker process exited unexpectedly (code=3221225794, signal=null)
-
-
-[1A[2K[40/40] [chromium] › tests\e2e\protected-pages.spec.ts:37:5 › Protected Pages › Unauthenticated Access › should redirect to sign-in when accessing settings
-[1A[2K  20) [chromium] › tests\e2e\protected-pages.spec.ts:37:5 › Protected Pages › Unauthenticated Access › should redirect to sign-in when accessing settings 
-
-    Error: worker process exited unexpectedly (code=3221225794, signal=null)
-
-
-[1A[2K  20 failed
-    [chromium] › tests\e2e\forms.spec.ts:8:3 › Navigation › should open mobile navigation sheet on dashboard 
-    [chromium] › tests\e2e\my-banks.spec.ts:37:5 › My Banks Page › Authenticated › should list seeded bank accounts 
-    [chromium] › tests\e2e\pages.spec.ts:9:5 › Pages › Home Page › should redirect to sign-in when not authenticated 
-    [chromium] › tests\e2e\pages.spec.ts:16:5 › Pages › Home Page › should redirect authenticated users from home to dashboard 
-    [chromium] › tests\e2e\pages.spec.ts:25:5 › Pages › My Banks Page › should redirect to sign-in when not authenticated 
-    [chromium] › tests\e2e\pages.spec.ts:34:5 › Pages › Transaction History Page › should redirect to sign-in when not authenticated 
-    [chromium] › tests\e2e\pages.spec.ts:43:5 › Pages › Payment Transfer Page › should redirect to sign-in when not authenticated 
-    [chromium] › tests\e2e\pages.spec.ts:52:5 › Pages › Sign In Page › should display sign-in form ─
-    [chromium] › tests\e2e\pages.spec.ts:61:5 › Pages › Sign In Page › should have link to sign-up page 
-    [chromium] › tests\e2e\pages.spec.ts:67:5 › Pages › Sign In Page › should show validation error for invalid email 
-    [chromium] › tests\e2e\pages.spec.ts:79:5 › Pages › Sign Up Page › should display sign-up form ─
-    [chromium] › tests\e2e\pages.spec.ts:89:5 › Pages › Sign Up Page › should have link to sign-in page 
-    [chromium] › tests\e2e\pages.spec.ts:95:5 › Pages › Sign Up Page › should show validation error for short password 
-    [chromium] › tests\e2e\payment-transfer.spec.ts:9:5 › Payment Transfer › Unauthenticated Access › should redirect unauthenticated users to sign-in 
-    [chromium] › tests\e2e\payment-transfer.spec.ts:18:5 › Payment Transfer › Authenticated Access › should render payment transfer content 
-    [chromium] › tests\e2e\protected-pages.spec.ts:9:5 › Protected Pages › Unauthenticated Access › should redirect to sign-in when accessing dashboard 
-    [chromium] › tests\e2e\protected-pages.spec.ts:16:5 › Protected Pages › Unauthenticated Access › should redirect to sign-in when accessing my-banks 
-    [chromium] › tests\e2e\protected-pages.spec.ts:23:5 › Protected Pages › Unauthenticated Access › should redirect to sign-in when accessing transaction-history 
-    [chromium] › tests\e2e\protected-pages.spec.ts:30:5 › Protected Pages › Unauthenticated Access › should redirect to sign-in when accessing payment-transfer 
-    [chromium] › tests\e2e\protected-pages.spec.ts:37:5 › Protected Pages › Unauthenticated Access › should redirect to sign-in when accessing settings 
-  20 passed (5.7m)
+[2m[WebServer] [22m[37m[1mΓùï[22m[39m Compiling /admin ...
+[2m[WebServer] [22m GET /admin [32m200[39m in 9.5s[2m (next.js: 8.6s, application-code: 853ms)[22m
+[2m[WebServer] [22m[37m[1mΓùï[22m[39m Compiling /api/auth/[...nextauth] ...
+[2m[WebServer] [22m GET /api/auth/session [32m200[39m in 9.2s
+[2m[WebServer] [22m GET /sign-in [32m200[39m in 9.6s[2m (next.js: 7.8s, proxy.ts: 578ms, application-code: 1191ms)[22m
+[2m[WebServer] [22m POST /api/auth/_log [32m200[39m in 311ms[2m (next.js: 164ms, application-code: 147ms)[22m
+[2m[WebServer] [22m GET /api/auth/session [32m200[39m in 89ms[2m (next.js: 64ms, application-code: 26ms)[22m
+  Γ£ô   1 [chromium] ΓÇ║ tests\e2e\admin.spec.ts:5:5 ΓÇ║ Admin Panel ΓÇ║ Unauthenticated Access ΓÇ║ should redirect to sign-in when accessing /admin without a session (21.9s)
+[2m[WebServer] [22m GET /sign-in [32m200[39m in 551ms[2m (next.js: 10ms, proxy.ts: 15ms, application-code: 526ms)[22m
+[2m[WebServer] [22m GET /api/auth/session [32m200[39m in 47ms[2m (next.js: 7ms, application-code: 40ms)[22m
+[2m[WebServer] [22m GET /api/auth/providers [32m200[39m in 60ms[2m (next.js: 17ms, application-code: 43ms)[22m
+[2m[WebServer] [22m GET /api/auth/csrf [32m200[39m in 40ms[2m (next.js: 14ms, application-code: 26ms)[22m
+[2m[WebServer] [22m POST /api/auth/callback/credentials [32m200[39m in 2.7s[2m (next.js: 7ms, application-code: 2.7s)[22m
+[2m[WebServer] [22m GET /api/auth/session [32m200[39m in 69ms[2m (next.js: 40ms, application-code: 29ms)[22m
+[2m[WebServer] [22m[37m[1mΓùï[22m[39m Compiling /dashboard ...
+[2m[WebServer] [22m GET /dashboard [32m200[39m in 901ms[2m (next.js: 49ms, proxy.ts: 49ms, application-code: 803ms)[22m
+[2m[WebServer] [22m GET /dashboard [32m200[39m in 11.0s[2m (next.js: 9.5s, proxy.ts: 35ms, application-code: 1405ms)[22m
+[2m[WebServer] [22m GET /admin [32m200[39m in 1089ms[2m (next.js: 10ms, application-code: 1079ms)[22m
+[2m[WebServer] [22m GET /api/auth/session [32m200[39m in 347ms[2m (next.js: 33ms, application-code: 315ms)[22m
+[WebServer] getAllAccounts: skipping bank 20000000-0000-4000-8000-000000000002: Error [AxiosError]: Request failed with status code 400
+[WebServer]     at async (lib\actions\plaid.actions.ts:465:28)
+[WebServer]     at async getAllAccounts (lib\actions\plaid.actions.ts:454:27)
+[WebServer]     at async DashboardServerWrapper (components\dashboard\dashboard-server-wrapper.tsx:40:51)
+[WebServer]   463 |           }
+[WebServer]   464 |
+[WebServer] > 465 |           const response = await plaidClient.accountsGet({
+[WebServer]       |                            ^
+[WebServer]   466 |             access_token: bank.accessToken,
+[WebServer]   467 |           });
+[WebServer]   468 |           return response.data.accounts.map((account) => ({ {
+[WebServer]   isAxiosError: true,
+[WebServer]   code: 'ERR_BAD_REQUEST',
+[WebServer]   config: {
+[WebServer]     transitional: {
+[WebServer]       silentJSONParsing: true,
+[WebServer]       forcedJSONParsing: true,
+[WebServer]       clarifyTimeoutError: false,
+[WebServer]       legacyInterceptorReqResOrdering: true
+[WebServer]     },
+[WebServer]     adapter: [ 'xhr', 'http', 'fetch' ],
+[WebServer]     transformRequest: [ [Function: transformRequest] ],
+[WebServer]     transformResponse: [ [Function: transformResponse] ],
+[WebServer]     timeout: 0,
+[WebServer]     xsrfCookieName: 'XSRF-TOKEN',
+[WebServer]     xsrfHeaderName: 'X-XSRF-TOKEN',
+[WebServer]     maxContentLength: -1,
+[WebServer]     maxBodyLength: -1,
+[WebServer]     env: { FormData: [Function], Blob: [class Blob] },
+[WebServer]     validateStatus: [Function: validateStatus],
+[WebServer]     headers: Object [AxiosHeaders] {
+[WebServer]       Accept: 'application/json, text/plain, */*',
+[WebServer]       'Content-Type': 'application/json',
+[WebServer]       'User-Agent': 'Plaid Node v41.4.0',
+[WebServer]       'Plaid-Version': '2020-09-14',
+[WebServer]       'PLAID-CLIENT-ID': '68839713794ed3001f58911a',
+[WebServer]       'PLAID-SECRET': '2a290a2bd612fcaf7cbb434f8cbd5c',
+[WebServer]       'Content-Length': '70',
+[WebServer]       'Accept-Encoding': 'gzip, compress, deflate, br'
+[WebServer]     },
+[WebServer]     method: 'post',
+[WebServer]     data: '{"access_token":"access-sandbox-83fd9200-0165-4ef8-afde-65744b9d1548"}',
+[WebServer]     url: 'https://sandbox.plaid.com/accounts/get',
+[WebServer]     allowAbsoluteUrls: true
+[WebServer]   },
+[WebServer]   request: <ref *1> ClientRequest {
+[WebServer]     _events: [Object: null prototype] {
+[WebServer]       abort: [Function (anonymous)],
+[WebServer]       aborted: [Function (anonymous)],
+[WebServer]       connect: [Function (anonymous)],
+[WebServer]       error: [Function (anonymous)],
+[WebServer]       socket: [Function (anonymous)],
+[WebServer]       timeout: [Function (anonymous)],
+[WebServer]       finish: [Function: requestOnFinish]
+[WebServer]     },
+[WebServer]     _eventsCount: 7,
+[WebServer]     _maxListeners: undefined,
+[WebServer]     outputData: [],
+[WebServer]     outputSize: 0,
+[WebServer]     writable: true,
+[WebServer]     destroyed: true,
+[WebServer]     _last: false,
+[WebServer]     chunkedEncoding: false,
+[WebServer]     shouldKeepAlive: true,
+[WebServer]     maxRequestsOnConnectionReached: false,
+[WebServer]     _defaultKeepAlive: true,
+[WebServer]     useChunkedEncodingByDefault: true,
+[WebServer]     sendDate: false,
+[WebServer]     _removedConnection: false,
+[WebServer]     _removedContLen: false,
+[WebServer]     _removedTE: false,
+[WebServer]     strictContentLength: false,
+[WebServer]     _contentLength: 70,
+[WebServer]     _hasBody: true,
+[WebServer]     _trailer: '',
+[WebServer]     finished: true,
+[WebServer]     _headerSent: true,
+[WebServer]     _closed: true,
+[WebServer]     _header: 'POST /accounts/get HTTP/1.1\r\n' +
+[WebServer]       'Accept: application/json, text/plain, */*\r\n' +
+[WebServer]       'Content-Type: application/json\r\n' +
+[WebServer]       'User-Agent: Plaid Node v41.4.0\r\n' +
+[WebServer]       'Plaid-Version: 2020-09-14\r\n' +
+[WebServer]       'PLAID-CLIENT-ID: 68839713794ed3001f58911a\r\n' +
+[WebServer]       'PLAID-SECRET: 2a290a2bd612fcaf7cbb434f8cbd5c\r\n' +
+[WebServer]       'Content-Length: 70\r\n' +
+[WebServer]       'Accept-Encoding: gzip, compress, deflate, br\r\n' +
+[WebServer]       'Host: sandbox.plaid.com\r\n' +
+[WebServer]       'Connection: keep-alive\r\n' +
+[WebServer]       '\r\n',
+[WebServer]     _keepAliveTimeout: 0,
+[WebServer]     _onPendingData: [Function: nop],
+[WebServer]     agent: Agent {
+[WebServer]       _events: [Object: null prototype],
+[WebServer]       _eventsCount: 2,
+[WebServer]       _maxListeners: undefined,
+[WebServer]       options: [Object: null prototype],
+[WebServer]       defaultPort: 443,
+[WebServer]       protocol: 'https:',
+[WebServer]       requests: [Object: null prototype] {},
+[WebServer]       sockets: [Object: null prototype],
+[WebServer]       freeSockets: [Object: null prototype],
+[WebServer]       keepAliveMsecs: 1000,
+[WebServer]       keepAlive: true,
+[WebServer]       maxSockets: Infinity,
+[WebServer]       maxFreeSockets: 256,
+[WebServer]       scheduling: 'lifo',
+[WebServer]       maxTotalSockets: Infinity,
+[WebServer]       totalSocketCount: 6,
+[WebServer]       agentKeepAliveTimeoutBuffer: 1000,
+[WebServer]       maxCachedSessions: 100,
+[WebServer]       _sessionCache: [Object],
+[WebServer]       Symbol(shapeMode): false,
+[WebServer]       Symbol(kCapture): false
+[WebServer]     },
+[WebServer]     socketPath: undefined,
+[WebServer]     method: 'POST',
+[WebServer]     maxHeaderSize: undefined,
+[WebServer]     insecureHTTPParser: undefined,
+[WebServer]     joinDuplicateHeaders: undefined,
+[WebServer]     path: '/accounts/get',
+[WebServer]     _ended: true,
+[WebServer]     res: IncomingMessage {
+[WebServer]       _events: [Object],
+[WebServer]       _readableState: [ReadableState],
+[WebServer]       _maxListeners: undefined,
+[WebServer]       socket: null,
+[WebServer]       httpVersionMajor: 1,
+[WebServer]       httpVersionMinor: 1,
+[WebServer]       httpVersion: '1.1',
+[WebServer]       complete: true,
+[WebServer]       rawHeaders: [Array],
+[WebServer]       rawTrailers: [],
+[WebServer]       joinDuplicateHeaders: undefined,
+[WebServer]       aborted: false,
+[WebServer]       upgrade: false,
+[WebServer]       url: '',
+[WebServer]       method: null,
+[WebServer]       statusCode: 400,
+[WebServer]       statusMessage: 'Bad Request',
+[WebServer]       client: [TLSSocket],
+[WebServer]       _consuming: false,
+[WebServer]       _dumped: false,
+[WebServer]       req: [Circular *1],
+[WebServer]       _eventsCount: 4,
+[WebServer]       responseUrl: 'https://sandbox.plaid.com/accounts/get',
+[WebServer]       redirects: [],
+[WebServer]       Symbol(shapeMode): true,
+[WebServer]       Symbol(kCapture): false,
+[WebServer]       Symbol(kHeaders): [Object],
+[WebServer]       Symbol(kHeadersCount): 20,
+[WebServer]       Symbol(kTrailers): null,
+[WebServer]       Symbol(kTrailersCount): 0
+[WebServer]     },
+[WebServer]     aborted: false,
+[WebServer]     timeoutCb: null,
+[WebServer]     upgradeOrConnect: false,
+[WebServer]     parser: null,
+[WebServer]     maxHeadersCount: null,
+[WebServer]     reusedSocket: false,
+[WebServer]     host: 'sandbox.plaid.com',
+[WebServer]     protocol: 'https:',
+[WebServer]     _redirectable: Writable {
+[WebServer]       _events: [Object],
+[WebServer]       _writableState: [WritableState],
+[WebServer]       _maxListeners: undefined,
+[WebServer]       _options: [Object],
+[WebServer]       _ended: true,
+[WebServer]       _ending: true,
+[WebServer]       _redirectCount: 0,
+[WebServer]       _redirects: [],
+[WebServer]       _requestBodyLength: 70,
+[WebServer]       _requestBodyBuffers: [],
+[WebServer]       _eventsCount: 3,
+[WebServer]       _onNativeResponse: [Function (anonymous)],
+[WebServer]       _currentRequest: [Circular *1],
+[WebServer]       _currentUrl: 'https://sandbox.plaid.com/accounts/get',
+[WebServer]       _timeout: null,
+[WebServer]       Symbol(shapeMode): true,
+[WebServer]       Symbol(kCapture): false
+[WebServer]     },
+[WebServer]     Symbol(shapeMode): false,
+[WebServer]     Symbol(kCapture): false,
+[WebServer]     Symbol(kBytesWritten): 0,
+[WebServer]     Symbol(kNeedDrain): false,
+[WebServer]     Symbol(corked): 0,
+[WebServer]     Symbol(kChunkedBuffer): [],
+[WebServer]     Symbol(kChunkedLength): 0,
+[WebServer]     Symbol(kSocket): TLSSocket {
+[WebServer]       _tlsOptions: [Object],
+[WebServer]       _secureEstablished: true,
+[WebServer]       _securePending: false,
+[WebServer]       _newSessionPending: false,
+[WebServer]       _controlReleased: true,
+[WebServer]       secureConnecting: false,
+[WebServer]       _SNICallback: null,
+[WebServer]       servername: 'sandbox.plaid.com',
+[WebServer]       alpnProtocol: false,
+[WebServer]       authorized: true,
+[WebServer]       authorizationError: null,
+[WebServer]       encrypted: true,
+[WebServer]       _events: [Object: null prototype],
+[WebServer]       _eventsCount: 9,
+[WebServer]       connecting: false,
+[WebServer]       _hadError: false,
+[WebServer]       _parent: null,
+[WebServer]       _host: 'sandbox.plaid.com',
+[WebServer]       _closeAfterHandlingError: false,
+[WebServer]       _readableState: [ReadableState],
+[WebServer]       _writableState: [WritableState],
+[WebServer]       allowHalfOpen: false,
+[WebServer]       _maxListeners: undefined,
+[WebServer]       _sockname: null,
+[WebServer]       _pendingData: null,
+[WebServer]       _pendingEncoding: '',
+[WebServer]       server: undefined,
+[WebServer]       _server: null,
+[WebServer]       ssl: [TLSWrap],
+[WebServer]       _requestCert: true,
+[WebServer]       _rejectUnauthorized: true,
+[WebServer]       timeout: 5000,
+[WebServer]       parser: null,
+[WebServer]       _httpMessage: null,
+[WebServer]       autoSelectFamilyAttemptedAddresses: [Array],
+[WebServer]       Symbol(alpncallback): null,
+[WebServer]       Symbol(res): [TLSWrap],
+[WebServer]       Symbol(verified): true,
+[WebServer]       Symbol(pendingSession): null,
+[WebServer]       Symbol(async_id_symbol): -1,
+[WebServer]       Symbol(kHandle): [TLSWrap],
+[WebServer]       Symbol(lastWriteQueueSize): 0,
+[WebServer]       Symbol(timeout): Timeout {
+[WebServer]         _idleTimeout: 5000,
+[WebServer]         _idlePrev: [TimersList],
+[WebServer]         _idleNext: [TimersList],
+[WebServer]         _idleStart: 61990,
+[WebServer]         _onTimeout: [Function: bound ],
+[WebServer]         _timerArgs: undefined,
+[WebServer]         _repeat: null,
+[WebServer]         _destroyed: false,
+[WebServer]         Symbol(refed): false,
+[WebServer]         Symbol(kHasPrimitive): false,
+[WebServer]         Symbol(asyncId): 54589,
+[WebServer]         Symbol(triggerId): 54587,
+[WebServer]         Symbol(kAsyncContextFrame): [AsyncContextFrame [Map]]
+[WebServer]       },
+[WebServer]       Symbol(kBuffer): null,
+[WebServer]       Symbol(kBufferCb): null,
+[WebServer]       Symbol(kBufferGen): null,
+[WebServer]       Symbol(shapeMode): true,
+[WebServer]       Symbol(kCapture): false,
+[WebServer]       Symbol(kSetNoDelay): false,
+[WebServer]       Symbol(kSetKeepAlive): true,
+[WebServer]       Symbol(kSetKeepAliveInitialDelay): 1,
+[WebServer]       Symbol(kBytesRead): 0,
+[WebServer]       Symbol(kBytesWritten): 0,
+[WebServer]       Symbol(connect-options): [Object]
+[WebServer]     },
+[WebServer]     Symbol(kOutHeaders): [Object: null prototype] {
+[WebServer]       accept: [Array],
+[WebServer]       'content-type': [Array],
+[WebServer]       'user-agent': [Array],
+[WebServer]       'plaid-version': [Array],
+[WebServer]       'plaid-client-id': [Array],
+[WebServer]       'plaid-secret': [Array],
+[WebServer]       'content-length': [Array],
+[WebServer]       'accept-encoding': [Array],
+[WebServer]       host: [Array]
+[WebServer]     },
+[WebServer]     Symbol(errored): null,
+[WebServer]     Symbol(kHighWaterMark): 16384,
+[WebServer]     Symbol(kRejectNonStandardBodyWrites): false,
+[WebServer]     Symbol(kUniqueHeaders): null
+[WebServer]   },
+[WebServer]   response: {
+[WebServer]     status: 400,
+[WebServer]     statusText: 'Bad Request',
+[WebServer]     headers: Object [AxiosHeaders] {
+[WebServer]       server: 'nginx',
+[WebServer]       date: 'Sun, 05 Apr 2026 01:56:33 GMT',
+[WebServer]       'content-type': 'application/json; charset=utf-8',
+[WebServer]       'content-length': '237',
+[WebServer]       connection: 'keep-alive',
+[WebServer]       'plaid-version': '2020-09-14',
+[WebServer]       vary: 'Accept-Encoding',
+[WebServer]       'x-envoy-upstream-service-time': '94',
+[WebServer]       'x-envoy-decorator-operation': 'default.svc-apiv2:8080/*'
+[WebServer]     },
+[WebServer]     config: {
+[WebServer]       transitional: [Object],
+[WebServer]       adapter: [Array],
+[WebServer]       transformRequest: [Array],
+[WebServer]       transformResponse: [Array],
+[WebServer]       timeout: 0,
+[WebServer]       xsrfCookieName: 'XSRF-TOKEN',
+[WebServer]       xsrfHeaderName: 'X-XSRF-TOKEN',
+[WebServer]       maxContentLength: -1,
+[WebServer]       maxBodyLength: -1,
+[WebServer]       env: [Object],
+[WebServer]       validateStatus: [Function: validateStatus],
+[WebServer]       headers: [Object [AxiosHeaders]],
+[WebServer]       method: 'post',
+[WebServer]       data: '{"access_token":"access-sandbox-83fd9200-0165-4ef8-afde-65744b9d1548"}',
+[WebServer]       url: 'https://sandbox.plaid.com/accounts/get',
+[WebServer]       allowAbsoluteUrls: true
+[WebServer]     },
+[WebServer]     request: <ref *1> ClientRequest {
+[WebServer]       _events: [Object: null prototype],
+[WebServer]       _eventsCount: 7,
+[WebServer]       _maxListeners: undefined,
+[WebServer]       outputData: [],
+[WebServer]       outputSize: 0,
+[WebServer]       writable: true,
+[WebServer]       destroyed: true,
+[WebServer]       _last: false,
+[WebServer]       chunkedEncoding: false,
+[WebServer]       shouldKeepAlive: true,
+[WebServer]       maxRequestsOnConnectionReached: false,
+[WebServer]       _defaultKeepAlive: true,
+[WebServer]       useChunkedEncodingByDefault: true,
+[WebServer]       sendDate: false,
+[WebServer]       _removedConnection: false,
+[WebServer]       _removedContLen: false,
+[WebServer]       _removedTE: false,
+[WebServer]       strictContentLength: false,
+[WebServer]       _contentLength: 70,
+[WebServer]       _hasBody: true,
+[WebServer]       _trailer: '',
+[WebServer]       finished: true,
+[WebServer]       _headerSent: true,
+[WebServer]       _closed: true,
+[WebServer]       _header: 'POST /accounts/get HTTP/1.1\r\n' +
+[WebServer]         'Accept: application/json, text/plain, */*\r\n' +
+[WebServer]         'Content-Type: application/json\r\n' +
+[WebServer]         'User-Agent: Plaid Node v41.4.0\r\n' +
+[WebServer]         'Plaid-Version: 2020-09-14\r\n' +
+[WebServer]         'PLAID-CLIENT-ID: 68839713794ed3001f58911a\r\n' +
+[WebServer]         'PLAID-SECRET: 2a290a2bd612fcaf7cbb434f8cbd5c\r\n' +
+[WebServer]         'Content-Length: 70\r\n' +
+[WebServer]         'Accept-Encoding: gzip, compress, deflate, br\r\n' +
+[WebServer]         'Host: sandbox.plaid.com\r\n' +
+[WebServer]         'Connection: keep-alive\r\n' +
+[WebServer]         '\r\n',
+[WebServer]       _keepAliveTimeout: 0,
+[WebServer]       _onPendingData: [Function: nop],
+[WebServer]       agent: [Agent],
+[WebServer]       socketPath: undefined,
+[WebServer]       method: 'POST',
+[WebServer]       maxHeaderSize: undefined,
+[WebServer]       insecureHTTPParser: undefined,
+[WebServer]       joinDuplicateHeaders: undefined,
+[WebServer]       path: '/accounts/get',
+[WebServer]       _ended: true,
+[WebServer]       res: [IncomingMessage],
+[WebServer]       aborted: false,
+[WebServer]       timeoutCb: null,
+[WebServer]       upgradeOrConnect: false,
+[WebServer]       parser: null,
+[WebServer]       maxHeadersCount: null,
+[WebServer]       reusedSocket: false,
+[WebServer]       host: 'sandbox.plaid.com',
+[WebServer]       protocol: 'https:',
+[WebServer]       _redirectable: [Writable],
+[WebServer]       Symbol(shapeMode): false,
+[WebServer]       Symbol(kCapture): false,
+[WebServer]       Symbol(kBytesWritten): 0,
+[WebServer]       Symbol(kNeedDrain): false,
+[WebServer]       Symbol(corked): 0,
+[WebServer]       Symbol(kChunkedBuffer): [],
+[WebServer]       Symbol(kChunkedLength): 0,
+[WebServer]       Symbol(kSocket): [TLSSocket],
+[WebServer]       Symbol(kOutHeaders): [Object: null prototype],
+[WebServer]       Symbol(errored): null,
+[WebServer]       Symbol(kHighWaterMark): 16384,
+[WebServer]       Symbol(kRejectNonStandardBodyWrites): false,
+[WebServer]       Symbol(kUniqueHeaders): null
+[WebServer]     },
+[WebServer]     data: {
+[WebServer]       display_message: null,
+[WebServer]       documentation_url: 'https://plaid.com/docs/?ref=error#invalid-input-errors',
+[WebServer]       error_code: 'INVALID_ACCESS_TOKEN',
+[WebServer]       error_message: 'could not find matching access token',
+[WebServer]       error_type: 'INVALID_INPUT',
+[WebServer]       request_id: '73c2871feade143',
+[WebServer]       suggested_action: null
+[WebServer]     }
+[WebServer]   },
+[WebServer]   status: 400
+[WebServer] }
+[2m[WebServer] [22m GET /api/auth/session [32m200[39m in 422ms[2m (next.js: 356ms, application-code: 65ms)[22m
+[WebServer] getAllAccounts: skipping bank 20000000-0000-4000-8000-000000000001: Error [AxiosError]: Request failed with status code 400
+[WebServer]     at async (lib\actions\plaid.actions.ts:465:28)
+[WebServer]     at async getAllAccounts (lib\actions\plaid.actions.ts:454:27)
+[WebServer]     at async DashboardServerWrapper (components\dashboard\dashboard-server-wrapper.tsx:40:51)
+[WebServer]   463 |           }
+[WebServer]   464 |
+[WebServer] > 465 |           const response = await plaidClient.accountsGet({
+[WebServer]       |                            ^
+[WebServer]   466 |             access_token: bank.accessToken,
+[WebServer]   467 |           });
+[WebServer]   468 |           return response.data.accounts.map((account) => ({ {
+[WebServer]   isAxiosError: true,
+[WebServer]   code: 'ERR_BAD_REQUEST',
+[WebServer]   config: {
+[WebServer]     transitional: {
+[WebServer]       silentJSONParsing: true,
+[WebServer]       forcedJSONParsing: true,
+[WebServer]       clarifyTimeoutError: false,
+[WebServer]       legacyInterceptorReqResOrdering: true
+[WebServer]     },
+[WebServer]     adapter: [ 'xhr', 'http', 'fetch' ],
+[WebServer]     transformRequest: [ [Function: transformRequest] ],
+[WebServer]     transformResponse: [ [Function: transformResponse] ],
+[WebServer]     timeout: 0,
+[WebServer]     xsrfCookieName: 'XSRF-TOKEN',
+[WebServer]     xsrfHeaderName: 'X-XSRF-TOKEN',
+[WebServer]     maxContentLength: -1,
+[WebServer]     maxBodyLength: -1,
+[WebServer]     env: { FormData: [Function], Blob: [class Blob] },
+[WebServer]     validateStatus: [Function: validateStatus],
+[WebServer]     headers: Object [AxiosHeaders] {
+[WebServer]       Accept: 'application/json, text/plain, */*',
+[WebServer]       'Content-Type': 'application/json',
+[WebServer]       'User-Agent': 'Plaid Node v41.4.0',
+[WebServer]       'Plaid-Version': '2020-09-14',
+[WebServer]       'PLAID-CLIENT-ID': '68839713794ed3001f58911a',
+[WebServer]       'PLAID-SECRET': '2a290a2bd612fcaf7cbb434f8cbd5c',
+[WebServer]       'Content-Length': '70',
+[WebServer]       'Accept-Encoding': 'gzip, compress, deflate, br'
+[WebServer]     },
+[WebServer]     method: 'post',
+[WebServer]     data: '{"access_token":"access-sandbox-229476cf-25bc-46d2-9ed5-fba9df7a5d63"}',
+[WebServer]     url: 'https://sandbox.plaid.com/accounts/get',
+[WebServer]     allowAbsoluteUrls: true
+[WebServer]   },
+[WebServer]   request: <ref *1> ClientRequest {
+[WebServer]     _events: [Object: null prototype] {
+[WebServer]       abort: [Function (anonymous)],
+[WebServer]       aborted: [Function (anonymous)],
+[WebServer]       connect: [Function (anonymous)],
+[WebServer]       error: [Function (anonymous)],
+[WebServer]       socket: [Function (anonymous)],
+[WebServer]       timeout: [Function (anonymous)],
+[WebServer]       finish: [Function: requestOnFinish]
+[WebServer]     },
+[WebServer]     _eventsCount: 7,
+[WebServer]     _maxListeners: undefined,
+[WebServer]     outputData: [],
+[WebServer]     outputSize: 0,
+[WebServer]     writable: true,
+[WebServer]     destroyed: true,
+[WebServer]     _last: false,
+[WebServer]     chunkedEncoding: false,
+[WebServer]     shouldKeepAlive: true,
+[WebServer]     maxRequestsOnConnectionReached: false,
+[WebServer]     _defaultKeepAlive: true,
+[WebServer]     useChunkedEncodingByDefault: true,
+[WebServer]     sendDate: false,
+[WebServer]     _removedConnection: false,
+[WebServer]     _removedContLen: false,
+[WebServer]     _removedTE: false,
+[WebServer]     strictContentLength: false,
+[WebServer]     _contentLength: 70,
+[WebServer]     _hasBody: true,
+[WebServer]     _trailer: '',
+[WebServer]     finished: true,
+[WebServer]     _headerSent: true,
+[WebServer]     _closed: true,
+[WebServer]     _header: 'POST /accounts/get HTTP/1.1\r\n' +
+[WebServer]       'Accept: application/json, text/plain, */*\r\n' +
+[WebServer]       'Content-Type: application/json\r\n' +
+[WebServer]       'User-Agent: Plaid Node v41.4.0\r\n' +
+[WebServer]       'Plaid-Version: 2020-09-14\r\n' +
+[WebServer]       'PLAID-CLIENT-ID: 68839713794ed3001f58911a\r\n' +
+[WebServer]       'PLAID-SECRET: 2a290a2bd612fcaf7cbb434f8cbd5c\r\n' +
+[WebServer]       'Content-Length: 70\r\n' +
+[WebServer]       'Accept-Encoding: gzip, compress, deflate, br\r\n' +
+[WebServer]       'Host: sandbox.plaid.com\r\n' +
+[WebServer]       'Connection: keep-alive\r\n' +
+[WebServer]       '\r\n',
+[WebServer]     _keepAliveTimeout: 0,
+[WebServer]     _onPendingData: [Function: nop],
+[WebServer]     agent: Agent {
+[WebServer]       _events: [Object: null prototype],
+[WebServer]       _eventsCount: 2,
+[WebServer]       _maxListeners: undefined,
+[WebServer]       options: [Object: null prototype],
+[WebServer]       defaultPort: 443,
+[WebServer]       protocol: 'https:',
+[WebServer]       requests: [Object: null prototype] {},
+[WebServer]       sockets: [Object: null prototype],
+[WebServer]       freeSockets: [Object: null prototype],
+[WebServer]       keepAliveMsecs: 1000,
+[WebServer]       keepAlive: true,
+[WebServer]       maxSockets: Infinity,
+[WebServer]       maxFreeSockets: 256,
+[WebServer]       scheduling: 'lifo',
+[WebServer]       maxTotalSockets: Infinity,
+[WebServer]       totalSocketCount: 6,
+[WebServer]       agentKeepAliveTimeoutBuffer: 1000,
+[WebServer]       maxCachedSessions: 100,
+[WebServer]       _sessionCache: [Object],
+[WebServer]       Symbol(shapeMode): false,
+[WebServer]       Symbol(kCapture): false
+[WebServer]     },
+[WebServer]     socketPath: undefined,
+[WebServer]     method: 'POST',
+[WebServer]     maxHeaderSize: undefined,
+[WebServer]     insecureHTTPParser: undefined,
+[WebServer]     joinDuplicateHeaders: undefined,
+[WebServer]     path: '/accounts/get',
+[WebServer]     _ended: true,
+[WebServer]     res: IncomingMessage {
+[WebServer]       _events: [Object],
+[WebServer]       _readableState: [ReadableState],
+[WebServer]       _maxListeners: undefined,
+[WebServer]       socket: null,
+[WebServer]       httpVersionMajor: 1,
+[WebServer]       httpVersionMinor: 1,
+[WebServer]       httpVersion: '1.1',
+[WebServer]       complete: true,
+[WebServer]       rawHeaders: [Array],
+[WebServer]       rawTrailers: [],
+[WebServer]       joinDuplicateHeaders: undefined,
+[WebServer]       aborted: false,
+[WebServer]       upgrade: false,
+[WebServer]       url: '',
+[WebServer]       method: null,
+[WebServer]       statusCode: 400,
+[WebServer]       statusMessage: 'Bad Request',
+[WebServer]       client: [TLSSocket],
+[WebServer]       _consuming: false,
+[WebServer]       _dumped: false,
+[WebServer]       req: [Circular *1],
+[WebServer]       _eventsCount: 4,
+[WebServer]       responseUrl: 'https://sandbox.plaid.com/accounts/get',
+[WebServer]       redirects: [],
+[WebServer]       Symbol(shapeMode): true,
+[WebServer]       Symbol(kCapture): false,
+[WebServer]       Symbol(kHeaders): [Object],
+[WebServer]       Symbol(kHeadersCount): 20,
+[WebServer]       Symbol(kTrailers): null,
+[WebServer]       Symbol(kTrailersCount): 0
+[WebServer]     },
+[WebServer]     aborted: false,
+[WebServer]     timeoutCb: null,
+[WebServer]     upgradeOrConnect: false,
+[WebServer]     parser: null,
+[WebServer]     maxHeadersCount: null,
+[WebServer]     reusedSocket: false,
+[WebServer]     host: 'sandbox.plaid.com',
+[WebServer]     protocol: 'https:',
+[WebServer]     _redirectable: Writable {
+[WebServer]       _events: [Object],
+[WebServer]       _writableState: [WritableState],
+[WebServer]       _maxListeners: undefined,
+[WebServer]       _options: [Object],
+[WebServer]       _ended: true,
+[WebServer]       _ending: true,
+[WebServer]       _redirectCount: 0,
+[WebServer]       _redirects: [],
+[WebServer]       _requestBodyLength: 70,
+[WebServer]       _requestBodyBuffers: [],
+[WebServer]       _eventsCount: 3,
+[WebServer]       _onNativeResponse: [Function (anonymous)],
+[WebServer]       _currentRequest: [Circular *1],
+[WebServer]       _currentUrl: 'https://sandbox.plaid.com/accounts/get',
+[WebServer]       _timeout: null,
+[WebServer]       Symbol(shapeMode): true,
+[WebServer]       Symbol(kCapture): false
+[WebServer]     },
+[WebServer]     Symbol(shapeMode): false,
+[WebServer]     Symbol(kCapture): false,
+[WebServer]     Symbol(kBytesWritten): 0,
+[WebServer]     Symbol(kNeedDrain): false,
+[WebServer]     Symbol(corked): 0,
+[WebServer]     Symbol(kChunkedBuffer): [],
+[WebServer]     Symbol(kChunkedLength): 0,
+[WebServer]     Symbol(kSocket): TLSSocket {
+[WebServer]       _tlsOptions: [Object],
+[WebServer]       _secureEstablished: true,
+[WebServer]       _securePending: false,
+[WebServer]       _newSessionPending: false,
+[WebServer]       _controlReleased: true,
+[WebServer]       secureConnecting: false,
+[WebServer]       _SNICallback: null,
+[WebServer]       servername: 'sandbox.plaid.com',
+[WebServer]       alpnProtocol: false,
+[WebServer]       authorized: true,
+[WebServer]       authorizationError: null,
+[WebServer]       encrypted: true,
+[WebServer]       _events: [Object: null prototype],
+[WebServer]       _eventsCount: 9,
+[WebServer]       connecting: false,
+[WebServer]       _hadError: false,
+[WebServer]       _parent: null,
+[WebServer]       _host: 'sandbox.plaid.com',
+[WebServer]       _closeAfterHandlingError: false,
+[WebServer]       _readableState: [ReadableState],
+[WebServer]       _writableState: [WritableState],
+[WebServer]       allowHalfOpen: false,
+[WebServer]       _maxListeners: undefined,
+[WebServer]       _sockname: null,
+[WebServer]       _pendingData: null,
+[WebServer]       _pendingEncoding: '',
+[WebServer]       server: undefined,
+[WebServer]       _server: null,
+[WebServer]       ssl: [TLSWrap],
+[WebServer]       _requestCert: true,
+[WebServer]       _rejectUnauthorized: true,
+[WebServer]       timeout: 5000,
+[WebServer]       parser: null,
+[WebServer]       _httpMessage: null,
+[WebServer]       autoSelectFamilyAttemptedAddresses: [Array],
+[WebServer]       Symbol(alpncallback): null,
+[WebServer]       Symbol(res): [TLSWrap],
+[WebServer]       Symbol(verified): true,
+[WebServer]       Symbol(pendingSession): null,
+[WebServer]       Symbol(async_id_symbol): -1,
+[WebServer]       Symbol(kHandle): [TLSWrap],
+[WebServer]       Symbol(lastWriteQueueSize): 0,
+[WebServer]       Symbol(timeout): Timeout {
+[WebServer]         _idleTimeout: 5000,
+[WebServer]         _idlePrev: [TimersList],
+[WebServer]         _idleNext: [Timeout],
+[WebServer]         _idleStart: 62645,
+[WebServer]         _onTimeout: [Function: bound ],
+[WebServer]         _timerArgs: undefined,
+[WebServer]         _repeat: null,
+[WebServer]         _destroyed: false,
+[WebServer]         Symbol(refed): false,
+[WebServer]         Symbol(kHasPrimitive): false,
+[WebServer]         Symbol(asyncId): 55197,
+[WebServer]         Symbol(triggerId): 55195,
+[WebServer]         Symbol(kAsyncContextFrame): [AsyncContextFrame [Map]]
+[WebServer]       },
+[WebServer]       Symbol(kBuffer): null,
+[WebServer]       Symbol(kBufferCb): null,
+[WebServer]       Symbol(kBufferGen): null,
+[WebServer]       Symbol(shapeMode): true,
+[WebServer]       Symbol(kCapture): false,
+[WebServer]       Symbol(kSetNoDelay): false,
+[WebServer]       Symbol(kSetKeepAlive): true,
+[WebServer]       Symbol(kSetKeepAliveInitialDelay): 1,
+[WebServer]       Symbol(kBytesRead): 0,
+[WebServer]       Symbol(kBytesWritten): 0,
+[WebServer]       Symbol(connect-options): [Object]
+[WebServer]     },
+[WebServer]     Symbol(kOutHeaders): [Object: null prototype] {
+[WebServer]       accept: [Array],
+[WebServer]       'content-type': [Array],
+[WebServer]       'user-agent': [Array],
+[WebServer]       'plaid-version': [Array],
+[WebServer]       'plaid-client-id': [Array],
+[WebServer]       'plaid-secret': [Array],
+[WebServer]       'content-length': [Array],
+[WebServer]       'accept-encoding': [Array],
+[WebServer]       host: [Array]
+[WebServer]     },
+[WebServer]     Symbol(errored): null,
+[WebServer]     Symbol(kHighWaterMark): 16384,
+[WebServer]     Symbol(kRejectNonStandardBodyWrites): false,
+[WebServer]     Symbol(kUniqueHeaders): null
+[WebServer]   },
+[WebServer]   response: {
+[WebServer]     status: 400,
+[WebServer]     statusText: 'Bad Request',
+[WebServer]     headers: Object [AxiosHeaders] {
+[WebServer]       server: 'nginx',
+[WebServer]       date: 'Sun, 05 Apr 2026 01:56:34 GMT',
+[WebServer]       'content-type': 'application/json; charset=utf-8',
+[WebServer]       'content-length': '239',
+[WebServer]       connection: 'keep-alive',
+[WebServer]       'plaid-version': '2020-09-14',
+[WebServer]       vary: 'Accept-Encoding',
+[WebServer]       'x-envoy-upstream-service-time': '66',
+[WebServer]       'x-envoy-decorator-operation': 'default.svc-apiv2:8080/*'
+[WebServer]     },
+[WebServer]     config: {
+[WebServer]       transitional: [Object],
+[WebServer]       adapter: [Array],
+[WebServer]       transformRequest: [Array],
+[WebServer]       transformResponse: [Array],
+[WebServer]       timeout: 0,
+[WebServer]       xsrfCookieName: 'XSRF-TOKEN',
+[WebServer]       xsrfHeaderName: 'X-XSRF-TOKEN',
+[WebServer]       maxContentLength: -1,
+[WebServer]       maxBodyLength: -1,
+[WebServer]       env: [Object],
+[WebServer]       validateStatus: [Function: validateStatus],
+[WebServer]       headers: [Object [AxiosHeaders]],
+[WebServer]       method: 'post',
+[WebServer]       data: '{"access_token":"access-sandbox-229476cf-25bc-46d2-9ed5-fba9df7a5d63"}',
+[WebServer]       url: 'https://sandbox.plaid.com/accounts/get',
+[WebServer]       allowAbsoluteUrls: true
+[WebServer]     },
+[WebServer]     request: <ref *1> ClientRequest {
+[WebServer]       _events: [Object: null prototype],
+[WebServer]       _eventsCount: 7,
+[WebServer]       _maxListeners: undefined,
+[WebServer]       outputData: [],
+[WebServer]       outputSize: 0,
+[WebServer]       writable: true,
+[WebServer]       destroyed: true,
+[WebServer]       _last: false,
+[WebServer]       chunkedEncoding: false,
+[WebServer]       shouldKeepAlive: true,
+[WebServer]       maxRequestsOnConnectionReached: false,
+[WebServer]       _defaultKeepAlive: true,
+[WebServer]       useChunkedEncodingByDefault: true,
+[WebServer]       sendDate: false,
+[WebServer]       _removedConnection: false,
+[WebServer]       _removedContLen: false,
+[WebServer]       _removedTE: false,
+[WebServer]       strictContentLength: false,
+[WebServer]       _contentLength: 70,
+[WebServer]       _hasBody: true,
+[WebServer]       _trailer: '',
+[WebServer]       finished: true,
+[WebServer]       _headerSent: true,
+[WebServer]       _closed: true,
+[WebServer]       _header: 'POST /accounts/get HTTP/1.1\r\n' +
+[WebServer]         'Accept: application/json, text/plain, */*\r\n' +
+[WebServer]         'Content-Type: application/json\r\n' +
+[WebServer]         'User-Agent: Plaid Node v41.4.0\r\n' +
+[WebServer]         'Plaid-Version: 2020-09-14\r\n' +
+[WebServer]         'PLAID-CLIENT-ID: 68839713794ed3001f58911a\r\n' +
+[WebServer]         'PLAID-SECRET: 2a290a2bd612fcaf7cbb434f8cbd5c\r\n' +
+[WebServer]         'Content-Length: 70\r\n' +
+[WebServer]         'Accept-Encoding: gzip, compress, deflate, br\r\n' +
+[WebServer]         'Host: sandbox.plaid.com\r\n' +
+[WebServer]         'Connection: keep-alive\r\n' +
+[WebServer]         '\r\n',
+[WebServer]       _keepAliveTimeout: 0,
+[WebServer]       _onPendingData: [Function: nop],
+[WebServer]       agent: [Agent],
+[WebServer]       socketPath: undefined,
+[WebServer]       method: 'POST',
+[WebServer]       maxHeaderSize: undefined,
+[WebServer]       insecureHTTPParser: undefined,
+[WebServer]       joinDuplicateHeaders: undefined,
+[WebServer]       path: '/accounts/get',
+[WebServer]       _ended: true,
+[WebServer]       res: [IncomingMessage],
+[WebServer]       aborted: false,
+[WebServer]       timeoutCb: null,
+[WebServer]       upgradeOrConnect: false,
+[WebServer]       parser: null,
+[WebServer]       maxHeadersCount: null,
+[WebServer]       reusedSocket: false,
+[WebServer]       host: 'sandbox.plaid.com',
+[WebServer]       protocol: 'https:',
+[WebServer]       _redirectable: [Writable],
+[WebServer]       Symbol(shapeMode): false,
+[WebServer]       Symbol(kCapture): false,
+[WebServer]       Symbol(kBytesWritten): 0,
+[WebServer]       Symbol(kNeedDrain): false,
+[WebServer]       Symbol(corked): 0,
+[WebServer]       Symbol(kChunkedBuffer): [],
+[WebServer]       Symbol(kChunkedLength): 0,
+[WebServer]       Symbol(kSocket): [TLSSocket],
+[WebServer]       Symbol(kOutHeaders): [Object: null prototype],
+[WebServer]       Symbol(errored): null,
+[WebServer]       Symbol(kHighWaterMark): 16384,
+[WebServer]       Symbol(kRejectNonStandardBodyWrites): false,
+[WebServer]       Symbol(kUniqueHeaders): null
+[WebServer]     },
+[WebServer]     data: {
+[WebServer]       display_message: null,
+[WebServer]       documentation_url: 'https://plaid.com/docs/?ref=error#invalid-input-errors',
+[WebServer]       error_code: 'INVALID_ACCESS_TOKEN',
+[WebServer]       error_message: 'could not find matching access token',
+[WebServer]       error_type: 'INVALID_INPUT',
+[WebServer]       request_id: '64839f700443844',
+[WebServer]       suggested_action: null
+[WebServer]     }
+[WebServer]   },
+[WebServer]   status: 400
+[WebServer] }
+[WebServer] getAllAccounts: skipping bank 20000000-0000-4000-8000-000000000002: Error [AxiosError]: Request failed with status code 400
+[WebServer]     at async (lib\actions\plaid.actions.ts:465:28)
+[WebServer]     at async getAllAccounts (lib\actions\plaid.actions.ts:454:27)
+[WebServer]     at async DashboardServerWrapper (components\dashboard\dashboard-server-wrapper.tsx:40:51)
+[WebServer]   463 |           }
+[WebServer]   464 |
+[WebServer] > 465 |           const response = await plaidClient.accountsGet({
+[WebServer]       |                            ^
+[WebServer]   466 |             access_token: bank.accessToken,
+[WebServer]   467 |           });
+[WebServer]   468 |           return response.data.accounts.map((account) => ({ {
+[WebServer]   isAxiosError: true,
+[WebServer]   code: 'ERR_BAD_REQUEST',
+[WebServer]   config: {
+[WebServer]     transitional: {
+[WebServer]       silentJSONParsing: true,
+[WebServer]       forcedJSONParsing: true,
+[WebServer]       clarifyTimeoutError: false,
+[WebServer]       legacyInterceptorReqResOrdering: true
+[WebServer]     },
+[WebServer]     adapter: [ 'xhr', 'http', 'fetch' ],
+[WebServer]     transformRequest: [ [Function: transformRequest] ],
+[WebServer]     transformResponse: [ [Function: transformResponse] ],
+[WebServer]     timeout: 0,
+[WebServer]     xsrfCookieName: 'XSRF-TOKEN',
+[WebServer]     xsrfHeaderName: 'X-XSRF-TOKEN',
+[WebServer]     maxContentLength: -1,
+[WebServer]     maxBodyLength: -1,
+[WebServer]     env: { FormData: [Function], Blob: [class Blob] },
+[WebServer]     validateStatus: [Function: validateStatus],
+[WebServer]     headers: Object [AxiosHeaders] {
+[WebServer]       Accept: 'application/json, text/plain, */*',
+[WebServer]       'Content-Type': 'application/json',
+[WebServer]       'User-Agent': 'Plaid Node v41.4.0',
+[WebServer]       'Plaid-Version': '2020-09-14',
+[WebServer]       'PLAID-CLIENT-ID': '68839713794ed3001f58911a',
+[WebServer]       'PLAID-SECRET': '2a290a2bd612fcaf7cbb434f8cbd5c',
+[WebServer]       'Content-Length': '70',
+[WebServer]       'Accept-Encoding': 'gzip, compress, deflate, br'
+[WebServer]     },
+[WebServer]     method: 'post',
+[WebServer]     data: '{"access_token":"access-sandbox-83fd9200-0165-4ef8-afde-65744b9d1548"}',
+[WebServer]     url: 'https://sandbox.plaid.com/accounts/get',
+[WebServer]     allowAbsoluteUrls: true
+[WebServer]   },
+[WebServer]   request: <ref *1> ClientRequest {
+[WebServer]     _events: [Object: null prototype] {
+[WebServer]       abort: [Function (anonymous)],
+[WebServer]       aborted: [Function (anonymous)],
+[WebServer]       connect: [Function (anonymous)],
+[WebServer]       error: [Function (anonymous)],
+[WebServer]       socket: [Function (anonymous)],
+[WebServer]       timeout: [Function (anonymous)],
+[WebServer]       finish: [Function: requestOnFinish]
+[WebServer]     },
+[WebServer]     _eventsCount: 7,
+[WebServer]     _maxListeners: undefined,
+[WebServer]     outputData: [],
+[WebServer]     outputSize: 0,
+[WebServer]     writable: true,
+[WebServer]     destroyed: true,
+[WebServer]     _last: false,
+[WebServer]     chunkedEncoding: false,
+[WebServer]     shouldKeepAlive: true,
+[WebServer]     maxRequestsOnConnectionReached: false,
+[WebServer]     _defaultKeepAlive: true,
+[WebServer]     useChunkedEncodingByDefault: true,
+[WebServer]     sendDate: false,
+[WebServer]     _removedConnection: false,
+[WebServer]     _removedContLen: false,
+[WebServer]     _removedTE: false,
+[WebServer]     strictContentLength: false,
+[WebServer]     _contentLength: 70,
+[WebServer]     _hasBody: true,
+[WebServer]     _trailer: '',
+[WebServer]     finished: true,
+[WebServer]     _headerSent: true,
+[WebServer]     _closed: true,
+[WebServer]     _header: 'POST /accounts/get HTTP/1.1\r\n' +
+[WebServer]       'Accept: application/json, text/plain, */*\r\n' +
+[WebServer]       'Content-Type: application/json\r\n' +
+[WebServer]       'User-Agent: Plaid Node v41.4.0\r\n' +
+[WebServer]       'Plaid-Version: 2020-09-14\r\n' +
+[WebServer]       'PLAID-CLIENT-ID: 68839713794ed3001f58911a\r\n' +
+[WebServer]       'PLAID-SECRET: 2a290a2bd612fcaf7cbb434f8cbd5c\r\n' +
+[WebServer]       'Content-Length: 70\r\n' +
+[WebServer]       'Accept-Encoding: gzip, compress, deflate, br\r\n' +
+[WebServer]       'Host: sandbox.plaid.com\r\n' +
+[WebServer]       'Connection: keep-alive\r\n' +
+[WebServer]       '\r\n',
+[WebServer]     _keepAliveTimeout: 0,
+[WebServer]     _onPendingData: [Function: nop],
+[WebServer]     agent: Agent {
+[WebServer]       _events: [Object: null prototype],
+[WebServer]       _eventsCount: 2,
+[WebServer]       _maxListeners: undefined,
+[WebServer]       options: [Object: null prototype],
+[WebServer]       defaultPort: 443,
+[WebServer]       protocol: 'https:',
+[WebServer]       requests: [Object: null prototype] {},
+[WebServer]       sockets: [Object: null prototype] {},
+[WebServer]       freeSockets: [Object: null prototype],
+[WebServer]       keepAliveMsecs: 1000,
+[WebServer]       keepAlive: true,
+[WebServer]       maxSockets: Infinity,
+[WebServer]       maxFreeSockets: 256,
+[WebServer]       scheduling: 'lifo',
+[WebServer]       maxTotalSockets: Infinity,
+[WebServer]       totalSocketCount: 6,
+[WebServer]       agentKeepAliveTimeoutBuffer: 1000,
+[WebServer]       maxCachedSessions: 100,
+[WebServer]       _sessionCache: [Object],
+[WebServer]       Symbol(shapeMode): false,
+[WebServer]       Symbol(kCapture): false
+[WebServer]     },
+[WebServer]     socketPath: undefined,
+[WebServer]     method: 'POST',
+[WebServer]     maxHeaderSize: undefined,
+[WebServer]     insecureHTTPParser: undefined,
+[WebServer]     joinDuplicateHeaders: undefined,
+[WebServer]     path: '/accounts/get',
+[WebServer]     _ended: true,
+[WebServer]     res: IncomingMessage {
+[WebServer]       _events: [Object],
+[WebServer]       _readableState: [ReadableState],
+[WebServer]       _maxListeners: undefined,
+[WebServer]       socket: null,
+[WebServer]       httpVersionMajor: 1,
+[WebServer]       httpVersionMinor: 1,
+[WebServer]       httpVersion: '1.1',
+[WebServer]       complete: true,
+[WebServer]       rawHeaders: [Array],
+[WebServer]       rawTrailers: [],
+[WebServer]       joinDuplicateHeaders: undefined,
+[WebServer]       aborted: false,
+[WebServer]       upgrade: false,
+[WebServer]       url: '',
+[WebServer]       method: null,
+[WebServer]       statusCode: 400,
+[WebServer]       statusMessage: 'Bad Request',
+[WebServer]       client: [TLSSocket],
+[WebServer]       _consuming: false,
+[WebServer]       _dumped: false,
+[WebServer]       req: [Circular *1],
+[WebServer]       _eventsCount: 4,
+[WebServer]       responseUrl: 'https://sandbox.plaid.com/accounts/get',
+[WebServer]       redirects: [],
+[WebServer]       Symbol(shapeMode): true,
+[WebServer]       Symbol(kCapture): false,
+[WebServer]       Symbol(kHeaders): [Object],
+[WebServer]       Symbol(kHeadersCount): 20,
+[WebServer]       Symbol(kTrailers): null,
+[WebServer]       Symbol(kTrailersCount): 0
+[WebServer]     },
+[WebServer]     aborted: false,
+[WebServer]     timeoutCb: null,
+[WebServer]     upgradeOrConnect: false,
+[WebServer]     parser: null,
+[WebServer]     maxHeadersCount: null,
+[WebServer]     reusedSocket: false,
+[WebServer]     host: 'sandbox.plaid.com',
+[WebServer]     protocol: 'https:',
+[WebServer]     _redirectable: Writable {
+[WebServer]       _events: [Object],
+[WebServer]       _writableState: [WritableState],
+[WebServer]       _maxListeners: undefined,
+[WebServer]       _options: [Object],
+[WebServer]       _ended: true,
+[WebServer]       _ending: true,
+[WebServer]       _redirectCount: 0,
+[WebServer]       _redirects: [],
+[WebServer]       _requestBodyLength: 70,
+[WebServer]       _requestBodyBuffers: [],
+[WebServer]       _eventsCount: 3,
+[WebServer]       _onNativeResponse: [Function (anonymous)],
+[WebServer]       _currentRequest: [Circular *1],
+[WebServer]       _currentUrl: 'https://sandbox.plaid.com/accounts/get',
+[WebServer]       _timeout: null,
+[WebServer]       Symbol(shapeMode): true,
+[WebServer]       Symbol(kCapture): false
+[WebServer]     },
+[WebServer]     Symbol(shapeMode): false,
+[WebServer]     Symbol(kCapture): false,
+[WebServer]     Symbol(kBytesWritten): 0,
+[WebServer]     Symbol(kNeedDrain): false,
+[WebServer]     Symbol(corked): 0,
+[WebServer]     Symbol(kChunkedBuffer): [],
+[WebServer]     Symbol(kChunkedLength): 0,
+[WebServer]     Symbol(kSocket): TLSSocket {
+[WebServer]       _tlsOptions: [Object],
+[WebServer]       _secureEstablished: true,
+[WebServer]       _securePending: false,
+[WebServer]       _newSessionPending: false,
+[WebServer]       _controlReleased: true,
+[WebServer]       secureConnecting: false,
+[WebServer]       _SNICallback: null,
+[WebServer]       servername: 'sandbox.plaid.com',
+[WebServer]       alpnProtocol: false,
+[WebServer]       authorized: true,
+[WebServer]       authorizationError: null,
+[WebServer]       encrypted: true,
+[WebServer]       _events: [Object: null prototype],
+[WebServer]       _eventsCount: 9,
+[WebServer]       connecting: false,
+[WebServer]       _hadError: false,
+[WebServer]       _parent: null,
+[WebServer]       _host: 'sandbox.plaid.com',
+[WebServer]       _closeAfterHandlingError: false,
+[WebServer]       _readableState: [ReadableState],
+[WebServer]       _writableState: [WritableState],
+[WebServer]       allowHalfOpen: false,
+[WebServer]       _maxListeners: undefined,
+[WebServer]       _sockname: null,
+[WebServer]       _pendingData: null,
+[WebServer]       _pendingEncoding: '',
+[WebServer]       server: undefined,
+[WebServer]       _server: null,
+[WebServer]       ssl: [TLSWrap],
+[WebServer]       _requestCert: true,
+[WebServer]       _rejectUnauthorized: true,
+[WebServer]       timeout: 5000,
+[WebServer]       parser: null,
+[WebServer]       _httpMessage: null,
+[WebServer]       autoSelectFamilyAttemptedAddresses: [Array],
+[WebServer]       Symbol(alpncallback): null,
+[WebServer]       Symbol(res): [TLSWrap],
+[WebServer]       Symbol(verified): true,
+[WebServer]       Symbol(pendingSession): null,
+[WebServer]       Symbol(async_id_symbol): -1,
+[WebServer]       Symbol(kHandle): [TLSWrap],
+[WebServer]       Symbol(lastWriteQueueSize): 0,
+[WebServer]       Symbol(timeout): Timeout {
+[WebServer]         _idleTimeout: 5000,
+[WebServer]         _idlePrev: [Timeout],
+[WebServer]         _idleNext: [Timeout],
+[WebServer]         _idleStart: 62862,
+[WebServer]         _onTimeout: [Function: bound ],
+[WebServer]         _timerArgs: undefined,
+[WebServer]         _repeat: null,
+[WebServer]         _destroyed: false,
+[WebServer]         Symbol(refed): false,
+[WebServer]         Symbol(kHasPrimitive): false,
+[WebServer]         Symbol(asyncId): 55223,
+[WebServer]         Symbol(triggerId): 55221,
+[WebServer]         Symbol(kAsyncContextFrame): [AsyncContextFrame [Map]]
+[WebServer]       },
+[WebServer]       Symbol(kBuffer): null,
+[WebServer]       Symbol(kBufferCb): null,
+[WebServer]       Symbol(kBufferGen): null,
+[WebServer]       Symbol(shapeMode): true,
+[WebServer]       Symbol(kCapture): false,
+[WebServer]       Symbol(kSetNoDelay): false,
+[WebServer]       Symbol(kSetKeepAlive): true,
+[WebServer]       Symbol(kSetKeepAliveInitialDelay): 1,
+[WebServer]       Symbol(kBytesRead): 0,
+[WebServer]       Symbol(kBytesWritten): 0,
+[WebServer]       Symbol(connect-options): [Object]
+[WebServer]     },
+[WebServer]     Symbol(kOutHeaders): [Object: null prototype] {
+[WebServer]       accept: [Array],
+[WebServer]       'content-type': [Array],
+[WebServer]       'user-agent': [Array],
+[WebServer]       'plaid-version': [Array],
+[WebServer]       'plaid-client-id': [Array],
+[WebServer]       'plaid-secret': [Array],
+[WebServer]       'content-length': [Array],
+[WebServer]       'accept-encoding': [Array],
+[WebServer]       host: [Array]
+[WebServer]     },
+[WebServer]     Symbol(errored): null,
+[WebServer]     Symbol(kHighWaterMark): 16384,
+[WebServer]     Symbol(kRejectNonStandardBodyWrites): false,
+[WebServer]     Symbol(kUniqueHeaders): null
+[WebServer]   },
+[WebServer]   response: {
+[WebServer]     status: 400,
+[WebServer]     statusText: 'Bad Request',
+[WebServer]     headers: Object [AxiosHeaders] {
+[WebServer]       server: 'nginx',
+[WebServer]       date: 'Sun, 05 Apr 2026 01:56:34 GMT',
+[WebServer]       'content-type': 'application/json; charset=utf-8',
+[WebServer]       'content-length': '239',
+[WebServer]       connection: 'keep-alive',
+[WebServer]       'plaid-version': '2020-09-14',
+[WebServer]       vary: 'Accept-Encoding',
+[WebServer]       'x-envoy-upstream-service-time': '57',
+[WebServer]       'x-envoy-decorator-operation': 'default.svc-apiv2:8080/*'
+[WebServer]     },
+[WebServer]     config: {
+[WebServer]       transitional: [Object],
+[WebServer]       adapter: [Array],
+[WebServer]       transformRequest: [Array],
+[WebServer]       transformResponse: [Array],
+[WebServer]       timeout: 0,
+[WebServer]       xsrfCookieName: 'XSRF-TOKEN',
+[WebServer]       xsrfHeaderName: 'X-XSRF-TOKEN',
+[WebServer]       maxContentLength: -1,
+[WebServer]       maxBodyLength: -1,
+[WebServer]       env: [Object],
+[WebServer]       validateStatus: [Function: validateStatus],
+[WebServer]       headers: [Object [AxiosHeaders]],
+[WebServer]       method: 'post',
+[WebServer]       data: '{"access_token":"access-sandbox-83fd9200-0165-4ef8-afde-65744b9d1548"}',
+[WebServer]       url: 'https://sandbox.plaid.com/accounts/get',
+[WebServer]       allowAbsoluteUrls: true
+[WebServer]     },
+[WebServer]     request: <ref *1> ClientRequest {
+[WebServer]       _events: [Object: null prototype],
+[WebServer]       _eventsCount: 7,
+[WebServer]       _maxListeners: undefined,
+[WebServer]       outputData: [],
+[WebServer]       outputSize: 0,
+[WebServer]       writable: true,
+[WebServer]       destroyed: true,
+[WebServer]       _last: false,
+[WebServer]       chunkedEncoding: false,
+[WebServer]       shouldKeepAlive: true,
+[WebServer]       maxRequestsOnConnectionReached: false,
+[WebServer]       _defaultKeepAlive: true,
+[WebServer]       useChunkedEncodingByDefault: true,
+[WebServer]       sendDate: false,
+[WebServer]       _removedConnection: false,
+[WebServer]       _removedContLen: false,
+[WebServer]       _removedTE: false,
+[WebServer]       strictContentLength: false,
+[WebServer]       _contentLength: 70,
+[WebServer]       _hasBody: true,
+[WebServer]       _trailer: '',
+[WebServer]       finished: true,
+[WebServer]       _headerSent: true,
+[WebServer]       _closed: true,
+[WebServer]       _header: 'POST /accounts/get HTTP/1.1\r\n' +
+[WebServer]         'Accept: application/json, text/plain, */*\r\n' +
+[WebServer]         'Content-Type: application/json\r\n' +
+[WebServer]         'User-Agent: Plaid Node v41.4.0\r\n' +
+[WebServer]         'Plaid-Version: 2020-09-14\r\n' +
+[WebServer]         'PLAID-CLIENT-ID: 68839713794ed3001f58911a\r\n' +
+[WebServer]         'PLAID-SECRET: 2a290a2bd612fcaf7cbb434f8cbd5c\r\n' +
+[WebServer]         'Content-Length: 70\r\n' +
+[WebServer]         'Accept-Encoding: gzip, compress, deflate, br\r\n' +
+[WebServer]         'Host: sandbox.plaid.com\r\n' +
+[WebServer]         'Connection: keep-alive\r\n' +
+[WebServer]         '\r\n',
+[WebServer]       _keepAliveTimeout: 0,
+[WebServer]       _onPendingData: [Function: nop],
+[WebServer]       agent: [Agent],
+[WebServer]       socketPath: undefined,
+[WebServer]       method: 'POST',
+[WebServer]       maxHeaderSize: undefined,
+[WebServer]       insecureHTTPParser: undefined,
+[WebServer]       joinDuplicateHeaders: undefined,
+[WebServer]       path: '/accounts/get',
+[WebServer]       _ended: true,
+[WebServer]       res: [IncomingMessage],
+[WebServer]       aborted: false,
+[WebServer]       timeoutCb: null,
+[WebServer]       upgradeOrConnect: false,
+[WebServer]       parser: null,
+[WebServer]       maxHeadersCount: null,
+[WebServer]       reusedSocket: false,
+[WebServer]       host: 'sandbox.plaid.com',
+[WebServer]       protocol: 'https:',
+[WebServer]       _redirectable: [Writable],
+[WebServer]       Symbol(shapeMode): false,
+[WebServer]       Symbol(kCapture): false,
+[WebServer]       Symbol(kBytesWritten): 0,
+[WebServer]       Symbol(kNeedDrain): false,
+[WebServer]       Symbol(corked): 0,
+[WebServer]       Symbol(kChunkedBuffer): [],
+[WebServer]       Symbol(kChunkedLength): 0,
+[WebServer]       Symbol(kSocket): [TLSSocket],
+[WebServer]       Symbol(kOutHeaders): [Object: null prototype],
+[WebServer]       Symbol(errored): null,
+[WebServer]       Symbol(kHighWaterMark): 16384,
+[WebServer]       Symbol(kRejectNonStandardBodyWrites): false,
+[WebServer]       Symbol(kUniqueHeaders): null
+[WebServer]     },
+[WebServer]     data: {
+[WebServer]       display_message: null,
+[WebServer]       documentation_url: 'https://plaid.com/docs/?ref=error#invalid-input-errors',
+[WebServer]       error_code: 'INVALID_ACCESS_TOKEN',
+[WebServer]       error_message: 'could not find matching access token',
+[WebServer]       error_type: 'INVALID_INPUT',
+[WebServer]       request_id: '203cf0373e61546',
+[WebServer]       suggested_action: null
+[WebServer]     }
+[WebServer]   },
+[WebServer]   status: 400
+[WebServer] }
+[WebServer] getAllAccounts: skipping bank 20000000-0000-4000-8000-000000000001: Error [AxiosError]: Request failed with status code 400
+[WebServer]     at async (lib\actions\plaid.actions.ts:465:28)
+[WebServer]     at async getAllAccounts (lib\actions\plaid.actions.ts:454:27)
+[WebServer]     at async DashboardServerWrapper (components\dashboard\dashboard-server-wrapper.tsx:40:51)
+[WebServer]   463 |           }
+[WebServer]   464 |
+[WebServer] > 465 |           const response = await plaidClient.accountsGet({
+[WebServer]       |                            ^
+[WebServer]   466 |             access_token: bank.accessToken,
+[WebServer]   467 |           });
+[WebServer]   468 |           return response.data.accounts.map((account) => ({ {
+[WebServer]   isAxiosError: true,
+[WebServer]   code: 'ERR_BAD_REQUEST',
+[WebServer]   config: {
+[WebServer]     transitional: {
+[WebServer]       silentJSONParsing: true,
+[WebServer]       forcedJSONParsing: true,
+[WebServer]       clarifyTimeoutError: false,
+[WebServer]       legacyInterceptorReqResOrdering: true
+[WebServer]     },
+[WebServer]     adapter: [ 'xhr', 'http', 'fetch' ],
+[WebServer]     transformRequest: [ [Function: transformRequest] ],
+[WebServer]     transformResponse: [ [Function: transformResponse] ],
+[WebServer]     timeout: 0,
+[WebServer]     xsrfCookieName: 'XSRF-TOKEN',
+[WebServer]     xsrfHeaderName: 'X-XSRF-TOKEN',
+[WebServer]     maxContentLength: -1,
+[WebServer]     maxBodyLength: -1,
+[WebServer]     env: { FormData: [Function], Blob: [class Blob] },
+[WebServer]     validateStatus: [Function: validateStatus],
+[WebServer]     headers: Object [AxiosHeaders] {
+[WebServer]       Accept: 'application/json, text/plain, */*',
+[WebServer]       'Content-Type': 'application/json',
+[WebServer]       'User-Agent': 'Plaid Node v41.4.0',
+[WebServer]       'Plaid-Version': '2020-09-14',
+[WebServer]       'PLAID-CLIENT-ID': '68839713794ed3001f58911a',
+[WebServer]       'PLAID-SECRET': '2a290a2bd612fcaf7cbb434f8cbd5c',
+[WebServer]       'Content-Length': '70',
+[WebServer]       'Accept-Encoding': 'gzip, compress, deflate, br'
+[WebServer]     },
+[WebServer]     method: 'post',
+[WebServer]     data: '{"access_token":"access-sandbox-229476cf-25bc-46d2-9ed5-fba9df7a5d63"}',
+[WebServer]     url: 'https://sandbox.plaid.com/accounts/get',
+[WebServer]     allowAbsoluteUrls: true
+[WebServer]   },
+[WebServer]   request: <ref *1> ClientRequest {
+[WebServer]     _events: [Object: null prototype] {
+[WebServer]       abort: [Function (anonymous)],
+[WebServer]       aborted: [Function (anonymous)],
+[WebServer]       connect: [Function (anonymous)],
+[WebServer]       error: [Function (anonymous)],
+[WebServer]       socket: [Function (anonymous)],
+[WebServer]       timeout: [Function (anonymous)],
+[WebServer]       finish: [Function: requestOnFinish]
+[WebServer]     },
+[WebServer]     _eventsCount: 7,
+[WebServer]     _maxListeners: undefined,
+[WebServer]     outputData: [],
+[WebServer]     outputSize: 0,
+[WebServer]     writable: true,
+[WebServer]     destroyed: true,
+[WebServer]     _last: false,
+[WebServer]     chunkedEncoding: false,
+[WebServer]     shouldKeepAlive: true,
+[WebServer]     maxRequestsOnConnectionReached: false,
+[WebServer]     _defaultKeepAlive: true,
+[WebServer]     useChunkedEncodingByDefault: true,
+[WebServer]     sendDate: false,
+[WebServer]     _removedConnection: false,
+[WebServer]     _removedContLen: false,
+[WebServer]     _removedTE: false,
+[WebServer]     strictContentLength: false,
+[WebServer]     _contentLength: 70,
+[WebServer]     _hasBody: true,
+[WebServer]     _trailer: '',
+[WebServer]     finished: true,
+[WebServer]     _headerSent: true,
+[WebServer]     _closed: true,
+[WebServer]     _header: 'POST /accounts/get HTTP/1.1\r\n' +
+[WebServer]       'Accept: application/json, text/plain, */*\r\n' +
+[WebServer]       'Content-Type: application/json\r\n' +
+[WebServer]       'User-Agent: Plaid Node v41.4.0\r\n' +
+[WebServer]       'Plaid-Version: 2020-09-14\r\n' +
+[WebServer]       'PLAID-CLIENT-ID: 68839713794ed3001f58911a\r\n' +
+[WebServer]       'PLAID-SECRET: 2a290a2bd612fcaf7cbb434f8cbd5c\r\n' +
+[WebServer]       'Content-Length: 70\r\n' +
+[WebServer]       'Accept-Encoding: gzip, compress, deflate, br\r\n' +
+[WebServer]       'Host: sandbox.plaid.com\r\n' +
+[WebServer]       'Connection: keep-alive\r\n' +
+[WebServer]       '\r\n',
+[WebServer]     _keepAliveTimeout: 0,
+[WebServer]     _onPendingData: [Function: nop],
+[WebServer]     agent: Agent {
+[WebServer]       _events: [Object: null prototype],
+[WebServer]       _eventsCount: 2,
+[WebServer]       _maxListeners: undefined,
+[WebServer]       options: [Object: null prototype],
+[WebServer]       defaultPort: 443,
+[WebServer]       protocol: 'https:',
+[WebServer]       requests: [Object: null prototype] {},
+[WebServer]       sockets: [Object: null prototype] {},
+[WebServer]       freeSockets: [Object: null prototype],
+[WebServer]       keepAliveMsecs: 1000,
+[WebServer]       keepAlive: true,
+[WebServer]       maxSockets: Infinity,
+[WebServer]       maxFreeSockets: 256,
+[WebServer]       scheduling: 'lifo',
+[WebServer]       maxTotalSockets: Infinity,
+[WebServer]       totalSocketCount: 6,
+[WebServer]       agentKeepAliveTimeoutBuffer: 1000,
+[WebServer]       maxCachedSessions: 100,
+[WebServer]       _sessionCache: [Object],
+[WebServer]       Symbol(shapeMode): false,
+[WebServer]       Symbol(kCapture): false
+[WebServer]     },
+[WebServer]     socketPath: undefined,
+[WebServer]     method: 'POST',
+[WebServer]     maxHeaderSize: undefined,
+[WebServer]     insecureHTTPParser: undefined,
+[WebServer]     joinDuplicateHeaders: undefined,
+[WebServer]     path: '/accounts/get',
+[WebServer]     _ended: true,
+[WebServer]     res: IncomingMessage {
+[WebServer]       _events: [Object],
+[WebServer]       _readableState: [ReadableState],
+[WebServer]       _maxListeners: undefined,
+[WebServer]       socket: null,
+[WebServer]       httpVersionMajor: 1,
+[WebServer]       httpVersionMinor: 1,
+[WebServer]       httpVersion: '1.1',
+[WebServer]       complete: true,
+[WebServer]       rawHeaders: [Array],
+[WebServer]       rawTrailers: [],
+[WebServer]       joinDuplicateHeaders: undefined,
+[WebServer]       aborted: false,
+[WebServer]       upgrade: false,
+[WebServer]       url: '',
+[WebServer]       method: null,
+[WebServer]       statusCode: 400,
+[WebServer]       statusMessage: 'Bad Request',
+[WebServer]       client: [TLSSocket],
+[WebServer]       _consuming: false,
+[WebServer]       _dumped: false,
+[WebServer]       req: [Circular *1],
+[WebServer]       _eventsCount: 4,
+[WebServer]       responseUrl: 'https://sandbox.plaid.com/accounts/get',
+[WebServer]       redirects: [],
+[WebServer]       Symbol(shapeMode): true,
+[WebServer]       Symbol(kCapture): false,
+[WebServer]       Symbol(kHeaders): [Object],
+[WebServer]       Symbol(kHeadersCount): 20,
+[WebServer]       Symbol(kTrailers): null,
+[WebServer]       Symbol(kTrailersCount): 0
+[WebServer]     },
+[WebServer]     aborted: false,
+[WebServer]     timeoutCb: null,
+[WebServer]     upgradeOrConnect: false,
+[WebServer]     parser: null,
+[WebServer]     maxHeadersCount: null,
+[WebServer]     reusedSocket: false,
+[WebServer]     host: 'sandbox.plaid.com',
+[WebServer]     protocol: 'https:',
+[WebServer]     _redirectable: Writable {
+[WebServer]       _events: [Object],
+[WebServer]       _writableState: [WritableState],
+[WebServer]       _maxListeners: undefined,
+[WebServer]       _options: [Object],
+[WebServer]       _ended: true,
+[WebServer]       _ending: true,
+[WebServer]       _redirectCount: 0,
+[WebServer]       _redirects: [],
+[WebServer]       _requestBodyLength: 70,
+[WebServer]       _requestBodyBuffers: [],
+[WebServer]       _eventsCount: 3,
+[WebServer]       _onNativeResponse: [Function (anonymous)],
+[WebServer]       _currentRequest: [Circular *1],
+[WebServer]       _currentUrl: 'https://sandbox.plaid.com/accounts/get',
+[WebServer]       _timeout: null,
+[WebServer]       Symbol(shapeMode): true,
+[WebServer]       Symbol(kCapture): false
+[WebServer]     },
+[WebServer]     Symbol(shapeMode): false,
+[WebServer]     Symbol(kCapture): false,
+[WebServer]     Symbol(kBytesWritten): 0,
+[WebServer]     Symbol(kNeedDrain): false,
+[WebServer]     Symbol(corked): 0,
+[WebServer]     Symbol(kChunkedBuffer): [],
+[WebServer]     Symbol(kChunkedLength): 0,
+[WebServer]     Symbol(kSocket): TLSSocket {
+[WebServer]       _tlsOptions: [Object],
+[WebServer]       _secureEstablished: true,
+[WebServer]       _securePending: false,
+[WebServer]       _newSessionPending: false,
+[WebServer]       _controlReleased: true,
+[WebServer]       secureConnecting: false,
+[WebServer]       _SNICallback: null,
+[WebServer]       servername: 'sandbox.plaid.com',
+[WebServer]       alpnProtocol: false,
+[WebServer]       authorized: true,
+[WebServer]       authorizationError: null,
+[WebServer]       encrypted: true,
+[WebServer]       _events: [Object: null prototype],
+[WebServer]       _eventsCount: 9,
+[WebServer]       connecting: false,
+[WebServer]       _hadError: false,
+[WebServer]       _parent: null,
+[WebServer]       _host: 'sandbox.plaid.com',
+[WebServer]       _closeAfterHandlingError: false,
+[WebServer]       _readableState: [ReadableState],
+[WebServer]       _writableState: [WritableState],
+[WebServer]       allowHalfOpen: false,
+[WebServer]       _maxListeners: undefined,
+[WebServer]       _sockname: null,
+[WebServer]       _pendingData: null,
+[WebServer]       _pendingEncoding: '',
+[WebServer]       server: undefined,
+[WebServer]       _server: null,
+[WebServer]       ssl: null,
+[WebServer]       _requestCert: true,
+[WebServer]       _rejectUnauthorized: true,
+[WebServer]       timeout: 5000,
+[WebServer]       parser: null,
+[WebServer]       _httpMessage: null,
+[WebServer]       autoSelectFamilyAttemptedAddresses: [Array],
+[WebServer]       handle: [TLSWrap],
+[WebServer]       Symbol(alpncallback): null,
+[WebServer]       Symbol(res): [TLSWrap],
+[WebServer]       Symbol(verified): true,
+[WebServer]       Symbol(pendingSession): null,
+[WebServer]       Symbol(async_id_symbol): -1,
+[WebServer]       Symbol(kHandle): [TLSWrap],
+[WebServer]       Symbol(lastWriteQueueSize): 0,
+[WebServer]       Symbol(timeout): Timeout {
+[WebServer]         _idleTimeout: 5000,
+[WebServer]         _idlePrev: [Timeout],
+[WebServer]         _idleNext: [Timeout],
+[WebServer]         _idleStart: 62863,
+[WebServer]         _onTimeout: [Function: bound ],
+[WebServer]         _timerArgs: undefined,
+[WebServer]         _repeat: null,
+[WebServer]         _destroyed: false,
+[WebServer]         Symbol(refed): false,
+[WebServer]         Symbol(kHasPrimitive): false,
+[WebServer]         Symbol(asyncId): 55240,
+[WebServer]         Symbol(triggerId): 55238,
+[WebServer]         Symbol(kAsyncContextFrame): [AsyncContextFrame [Map]]
+[WebServer]       },
+[WebServer]       Symbol(kBuffer): null,
+[WebServer]       Symbol(kBufferCb): null,
+[WebServer]       Symbol(kBufferGen): null,
+[WebServer]       Symbol(shapeMode): true,
+[WebServer]       Symbol(kCapture): false,
+[WebServer]       Symbol(kSetNoDelay): false,
+[WebServer]       Symbol(kSetKeepAlive): true,
+[WebServer]       Symbol(kSetKeepAliveInitialDelay): 1,
+[WebServer]       Symbol(kBytesRead): 0,
+[WebServer]       Symbol(kBytesWritten): 0,
+[WebServer]       Symbol(connect-options): [Object]
+[WebServer]     },
+[WebServer]     Symbol(kOutHeaders): [Object: null prototype] {
+[WebServer]       accept: [Array],
+[WebServer]       'content-type': [Array],
+[WebServer]       'user-agent': [Array],
+[WebServer]       'plaid-version': [Array],
+[WebServer]       'plaid-client-id': [Array],
+[WebServer]       'plaid-secret': [Array],
+[WebServer]       'content-length': [Array],
+[WebServer]       'accept-encoding': [Array],
+[WebServer]       host: [Array]
+[WebServer]     },
+[WebServer]     Symbol(errored): null,
+[WebServer]     Symbol(kHighWaterMark): 16384,
+[WebServer]     Symbol(kRejectNonStandardBodyWrites): false,
+[WebServer]     Symbol(kUniqueHeaders): null
+[WebServer]   },
+[WebServer]   response: {
+[WebServer]     status: 400,
+[WebServer]     statusText: 'Bad Request',
+[WebServer]     headers: Object [AxiosHeaders] {
+[WebServer]       server: 'nginx',
+[WebServer]       date: 'Sun, 05 Apr 2026 01:56:34 GMT',
+[WebServer]       'content-type': 'application/json; charset=utf-8',
+[WebServer]       'content-length': '238',
+[WebServer]       connection: 'keep-alive',
+[WebServer]       'plaid-version': '2020-09-14',
+[WebServer]       vary: 'Accept-Encoding',
+[WebServer]       'x-envoy-upstream-service-time': '63',
+[WebServer]       'x-envoy-decorator-operation': 'default.svc-apiv2:8080/*'
+[WebServer]     },
+[WebServer]     config: {
+[WebServer]       transitional: [Object],
+[WebServer]       adapter: [Array],
+[WebServer]       transformRequest: [Array],
+[WebServer]       transformResponse: [Array],
+[WebServer]       timeout: 0,
+[WebServer]       xsrfCookieName: 'XSRF-TOKEN',
+[WebServer]       xsrfHeaderName: 'X-XSRF-TOKEN',
+[WebServer]       maxContentLength: -1,
+[WebServer]       maxBodyLength: -1,
+[WebServer]       env: [Object],
+[WebServer]       validateStatus: [Function: validateStatus],
+[WebServer]       headers: [Object [AxiosHeaders]],
+[WebServer]       method: 'post',
+[WebServer]       data: '{"access_token":"access-sandbox-229476cf-25bc-46d2-9ed5-fba9df7a5d63"}',
+[WebServer]       url: 'https://sandbox.plaid.com/accounts/get',
+[WebServer]       allowAbsoluteUrls: true
+[WebServer]     },
+[WebServer]     request: <ref *1> ClientRequest {
+[WebServer]       _events: [Object: null prototype],
+[WebServer]       _eventsCount: 7,
+[WebServer]       _maxListeners: undefined,
+[WebServer]       outputData: [],
+[WebServer]       outputSize: 0,
+[WebServer]       writable: true,
+[WebServer]       destroyed: true,
+[WebServer]       _last: false,
+[WebServer]       chunkedEncoding: false,
+[WebServer]       shouldKeepAlive: true,
+[WebServer]       maxRequestsOnConnectionReached: false,
+[WebServer]       _defaultKeepAlive: true,
+[WebServer]       useChunkedEncodingByDefault: true,
+[WebServer]       sendDate: false,
+[WebServer]       _removedConnection: false,
+[WebServer]       _removedContLen: false,
+[WebServer]       _removedTE: false,
+[WebServer]       strictContentLength: false,
+[WebServer]       _contentLength: 70,
+[WebServer]       _hasBody: true,
+[WebServer]       _trailer: '',
+[WebServer]       finished: true,
+[WebServer]       _headerSent: true,
+[WebServer]       _closed: true,
+[WebServer]       _header: 'POST /accounts/get HTTP/1.1\r\n' +
+[WebServer]         'Accept: application/json, text/plain, */*\r\n' +
+[WebServer]         'Content-Type: application/json\r\n' +
+[WebServer]         'User-Agent: Plaid Node v41.4.0\r\n' +
+[WebServer]         'Plaid-Version: 2020-09-14\r\n' +
+[WebServer]         'PLAID-CLIENT-ID: 68839713794ed3001f58911a\r\n' +
+[WebServer]         'PLAID-SECRET: 2a290a2bd612fcaf7cbb434f8cbd5c\r\n' +
+[WebServer]         'Content-Length: 70\r\n' +
+[WebServer]         'Accept-Encoding: gzip, compress, deflate, br\r\n' +
+[WebServer]         'Host: sandbox.plaid.com\r\n' +
+[WebServer]         'Connection: keep-alive\r\n' +
+[WebServer]         '\r\n',
+[WebServer]       _keepAliveTimeout: 0,
+[WebServer]       _onPendingData: [Function: nop],
+[WebServer]       agent: [Agent],
+[WebServer]       socketPath: undefined,
+[WebServer]       method: 'POST',
+[WebServer]       maxHeaderSize: undefined,
+[WebServer]       insecureHTTPParser: undefined,
+[WebServer]       joinDuplicateHeaders: undefined,
+[WebServer]       path: '/accounts/get',
+[WebServer]       _ended: true,
+[WebServer]       res: [IncomingMessage],
+[WebServer]       aborted: false,
+[WebServer]       timeoutCb: null,
+[WebServer]       upgradeOrConnect: false,
+[WebServer]       parser: null,
+[WebServer]       maxHeadersCount: null,
+[WebServer]       reusedSocket: false,
+[WebServer]       host: 'sandbox.plaid.com',
+[WebServer]       protocol: 'https:',
+[WebServer]       _redirectable: [Writable],
+[WebServer]       Symbol(shapeMode): false,
+[WebServer]       Symbol(kCapture): false,
+[WebServer]       Symbol(kBytesWritten): 0,
+[WebServer]       Symbol(kNeedDrain): false,
+[WebServer]       Symbol(corked): 0,
+[WebServer]       Symbol(kChunkedBuffer): [],
+[WebServer]       Symbol(kChunkedLength): 0,
+[WebServer]       Symbol(kSocket): [TLSSocket],
+[WebServer]       Symbol(kOutHeaders): [Object: null prototype],
+[WebServer]       Symbol(errored): null,
+[WebServer]       Symbol(kHighWaterMark): 16384,
+[WebServer]       Symbol(kRejectNonStandardBodyWrites): false,
+[WebServer]       Symbol(kUniqueHeaders): null
+[WebServer]     },
+[WebServer]     data: {
+[WebServer]       display_message: null,
+[WebServer]       documentation_url: 'https://plaid.com/docs/?ref=error#invalid-input-errors',
+[WebServer]       error_code: 'INVALID_ACCESS_TOKEN',
+[WebServer]       error_message: 'could not find matching access token',
+[WebServer]       error_type: 'INVALID_INPUT',
+[WebServer]       request_id: '1f5cc8970a14914',
+[WebServer]       suggested_action: null
+[WebServer]     }
+[WebServer]   },
+[WebServer]   status: 400
+[WebServer] }
+[WebServer] getAllAccounts: skipping bank 20000000-0000-4000-8000-000000000002: Error [AxiosError]: Request failed with status code 400
+[WebServer]     at async (lib\actions\plaid.actions.ts:465:28)
+[WebServer]     at async getAllAccounts (lib\actions\plaid.actions.ts:454:27)
+[WebServer]     at async DashboardServerWrapper (components\dashboard\dashboard-server-wrapper.tsx:40:51)
+[WebServer]   463 |           }
+[WebServer]   464 |
+[WebServer] > 465 |           const response = await plaidClient.accountsGet({
+[WebServer]       |                            ^
+[WebServer]   466 |             access_token: bank.accessToken,
+[WebServer]   467 |           });
+[WebServer]   468 |           return response.data.accounts.map((account) => ({ {
+[WebServer]   isAxiosError: true,
+[WebServer]   code: 'ERR_BAD_REQUEST',
+[WebServer]   config: {
+[WebServer]     transitional: {
+[WebServer]       silentJSONParsing: true,
+[WebServer]       forcedJSONParsing: true,
+[WebServer]       clarifyTimeoutError: false,
+[WebServer]       legacyInterceptorReqResOrdering: true
+[WebServer]     },
+[WebServer]     adapter: [ 'xhr', 'http', 'fetch' ],
+[WebServer]     transformRequest: [ [Function: transformRequest] ],
+[WebServer]     transformResponse: [ [Function: transformResponse] ],
+[WebServer]     timeout: 0,
+[WebServer]     xsrfCookieName: 'XSRF-TOKEN',
+[WebServer]     xsrfHeaderName: 'X-XSRF-TOKEN',
+[WebServer]     maxContentLength: -1,
+[WebServer]     maxBodyLength: -1,
+[WebServer]     env: { FormData: [Function], Blob: [class Blob] },
+[WebServer]     validateStatus: [Function: validateStatus],
+[WebServer]     headers: Object [AxiosHeaders] {
+[WebServer]       Accept: 'application/json, text/plain, */*',
+[WebServer]       'Content-Type': 'application/json',
+[WebServer]       'User-Agent': 'Plaid Node v41.4.0',
+[WebServer]       'Plaid-Version': '2020-09-14',
+[WebServer]       'PLAID-CLIENT-ID': '68839713794ed3001f58911a',
+[WebServer]       'PLAID-SECRET': '2a290a2bd612fcaf7cbb434f8cbd5c',
+[WebServer]       'Content-Length': '70',
+[WebServer]       'Accept-Encoding': 'gzip, compress, deflate, br'
+[WebServer]     },
+[WebServer]     method: 'post',
+[WebServer]     data: '{"access_token":"access-sandbox-83fd9200-0165-4ef8-afde-65744b9d1548"}',
+[WebServer]     url: 'https://sandbox.plaid.com/accounts/get',
+[WebServer]     allowAbsoluteUrls: true
+[WebServer]   },
+[WebServer]   request: <ref *1> ClientRequest {
+[WebServer]     _events: [Object: null prototype] {
+[WebServer]       abort: [Function (anonymous)],
+[WebServer]       aborted: [Function (anonymous)],
+[WebServer]       connect: [Function (anonymous)],
+[WebServer]       error: [Function (anonymous)],
+[WebServer]       socket: [Function (anonymous)],
+[WebServer]       timeout: [Function (anonymous)],
+[WebServer]       finish: [Function: requestOnFinish]
+[WebServer]     },
+[WebServer]     _eventsCount: 7,
+[WebServer]     _maxListeners: undefined,
+[WebServer]     outputData: [],
+[WebServer]     outputSize: 0,
+[WebServer]     writable: true,
+[WebServer]     destroyed: true,
+[WebServer]     _last: false,
+[WebServer]     chunkedEncoding: false,
+[WebServer]     shouldKeepAlive: true,
+[WebServer]     maxRequestsOnConnectionReached: false,
+[WebServer]     _defaultKeepAlive: true,
+[WebServer]     useChunkedEncodingByDefault: true,
+[WebServer]     sendDate: false,
+[WebServer]     _removedConnection: false,
+[WebServer]     _removedContLen: false,
+[WebServer]     _removedTE: false,
+[WebServer]     strictContentLength: false,
+[WebServer]     _contentLength: 70,
+[WebServer]     _hasBody: true,
+[WebServer]     _trailer: '',
+[WebServer]     finished: true,
+[WebServer]     _headerSent: true,
+[WebServer]     _closed: true,
+[WebServer]     _header: 'POST /accounts/get HTTP/1.1\r\n' +
+[WebServer]       'Accept: application/json, text/plain, */*\r\n' +
+[WebServer]       'Content-Type: application/json\r\n' +
+[WebServer]       'User-Agent: Plaid Node v41.4.0\r\n' +
+[WebServer]       'Plaid-Version: 2020-09-14\r\n' +
+[WebServer]       'PLAID-CLIENT-ID: 68839713794ed3001f58911a\r\n' +
+[WebServer]       'PLAID-SECRET: 2a290a2bd612fcaf7cbb434f8cbd5c\r\n' +
+[WebServer]       'Content-Length: 70\r\n' +
+[WebServer]       'Accept-Encoding: gzip, compress, deflate, br\r\n' +
+[WebServer]       'Host: sandbox.plaid.com\r\n' +
+[WebServer]       'Connection: keep-alive\r\n' +
+[WebServer]       '\r\n',
+[WebServer]     _keepAliveTimeout: 0,
+[WebServer]     _onPendingData: [Function: nop],
+[WebServer]     agent: Agent {
+[WebServer]       _events: [Object: null prototype],
+[WebServer]       _eventsCount: 2,
+[WebServer]       _maxListeners: undefined,
+[WebServer]       options: [Object: null prototype],
+[WebServer]       defaultPort: 443,
+[WebServer]       protocol: 'https:',
+[WebServer]       requests: [Object: null prototype] {},
+[WebServer]       sockets: [Object: null prototype] {},
+[WebServer]       freeSockets: [Object: null prototype],
+[WebServer]       keepAliveMsecs: 1000,
+[WebServer]       keepAlive: true,
+[WebServer]       maxSockets: Infinity,
+[WebServer]       maxFreeSockets: 256,
+[WebServer]       scheduling: 'lifo',
+[WebServer]       maxTotalSockets: Infinity,
+[WebServer]       totalSocketCount: 6,
+[WebServer]       agentKeepAliveTimeoutBuffer: 1000,
+[WebServer]       maxCachedSessions: 100,
+[WebServer]       _sessionCache: [Object],
+[WebServer]       Symbol(shapeMode): false,
+[WebServer]       Symbol(kCapture): false
+[WebServer]     },
+[WebServer]     socketPath: undefined,
+[WebServer]     method: 'POST',
+[WebServer]     maxHeaderSize: undefined,
+[WebServer]     insecureHTTPParser: undefined,
+[WebServer]     joinDuplicateHeaders: undefined,
+[WebServer]     path: '/accounts/get',
+[WebServer]     _ended: true,
+[WebServer]     res: IncomingMessage {
+[WebServer]       _events: [Object],
+[WebServer]       _readableState: [ReadableState],
+[WebServer]       _maxListeners: undefined,
+[WebServer]       socket: null,
+[WebServer]       httpVersionMajor: 1,
+[WebServer]       httpVersionMinor: 1,
+[WebServer]       httpVersion: '1.1',
+[WebServer]       complete: true,
+[WebServer]       rawHeaders: [Array],
+[WebServer]       rawTrailers: [],
+[WebServer]       joinDuplicateHeaders: undefined,
+[WebServer]       aborted: false,
+[WebServer]       upgrade: false,
+[WebServer]       url: '',
+[WebServer]       method: null,
+[WebServer]       statusCode: 400,
+[WebServer]       statusMessage: 'Bad Request',
+[WebServer]       client: [TLSSocket],
+[WebServer]       _consuming: false,
+[WebServer]       _dumped: false,
+[WebServer]       req: [Circular *1],
+[WebServer]       _eventsCount: 4,
+[WebServer]       responseUrl: 'https://sandbox.plaid.com/accounts/get',
+[WebServer]       redirects: [],
+[WebServer]       Symbol(shapeMode): true,
+[WebServer]       Symbol(kCapture): false,
+[WebServer]       Symbol(kHeaders): [Object],
+[WebServer]       Symbol(kHeadersCount): 20,
+[WebServer]       Symbol(kTrailers): null,
+[WebServer]       Symbol(kTrailersCount): 0
+[WebServer]     },
+[WebServer]     aborted: false,
+[WebServer]     timeoutCb: null,
+[WebServer]     upgradeOrConnect: false,
+[WebServer]     parser: null,
+[WebServer]     maxHeadersCount: null,
+[WebServer]     reusedSocket: false,
+[WebServer]     host: 'sandbox.plaid.com',
+[WebServer]     protocol: 'https:',
+[WebServer]     _redirectable: Writable {
+[WebServer]       _events: [Object],
+[WebServer]       _writableState: [WritableState],
+[WebServer]       _maxListeners: undefined,
+[WebServer]       _options: [Object],
+[WebServer]       _ended: true,
+[WebServer]       _ending: true,
+[WebServer]       _redirectCount: 0,
+[WebServer]       _redirects: [],
+[WebServer]       _requestBodyLength: 70,
+[WebServer]       _requestBodyBuffers: [],
+[WebServer]       _eventsCount: 3,
+[WebServer]       _onNativeResponse: [Function (anonymous)],
+[WebServer]       _currentRequest: [Circular *1],
+[WebServer]       _currentUrl: 'https://sandbox.plaid.com/accounts/get',
+[WebServer]       _timeout: null,
+[WebServer]       Symbol(shapeMode): true,
+[WebServer]       Symbol(kCapture): false
+[WebServer]     },
+[WebServer]     Symbol(shapeMode): false,
+[WebServer]     Symbol(kCapture): false,
+[WebServer]     Symbol(kBytesWritten): 0,
+[WebServer]     Symbol(kNeedDrain): false,
+[WebServer]     Symbol(corked): 0,
+[WebServer]     Symbol(kChunkedBuffer): [],
+[WebServer]     Symbol(kChunkedLength): 0,
+[WebServer]     Symbol(kSocket): TLSSocket {
+[WebServer]       _tlsOptions: [Object],
+[WebServer]       _secureEstablished: true,
+[WebServer]       _securePending: false,
+[WebServer]       _newSessionPending: false,
+[WebServer]       _controlReleased: true,
+[WebServer]       secureConnecting: false,
+[WebServer]       _SNICallback: null,
+[WebServer]       servername: 'sandbox.plaid.com',
+[WebServer]       alpnProtocol: false,
+[WebServer]       authorized: true,
+[WebServer]       authorizationError: null,
+[WebServer]       encrypted: true,
+[WebServer]       _events: [Object: null prototype],
+[WebServer]       _eventsCount: 9,
+[WebServer]       connecting: false,
+[WebServer]       _hadError: false,
+[WebServer]       _parent: null,
+[WebServer]       _host: 'sandbox.plaid.com',
+[WebServer]       _closeAfterHandlingError: false,
+[WebServer]       _readableState: [ReadableState],
+[WebServer]       _writableState: [WritableState],
+[WebServer]       allowHalfOpen: false,
+[WebServer]       _maxListeners: undefined,
+[WebServer]       _sockname: null,
+[WebServer]       _pendingData: null,
+[WebServer]       _pendingEncoding: '',
+[WebServer]       server: undefined,
+[WebServer]       _server: null,
+[WebServer]       ssl: null,
+[WebServer]       _requestCert: true,
+[WebServer]       _rejectUnauthorized: true,
+[WebServer]       timeout: 5000,
+[WebServer]       parser: null,
+[WebServer]       _httpMessage: null,
+[WebServer]       autoSelectFamilyAttemptedAddresses: [Array],
+[WebServer]       handle: [TLSWrap],
+[WebServer]       Symbol(alpncallback): null,
+[WebServer]       Symbol(res): [TLSWrap],
+[WebServer]       Symbol(verified): true,
+[WebServer]       Symbol(pendingSession): null,
+[WebServer]       Symbol(async_id_symbol): -1,
+[WebServer]       Symbol(kHandle): [TLSWrap],
+[WebServer]       Symbol(lastWriteQueueSize): 0,
+[WebServer]       Symbol(timeout): Timeout {
+[WebServer]         _idleTimeout: 5000,
+[WebServer]         _idlePrev: [Timeout],
+[WebServer]         _idleNext: [Timeout],
+[WebServer]         _idleStart: 62931,
+[WebServer]         _onTimeout: [Function: bound ],
+[WebServer]         _timerArgs: undefined,
+[WebServer]         _repeat: null,
+[WebServer]         _destroyed: false,
+[WebServer]         Symbol(refed): false,
+[WebServer]         Symbol(kHasPrimitive): false,
+[WebServer]         Symbol(asyncId): 55263,
+[WebServer]         Symbol(triggerId): 55261,
+[WebServer]         Symbol(kAsyncContextFrame): [AsyncContextFrame [Map]]
+[WebServer]       },
+[WebServer]       Symbol(kBuffer): null,
+[WebServer]       Symbol(kBufferCb): null,
+[WebServer]       Symbol(kBufferGen): null,
+[WebServer]       Symbol(shapeMode): true,
+[WebServer]       Symbol(kCapture): false,
+[WebServer]       Symbol(kSetNoDelay): false,
+[WebServer]       Symbol(kSetKeepAlive): true,
+[WebServer]       Symbol(kSetKeepAliveInitialDelay): 1,
+[WebServer]       Symbol(kBytesRead): 0,
+[WebServer]       Symbol(kBytesWritten): 0,
+[WebServer]       Symbol(connect-options): [Object]
+[WebServer]     },
+[WebServer]     Symbol(kOutHeaders): [Object: null prototype] {
+[WebServer]       accept: [Array],
+[WebServer]       'content-type': [Array],
+[WebServer]       'user-agent': [Array],
+[WebServer]       'plaid-version': [Array],
+[WebServer]       'plaid-client-id': [Array],
+[WebServer]       'plaid-secret': [Array],
+[WebServer]       'content-length': [Array],
+[WebServer]       'accept-encoding': [Array],
+[WebServer]       host: [Array]
+[WebServer]     },
+[WebServer]     Symbol(errored): null,
+[WebServer]     Symbol(kHighWaterMark): 16384,
+[WebServer]     Symbol(kRejectNonStandardBodyWrites): false,
+[WebServer]     Symbol(kUniqueHeaders): null
+[WebServer]   },
+[WebServer]   response: {
+[WebServer]     status: 400,
+[WebServer]     statusText: 'Bad Request',
+[WebServer]     headers: Object [AxiosHeaders] {
+[WebServer]       server: 'nginx',
+[WebServer]       date: 'Sun, 05 Apr 2026 01:56:34 GMT',
+[WebServer]       'content-type': 'application/json; charset=utf-8',
+[WebServer]       'content-length': '238',
+[WebServer]       connection: 'keep-alive',
+[WebServer]       'plaid-version': '2020-09-14',
+[WebServer]       vary: 'Accept-Encoding',
+[WebServer]       'x-envoy-upstream-service-time': '63',
+[WebServer]       'x-envoy-decorator-operation': 'default.svc-apiv2:8080/*'
+[WebServer]     },
+[WebServer]     config: {
+[WebServer]       transitional: [Object],
+[WebServer]       adapter: [Array],
+[WebServer]       transformRequest: [Array],
+[WebServer]       transformResponse: [Array],
+[WebServer]       timeout: 0,
+[WebServer]       xsrfCookieName: 'XSRF-TOKEN',
+[WebServer]       xsrfHeaderName: 'X-XSRF-TOKEN',
+[WebServer]       maxContentLength: -1,
+[WebServer]       maxBodyLength: -1,
+[WebServer]       env: [Object],
+[WebServer]       validateStatus: [Function: validateStatus],
+[WebServer]       headers: [Object [AxiosHeaders]],
+[WebServer]       method: 'post',
+[WebServer]       data: '{"access_token":"access-sandbox-83fd9200-0165-4ef8-afde-65744b9d1548"}',
+[WebServer]       url: 'https://sandbox.plaid.com/accounts/get',
+[WebServer]       allowAbsoluteUrls: true
+[WebServer]     },
+[WebServer]     request: <ref *1> ClientRequest {
+[WebServer]       _events: [Object: null prototype],
+[WebServer]       _eventsCount: 7,
+[WebServer]       _maxListeners: undefined,
+[WebServer]       outputData: [],
+[WebServer]       outputSize: 0,
+[WebServer]       writable: true,
+[WebServer]       destroyed: true,
+[WebServer]       _last: false,
+[WebServer]       chunkedEncoding: false,
+[WebServer]       shouldKeepAlive: true,
+[WebServer]       maxRequestsOnConnectionReached: false,
+[WebServer]       _defaultKeepAlive: true,
+[WebServer]       useChunkedEncodingByDefault: true,
+[WebServer]       sendDate: false,
+[WebServer]       _removedConnection: false,
+[WebServer]       _removedContLen: false,
+[WebServer]       _removedTE: false,
+[WebServer]       strictContentLength: false,
+[WebServer]       _contentLength: 70,
+[WebServer]       _hasBody: true,
+[WebServer]       _trailer: '',
+[WebServer]       finished: true,
+[WebServer]       _headerSent: true,
+[WebServer]       _closed: true,
+[WebServer]       _header: 'POST /accounts/get HTTP/1.1\r\n' +
+[WebServer]         'Accept: application/json, text/plain, */*\r\n' +
+[WebServer]         'Content-Type: application/json\r\n' +
+[WebServer]         'User-Agent: Plaid Node v41.4.0\r\n' +
+[WebServer]         'Plaid-Version: 2020-09-14\r\n' +
+[WebServer]         'PLAID-CLIENT-ID: 68839713794ed3001f58911a\r\n' +
+[WebServer]         'PLAID-SECRET: 2a290a2bd612fcaf7cbb434f8cbd5c\r\n' +
+[WebServer]         'Content-Length: 70\r\n' +
+[WebServer]         'Accept-Encoding: gzip, compress, deflate, br\r\n' +
+[WebServer]         'Host: sandbox.plaid.com\r\n' +
+[WebServer]         'Connection: keep-alive\r\n' +
+[WebServer]         '\r\n',
+[WebServer]       _keepAliveTimeout: 0,
+[WebServer]       _onPendingData: [Function: nop],
+[WebServer]       agent: [Agent],
+[WebServer]       socketPath: undefined,
+[WebServer]       method: 'POST',
+[WebServer]       maxHeaderSize: undefined,
+[WebServer]       insecureHTTPParser: undefined,
+[WebServer]       joinDuplicateHeaders: undefined,
+[WebServer]       path: '/accounts/get',
+[WebServer]       _ended: true,
+[WebServer]       res: [IncomingMessage],
+[WebServer]       aborted: false,
+[WebServer]       timeoutCb: null,
+[WebServer]       upgradeOrConnect: false,
+[WebServer]       parser: null,
+[WebServer]       maxHeadersCount: null,
+[WebServer]       reusedSocket: false,
+[WebServer]       host: 'sandbox.plaid.com',
+[WebServer]       protocol: 'https:',
+[WebServer]       _redirectable: [Writable],
+[WebServer]       Symbol(shapeMode): false,
+[WebServer]       Symbol(kCapture): false,
+[WebServer]       Symbol(kBytesWritten): 0,
+[WebServer]       Symbol(kNeedDrain): false,
+[WebServer]       Symbol(corked): 0,
+[WebServer]       Symbol(kChunkedBuffer): [],
+[WebServer]       Symbol(kChunkedLength): 0,
+[WebServer]       Symbol(kSocket): [TLSSocket],
+[WebServer]       Symbol(kOutHeaders): [Object: null prototype],
+[WebServer]       Symbol(errored): null,
+[WebServer]       Symbol(kHighWaterMark): 16384,
+[WebServer]       Symbol(kRejectNonStandardBodyWrites): false,
+[WebServer]       Symbol(kUniqueHeaders): null
+[WebServer]     },
+[WebServer]     data: {
+[WebServer]       display_message: null,
+[WebServer]       documentation_url: 'https://plaid.com/docs/?ref=error#invalid-input-errors',
+[WebServer]       error_code: 'INVALID_ACCESS_TOKEN',
+[WebServer]       error_message: 'could not find matching access token',
+[WebServer]       error_type: 'INVALID_INPUT',
+[WebServer]       request_id: 'c9fc0de129a072d',
+[WebServer]       suggested_action: null
+[WebServer]     }
+[WebServer]   },
+[WebServer]   status: 400
+[WebServer] }
+[WebServer] getAllAccounts: skipping bank 20000000-0000-4000-8000-000000000001: Error [AxiosError]: Request failed with status code 400
+[WebServer]     at async (lib\actions\plaid.actions.ts:465:28)
+[WebServer]     at async getAllAccounts (lib\actions\plaid.actions.ts:454:27)
+[WebServer]     at async DashboardServerWrapper (components\dashboard\dashboard-server-wrapper.tsx:40:51)
+[WebServer]   463 |           }
+[WebServer]   464 |
+[WebServer] > 465 |           const response = await plaidClient.accountsGet({
+[WebServer]       |                            ^
+[WebServer]   466 |             access_token: bank.accessToken,
+[WebServer]   467 |           });
+[WebServer]   468 |           return response.data.accounts.map((account) => ({ {
+[WebServer]   isAxiosError: true,
+[WebServer]   code: 'ERR_BAD_REQUEST',
+[WebServer]   config: {
+[WebServer]     transitional: {
+[WebServer]       silentJSONParsing: true,
+[WebServer]       forcedJSONParsing: true,
+[WebServer]       clarifyTimeoutError: false,
+[WebServer]       legacyInterceptorReqResOrdering: true
+[WebServer]     },
+[WebServer]     adapter: [ 'xhr', 'http', 'fetch' ],
+[WebServer]     transformRequest: [ [Function: transformRequest] ],
+[WebServer]     transformResponse: [ [Function: transformResponse] ],
+[WebServer]     timeout: 0,
+[WebServer]     xsrfCookieName: 'XSRF-TOKEN',
+[WebServer]     xsrfHeaderName: 'X-XSRF-TOKEN',
+[WebServer]     maxContentLength: -1,
+[WebServer]     maxBodyLength: -1,
+[WebServer]     env: { FormData: [Function], Blob: [class Blob] },
+[WebServer]     validateStatus: [Function: validateStatus],
+[WebServer]     headers: Object [AxiosHeaders] {
+[WebServer]       Accept: 'application/json, text/plain, */*',
+[WebServer]       'Content-Type': 'application/json',
+[WebServer]       'User-Agent': 'Plaid Node v41.4.0',
+[WebServer]       'Plaid-Version': '2020-09-14',
+[WebServer]       'PLAID-CLIENT-ID': '68839713794ed3001f58911a',
+[WebServer]       'PLAID-SECRET': '2a290a2bd612fcaf7cbb434f8cbd5c',
+[WebServer]       'Content-Length': '70',
+[WebServer]       'Accept-Encoding': 'gzip, compress, deflate, br'
+[WebServer]     },
+[WebServer]     method: 'post',
+[WebServer]     data: '{"access_token":"access-sandbox-229476cf-25bc-46d2-9ed5-fba9df7a5d63"}',
+[WebServer]     url: 'https://sandbox.plaid.com/accounts/get',
+[WebServer]     allowAbsoluteUrls: true
+[WebServer]   },
+[WebServer]   request: <ref *1> ClientRequest {
+[WebServer]     _events: [Object: null prototype] {
+[WebServer]       abort: [Function (anonymous)],
+[WebServer]       aborted: [Function (anonymous)],
+[WebServer]       connect: [Function (anonymous)],
+[WebServer]       error: [Function (anonymous)],
+[WebServer]       socket: [Function (anonymous)],
+[WebServer]       timeout: [Function (anonymous)],
+[WebServer]       finish: [Function: requestOnFinish]
+[WebServer]     },
+[WebServer]     _eventsCount: 7,
+[WebServer]     _maxListeners: undefined,
+[WebServer]     outputData: [],
+[WebServer]     outputSize: 0,
+[WebServer]     writable: true,
+[WebServer]     destroyed: true,
+[WebServer]     _last: false,
+[WebServer]     chunkedEncoding: false,
+[WebServer]     shouldKeepAlive: true,
+[WebServer]     maxRequestsOnConnectionReached: false,
+[WebServer]     _defaultKeepAlive: true,
+[WebServer]     useChunkedEncodingByDefault: true,
+[WebServer]     sendDate: false,
+[WebServer]     _removedConnection: false,
+[WebServer]     _removedContLen: false,
+[WebServer]     _removedTE: false,
+[WebServer]     strictContentLength: false,
+[WebServer]     _contentLength: 70,
+[WebServer]     _hasBody: true,
+[WebServer]     _trailer: '',
+[WebServer]     finished: true,
+[WebServer]     _headerSent: true,
+[WebServer]     _closed: true,
+[WebServer]     _header: 'POST /accounts/get HTTP/1.1\r\n' +
+[WebServer]       'Accept: application/json, text/plain, */*\r\n' +
+[WebServer]       'Content-Type: application/json\r\n' +
+[WebServer]       'User-Agent: Plaid Node v41.4.0\r\n' +
+[WebServer]       'Plaid-Version: 2020-09-14\r\n' +
+[WebServer]       'PLAID-CLIENT-ID: 68839713794ed3001f58911a\r\n' +
+[WebServer]       'PLAID-SECRET: 2a290a2bd612fcaf7cbb434f8cbd5c\r\n' +
+[WebServer]       'Content-Length: 70\r\n' +
+[WebServer]       'Accept-Encoding: gzip, compress, deflate, br\r\n' +
+[WebServer]       'Host: sandbox.plaid.com\r\n' +
+[WebServer]       'Connection: keep-alive\r\n' +
+[WebServer]       '\r\n',
+[WebServer]     _keepAliveTimeout: 0,
+[WebServer]     _onPendingData: [Function: nop],
+[WebServer]     agent: Agent {
+[WebServer]       _events: [Object: null prototype],
+[WebServer]       _eventsCount: 2,
+[WebServer]       _maxListeners: undefined,
+[WebServer]       options: [Object: null prototype],
+[WebServer]       defaultPort: 443,
+[WebServer]       protocol: 'https:',
+[WebServer]       requests: [Object: null prototype] {},
+[WebServer]       sockets: [Object: null prototype] {},
+[WebServer]       freeSockets: [Object: null prototype],
+[WebServer]       keepAliveMsecs: 1000,
+[WebServer]       keepAlive: true,
+[WebServer]       maxSockets: Infinity,
+[WebServer]       maxFreeSockets: 256,
+[WebServer]       scheduling: 'lifo',
+[WebServer]       maxTotalSockets: Infinity,
+[WebServer]       totalSocketCount: 6,
+[WebServer]       agentKeepAliveTimeoutBuffer: 1000,
+[WebServer]       maxCachedSessions: 100,
+[WebServer]       _sessionCache: [Object],
+[WebServer]       Symbol(shapeMode): false,
+[WebServer]       Symbol(kCapture): false
+[WebServer]     },
+[WebServer]     socketPath: undefined,
+[WebServer]     method: 'POST',
+[WebServer]     maxHeaderSize: undefined,
+[WebServer]     insecureHTTPParser: undefined,
+[WebServer]     joinDuplicateHeaders: undefined,
+[WebServer]     path: '/accounts/get',
+[WebServer]     _ended: true,
+[WebServer]     res: IncomingMessage {
+[WebServer]       _events: [Object],
+[WebServer]       _readableState: [ReadableState],
+[WebServer]       _maxListeners: undefined,
+[WebServer]       socket: null,
+[WebServer]       httpVersionMajor: 1,
+[WebServer]       httpVersionMinor: 1,
+[WebServer]       httpVersion: '1.1',
+[WebServer]       complete: true,
+[WebServer]       rawHeaders: [Array],
+[WebServer]       rawTrailers: [],
+[WebServer]       joinDuplicateHeaders: undefined,
+[WebServer]       aborted: false,
+[WebServer]       upgrade: false,
+[WebServer]       url: '',
+[WebServer]       method: null,
+[WebServer]       statusCode: 400,
+[WebServer]       statusMessage: 'Bad Request',
+[WebServer]       client: [TLSSocket],
+[WebServer]       _consuming: false,
+[WebServer]       _dumped: false,
+[WebServer]       req: [Circular *1],
+[WebServer]       _eventsCount: 4,
+[WebServer]       responseUrl: 'https://sandbox.plaid.com/accounts/get',
+[WebServer]       redirects: [],
+[WebServer]       Symbol(shapeMode): true,
+[WebServer]       Symbol(kCapture): false,
+[WebServer]       Symbol(kHeaders): [Object],
+[WebServer]       Symbol(kHeadersCount): 20,
+[WebServer]       Symbol(kTrailers): null,
+[WebServer]       Symbol(kTrailersCount): 0
+[WebServer]     },
+[WebServer]     aborted: false,
+[WebServer]     timeoutCb: null,
+[WebServer]     upgradeOrConnect: false,
+[WebServer]     parser: null,
+[WebServer]     maxHeadersCount: null,
+[WebServer]     reusedSocket: false,
+[WebServer]     host: 'sandbox.plaid.com',
+[WebServer]     protocol: 'https:',
+[WebServer]     _redirectable: Writable {
+[WebServer]       _events: [Object],
+[WebServer]       _writableState: [WritableState],
+[WebServer]       _maxListeners: undefined,
+[WebServer]       _options: [Object],
+[WebServer]       _ended: true,
+[WebServer]       _ending: true,
+[WebServer]       _redirectCount: 0,
+[WebServer]       _redirects: [],
+[WebServer]       _requestBodyLength: 70,
+[WebServer]       _requestBodyBuffers: [],
+[WebServer]       _eventsCount: 3,
+[WebServer]       _onNativeResponse: [Function (anonymous)],
+[WebServer]       _currentRequest: [Circular *1],
+[WebServer]       _currentUrl: 'https://sandbox.plaid.com/accounts/get',
+[WebServer]       _timeout: null,
+[WebServer]       Symbol(shapeMode): true,
+[WebServer]       Symbol(kCapture): false
+[WebServer]     },
+[WebServer]     Symbol(shapeMode): false,
+[WebServer]     Symbol(kCapture): false,
+[WebServer]     Symbol(kBytesWritten): 0,
+[WebServer]     Symbol(kNeedDrain): false,
+[WebServer]     Symbol(corked): 0,
+[WebServer]     Symbol(kChunkedBuffer): [],
+[WebServer]     Symbol(kChunkedLength): 0,
+[WebServer]     Symbol(kSocket): TLSSocket {
+[WebServer]       _tlsOptions: [Object],
+[WebServer]       _secureEstablished: true,
+[WebServer]       _securePending: false,
+[WebServer]       _newSessionPending: false,
+[WebServer]       _controlReleased: true,
+[WebServer]       secureConnecting: false,
+[WebServer]       _SNICallback: null,
+[WebServer]       servername: 'sandbox.plaid.com',
+[WebServer]       alpnProtocol: false,
+[WebServer]       authorized: true,
+[WebServer]       authorizationError: null,
+[WebServer]       encrypted: true,
+[WebServer]       _events: [Object: null prototype],
+[WebServer]       _eventsCount: 9,
+[WebServer]       connecting: false,
+[WebServer]       _hadError: false,
+[WebServer]       _parent: null,
+[WebServer]       _host: 'sandbox.plaid.com',
+[WebServer]       _closeAfterHandlingError: false,
+[WebServer]       _readableState: [ReadableState],
+[WebServer]       _writableState: [WritableState],
+[WebServer]       allowHalfOpen: false,
+[WebServer]       _maxListeners: undefined,
+[WebServer]       _sockname: null,
+[WebServer]       _pendingData: null,
+[WebServer]       _pendingEncoding: '',
+[WebServer]       server: undefined,
+[WebServer]       _server: null,
+[WebServer]       ssl: null,
+[WebServer]       _requestCert: true,
+[WebServer]       _rejectUnauthorized: true,
+[WebServer]       timeout: 5000,
+[WebServer]       parser: null,
+[WebServer]       _httpMessage: null,
+[WebServer]       autoSelectFamilyAttemptedAddresses: [Array],
+[WebServer]       handle: [TLSWrap],
+[WebServer]       Symbol(alpncallback): null,
+[WebServer]       Symbol(res): [TLSWrap],
+[WebServer]       Symbol(verified): true,
+[WebServer]       Symbol(pendingSession): null,
+[WebServer]       Symbol(async_id_symbol): -1,
+[WebServer]       Symbol(kHandle): [TLSWrap],
+[WebServer]       Symbol(lastWriteQueueSize): 0,
+[WebServer]       Symbol(timeout): Timeout {
+[WebServer]         _idleTimeout: 5000,
+[WebServer]         _idlePrev: [TimersList],
+[WebServer]         _idleNext: [Timeout],
+[WebServer]         _idleStart: 62932,
+[WebServer]         _onTimeout: [Function: bound ],
+[WebServer]         _timerArgs: undefined,
+[WebServer]         _repeat: null,
+[WebServer]         _destroyed: false,
+[WebServer]         Symbol(refed): false,
+[WebServer]         Symbol(kHasPrimitive): false,
+[WebServer]         Symbol(asyncId): 55280,
+[WebServer]         Symbol(triggerId): 55278,
+[WebServer]         Symbol(kAsyncContextFrame): [AsyncContextFrame [Map]]
+[WebServer]       },
+[WebServer]       Symbol(kBuffer): null,
+[WebServer]       Symbol(kBufferCb): null,
+[WebServer]       Symbol(kBufferGen): null,
+[WebServer]       Symbol(shapeMode): true,
+[WebServer]       Symbol(kCapture): false,
+[WebServer]       Symbol(kSetNoDelay): false,
+[WebServer]       Symbol(kSetKeepAlive): true,
+[WebServer]       Symbol(kSetKeepAliveInitialDelay): 1,
+[WebServer]       Symbol(kBytesRead): 0,
+[WebServer]       Symbol(kBytesWritten): 0,
+[WebServer]       Symbol(connect-options): [Object]
+[WebServer]     },
+[WebServer]     Symbol(kOutHeaders): [Object: null prototype] {
+[WebServer]       accept: [Array],
+[WebServer]       'content-type': [Array],
+[WebServer]       'user-agent': [Array],
+[WebServer]       'plaid-version': [Array],
+[WebServer]       'plaid-client-id': [Array],
+[WebServer]       'plaid-secret': [Array],
+[WebServer]       'content-length': [Array],
+[WebServer]       'accept-encoding': [Array],
+[WebServer]       host: [Array]
+[WebServer]     },
+[WebServer]     Symbol(errored): null,
+[WebServer]     Symbol(kHighWaterMark): 16384,
+[WebServer]     Symbol(kRejectNonStandardBodyWrites): false,
+[WebServer]     Symbol(kUniqueHeaders): null
+[WebServer]   },
+[WebServer]   response: {
+[WebServer]     status: 400,
+[WebServer]     statusText: 'Bad Request',
+[WebServer]     headers: Object [AxiosHeaders] {
+[WebServer]       server: 'nginx',
+[WebServer]       date: 'Sun, 05 Apr 2026 01:56:34 GMT',
+[WebServer]       'content-type': 'application/json; charset=utf-8',
+[WebServer]       'content-length': '239',
+[WebServer]       connection: 'keep-alive',
+[WebServer]       'plaid-version': '2020-09-14',
+[WebServer]       vary: 'Accept-Encoding',
+[WebServer]       'x-envoy-upstream-service-time': '55',
+[WebServer]       'x-envoy-decorator-operation': 'default.svc-apiv2:8080/*'
+[WebServer]     },
+[WebServer]     config: {
+[WebServer]       transitional: [Object],
+[WebServer]       adapter: [Array],
+[WebServer]       transformRequest: [Array],
+[WebServer]       transformResponse: [Array],
+[WebServer]       timeout: 0,
+[WebServer]       xsrfCookieName: 'XSRF-TOKEN',
+[WebServer]       xsrfHeaderName: 'X-XSRF-TOKEN',
+[WebServer]       maxContentLength: -1,
+[WebServer]       maxBodyLength: -1,
+[WebServer]       env: [Object],
+[WebServer]       validateStatus: [Function: validateStatus],
+[WebServer]       headers: [Object [AxiosHeaders]],
+[WebServer]       method: 'post',
+[WebServer]       data: '{"access_token":"access-sandbox-229476cf-25bc-46d2-9ed5-fba9df7a5d63"}',
+[WebServer]       url: 'https://sandbox.plaid.com/accounts/get',
+[WebServer]       allowAbsoluteUrls: true
+[WebServer]     },
+[WebServer]     request: <ref *1> ClientRequest {
+[WebServer]       _events: [Object: null prototype],
+[WebServer]       _eventsCount: 7,
+[WebServer]       _maxListeners: undefined,
+[WebServer]       outputData: [],
+[WebServer]       outputSize: 0,
+[WebServer]       writable: true,
+[WebServer]       destroyed: true,
+[WebServer]       _last: false,
+[WebServer]       chunkedEncoding: false,
+[WebServer]       shouldKeepAlive: true,
+[WebServer]       maxRequestsOnConnectionReached: false,
+[WebServer]       _defaultKeepAlive: true,
+[WebServer]       useChunkedEncodingByDefault: true,
+[WebServer]       sendDate: false,
+[WebServer]       _removedConnection: false,
+[WebServer]       _removedContLen: false,
+[WebServer]       _removedTE: false,
+[WebServer]       strictContentLength: false,
+[WebServer]       _contentLength: 70,
+[WebServer]       _hasBody: true,
+[WebServer]       _trailer: '',
+[WebServer]       finished: true,
+[WebServer]       _headerSent: true,
+[WebServer]       _closed: true,
+[WebServer]       _header: 'POST /accounts/get HTTP/1.1\r\n' +
+[WebServer]         'Accept: application/json, text/plain, */*\r\n' +
+[WebServer]         'Content-Type: application/json\r\n' +
+[WebServer]         'User-Agent: Plaid Node v41.4.0\r\n' +
+[WebServer]         'Plaid-Version: 2020-09-14\r\n' +
+[WebServer]         'PLAID-CLIENT-ID: 68839713794ed3001f58911a\r\n' +
+[WebServer]         'PLAID-SECRET: 2a290a2bd612fcaf7cbb434f8cbd5c\r\n' +
+[WebServer]         'Content-Length: 70\r\n' +
+[WebServer]         'Accept-Encoding: gzip, compress, deflate, br\r\n' +
+[WebServer]         'Host: sandbox.plaid.com\r\n' +
+[WebServer]         'Connection: keep-alive\r\n' +
+[WebServer]         '\r\n',
+[WebServer]       _keepAliveTimeout: 0,
+[WebServer]       _onPendingData: [Function: nop],
+[WebServer]       agent: [Agent],
+[WebServer]       socketPath: undefined,
+[WebServer]       method: 'POST',
+[WebServer]       maxHeaderSize: undefined,
+[WebServer]       insecureHTTPParser: undefined,
+[WebServer]       joinDuplicateHeaders: undefined,
+[WebServer]       path: '/accounts/get',
+[WebServer]       _ended: true,
+[WebServer]       res: [IncomingMessage],
+[WebServer]       aborted: false,
+[WebServer]       timeoutCb: null,
+[WebServer]       upgradeOrConnect: false,
+[WebServer]       parser: null,
+[WebServer]       maxHeadersCount: null,
+[WebServer]       reusedSocket: false,
+[WebServer]       host: 'sandbox.plaid.com',
+[WebServer]       protocol: 'https:',
+[WebServer]       _redirectable: [Writable],
+[WebServer]       Symbol(shapeMode): false,
+[WebServer]       Symbol(kCapture): false,
+[WebServer]       Symbol(kBytesWritten): 0,
+[WebServer]       Symbol(kNeedDrain): false,
+[WebServer]       Symbol(corked): 0,
+[WebServer]       Symbol(kChunkedBuffer): [],
+[WebServer]       Symbol(kChunkedLength): 0,
+[WebServer]       Symbol(kSocket): [TLSSocket],
+[WebServer]       Symbol(kOutHeaders): [Object: null prototype],
+[WebServer]       Symbol(errored): null,
+[WebServer]       Symbol(kHighWaterMark): 16384,
+[WebServer]       Symbol(kRejectNonStandardBodyWrites): false,
+[WebServer]       Symbol(kUniqueHeaders): null
+[WebServer]     },
+[WebServer]     data: {
+[WebServer]       display_message: null,
+[WebServer]       documentation_url: 'https://plaid.com/docs/?ref=error#invalid-input-errors',
+[WebServer]       error_code: 'INVALID_ACCESS_TOKEN',
+[WebServer]       error_message: 'could not find matching access token',
+[WebServer]       error_type: 'INVALID_INPUT',
+[WebServer]       request_id: '90ccb1d4cb74b66',
+[WebServer]       suggested_action: null
+[WebServer]     }
+[WebServer]   },
+[WebServer]   status: 400
+[WebServer] }
+[2m[WebServer] [22m GET /dashboard [32m200[39m in 7.6s[2m (next.js: 53ms, proxy.ts: 30ms, application-code: 7.5s)[22m
+[2m[WebServer] [22m POST /dashboard [32m200[39m in 847ms[2m (next.js: 134ms, proxy.ts: 29ms, application-code: 683ms)[22m
+  Γ£ô   2 [chromium] ΓÇ║ tests\e2e\admin.spec.ts:14:5 ΓÇ║ Admin Panel ΓÇ║ Non-Admin Authenticated Access ΓÇ║ should redirect to /dashboard when a non-admin visits /admin (26.9s)
+[2m[WebServer] [22m GET /sign-in [32m200[39m in 655ms[2m (next.js: 11ms, proxy.ts: 15ms, application-code: 629ms)[22m
+[2m[WebServer] [22m GET /api/auth/session [32m200[39m in 56ms[2m (next.js: 39ms, application-code: 17ms)[22m
+[2m[WebServer] [22m GET /api/auth/providers [32m200[39m in 31ms[2m (next.js: 8ms, application-code: 23ms)[22m
+[2m[WebServer] [22m GET /api/auth/csrf [32m200[39m in 49ms[2m (next.js: 11ms, application-code: 38ms)[22m
+[2m[WebServer] [22m POST /api/auth/callback/credentials [32m200[39m in 2.9s[2m (next.js: 6ms, application-code: 2.9s)[22m
+[2m[WebServer] [22m GET /api/auth/session [32m200[39m in 29ms[2m (next.js: 7ms, application-code: 22ms)[22m
+[WebServer] Compaction failed: Failed to compact database
+[WebServer] 
+[WebServer] Caused by:
+[WebServer]     0: Failed to merge database files for family 2
+[WebServer]     1: Failed to write small value block[WebServer] 
+[WebServer]     2: Failed to write block data[WebServer] 
+[WebServer]     3: [WebServer] There is not enough space on the disk. (os error 112[WebServer] )
+[2m[WebServer] [22m GET /dashboard [32m200[39m in 1207ms[2m (next.js: 11ms, proxy.ts: 16ms, application-code: 1180ms)[22m
+[2m[WebServer] [22m GET /dashboard [32m200[39m in 945ms[2m (next.js: 58ms, proxy.ts: 31ms, application-code: 856ms)[22m
+[2m[WebServer] [22m GET /api/auth/session [32m200[39m in 1520ms[2m (next.js: 86ms, application-code: 1434ms)[22m
+[WebServer] getAllAccounts: skipping bank 20000000-0000-4000-8000-000000000002: Error [AxiosError]: Request failed with status code 400
+[WebServer]     at async (lib\actions\plaid.actions.ts:465:28)
+[WebServer]     at async getAllAccounts (lib\actions\plaid.actions.ts:454:27)
+[WebServer]     at async DashboardServerWrapper (components\dashboard\dashboard-server-wrapper.tsx:40:51)
+[WebServer]   463 |           }
+[WebServer]   464 |
+[WebServer] > 465 |           const response = await plaidClient.accountsGet({
+[WebServer]       |                            ^
+[WebServer]   466 |             access_token: bank.accessToken,
+[WebServer]   467 |           });
+[WebServer]   468 |           return response.data.accounts.map((account) => ({ {
+[WebServer]   isAxiosError: true,
+[WebServer]   code: 'ERR_BAD_REQUEST',
+[WebServer]   config: {
+[WebServer]     transitional: {
+[WebServer]       silentJSONParsing: true,
+[WebServer]       forcedJSONParsing: true,
+[WebServer]       clarifyTimeoutError: false,
+[WebServer]       legacyInterceptorReqResOrdering: true
+[WebServer]     },
+[WebServer]     adapter: [ 'xhr', 'http', 'fetch' ],
+[WebServer]     transformRequest: [ [Function: transformRequest] ],
+[WebServer]     transformResponse: [ [Function: transformResponse] ],
+[WebServer]     timeout: 0,
+[WebServer]     xsrfCookieName: 'XSRF-TOKEN',
+[WebServer]     xsrfHeaderName: 'X-XSRF-TOKEN',
+[WebServer]     maxContentLength: -1,
+[WebServer]     maxBodyLength: -1,
+[WebServer]     env: { FormData: [Function], Blob: [class Blob] },
+[WebServer]     validateStatus: [Function: validateStatus],
+[WebServer]     headers: Object [AxiosHeaders] {
+[WebServer]       Accept: 'application/json, text/plain, */*',
+[WebServer]       'Content-Type': 'application/json',
+[WebServer]       'User-Agent': 'Plaid Node v41.4.0',
+[WebServer]       'Plaid-Version': '2020-09-14',
+[WebServer]       'PLAID-CLIENT-ID': '68839713794ed3001f58911a',
+[WebServer]       'PLAID-SECRET': '2a290a2bd612fcaf7cbb434f8cbd5c',
+[WebServer]       'Content-Length': '70',
+[WebServer]       'Accept-Encoding': 'gzip, compress, deflate, br'
+[WebServer]     },
+[WebServer]     method: 'post',
+[WebServer]     data: '{"access_token":"access-sandbox-83fd9200-0165-4ef8-afde-65744b9d1548"}',
+[WebServer]     url: 'https://sandbox.plaid.com/accounts/get',
+[WebServer]     allowAbsoluteUrls: true
+[WebServer]   },
+[WebServer]   request: <ref *1> ClientRequest {
+[WebServer]     _events: [Object: null prototype] {
+[WebServer]       abort: [Function (anonymous)],
+[WebServer]       aborted: [Function (anonymous)],
+[WebServer]       connect: [Function (anonymous)],
+[WebServer]       error: [Function (anonymous)],
+[WebServer]       socket: [Function (anonymous)],
+[WebServer]       timeout: [Function (anonymous)],
+[WebServer]       finish: [Function: requestOnFinish]
+[WebServer]     },
+[WebServer]     _eventsCount: 7,
+[WebServer]     _maxListeners: undefined,
+[WebServer]     outputData: [],
+[WebServer]     outputSize: 0,
+[WebServer]     writable: true,
+[WebServer]     destroyed: true,
+[WebServer]     _last: false,
+[WebServer]     chunkedEncoding: false,
+[WebServer]     shouldKeepAlive: true,
+[WebServer]     maxRequestsOnConnectionReached: false,
+[WebServer]     _defaultKeepAlive: true,
+[WebServer]     useChunkedEncodingByDefault: true,
+[WebServer]     sendDate: false,
+[WebServer]     _removedConnection: false,
+[WebServer]     _removedContLen: false,
+[WebServer]     _removedTE: false,
+[WebServer]     strictContentLength: false,
+[WebServer]     _contentLength: 70,
+[WebServer]     _hasBody: true,
+[WebServer]     _trailer: '',
+[WebServer]     finished: true,
+[WebServer]     _headerSent: true,
+[WebServer]     _closed: true,
+[WebServer]     _header: 'POST /accounts/get HTTP/1.1\r\n' +
+[WebServer]       'Accept: application/json, text/plain, */*\r\n' +
+[WebServer]       'Content-Type: application/json\r\n' +
+[WebServer]       'User-Agent: Plaid Node v41.4.0\r\n' +
+[WebServer]       'Plaid-Version: 2020-09-14\r\n' +
+[WebServer]       'PLAID-CLIENT-ID: 68839713794ed3001f58911a\r\n' +
+[WebServer]       'PLAID-SECRET: 2a290a2bd612fcaf7cbb434f8cbd5c\r\n' +
+[WebServer]       'Content-Length: 70\r\n' +
+[WebServer]       'Accept-Encoding: gzip, compress, deflate, br\r\n' +
+[WebServer]       'Host: sandbox.plaid.com\r\n' +
+[WebServer]       'Connection: keep-alive\r\n' +
+[WebServer]       '\r\n',
+[WebServer]     _keepAliveTimeout: 0,
+[WebServer]     _onPendingData: [Function: nop],
+[WebServer]     agent: Agent {
+[WebServer]       _events: [Object: null prototype],
+[WebServer]       _eventsCount: 2,
+[WebServer]       _maxListeners: undefined,
+[WebServer]       options: [Object: null prototype],
+[WebServer]       defaultPort: 443,
+[WebServer]       protocol: 'https:',
+[WebServer]       requests: [Object: null prototype] {},
+[WebServer]       sockets: [Object: null prototype],
+[WebServer]       freeSockets: [Object: null prototype],
+[WebServer]       keepAliveMsecs: 1000,
+[WebServer]       keepAlive: true,
+[WebServer]       maxSockets: Infinity,
+[WebServer]       maxFreeSockets: 256,
+[WebServer]       scheduling: 'lifo',
+[WebServer]       maxTotalSockets: Infinity,
+[WebServer]       totalSocketCount: 6,
+[WebServer]       agentKeepAliveTimeoutBuffer: 1000,
+[WebServer]       maxCachedSessions: 100,
+[WebServer]       _sessionCache: [Object],
+[WebServer]       Symbol(shapeMode): false,
+[WebServer]       Symbol(kCapture): false
+[WebServer]     },
+[WebServer]     socketPath: undefined,
+[WebServer]     method: 'POST',
+[WebServer]     maxHeaderSize: undefined,
+[WebServer]     insecureHTTPParser: undefined,
+[WebServer]     joinDuplicateHeaders: undefined,
+[WebServer]     path: '/accounts/get',
+[WebServer]     _ended: true,
+[WebServer]     res: IncomingMessage {
+[WebServer]       _events: [Object],
+[WebServer]       _readableState: [ReadableState],
+[WebServer]       _maxListeners: undefined,
+[WebServer]       socket: null,
+[WebServer]       httpVersionMajor: 1,
+[WebServer]       httpVersionMinor: 1,
+[WebServer]       httpVersion: '1.1',
+[WebServer]       complete: true,
+[WebServer]       rawHeaders: [Array],
+[WebServer]       rawTrailers: [],
+[WebServer]       joinDuplicateHeaders: undefined,
+[WebServer]       aborted: false,
+[WebServer]       upgrade: false,
+[WebServer]       url: '',
+[WebServer]       method: null,
+[WebServer]       statusCode: 400,
+[WebServer]       statusMessage: 'Bad Request',
+[WebServer]       client: [TLSSocket],
+[WebServer]       _consuming: false,
+[WebServer]       _dumped: false,
+[WebServer]       req: [Circular *1],
+[WebServer]       _eventsCount: 4,
+[WebServer]       responseUrl: 'https://sandbox.plaid.com/accounts/get',
+[WebServer]       redirects: [],
+[WebServer]       Symbol(shapeMode): true,
+[WebServer]       Symbol(kCapture): false,
+[WebServer]       Symbol(kHeaders): [Object],
+[WebServer]       Symbol(kHeadersCount): 20,
+[WebServer]       Symbol(kTrailers): null,
+[WebServer]       Symbol(kTrailersCount): 0
+[WebServer]     },
+[WebServer]     aborted: false,
+[WebServer]     timeoutCb: null,
+[WebServer]     upgradeOrConnect: false,
+[WebServer]     parser: null,
+[WebServer]     maxHeadersCount: null,
+[WebServer]     reusedSocket: false,
+[WebServer]     host: 'sandbox.plaid.com',
+[WebServer]     protocol: 'https:',
+[WebServer]     _redirectable: Writable {
+[WebServer]       _events: [Object],
+[WebServer]       _writableState: [WritableState],
+[WebServer]       _maxListeners: undefined,
+[WebServer]       _options: [Object],
+[WebServer]       _ended: true,
+[WebServer]       _ending: true,
+[WebServer]       _redirectCount: 0,
+[WebServer]       _redirects: [],
+[WebServer]       _requestBodyLength: 70,
+[WebServer]       _requestBodyBuffers: [],
+[WebServer]       _eventsCount: 3,
+[WebServer]       _onNativeResponse: [Function (anonymous)],
+[WebServer]       _currentRequest: [Circular *1],
+[WebServer]       _currentUrl: 'https://sandbox.plaid.com/accounts/get',
+[WebServer]       _timeout: null,
+[WebServer]       Symbol(shapeMode): true,
+[WebServer]       Symbol(kCapture): false
+[WebServer]     },
+[WebServer]     Symbol(shapeMode): false,
+[WebServer]     Symbol(kCapture): false,
+[WebServer]     Symbol(kBytesWritten): 0,
+[WebServer]     Symbol(kNeedDrain): false,
+[WebServer]     Symbol(corked): 0,
+[WebServer]     Symbol(kChunkedBuffer): [],
+[WebServer]     Symbol(kChunkedLength): 0,
+[WebServer]     Symbol(kSocket): TLSSocket {
+[WebServer]       _tlsOptions: [Object],
+[WebServer]       _secureEstablished: true,
+[WebServer]       _securePending: false,
+[WebServer]       _newSessionPending: false,
+[WebServer]       _controlReleased: true,
+[WebServer]       secureConnecting: false,
+[WebServer]       _SNICallback: null,
+[WebServer]       servername: 'sandbox.plaid.com',
+[WebServer]       alpnProtocol: false,
+[WebServer]       authorized: true,
+[WebServer]       authorizationError: null,
+[WebServer]       encrypted: true,
+[WebServer]       _events: [Object: null prototype],
+[WebServer]       _eventsCount: 9,
+[WebServer]       connecting: false,
+[WebServer]       _hadError: false,
+[WebServer]       _parent: null,
+[WebServer]       _host: 'sandbox.plaid.com',
+[WebServer]       _closeAfterHandlingError: false,
+[WebServer]       _readableState: [ReadableState],
+[WebServer]       _writableState: [WritableState],
+[WebServer]       allowHalfOpen: false,
+[WebServer]       _maxListeners: undefined,
+[WebServer]       _sockname: null,
+[WebServer]       _pendingData: null,
+[WebServer]       _pendingEncoding: '',
+[WebServer]       server: undefined,
+[WebServer]       _server: null,
+[WebServer]       ssl: null,
+[WebServer]       _requestCert: true,
+[WebServer]       _rejectUnauthorized: true,
+[WebServer]       timeout: 5000,
+[WebServer]       parser: null,
+[WebServer]       _httpMessage: null,
+[WebServer]       autoSelectFamilyAttemptedAddresses: [Array],
+[WebServer]       handle: [TLSWrap],
+[WebServer]       Symbol(alpncallback): null,
+[WebServer]       Symbol(res): [TLSWrap],
+[WebServer]       Symbol(verified): true,
+[WebServer]       Symbol(pendingSession): null,
+[WebServer]       Symbol(async_id_symbol): -1,
+[WebServer]       Symbol(kHandle): [TLSWrap],
+[WebServer]       Symbol(lastWriteQueueSize): 0,
+[WebServer]       Symbol(timeout): Timeout {
+[WebServer]         _idleTimeout: 5000,
+[WebServer]         _idlePrev: [Timeout],
+[WebServer]         _idleNext: [TimersList],
+[WebServer]         _idleStart: 79955,
+[WebServer]         _onTimeout: [Function: bound ],
+[WebServer]         _timerArgs: undefined,
+[WebServer]         _repeat: null,
+[WebServer]         _destroyed: false,
+[WebServer]         Symbol(refed): false,
+[WebServer]         Symbol(kHasPrimitive): false,
+[WebServer]         Symbol(asyncId): 89131,
+[WebServer]         Symbol(triggerId): 89129,
+[WebServer]         Symbol(kAsyncContextFrame): [AsyncContextFrame [Map]]
+[WebServer]       },
+[WebServer]       Symbol(kBuffer): null,
+[WebServer]       Symbol(kBufferCb): null,
+[WebServer]       Symbol(kBufferGen): null,
+[WebServer]       Symbol(shapeMode): true,
+[WebServer]       Symbol(kCapture): false,
+[WebServer]       Symbol(kSetNoDelay): false,
+[WebServer]       Symbol(kSetKeepAlive): true,
+[WebServer]       Symbol(kSetKeepAliveInitialDelay): 1,
+[WebServer]       Symbol(kBytesRead): 0,
+[WebServer]       Symbol(kBytesWritten): 0,
+[WebServer]       Symbol(connect-options): [Object]
+[WebServer]     },
+[WebServer]     Symbol(kOutHeaders): [Object: null prototype] {
+[WebServer]       accept: [Array],
+[WebServer]       'content-type': [Array],
+[WebServer]       'user-agent': [Array],
+[WebServer]       'plaid-version': [Array],
+[WebServer]       'plaid-client-id': [Array],
+[WebServer]       'plaid-secret': [Array],
+[WebServer]       'content-length': [Array],
+[WebServer]       'accept-encoding': [Array],
+[WebServer]       host: [Array]
+[WebServer]     },
+[WebServer]     Symbol(errored): null,
+[WebServer]     Symbol(kHighWaterMark): 16384,
+[WebServer]     Symbol(kRejectNonStandardBodyWrites): false,
+[WebServer]     Symbol(kUniqueHeaders): null
+[WebServer]   },
+[WebServer]   response: {
+[WebServer]     status: 400,
+[WebServer]     statusText: 'Bad Request',
+[WebServer]     headers: Object [AxiosHeaders] {
+[WebServer]       server: 'nginx',
+[WebServer]       date: 'Sun, 05 Apr 2026 01:56:51 GMT',
+[WebServer]       'content-type': 'application/json; charset=utf-8',
+[WebServer]       'content-length': '239',
+[WebServer]       connection: 'keep-alive',
+[WebServer]       'plaid-version': '2020-09-14',
+[WebServer]       vary: 'Accept-Encoding',
+[WebServer]       'x-envoy-upstream-service-time': '68',
+[WebServer]       'x-envoy-decorator-operation': 'default.svc-apiv2:8080/*'
+[WebServer]     },
+[WebServer]     config: {
+[WebServer]       transitional: [Object],
+[WebServer]       adapter: [Array],
+[WebServer]       transformRequest: [Array],
+[WebServer]       transformResponse: [Array],
+[WebServer]       timeout: 0,
+[WebServer]       xsrfCookieName: 'XSRF-TOKEN',
+[WebServer]       xsrfHeaderName: 'X-XSRF-TOKEN',
+[WebServer]       maxContentLength: -1,
+[WebServer]       maxBodyLength: -1,
+[WebServer]       env: [Object],
+[WebServer]       validateStatus: [Function: validateStatus],
+[WebServer]       headers: [Object [AxiosHeaders]],
+[WebServer]       method: 'post',
+[WebServer]       data: '{"access_token":"access-sandbox-83fd9200-0165-4ef8-afde-65744b9d1548"}',
+[WebServer]       url: 'https://sandbox.plaid.com/accounts/get',
+[WebServer]       allowAbsoluteUrls: true
+[WebServer]     },
+[WebServer]     request: <ref *1> ClientRequest {
+[WebServer]       _events: [Object: null prototype],
+[WebServer]       _eventsCount: 7,
+[WebServer]       _maxListeners: undefined,
+[WebServer]       outputData: [],
+[WebServer]       outputSize: 0,
+[WebServer]       writable: true,
+[WebServer]       destroyed: true,
+[WebServer]       _last: false,
+[WebServer]       chunkedEncoding: false,
+[WebServer]       shouldKeepAlive: true,
+[WebServer]       maxRequestsOnConnectionReached: false,
+[WebServer]       _defaultKeepAlive: true,
+[WebServer]       useChunkedEncodingByDefault: true,
+[WebServer]       sendDate: false,
+[WebServer]       _removedConnection: false,
+[WebServer]       _removedContLen: false,
+[WebServer]       _removedTE: false,
+[WebServer]       strictContentLength: false,
+[WebServer]       _contentLength: 70,
+[WebServer]       _hasBody: true,
+[WebServer]       _trailer: '',
+[WebServer]       finished: true,
+[WebServer]       _headerSent: true,
+[WebServer]       _closed: true,
+[WebServer]       _header: 'POST /accounts/get HTTP/1.1\r\n' +
+[WebServer]         'Accept: application/json, text/plain, */*\r\n' +
+[WebServer]         'Content-Type: application/json\r\n' +
+[WebServer]         'User-Agent: Plaid Node v41.4.0\r\n' +
+[WebServer]         'Plaid-Version: 2020-09-14\r\n' +
+[WebServer]         'PLAID-CLIENT-ID: 68839713794ed3001f58911a\r\n' +
+[WebServer]         'PLAID-SECRET: 2a290a2bd612fcaf7cbb434f8cbd5c\r\n' +
+[WebServer]         'Content-Length: 70\r\n' +
+[WebServer]         'Accept-Encoding: gzip, compress, deflate, br\r\n' +
+[WebServer]         'Host: sandbox.plaid.com\r\n' +
+[WebServer]         'Connection: keep-alive\r\n' +
+[WebServer]         '\r\n',
+[WebServer]       _keepAliveTimeout: 0,
+[WebServer]       _onPendingData: [Function: nop],
+[WebServer]       agent: [Agent],
+[WebServer]       socketPath: undefined,
+[WebServer]       method: 'POST',
+[WebServer]       maxHeaderSize: undefined,
+[WebServer]       insecureHTTPParser: undefined,
+[WebServer]       joinDuplicateHeaders: undefined,
+[WebServer]       path: '/accounts/get',
+[WebServer]       _ended: true,
+[WebServer]       res: [IncomingMessage],
+[WebServer]       aborted: false,
+[WebServer]       timeoutCb: null,
+[WebServer]       upgradeOrConnect: false,
+[WebServer]       parser: null,
+[WebServer]       maxHeadersCount: null,
+[WebServer]       reusedSocket: false,
+[WebServer]       host: 'sandbox.plaid.com',
+[WebServer]       protocol: 'https:',
+[WebServer]       _redirectable: [Writable],
+[WebServer]       Symbol(shapeMode): false,
+[WebServer]       Symbol(kCapture): false,
+[WebServer]       Symbol(kBytesWritten): 0,
+[WebServer]       Symbol(kNeedDrain): false,
+[WebServer]       Symbol(corked): 0,
+[WebServer]       Symbol(kChunkedBuffer): [],
+[WebServer]       Symbol(kChunkedLength): 0,
+[WebServer]       Symbol(kSocket): [TLSSocket],
+[WebServer]       Symbol(kOutHeaders): [Object: null prototype],
+[WebServer]       Symbol(errored): null,
+[WebServer]       Symbol(kHighWaterMark): 16384,
+[WebServer]       Symbol(kRejectNonStandardBodyWrites): false,
+[WebServer]       Symbol(kUniqueHeaders): null
+[WebServer]     },
+[WebServer]     data: {
+[WebServer]       display_message: null,
+[WebServer]       documentation_url: 'https://plaid.com/docs/?ref=error#invalid-input-errors',
+[WebServer]       error_code: 'INVALID_ACCESS_TOKEN',
+[WebServer]       error_message: 'could not find matching access token',
+[WebServer]       error_type: 'INVALID_INPUT',
+[WebServer]       request_id: 'b295c76634674bf',
+[WebServer]       suggested_action: null
+[WebServer]     }
+[WebServer]   },
+[WebServer]   status: 400
+[WebServer] }
+[WebServer] getAllAccounts: skipping bank 20000000-0000-4000-8000-000000000001: Error [AxiosError]: Request failed with status code 400
+[WebServer]     at async (lib\actions\plaid.actions.ts:465:28)
+[WebServer]     at async getAllAccounts (lib\actions\plaid.actions.ts:454:27)
+[WebServer]     at async DashboardServerWrapper (components\dashboard\dashboard-server-wrapper.tsx:40:51)
+[WebServer]   463 |           }
+[WebServer]   464 |
+[WebServer] > 465 |           const response = await plaidClient.accountsGet({
+[WebServer]       |                            ^
+[WebServer]   466 |             access_token: bank.accessToken,
+[WebServer]   467 |           });
+[WebServer]   468 |           return response.data.accounts.map((account) => ({ {
+[WebServer]   isAxiosError: true,

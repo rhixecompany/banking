@@ -25,6 +25,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {{}}
+ */
 const items = [
   {
     content:
@@ -49,10 +55,31 @@ const items = [
   },
 ];
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @interface OnboardingFeedProps
+ * @typedef {OnboardingFeedProps}
+ */
 interface OnboardingFeedProps {
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {string}
+   */
   name: string;
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @param {OnboardingFeedProps} param0
+ * @param {string} param0.name
+ * @returns {JSX.Element}
+ */
 function OnboardingFeed({ name }: OnboardingFeedProps): JSX.Element {
   const router = useRouter();
   const [active, setActive] = useState<string>("item-1");

@@ -2,6 +2,12 @@ import type { Metadata } from "next";
 
 import { HomeServerWrapper } from "@/components/home/home-server-wrapper";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {Metadata}
+ */
 export const metadata: Metadata = {
   description: "Manage your bank accounts and transactions",
   title: "Home | Horizon Banking",

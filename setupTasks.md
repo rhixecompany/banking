@@ -32,4 +32,4 @@
 
 14: Document all processes and configurations for future reference.
 
-15: Ask all needed questions then enhance the plan to include all file path reference,code samples,checklist, format with markdownlint update or create the approved plan to .opencode/commands/phase1-refactor.prompt.md
+15: Ask all needed questions then enhance the plan to include all file path reference,code samples,checklist, format with markdownlint update or create the approved plan to .opencode/commands/execute-phases-and-tasks.md.

@@ -23,15 +23,71 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @interface Props
+ * @typedef {Props}
+ */
 interface Props {
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {ReactNode}
+   */
   trigger: ReactNode;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {string}
+   */
   name: string;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {string}
+   */
   email: string;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {?(null | string)}
+   */
   image?: null | string;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {?boolean}
+   */
   defaultOpen?: boolean;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {?("center" | "end" | "start")}
+   */
   align?: "center" | "end" | "start";
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @param {Props} param0
+ * @param {("center" | "end" | "start")} [param0.align="end"]
+ * @param {boolean} param0.defaultOpen
+ * @param {string} param0.email
+ * @param {string} param0.image
+ * @param {string} param0.name
+ * @param {ReactNode} param0.trigger
+ * @returns {React.JSX.Element}
+ */
 const ProfileDropdown = ({
   align = "end",
   defaultOpen,

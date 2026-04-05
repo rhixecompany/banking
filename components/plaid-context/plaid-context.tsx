@@ -17,15 +17,59 @@ import {
   exchangePublicToken,
 } from "@/lib/actions/plaid.actions";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @interface PlaidContextValue
+ * @typedef {PlaidContextValue}
+ */
 interface PlaidContextValue {
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {() => void}
+   */
   open: () => void;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {boolean}
+   */
   ready: boolean;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {boolean}
+   */
   isLoading: boolean;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {(string | undefined)}
+   */
   error: string | undefined;
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const PlaidContext = createContext<PlaidContextValue | undefined>(undefined);
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @export
+ * @returns {*}
+ */
 export function usePlaid() {
   const context = useContext(PlaidContext);
   if (!context) {
@@ -34,12 +78,48 @@ export function usePlaid() {
   return context;
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @interface PlaidProviderProps
+ * @typedef {PlaidProviderProps}
+ */
 interface PlaidProviderProps {
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {string}
+   */
   userId: string;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {React.ReactNode}
+   */
   children: React.ReactNode;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {?(bank: Bank) => void}
+   */
   onSuccess?: (bank: Bank) => void;
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @export
+ * @param {PlaidProviderProps} param0
+ * @param {React.ReactNode} param0.children
+ * @param {(bank: Bank) => void} param0.onSuccess
+ * @param {string} param0.userId
+ * @returns {ReactJSX.Element}
+ */
 export function PlaidProvider({
   children,
   onSuccess,

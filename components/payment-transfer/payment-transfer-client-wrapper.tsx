@@ -41,6 +41,12 @@ import { createTransfer } from "@/lib/actions/dwolla.actions";
 // Schema
 // ---------------------------------------------------------------------------
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const TransferSchema = z.object({
   amount: z.coerce
     .number()
@@ -50,14 +56,39 @@ const TransferSchema = z.object({
   sourceBankId: z.string().trim().min(1, "Please select a source bank"),
 });
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @typedef {TransferFormData}
+ */
 type TransferFormData = z.infer<typeof TransferSchema>;
 
 // ---------------------------------------------------------------------------
 // Props
 // ---------------------------------------------------------------------------
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @interface PaymentTransferClientWrapperProps
+ * @typedef {PaymentTransferClientWrapperProps}
+ */
 interface PaymentTransferClientWrapperProps {
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {Bank[]}
+   */
   banks: Bank[];
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {Recipient[]}
+   */
   recipients: Recipient[];
 }
 

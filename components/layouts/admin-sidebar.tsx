@@ -25,7 +25,24 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @interface AdminSidebarProps
+ * @typedef {AdminSidebarProps}
+ */
 interface AdminSidebarProps {
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {{
+   *     name: string;
+   *     email: string;
+   *     image?: null | string;
+   *   }}
+   */
   user: {
     name: string;
     email: string;
@@ -33,6 +50,16 @@ interface AdminSidebarProps {
   };
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {{
+ *   label: string;
+ *   href: "/admin" | "/settings";
+ *   icon: React.JSX.Element;
+ * }[]}
+ */
 const navItems: {
   label: string;
   href: "/admin" | "/settings";
@@ -60,6 +87,14 @@ const navItems: {
   },
 ];
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @param {AdminSidebarProps} param0
+ * @param {{ name: string; email: string; image?: string; }} param0.user
+ * @returns {React.JSX.Element}
+ */
 const AdminSidebar = ({ user }: AdminSidebarProps): React.JSX.Element => {
   return (
     <Sidebar>

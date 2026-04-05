@@ -3,6 +3,16 @@ import type { TotalBalanceBoxProps } from "@/types";
 import AnimatedCounter from "@/components/animated-counter/animated-counter";
 import DoughnutChart from "@/components/doughnut-chart/doughnut-chart";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @param {TotalBalanceBoxProps} param0
+ * @param {TotalBalanceBoxProps} [param0.accounts=[]]
+ * @param {TotalBalanceBoxProps} param0.totalBanks
+ * @param {TotalBalanceBoxProps} param0.totalCurrentBalance
+ * @returns {JSX.Element}
+ */
 const TotalBalanceBox = ({
   accounts = [],
   totalBanks,

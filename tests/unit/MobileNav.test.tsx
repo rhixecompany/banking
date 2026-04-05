@@ -29,6 +29,12 @@ vi.mock("next/link", () => ({
   ),
 }));
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const mockPathname = vi.fn(() => "/");
 vi.mock("next/navigation", () => ({
   usePathname: () => mockPathname(),
@@ -69,6 +75,12 @@ import MobileNav from "@/components/mobile-nav/mobile-nav";
 // Minimal user fixture
 // ---------------------------------------------------------------------------
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {User}
+ */
 const mockUser: User = {
   createdAt: new Date(),
   email: "alice@example.com",

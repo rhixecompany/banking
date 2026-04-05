@@ -32,11 +32,35 @@ import { useIsMobile } from "@/hooks/use-mobile";
 
 /** Shape of a single aggregated day entry for the chart. */
 interface DayEntry {
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {string}
+   */
   date: string;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {number}
+   */
   credits: number;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {number}
+   */
   debits: number;
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {ChartConfig}
+ */
 const chartConfig = {
   credits: {
     color: "#16a34a",

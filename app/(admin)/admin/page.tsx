@@ -2,6 +2,12 @@ import type { Metadata } from "next";
 
 import { AdminDashboardServerWrapper } from "@/components/admin/admin-dashboard-server-wrapper";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {Metadata}
+ */
 export const metadata: Metadata = {
   description: "Admin overview — statistics, transactions, and metrics.",
   title: "Admin Dashboard | Horizon Banking",

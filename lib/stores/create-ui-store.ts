@@ -12,6 +12,14 @@ export type ModalId =
   | "disconnect-bank"
   | undefined;
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @export
+ * @interface UIState
+ * @typedef {UIState}
+ */
 export interface UIState {
   /** Whether the sidebar is open (used on mobile / collapsed desktop). */
   sidebarOpen: boolean;
@@ -21,6 +29,14 @@ export interface UIState {
   drawerOpen: boolean;
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @export
+ * @interface UIActions
+ * @typedef {UIActions}
+ */
 export interface UIActions {
   /** Open or close the sidebar. */
   setSidebarOpen: (open: boolean) => void;
@@ -36,8 +52,21 @@ export interface UIActions {
   toggleDrawer: () => void;
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @export
+ * @typedef {UIStore}
+ */
 export type UIStore = UIActions & UIState;
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {UIState}
+ */
 export const defaultUIState: UIState = {
   activeModal: undefined,
   drawerOpen: false,

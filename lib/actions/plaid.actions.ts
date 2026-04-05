@@ -15,7 +15,7 @@ import type { PlaidBalance } from "@/types/plaid";
 
 import { auth } from "@/lib/auth";
 import { bankDal } from "@/lib/dal";
-import { plaidClient } from "@/lib/plaid";
+import { isMockAccessToken, plaidClient } from "@/lib/plaid";
 
 /**
  * Zod schema for validating the input to {@link createLinkToken}.
@@ -454,6 +454,14 @@ export async function getAllAccounts(): Promise<{
     const accountArrays = await Promise.all(
       banks.map(async (bank): Promise<Account[]> => {
         try {
+          // Check if this is a mock/seed token and skip gracefully
+          if (isMockAccessToken(bank.accessToken)) {
+            console.warn(
+              `getAllAccounts: skipping bank ${bank.id} (mock token detected)`,
+            );
+            return [];
+          }
+
           const response = await plaidClient.accountsGet({
             access_token: bank.accessToken,
           });
@@ -470,6 +478,19 @@ export async function getAllAccounts(): Promise<{
             type: account.type,
           }));
         } catch (err) {
+          // Check for specific Plaid error types and handle gracefully
+          const errorMessage = err instanceof Error ? err.message : String(err);
+          const isInvalidToken =
+            errorMessage.includes("INVALID_ACCESS_TOKEN") ||
+            errorMessage.includes("ITEM_LOGIN_REQUIRED") ||
+            errorMessage.includes("ITEM_EXPIRED");
+
+          if (isInvalidToken) {
+            // Silently skip banks with invalid/expired tokens
+            return [];
+          }
+
+          // Log other unexpected errors
           console.warn(`getAllAccounts: skipping bank ${bank.id}:`, err);
           return [];
         }

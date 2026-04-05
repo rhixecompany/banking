@@ -2,6 +2,12 @@ import { CalendarX2Icon, TriangleAlertIcon, TruckIcon } from "lucide-react";
 
 import type { Item } from "@/components/shadcn-studio/blocks/datatable-transaction";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {{}}
+ */
 export const statisticsCardData = [
   {
     changePercentage: "+18.2%",
@@ -23,6 +29,12 @@ export const statisticsCardData = [
   },
 ];
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {{}}
+ */
 export const earningData = [
   {
     earnings: "-$23,569.26",
@@ -40,6 +52,12 @@ export const earningData = [
   },
 ];
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {Item[]}
+ */
 export const transactionData: Item[] = [
   {
     amount: 316.0,

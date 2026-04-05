@@ -2,6 +2,12 @@ import type { Metadata } from "next";
 
 import { TransactionHistoryServerWrapper } from "@/components/transaction-history/transaction-history-server-wrapper";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {Metadata}
+ */
 export const metadata: Metadata = {
   description: "Browse your full transaction history.",
   title: "Transaction History | Horizon Banking",

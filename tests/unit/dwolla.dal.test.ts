@@ -4,13 +4,61 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 // DB mock — must be hoisted before any DAL import
 // ---------------------------------------------------------------------------
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const mockReturning = vi.fn();
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const mockWhere = vi.fn();
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const mockSet = vi.fn();
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const mockValues = vi.fn();
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const mockFrom = vi.fn();
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const mockUpdate = vi.fn();
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const mockInsert = vi.fn();
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const mockSelect = vi.fn();
 
 vi.mock("@/database/db", () => ({
@@ -30,6 +78,12 @@ vi.mock("@/lib/encryption", () => ({
 // Shared fixture — a complete Bank row as Drizzle would return it
 // ---------------------------------------------------------------------------
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {{ readonly accessToken: "encrypted(raw-token)"; readonly accountId: "acc_abc"; readonly accountNumberEncrypted: "encrypted(12345678)"; readonly accountSubtype: "checking"; readonly accountType: "depository"; ... 10 more ...; readonly userId: "user-1"; }}
+ */
 const BANK_ROW = {
   accessToken: "encrypted(raw-token)",
   accountId: "acc_abc",
@@ -51,6 +105,12 @@ const BANK_ROW = {
 } as const;
 
 // A variant without a funding source URL (for filter tests)
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {{ dwollaFundingSourceUrl: any; id: string; sharableId: string; accessToken: "encrypted(raw-token)"; accountId: "acc_abc"; accountNumberEncrypted: "encrypted(12345678)"; accountSubtype: "checking"; ... 8 more ...; userId: "user-1"; }}
+ */
 const BANK_ROW_NO_FS = {
   ...BANK_ROW,
   // eslint-disable-next-line unicorn/no-null
@@ -66,12 +126,24 @@ const BANK_ROW_NO_FS = {
 //         db.insert().values().returning()  →  result
 // ---------------------------------------------------------------------------
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @param {unknown[]} rows
+ */
 function setupSelectMock(rows: unknown[]): void {
   mockWhere.mockResolvedValue(rows);
   mockFrom.mockReturnValue({ where: mockWhere });
   mockSelect.mockReturnValue({ from: mockFrom });
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @param {unknown[]} rows
+ */
 function setupUpdateMock(rows: unknown[]): void {
   mockReturning.mockResolvedValue(rows);
   mockWhere.mockReturnValue({ returning: mockReturning });
@@ -79,6 +151,12 @@ function setupUpdateMock(rows: unknown[]): void {
   mockUpdate.mockReturnValue({ set: mockSet });
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @param {unknown[]} rows
+ */
 function setupInsertMock(rows: unknown[]): void {
   mockReturning.mockResolvedValue(rows);
   mockValues.mockReturnValue({ returning: mockReturning });

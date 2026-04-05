@@ -1,15 +1,76 @@
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @interface UsePaginationProps
+ * @typedef {UsePaginationProps}
+ */
 interface UsePaginationProps {
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {number}
+   */
   currentPage: number;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {number}
+   */
   totalPages: number;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {number}
+   */
   paginationItemsToDisplay: number;
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @interface UsePaginationReturn
+ * @typedef {UsePaginationReturn}
+ */
 interface UsePaginationReturn {
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {number[]}
+   */
   pages: number[];
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {boolean}
+   */
   showLeftEllipsis: boolean;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {boolean}
+   */
   showRightEllipsis: boolean;
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @export
+ * @param {UsePaginationProps} param0
+ * @param {number} param0.currentPage
+ * @param {number} param0.paginationItemsToDisplay
+ * @param {number} param0.totalPages
+ * @returns {UsePaginationReturn}
+ */
 export function usePagination({
   currentPage,
   paginationItemsToDisplay,

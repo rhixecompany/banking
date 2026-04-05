@@ -14,14 +14,60 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @export
+ * @interface MenuData
+ * @typedef {MenuData}
+ */
 export interface MenuData {
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {number}
+   */
   id: number;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {string}
+   */
   img: string;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {string}
+   */
   imgAlt: string;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {string}
+   */
   userAvatar: string;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {string}
+   */
   userComment: string;
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @param {{ menudata: MenuData[] }} param0
+ * @param {{}} param0.menudata
+ * @returns {ReactJSX.Element}
+ */
 const HeroSection = ({ menudata }: { menudata: MenuData[] }) => {
   const [mainApi, setMainApi] = useState<CarouselApi>();
   const [thumbApi, setThumbApi] = useState<CarouselApi>();

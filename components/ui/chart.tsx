@@ -6,8 +6,21 @@ import * as RechartsPrimitive from "recharts";
 import { cn } from "@/lib/utils";
 
 // Format: { THEME_NAME: CSS_SELECTOR }
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {{ readonly dark: ".dark"; readonly light: ""; }}
+ */
 const THEMES = { dark: ".dark", light: "" } as const;
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @export
+ * @typedef {ChartConfig}
+ */
 export type ChartConfig = Record<
   string,
   (
@@ -19,12 +32,37 @@ export type ChartConfig = Record<
   }
 >;
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @interface ChartContextProps
+ * @typedef {ChartContextProps}
+ */
 interface ChartContextProps {
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {ChartConfig}
+   */
   config: ChartConfig;
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const ChartContext = React.createContext<ChartContextProps | null>(null);
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @returns {*}
+ */
 function useChart() {
   const context = React.useContext(ChartContext);
 
@@ -35,6 +73,12 @@ function useChart() {
   return context;
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const ChartContainer = React.forwardRef<
   HTMLDivElement,
   {
@@ -68,6 +112,15 @@ const ChartContainer = React.forwardRef<
 });
 ChartContainer.displayName = "Chart";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @param {{ id: string; config: ChartConfig }} param0
+ * @param {(Record<string, ({ color?: never; theme: Record<"dark" | "light", string>; } | { color?: string; theme?: never; }) & { label?: React.ReactNode; icon?: React.ComponentType; }>)} param0.config
+ * @param {string} param0.id
+ * @returns {*}
+ */
 const ChartStyle = ({ config, id }: { id: string; config: ChartConfig }) => {
   const colorConfig = Object.entries(config).filter(
     ([, config]) => config.theme || config.color,
@@ -101,8 +154,20 @@ ${colorConfig
   );
 };
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const ChartTooltip = RechartsPrimitive.Tooltip;
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const ChartTooltipContent = React.forwardRef<
   HTMLDivElement,
   {
@@ -259,8 +324,20 @@ const ChartTooltipContent = React.forwardRef<
 );
 ChartTooltipContent.displayName = "ChartTooltip";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const ChartLegend = RechartsPrimitive.Legend;
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const ChartLegendContent = React.forwardRef<
   HTMLDivElement,
   {
@@ -322,6 +399,15 @@ const ChartLegendContent = React.forwardRef<
 ChartLegendContent.displayName = "ChartLegend";
 
 // Helper to extract item config from a payload.
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @param {ChartConfig} config
+ * @param {unknown} payload
+ * @param {string} key
+ * @returns {*}
+ */
 function getPayloadConfigFromPayload(
   config: ChartConfig,
   payload: unknown,

@@ -16,14 +16,69 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Progress } from "@/components/ui/progress";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {{}}
+ */
 const listItems = ["Share", "Update", "Refresh"];
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @interface Props
+ * @typedef {Props}
+ */
 interface Props {
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {string}
+   */
   title: string;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {number}
+   */
   earning: number;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {("down" | "up")}
+   */
   trend: "down" | "up";
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {number}
+   */
   percentage: number;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {string}
+   */
   comparisonText: string;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {{
+   *     img: string;
+   *     platform: string;
+   *     technologies: string;
+   *     earnings: string;
+   *     progressPercentage: number;
+   *   }[]}
+   */
   earningData: {
     img: string;
     platform: string;
@@ -31,9 +86,29 @@ interface Props {
     earnings: string;
     progressPercentage: number;
   }[];
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {?string}
+   */
   className?: string;
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @param {Props} param0
+ * @param {string} param0.className
+ * @param {string} param0.comparisonText
+ * @param {number} param0.earning
+ * @param {{}} param0.earningData
+ * @param {number} param0.percentage
+ * @param {string} param0.title
+ * @param {("down" | "up")} param0.trend
+ * @returns {ReactJSX.Element}
+ */
 const TotalEarningCard = ({
   className,
   comparisonText,

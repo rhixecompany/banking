@@ -25,25 +25,122 @@ import {
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {"sidebar_state"}
+ */
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {number}
+ */
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {"16rem"}
+ */
 const SIDEBAR_WIDTH = "16rem";
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {"18rem"}
+ */
 const SIDEBAR_WIDTH_MOBILE = "18rem";
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {"3rem"}
+ */
 const SIDEBAR_WIDTH_ICON = "3rem";
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {"b"}
+ */
 const SIDEBAR_KEYBOARD_SHORTCUT = "b";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @interface SidebarContextProps
+ * @typedef {SidebarContextProps}
+ */
 interface SidebarContextProps {
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {("collapsed" | "expanded")}
+   */
   state: "collapsed" | "expanded";
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {boolean}
+   */
   open: boolean;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {(open: boolean) => void}
+   */
   setOpen: (open: boolean) => void;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {boolean}
+   */
   openMobile: boolean;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {(open: boolean) => void}
+   */
   setOpenMobile: (open: boolean) => void;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {boolean}
+   */
   isMobile: boolean;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {() => void}
+   */
   toggleSidebar: () => void;
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const SidebarContext = React.createContext<null | SidebarContextProps>(null);
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @returns {*}
+ */
 function useSidebar() {
   const context = React.useContext(SidebarContext);
   if (!context) {
@@ -53,6 +150,12 @@ function useSidebar() {
   return context;
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const SidebarProvider = React.forwardRef<
   HTMLDivElement,
   {
@@ -170,6 +273,12 @@ const SidebarProvider = React.forwardRef<
 );
 SidebarProvider.displayName = "SidebarProvider";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const Sidebar = React.forwardRef<
   HTMLDivElement,
   {
@@ -277,6 +386,12 @@ const Sidebar = React.forwardRef<
 );
 Sidebar.displayName = "Sidebar";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const SidebarTrigger = React.forwardRef<
   React.ElementRef<typeof Button>,
   React.ComponentProps<typeof Button>
@@ -303,6 +418,12 @@ const SidebarTrigger = React.forwardRef<
 });
 SidebarTrigger.displayName = "SidebarTrigger";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const SidebarRail = React.forwardRef<
   HTMLButtonElement,
   React.ComponentProps<"button">
@@ -332,6 +453,12 @@ const SidebarRail = React.forwardRef<
 });
 SidebarRail.displayName = "SidebarRail";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const SidebarInset = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"main">
@@ -350,6 +477,12 @@ const SidebarInset = React.forwardRef<
 });
 SidebarInset.displayName = "SidebarInset";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const SidebarInput = React.forwardRef<
   React.ElementRef<typeof Input>,
   React.ComponentProps<typeof Input>
@@ -368,6 +501,12 @@ const SidebarInput = React.forwardRef<
 });
 SidebarInput.displayName = "SidebarInput";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const SidebarHeader = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"div">
@@ -383,6 +522,12 @@ const SidebarHeader = React.forwardRef<
 });
 SidebarHeader.displayName = "SidebarHeader";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const SidebarFooter = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"div">
@@ -398,6 +543,12 @@ const SidebarFooter = React.forwardRef<
 });
 SidebarFooter.displayName = "SidebarFooter";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const SidebarSeparator = React.forwardRef<
   React.ElementRef<typeof Separator>,
   React.ComponentProps<typeof Separator>
@@ -413,6 +564,12 @@ const SidebarSeparator = React.forwardRef<
 });
 SidebarSeparator.displayName = "SidebarSeparator";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const SidebarContent = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"div">
@@ -431,6 +588,12 @@ const SidebarContent = React.forwardRef<
 });
 SidebarContent.displayName = "SidebarContent";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const SidebarGroup = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"div">
@@ -446,6 +609,12 @@ const SidebarGroup = React.forwardRef<
 });
 SidebarGroup.displayName = "SidebarGroup";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const SidebarGroupLabel = React.forwardRef<
   HTMLDivElement,
   { asChild?: boolean } & React.ComponentProps<"div">
@@ -467,6 +636,12 @@ const SidebarGroupLabel = React.forwardRef<
 });
 SidebarGroupLabel.displayName = "SidebarGroupLabel";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const SidebarGroupAction = React.forwardRef<
   HTMLButtonElement,
   { asChild?: boolean } & React.ComponentProps<"button">
@@ -490,6 +665,12 @@ const SidebarGroupAction = React.forwardRef<
 });
 SidebarGroupAction.displayName = "SidebarGroupAction";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const SidebarGroupContent = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"div">
@@ -503,6 +684,12 @@ const SidebarGroupContent = React.forwardRef<
 ));
 SidebarGroupContent.displayName = "SidebarGroupContent";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const SidebarMenu = React.forwardRef<
   HTMLUListElement,
   React.ComponentProps<"ul">
@@ -516,6 +703,12 @@ const SidebarMenu = React.forwardRef<
 ));
 SidebarMenu.displayName = "SidebarMenu";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const SidebarMenuItem = React.forwardRef<
   HTMLLIElement,
   React.ComponentProps<"li">
@@ -529,6 +722,12 @@ const SidebarMenuItem = React.forwardRef<
 ));
 SidebarMenuItem.displayName = "SidebarMenuItem";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const sidebarMenuButtonVariants = cva(
   "peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-start text-sm ring-sidebar-ring transition-[width,height,padding] outline-none group-has-[[data-sidebar=menu-action]]/menu-item:pe-8 group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
   {
@@ -551,6 +750,12 @@ const sidebarMenuButtonVariants = cva(
   },
 );
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const SidebarMenuButton = React.forwardRef<
   HTMLButtonElement,
   {
@@ -611,6 +816,12 @@ const SidebarMenuButton = React.forwardRef<
 );
 SidebarMenuButton.displayName = "SidebarMenuButton";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const SidebarMenuAction = React.forwardRef<
   HTMLButtonElement,
   {
@@ -642,6 +853,12 @@ const SidebarMenuAction = React.forwardRef<
 });
 SidebarMenuAction.displayName = "SidebarMenuAction";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const SidebarMenuBadge = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"div">
@@ -663,6 +880,12 @@ const SidebarMenuBadge = React.forwardRef<
 ));
 SidebarMenuBadge.displayName = "SidebarMenuBadge";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const SidebarMenuSkeleton = React.forwardRef<
   HTMLDivElement,
   {
@@ -701,6 +924,12 @@ const SidebarMenuSkeleton = React.forwardRef<
 });
 SidebarMenuSkeleton.displayName = "SidebarMenuSkeleton";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const SidebarMenuSub = React.forwardRef<
   HTMLUListElement,
   React.ComponentProps<"ul">
@@ -718,12 +947,24 @@ const SidebarMenuSub = React.forwardRef<
 ));
 SidebarMenuSub.displayName = "SidebarMenuSub";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const SidebarMenuSubItem = React.forwardRef<
   HTMLLIElement,
   React.ComponentProps<"li">
 >(({ ...props }, ref) => <li ref={ref} {...props} />);
 SidebarMenuSubItem.displayName = "SidebarMenuSubItem";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {*}
+ */
 const SidebarMenuSubButton = React.forwardRef<
   HTMLAnchorElement,
   {

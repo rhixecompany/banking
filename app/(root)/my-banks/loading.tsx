@@ -1,5 +1,12 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @export
+ * @returns {JSX.Element}
+ */
 export default function MyBanksLoading(): JSX.Element {
   return (
     <section className="space-y-8">

@@ -15,6 +15,12 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @returns {ReactJSX.Element}
+ */
 const DangerZone = () => {
   return (
     <div className="grid grid-cols-1 gap-10 lg:grid-cols-3">

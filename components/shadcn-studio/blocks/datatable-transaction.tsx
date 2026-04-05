@@ -43,17 +43,79 @@ import {
 } from "@/components/ui/table";
 import { usePagination } from "@/hooks/use-pagination";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @export
+ * @interface Item
+ * @typedef {Item}
+ */
 export interface Item {
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {string}
+   */
   id: string;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {string}
+   */
   avatar: string;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {string}
+   */
   avatarFallback: string;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {string}
+   */
   name: string;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {string}
+   */
   email: string;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {number}
+   */
   amount: number;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {("failed" | "paid" | "pending" | "processing")}
+   */
   status: "failed" | "paid" | "pending" | "processing";
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {("mastercard" | "visa")}
+   */
   paidBy: "mastercard" | "visa";
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {ColumnDef<Item>[]}
+ */
 export const columns: ColumnDef<Item>[] = [
   {
     accessorKey: "name",
@@ -122,6 +184,14 @@ export const columns: ColumnDef<Item>[] = [
   },
 ];
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @param {{ data: Item[] }} param0
+ * @param {{}} param0.data
+ * @returns {ReactJSX.Element}
+ */
 const TransactionDatatable = ({ data }: { data: Item[] }) => {
   const pageSize = 5;
 
@@ -297,6 +367,12 @@ const TransactionDatatable = ({ data }: { data: Item[] }) => {
 
 export default TransactionDatatable;
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @returns {ReactJSX.Element}
+ */
 function RowActions() {
   return (
     <DropdownMenu>

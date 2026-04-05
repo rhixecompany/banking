@@ -2,6 +2,12 @@ import type { Metadata } from "next";
 
 import { DashboardServerWrapper } from "@/components/dashboard/dashboard-server-wrapper";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {Metadata}
+ */
 export const metadata: Metadata = {
   description: "Your financial overview",
   title: "Dashboard | Horizon Banking",

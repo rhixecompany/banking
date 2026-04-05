@@ -4,11 +4,40 @@ import { AlertCircleIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @interface ErrorPageProps
+ * @typedef {ErrorPageProps}
+ */
 interface ErrorPageProps {
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {({ digest?: string } & Error)}
+   */
   error: { digest?: string } & Error;
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {() => void}
+   */
   reset: () => void;
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @export
+ * @param {ErrorPageProps} param0
+ * @param {*} param0.error: _error
+ * @param {() => void} param0.reset
+ * @returns {JSX.Element}
+ */
 export default function PaymentTransferError({
   error: _error,
   reset,

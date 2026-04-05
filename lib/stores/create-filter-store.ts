@@ -6,6 +6,14 @@
 
 import { createStore } from "zustand";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @export
+ * @interface DateRange
+ * @typedef {DateRange}
+ */
 export interface DateRange {
   /** ISO date string for range start, e.g. "2024-01-01". */
   from: string | undefined;
@@ -13,6 +21,14 @@ export interface DateRange {
   to: string | undefined;
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @export
+ * @interface FilterState
+ * @typedef {FilterState}
+ */
 export interface FilterState {
   /** Active date range filter. Both null means no date filter applied. */
   dateRange: DateRange;
@@ -26,6 +42,14 @@ export interface FilterState {
   pageSize: number;
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @export
+ * @interface FilterActions
+ * @typedef {FilterActions}
+ */
 export interface FilterActions {
   /** Set or clear the date range filter. */
   setDateRange: (range: DateRange) => void;
@@ -41,8 +65,21 @@ export interface FilterActions {
   resetFilters: () => void;
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @export
+ * @typedef {FilterStore}
+ */
 export type FilterStore = FilterActions & FilterState;
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {FilterState}
+ */
 export const defaultFilterState: FilterState = {
   category: "",
   dateRange: { from: undefined, to: undefined },

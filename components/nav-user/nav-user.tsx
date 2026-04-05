@@ -26,6 +26,21 @@ import {
 } from "@/components/ui/sidebar";
 import { logoutAccount } from "@/lib/actions/user.actions";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @export
+ * @param {{
+ *   user: {
+ *     name: string;
+ *     email: string;
+ *     avatar: string;
+ *   };
+ * }} param0
+ * @param {{ name: string; email: string; avatar: string; }} param0.user
+ * @returns {JSX.Element}
+ */
 export function NavUser({
   user,
 }: {

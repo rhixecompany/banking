@@ -8,6 +8,12 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 
 // Product reached data
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {{}}
+ */
 const productReachChartData = [
   { month: "January", reached: 168 },
   { month: "February", reached: 305 },
@@ -16,6 +22,12 @@ const productReachChartData = [
   { month: "May", reached: 305 },
 ];
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {ChartConfig}
+ */
 const productReachChartConfig = {
   reached: {
     color: "var(--primary)",
@@ -24,6 +36,12 @@ const productReachChartConfig = {
 } satisfies ChartConfig;
 
 // Order placed data
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {{}}
+ */
 const orderPlacedChartData = [
   { month: "January", orders: 168 },
   { month: "February", orders: 305 },
@@ -32,6 +50,12 @@ const orderPlacedChartData = [
   { month: "May", orders: 305 },
 ];
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {ChartConfig}
+ */
 const orderPlacedChartConfig = {
   orders: {
     color: "color-mix(in oklab, var(--primary) 10%, transparent)",
@@ -39,6 +63,14 @@ const orderPlacedChartConfig = {
   },
 } satisfies ChartConfig;
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @param {{ className?: string }} param0
+ * @param {string} param0.className
+ * @returns {ReactJSX.Element}
+ */
 const ProductInsightsCard = ({ className }: { className?: string }) => {
   return (
     <Card className={cn("gap-4", className)}>

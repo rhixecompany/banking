@@ -1,19 +1,25 @@
 import { expect, test } from "../../tests/fixtures/auth";
 
 test.describe("Authentication", () => {
-  test.describe("Home Redirect", () => {
-    test("should redirect unauthenticated users from / to sign-in", async ({
+  test.describe("Home Page", () => {
+    test("should show landing page for unauthenticated users", async ({
       page,
     }) => {
       await page.goto("/");
-      await expect.soft(page).toHaveURL(/\/sign-in/, { timeout: 10_000 });
+      await expect(page).toHaveTitle(/Horizon Banking/i);
+      await expect(
+        page.getByRole("heading", { name: /ready to get started/i }),
+      ).toBeVisible();
     });
 
-    test("should redirect authenticated users from / to dashboard", async ({
+    test("should show landing page for authenticated users", async ({
       authenticatedPage: page,
     }) => {
       await page.goto("/");
-      await expect.soft(page).toHaveURL(/\/dashboard/, { timeout: 10_000 });
+      await expect(page).toHaveTitle(/Horizon Banking/i);
+      await expect(
+        page.getByRole("heading", { name: /ready to get started/i }),
+      ).toBeVisible();
     });
   });
 

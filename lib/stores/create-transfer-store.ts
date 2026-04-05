@@ -14,8 +14,23 @@ export type TransferStep =
   | "review"
   | "select-banks";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @export
+ * @typedef {TransferStatus}
+ */
 export type TransferStatus = "error" | "idle" | "pending" | "success";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @export
+ * @interface TransferFormData
+ * @typedef {TransferFormData}
+ */
 export interface TransferFormData {
   /** Sender's bank record ID (from banks table). */
   senderBankId: string;
@@ -27,6 +42,14 @@ export interface TransferFormData {
   note: string;
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @export
+ * @interface TransferState
+ * @typedef {TransferState}
+ */
 export interface TransferState {
   /** Current wizard step. */
   currentStep: TransferStep;
@@ -40,6 +63,14 @@ export interface TransferState {
   transferUrl: string | undefined;
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @export
+ * @interface TransferActions
+ * @typedef {TransferActions}
+ */
 export interface TransferActions {
   /** Advance to the next step. */
   nextStep: () => void;
@@ -59,8 +90,21 @@ export interface TransferActions {
   reset: () => void;
 }
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @export
+ * @typedef {TransferStore}
+ */
 export type TransferStore = TransferActions & TransferState;
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {TransferStep[]}
+ */
 const STEPS: TransferStep[] = [
   "select-banks",
   "enter-amount",
@@ -69,6 +113,12 @@ const STEPS: TransferStep[] = [
   "result",
 ];
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {TransferFormData}
+ */
 const defaultFormData: TransferFormData = {
   amount: "",
   note: "",
@@ -76,6 +126,12 @@ const defaultFormData: TransferFormData = {
   senderBankId: "",
 };
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @type {TransferState}
+ */
 export const defaultTransferState: TransferState = {
   currentStep: "select-banks",
   errorMessage: undefined,

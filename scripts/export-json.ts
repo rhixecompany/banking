@@ -13,6 +13,7 @@ import path from "path";
 import type { CategoryType, Entry, ExportedEntry } from "./types/index.js";
 
 import { CATEGORIES, CATEGORY_PATHS } from "./utils/constants.js";
+import { readOpenCodeEntries } from "./utils/markdown.js";
 import { formatValidationErrors, validateEntry } from "./utils/validation.js";
 import { readYamlDir, slugify } from "./utils/yaml.js";
 
@@ -98,6 +99,20 @@ async function loadEntries(): Promise<{
   const results: ExportedEntry[] = [];
   const errors: string[] = [];
 
+  // Load OpenCode entries once
+  let openCodeEntries: Entry[] = [];
+  try {
+    openCodeEntries = await readOpenCodeEntries();
+    console.warn(`Loaded ${openCodeEntries.length} OpenCode entries`);
+  } catch (err) {
+    console.warn(
+      `Warning: Could not load OpenCode entries: ${(err as Error).message}`,
+    );
+  }
+
+  // Track existing names to avoid duplicates
+  const existingNames = new Set<string>();
+
   for (const category of CATEGORIES) {
     const categoryPath = CATEGORY_PATHS[category];
     let entries: Entry[] = [];
@@ -121,7 +136,22 @@ async function loadEntries(): Promise<{
       const mapped = mapEntry(entry, category);
       if (mapped) {
         results.push(mapped);
+        existingNames.add(mapped.displayName.toLowerCase());
       }
+    }
+  }
+
+  // Add OpenCode entries to resources category
+  for (const entry of openCodeEntries) {
+    // Skip if already exists (deduplicate)
+    if (existingNames.has(entry.name.toLowerCase())) {
+      console.warn(`Skipping duplicate: ${entry.name}`);
+      continue;
+    }
+
+    const mapped = mapEntry(entry, "resources");
+    if (mapped) {
+      results.push(mapped);
     }
   }
 

@@ -20,7 +20,20 @@ import { SessionProvider } from "@/components/providers/session-provider";
 import { ToastStoreProvider } from "@/providers/toast-store-provider";
 import { UIStoreProvider } from "@/providers/ui-store-provider";
 
+/**
+ * Description placeholder
+ * @author [object Object]
+ *
+ * @interface RootProvidersProps
+ * @typedef {RootProvidersProps}
+ */
 interface RootProvidersProps {
+  /**
+   * Description placeholder
+   * @author [object Object]
+   *
+   * @type {ReactNode}
+   */
   children: ReactNode;
 }
 
