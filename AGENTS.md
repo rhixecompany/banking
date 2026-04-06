@@ -1,6 +1,6 @@
 # AGENTS.md — Banking Project
 
-**Version:** 10.0 | **Updated:** April 6, 2026
+**Version:** 10.1 | **Updated:** April 7, 2026
 
 ## Quick Reference
 

@@ -60,9 +60,9 @@ sudo apt install docker-compose-v2
 git clone https://github.com/rhixecompany/banking.git
 cd banking
 
-# Create production environment
+# Create production environment (copy from .env.example)
 mkdir -p .envs/production
-cp .env.production.example .envs/production/.env.production
+cp .env.example .envs/production/.env.production
 ```
 
 ## Step 3: Configure Environment
