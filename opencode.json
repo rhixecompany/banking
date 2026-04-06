@@ -2,22 +2,74 @@
   "$schema": "https://opencode.ai/config.json",
   "agent": {
     "build": {
-      "description": "Build and implement features for the Banking project"
-    },
-    "custom-agent": {
-      "description": "Specialized coding agent using Qwen 3.6 Plus",
+      "description": "Build and implement features for the Banking project",
       "model": "opencode/minimax-m2.5-free",
-      "temperature": 0.2,
+      "steps": 5,
+      "temperature": 0.3,
       "tools": {
         "bash": true,
-        "write": true
+        "edit": true,
+        "glob": true,
+        "grep": true,
+        "list": true,
+        "lsp": true,
+        "MCP_DOCKER_*": true,
+        "question": true,
+        "read": true,
+        "shadcn_*": true,
+        "skill": true,
+        "todowrite": true,
+        "webfetch": true,
+        "websearch": true
       }
     },
     "plan": {
-      "description": "Review and plan changes for the Banking project"
+      "description": "Review and plan changes for the Banking project",
+      "model": "opencode/minimax-m2.5-free",
+      "temperature": 0.1,
+      "tools": {
+        "bash": true,
+        "edit": false,
+        "glob": true,
+        "grep": true,
+        "list": true,
+        "lsp": true,
+        "MCP_DOCKER_*": true,
+        "question": true,
+        "read": true,
+        "shadcn_*": true,
+        "skill": true,
+        "todowrite": true,
+        "webfetch": true,
+        "websearch": true
+      }
+    },
+    "quick-thinker": {
+      "description": "Fast reasoning with limited iterations",
+      "prompt": "You are a quick thinker. Solve problems with minimal steps.",
+      "steps": 5
     },
     "review": {
-      "description": "Review code changes and PRs for the Banking project"
+      "description": "Review code changes and PRs for the Banking project",
+      "model": "opencode/minimax-m2.5-free",
+      "steps": 5,
+      "temperature": 0.7,
+      "tools": {
+        "bash": true,
+        "edit": true,
+        "glob": true,
+        "grep": true,
+        "list": true,
+        "lsp": true,
+        "MCP_DOCKER_*": true,
+        "question": true,
+        "read": true,
+        "shadcn_*": true,
+        "skill": true,
+        "todowrite": true,
+        "webfetch": true,
+        "websearch": true
+      }
     }
   },
   "autoupdate": true,
@@ -85,6 +137,22 @@
     }
   },
   "model": "opencode/minimax-m2.5-free",
+  "permission": {
+    "bash": "ask",
+    "edit": "ask",
+    "glob": "allow",
+    "grep": "allow",
+    "list": "allow",
+    "lsp": "allow",
+    "MCP_DOCKER_*": "ask",
+    "question": "allow",
+    "read": "allow",
+    "shadcn_*": "ask",
+    "skill": "allow",
+    "todowrite": "allow",
+    "webfetch": "allow",
+    "websearch": "allow"
+  },
   "watcher": {
     "ignore": [
       "node_modules",
