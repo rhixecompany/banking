@@ -5,7 +5,9 @@ vi.mock("@/lib/plaid", () => ({
     accountsGet: vi.fn(),
     balanceGet: vi.fn(),
     institutionsGetById: vi.fn(),
-    itemPublicTokenExchange: vi.fn(),
+    itemPublicTokenExchange: vi
+      .fn()
+      .mockRejectedValue(new Error("Plaid API error")),
     itemRemove: vi.fn(),
     linkTokenCreate: vi.fn(),
     transactionsGet: vi.fn(),
@@ -66,7 +68,7 @@ describe("Plaid Actions", () => {
       const { exchangePublicToken } = await import("@/actions/plaid.actions");
       const result = await exchangePublicToken({ publicToken: "public-token" });
       expect(result.ok).toBe(false);
-      expect(result.error).toBe("Invalid input");
+      expect(result.error).toBe("Failed to exchange public token");
     });
   });
 

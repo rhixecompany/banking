@@ -4,12 +4,13 @@ import { ReactNode, Suspense } from "react";
 
 import { getUserWithProfile } from "@/actions/user.actions";
 import MobileNav from "@/components/mobile-nav/mobile-nav";
+import { PlaidProvider } from "@/components/plaid-context/plaid-context";
 import Sidebar from "@/components/sidebar/sidebar";
 import { LoadingSpinner } from "@/components/ui/spinner";
 
 /**
  * Protected banking layout content component.
- * Checks authentication and redirects to sign-in if not authenticated.
+ * Checks authentication and wraps with PlaidProvider for bank-linking functionality.
  */
 async function ProtectedLayoutContent({
   children,
@@ -22,25 +23,27 @@ async function ProtectedLayoutContent({
   }
 
   return (
-    <main className="flex h-screen w-full font-sans">
-      <Sidebar user={user} />
-      <div className="flex size-full flex-col">
-        <div className="root-layout">
-          <Image
-            src="/icons/logo.svg"
-            alt="menu icon"
-            width={30}
-            height={39}
-            loading="eager"
-            style={{ height: "auto", width: "auto" }}
-          />
-          <div className="">
-            <MobileNav user={user} />
+    <PlaidProvider userId={user.id}>
+      <main className="flex h-screen w-full font-sans">
+        <Sidebar user={user} />
+        <div className="flex size-full flex-col">
+          <div className="root-layout">
+            <Image
+              src="/icons/logo.svg"
+              alt="menu icon"
+              width={30}
+              height={39}
+              loading="eager"
+              style={{ height: "auto", width: "auto" }}
+            />
+            <div className="">
+              <MobileNav user={user} />
+            </div>
           </div>
+          {children}
         </div>
-        {children}
-      </div>
-    </main>
+      </main>
+    </PlaidProvider>
   );
 }
 

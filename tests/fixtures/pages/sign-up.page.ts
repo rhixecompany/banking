@@ -22,47 +22,47 @@ export class SignUpPage extends BasePage {
   readonly url = "/sign-up";
 
   get firstNameInput() {
-    return this.getByLabel(/first name/i);
+    return this.getByPlaceholder(/enter your first name/i);
   }
 
   get lastNameInput() {
-    return this.getByLabel(/last name/i);
+    return this.getByPlaceholder(/enter your last name/i);
   }
 
   get emailInput() {
-    return this.getByLabel(/email/i);
+    return this.getByPlaceholder(/enter your email/i);
   }
 
   get passwordInput() {
-    return this.getByLabel(/password/i);
+    return this.getByPlaceholder(/enter your password/i);
   }
 
   get confirmPasswordInput() {
-    return this.getByLabel(/confirm password/i);
+    return this.getByPlaceholder(/confirm your password/i);
   }
 
   get addressInput() {
-    return this.getByLabel(/address/i);
+    return this.getByPlaceholder(/enter your address/i);
   }
 
   get cityInput() {
-    return this.getByLabel(/city/i);
+    return this.getByPlaceholder(/enter your city/i);
   }
 
   get stateInput() {
-    return this.getByLabel(/state/i);
+    return this.getByPlaceholder(/enter your state/i);
   }
 
   get postalCodeInput() {
-    return this.getByLabel(/postal code/i);
+    return this.getByPlaceholder(/enter your postal code/i);
   }
 
   get dateOfBirthInput() {
-    return this.getByLabel(/date of birth/i);
+    return this.getByPlaceholder(/yyyy-mm-dd/i);
   }
 
   get ssnInput() {
-    return this.getByLabel(/ssn/i);
+    return this.getByPlaceholder(/example: 1234/i);
   }
 
   get submitButton() {

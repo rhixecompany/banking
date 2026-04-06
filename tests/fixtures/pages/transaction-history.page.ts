@@ -66,12 +66,9 @@ export class TransactionHistoryPage extends BasePage {
   }
 
   getTransactionByName(name: string) {
-    return (
-      this.transactionTable
-        .getByRole("row")
-        // eslint-disable-next-line security/detect-non-literal-regexp -- Dynamic transaction name matching is intentional
-        .filter({ hasText: new RegExp(name, "i") })
-    );
+    return this.transactionTable
+      .getByRole("row")
+      .filter({ hasText: new RegExp(name, "i") });
   }
 
   async getTransactionCount(): Promise<number> {
@@ -95,7 +92,6 @@ export class TransactionHistoryPage extends BasePage {
 
   async selectWalletTab(walletName: string): Promise<void> {
     await this.walletTabs
-      // eslint-disable-next-line security/detect-non-literal-regexp -- Dynamic wallet tab name matching is intentional
       .getByRole("tab", { name: new RegExp(walletName, "i") })
       .click();
   }

@@ -1,6 +1,6 @@
 # AGENTS.md — Banking Project
 
-**Version:** 9.0 | **Updated:** April 5, 2026
+**Version:** 10.0 | **Updated:** April 6, 2026
 
 ## Quick Reference
 
@@ -183,6 +183,40 @@ Config: `eslint.config.mts` | **`noInlineConfig: false`** — inline `// eslint-
 
 ---
 
+## Prettier Configuration
+
+Config: `.prettierrc.ts`
+
+```typescript
+{
+  printWidth: 80,
+  tabWidth: 2,
+  semi: true,
+  singleQuote: false,
+  trailingComma: "all",
+  plugins: [
+    "prettier-plugin-tailwindcss",
+    "prettier-plugin-organize-imports",
+    "prettier-plugin-packagejson",
+    "prettier-plugin-sort-json",
+  ]
+}
+```
+
+**Key plugins:**
+
+- `prettier-plugin-tailwindcss` — Sorts Tailwind classes
+- `prettier-plugin-organize-imports` — Removes unused imports
+- `prettier-plugin-packagejson` — Sorts package.json fields
+
+**File-specific overrides:**
+
+- `*.md` — proseWrap: never, printWidth: 70
+- `*.json` — printWidth: 70
+- `*.yaml`, `*.yml` — tabWidth: 2
+
+---
+
 ## Next.js 16 Patterns
 
 ### Page Component Signature
@@ -218,7 +252,7 @@ export function Form() {
 ### Cache Revalidation
 
 ```typescript
-import { unstable_updateTag as updateTag } from "next/cache";
+import { updateTag } from "next/cache";
 updateTag("banks"); // Immediate invalidation
 revalidateTag("banks"); // Background stale-while-revalidate
 ```
@@ -232,10 +266,7 @@ All mutations via Server Actions in `actions/`. **Never put mutation logic in AP
 ```typescript
 "use server";
 import { auth } from "@/lib/auth";
-import {
-  revalidatePath,
-  unstable_updateTag as updateTag
-} from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 import { z } from "zod";
 import { walletDal } from "@/dal/wallet.dal";
 

@@ -162,9 +162,16 @@ const AuthForm = ({ type }: AuthFormProps): JSX.Element => {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel htmlFor={field.name}>Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter your email" {...field} />
+                      <Input
+                        id={field.name}
+                        name={field.name}
+                        placeholder="Enter your email"
+                        value={field.value ?? ""}
+                        onChange={field.onChange}
+                        ref={field.ref}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -175,12 +182,16 @@ const AuthForm = ({ type }: AuthFormProps): JSX.Element => {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel htmlFor={field.name}>Password</FormLabel>
                     <FormControl>
                       <Input
+                        id={field.name}
+                        name={field.name}
                         placeholder="Enter your password"
                         type="password"
-                        {...field}
+                        value={field.value ?? ""}
+                        onChange={field.onChange}
+                        ref={field.ref}
                       />
                     </FormControl>
                     <FormMessage />
@@ -195,9 +206,16 @@ const AuthForm = ({ type }: AuthFormProps): JSX.Element => {
                 name="firstName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>First Name</FormLabel>
+                    <FormLabel htmlFor={field.name}>First Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter your first name" {...field} />
+                      <Input
+                        id={field.name}
+                        name={field.name}
+                        placeholder="Enter your first name"
+                        value={field.value ?? ""}
+                        onChange={field.onChange}
+                        ref={field.ref}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -208,9 +226,16 @@ const AuthForm = ({ type }: AuthFormProps): JSX.Element => {
                 name="lastName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Last Name</FormLabel>
+                    <FormLabel htmlFor={field.name}>Last Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter your last name" {...field} />
+                      <Input
+                        id={field.name}
+                        name={field.name}
+                        placeholder="Enter your last name"
+                        value={field.value ?? ""}
+                        onChange={field.onChange}
+                        ref={field.ref}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -221,9 +246,16 @@ const AuthForm = ({ type }: AuthFormProps): JSX.Element => {
                 name="address1"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Address</FormLabel>
+                    <FormLabel htmlFor={field.name}>Address</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter your address" {...field} />
+                      <Input
+                        id={field.name}
+                        name={field.name}
+                        placeholder="Enter your address"
+                        value={field.value ?? ""}
+                        onChange={field.onChange}
+                        ref={field.ref}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -234,9 +266,16 @@ const AuthForm = ({ type }: AuthFormProps): JSX.Element => {
                 name="city"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>City</FormLabel>
+                    <FormLabel htmlFor={field.name}>City</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter your city" {...field} />
+                      <Input
+                        id={field.name}
+                        name={field.name}
+                        placeholder="Enter your city"
+                        value={field.value ?? ""}
+                        onChange={field.onChange}
+                        ref={field.ref}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -247,9 +286,16 @@ const AuthForm = ({ type }: AuthFormProps): JSX.Element => {
                 name="state"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>State</FormLabel>
+                    <FormLabel htmlFor={field.name}>State</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter your state" {...field} />
+                      <Input
+                        id={field.name}
+                        name={field.name}
+                        placeholder="Enter your state"
+                        value={field.value ?? ""}
+                        onChange={field.onChange}
+                        ref={field.ref}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -260,9 +306,16 @@ const AuthForm = ({ type }: AuthFormProps): JSX.Element => {
                 name="postalCode"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Postal Code</FormLabel>
+                    <FormLabel htmlFor={field.name}>Postal Code</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter your postal code" {...field} />
+                      <Input
+                        id={field.name}
+                        name={field.name}
+                        placeholder="Enter your postal code"
+                        value={field.value ?? ""}
+                        onChange={field.onChange}
+                        ref={field.ref}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -273,9 +326,16 @@ const AuthForm = ({ type }: AuthFormProps): JSX.Element => {
                 name="dateOfBirth"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Date of Birth</FormLabel>
+                    <FormLabel htmlFor={field.name}>Date of Birth</FormLabel>
                     <FormControl>
-                      <Input placeholder="YYYY-MM-DD" {...field} />
+                      <Input
+                        id={field.name}
+                        name={field.name}
+                        placeholder="YYYY-MM-DD"
+                        value={field.value ?? ""}
+                        onChange={field.onChange}
+                        ref={field.ref}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -286,9 +346,16 @@ const AuthForm = ({ type }: AuthFormProps): JSX.Element => {
                 name="ssn"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>SSN</FormLabel>
+                    <FormLabel htmlFor={field.name}>SSN</FormLabel>
                     <FormControl>
-                      <Input placeholder="Example: 1234" {...field} />
+                      <Input
+                        id={field.name}
+                        name={field.name}
+                        placeholder="Example: 1234"
+                        value={field.value ?? ""}
+                        onChange={field.onChange}
+                        ref={field.ref}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -299,9 +366,16 @@ const AuthForm = ({ type }: AuthFormProps): JSX.Element => {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel htmlFor={field.name}>Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter your email" {...field} />
+                      <Input
+                        id={field.name}
+                        name={field.name}
+                        placeholder="Enter your email"
+                        value={field.value ?? ""}
+                        onChange={field.onChange}
+                        ref={field.ref}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -312,12 +386,16 @@ const AuthForm = ({ type }: AuthFormProps): JSX.Element => {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel htmlFor={field.name}>Password</FormLabel>
                     <FormControl>
                       <Input
+                        id={field.name}
+                        name={field.name}
                         placeholder="Enter your password"
                         type="password"
-                        {...field}
+                        value={field.value ?? ""}
+                        onChange={field.onChange}
+                        ref={field.ref}
                       />
                     </FormControl>
                     <FormMessage />
@@ -329,12 +407,16 @@ const AuthForm = ({ type }: AuthFormProps): JSX.Element => {
                 name="confirmPassword"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Confirm Password</FormLabel>
+                    <FormLabel htmlFor={field.name}>Confirm Password</FormLabel>
                     <FormControl>
                       <Input
+                        id={field.name}
+                        name={field.name}
                         placeholder="Confirm your password"
                         type="password"
-                        {...field}
+                        value={field.value ?? ""}
+                        onChange={field.onChange}
+                        ref={field.ref}
                       />
                     </FormControl>
                     <FormMessage />

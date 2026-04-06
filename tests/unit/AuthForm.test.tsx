@@ -89,9 +89,11 @@ describe("AuthForm", () => {
 
     it("renders only Email and Password inputs", () => {
       render(<AuthForm type="sign-in" />);
-      expect(screen.getByLabelText("Email")).toBeTruthy();
-      expect(screen.getByLabelText("Password")).toBeTruthy();
-      expect(screen.queryByLabelText("First Name")).not.toBeTruthy();
+      expect(screen.getByPlaceholderText("Enter your email")).toBeTruthy();
+      expect(screen.getByPlaceholderText("Enter your password")).toBeTruthy();
+      expect(
+        screen.queryByPlaceholderText("Enter your first name"),
+      ).not.toBeTruthy();
     });
 
     it("renders the Sign In submit button", () => {
@@ -120,23 +122,23 @@ describe("AuthForm", () => {
 
     it("renders all sign-up specific inputs", () => {
       render(<AuthForm type="sign-up" />);
-      const expectedLabels = [
-        "First Name",
-        "Last Name",
-        "Address",
-        "City",
-        "State",
-        "Postal Code",
-        "Date of Birth",
-        "SSN",
-        "Email",
-        "Password",
-        "Confirm Password",
+      const expectedPlaceholders = [
+        "Enter your first name",
+        "Enter your last name",
+        "Enter your address",
+        "Enter your city",
+        "Enter your state",
+        "Enter your postal code",
+        "YYYY-MM-DD",
+        "Example: 1234",
+        "Enter your email",
+        "Enter your password",
+        "Confirm your password",
       ];
-      for (const label of expectedLabels) {
+      for (const placeholder of expectedPlaceholders) {
         expect(
-          screen.getByLabelText(label),
-          `Missing input: ${label}`,
+          screen.getByPlaceholderText(placeholder),
+          `Missing input: ${placeholder}`,
         ).toBeTruthy();
       }
     });

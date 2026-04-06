@@ -1,12 +1,6 @@
 "use server";
 
-import {
-  unstable_cacheLife as cacheLife,
-  unstable_cacheTag as cacheTag,
-  revalidatePath,
-  revalidateTag,
-  updateTag,
-} from "next/cache";
+import { revalidatePath, revalidateTag, updateTag } from "next/cache";
 import { z } from "zod";
 
 import type { Account } from "@/types";
@@ -421,22 +415,13 @@ export async function getBalance(input: unknown): Promise<{
  *   error?: string;
  * }>}
  */
-export async function getAllBalances(): Promise<{
+export async function getAllBalances(userId: string): Promise<{
   ok: boolean;
   balances?: Record<string, PlaidBalance[]>;
   error?: string;
 }> {
-  "use cache";
-  cacheLife("minutes");
-  cacheTag("balances");
-
-  const session = await auth();
-  if (!session?.user?.id) {
-    return { error: "Not authenticated", ok: false };
-  }
-
   try {
-    const wallets = await walletsDal.findByUserId(session.user.id);
+    const wallets = await walletsDal.findByUserId(userId);
 
     const entries = await Promise.all(
       wallets.map(async (wallet): Promise<[string, PlaidBalance[]]> => {
@@ -713,7 +698,7 @@ export async function getAllWalletsWithDetails(): Promise<{
       return { ok: true, totalBalance: 0, walletsWithDetails: [] };
     }
 
-    const balancesResult = await getAllBalances();
+    const balancesResult = await getAllBalances(session.user.id);
     const allBalances = balancesResult.ok
       ? (balancesResult.balances ?? {})
       : {};

@@ -99,10 +99,10 @@ export abstract class BasePage {
   /**
    * Gets a locator by placeholder attribute.
    *
-   * @param placeholder - Placeholder text to search for
+   * @param placeholder - Placeholder text to search for (RegExp or string)
    * @returns Locator for the matched element
    */
-  getByPlaceholder(placeholder: string): Locator {
+  getByPlaceholder(placeholder: RegExp | string): Locator {
     return this.page.getByPlaceholder(placeholder);
   }
 

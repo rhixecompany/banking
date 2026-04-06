@@ -650,6 +650,7 @@ export default defineConfig([
     files: ["tests/fixtures/**/*.ts"],
     rules: {
       "react-hooks/rules-of-hooks": "off", // Playwright fixtures use `use` method, not React hooks
+      "security/detect-non-literal-regexp": "off", // Dynamic institution names from test data
     },
   },
 

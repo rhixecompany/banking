@@ -116,11 +116,7 @@
       "type": "local"
     },
     "shadcn": {
-      "command": [
-        "npx",
-        "shadcn@latest",
-        "mcp"
-      ],
+      "command": ["npx", "shadcn@latest", "mcp"],
       "enabled": true,
       "timeout": 900000,
       "type": "local"
@@ -154,12 +150,6 @@
     "websearch": "allow"
   },
   "watcher": {
-    "ignore": [
-      "node_modules",
-      ".next",
-      "dist",
-      ".git",
-      "*.log"
-    ]
+    "ignore": ["node_modules", ".next", "dist", ".git", "*.log"]
   }
 }

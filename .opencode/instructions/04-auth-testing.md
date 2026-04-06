@@ -80,7 +80,7 @@ export async function adminOnlyAction(
 - Strategy: `jwt` (not database)
 - Adapter: `DrizzleAdapter` (for OAuth link records)
 - Providers: Credentials + GitHub + Google (conditional on env vars)
-- Password hashing: `bcryptjs` at cost 12
+- Password hashing: `bcrypt` at cost 12 (NOT `bcryptjs`)
 - OAuth env vars: `AUTH_GITHUB_ID`/`AUTH_GITHUB_SECRET`, `AUTH_GOOGLE_ID`/`AUTH_GOOGLE_SECRET`
 - Custom signIn callback: auto-creates user for OAuth emails
 

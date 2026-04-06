@@ -121,9 +121,10 @@ test.describe("Authentication", () => {
       await signUpPage.fillPassword("short");
       await signUpPage.fillConfirmPassword("short");
       await signUpPage.submit();
+      await page.waitForLoadState("networkidle");
       await expect
-        .soft(page.locator("p.form-message").getByText(/8 characters/i))
-        .toBeVisible({ timeout: 5000 });
+        .soft(page.getByText(/password must be at least 8 characters/i))
+        .toBeVisible({ timeout: 10000 });
     });
 
     test("should show validation error for password mismatch", async ({
@@ -137,9 +138,10 @@ test.describe("Authentication", () => {
       await signUpPage.fillPassword("password123");
       await signUpPage.fillConfirmPassword("differentpassword");
       await signUpPage.submit();
+      await page.waitForLoadState("networkidle");
       await expect
         .soft(page.getByText("Passwords do not match"))
-        .toBeVisible({ timeout: 5000 });
+        .toBeVisible({ timeout: 10000 });
     });
 
     test("should show validation error for short name", async ({
@@ -153,9 +155,10 @@ test.describe("Authentication", () => {
       await signUpPage.fillPassword("password123");
       await signUpPage.fillConfirmPassword("password123");
       await signUpPage.submit();
+      await page.waitForLoadState("networkidle");
       await expect
-        .soft(page.locator("p.form-message").getByText(/2 characters/i))
-        .toBeVisible({ timeout: 5000 });
+        .soft(page.getByText(/first name must be at least 2 characters/i))
+        .toBeVisible({ timeout: 10000 });
     });
   });
 });

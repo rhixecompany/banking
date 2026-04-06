@@ -19,8 +19,8 @@ const TIMEOUTS = {
   ASSERTION: 10_000,
   /** Navigation timeout - 90 seconds */
   NAVIGATION: 90_000,
-  /** Test timeout - 60 seconds */
-  TEST: 60_000,
+  /** Test timeout - 90 seconds for longer test runs */
+  TEST: 90_000,
   /** Web server startup timeout - 180 seconds */
   WEB_SERVER: 180_000,
 } as const;

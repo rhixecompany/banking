@@ -20,11 +20,11 @@ export class SignInPage extends BasePage {
   readonly url = "/sign-in";
 
   get emailInput() {
-    return this.getByLabel(/email/i);
+    return this.getByPlaceholder(/enter your email/i);
   }
 
   get passwordInput() {
-    return this.getByLabel(/password/i);
+    return this.getByPlaceholder(/enter your password/i);
   }
 
   get submitButton() {

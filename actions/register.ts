@@ -81,7 +81,11 @@ export async function registerUser(
 ): Promise<{ ok: boolean; user?: unknown; error?: string }> {
   const parsed = RegisterSchema.safeParse(input);
   if (!parsed.success) {
-    return { error: parsed.error.issues[0]?.message, ok: false };
+    const allErrors = parsed.error.issues
+      .slice(0, 3)
+      .map((issue) => issue.message)
+      .join("; ");
+    return { error: allErrors, ok: false };
   }
   const { address1, email, firstName, lastName, password } = parsed.data;
 

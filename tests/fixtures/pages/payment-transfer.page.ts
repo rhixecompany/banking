@@ -62,13 +62,11 @@ export class PaymentTransferPage extends BasePage {
 
   get sourceWalletOption() {
     return (walletName: string) =>
-      // eslint-disable-next-line security/detect-non-literal-regexp -- Dynamic wallet name matching is intentional
       this.getByRole("option", { name: new RegExp(walletName, "i") });
   }
 
   get recipientOption() {
     return (name: string) =>
-      // eslint-disable-next-line security/detect-non-literal-regexp -- Dynamic recipient name matching is intentional
       this.getByRole("option", { name: new RegExp(name, "i") });
   }
 
@@ -79,7 +77,6 @@ export class PaymentTransferPage extends BasePage {
 
   private getSourceWalletOptionLocator(walletName: string): Locator {
     return this.page.getByRole("option", {
-      // eslint-disable-next-line security/detect-non-literal-regexp -- Dynamic wallet name matching is intentional
       name: new RegExp(walletName, "i"),
     });
   }
@@ -87,7 +84,6 @@ export class PaymentTransferPage extends BasePage {
   async selectRecipient(recipientName: string): Promise<void> {
     await this.recipientSelect.click();
     await this.page
-      // eslint-disable-next-line security/detect-non-literal-regexp -- Dynamic recipient name matching is intentional
       .getByRole("option", { name: new RegExp(recipientName, "i") })
       .click();
   }

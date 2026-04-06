@@ -8,7 +8,6 @@ import type { PlaidTransaction } from "@/types/plaid";
 import type { WalletWithDetails } from "@/types/wallet";
 
 import { removeWallet } from "@/actions/plaid.actions";
-import { PlaidProvider } from "@/components/plaid-context/plaid-context";
 import { PlaidLinkButton } from "@/components/plaid-link-button/plaid-link-button";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -47,13 +46,11 @@ export function MyWalletsClientWrapper({
   walletsWithDetails,
 }: MyWalletsClientWrapperProps): JSX.Element {
   return (
-    <PlaidProvider userId={userId}>
-      <MyWalletsContent
-        walletsWithDetails={walletsWithDetails}
-        totalBalance={totalBalance}
-        userId={userId}
-      />
-    </PlaidProvider>
+    <MyWalletsContent
+      walletsWithDetails={walletsWithDetails}
+      totalBalance={totalBalance}
+      userId={userId}
+    />
   );
 }
 

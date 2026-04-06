@@ -11,7 +11,7 @@ priority: 6
 
 ```bash
 npm run dev              # Dev server (localhost:3000)
-                         # predev hook: clean + type-check
+                         # predev hook: npm run clean (clears .next before dev)
 npm run build            # Production build
                          # prebuild hook: clean + type-check
                          # postbuild hook: next-sitemap

@@ -33,7 +33,8 @@ export class MyWalletsPage extends BasePage {
   }
 
   get walletCards() {
-    return this.getByRole("article").filter({ hasText: /balance/i });
+    // Use Card component selector - shadcn/ui Card uses bg-card class
+    return this.page.locator('[class*="bg-card"]:has([class*="text-2xl"])');
   }
 
   get emptyState() {
@@ -45,9 +46,10 @@ export class MyWalletsPage extends BasePage {
   }
 
   getWalletCard(institutionName: string) {
-    return this.getByRole("article").filter({
-      // eslint-disable-next-line security/detect-non-literal-regexp -- Dynamic wallet name matching is intentional
-      hasText: new RegExp(institutionName, "i"),
+    // Use Card component selector - find card by institution name in title
+    // Look for any card div that contains the institution name
+    return this.page.locator('[class*="bg-card"]').filter({
+      has: this.page.getByText(new RegExp(institutionName, "i")),
     });
   }
 

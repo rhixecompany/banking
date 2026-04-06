@@ -14,8 +14,13 @@ export const SEED_USER = {
  */
 export async function signInWithSeedUser(page: Page): Promise<void> {
   await page.goto("/sign-in");
-  await page.getByLabel("Email").fill(SEED_USER.email);
-  await page.getByLabel("Password").fill(SEED_USER.password);
+  await page.waitForLoadState("domcontentloaded");
+
+  // Use placeholder selectors (shadcn/ui uses placeholders, not labels)
+  await page.getByPlaceholder(/enter your email/i).fill(SEED_USER.email);
+  await page.getByPlaceholder(/enter your password/i).fill(SEED_USER.password);
   await page.getByRole("button", { name: /sign in/i }).click();
-  await page.waitForURL(/\/dashboard/, { timeout: 25_000 });
+
+  // Wait for navigation to dashboard after successful sign-in
+  await page.waitForURL(/\/dashboard/, { timeout: 25000 });
 }
