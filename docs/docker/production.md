@@ -114,15 +114,12 @@ bash scripts/generate-htpasswd.sh admin your-dashboard-password
 # Using the deploy script
 bash scripts/deploy.sh
 
-# Or manual deployment
+# Or manual deployment - run migrations
 docker compose -f docker-compose.yml \
     --env-file .envs/production/.env.production \
     --profile init up
 
-docker compose -f docker-compose.yml \
-    --env-file .envs/production/.env.production \
-    --profile init down
-
+# Start all services (after migrations complete)
 docker compose -f docker-compose.yml \
     --env-file .envs/production/.env.production \
     up -d
