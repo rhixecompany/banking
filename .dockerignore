@@ -12,12 +12,16 @@ dist/
 build/
 out/
 
-# Development
+# Environment files (never include in build)
 .env
-.env.local
-.env.*.local
-.dev.vars
-*.log
+.env.*
+!.env.example
+!.env.production.example
+
+# Docker (compose files are mounted, not copied)
+docker-compose*.yml
+Dockerfile
+compose/
 
 # Testing
 coverage/
@@ -37,30 +41,37 @@ Thumbs.db
 
 # Git
 .git/
-.github/
 .gitignore
 
-# CI/CD
-.env-example
-.env.example
-Railway.toml
-railway.json
+# CI/CD (not needed in container)
+.github/
+.github/workflows/
 vercel.json
+railway.json
+*.toml
 
-# Documentation
+# Documentation (not needed in container)
 README.md
 LICENSE
 AGENTS.md
 docs/
 
-# Misc
-.editorconfig
-.prettierignore
-.prettierrc.ts
-.npmrc
-.husky/
-.env-example
-.env.example
+# Scripts (mounted at runtime)
+scripts/
 
-# Type generation
-next-env.d.ts
+# Config files (mounted or generated at runtime)
+.prettierrc.ts
+.prettierignore
+.eslintrc*
+eslint.config.mts
+*.config.*
+*.config.ts
+tsconfig.json
+
+# CI config
+.husky/
+.turbo/
+
+# Misc
+*.log
+.dev.vars

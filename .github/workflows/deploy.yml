@@ -64,7 +64,8 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          file: ./compose/production/node/Dockerfile
+          file: ./compose/dev/node/Dockerfile
+          target: production
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
@@ -114,17 +115,13 @@ jobs:
           script: |
             set -e
             cd /opt/banking
-            export APP_IMAGE=${{ needs.build-push-production.outputs.image-tags }}
-            docker stack deploy \
-              --with-registry-auth \
-              --resolve-image always \
-              -c stacks/app.stack.yml \
-              banking
-            docker service ps banking_app --no-trunc
+            docker compose pull
+            docker compose up -d
+            docker compose ps
 
   deploy-production:
     runs-on: ubuntu-latest
-    needs: [build-ppush-production, scan-pushed-image]
+    needs: [build-push-production, scan-pushed-image]
     if: github.ref == 'refs/heads/main'
     environment:
       name: production
@@ -139,10 +136,6 @@ jobs:
           script: |
             set -e
             cd /opt/banking
-            export APP_IMAGE=${{ needs.build-push-production.outputs.image-tags }}
-            docker stack deploy \
-              --with-registry-auth \
-              --resolve-image always \
-              -c stacks/app.stack.yml \
-              banking
-            docker service ps banking_app --no-trunc
+            docker compose pull
+            docker compose up -d
+            docker compose ps

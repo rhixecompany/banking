@@ -9,127 +9,149 @@ description: Zod schema validation patterns for forms, API inputs, and type-safe
 
 This skill provides guidance on Zod schema validation patterns for the Banking project.
 
-## Key Patterns
+## Zod v4 Patterns
 
-### Basic Schema
+### ESLint-Enforced Rules
+
+- `zod/no-any-schema` — error
+- `zod/require-error-message` — error (all validators need message strings)
+- `zod/prefer-meta` — error (every field must have `.describe("...")`)
+- `zod/no-optional-and-default-together` — error
+
+### Basic Schema with `.describe()`
 
 ```typescript
-// lib/validations/auth.ts
 import { z } from "zod";
 
 export const signInSchema = z.object({
-  email: z.string().email("Invalid email address"),
+  email: z
+    .string()
+    .email("Invalid email address")
+    .describe("User email"),
   password: z
     .string()
     .min(8, "Password must be at least 8 characters")
+    .describe("User password")
 });
 
 export const signUpSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Invalid email address"),
+  name: z
+    .string()
+    .min(2, "Name must be at least 2 characters")
+    .describe("Display name"),
+  email: z
+    .string()
+    .email("Invalid email address")
+    .describe("User email"),
   password: z
     .string()
     .min(8, "Password must be at least 8 characters")
-    .regex(/[A-Z]/, "Password must contain uppercase letter")
-    .regex(/[0-9]/, "Password must contain number")
+    .regex(/[A-Z]/, "Must contain uppercase")
+    .regex(/[0-9]/, "Must contain number")
+    .describe("User password")
 });
-```
-
-### With Type Inference
-
-```typescript
-export type SignInInput = z.infer<typeof signInSchema>;
-export type SignUpInput = z.infer<typeof signUpSchema>;
-
-// Use in Server Action
-export async function signInAction(input: SignInInput) {
-  const result = signInSchema.safeParse(input);
-  if (!result.success) {
-    return { ok: false, errors: result.error.flatten().fieldErrors };
-  }
-  // Process sign in...
-}
 ```
 
 ### Complex Schemas
 
 ```typescript
 // Transfer validation
-export const transferSchema = z.object({
-  recipientId: z.string().uuid("Invalid recipient"),
-  amount: z
-    .number()
-    .positive("Amount must be positive")
-    .max(10000, "Amount exceeds maximum limit"),
-  memo: z.string().max(100).optional()
-});
-
-// Bank account validation
-export const bankAccountSchema = z.object({
-  routingNumber: z
-    .string()
-    .length(9, "Routing number must be 9 digits")
-    .regex(/^\d+$/, "Routing number must be only digits"),
-  accountNumber: z
-    .string()
-    .min(4, "Account number must be at least 4 digits")
-    .max(17, "Account number must be at most 17 digits")
-    .regex(/^\d+$/, "Account number must be only digits"),
-  accountType: z.enum(["checking", "savings"])
-});
+export const transferSchema = z
+  .object({
+    recipientId: z
+      .string()
+      .uuid("Invalid recipient")
+      .describe("Recipient UUID"),
+    amount: z.coerce
+      .number()
+      .positive("Amount must be positive")
+      .max(10000, "Amount exceeds limit")
+      .describe("Transfer amount"),
+    memo: z.string().max(100).optional().describe("Transfer memo")
+  })
+  .refine(d => d.amount > 0, {
+    message: "Amount must be greater than 0",
+    path: ["amount"]
+  });
 ```
 
 ### Form Integration
 
 ```typescript
-// components/transfer-form.tsx
 "use client";
 
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { transferSchema, type TransferInput } from "@/lib/validations/transfer";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
+const formSchema = z.object({
+  email: z.string().email().describe("Recipient email"),
+  amount: z.coerce.number().min(0.01).describe("Transfer amount"),
+});
 
 export function TransferForm() {
-  const form = useForm<TransferInput>({
-    resolver: zodResolver(transferSchema),
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: { email: "", amount: 0 },
   });
 
-  const onSubmit = async (data: TransferInput) => {
-    const result = await transferAction(data);
-    if (!result.ok) {
-      form.setError("root", { message: result.error });
-    }
-  };
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const result = await createTransfer(values);
+    if (!result.ok) form.setError("root", { message: result.error });
+  }
 
-  return <form onSubmit={form.handleSubmit(onSubmit)}>{/* ... */}</form>;
+  return (
+    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      {/* form fields */}
+    </form>
+  );
 }
 ```
 
-### Environment Validation
+## Environment Validation (`app-config.ts`)
+
+Environment variables are validated centrally in `app-config.ts` using Zod:
 
 ```typescript
-// lib/env.ts
+// app-config.ts — centralized env config (Zod-validated)
 import { z } from "zod";
 
-const envSchema = z.object({
-  DATABASE_URL: z.string().url(),
-  NEXTAUTH_SECRET: z.string().min(32),
-  NEXTAUTH_URL: z.string().url(),
-  PLAID_CLIENT_ID: z.string(),
-  PLAID_SECRET: z.string(),
-  DWOLLA_KEY: z.string(),
-  DWOLLA_SECRET: z.string()
+const authSchema = z.object({
+  NEXTAUTH_SECRET: z
+    .string()
+    .trim()
+    .min(1)
+    .optional()
+    .meta({ description: "NextAuth session secret" }),
+  NEXTAUTH_URL: z
+    .string()
+    .trim()
+    .url()
+    .optional()
+    .meta({ description: "NextAuth URL" })
 });
 
-export const env = envSchema.parse(process.env);
+export const auth = parseAuthConfig();
 ```
+
+**Never read `process.env` directly.** Use `app-config.ts` (preferred) or `lib/env.ts`:
+
+```typescript
+import { env } from "@/lib/env";
+// or preferred:
+import { auth, plaid, dwolla } from "@/app-config";
+```
+
+`lib/env.ts` re-exports from `app-config.ts` for backward compatibility. All env vars use `.optional()` — missing vars return `undefined`, never throw (except required ones in prod via `validateRequiredConfig()`).
 
 ## Validation Rules
 
-1. **Never trust client input** - Always re-validate in Server Actions
+1. **Never trust client input** — Always re-validate in Server Actions
 2. **Use `safeParse`** for controlled error handling
-3. **Chain validators** - `z.string().email().min(8)`
-4. **Custom error messages** - Provide clear feedback
+3. **Chain validators** — `z.string().email().min(8)`
+4. **Custom error messages** — Provide clear feedback
+5. **`.describe()` on every field** — ESLint-enforced
+6. **Use `z.coerce`** for form inputs (numbers, booleans)
 
 ## Validation
 
@@ -137,6 +159,8 @@ Run: `npm run type-check`
 
 ## Common Issues
 
-1. **Type inference** - Use `z.infer<typeof schema>` for TypeScript types
-2. **Partial validation** - Use `.partial()` for optional fields
-3. **Union types** - Use `.union()` or `.discriminatedUnion()` for alternatives
+1. **Type inference** — Use `z.infer<typeof schema>` for TypeScript types
+2. **Partial validation** — Use `.partial()` for optional fields
+3. **Union types** — Use `.union()` or `.discriminatedUnion()` for alternatives
+4. **Missing `.describe()`** — ESLint `zod/prefer-meta` will error
+5. **Missing error messages** — ESLint `zod/require-error-message` will error

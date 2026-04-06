@@ -11,12 +11,10 @@ test.describe("Dashboard", () => {
   });
 
   test.describe("Authenticated Access", () => {
-    test("should render dashboard heading", async ({
-      authenticatedPage: page,
-    }) => {
-      await page.goto("/dashboard");
+    test("should render dashboard heading", async ({ dashboardPage }) => {
+      await dashboardPage.navigate();
       await expect
-        .soft(page.getByRole("heading", { name: /welcome back/i }).first())
+        .soft(dashboardPage.welcomeHeading.first())
         .toBeVisible({ timeout: 15_000 });
     });
 

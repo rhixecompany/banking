@@ -104,8 +104,7 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
   if (
     pathname.startsWith("/dashboard") ||
     pathname.startsWith("/settings") ||
-    pathname.startsWith("/banks") ||
-    pathname.startsWith("/my-banks") ||
+    pathname.startsWith("/my-wallets") ||
     pathname.startsWith("/transaction-history") ||
     pathname.startsWith("/payment-transfer")
   ) {
@@ -142,12 +141,10 @@ export const config = {
     "/settings",
     "/dashboard/:path*",
     "/settings/:path*",
-    "/banks",
-    "/my-banks",
+    "/my-wallets",
     "/transaction-history",
     "/payment-transfer",
-    "/banks/:path*",
-    "/my-banks/:path*",
+    "/my-wallets/:path*",
     "/transaction-history/:path*",
     "/payment-transfer/:path*",
   ],

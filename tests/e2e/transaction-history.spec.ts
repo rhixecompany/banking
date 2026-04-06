@@ -12,22 +12,20 @@ test.describe("Transaction History", () => {
 
   test.describe("Authenticated Access", () => {
     test("should render transaction history heading", async ({
-      authenticatedPage: page,
+      transactionHistoryPage,
     }) => {
-      await page.goto("/transaction-history");
+      await transactionHistoryPage.navigate();
       await expect
-        .soft(
-          page.getByRole("heading", { name: /transaction history/i }).first(),
-        )
+        .soft(transactionHistoryPage.pageHeading.first())
         .toBeVisible({ timeout: 15_000 });
     });
 
     test("should display transaction table", async ({
-      authenticatedPage: page,
+      transactionHistoryPage,
     }) => {
-      await page.goto("/transaction-history");
+      await transactionHistoryPage.navigate();
       await expect
-        .soft(page.getByRole("table").first())
+        .soft(transactionHistoryPage.transactionTable.first())
         .toBeVisible({ timeout: 15_000 });
     });
   });

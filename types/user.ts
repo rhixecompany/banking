@@ -3,38 +3,33 @@ import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
 import { user_profiles, users } from "@/database/schema";
 
 /**
- * Description placeholder
- *
+ * User type derived from Drizzle schema.
+ * Includes soft-delete deletedAt field.
  * @export
- * @typedef {User}
  */
 export type User = InferSelectModel<typeof users>;
 /**
- * Description placeholder
- *
+ * NewUser type for inserting users.
  * @export
- * @typedef {NewUser}
  */
 export type NewUser = InferInsertModel<typeof users>;
 /**
- * Description placeholder
- *
+ * UserProfile type derived from Drizzle schema.
+ * Includes ssnEncrypted field for encrypted SSN storage.
  * @export
- * @typedef {UserProfile}
  */
 export type UserProfile = InferSelectModel<typeof user_profiles>;
 /**
- * Description placeholder
- *
+ * NewUserProfile type for inserting user profiles.
  * @export
- * @typedef {NewUserProfile}
  */
 export type NewUserProfile = InferInsertModel<typeof user_profiles>;
 
 /**
- * Description placeholder
- *
+ * UserWithProfile combines the User type with an optional nested profile.
+ * Used when fetching a user with their associated profile data.
  * @export
- * @typedef {UserWithProfile}
  */
-export type UserWithProfile = { profile?: undefined | UserProfile } & User;
+export type UserWithProfile = {
+  profile?: undefined | UserProfile;
+} & Omit<User, "deletedAt">;

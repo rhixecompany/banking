@@ -4,7 +4,7 @@
 
 > **Project:** Next.js 16, TypeScript (strict), Drizzle ORM, PostgreSQL, NextAuth, shadcn/UI, Tailwind CSS v4
 >
-> **Last Updated:** 2026-04-03
+> **Last Updated:** 2026-04-05
 
 <!-- markdownlint-enable MD013 -->
 

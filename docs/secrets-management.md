@@ -1,112 +1,128 @@
 # Secrets Management
 
-This document lists all Docker Swarm secrets required for production deployment and how to create them.
+This document describes how to manage secrets for the Banking application using Docker Compose.
 
-## Prerequisites
+## Environment File Method
 
-Docker Swarm must be initialized:
+The recommended approach is to use environment files (`.env` files) stored securely.
 
-```bash
-docker swarm init --advertise-addr <YOUR_IP>
-docker network create --driver overlay --attachable traefik-public
-```
+### Creating the Environment File
 
-## Creating Secrets
-
-Run these commands on your production server:
+The `scripts/docker/generate-env.sh` script generates a secure `.envs/production/.env.production` file:
 
 ```bash
-# Core secrets
-echo "your-encryption-key-here" | docker secret create banking_encryption_key -
-echo "your-nextauth-secret-here" | docker secret create banking_nextauth_secret -
-echo "postgresql://user:pass@host:5432/db" | docker secret create banking_database_url -
+# Generate environment file
+./scripts/docker/generate-env.sh
 
-# Plaid
-echo "your-plaid-secret-here" | docker secret create banking_plaid_secret -
-
-# Dwolla
-echo "your-dwolla-secret-here" | docker secret create banking_dwolla_secret -
-
-# OAuth (optional)
-echo "your-github-secret" | docker secret create banking_github_secret -
-echo "your-google-secret" | docker secret create banking_google_secret -
-
-# SMTP (optional)
-echo "your-smtp-password" | docker secret create banking_smtp_pass -
-
-# Traefik dashboard (optional)
-echo "admin:$(openssl passwd -apr1 'your-password')" | docker secret create traefik_dashboard_users -
+# Or with npm
+npm run docker:env:generate
 ```
 
-## Verify Secrets
+### Environment File Location
+
+```
+.envs/production/.env.production  # Production secrets
+.env.local                        # Development secrets
+```
+
+### Required Environment Variables
+
+| Variable | Description | Example |
+| --- | --- | --- |
+| `ENCRYPTION_KEY` | AES-256-GCM encryption key | 64 hex characters |
+| `NEXTAUTH_SECRET` | NextAuth session secret | 32+ random characters |
+| `DATABASE_URL` | PostgreSQL connection string | `postgresql://user:pass@host:5432/db` |
+| `PLAID_CLIENT_ID` | Plaid API client ID | From Plaid dashboard |
+| `PLAID_SECRET` | Plaid API secret | From Plaid dashboard |
+| `DWOLLA_KEY` | Dwolla API key | From Dwolla dashboard |
+| `DWOLLA_SECRET` | Dwolla API secret | From Dwolla dashboard |
+
+## Security Best Practices
+
+### 1. Keep Secrets Out of Version Control
+
+The `.env` files are gitignored. Never commit them:
 
 ```bash
-docker secret ls
+# Verify .env files are ignored
+git check-ignore .env .env.local .envs/production/.env.production
 ```
 
-## Using Secrets in Stacks
+### 2. Use Different Secrets per Environment
 
-See `stacks/app.stack.yml` for the service definition with secrets:
-
-```yaml
-services:
-  app:
-    secrets:
-      - banking_encryption_key
-      - banking_nextauth_secret
-      - banking_database_url
-      # ... etc
-    environment:
-      ENCRYPTION_KEY_FILE: /run/secrets/banking_encryption_key
-      # ...
-
-secrets:
-  banking_encryption_key:
-    external: true
-  # ...
-```
-
-## Entrypoint Script
-
-The `scripts/read-secrets.sh` script loads `_FILE` variants:
+Never use the same secrets in staging and production:
 
 ```bash
-#!/bin/sh
-set -e
+# Staging
+.envs/staging/.env.staging
 
-load_secret() {
-  local name="$1"
-  local file_var="${name}_FILE"
-  eval local file_path="\${$file_var:-}"
-  if [ -f "$file_path" ]; then
-    export "$name=$(cat "$file_path")"
-  fi
-}
-
-load_secret ENCRYPTION_KEY
-load_secret NEXTAUTH_SECRET
-load_secret DATABASE_URL
-load_secret PLAID_SECRET
-load_secret DWOLLA_SECRET
-load_secret AUTH_GITHUB_SECRET
-load_secret AUTH_GOOGLE_SECRET
-load_secret SMTP_PASS
-
-exec "$@"
+# Production
+.envs/production/.env.production
 ```
 
-## Rotating Secrets
+### 3. Generate Strong Secrets
+
+Use random generators for encryption keys:
 
 ```bash
-# Remove old secret
-docker secret rm banking_encryption_key
+# Generate encryption key
+openssl rand -hex 32
 
-# Create new secret
-echo "new-secret-value" | docker secret create banking_encryption_key -
-
-# Restart services to pick up new secret
-docker service update --force banking_app
+# Generate NextAuth secret
+openssl rand -base64 32
 ```
+
+### 4. Rotate Secrets Periodically
+
+Update secrets regularly (recommended: quarterly):
+
+1. Generate new secrets
+2. Update environment file
+3. Restart services: `docker compose restart`
+
+## Using Docker Compose
+
+### Starting with Environment File
+
+```bash
+# Use specific env file
+docker compose --env-file .envs/production/.env.production up -d
+
+# Or set in docker-compose.yml
+docker compose up -d
+```
+
+### Checking Environment Variables
+
+```bash
+# View running service environment
+docker compose exec app env | grep -E "^(ENCRYPTION|NEXTAUTH|DATABASE)"
+```
+
+### Updating Secrets
+
+1. Edit the environment file
+2. Restart services:
+
+```bash
+docker compose down
+docker compose up -d
+```
+
+## Automated Setup
+
+The `vps-setup.sh` script automatically generates secrets:
+
+```bash
+# Automated VPS setup (generates secrets)
+curl -sSL https://raw.githubusercontent.com/rhixecompany/banking/main/scripts/server/vps-setup.sh | bash
+```
+
+This creates a `.envs/production/.env.production` file with:
+
+- Random `ENCRYPTION_KEY` (64 hex characters)
+- Random `NEXTAUTH_SECRET` (base64 encoded)
+- Default database/Redis configuration
 
 ## Security Notes
 
@@ -114,3 +130,4 @@ docker service update --force banking_app
 - Use different secrets for staging vs production
 - Rotate secrets periodically (recommended: quarterly)
 - Use strong, randomly generated values for encryption keys
+- Restrict access to environment files (chmod 600)

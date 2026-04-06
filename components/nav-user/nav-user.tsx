@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { signOut } from "next-auth/react";
 
+import { logoutAccount } from "@/actions/user.actions";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -24,7 +25,6 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { logoutAccount } from "@/lib/actions/user.actions";
 
 /**
  * Description placeholder

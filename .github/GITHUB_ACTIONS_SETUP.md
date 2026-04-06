@@ -143,7 +143,7 @@ AWS_CREDENTIALS        # AWS access key/secret
 ### Build image locally with same caching:
 
 ```bash
-docker build -f compose/production/node/Dockerfile \
+docker build -f compose/dev/node/Dockerfile --target production \
   --build-arg NEXT_PUBLIC_SITE_URL=http://localhost:3000 \
   -t banking:local .
 ```

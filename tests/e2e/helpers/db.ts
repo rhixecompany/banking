@@ -96,3 +96,68 @@ export function getDatabaseUrl(): string | undefined {
     undefined
   );
 }
+
+/**
+ * Cleans up test data from the database.
+ * This is called before reseeding to ensure a clean state.
+ *
+ * @async
+ * @param {string} databaseUrl - The PostgreSQL connection URL
+ * @param {string} testUserEmail - The test user email to clean up
+ * @returns {Promise<void>}
+ */
+export async function cleanupTestData(
+  databaseUrl: string,
+  testUserEmail: string,
+): Promise<void> {
+  if (!databaseUrl?.trim()) {
+    return;
+  }
+
+  try {
+    const { default: pg } = await import("pg");
+    const { Client } = pg;
+
+    const client = new Client({
+      connectionString: databaseUrl,
+      connectionTimeoutMillis: 5000,
+    });
+
+    try {
+      await client.connect();
+
+      // Get the test user ID
+      const userResult = await client.query(
+        "SELECT id FROM users WHERE email = $1",
+        [testUserEmail],
+      );
+
+      if (userResult.rowCount === 0) {
+        return;
+      }
+
+      const userId = userResult.rows[0].id;
+
+      // Delete in order respecting foreign keys
+      await client.query(
+        "DELETE FROM transactions WHERE sender_id = $1 OR receiver_id = $1",
+        [userId],
+      );
+      await client.query("DELETE FROM recipients WHERE user_id = $1", [userId]);
+      await client.query("DELETE FROM wallets WHERE user_id = $1", [userId]);
+      await client.query("DELETE FROM user_profiles WHERE user_id = $1", [
+        userId,
+      ]);
+      await client.query("DELETE FROM users WHERE id = $1", [userId]);
+
+      console.info("    ✓ Test data cleaned up successfully");
+    } finally {
+      await client.end().catch(() => {
+        // Ignore errors during cleanup
+      });
+    }
+  } catch (error) {
+    console.warn(`    ⚠ Failed to cleanup test data: ${error}`);
+    // Don't throw - cleanup failure shouldn't block tests
+  }
+}

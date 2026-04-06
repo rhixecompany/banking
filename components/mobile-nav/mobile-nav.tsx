@@ -19,12 +19,24 @@ import {
 import { sidebarLinks } from "@/constants";
 
 /**
- * Description placeholder
- * @author [object Object]
+ * Mobile navigation drawer component for responsive navigation.
+ * Uses shadcn Sheet for slide-out panel on mobile screens.
+ * Shows Horizon branding, navigation links, and user account footer.
  *
- * @param {MobileNavProps} param0
- * @param {MobileNavProps} param0.user
- * @returns {JSX.Element}
+ * @description
+ * Renders a hamburger menu button that opens a slide-out navigation drawer.
+ * Displays the Horizon logo, all navigation links with active state highlighting,
+ * and the user footer with logout functionality. Automatically highlights the
+ * current page based on the URL pathname.
+ *
+ * @example
+ * ```tsx
+ * <MobileNav user={session.user} />
+ * ```
+ *
+ * @param props - Component props
+ * @param props.user - Authenticated user data for footer display
+ * @returns Rendered mobile navigation drawer
  */
 const MobileNav = ({ user }: MobileNavProps): JSX.Element => {
   const pathname = usePathname();

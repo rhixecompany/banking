@@ -22,9 +22,10 @@ test.describe("Admin Panel", () => {
 
   test.describe("Navigation Guard (root routes)", () => {
     test("should allow a non-admin to access /dashboard normally", async ({
-      authenticatedPage: page,
+      dashboardPage,
+      page,
     }) => {
-      await page.goto("/dashboard");
+      await dashboardPage.navigate();
       await expect.soft(page).toHaveURL(/\/dashboard/, { timeout: 20_000 });
     });
 

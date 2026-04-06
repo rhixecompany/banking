@@ -152,7 +152,8 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          file: ./compose/production/node/Dockerfile
+          file: ./compose/dev/node/Dockerfile
+          target: production
           push: false
           load: true
           tags: banking:pr-${{ github.event.pull_request.number }}

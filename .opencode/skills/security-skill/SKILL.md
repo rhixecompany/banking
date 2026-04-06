@@ -9,12 +9,10 @@ description: Security patterns for the Banking app - encryption, input sanitizat
 
 This skill provides guidance on security patterns for the Banking project.
 
-## Key Patterns
-
-### Encryption (AES-256-GCM)
+## Encryption (AES-256-GCM)
 
 ```typescript
-// Usage — always import env from lib/env.ts
+// lib/encryption.ts
 import { encrypt, decrypt } from "@/lib/encryption";
 import { env } from "@/lib/env";
 
@@ -23,122 +21,108 @@ const encrypted = encrypt(accountNumber, env.ENCRYPTION_KEY);
 const plaintext = decrypt(encrypted, env.ENCRYPTION_KEY);
 ```
 
-### Input Sanitization
+## Input Sanitization
+
+All input sanitized through Zod before DB or external API calls. Drizzle handles SQL injection prevention via parameterized queries.
 
 ```typescript
-// lib/sanitize.ts
 import { z } from "zod";
 
-// Validate and sanitize HTML input
-export const sanitizedHtml = z
-  .string()
-  .transform(val =>
-    val.replace(
-      /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
-      ""
-    )
-  );
-
-// SQL injection prevention - use parameterized queries (Drizzle handles this)
+const inputSchema = z.object({
+  email: z.string().email().describe("User email"),
+  amount: z.coerce.number().min(0.01).describe("Transfer amount")
+});
 ```
 
-### Rate Limiting
+## Rate Limiting (`proxy.ts`)
+
+Rate limiting lives **directly in `proxy.ts`** (not a separate file). Uses Upstash Redis with graceful degradation:
 
 ```typescript
-// lib/rate-limit.ts
-// Rate limiting uses REDIS_URL from lib/env.ts.
-// If REDIS_URL is absent, ratelimit is null and rate limiting is silently skipped.
+// proxy.ts — rate limiter (lazy-initialized)
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
-import { env } from "@/lib/env";
 
-export const ratelimit = env.REDIS_URL
-  ? new Ratelimit({
-      redis: new Redis({ url: env.REDIS_URL }),
-      limiter: Ratelimit.slidingWindow(10, "10 s")
-    })
-  : null;
-
-// Usage in Server Action
-export async function transferAction(formData: FormData) {
-  if (ratelimit) {
-    const { success } = await ratelimit.limit("transfer");
-    if (!success) {
-      return {
-        ok: false,
-        error: "Too many requests. Please try again."
-      };
-    }
+// Guard BEFORE calling Redis.fromEnv() — on Windows the SDK throws
+// a native error if env vars are absent, crashing the worker process.
+const ratelimit = (() => {
+  if (
+    !process.env.UPSTASH_REDIS_REST_URL ||
+    !process.env.UPSTASH_REDIS_REST_TOKEN
+  ) {
+    return undefined;
   }
-  // Process transfer...
+  try {
+    return new Ratelimit({
+      redis: Redis.fromEnv(),
+      limiter: Ratelimit.slidingWindow(5, "60 s"),
+      prefix: "banking-auth",
+      analytics: true
+    });
+  } catch {
+    return undefined;
+  }
+})();
+
+// Usage in proxy() — only on /sign-in and /sign-up
+if (ratelimit) {
+  const { success, remaining, reset } =
+    await ratelimit.limit(identifier);
+  if (!success)
+    return NextResponse.json(
+      { error: "Too many requests" },
+      { status: 429 }
+    );
 }
 ```
 
-### Security Headers (proxy.ts)
+**Key points:**
 
-```typescript
-// proxy.ts
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+- Uses `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` (not `REDIS_URL`)
+- `REDIS_URL` is defined in `app-config.ts` but rate limiting uses the Upstash REST credentials directly
+- If credentials are absent, rate limiting is silently skipped
+- IP extracted from `x-forwarded-for`, `x-real-ip`, or `cf-connecting-ip` headers
 
-export function middleware(request: NextRequest) {
-  const response = NextResponse.next();
+## Security Headers (`next.config.ts`)
 
-  // Content Security Policy
-  response.headers.set(
-    "Content-Security-Policy",
-    "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline';"
-  );
+Security headers configured in Next.js config (HSTS, X-Frame-Options, CSP, etc.).
 
-  // X-Frame-Options
-  response.headers.set("X-Frame-Options", "DENY");
+## CSRF Protection
 
-  // X-Content-Type-Options
-  response.headers.set("X-Content-Type-Options", "nosniff");
-
-  // Referrer-Policy
-  response.headers.set(
-    "Referrer-Policy",
-    "strict-origin-when-cross-origin"
-  );
-
-  // Permissions-Policy
-  response.headers.set(
-    "Permissions-Policy",
-    "camera=(), microphone=(), geolocation=()"
-  );
-
-  return response;
-}
-```
-
-### CSRF Protection
-
-Next.js includes built-in CSRF protection for Server Actions. Always use:
+Next.js includes built-in CSRF protection for Server Actions:
 
 ```typescript
 "use server";
 // Automatic CSRF protection via origin check
 ```
 
+## Password Hashing
+
+Uses `bcryptjs` at cost 12:
+
+```typescript
+import bcrypt from "bcryptjs";
+const hashed = await bcrypt.hash(password, 12);
+```
+
 ## Environment Variables
 
-Required in `lib/env.ts`:
+Required: `ENCRYPTION_KEY` (32+ char key for AES-256) Optional: `REDIS_URL` (Upstash Redis URL for general use)
 
-- `ENCRYPTION_KEY` - 32+ character key for AES-256
-- `REDIS_URL` - Optional. Upstash Redis URL for rate limiting. If absent, rate limiting is silently skipped.
+Rate limiting uses `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` directly in `proxy.ts` (edge runtime constraint — cannot import `lib/env.ts`).
 
-> **Note:** `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` do **not** exist in `lib/env.ts`. The single env var is `REDIS_URL`. Always import from `lib/env.ts`, never use `process.env` directly.
+**Never read `process.env` directly** except in `proxy.ts` (edge runtime) and config files. Use `app-config.ts` (preferred) or `lib/env.ts`.
+
+## Critical Rules
+
+1. **Never log sensitivity data** — Don't log passwords, tokens, account numbers
+2. **Encrypt at rest** — All financial data encrypted with AES-256-GCM
+3. **Rate limit** — Protect against brute force attacks (proxy.ts)
+4. **Validate input** — Always use Zod schemas
+5. **Use Server Actions** — Built-in CSRF protection
+6. **Hash passwords** — bcryptjs at cost 12
+7. **No raw `process.env`** — Use `app-config.ts` or `lib/env.ts` (except `proxy.ts`)
 
 ## Validation
 
 Run: `npm run type-check` and `npm run lint:strict`
-
-## Critical Rules
-
-1. **Never log sensitive data** - Don't log passwords, tokens, account numbers
-2. **Encrypt at rest** - All financial data encrypted with AES-256-GCM
-3. **Rate limit** - Protect against brute force attacks
-4. **Validate input** - Always use Zod schemas
-5. **Use Server Actions** - Built-in CSRF protection
-6. **Security headers** - Configure in proxy.ts

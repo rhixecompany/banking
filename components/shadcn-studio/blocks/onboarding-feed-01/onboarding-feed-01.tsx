@@ -10,6 +10,9 @@ import {
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+/** Route path to the My Wallets page. */
+const MY_WALLETS_PATH = "/my-wallets" as const;
+
 import {
   Accordion,
   AccordionContent,
@@ -168,7 +171,7 @@ function OnboardingFeed({ name }: OnboardingFeedProps): JSX.Element {
           <Button
             className="flex-1 max-sm:w-full"
             type="button"
-            onClick={() => router.push("/my-banks")}
+            onClick={() => router.push(MY_WALLETS_PATH)}
           >
             Continue
           </Button>

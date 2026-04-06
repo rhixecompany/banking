@@ -10,55 +10,33 @@ import {
 import { Input } from "@/components/ui/input";
 
 /**
- * Description placeholder
- * @author [object Object]
+ * Props for the CustomInput component.
  *
- * @interface CustomInputProps
- * @typedef {CustomInputProps}
- * @template {FieldValues} [T=FieldValues]
+ * @template T - Form field values type extending FieldValues
  */
 interface CustomInputProps<T extends FieldValues = FieldValues> {
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {Control<T>}
-   */
+  /** React Hook Form control instance for form integration */
   control: Control<T>;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {FieldPath<T>}
-   */
+  /** Form field name (path to nested field) */
   name: FieldPath<T>;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {string}
-   */
+  /** Label text displayed above the input */
   label: string;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {string}
-   */
+  /** Placeholder text shown when input is empty */
   placeholder: string;
 }
 
 /**
- * Description placeholder
- * @author [object Object]
+ * CustomInput wraps a React Hook Form field with consistent styling.
+ * Automatically handles password field type based on field name.
+ * Integrates with shadcn/ui Form components for validation display.
  *
- * @template {FieldValues} T
- * @param {CustomInputProps<T>} param0
- * @param {Control<T>} param0.control
- * @param {string} param0.label
- * @param {FieldPath<T>} param0.name
- * @param {string} param0.placeholder
- * @returns {JSX.Element}
+ * @description
+ * A reusable form input component that integrates with React Hook Form.
+ * Automatically applies password styling when the field name contains "password".
+ * Displays validation errors from Zod schemas via the shadcn FormMessage component.
+ *
+ * @template T - Form field values type extending FieldValues
+ * @see CustomInputProps
  */
 const CustomInput = <T extends FieldValues>({
   control,

@@ -87,7 +87,7 @@ async function exportUsers(): Promise<void> {
   console.warn("  📊 Exporting user data...");
 
   try {
-    const { userDal } = await import("@/lib/dal");
+    const { userDal } = await import("@/dal");
     console.warn("    ✅ User DAL loaded (use findById for specific users)");
   } catch {
     console.warn("    ⚠️  Could not load user data (may need db connection)");
@@ -104,7 +104,7 @@ async function exportTransactions(): Promise<void> {
   console.warn("  💳 Exporting transaction data...");
 
   try {
-    const { transactionDal } = await import("@/lib/dal");
+    const { transactionDal } = await import("@/dal");
     console.warn(
       "    ✅ Transaction DAL loaded (use findById for specific transactions)",
     );
@@ -125,8 +125,8 @@ async function exportMetrics(): Promise<void> {
   console.warn("  📈 Exporting metrics...");
 
   try {
-    const { bankDal, recipientDal, transactionDal, userDal } =
-      await import("@/lib/dal");
+    const { recipientDal, transactionDal, userDal, walletsDal } =
+      await import("@/dal");
     console.warn("    ✅ DAL modules loaded for metrics");
   } catch {
     console.warn("    ⚠️  Could not load all metrics (may need db connection)");

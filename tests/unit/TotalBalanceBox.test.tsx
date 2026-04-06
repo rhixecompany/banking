@@ -61,22 +61,22 @@ const mockAccounts: Account[] = [
 // ---------------------------------------------------------------------------
 
 describe("TotalBalanceBox", () => {
-  it("renders the bank accounts count", () => {
+  it("renders the wallet accounts count", () => {
     render(
       <TotalBalanceBox
         accounts={mockAccounts}
-        totalBanks={2}
+        totalWallets={2}
         totalCurrentBalance={6400}
       />,
     );
-    expect(screen.getByText(/bank accounts:\s*2/i)).toBeTruthy();
+    expect(screen.getByText(/wallet accounts:\s*2/i)).toBeTruthy();
   });
 
   it("renders the total current balance label", () => {
     render(
       <TotalBalanceBox
         accounts={mockAccounts}
-        totalBanks={2}
+        totalWallets={2}
         totalCurrentBalance={6400}
       />,
     );
@@ -87,11 +87,10 @@ describe("TotalBalanceBox", () => {
     render(
       <TotalBalanceBox
         accounts={mockAccounts}
-        totalBanks={2}
+        totalWallets={2}
         totalCurrentBalance={6400}
       />,
     );
-    // AnimatedCounter stub renders the raw number
     expect(screen.getByText("6400")).toBeTruthy();
   });
 
@@ -99,7 +98,7 @@ describe("TotalBalanceBox", () => {
     render(
       <TotalBalanceBox
         accounts={mockAccounts}
-        totalBanks={2}
+        totalWallets={2}
         totalCurrentBalance={6400}
       />,
     );
@@ -108,8 +107,8 @@ describe("TotalBalanceBox", () => {
   });
 
   it("defaults accounts to empty array when not provided", () => {
-    render(<TotalBalanceBox totalBanks={0} totalCurrentBalance={0} />);
-    expect(screen.getByText(/bank accounts:\s*0/i)).toBeTruthy();
+    render(<TotalBalanceBox totalWallets={0} totalCurrentBalance={0} />);
+    expect(screen.getByText(/wallet accounts:\s*0/i)).toBeTruthy();
     expect(screen.getByText("0 accounts")).toBeTruthy();
   });
 });

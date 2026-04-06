@@ -4,7 +4,7 @@ vi.mock("@/lib/auth", () => ({
   auth: vi.fn().mockResolvedValue(undefined),
 }));
 
-import { getLoggedInUser, logoutAccount } from "@/lib/actions/user.actions";
+import { getLoggedInUser, logoutAccount } from "@/actions/user.actions";
 
 describe("getLoggedInUser", () => {
   it("should be a function", () => {

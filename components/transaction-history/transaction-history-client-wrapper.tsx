@@ -36,7 +36,7 @@ function toItem(tx: Transaction): Item {
 
   // Derive paidBy from channel — "in store" maps to mastercard, all others to visa
   const paidBy: Item["paidBy"] =
-    tx.channel === "in store" ? "mastercard" : "visa";
+    tx.channel === "in_store" ? "mastercard" : "visa";
 
   return {
     amount: Number(tx.amount),

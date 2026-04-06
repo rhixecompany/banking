@@ -912,7 +912,7 @@ docs/
 
 | Service | Dockerfile | Base Image |
 | --- | --- | --- |
-| Next.js app (prod) | `compose/production/node/Dockerfile` | `gcr.io/distroless/nodejs22-debian12:nonroot` |
+| Next.js app (prod) | `compose/dev/node/Dockerfile --target production` | `gcr.io/distroless/nodejs22-debian12:nonroot` |
 | Next.js app (dev) | `compose/development/node/Dockerfile` | `node:22-alpine` |
 | Next.js app (local) | `compose/local/node/Dockerfile` | `node:22-alpine` |
 | PostgreSQL | Official | `postgres:17-alpine` |
@@ -1331,7 +1331,7 @@ export async function getCachedBalance(
 - [ ] `npm run type-check` → 0 errors
 - [ ] `npm run lint:strict` → 0 warnings
 - [ ] `npm run test` → all green
-- [ ] `docker build -f compose/production/node/Dockerfile .` → success
+- [ ] `docker build -f compose/dev/node/Dockerfile --target production .` → success
 - [ ] `docker stack deploy -c stacks/traefik.stack.yml traefik` → success
 - [ ] `docker stack deploy -c stacks/app.stack.yml banking` → success
 - [ ] All pages load without console errors (Playwright smoke test)

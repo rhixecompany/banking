@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   createFilterStore,
   defaultFilterState,
-} from "@/lib/stores/create-filter-store";
+} from "@/stores/create-filter-store";
 
 describe("createFilterStore", () => {
   it("initialises with default state", () => {

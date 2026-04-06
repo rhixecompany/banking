@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   createTransferStore,
   defaultTransferState,
-} from "@/lib/stores/create-transfer-store";
+} from "@/stores/create-transfer-store";
 
 describe("createTransferStore", () => {
   it("initialises with default state", () => {
@@ -76,11 +76,11 @@ describe("createTransferStore", () => {
       const store = createTransferStore();
       store
         .getState()
-        .updateFormData({ amount: "100", senderBankId: "bank-1" });
+        .updateFormData({ amount: "100", senderWalletId: "wallet-1" });
       const { formData } = store.getState();
       expect(formData.amount).toBe("100");
-      expect(formData.senderBankId).toBe("bank-1");
-      expect(formData.receiverBankId).toBe("");
+      expect(formData.senderWalletId).toBe("wallet-1");
+      expect(formData.receiverWalletId).toBe("");
       expect(formData.note).toBe("");
     });
 
@@ -125,7 +125,7 @@ describe("createTransferStore", () => {
     it("resets the store back to default state", () => {
       const store = createTransferStore();
       store.getState().goToStep("result");
-      store.getState().updateFormData({ amount: "200", senderBankId: "s1" });
+      store.getState().updateFormData({ amount: "200", senderWalletId: "s1" });
       store.getState().setError("oops");
       store.getState().reset();
       const state = store.getState();

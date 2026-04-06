@@ -31,7 +31,7 @@ export async function completePlaidFlow(page: Page): Promise<void> {
   await frame.locator('button:has-text("Continue")').click();
 
   // Wait for the flow to complete
-  await page.waitForURL(/\/(my-banks|dashboard)/, { timeout: 10000 });
+  await page.waitForURL(/\/(my-wallets|dashboard)/, { timeout: 10000 });
 }
 
 /**
@@ -40,7 +40,7 @@ export async function completePlaidFlow(page: Page): Promise<void> {
  * @param page - Playwright page object
  */
 export async function openPlaidLink(page: Page): Promise<void> {
-  await page.goto("/my-banks");
+  await page.goto("/my-wallets");
   await page.click('[data-testid="connect-bank-button"]');
 }
 

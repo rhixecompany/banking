@@ -75,11 +75,11 @@ If you're getting started and need assistance or face any bugs, join our active 
 
 👉 **Authentication**: An ultra-secure SSR authentication with proper validations and authorization
 
-👉 **Connect Banks**: Integrates with Plaid for multiple bank account linking
+👉 **Connect Wallets**: Integrates with Plaid for multiple wallet connections
 
-👉 **Home Page**: Shows general overview of user account with total balance from all connected banks, recent transactions, money spent on different categories, etc
+👉 **Home Page**: Shows general overview of user account with total balance from all connected wallets, recent transactions, money spent on different categories, etc
 
-👉 **My Banks**: Check the complete list of all connected banks with respective balances, account details
+👉 **My Wallets**: Check the complete list of all connected wallets with respective balances, account details
 
 👉 **Transaction History**: Includes pagination and filtering options for viewing transaction history of different banks
 
@@ -170,7 +170,9 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser to view the project.
 
-## <a name="snippets">🕸️ Snippets</a>
+## <a name="snippets">🕸️ Code Snippets</a>
+
+> **Note:** These snippets are reference examples demonstrating key patterns. For canonical patterns and up-to-date implementations, see **[AGENTS.md](./AGENTS.md)**. Some snippets may reference simplified patterns for clarity.
 
 <details>
 <summary><code>.env.example</code></summary>
@@ -197,16 +199,14 @@ DWOLLA_ENV=sandbox
 </details>
 
 <details>
-<summary><code>exchangePublicToken</code></summary>
+<summary><code>exchangePublicToken (Drizzle pattern)</code></summary>
 
 ```typescript
-// This function exchanges a public token for an access token and item ID
 export const exchangePublicToken = async ({
   publicToken,
-  user
+  userId
 }: exchangePublicTokenProps) => {
   try {
-    // Exchange public token for access token and item ID
     const response = await plaidClient.itemPublicTokenExchange({
       public_token: publicToken
     });
@@ -214,14 +214,11 @@ export const exchangePublicToken = async ({
     const accessToken = response.data.access_token;
     const itemId = response.data.item_id;
 
-    // Get account information from Plaid using the access token
     const accountsResponse = await plaidClient.accountsGet({
       access_token: accessToken
     });
-
     const accountData = accountsResponse.data.accounts[0];
 
-    // Create a processor token for Dwolla using the access token and account ID
     const request: ProcessorTokenCreateRequest = {
       access_token: accessToken,
       account_id: accountData.account_id,
@@ -233,39 +230,28 @@ export const exchangePublicToken = async ({
     const processorToken =
       processorTokenResponse.data.processor_token;
 
-    // Create a funding source URL for the account using the Dwolla customer ID, processor token, and bank name
     const fundingSourceUrl = await addFundingSource({
       bankName: accountData.name,
-      dwollaCustomerId: user.dwollaCustomerId,
+      dwollaCustomerId: userId,
       processorToken
     });
 
-    // If the funding source URL is not created, throw an error
     if (!fundingSourceUrl) throw Error;
 
-    // Create a bank account using the user ID, item ID, account ID, access token, funding source URL, and sharable ID
     await createBankAccount({
       accessToken,
       accountId: accountData.account_id,
       bankId: itemId,
       fundingSourceUrl,
       sharableId: encryptId(accountData.account_id),
-      userId: user.$id
+      userId
     });
 
-    // Revalidate the path to reflect the changes
     revalidatePath("/");
 
-    // Return a success message
-    return parseStringify({
-      publicTokenExchange: "complete"
-    });
+    return { publicTokenExchange: "complete" };
   } catch (error) {
-    // Log any errors that occur during the process
-    console.error(
-      "An error occurred while creating exchanging token:",
-      error
-    );
+    console.error("Error exchanging token:", error);
   }
 };
 ```
@@ -312,48 +298,6 @@ export async function registerUser(input: unknown) {
 }
 ```
 
-<summary><code>[...nextauth].ts (Drizzle Adapter)</code></summary>
-
-```typescript
-import { DrizzleAdapter } from "@auth/drizzle-adapter";
-import { compare } from "bcryptjs";
-import NextAuth from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-
-import { db } from "@/database/db";
-import { users } from "@/database/schema";
-
-export const authOptions = {
-  adapter: DrizzleAdapter(db),
-  providers: [
-    CredentialsProvider({
-      async authorize(credentials) {
-        const user = await db
-          .select()
-          .from(users)
-          .where(users.email.eq(credentials.email))
-          .then(r => r[0]);
-        if (!user) return null;
-        const valid = await compare(
-          credentials.password,
-          user.password
-        );
-        if (!valid) return null;
-        return user;
-      },
-      credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" }
-      },
-      name: "Credentials"
-    })
-  ],
-  session: { strategy: "database" }
-};
-
-export default NextAuth(authOptions);
-```
-
 </details>
 
 <details>
@@ -364,8 +308,10 @@ export default NextAuth(authOptions);
 
 import { Client } from "dwolla-v2";
 
+import { env } from "@/lib/env";
+
 const getEnvironment = (): "production" | "sandbox" => {
-  const environment = process.env.DWOLLA_ENV as string;
+  const environment = env.DWOLLA_ENV;
 
   switch (environment) {
     case "sandbox":
@@ -381,8 +327,8 @@ const getEnvironment = (): "production" | "sandbox" => {
 
 const dwollaClient = new Client({
   environment: getEnvironment(),
-  key: process.env.DWOLLA_KEY as string,
-  secret: process.env.DWOLLA_SECRET as string
+  key: env.DWOLLA_KEY,
+  secret: env.DWOLLA_SECRET
 });
 
 // Create a Dwolla Funding Source using a Plaid Processor Token
@@ -436,17 +382,10 @@ export const createTransfer = async ({
   try {
     const requestBody = {
       _links: {
-        destination: {
-          href: destinationFundingSourceUrl
-        },
-        source: {
-          href: sourceFundingSourceUrl
-        }
+        destination: { href: destinationFundingSourceUrl },
+        source: { href: sourceFundingSourceUrl }
       },
-      amount: {
-        currency: "USD",
-        value: amount
-      }
+      amount: { currency: "USD", value: amount }
     };
     return await dwollaClient
       .post("transfers", requestBody)
@@ -462,10 +401,7 @@ export const addFundingSource = async ({
   processorToken
 }: AddFundingSourceParams) => {
   try {
-    // create dwolla auth link
     const dwollaAuthLinks = await createOnDemandAuthorization();
-
-    // add funding source to the dwolla customer & get the funding source url
     const fundingSourceOptions = {
       _links: dwollaAuthLinks,
       customerId: dwollaCustomerId,
@@ -504,24 +440,21 @@ import { getBanks, getBank } from "./user.actions";
 // Get multiple bank accounts
 export const getAccounts = async ({ userId }: getAccountsProps) => {
   try {
-    // get banks from db
     const banks = await getBanks({ userId });
 
     const accounts = await Promise.all(
       banks?.map(async (bank: Bank) => {
-        // get each account info from plaid
         const accountsResponse = await plaidClient.accountsGet({
           access_token: bank.accessToken
         });
         const accountData = accountsResponse.data.accounts[0];
 
-        // get institution info from plaid
         const institution = await getInstitution({
           institutionId: accountsResponse.data.item.institution_id!
         });
 
         const account = {
-          appwriteItemId: bank.$id,
+          bankId: bank.id,
           availableBalance: accountData.balances.available!,
           currentBalance: accountData.balances.current!,
           id: accountData.account_id,
@@ -557,41 +490,32 @@ export const getAccounts = async ({ userId }: getAccountsProps) => {
 };
 
 // Get one bank account
-export const getAccount = async ({
-  appwriteItemId
-}: getAccountProps) => {
+export const getAccount = async ({ bankId }: getAccountProps) => {
   try {
-    // get bank from db
-    const bank = await getBank({ documentId: appwriteItemId });
+    const bank = await getBank({ bankId });
 
-    // get account info from plaid
     const accountsResponse = await plaidClient.accountsGet({
       access_token: bank.accessToken
     });
     const accountData = accountsResponse.data.accounts[0];
 
-    // get transfer transactions from appwrite
     const transferTransactionsData = await getTransactionsByBankId({
-      bankId: bank.$id
+      bankId: bank.id
     });
 
-    const transferTransactions =
-      transferTransactionsData.documents.map(
-        (transferData: Transaction) => ({
-          amount: transferData.amount!,
-          category: transferData.category,
-          date: transferData.$createdAt,
-          id: transferData.$id,
-          name: transferData.name!,
-          paymentChannel: transferData.channel,
-          type:
-            transferData.senderBankId === bank.$id
-              ? "debit"
-              : "credit"
-        })
-      );
+    const transferTransactions = transferTransactionsData.map(
+      (transferData: Transaction) => ({
+        amount: transferData.amount!,
+        category: transferData.category,
+        date: transferData.createdAt,
+        id: transferData.id,
+        name: transferData.name!,
+        paymentChannel: transferData.channel,
+        type:
+          transferData.senderBankId === bank.id ? "debit" : "credit"
+      })
+    );
 
-    // get institution info from plaid
     const institution = await getInstitution({
       institutionId: accountsResponse.data.item.institution_id!
     });
@@ -601,7 +525,7 @@ export const getAccount = async ({
     });
 
     const account = {
-      appwriteItemId: bank.$id,
+      bankId: bank.id,
       availableBalance: accountData.balances.available!,
       currentBalance: accountData.balances.current!,
       id: accountData.account_id,
@@ -613,7 +537,6 @@ export const getAccount = async ({
       type: accountData.type as string
     };
 
-    // sort transactions by date such that the most recent transaction is first
     const allTransactions = [
       ...transactions,
       ...transferTransactions
@@ -651,7 +574,7 @@ export const getInstitution = async ({
     return parseStringify(intitution);
   } catch (error) {
     console.error(
-      "An error occurred while getting the accounts:",
+      "An error occurred while getting the institution:",
       error
     );
   }
@@ -662,10 +585,9 @@ export const getTransactions = async ({
   accessToken
 }: getTransactionsProps) => {
   let hasMore = true;
-  let transactions: any = [];
+  const transactions: Transaction[] = [];
 
   try {
-    // Iterate through each page of new transaction updates for item
     while (hasMore) {
       const response = await plaidClient.transactionsSync({
         access_token: accessToken
@@ -673,18 +595,22 @@ export const getTransactions = async ({
 
       const data = response.data;
 
-      transactions = response.data.added.map(transaction => ({
-        accountId: transaction.account_id,
-        amount: transaction.amount,
-        category: transaction.category ? transaction.category[0] : "",
-        date: transaction.date,
-        id: transaction.transaction_id,
-        image: transaction.logo_url,
-        name: transaction.name,
-        paymentChannel: transaction.payment_channel,
-        pending: transaction.pending,
-        type: transaction.payment_channel
-      }));
+      transactions.push(
+        ...response.data.added.map(transaction => ({
+          accountId: transaction.account_id,
+          amount: transaction.amount,
+          category: transaction.category
+            ? transaction.category[0]
+            : "",
+          date: transaction.date,
+          id: transaction.transaction_id,
+          image: transaction.logo_url,
+          name: transaction.name,
+          paymentChannel: transaction.payment_channel,
+          pending: transaction.pending,
+          type: transaction.payment_channel
+        }))
+      );
 
       hasMore = data.has_more;
     }
@@ -692,7 +618,7 @@ export const getTransactions = async ({
     return parseStringify(transactions);
   } catch (error) {
     console.error(
-      "An error occurred while getting the accounts:",
+      "An error occurred while getting the transactions:",
       error
     );
   }
@@ -1009,25 +935,23 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
       const receiverBank = await getBankByAccountId({
         accountId: receiverAccountId,
       });
-      const senderBank = await getBank({ documentId: data.senderBank });
+      const senderBank = await getBank({ bankId: data.senderBank });
 
       const transferParams = {
         sourceFundingSourceUrl: senderBank.fundingSourceUrl,
         destinationFundingSourceUrl: receiverBank.fundingSourceUrl,
         amount: data.amount,
       };
-      // create transfer
       const transfer = await createTransfer(transferParams);
 
-      // create transfer transaction
       if (transfer) {
         const transaction = {
           name: data.name,
           amount: data.amount,
-          senderId: senderBank.userId.$id,
-          senderBankId: senderBank.$id,
-          receiverId: receiverBank.userId.$id,
-          receiverBankId: receiverBank.$id,
+          senderId: senderBank.userId,
+          senderBankId: senderBank.id,
+          receiverId: receiverBank.userId,
+          receiverBankId: receiverBank.id,
           email: data.email,
         };
 
@@ -1498,11 +1422,10 @@ Data Access Layer for type-safe database queries.
 
 ### DAL Files
 
-| File                         | Purpose                 |
-| ---------------------------- | ----------------------- |
-| `lib/dal/user.dal.ts`        | User CRUD operations    |
-| `lib/dal/bank.dal.ts`        | Bank account operations |
-| `lib/dal/transaction.dal.ts` | Transaction operations  |
+| File                         | Purpose                |
+| ---------------------------- | ---------------------- |
+| `lib/dal/user.dal.ts`        | User CRUD operations   |
+| `lib/dal/transaction.dal.ts` | Transaction operations |
 
 ### Usage Example
 
@@ -1537,7 +1460,6 @@ All mutations use Next.js Server Actions.
 | `lib/actions/register.ts`            | User registration      |
 | `lib/actions/updateProfile.ts`       | Profile updates        |
 | `lib/actions/admin.actions.ts`       | Admin operations       |
-| `lib/actions/bank.actions.ts`        | Bank operations        |
 | `lib/actions/transaction.actions.ts` | Transaction operations |
 
 ### Usage Example

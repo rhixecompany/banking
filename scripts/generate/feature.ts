@@ -259,7 +259,7 @@ function generateAction(featureName: string, options: FeatureOptions): void {
   content += `import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { ${camelName}Dal } from "@/lib/dal";
+import { ${camelName}Dal } from "@/dal";
 
 `;
 

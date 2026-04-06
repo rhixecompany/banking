@@ -1,13 +1,13 @@
 import { redirect } from "next/navigation";
 
+import { getRecipients } from "@/actions/recipient.actions";
+import { getUserWallets } from "@/actions/wallet.actions";
 import { PaymentTransferClientWrapper } from "@/components/payment-transfer/payment-transfer-client-wrapper";
-import { getUserBanks } from "@/lib/actions/bank.actions";
-import { getRecipients } from "@/lib/actions/recipient.actions";
 import { auth } from "@/lib/auth";
 
 /**
  * Server wrapper for the Payment Transfer page.
- * Handles auth, fetches banks and recipients in parallel,
+ * Handles auth, fetches wallets and recipients in parallel,
  * then delegates rendering to the client wrapper.
  *
  * @export
@@ -20,15 +20,17 @@ export async function PaymentTransferServerWrapper(): Promise<JSX.Element> {
     redirect("/sign-in");
   }
 
-  const [banksResult, recipientsResult] = await Promise.all([
-    getUserBanks(),
+  const [walletsResult, recipientsResult] = await Promise.all([
+    getUserWallets(),
     getRecipients(),
   ]);
 
-  const banks = banksResult.ok ? (banksResult.banks ?? []) : [];
+  const wallets = walletsResult.ok ? (walletsResult.wallets ?? []) : [];
   const recipients = recipientsResult.ok
     ? (recipientsResult.recipients ?? [])
     : [];
 
-  return <PaymentTransferClientWrapper banks={banks} recipients={recipients} />;
+  return (
+    <PaymentTransferClientWrapper wallets={wallets} recipients={recipients} />
+  );
 }

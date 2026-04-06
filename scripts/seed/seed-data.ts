@@ -5,7 +5,6 @@ import { db } from "@/database/db";
 import {
   account,
   authenticator,
-  banks,
   errors,
   recipients,
   session,
@@ -13,6 +12,7 @@ import {
   user_profiles,
   users,
   verificationToken,
+  wallets,
 } from "@/database/schema";
 import { encrypt } from "@/lib/encryption";
 
@@ -27,10 +27,6 @@ const SEED_PASSWORD_PLAIN = "password123";
  * @type {{ readonly banks: { readonly checking: "20000000-0000-4000-8000-000000000001"; readonly savings: "20000000-0000-4000-8000-000000000002"; }; readonly errors: { readonly anonymous: "50000000-0000-4000-8000-000000000002"; readonly withUser: "50000000-0000-4000-8000-000000000001"; }; readonly profiles: { ...; }; readonl...}
  */
 export const SEED_IDS = {
-  banks: {
-    checking: "20000000-0000-4000-8000-000000000001",
-    savings: "20000000-0000-4000-8000-000000000002",
-  },
   errors: {
     anonymous: "50000000-0000-4000-8000-000000000002",
     withUser: "50000000-0000-4000-8000-000000000001",
@@ -51,6 +47,10 @@ export const SEED_IDS = {
     admin: "00000000-0000-4000-8000-000000000001",
     moderator: "00000000-0000-4000-8000-000000000002",
     user: "00000000-0000-4000-8000-000000000003",
+  },
+  wallets: {
+    checking: "20000000-0000-4000-8000-000000000001",
+    savings: "20000000-0000-4000-8000-000000000002",
   },
 } as const;
 
@@ -162,15 +162,16 @@ function buildUserProfileRow(
  * @param {string} userId
  * @param {string} sharableId
  * @param {string} institutionName
- * @returns {typeof banks.\$inferInsert}
+ * @param {number} index
+ * @returns {typeof wallets.$inferInsert}
  */
-function buildBankRow(
+function buildWalletRow(
   id: string,
   userId: string,
   sharableId: string,
   institutionName: string,
   index: number,
-): typeof banks.$inferInsert {
+): typeof wallets.$inferInsert {
   return {
     accessToken: encrypt(getSeedAccessToken()),
     accountId: `seed-account-${sharableId}`,
@@ -189,16 +190,16 @@ function buildBankRow(
  *
  * @param {string} id
  * @param {string} userId
- * @param {string} senderBankId
- * @param {string} receiverBankId
+ * @param {string} senderWalletId
+ * @param {string} receiverWalletId
  * @param {string} plaidSuffix
- * @returns {typeof transactions.\$inferInsert}
+ * @returns {typeof transactions.$inferInsert}
  */
 function buildTransactionRow(
   id: string,
   userId: string,
-  senderBankId: string,
-  receiverBankId: string,
+  senderWalletId: string,
+  receiverWalletId: string,
   plaidSuffix: string,
 ): typeof transactions.$inferInsert {
   return {
@@ -210,9 +211,9 @@ function buildTransactionRow(
     id,
     name: "Seed transfer",
     plaidTransactionId: `seed-plaid-${plaidSuffix}`,
-    receiverBankId,
-    senderBankId,
-    status: "complete",
+    receiverWalletId,
+    senderWalletId,
+    status: "completed",
     type: "debit",
     userId,
   };
@@ -320,20 +321,20 @@ export async function seedAll(): Promise<void> {
   ]);
 
   await db
-    .insert(banks)
+    .insert(wallets)
     .values([
-      buildBankRow(
-        SEED_IDS.banks.checking,
+      buildWalletRow(
+        SEED_IDS.wallets.checking,
         SEED_IDS.users.user,
         "seed-share-checking-001",
-        "Seed Checking Bank",
+        "Seed Checking Wallet",
         0,
       ),
-      buildBankRow(
-        SEED_IDS.banks.savings,
+      buildWalletRow(
+        SEED_IDS.wallets.savings,
         SEED_IDS.users.user,
         "seed-share-savings-002",
-        "Seed Savings Bank",
+        "Seed Savings Wallet",
         1,
       ),
     ]);
@@ -344,15 +345,15 @@ export async function seedAll(): Promise<void> {
       buildTransactionRow(
         SEED_IDS.transactions.one,
         SEED_IDS.users.user,
-        SEED_IDS.banks.checking,
-        SEED_IDS.banks.savings,
+        SEED_IDS.wallets.checking,
+        SEED_IDS.wallets.savings,
         "tx-001",
       ),
       buildTransactionRow(
         SEED_IDS.transactions.two,
         SEED_IDS.users.user,
-        SEED_IDS.banks.savings,
-        SEED_IDS.banks.checking,
+        SEED_IDS.wallets.savings,
+        SEED_IDS.wallets.checking,
         "tx-002",
       ),
     ]);
@@ -363,7 +364,7 @@ export async function seedAll(): Promise<void> {
       buildRecipientRow(
         SEED_IDS.recipients.one,
         SEED_IDS.users.user,
-        SEED_IDS.banks.checking,
+        SEED_IDS.wallets.checking,
       ),
     ]);
 

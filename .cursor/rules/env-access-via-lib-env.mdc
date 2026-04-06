@@ -1,22 +1,26 @@
 ---
-description: Require validated env access through lib/env.ts
+description: Require validated env access through app-config.ts (preferred) or lib/env.ts
 alwaysApply: true
 ---
 
 # Environment Variable Access
 
 - Do not use `process.env` directly in app code.
-- Import environment values from `lib/env.ts`.
+- Import environment values from `app-config.ts` (preferred) or `lib/env.ts` (backward compat).
 - Keep env validation centralized and typed.
+- `proxy.ts` (Edge Middleware) is the only exception — it reads `process.env` directly.
 
 ## Example
 
 ```typescript
-// BAD
-const databaseUrl = process.env.DATABASE_URL;
+// BEST — domain-specific configs
+import { plaid, dwolla } from "@/app-config";
+const clientId = plaid.PLAID_CLIENT_ID;
 
-// GOOD
+// GOOD — backward compat
 import { env } from "@/lib/env";
-
 const databaseUrl: string = env.DATABASE_URL;
+
+// BAD — never use process.env directly
+const databaseUrl = process.env.DATABASE_URL;
 ```

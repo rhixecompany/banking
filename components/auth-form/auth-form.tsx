@@ -12,34 +12,31 @@ import { z } from "zod";
 
 import type { AuthFormProps } from "@/types";
 
-import CustomInput from "@/components/custom-input/custom-input";
+import { register } from "@/actions/register";
 import MyLoader from "@/components/my-loader/my-loader";
 import { Button } from "@/components/ui/button";
-import { Form } from "@/components/ui/form";
-import { register } from "@/lib/actions/register";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { getAuthFormSchema, signInSchema, signUpSchema } from "@/lib/utils";
 
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @typedef {SignInFormData}
- */
+/** Sign-in form data type inferred from signInSchema */
 type SignInFormData = z.infer<typeof signInSchema>;
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @typedef {SignUpFormData}
- */
+/** Sign-up form data type inferred from signUpSchema */
 type SignUpFormData = z.infer<typeof signUpSchema>;
 
 /**
- * Description placeholder
- * @author [object Object]
+ * Returns default form values based on authentication mode.
+ * Sign-in requires email and password; sign-up requires full user profile.
  *
- * @param {boolean} isSignInFlag
- * @returns {Partial<SignInFormData & SignUpFormData>}
+ * @param isSignInFlag - Whether rendering sign-in form (true) or sign-up form (false)
+ * @returns Default values object matching the appropriate form schema
  */
 function getDefaultValues(
   isSignInFlag: boolean,
@@ -62,12 +59,27 @@ function getDefaultValues(
 }
 
 /**
- * Description placeholder
- * @author [object Object]
+ * AuthForm renders either a sign-in or sign-up form based on the type prop.
+ * Handles user registration via server action and sign-in via NextAuth credentials.
  *
- * @param {AuthFormProps} param0
- * @param {AuthFormProps} param0.type
- * @returns {JSX.Element}
+ * @description
+ * This component provides complete authentication functionality with form validation.
+ * For sign-up mode, it collects full user profile data including address and SSN.
+ * For sign-in mode, it authenticates users via NextAuth credentials provider.
+ * Form validation is handled by React Hook Form with Zod schemas.
+ *
+ * @example
+ * ```tsx
+ * // Sign-in form
+ * <AuthForm type="sign-in" />
+ *
+ * // Sign-up form
+ * <AuthForm type="sign-up" />
+ * ```
+ *
+ * @param props - Component props
+ * @param props.type - Form mode: "sign-in" for login, "sign-up" for registration
+ * @returns Rendered authentication form
  */
 const AuthForm = ({ type }: AuthFormProps): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false);
@@ -141,112 +153,212 @@ const AuthForm = ({ type }: AuthFormProps): JSX.Element => {
           </p>
         </div>
       </header>
-      <>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            {!isSignIn && (
-              <>
-                <CustomInput
-                  control={form.control}
-                  name="firstName"
-                  label="First Name"
-                  placeholder="Enter your first name"
-                />
-                <CustomInput
-                  control={form.control}
-                  name="lastName"
-                  label="Last Name"
-                  placeholder="Enter your last name"
-                />
-                <CustomInput
-                  control={form.control}
-                  name="address1"
-                  label="Address"
-                  placeholder="Enter your address"
-                />
-                <CustomInput
-                  control={form.control}
-                  name="city"
-                  label="City"
-                  placeholder="Enter your city"
-                />
-                <CustomInput
-                  control={form.control}
-                  name="state"
-                  label="State"
-                  placeholder="Enter your state"
-                />
-                <CustomInput
-                  control={form.control}
-                  name="postalCode"
-                  label="Postal Code"
-                  placeholder="Enter your postal code"
-                />
-                <CustomInput
-                  control={form.control}
-                  name="dateOfBirth"
-                  label="Date of Birth"
-                  placeholder="YYYY-MM-DD"
-                />
-                <CustomInput
-                  control={form.control}
-                  name="ssn"
-                  label="SSN"
-                  placeholder="Example: 1234"
-                />
-                <CustomInput
-                  control={form.control}
-                  name="email"
-                  label="Email"
-                  placeholder="Enter your email"
-                />
-                <CustomInput
-                  control={form.control}
-                  name="password"
-                  label="Password"
-                  placeholder="Enter your password"
-                />
-                <CustomInput
-                  control={form.control}
-                  name="confirmPassword"
-                  label="Confirm Password"
-                  placeholder="Confirm your password"
-                />
-              </>
-            )}
-            {isSignIn && (
-              <>
-                <CustomInput
-                  control={form.control}
-                  name="email"
-                  label="Email"
-                  placeholder="Enter your email"
-                />
-                <CustomInput
-                  control={form.control}
-                  name="password"
-                  label="Password"
-                  placeholder="Enter your password"
-                />
-              </>
-            )}
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          {isSignIn ? (
+            <>
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter your email" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Enter your password"
+                        type="password"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </>
+          ) : (
+            <>
+              <FormField
+                control={form.control}
+                name="firstName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>First Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter your first name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="lastName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Last Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter your last name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="address1"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Address</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter your address" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="city"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>City</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter your city" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="state"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>State</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter your state" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="postalCode"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Postal Code</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter your postal code" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="dateOfBirth"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Date of Birth</FormLabel>
+                    <FormControl>
+                      <Input placeholder="YYYY-MM-DD" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="ssn"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>SSN</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Example: 1234" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter your email" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Enter your password"
+                        type="password"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="confirmPassword"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Confirm Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Confirm your password"
+                        type="password"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </>
+          )}
 
-            <div className="flex flex-col gap-4">
-              <Button type="submit" disabled={isLoading} className="form-btn">
-                {isLoading ? <MyLoader /> : isSignIn ? "Sign In" : "Sign Up"}
-              </Button>
-            </div>
-          </form>
-        </Form>
-        <footer className="flex justify-center gap-1">
-          <p className="text-14 font-normal text-gray-600">
-            {isSignIn ? "Don't have an account?" : "Already have an account?"}
-          </p>
-          <Link href={isSignIn ? "/sign-up" : "/sign-in"} className="form-link">
-            {isSignIn ? "Sign up" : "Sign in"}
-          </Link>
-        </footer>
-      </>
+          <div className="flex flex-col gap-4">
+            <Button type="submit" disabled={isLoading} className="form-btn">
+              {isLoading ? <MyLoader /> : isSignIn ? "Sign In" : "Sign Up"}
+            </Button>
+          </div>
+        </form>
+      </Form>
+      <footer className="flex justify-center gap-1">
+        <p className="text-14 font-normal text-gray-600">
+          {isSignIn ? "Don't have an account?" : "Already have an account?"}
+        </p>
+        <Link href={isSignIn ? "/sign-up" : "/sign-in"} className="form-link">
+          {isSignIn ? "Sign up" : "Sign in"}
+        </Link>
+      </footer>
     </section>
   );
 };

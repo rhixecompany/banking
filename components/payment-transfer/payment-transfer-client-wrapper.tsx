@@ -7,9 +7,10 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import type { Bank } from "@/types/bank";
 import type { Recipient } from "@/types/recipient";
+import type { Wallet } from "@/types/wallet";
 
+import { createTransfer } from "@/actions/dwolla.actions";
 import HeaderBox from "@/components/header-box/header-box";
 import { Button } from "@/components/ui/button";
 import {
@@ -35,17 +36,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { createTransfer } from "@/lib/actions/dwolla.actions";
 
 // ---------------------------------------------------------------------------
 // Schema
 // ---------------------------------------------------------------------------
 
 /**
- * Description placeholder
- * @author [object Object]
- *
- * @type {*}
+ * Zod schema for transfer form validation.
+ * Validates amount as positive decimal, recipient and source as non-empty strings.
  */
 const TransferSchema = z.object({
   amount: z.coerce
@@ -57,10 +55,7 @@ const TransferSchema = z.object({
 });
 
 /**
- * Description placeholder
- * @author [object Object]
- *
- * @typedef {TransferFormData}
+ * Type inferred from the TransferSchema for form data.
  */
 type TransferFormData = z.infer<typeof TransferSchema>;
 
@@ -69,26 +64,12 @@ type TransferFormData = z.infer<typeof TransferSchema>;
 // ---------------------------------------------------------------------------
 
 /**
- * Description placeholder
- * @author [object Object]
- *
- * @interface PaymentTransferClientWrapperProps
- * @typedef {PaymentTransferClientWrapperProps}
+ * Props for PaymentTransferClientWrapper.
  */
 interface PaymentTransferClientWrapperProps {
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {Bank[]}
-   */
-  banks: Bank[];
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {Recipient[]}
-   */
+  /** Array of linked wallet accounts for selecting the source of funds. */
+  wallets: Wallet[];
+  /** Array of saved recipients for selecting the transfer destination. */
   recipients: Recipient[];
 }
 
@@ -107,8 +88,8 @@ interface PaymentTransferClientWrapperProps {
  * @returns {JSX.Element}
  */
 export function PaymentTransferClientWrapper({
-  banks,
   recipients,
+  wallets,
 }: PaymentTransferClientWrapperProps): JSX.Element {
   const form = useForm<TransferFormData>({
     defaultValues: { amount: 0, recipientId: "", sourceBankId: "" },
@@ -119,13 +100,13 @@ export function PaymentTransferClientWrapper({
   const recipientId = form.watch("recipientId");
   const amount = form.watch("amount");
 
-  const sourceBank = banks.find((b) => b.id === sourceBankId);
+  const sourceWallet = wallets.find((w) => w.id === sourceBankId);
   const recipient = recipients.find((r) => r.id === recipientId);
 
   async function onSubmit(data: TransferFormData): Promise<void> {
-    if (!sourceBank?.dwollaFundingSourceUrl) {
+    if (!sourceWallet?.fundingSourceUrl) {
       form.setError("sourceBankId", {
-        message: "Selected bank has no Dwolla funding source configured.",
+        message: "Selected wallet has no Dwolla funding source configured.",
       });
       return;
     }
@@ -140,7 +121,7 @@ export function PaymentTransferClientWrapper({
     const result = await createTransfer({
       amount: data.amount.toFixed(2),
       destinationFundingSourceUrl: recipient.bankAccountId,
-      sourceFundingSourceUrl: sourceBank.dwollaFundingSourceUrl,
+      sourceFundingSourceUrl: sourceWallet.fundingSourceUrl,
     });
 
     if (result.ok) {
@@ -193,19 +174,20 @@ export function PaymentTransferClientWrapper({
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            {banks.map((bank) => (
-                              <SelectItem key={bank.id} value={bank.id}>
-                                {bank.institutionName ?? "Unknown Bank"}{" "}
-                                {bank.accountId
-                                  ? `(••••${bank.accountId.slice(-4)})`
+                            {wallets.map((wallet) => (
+                              <SelectItem key={wallet.id} value={wallet.id}>
+                                {wallet.institutionName ?? "Unknown Bank"}{" "}
+                                {wallet.accountId
+                                  ? `(••••${wallet.accountId.slice(-4)})`
                                   : ""}
                               </SelectItem>
                             ))}
                           </SelectContent>
                         </Select>
-                        {banks.length === 0 && (
+                        {wallets.length === 0 && (
                           <p className="text-sm text-muted-foreground">
-                            No banks linked. Link a bank on the dashboard first.
+                            No wallets linked. Link a wallet on the dashboard
+                            first.
                           </p>
                         )}
                         <FormMessage />
@@ -298,8 +280,8 @@ export function PaymentTransferClientWrapper({
               <div className="flex justify-between">
                 <span className="text-muted-foreground">From</span>
                 <span className="font-medium">
-                  {sourceBank
-                    ? (sourceBank.institutionName ?? "Unknown Bank")
+                  {sourceWallet
+                    ? (sourceWallet.institutionName ?? "Unknown Bank")
                     : "—"}
                 </span>
               </div>

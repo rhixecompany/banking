@@ -10,12 +10,9 @@ import {
 } from "react";
 import { usePlaidLink, type PlaidLinkOnSuccess } from "react-plaid-link";
 
-import type { Bank } from "@/types/bank";
+import type { Wallet } from "@/types/wallet";
 
-import {
-  createLinkToken,
-  exchangePublicToken,
-} from "@/lib/actions/plaid.actions";
+import { createLinkToken, exchangePublicToken } from "@/actions/plaid.actions";
 
 /**
  * Description placeholder
@@ -104,9 +101,9 @@ interface PlaidProviderProps {
    * Description placeholder
    * @author [object Object]
    *
-   * @type {?(bank: Bank) => void}
+   * @type {?(wallet: Wallet) => void}
    */
-  onSuccess?: (bank: Bank) => void;
+  onSuccess?: (wallet: Wallet) => void;
 }
 
 /**
@@ -116,7 +113,7 @@ interface PlaidProviderProps {
  * @export
  * @param {PlaidProviderProps} param0
  * @param {React.ReactNode} param0.children
- * @param {(bank: Bank) => void} param0.onSuccess
+ * @param {(wallet: Wallet) => void} param0.onSuccess
  * @param {string} param0.userId
  * @returns {ReactJSX.Element}
  */
@@ -160,8 +157,8 @@ export function PlaidProvider({
         userId,
       });
 
-      if (result.ok && result.bank) {
-        onSuccessRef.current?.(result.bank);
+      if (result.ok && result.wallet) {
+        onSuccessRef.current?.(result.wallet);
       } else {
         setError(result.error ?? "Failed to link bank account");
       }

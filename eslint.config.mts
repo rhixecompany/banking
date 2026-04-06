@@ -431,6 +431,8 @@ export default defineConfig([
       "jest/prefer-to-contain": "error",
       "jest/prefer-to-have-length": "error",
       "jest/valid-title": "error",
+      "perfectionist/sort-objects": "off", // Test files often use non-alphabetical order for readability
+      "unicorn/no-null": "off", // DAL mocks often use null for optional fields
     },
   },
 
@@ -461,6 +463,7 @@ export default defineConfig([
       playwright,
     },
     rules: {
+      "no-console": "off", // Console output is needed for test debugging
       "playwright/no-element-handle": "error",
       "playwright/no-force-option": "error",
       "playwright/no-wait-for-selector": "error",
@@ -495,6 +498,7 @@ export default defineConfig([
       "next-sitemap.config.*",
       "database/db.ts",
       "lib/env.ts",
+      "app-config.ts",
     ],
     rules: {
       "n/no-process-env": "off",
@@ -615,7 +619,7 @@ export default defineConfig([
   // SERVER ACTIONS - Allow console for error logging
   // =====================================================
   {
-    files: ["lib/actions/**/*.ts"],
+    files: ["actions/**/*.ts"],
     rules: {
       "@typescript-eslint/require-await": "off", // Server Actions may not always await
       "no-console": "off",
@@ -631,23 +635,11 @@ export default defineConfig([
       "components/plaid-link.tsx",
       "components/plaid-context.tsx",
       "components/ui/number-input.tsx",
-      "lib/actions/plaid.actions.ts",
-      "lib/auth-config.ts",
+      "actions/plaid.actions.ts",
       "lib/auth-options.ts",
     ],
     rules: {
       "unicorn/no-null": "off", // Type definitions require null in some places
-    },
-  },
-
-  // =====================================================
-  // BASE DAL - Disable rules for generic utility functions
-  // =====================================================
-  {
-    files: ["lib/dal/base.dal.ts"],
-    rules: {
-      "@typescript-eslint/no-explicit-any": "off", // Generic utility functions need any type
-      "perfectionist/sort-intersection-types": "off", // TypeScript generics ordering
     },
   },
 
@@ -671,6 +663,19 @@ export default defineConfig([
       "n/no-process-env": "off", // Playwright requires process.env for test configuration
       "no-console": "off", // Global setup uses console.log for debugging
       "require-await": "off", // Playwright global setup is async by convention
+    },
+  },
+
+  // PLAYWRIGHT GLOBAL TEARDOWN - Allow dynamic fs operations for cleanup
+  // =====================================================
+  {
+    files: ["tests/e2e/global-teardown.ts"],
+    rules: {
+      "@typescript-eslint/require-await": "off", // Playwright global teardown is async by convention
+      "n/no-process-env": "off", // Playwright requires process.env for test configuration
+      "no-console": "off", // Global teardown uses console.log for debugging
+      "require-await": "off", // Playwright global teardown is async by convention
+      "security/detect-non-literal-fs-filename": "off", // Teardown needs dynamic path operations
     },
   },
 

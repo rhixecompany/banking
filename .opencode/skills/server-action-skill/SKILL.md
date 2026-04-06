@@ -9,176 +9,111 @@ description: Server Action patterns for mutations, form handling, revalidation, 
 
 This skill provides guidance on Server Action patterns for the Banking project.
 
-## Key Patterns
+## Action Files Location
 
-### Basic Server Action
+All Server Actions live in `actions/` directory (NOT `lib/actions/`):
+
+| File | Coverage |
+| --- | --- |
+| `actions/register.ts` | User registration |
+| `actions/user.actions.ts` | Auth helpers (getLoggedInUser, logoutAccount, updateProfile) |
+| `actions/admin.actions.ts` | Admin toggle |
+| `actions/wallet.actions.ts` | Wallet CRUD (getUserWallets, disconnectWallet, createLinkToken, exchangePublicToken) |
+| `actions/dwolla.actions.ts` | Transfers (createTransfer) |
+| `actions/transaction.actions.ts` | Transaction queries (getRecentTransactions, getTransactionHistory) |
+| `actions/plaid.actions.ts` | Plaid integration |
+| `actions/recipient.actions.ts` | Recipient management |
+| `actions/admin-stats.actions.ts` | Admin statistics |
+
+## Basic Server Action
 
 ```typescript
-// lib/actions/user.actions.ts
 "use server";
 
 import { auth } from "@/lib/auth";
-import { userDal } from "@/lib/dal";
-import { revalidatePath } from "next/cache";
+import { userDal } from "@/dal/user.dal";
+import {
+  revalidatePath,
+  unstable_updateTag as updateTag
+} from "next/cache";
 import { z } from "zod";
 
 const updateProfileSchema = z.object({
-  name: z.string().min(2).optional(),
-  image: z.string().url().optional()
+  name: z.string().min(2).describe("User display name"),
+  image: z.string().url().optional().describe("Profile image URL")
 });
 
-export async function updateProfile(formData: FormData) {
+export async function updateProfile(
+  input: unknown
+): Promise<{ ok: boolean; error?: string }> {
   const session = await auth();
   if (!session?.user?.id) {
     return { ok: false, error: "Unauthorized" };
   }
 
-  const rawData = {
-    name: formData.get("name"),
-    image: formData.get("image")
-  };
-
-  const result = updateProfileSchema.safeParse(rawData);
+  const result = updateProfileSchema.safeParse(input);
   if (!result.success) {
     return { ok: false, error: result.error.message };
   }
 
   await userDal.update(session.user.id, result.data);
   revalidatePath("/dashboard");
+  updateTag("user");
 
   return { ok: true };
 }
 ```
 
-### With useFormState (React 19 useActionState)
+## Cache Revalidation
 
 ```typescript
-// lib/actions/register.ts
-"use server";
+import {
+  revalidatePath,
+  unstable_updateTag as updateTag
+} from "next/cache";
 
-import { auth } from "@/lib/auth";
-import { userDal } from "@/lib/dal";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
-import { z } from "zod";
+// Use updateTag in Server Actions for immediate cache invalidation
+updateTag("wallets");
 
-const registerSchema = z.object({
-  name: z.string().min(2),
-  email: z.string().email(),
-  password: z.string().min(8)
-});
-
-export async function registerUser(
-  prevState: {
-    error?: string;
-    fieldErrors?: Record<string, string[]>;
-  },
-  formData: FormData
-) {
-  const data = {
-    name: formData.get("name"),
-    email: formData.get("email"),
-    password: formData.get("password")
-  };
-
-  const result = registerSchema.safeParse(data);
-  if (!result.success) {
-    return {
-      error: "Validation failed",
-      fieldErrors: result.error.flatten().fieldErrors
-    };
-  }
-
-  const existingUser = await userDal.findByEmail(result.data.email);
-  if (existingUser) {
-    return { error: "Email already registered" };
-  }
-
-  const user = await userDal.create(result.data);
-
-  // Set session and redirect
-  const session = await auth();
-  if (session) {
-    await session.update({
-      user: { id: user.id, name: user.name, email: user.email }
-    });
-  }
-
-  revalidatePath("/dashboard");
-  redirect("/dashboard");
-}
-```
-
-### Client Component with useFormStatus
-
-```typescript
-// components/submit-button.tsx
-"use client";
-
-import { useFormStatus } from "react-dom";
-
-export function SubmitButton() {
-  const { pending } = useFormStatus();
-
-  return (
-    <button type="submit" disabled={pending}>
-      {pending ? "Processing..." : "Submit"}
-    </button>
-  );
-}
-```
-
-### Optimistic Updates (useOptimistic)
-
-```typescript
-// components/transfer-list.tsx
-"use client";
-
-import { useOptimistic } from "react";
-
-export function TransferList({ transfers, onCancel }: TransferListProps) {
-  const [optimisticTransfers, addOptimistic] = useOptimistic(
-    transfers,
-    (state, newTransfer) => [...state, newTransfer]
-  );
-
-  return (
-    <ul>
-      {optimisticTransfers.map((t) => (
-        <li key={t.id}>
-          {t.amount} - {t.status}
-        </li>
-      ))}
-    </ul>
-  );
-}
+// Use revalidatePath for route-level invalidation
+revalidatePath("/my-wallets");
 ```
 
 ## Error Handling
 
 ```typescript
 export async function transferFunds(
-  fromAccountId: string,
-  toAccountId: string,
-  amount: number
-) {
+  input: unknown
+): Promise<{ ok: boolean; error?: string }> {
   try {
-    const fromAccount = await bankDal.findById(fromAccountId);
-    if (!fromAccount) {
-      return { ok: false, error: "Source account not found" };
-    }
-    if (fromAccount.balance < amount) {
-      return { ok: false, error: "Insufficient funds" };
-    }
+    const session = await auth();
+    if (!session?.user) return { ok: false, error: "Unauthorized" };
 
-    await bankDal.transfer(fromAccountId, toAccountId, amount);
-    revalidatePath("/dashboard");
+    const parsed = transferSchema.safeParse(input);
+    if (!parsed.success)
+      return { ok: false, error: parsed.error.message };
+
+    // ... transfer logic via DAL
+
+    revalidatePath("/transaction-history");
+    updateTag("transactions");
     return { ok: true };
-  } catch (error) {
-    console.error("Transfer error:", error);
+  } catch {
     return { ok: false, error: "Transfer failed. Please try again." };
   }
 }
+```
+
+## Zod Schema Requirements
+
+Every schema field **must** include `.describe("...")` (enforced by ESLint `zod/prefer-meta`):
+
+```typescript
+const transferSchema = z.object({
+  amount: z.coerce.number().min(0.01).describe("Transfer amount"),
+  senderWalletId: z.string().min(1).describe("Sender wallet ID"),
+  receiverWalletId: z.string().min(1).describe("Receiver wallet ID")
+});
 ```
 
 ## Validation
@@ -187,8 +122,9 @@ Run: `npm run type-check` and `npm run lint:strict`
 
 ## Critical Rules
 
-1. **No API routes for mutations** - Use Server Actions for all writes
-2. **Always validate input** - Use Zod schemas
-3. **Auth check first** - Verify session before any action
-4. **Revalidate after mutations** - Use `revalidatePath()` or `revalidateTag()`
-5. **Return error shape** - `{ ok: boolean; error?: string }`
+1. **No API routes for mutations** — Use Server Actions for all writes
+2. **Always validate input** — Use Zod schemas with `.describe()` on every field
+3. **Auth check first** — Verify session before any action
+4. **Revalidate after mutations** — Use `revalidatePath()` and `updateTag()`
+5. **Return error shape** — `{ ok: boolean; error?: string }`
+6. **DAL only** — All DB access through `dal/`, never in actions directly

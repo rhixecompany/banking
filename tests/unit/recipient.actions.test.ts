@@ -9,7 +9,7 @@ import {
   deleteRecipient,
   getRecipients,
   updateRecipient,
-} from "@/lib/actions/recipient.actions";
+} from "@/actions/recipient.actions";
 
 describe("getRecipients", () => {
   it("should be a function", () => {

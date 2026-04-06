@@ -9,10 +9,10 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
 
   compress: true,
+
   devIndicators: {
     position: "bottom-right",
   },
-
   experimental: {
     optimizePackageImports: ["lucide-react"],
     serverActions: {
@@ -24,6 +24,7 @@ const nextConfig: NextConfig = {
     },
     typedEnv: true,
   },
+
   headers: () => [
     {
       headers: [
@@ -59,7 +60,6 @@ const nextConfig: NextConfig = {
       source: "/:path*",
     },
   ],
-
   images: {
     contentDispositionType: "attachment",
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
@@ -87,6 +87,8 @@ const nextConfig: NextConfig = {
       fullUrl: true,
     },
   },
+
+  output: "standalone",
 
   poweredByHeader: false,
 

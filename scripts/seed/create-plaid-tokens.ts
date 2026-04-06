@@ -1,28 +1,39 @@
+/* eslint-disable no-secrets/no-secrets */
+import type { Products } from "plaid";
+
 import { plaidClient } from "@/lib/plaid";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @returns {Promise<void>}
+ */
 async function createPlaidTokens(): Promise<void> {
-  console.log("============================================================");
-  console.log("Plaid Sandbox Token Generator");
-  console.log("============================================================");
+  console.warn("============================================================");
+  console.warn("Plaid Sandbox Token Generator");
+  console.warn("============================================================");
 
   const env = process.env.PLAID_ENV;
 
-  console.log(`PLAID_ENV: ${env}`);
-  console.log("============================================================\n");
+  console.warn(`PLAID_ENV: ${env}`);
+  console.warn(
+    "============================================================\n",
+  );
 
   try {
-    console.log("Step 1: Creating sandbox public token...");
+    console.warn("Step 1: Creating sandbox public token...");
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const publicTokenResponse = await plaidClient.sandboxPublicTokenCreate({
+      initial_products: ["auth", "transactions"] as Products[],
       institution_id: "ins_3",
-      initial_products: ["auth", "transactions"] as any,
     });
 
     const publicToken = publicTokenResponse.data.public_token;
-    console.log(`  ✓ Public token created: ${publicToken}`);
+    console.warn(`  Public token created: ${publicToken}`);
 
-    console.log("\nStep 2: Exchanging for access token...");
+    console.warn("\nStep 2: Exchanging for access token...");
 
     const accessTokenResponse = await plaidClient.itemPublicTokenExchange({
       public_token: publicToken,
@@ -31,22 +42,22 @@ async function createPlaidTokens(): Promise<void> {
     const accessToken = accessTokenResponse.data.access_token;
     const itemId = accessTokenResponse.data.item_id;
 
-    console.log(`  ✓ Access token: ${accessToken}`);
-    console.log(`  ✓ Item ID: ${itemId}`);
+    console.warn(`  Access token: ${accessToken}`);
+    console.warn(`  Item ID: ${itemId}`);
 
-    console.log(
+    console.warn(
       "\n============================================================",
     );
-    console.log("SUCCESS! Use these tokens in your seed data:");
-    console.log("============================================================");
-    console.log(`\nACCESS_TOKEN=${accessToken}`);
-    console.log(`ITEM_ID=${itemId}`);
-    console.log("\nOr add to scripts/seed/seed-config.ts:");
-    console.log(`
-export const SEED_CONFIG = {
-  accessToken: "${accessToken}",
-  itemId: "${itemId}",
-};
+    console.warn("SUCCESS! Use these tokens in your environment:");
+    console.warn(
+      "============================================================",
+    );
+    console.warn(`\nPLAID_SANDBOX_ACCESS_TOKEN=${accessToken}`);
+    console.warn(`PLAID_SANDBOX_ITEM_ID=${itemId}`);
+    console.warn("\nOr add to .env.local:");
+    console.warn(`
+PLAID_SANDBOX_ACCESS_TOKEN=${accessToken}
+PLAID_SANDBOX_ITEM_ID=${itemId}
 `);
 
     const fs = await import("fs");
@@ -58,18 +69,19 @@ export const SEED_CONFIG = {
     );
 
     const configContent = `
+/* eslint-disable no-secrets/no-secrets */
 /**
  * Seed configuration for E2E tests
- * Generated tokens from Plaid Sandbox
+ * Values loaded from environment variables
  */
 
 export const SEED_CONFIG = {
-  /** Plaid access token for sandbox testing */
-  accessToken: "${accessToken}",
-  /** Plaid item ID */
-  itemId: "${itemId}",
+  /** Plaid access token for sandbox testing (from environment) */
+  accessToken: process.env.PLAID_SANDBOX_ACCESS_TOKEN ?? "",
+  /** Plaid item ID (from environment) */
+  itemId: process.env.PLAID_SANDBOX_ITEM_ID ?? "",
   /** Use mock tokens (skips Plaid API calls) */
-  useMockTokens: false,
+  useMockTokens: true,
 };
 
 /**
@@ -90,7 +102,7 @@ export function getSeedItemId(): string {
 `;
 
     fs.writeFileSync(configPath, configContent);
-    console.log(`\n✓ Updated ${configPath}`);
+    console.warn(`\nUpdated ${configPath}`);
   } catch (error) {
     console.error(
       "\n============================================================",
@@ -116,4 +128,4 @@ export function getSeedItemId(): string {
   }
 }
 
-createPlaidTokens();
+void createPlaidTokens();

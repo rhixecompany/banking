@@ -1,0 +1,71 @@
+# Traefik Configuration for Docker Compose
+# Supports both local development and production
+
+global:
+  checkNewVersion: false
+  sendAnonymousUsage: false
+
+api:
+  dashboard: true
+  insecure: false
+
+# Logging
+log:
+  level: INFO
+  format: json
+
+# Access logging for observability
+accessLog:
+  format: json
+  fields:
+    defaultMode: keep
+    headers:
+      defaultMode: keep
+
+# Entry points
+entryPoints:
+  web:
+    address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+          permanent: true
+  websecure:
+    address: ":443"
+    http:
+      tls:
+        certResolver: letsencrypt
+  traefik:
+    address: ":8080"
+
+# Let's Encrypt Certificate Resolver (staging for development)
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      email: ${LETSENCRYPT_EMAIL:-admin@localhost}
+      storage: /letsencrypt/acme.json
+      httpChallenge:
+        entryPoint: web
+      # Use staging CA for development (no rate limits), production CA for live certs
+      caServer: "${LETSENCRYPT_CA_SERVER:-https://acme-staging-v02.api.letsencrypt.org/directory}"
+
+# Metrics for Prometheus
+metrics:
+  prometheus:
+    addEntryPointsLabels: true
+    addServicesLabels: true
+    addRoutersLabels: true
+    entryPoint: traefik
+
+# Providers - Docker Compose mode (not Swarm)
+providers:
+  docker:
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: false
+    swarmMode: false
+    network: traefik-public
+  file:
+    directory: /etc/traefik/dynamic
+    watch: true

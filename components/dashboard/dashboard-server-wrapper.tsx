@@ -3,10 +3,10 @@ import type { JSX } from "react";
 
 import { redirect } from "next/navigation";
 
+import { getAllAccounts } from "@/actions/plaid.actions";
+import { getRecentTransactions } from "@/actions/transaction.actions";
+import { getUserWallets } from "@/actions/wallet.actions";
 import { DashboardClientWrapper } from "@/components/dashboard/dashboard-client-wrapper";
-import { getUserBanks } from "@/lib/actions/bank.actions";
-import { getAllAccounts } from "@/lib/actions/plaid.actions";
-import { getRecentTransactions } from "@/lib/actions/transaction.actions";
 import { auth } from "@/lib/auth";
 
 /**
@@ -37,24 +37,24 @@ export async function DashboardServerWrapper(): Promise<JSX.Element> {
 
   const userId = session.user.id;
 
-  const [banksResult, accountsResult, txResult] = await Promise.all([
-    getUserBanks(),
+  const [walletsResult, accountsResult, txResult] = await Promise.all([
+    getUserWallets(),
     getAllAccounts(),
     getRecentTransactions(20),
   ]);
 
-  const banks = banksResult.ok ? (banksResult.banks ?? []) : [];
+  const wallets = walletsResult.ok ? (walletsResult.wallets ?? []) : [];
   const accounts = accountsResult.ok ? (accountsResult.accounts ?? []) : [];
   const transactions = txResult.ok ? (txResult.transactions ?? []) : [];
 
   return (
     <DashboardClientWrapper
       accounts={accounts}
-      banks={banks}
+      wallets={wallets}
       transactions={transactions}
       userId={userId}
       userName={session.user.name ?? "User"}
-      showOnboarding={banks.length === 0}
+      showOnboarding={wallets.length === 0}
     />
   );
 }

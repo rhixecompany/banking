@@ -7,7 +7,7 @@ vi.mock("@/lib/auth", () => ({
 import {
   getRecentTransactions,
   getTransactionHistory,
-} from "@/lib/actions/transaction.actions";
+} from "@/actions/transaction.actions";
 
 describe("getRecentTransactions", () => {
   it("should be a function", () => {

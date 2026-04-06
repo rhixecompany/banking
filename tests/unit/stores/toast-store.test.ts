@@ -4,7 +4,7 @@ import {
   type ToastActions,
   createToastStore,
   defaultToastState,
-} from "@/lib/stores/create-toast-store";
+} from "@/stores/create-toast-store";
 
 describe("createToastStore", () => {
   it("initialises with an empty toast queue", () => {

@@ -13,14 +13,14 @@ import { defineConfig, devices } from "@playwright/test";
  * Increased from defaults to accommodate slower dev server cold starts
  */
 const TIMEOUTS = {
-  /** Test timeout - 60 seconds */
-  TEST: 60_000,
-  /** Navigation timeout - 90 seconds */
-  NAVIGATION: 90_000,
   /** Action timeout - 30 seconds */
   ACTION: 30_000,
   /** Assertion timeout - 10 seconds */
   ASSERTION: 10_000,
+  /** Navigation timeout - 90 seconds */
+  NAVIGATION: 90_000,
+  /** Test timeout - 60 seconds */
+  TEST: 60_000,
   /** Web server startup timeout - 180 seconds */
   WEB_SERVER: 180_000,
 } as const;
@@ -97,6 +97,9 @@ export default defineConfig({
 
   /* Shared settings for all the projects below. */
   use: {
+    /* Accept downloads to default directory */
+    acceptDownloads: true,
+
     /* Fail fast on slow actions - increased for slower pages */
     actionTimeout: TIMEOUTS.ACTION,
 
@@ -116,19 +119,16 @@ export default defineConfig({
 
     /* Video only on failure to save disk space */
     video: "retain-on-failure",
-
-    /* Accept downloads to default directory */
-    acceptDownloads: true,
   },
 
   /* Run your local dev server before starting the tests */
   webServer: {
     command: "npm run dev",
     reuseExistingServer: !process.env["CI"],
+    stderr: "pipe",
+    stdout: "pipe",
     timeout: TIMEOUTS.WEB_SERVER,
     url: "http://localhost:3000",
-    stdout: "pipe",
-    stderr: "pipe",
   },
 
   /* Always 1 worker — stateful app (auth sessions, shared DB). */

@@ -4,12 +4,26 @@ import Link from "next/link";
 import type { RightSidebarProps } from "@/types";
 
 /**
- * Description placeholder
- * @author [object Object]
+ * RightSidebar displays contextual information on dashboard pages.
+ * Shows user profile summary and quick access to linked wallet accounts.
  *
- * @param {RightSidebarProps} param0
- * @param {RightSidebarProps} param0.user
- * @returns {JSX.Element}
+ * @description
+ * Renders a right-side panel with the user's profile banner, avatar initial,
+ * name, and email. Displays a section for viewing linked wallet accounts
+ * with an option to add new accounts.
+ *
+ * @example
+ * ```tsx
+ * <RightSidebar
+ *   user={session.user}
+ *   wallets={wallets}
+ *   transactions={recentTransactions}
+ * />
+ * ```
+ *
+ * @param props - Component props
+ * @param props.user - Authenticated user data
+ * @returns Rendered right sidebar panel
  */
 const RightSidebar = ({ user }: RightSidebarProps): JSX.Element => {
   return (

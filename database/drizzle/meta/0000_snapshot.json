@@ -6,13 +6,34 @@
   },
   "dialect": "postgresql",
   "enums": {
+    "public.transaction_channel": {
+      "name": "transaction_channel",
+      "schema": "public",
+      "values": ["online", "in_store", "other"]
+    },
+    "public.transaction_status": {
+      "name": "transaction_status",
+      "schema": "public",
+      "values": [
+        "pending",
+        "processing",
+        "completed",
+        "failed",
+        "cancelled"
+      ]
+    },
+    "public.transaction_type": {
+      "name": "transaction_type",
+      "schema": "public",
+      "values": ["credit", "debit"]
+    },
     "public.user_role": {
       "name": "user_role",
       "schema": "public",
       "values": ["user", "admin", "moderator"]
     }
   },
-  "id": "22d68e22-a128-4fa2-928c-99ea2e94fe7d",
+  "id": "ca79900f-5ca1-4c21-bbee-ca73d1569d87",
   "policies": {},
   "prevId": "00000000-0000-0000-0000-000000000000",
   "roles": {},
@@ -255,179 +276,6 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.banks": {
-      "name": "banks",
-      "schema": "",
-      "columns": {
-        "access_token": {
-          "name": "access_token",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "account_id": {
-          "name": "account_id",
-          "type": "varchar(255)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "account_number_encrypted": {
-          "name": "account_number_encrypted",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "account_subtype": {
-          "name": "account_subtype",
-          "type": "varchar(100)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "account_type": {
-          "name": "account_type",
-          "type": "varchar(50)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "dwolla_customer_url": {
-          "name": "dwolla_customer_url",
-          "type": "varchar(500)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "dwolla_funding_source_url": {
-          "name": "dwolla_funding_source_url",
-          "type": "varchar(500)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "funding_source_url": {
-          "name": "funding_source_url",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "id": {
-          "name": "id",
-          "type": "text",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "institution_id": {
-          "name": "institution_id",
-          "type": "varchar(255)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "institution_name": {
-          "name": "institution_name",
-          "type": "varchar(255)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "routing_number": {
-          "name": "routing_number",
-          "type": "varchar(20)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "sharable_id": {
-          "name": "sharable_id",
-          "type": "varchar(255)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "user_id": {
-          "name": "user_id",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
-      "indexes": {
-        "banks_user_id_idx": {
-          "name": "banks_user_id_idx",
-          "columns": [
-            {
-              "expression": "user_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "banks_sharable_id_idx": {
-          "name": "banks_sharable_id_idx",
-          "columns": [
-            {
-              "expression": "sharable_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "banks_dwolla_customer_idx": {
-          "name": "banks_dwolla_customer_idx",
-          "columns": [
-            {
-              "expression": "dwolla_customer_url",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        }
-      },
-      "foreignKeys": {
-        "banks_user_id_users_id_fk": {
-          "name": "banks_user_id_users_id_fk",
-          "tableFrom": "banks",
-          "tableTo": "users",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "banks_sharable_id_unique": {
-          "name": "banks_sharable_id_unique",
-          "nullsNotDistinct": false,
-          "columns": ["sharable_id"]
-        }
-      },
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
     "public.errors": {
       "name": "errors",
       "schema": "",
@@ -436,7 +284,7 @@
           "name": "created_at",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": "now()"
         },
         "id": {
@@ -498,6 +346,21 @@
           "columns": [
             {
               "expression": "user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "errors_severity_idx": {
+          "name": "errors_severity_idx",
+          "columns": [
+            {
+              "expression": "severity",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -590,13 +453,28 @@
           "concurrently": false,
           "method": "btree",
           "with": {}
+        },
+        "recipients_email_idx": {
+          "name": "recipients_email_idx",
+          "columns": [
+            {
+              "expression": "email",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         }
       },
       "foreignKeys": {
-        "recipients_bank_account_id_banks_id_fk": {
-          "name": "recipients_bank_account_id_banks_id_fk",
+        "recipients_bank_account_id_wallets_id_fk": {
+          "name": "recipients_bank_account_id_wallets_id_fk",
           "tableFrom": "recipients",
-          "tableTo": "banks",
+          "tableTo": "wallets",
           "columnsFrom": ["bank_account_id"],
           "columnsTo": ["id"],
           "onDelete": "no action",
@@ -700,7 +578,8 @@
         },
         "channel": {
           "name": "channel",
-          "type": "varchar(50)",
+          "type": "transaction_channel",
+          "typeSchema": "public",
           "primaryKey": false,
           "notNull": false
         },
@@ -708,7 +587,7 @@
           "name": "created_at",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": "now()"
         },
         "currency": {
@@ -717,6 +596,12 @@
           "primaryKey": false,
           "notNull": false,
           "default": "'USD'"
+        },
+        "deleted_at": {
+          "name": "deleted_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
         },
         "email": {
           "name": "email",
@@ -742,28 +627,30 @@
           "primaryKey": false,
           "notNull": false
         },
-        "receiver_bank_id": {
-          "name": "receiver_bank_id",
+        "receiver_wallet_id": {
+          "name": "receiver_wallet_id",
           "type": "text",
           "primaryKey": false,
           "notNull": false
         },
-        "sender_bank_id": {
-          "name": "sender_bank_id",
+        "sender_wallet_id": {
+          "name": "sender_wallet_id",
           "type": "text",
           "primaryKey": false,
           "notNull": false
         },
         "status": {
           "name": "status",
-          "type": "varchar(50)",
+          "type": "transaction_status",
+          "typeSchema": "public",
           "primaryKey": false,
           "notNull": false,
           "default": "'pending'"
         },
         "type": {
           "name": "type",
-          "type": "varchar(50)",
+          "type": "transaction_type",
+          "typeSchema": "public",
           "primaryKey": false,
           "notNull": false
         },
@@ -797,11 +684,11 @@
           "method": "btree",
           "with": {}
         },
-        "transactions_sender_bank_idx": {
-          "name": "transactions_sender_bank_idx",
+        "transactions_sender_wallet_idx": {
+          "name": "transactions_sender_wallet_idx",
           "columns": [
             {
-              "expression": "sender_bank_id",
+              "expression": "sender_wallet_id",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -812,11 +699,56 @@
           "method": "btree",
           "with": {}
         },
-        "transactions_receiver_bank_idx": {
-          "name": "transactions_receiver_bank_idx",
+        "transactions_receiver_wallet_idx": {
+          "name": "transactions_receiver_wallet_idx",
           "columns": [
             {
-              "expression": "receiver_bank_id",
+              "expression": "receiver_wallet_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "transactions_status_idx": {
+          "name": "transactions_status_idx",
+          "columns": [
+            {
+              "expression": "status",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "transactions_created_at_idx": {
+          "name": "transactions_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "transactions_deleted_at_idx": {
+          "name": "transactions_deleted_at_idx",
+          "columns": [
+            {
+              "expression": "deleted_at",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -844,20 +776,20 @@
         }
       },
       "foreignKeys": {
-        "transactions_receiver_bank_id_banks_id_fk": {
-          "name": "transactions_receiver_bank_id_banks_id_fk",
+        "transactions_receiver_wallet_id_wallets_id_fk": {
+          "name": "transactions_receiver_wallet_id_wallets_id_fk",
           "tableFrom": "transactions",
-          "tableTo": "banks",
-          "columnsFrom": ["receiver_bank_id"],
+          "tableTo": "wallets",
+          "columnsFrom": ["receiver_wallet_id"],
           "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "transactions_sender_bank_id_banks_id_fk": {
-          "name": "transactions_sender_bank_id_banks_id_fk",
+        "transactions_sender_wallet_id_wallets_id_fk": {
+          "name": "transactions_sender_wallet_id_wallets_id_fk",
           "tableFrom": "transactions",
-          "tableTo": "banks",
-          "columnsFrom": ["sender_bank_id"],
+          "tableTo": "wallets",
+          "columnsFrom": ["sender_wallet_id"],
           "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
@@ -922,6 +854,12 @@
         "postal_code": {
           "name": "postal_code",
           "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ssn_encrypted": {
+          "name": "ssn_encrypted",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
         },
@@ -990,6 +928,12 @@
           "notNull": true,
           "default": "now()"
         },
+        "deleted_at": {
+          "name": "deleted_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
         "email": {
           "name": "email",
           "type": "varchar(255)",
@@ -1056,7 +1000,38 @@
           "default": "now()"
         }
       },
-      "indexes": {},
+      "indexes": {
+        "users_email_idx": {
+          "name": "users_email_idx",
+          "columns": [
+            {
+              "expression": "email",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "users_deleted_at_idx": {
+          "name": "users_deleted_at_idx",
+          "columns": [
+            {
+              "expression": "deleted_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
@@ -1125,6 +1100,209 @@
         }
       },
       "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.wallets": {
+      "name": "wallets",
+      "schema": "",
+      "columns": {
+        "access_token": {
+          "name": "access_token",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "account_id": {
+          "name": "account_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "account_number_encrypted": {
+          "name": "account_number_encrypted",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "account_subtype": {
+          "name": "account_subtype",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "account_type": {
+          "name": "account_type",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "customer_url": {
+          "name": "customer_url",
+          "type": "varchar(500)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "deleted_at": {
+          "name": "deleted_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "funding_source_url": {
+          "name": "funding_source_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "institution_id": {
+          "name": "institution_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "institution_name": {
+          "name": "institution_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "routing_number": {
+          "name": "routing_number",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "sharable_id": {
+          "name": "sharable_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "wallets_user_id_idx": {
+          "name": "wallets_user_id_idx",
+          "columns": [
+            {
+              "expression": "user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "wallets_sharable_id_idx": {
+          "name": "wallets_sharable_id_idx",
+          "columns": [
+            {
+              "expression": "sharable_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "wallets_customer_url_idx": {
+          "name": "wallets_customer_url_idx",
+          "columns": [
+            {
+              "expression": "customer_url",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "wallets_funding_source_url_idx": {
+          "name": "wallets_funding_source_url_idx",
+          "columns": [
+            {
+              "expression": "funding_source_url",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "wallets_deleted_at_idx": {
+          "name": "wallets_deleted_at_idx",
+          "columns": [
+            {
+              "expression": "deleted_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "wallets_user_id_users_id_fk": {
+          "name": "wallets_user_id_users_id_fk",
+          "tableFrom": "wallets",
+          "tableTo": "users",
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "wallets_sharable_id_unique": {
+          "name": "wallets_sharable_id_unique",
+          "nullsNotDistinct": false,
+          "columns": ["sharable_id"]
+        }
+      },
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false

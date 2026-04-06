@@ -7,13 +7,16 @@
  * @returns {Promise<void>}
  */
 
+import { existsSync, readdirSync, readFileSync, rmSync } from "node:fs";
+import { join } from "node:path";
+
 /**
  * Timeout configurations
  */
 const TIMEOUTS = {
+  KILL_PROCESS: 5_000,
   SERVER_CHECK: 5_000,
   SERVER_STOP: 10_000,
-  KILL_PROCESS: 5_000,
 } as const;
 
 /**
@@ -27,6 +30,13 @@ function printSection(title: string): void {
   console.info("═══════════════════════════════════════════════════");
   console.info(`  ${title}`);
   console.info("═══════════════════════════════════════════════════");
+}
+
+/**
+ * Get the test results directory path
+ */
+function getTestResultsDir(): string {
+  return join(process.cwd(), "test-results");
 }
 
 /**
@@ -98,7 +108,7 @@ async function stopDevServer(): Promise<void> {
       if (lines.length > 0) {
         // Extract PID from the last column of the first matching line
         const parts = lines[0].trim().split(/\s+/);
-        const pid = parts[parts.length - 1];
+        const pid = parts.at(-1);
 
         if (pid && /^\d+$/.test(pid)) {
           console.info(
@@ -107,12 +117,12 @@ async function stopDevServer(): Promise<void> {
 
           try {
             // Try graceful termination first
-            process.kill(parseInt(pid, 10), "SIGTERM");
+            process.kill(Number.parseInt(pid, 10), "SIGTERM");
             console.info("    ✓ Sent SIGTERM to process");
           } catch {
             // If graceful fails, force kill
             console.info("    - SIGTERM failed, sending SIGKILL...");
-            process.kill(parseInt(pid, 10), "SIGKILL");
+            process.kill(Number.parseInt(pid, 10), "SIGKILL");
             console.info("    ✓ Sent SIGKILL to process");
           }
         }
@@ -134,6 +144,106 @@ async function stopDevServer(): Promise<void> {
     console.info("     You may need to manually stop the server on port 3000");
   } else {
     console.info("  ✓ Dev server stopped successfully");
+  }
+}
+
+/**
+ * Clean up test artifacts (videos, screenshots)
+ */
+function cleanupTestArtifacts(): void {
+  const resultsDir = getTestResultsDir();
+
+  if (!existsSync(resultsDir)) {
+    console.info("  - No test-results directory found");
+    return;
+  }
+
+  try {
+    const entries = readdirSync(resultsDir);
+    let cleanedCount = 0;
+
+    for (const entry of entries) {
+      const entryPath = join(resultsDir, entry);
+
+      // Clean up video and screenshot files
+      if (entry.endsWith(".webm") || entry.endsWith(".png")) {
+        try {
+          rmSync(entryPath, { force: true });
+          cleanedCount++;
+        } catch {
+          // Ignore individual cleanup failures
+        }
+      }
+    }
+
+    if (cleanedCount > 0) {
+      console.info(`  ✓ Cleaned up ${cleanedCount} test artifact(s)`);
+    } else {
+      console.info("  - No test artifacts to clean up");
+    }
+  } catch (error) {
+    console.info(`  ⚠ Could not clean up artifacts: ${error}`);
+  }
+}
+
+/**
+ * Parse and display test results from Playwright JSON report
+ */
+function parseAndDisplayTestResults(): void {
+  const resultsDir = getTestResultsDir();
+
+  if (!existsSync(resultsDir)) {
+    console.info("  - No test-results directory found");
+    return;
+  }
+
+  // Look for the most recent JSON report
+  const entries = readdirSync(resultsDir).filter((e) => e.endsWith(".json"));
+
+  if (entries.length === 0) {
+    console.info("  - No test result files found");
+    return;
+  }
+
+  // Use the most recent report
+  const latestReport = entries.sort().at(-1);
+  if (!latestReport) return;
+
+  try {
+    const reportPath = join(resultsDir, latestReport);
+    const reportData = JSON.parse(readFileSync(reportPath, "utf-8"));
+
+    const stats = reportData.stats ?? {};
+    const suites = reportData.suites ?? [];
+
+    console.info("");
+    console.info("  ════════════════════════════════════════════════════");
+    console.info("    TEST RESULTS SUMMARY");
+    console.info("  ════════════════════════════════════════════════════");
+    console.info(`    Total:   ${stats.tests ?? 0}`);
+    console.info(`    Passed:  ${stats.passed ?? 0}`);
+    console.info(`    Failed:  ${stats.failures ?? 0}`);
+    console.info(`    Skipped: ${stats.skipped ?? 0}`);
+    console.info(`    Duration: ${(stats.duration ?? 0) / 1000}s`);
+
+    // List failed tests if any
+    if ((stats.failures ?? 0) > 0) {
+      console.info("");
+      console.info("  Failed Tests:");
+      for (const suite of suites) {
+        for (const test of suite.tests ?? []) {
+          if (test.ok === false) {
+            console.info(`    - ${test.title}`);
+          }
+        }
+      }
+    }
+
+    console.info("");
+    console.info("  To view detailed report:");
+    console.info("    npx playwright show-report");
+  } catch (error) {
+    console.info(`  ⚠ Could not parse test results: ${error}`);
   }
 }
 
@@ -165,12 +275,16 @@ export default async function globalTeardown(): Promise<void> {
   printSection("PLAYWRIGHT E2E GLOBAL TEARDOWN");
 
   try {
-    // Step 1: Print results summary
-    console.info("  Step 1/2: Printing results summary...");
-    printResultsSummary();
+    // Step 1: Parse and display test results
+    console.info("  Step 1/3: Parsing test results...");
+    parseAndDisplayTestResults();
 
-    // Step 2: Stop dev server
-    console.info("  Step 2/2: Stopping dev server...");
+    // Step 2: Clean up test artifacts
+    console.info("  Step 2/3: Cleaning up test artifacts...");
+    cleanupTestArtifacts();
+
+    // Step 3: Stop dev server
+    console.info("  Step 3/3: Stopping dev server...");
     await stopDevServer();
 
     printSection("TEARDOWN COMPLETE");

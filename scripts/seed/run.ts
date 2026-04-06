@@ -77,7 +77,7 @@ async function truncateAllTables(): Promise<void> {
         errors,
         recipients,
         transactions,
-        banks,
+        wallets,
         user_profiles,
         authenticator,
         "session",

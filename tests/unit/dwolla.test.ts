@@ -174,16 +174,16 @@ describe("Dwolla Schema Validation", () => {
 
 describe("Dwolla DAL", () => {
   it("should export dwollaDal", async () => {
-    const { dwollaDal } = await import("@/lib/dal");
+    const { dwollaDal } = await import("@/dal");
     expect(dwollaDal).toBeDefined();
   });
 
   it("should have required methods", async () => {
-    const { dwollaDal } = await import("@/lib/dal");
+    const { dwollaDal } = await import("@/dal");
 
-    expect(typeof dwollaDal.findByDwollaCustomerUrl).toBe("function");
-    expect(typeof dwollaDal.findByDwollaFundingSourceUrl).toBe("function");
-    expect(typeof dwollaDal.createBankWithDwolla).toBe("function");
-    expect(typeof dwollaDal.findBanksWithDwollaCustomer).toBe("function");
+    expect(typeof dwollaDal.findByCustomerUrl).toBe("function");
+    expect(typeof dwollaDal.findByFundingSourceUrl).toBe("function");
+    expect(typeof dwollaDal.createWalletWithDwolla).toBe("function");
+    expect(typeof dwollaDal.findWalletsWithCustomerUrl).toBe("function");
   });
 });

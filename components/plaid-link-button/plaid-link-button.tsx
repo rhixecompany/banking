@@ -2,7 +2,7 @@
 
 import { Loader2 } from "lucide-react";
 
-import type { Bank } from "@/types/bank";
+import type { Wallet } from "@/types/wallet";
 
 import { usePlaid } from "@/components/plaid-context/plaid-context";
 import { Button } from "@/components/ui/button";
@@ -40,9 +40,9 @@ interface PlaidLinkButtonProps {
    * Description placeholder
    * @author [object Object]
    *
-   * @type {?(bank: Bank) => void}
+   * @type {?(wallet: Wallet) => void}
    */
-  onSuccess?: (bank: Bank) => void;
+  onSuccess?: (wallet: Wallet) => void;
   /**
    * Description placeholder
    * @author [object Object]

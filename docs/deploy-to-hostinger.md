@@ -2,7 +2,7 @@
 
 ## Overview
 
-This guide covers deploying the Banking app to a Hostinger KVM VPS using **Docker Swarm**. The application uses a containerized architecture with Traefik as a reverse proxy, PostgreSQL for data storage, Redis for caching/rate-limiting, and optional Prometheus + Grafana for monitoring.
+This guide covers deploying the Banking app to a Hostinger KVM VPS using **Docker Compose**. The application uses a containerized architecture with Traefik as a reverse proxy, PostgreSQL for data storage, Redis for caching/rate-limiting, and optional Prometheus + Grafana for monitoring.
 
 ### Architecture
 
@@ -10,18 +10,18 @@ This guide covers deploying the Banking app to a Hostinger KVM VPS using **Docke
 ┌─────────────────────────────────────────────────────────────────┐
 │                        Hostinger VPS                              │
 │                                                                  │
-│  ┌─────────────────────────────────────────────────────────┐    │
-│  │                     Docker Swarm                         │    │
+│  ┌─────────────────────────────────────────────────────────────┐    │
+│  │                     Docker Compose                           │    │
 │  │                                                          │    │
 │  │   ┌──────────┐   ┌──────────┐   ┌──────────────┐     │    │
 │  │   │ Traefik  │◄──│ Banking  │   │  Prometheus  │     │    │
 │  │   │  (HTTP/  │   │   App   │   │   + Grafana  │     │    │
-│  │   │   HTTPS) │   │  x2 replicas             │     │    │
+│  │   │   HTTPS) │   │         │   │              │     │    │
 │  │   └──────────┘   └──────────┘   └──────────────┘     │    │
 │  │        │              │                 │               │    │
 │  │        ▼              ▼                 ▼               │    │
 │  │   ┌─────────────────────────────────────────────┐      │    │
-│  │   │              Overlay Networks               │      │    │
+│  │   │              Bridge Networks                 │      │    │
 │  │   │   traefik-public  │  app-internal         │      │    │
 │  │   └─────────────────────────────────────────────┘      │    │
 │  │                                                      │    │
@@ -29,21 +29,20 @@ This guide covers deploying the Banking app to a Hostinger KVM VPS using **Docke
 │  │   │PostgreSQL│   │  Redis   │                      │    │
 │  │   │ (stateful)│   │ (cache)  │                      │    │
 │  │   └──────────┘   └──────────┘                      │    │
-│  └─────────────────────────────────────────────────────────┘    │
+│  └─────────────────────────────────────────────────────────────┘    │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
 ### Included Services
 
-| Service | Description | Replicas |
-| --- | --- | --- |
-| **Traefik** | Reverse proxy, SSL termination, routing | 1 |
-| **Banking App** | Next.js 16 application | 2 |
-| **PostgreSQL** | Primary database | 1 |
-| **Redis** | Cache & rate limiting | 1 |
-| **Prometheus** | Metrics collection | 1 |
-| **Grafana** | Monitoring dashboard | 1 |
-| **Node Exporter** | System metrics | Global |
+| Service         | Description                             |
+| --------------- | --------------------------------------- |
+| **Traefik**     | Reverse proxy, SSL termination, routing |
+| **Banking App** | Next.js 16 application                  |
+| **PostgreSQL**  | Primary database                        |
+| **Redis**       | Cache & rate limiting                   |
+| **Prometheus**  | Metrics collection                      |
+| **Grafana**     | Monitoring dashboard                    |
 
 ---
 
@@ -105,14 +104,12 @@ docker --version
 docker compose version
 ```
 
-### 1.4 Initialize Docker Swarm
+### 1.4 Verify Docker Compose
+
+Docker Compose v2 is included with Docker. Verify:
 
 ```bash
-# Initialize swarm with your VPS IP
-docker swarm init --advertise-addr $(hostname -I | awk '{print $1}')
-
-# Verify swarm is active
-docker node ls
+docker compose version
 ```
 
 ---
@@ -132,29 +129,19 @@ git clone https://github.com/rhixecompany/banking.git
 cd banking
 ```
 
-### 2.2 Copy Deployment Files
-
-```bash
-# Copy stack files to convenient location
-cp -r stacks /opt/banking/
-cp -r compose/production/traefik /opt/banking/compose/production/
-cp -r scripts /opt/banking/
-
-# Create certificates directory
-mkdir -p /opt/banking/compose/production/traefik/certs
-```
-
-### 2.3 Create Directory Structure
+### 2.2 Create Directory Structure
 
 ```bash
 mkdir -p /opt/banking/.envs/production
+mkdir -p /opt/banking/compose/traefik/certs
+mkdir -p /opt/banking/compose/traefik/auth
 ```
 
 ---
 
-## Phase 3: Secrets Management
+## Phase 3: Environment Configuration
 
-All sensitive values are stored as Docker Swarm secrets.
+All sensitive values are stored in the `.env` file.
 
 ### 3.1 Generate Required Secrets
 
@@ -171,63 +158,54 @@ openssl rand -base64 24  # For Redis
 openssl rand -base64 24  # For Grafana
 ```
 
-### 3.2 Create Docker Secrets
+### 3.2 Create Environment File
 
-```bash
-# Navigate to project directory
-cd /opt/banking
-
-# Create secrets (replace values with your generated/actual values)
-echo "your-32-char-hex-encryption-key" | docker secret create banking_encryption_key -
-echo "your-base64-nextauth-secret" | docker secret create banking_nextauth_secret -
-echo "postgresql://postgres:password@postgres/banking" | docker secret create banking_database_url -
-echo "your-plaid-client-id" | docker secret create banking_plaid_client_id -
-echo "your-plaid-secret" | docker secret create banking_plaid_secret -
-echo "your-dwolla-key" | docker secret create banking_dwolla_key -
-echo "your-dwolla-secret" | docker secret create banking_dwolla_secret -
-echo "your-github-oauth-id" | docker secret create banking_auth_github_id -
-echo "your-github-oauth-secret" | docker secret create banking_auth_github_secret -
-echo "your-google-oauth-id" | docker secret create banking_auth_google_id -
-echo "your-google-oauth-secret" | docker secret create banking_auth_google_secret -
-echo "redis://:your-redis-password@redis:6379" | docker secret create banking_redis_url -
-echo "your-postgres-password" | docker secret create banking_postgres_password -
-
-# Optional: SMTP secrets
-echo "smtp.gmail.com" | docker secret create banking_smtp_host -
-echo "587" | docker secret create banking_smtp_port -
-echo "your-email@gmail.com" | docker secret create banking_smtp_user -
-echo "your-app-password" | docker secret create banking_smtp_pass -
-
-# Verify secrets created
-docker secret ls
-```
-
-### 3.3 Environment Variables
-
-Create `/opt/banking/.envs/production/.env.production`:
+Create `/opt/banking/.envs/production/.env`:
 
 ```env
 # Application
 NODE_ENV=production
 PORT=3000
+HOSTNAME=0.0.0.0
 
 # Domain (replace with your domain or VPS IP)
-DOMAIN=banking.yourdomain.com
+NEXT_PUBLIC_SITE_URL=https://banking.yourdomain.com
+
+# Database
+DATABASE_URL=postgresql://postgres:your-postgres-password@db:5432/banking
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=your-postgres-password
+POSTGRES_DB=banking
+
+# Auth & Security (REQUIRED - 32+ characters)
+ENCRYPTION_KEY=your-32-char-hex-encryption-key
+NEXTAUTH_SECRET=your-base64-nextauth-secret
+NEXTAUTH_URL=https://banking.yourdomain.com
+
+# Redis
+REDIS_URL=redis://:your-redis-password@redis:6379
+REDIS_PASSWORD=your-redis-password
+
+# Traefik/Let's Encrypt
+LETSENCRYPT_EMAIL=admin@yourdomain.com
+
+# Grafana
+GRAFANA_PASSWORD=your-grafana-password
 
 # Registry
 REGISTRY=ghcr.io
 IMAGE_NAME=rhixecompany/banking
 VERSION=latest
 
-# PostgreSQL
-POSTGRES_USER=postgres
-POSTGRES_DB=banking
+# Optional: Plaid Integration
+PLAID_CLIENT_ID=your-plaid-client-id
+PLAID_SECRET=your-plaid-secret
+PLAID_ENV=sandbox
 
-# Redis
-REDIS_PASSWORD=your-redis-password
-
-# Grafana
-GRAFANA_PASSWORD=your-grafana-password
+# Optional: Dwolla Integration
+DWOLLA_KEY=your-dwolla-key
+DWOLLA_SECRET=your-dwolla-secret
+DWOLLA_BASE_URL=https://api-sandbox.dwolla.com
 ```
 
 ---
@@ -237,11 +215,11 @@ GRAFANA_PASSWORD=your-grafana-password
 ### 4.1 Build the Image
 
 ```bash
-cd /opt/banking/banking
+cd /opt/banking
 
 # Build the Docker image
 docker build -t ghcr.io/rhixecompany/banking:latest \
-  -f compose/production/node/Dockerfile .
+  -f compose/dev/node/Dockerfile --target production .
 ```
 
 ### 4.2 Push to Registry
@@ -271,69 +249,53 @@ docker push yourdockerhub/banking:latest
 
 ---
 
-## Phase 5: Deploy Stacks
+## Phase 5: Deploy Services
 
-### 5.1 Create Networks
+### 5.1 Generate Traefik htpasswd
 
 ```bash
-# Create overlay networks
-docker network create --driver overlay --attachable traefik-public
-docker network create --driver overlay --attachable app-internal
+# Create auth directory
+mkdir -p /opt/banking/compose/traefik/auth
+
+# Generate htpasswd (requires apache2-utils or htpasswd)
+htpasswd -nb admin your-password | tee /opt/banking/compose/traefik/auth/htpasswd
 ```
 
-### 5.2 Deploy Traefik (Reverse Proxy)
+### 5.2 Start Services
 
 ```bash
 cd /opt/banking
 
-docker stack deploy -c stacks/traefik.stack.yml traefik
+# Start all services with Traefik
+docker compose --env-file .envs/production/.env up -d
 
 # Verify
-docker stack ps traefik
+docker compose ps
 ```
 
-Wait for Traefik to be running, then continue.
-
-### 5.3 Deploy Monitoring (Optional)
+### 5.3 Start with Monitoring (Optional)
 
 ```bash
 cd /opt/banking
 
-# Set Grafana password
-export GRAFANA_PASSWORD=your-grafana-password
-
-docker stack deploy -c stacks/monitoring.stack.yml monitoring
+# Start with monitoring profile
+docker compose --env-file .envs/production/.env --profile monitoring up -d
 
 # Verify
-docker stack ps monitoring
+docker compose ps
 ```
 
-### 5.4 Deploy Banking Application
+### 5.4 Check Service Health
 
 ```bash
-cd /opt/banking
-
-# Deploy the app stack
-docker stack deploy -c stacks/app.stack.yml banking
-
-# Verify all services are running
-docker stack ps banking
-```
-
-### 5.5 Check Service Health
-
-```bash
-# View all stacks
-docker stack ls
-
-# View service status
-docker service ls
+# View all services
+docker compose ps
 
 # Check specific service logs
-docker service logs banking_app
+docker compose logs -f app
 
 # Check health status
-docker service inspect banking_app --pretty
+curl http://localhost:3000/api/health
 ```
 
 ---
@@ -364,7 +326,7 @@ docker service inspect banking_app --pretty
 
 4. **Update Traefik configuration**:
 
-   Edit `stacks/app.stack.yml` and update:
+   Edit `compose/traefik/traefik.yml` and update the router rule:
 
    ```yaml
    labels:
@@ -382,12 +344,11 @@ If you don't have a domain, you can use a self-signed certificate:
 ```bash
 # Generate self-signed certificate
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-  -keyout /opt/banking/compose/production/traefik/certs/key.pem \
-  -out /opt/banking/compose/production/traefik/certs/cert.pem \
+  -keyout /opt/banking/compose/traefik/certs/key.pem \
+  -out /opt/banking/compose/traefik/certs/cert.pem \
   -subj "/C=US/ST=State/L=City/O=Banking/CN=YOUR_VPS_IP"
 
-# Update app stack labels to use IP instead of domain
-# Edit stacks/app.stack.yml and replace ${DOMAIN:-banking.example.com} with your VPS IP
+# Update docker-compose.yml to use HTTP only (remove HTTPS labels)
 ```
 
 ---
@@ -408,28 +369,29 @@ curl https://banking.yourdomain.com/api/health
 
 ```bash
 # All banking app logs
-docker service logs banking_app
+docker compose logs app
 
 # Follow logs in real-time
-docker service logs -f banking_app
+docker compose logs -f app
 
 # View with timestamps
-docker service logs -f --tail 100 banking_app
+docker compose logs -f --tail 100 app
 ```
 
 ### 7.3 Access Services
 
-| Service           | URL                                           |
-| ----------------- | --------------------------------------------- |
-| Banking App       | `https://banking.yourdomain.com`              |
-| Traefik Dashboard | `https://traefik.banking.yourdomain.com`      |
-| Grafana           | `https://grafana.banking.yourdomain.com:3001` |
+| Service | URL |
+| --- | --- |
+| Banking App | `http://your-vps-ip:3000` or `https://banking.yourdomain.com` |
+| Traefik Dashboard | `http://your-vps-ip:8080` |
+| Grafana | `http://your-vps-ip:3000/grafana` |
 
 ### 7.4 Default Credentials
 
-| Service | Username | Password                   |
-| ------- | -------- | -------------------------- |
-| Grafana | admin    | (GRAFANA_PASSWORD you set) |
+| Service           | Username | Password           |
+| ----------------- | -------- | ------------------ |
+| Traefik Dashboard | admin    | (set during setup) |
+| Grafana           | admin    | (set during setup) |
 
 ---
 
@@ -438,69 +400,44 @@ docker service logs -f --tail 100 banking_app
 ### 8.1 Update the Application
 
 ```bash
-# Pull latest image
-docker pull ghcr.io/rhixecompany/banking:latest
+# Pull latest changes
+git pull origin main
 
-# Update the service
-docker service update --image ghcr.io/rhixecompany/banking:latest banking_app
-
-# Or use stack deploy (will update all services)
-docker stack deploy -c stacks/app.stack.yml banking
+# Rebuild and restart
+docker compose --env-file .envs/production/.env build
+docker compose --env-file .envs/production/.env up -d
 ```
 
 ### 8.2 Rollback
 
 ```bash
-# Rollback to previous version
-docker service rollback banking_app
+# View recent commits
+git log --oneline -5
 
-# View service history
-docker service history banking_app
+# Revert to previous version
+git checkout <previous-commit-hash>
+docker compose --env-file .envs/production/.env build
+docker compose --env-file .envs/production/.env up -d
 ```
 
-### 8.3 Scaling
+### 8.3 Restart Services
 
 ```bash
-# Scale app replicas
-docker service scale banking_app=3
+# Restart all services
+docker compose --env-file .envs/production/.env restart
 
-# Scale back down
-docker service scale banking_app=2
+# Restart specific service
+docker compose --env-file .envs/production/.env restart app
 ```
 
-### 8.4 Useful Commands
-
-```bash
-# View all stacks
-docker stack ls
-
-# View services in a stack
-docker stack services banking
-
-# View all containers
-docker ps
-
-# View resource usage
-docker stats
-
-# View service details
-docker service inspect banking_app
-
-# Remove a stack
-docker stack rm banking
-
-# Remove all stacks
-docker stack rm traefik banking monitoring
-```
-
-### 8.5 Backup Database
+### 8.4 Backup Database
 
 ```bash
 # Create database backup
-docker exec $(docker ps -q -f name=banking_db) pg_dump -U postgres banking > backup.sql
+docker compose exec db pg_dump -U postgres banking > backup.sql
 
 # Restore database
-docker exec -i $(docker ps -q -f name=banking_db) psql -U postgres banking < backup.sql
+docker compose exec -T db psql -U postgres banking < backup.sql
 ```
 
 ---
@@ -511,39 +448,39 @@ docker exec -i $(docker ps -q -f name=banking_db) psql -U postgres banking < bac
 
 ```bash
 # Check logs
-docker service logs banking_app --no-trunc
+docker compose logs app --no-trunc
 
-# Check for secret issues
-docker secret ls
+# Check service status
+docker compose ps
 
-# Inspect service
-docker service inspect banking_app
+# Restart services
+docker compose --env-file .envs/production/.env restart
 ```
 
 ### Database Connection Failed
 
 ```bash
 # Check if database is running
-docker service ls
+docker compose ps db
 
 # Check database logs
-docker service logs banking_db
+docker compose logs db
 
 # Test connection
-docker exec -it $(docker ps -q -f name=banking_db) psql -U postgres -c "SELECT 1"
+docker compose exec db psql -U postgres -c "SELECT 1"
 ```
 
 ### SSL Certificate Issues
 
 ```bash
 # Check Traefik logs
-docker service logs traefik_traefik
+docker compose logs traefik
 
 # List certificates
-docker exec $(docker ps -q -f name=traefik) ls -la /certs/
+docker compose exec traefik ls -la /certs/
 
 # Force certificate regeneration
-docker service update --force traefik_traefik
+docker compose restart traefik
 ```
 
 ### Out of Memory
@@ -552,8 +489,8 @@ docker service update --force traefik_traefik
 # Check memory usage
 docker stats
 
-# Reduce replicas
-docker service scale banking_app=1
+# Check memory limits in compose file
+docker compose config
 ```
 
 ### Networking Issues
@@ -566,7 +503,7 @@ docker network ls
 docker network inspect app-internal
 
 # Verify containers can reach each other
-docker exec -it $(docker ps -q -f name=banking_app) ping banking_db
+docker exec -it banking-app-1 ping banking-db
 ```
 
 ---
@@ -595,17 +532,18 @@ apt update && apt upgrade docker.io
 
 # Update images regularly
 docker pull ghcr.io/rhixecompany/banking:latest
-docker service update --image ghcr.io/rhixecompany/banking:latest banking_app
+docker compose --env-file .envs/production/.env pull
+docker compose --env-file .envs/production/.env up -d
 ```
 
-### 4. secrets Rotation
+### 4. Secrets Rotation
 
 ```bash
-# Update a secret
-echo "new-secret-value" | docker secret create banking_nextauth_secret_v2 -
+# Edit the .env file with new values
+nano /opt/banking/.envs/production/.env
 
-# Update service to use new secret
-docker service update --secret-rm banking_nextauth_secret --secret-add source=banking_nextauth_secret_v2,target=banking_nextauth_secret banking_app
+# Restart services to apply
+docker compose --env-file .envs/production/.env up -d
 ```
 
 ---
@@ -622,32 +560,30 @@ docker service update --secret-rm banking_nextauth_secret --secret-add source=ba
 
 ## Environment Variables Reference
 
-### Required Secrets
+### Required Variables
 
-| Secret | Description | Example |
+| Variable | Description | Example |
 | --- | --- | --- |
-| `encryption_key` | AES-256-GCM key | 32+ char hex string |
-| `nextauth_secret` | Session signing key | Base64 string |
-| `database_url` | PostgreSQL connection | `postgresql://user:pass@host/db` |
-| `plaid_client_id` | Plaid API client ID | From plaid.com |
-| `plaid_secret` | Plaid API secret | From plaid.com |
-| `dwolla_key` | Dwolla API key | From dwolla.com |
-| `dwolla_secret` | Dwolla API secret | From dwolla.com |
-| `auth_github_id` | GitHub OAuth app ID | From GitHub |
-| `auth_github_secret` | GitHub OAuth secret | From GitHub |
-| `auth_google_id` | Google OAuth client ID | From Google Cloud |
-| `auth_google_secret` | Google OAuth secret | From Google Cloud |
-| `redis_url` | Redis connection | `redis://:pass@host:6379` |
-| `postgres_password` | PostgreSQL password | Strong random string |
+| `ENCRYPTION_KEY` | AES-256-GCM key | 32+ char hex string |
+| `NEXTAUTH_SECRET` | Session signing key | Base64 string |
+| `DATABASE_URL` | PostgreSQL connection | `postgresql://user:pass@host/db` |
+| `POSTGRES_PASSWORD` | PostgreSQL password | Strong random string |
+| `REDIS_PASSWORD` | Redis password | Strong random string |
 
-### Optional Secrets
+### Optional Variables
 
-| Secret      | Description          |
-| ----------- | -------------------- |
-| `smtp_host` | SMTP server hostname |
-| `smtp_port` | SMTP port (587)      |
-| `smtp_user` | SMTP username        |
-| `smtp_pass` | SMTP password        |
+| Variable             | Description          |
+| -------------------- | -------------------- |
+| `PLAID_CLIENT_ID`    | Plaid API client ID  |
+| `PLAID_SECRET`       | Plaid API secret     |
+| `DWOLLA_KEY`         | Dwolla API key       |
+| `DWOLLA_SECRET`      | Dwolla API secret    |
+| `AUTH_GITHUB_ID`     | GitHub OAuth app ID  |
+| `AUTH_GITHUB_SECRET` | GitHub OAuth secret  |
+| `SMTP_HOST`          | SMTP server hostname |
+| `SMTP_PORT`          | SMTP port (587)      |
+| `SMTP_USER`          | SMTP username        |
+| `SMTP_PASS`          | SMTP password        |
 
 ---
 
@@ -657,15 +593,12 @@ docker service update --secret-rm banking_nextauth_secret --secret-add source=ba
 
 | File | Purpose |
 | --- | --- |
-| `stacks/app.stack.yml` | Main application stack (app, PostgreSQL, Redis) |
-| `stacks/traefik.stack.yml` | Traefik reverse proxy stack |
-| `stacks/monitoring.stack.yml` | Prometheus + Grafana stack |
-| `compose/production/node/Dockerfile` | Multi-stage Next.js build |
-| `compose/production/traefik/traefik.yml` | Traefik static configuration |
-| `compose/production/traefik/dynamic/middlewares.yml` | Rate limiting, security headers |
-| `compose/production/traefik/dynamic/tls.yml` | TLS configuration |
-| `scripts/server-setup.sh` | Docker Swarm bootstrap script |
-| `scripts/read-secrets.sh` | Secret loading script |
+| `docker-compose.yml` | Main compose file with all services |
+| `compose/dev/node/Dockerfile` | Multi-stage Next.js build |
+| `compose/traefik/` | Traefik configuration |
+| `scripts/vps-setup.sh` | Automated VPS setup script |
+| `scripts/server-setup.sh` | Docker bootstrap script |
+| `.envs/production/.env` | Production environment variables |
 
 ---
 
@@ -693,7 +626,7 @@ docker service update --secret-rm banking_nextauth_secret --secret-add source=ba
 
 ## Useful Links
 
-- [Docker Swarm Documentation](https://docs.docker.com/engine/swarm/)
+- [Docker Compose Documentation](https://docs.docker.com/compose/)
 - [Traefik v3 Documentation](https://doc.traefik.io/traefik/)
 - [Prometheus Documentation](https://prometheus.io/docs/)
 - [Grafana Documentation](https://grafana.com/docs/)

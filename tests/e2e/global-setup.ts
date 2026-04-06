@@ -4,6 +4,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import {
+  cleanupTestData,
   getDatabaseUrl,
   isDatabaseReachable,
   isDatabaseSeeded,
@@ -31,9 +32,9 @@ const BASE_URL = process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3000";
  */
 const TIMEOUTS = {
   DATABASE_CONNECTION: 10_000,
-  WARMUP_REQUEST: 120_000,
-  SEED_CHECK_RETRIES: 3,
   SEED_CHECK_DELAY: 2000,
+  SEED_CHECK_RETRIES: 3,
+  WARMUP_REQUEST: 120_000,
 } as const;
 
 /**
@@ -243,7 +244,12 @@ async function ensureSeededData(databaseUrl: string): Promise<void> {
     return;
   }
 
-  console.info("    ⚠ Database not seeded, running db:push && db:seed...");
+  console.info("    ⚠ Database not seeded, cleaning up old data...");
+
+  // Clean up any leftover test data before reseeding
+  await cleanupTestData(databaseUrl, SEED_USER_EMAIL);
+
+  console.info("    Running db:push && db:seed...");
 
   try {
     execSync("npm run db:push", { env: process.env, stdio: "inherit" });

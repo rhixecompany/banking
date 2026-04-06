@@ -1,94 +1,86 @@
-import { z } from "zod";
-
 /**
- * Environment variable schema validation
- * Runs at app startup to catch missing/invalid config early
- */
-const envSchema = z.object({
-  // OAuth providers (optional)
-  AUTH_GITHUB_ID: z.string().trim().optional(),
-  AUTH_GITHUB_SECRET: z.string().trim().optional(),
-  AUTH_GOOGLE_ID: z.string().trim().optional(),
-
-  AUTH_GOOGLE_SECRET: z.string().trim().optional(),
-  DATABASE_URL: z.string().trim().optional(),
-  DWOLLA_BASE_URL: z.string().trim().url().optional(),
-  DWOLLA_ENV: z.string().trim().optional(),
-  // Dwolla (optional)
-  DWOLLA_KEY: z.string().trim().optional(),
-  DWOLLA_SECRET: z.string().trim().optional(),
-
-  EMAIL_FROM: z.string().trim().optional(),
-  // Required in all environments
-  ENCRYPTION_KEY: z.string().trim().min(1, "ENCRYPTION_KEY is required"),
-  HOSTNAME: z.string().trim().default("0.0.0.0"),
-  NEXT_PUBLIC_SITE_URL: z
-    .string()
-    .trim()
-    .url()
-    .default("http://localhost:3000"),
-
-  NEXTAUTH_SECRET: z.string().trim().min(1, "NEXTAUTH_SECRET is required"),
-  NEXTAUTH_URL: z.string().trim().url().optional(),
-  // Optional with defaults
-  NODE_ENV: z.enum(["development", "production", "test"]).default("production"),
-  // Plaid (optional)
-  PLAID_BASE_URL: z.string().trim().url().optional(),
-  PLAID_CLIENT_ID: z.string().trim().optional(),
-
-  PLAID_ENV: z.string().trim().optional(),
-  PLAID_SECRET: z.string().trim().optional(),
-  PORT: z.coerce.number().default(3000),
-
-  REDIS_URL: z.string().trim().url().optional(),
-  SMTP_FROM: z.string().trim().optional(),
-  // Email/SMTP (optional)
-  SMTP_HOST: z.string().trim().optional(),
-  SMTP_PASS: z.string().trim().optional(),
-  SMTP_PORT: z.string().trim().optional(),
-  SMTP_USER: z.string().trim().optional(),
-});
-
-/**
- * Description placeholder
+ * Environment Variable Validation
  *
- * @export
- * @typedef {Environment}
+ * Validates and provides typed access to environment variables.
+ * Now powered by app-config.ts for centralized configuration management.
+ *
+ * @module lib/env
  */
-export type Environment = z.infer<typeof envSchema>;
+
+import {
+  auth,
+  database,
+  dwolla,
+  email,
+  encryption,
+  plaid,
+  redis,
+  validateRequiredConfig,
+} from "@/app-config";
+
+/**
+ * Re-export all configuration from app-config.ts
+ * Maintains backward compatibility for existing imports
+ *
+ * @deprecated Use specific config imports from app-config.ts instead
+ * @example
+ * // Old way (still works)
+ * import { env } from "@/lib/env";
+ * env.PLAID_CLIENT_ID
+ *
+ * // New way (preferred)
+ * import { plaid } from "@/app-config";
+ * plaid.PLAID_CLIENT_ID
+ */
+export const env = {
+  AUTH_GITHUB_ID: auth.AUTH_GITHUB_ID,
+  AUTH_GITHUB_SECRET: auth.AUTH_GITHUB_SECRET,
+  AUTH_GOOGLE_ID: auth.AUTH_GOOGLE_ID,
+  AUTH_GOOGLE_SECRET: auth.AUTH_GOOGLE_SECRET,
+  DATABASE_URL: database.DATABASE_URL,
+  DWOLLA_BASE_URL: dwolla.DWOLLA_BASE_URL,
+  DWOLLA_ENV: dwolla.DWOLLA_ENV,
+  DWOLLA_KEY: dwolla.DWOLLA_KEY,
+  DWOLLA_SECRET: dwolla.DWOLLA_SECRET,
+  EMAIL_FROM: email.EMAIL_FROM,
+  ENCRYPTION_KEY: encryption.ENCRYPTION_KEY,
+  NEXTAUTH_SECRET: auth.NEXTAUTH_SECRET,
+  NEXTAUTH_URL: auth.NEXTAUTH_URL,
+  NPM_PACKAGE_VERSION: process.env.npm_package_version ?? "0.0.0",
+  PLAID_BASE_URL: plaid.PLAID_BASE_URL,
+  PLAID_CLIENT_ID: plaid.PLAID_CLIENT_ID,
+  PLAID_ENV: plaid.PLAID_ENV,
+  PLAID_SECRET: plaid.PLAID_SECRET,
+  REDIS_URL: redis.REDIS_URL,
+  SMTP_FROM: email.SMTP_FROM,
+  SMTP_HOST: email.SMTP_HOST,
+  SMTP_PASS: email.SMTP_PASS,
+  SMTP_PORT: email.SMTP_PORT,
+  SMTP_USER: email.SMTP_USER,
+} as const;
+
+/**
+ * Environment type - derived from app-config
+ */
+export type Environment = typeof env;
 
 /**
  * Validate and return typed environment variables
  * Throws at startup if validation fails
+ *
+ * @deprecated Use validateRequiredConfig() from app-config instead
  */
 export function getEnv(): Environment {
-  try {
-    const result = envSchema.parse(process.env);
-    return result;
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      const issues = error.issues;
-      const missing = issues
-        .map((err) => `${err.path.join(".")}: ${err.message}`)
-        .join("\n");
-      throw new Error(
-        `Environment validation failed:\n${missing}\n\nCheck your .env file or environment variables.`,
-        { cause: error },
-      );
-    }
-    throw error;
-  }
+  return env;
 }
-
-// Create a singleton instance for easy importing
-/**
- * Description placeholder
- *
- * @type {z.infer<any>}
- */
-export const env = getEnv();
 
 // Validate on module load in production
 if (process.env.NODE_ENV === "production") {
-  getEnv();
+  try {
+    validateRequiredConfig();
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error("Environment validation failed:", error);
+    throw error;
+  }
 }

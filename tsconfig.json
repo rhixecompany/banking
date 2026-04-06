@@ -9,8 +9,11 @@
     "module": "esnext",
     "moduleResolution": "bundler",
     "noEmit": true,
+    "baseUrl": ".",
+    "ignoreDeprecations": "6.0",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "@/lib/*": ["./lib/*"]
     },
     "plugins": [
       {

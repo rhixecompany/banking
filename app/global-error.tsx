@@ -1,5 +1,13 @@
 "use client";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {"force-dynamic"}
+ */
+export const dynamic = "force-dynamic";
+
 import { GlobalErrorClientWrapper } from "@/components/global-error/global-error-client-wrapper";
 
 /**

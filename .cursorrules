@@ -3,7 +3,7 @@
 > **Project:** Next.js 16, TypeScript (strict), Drizzle ORM,
 > PostgreSQL, NextAuth, shadcn/UI, Tailwind CSS v4
 >
-> **Last Updated:** 2026-04-03
+> **Last Updated:** 2026-04-05
 
 ---
 
@@ -156,8 +156,6 @@ tests/
 | --- | --- |
 | `lib/auth.ts` | Authentication helper |
 | `lib/dal/user.dal.ts` | User data access |
-| `lib/dal/bank.dal.ts` | Bank data access |
-| `lib/actions/bank.actions.ts` | Bank operations (disconnectBank) |
 | `lib/env.ts` | Environment variable validation |
 | `database/schema.ts` | Database schema definition |
 | `next.config.ts` | React Compiler enabled (`reactCompiler: true`) |

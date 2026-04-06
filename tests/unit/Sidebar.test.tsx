@@ -61,16 +61,18 @@ import Sidebar from "@/components/sidebar/sidebar";
  */
 const mockUser: User = {
   createdAt: new Date(),
+  // eslint-disable-next-line unicorn/no-null -- TypeScript User type requires null for deletedAt
+  deletedAt: null,
   email: "alice@example.com",
-  // eslint-disable-next-line unicorn/no-null
+  // eslint-disable-next-line unicorn/no-null -- TypeScript User type requires null for emailVerified
   emailVerified: null,
   id: "1",
-  // eslint-disable-next-line unicorn/no-null
+  // eslint-disable-next-line unicorn/no-null -- TypeScript User type requires null for image
   image: null,
   isActive: true,
   isAdmin: false,
   name: "Alice",
-  // eslint-disable-next-line unicorn/no-null
+  // eslint-disable-next-line unicorn/no-null -- TypeScript User type requires null for password
   password: null,
   role: "user",
   updatedAt: new Date(),
@@ -90,9 +92,9 @@ describe("Sidebar", () => {
 
   it("renders all sidebar nav links from sidebarLinks constant", () => {
     render(<Sidebar user={mockUser} />);
-    // sidebarLinks has: Home, My Banks, Transaction History, Transfer Funds
+    // sidebarLinks has: Home, My Wallets, Transaction History, Transfer Funds
     expect(screen.getByRole("link", { name: /home/i })).toBeTruthy();
-    expect(screen.getByRole("link", { name: /my banks/i })).toBeTruthy();
+    expect(screen.getByRole("link", { name: /my wallets/i })).toBeTruthy();
     expect(
       screen.getByRole("link", { name: /transaction history/i }),
     ).toBeTruthy();
@@ -105,16 +107,16 @@ describe("Sidebar", () => {
   });
 
   it("applies active class when pathname matches a link route", () => {
-    mockPathname.mockReturnValue("/my-banks");
+    mockPathname.mockReturnValue("/my-wallets");
     render(<Sidebar user={mockUser} />);
-    const myBanksLink = screen.getByRole("link", { name: /my banks/i });
-    expect((myBanksLink as HTMLAnchorElement).className).toContain(
+    const myWalletsLink = screen.getByRole("link", { name: /my wallets/i });
+    expect((myWalletsLink as HTMLAnchorElement).className).toContain(
       "bg-bank-gradient",
     );
   });
 
   it("does not apply active class to non-matching links", () => {
-    mockPathname.mockReturnValue("/my-banks");
+    mockPathname.mockReturnValue("/my-wallets");
     render(<Sidebar user={mockUser} />);
     const homeLink = screen.getByRole("link", { name: /home home/i });
     expect((homeLink as HTMLAnchorElement).className).not.toContain(

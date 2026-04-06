@@ -1,10 +1,10 @@
 import { redirect } from "next/navigation";
 
+import { getUserWithProfile } from "@/actions/user.actions";
 import { SettingsClientWrapper } from "@/components/settings/settings-client-wrapper";
 import ConnectedAccount from "@/components/shadcn-studio/blocks/account-settings-01/content/connect-account";
 import DangerZone from "@/components/shadcn-studio/blocks/account-settings-01/content/danger-zone";
 import SocialUrl from "@/components/shadcn-studio/blocks/account-settings-01/content/social-url";
-import { getUserWithProfile } from "@/lib/actions/user.actions";
 
 /**
  * Server wrapper for the Settings page.

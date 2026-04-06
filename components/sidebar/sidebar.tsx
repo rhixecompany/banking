@@ -10,12 +10,24 @@ import Footer from "@/components/footer/footer";
 import { sidebarLinks } from "@/constants";
 
 /**
- * Description placeholder
- * @author [object Object]
+ * Sidebar navigation component for desktop view.
+ * Displays Horizon branding, navigation links with active state highlighting,
+ * and user account footer with logout functionality.
  *
- * @param {SidebarProps} param0
- * @param {SidebarProps} param0.user
- * @returns {JSX.Element}
+ * @description
+ * Renders the main left-side navigation bar for authenticated pages.
+ * Shows the Horizon logo, all navigation links with icons, and highlights
+ * the current page based on URL. Includes the Footer component with user
+ * info and logout button.
+ *
+ * @example
+ * ```tsx
+ * <Sidebar user={session.user} />
+ * ```
+ *
+ * @param props - Component props
+ * @param props.user - Authenticated user data for personalization and footer
+ * @returns Rendered sidebar navigation
  */
 const Sidebar = ({ user }: SidebarProps): JSX.Element => {
   const pathname = usePathname();

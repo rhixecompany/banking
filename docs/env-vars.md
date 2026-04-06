@@ -50,23 +50,23 @@ All environment variables validated via `lib/env.ts` using Zod. **Never read `pr
 
 - All others
 
-## Docker Swarm Secrets Usage
+## Docker Compose Environment Files
 
-In production, use `_FILE` variants to load from Docker Swarm secrets:
+In production, use environment files with Docker Compose:
 
-```yaml
-# stacks/app.stack.yml
-services:
-  app:
-    secrets:
-      - banking_encryption_key
-      - banking_nextauth_secret
-    environment:
-      ENCRYPTION_KEY_FILE: /run/secrets/banking_encryption_key
-      NEXTAUTH_SECRET_FILE: /run/secrets/banking_nextauth_secret
+```bash
+# Create environment file
+docker compose --env-file .envs/production/.env.production up -d
 ```
 
-The entrypoint script (`scripts/read-secrets.sh`) reads files and exports as env vars.
+Or reference the env file in `docker-compose.yml`:
+
+```yaml
+services:
+  app:
+    env_file:
+      - .envs/production/.env.production
+```
 
 ## Validation
 

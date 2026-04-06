@@ -9,10 +9,25 @@ import type { DoughnutChartProps } from "@/types";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 /**
- * Renders a doughnut chart visualising current balances across linked accounts.
+ * DoughnutChart visualizes the distribution of account balances across linked wallet accounts.
+ * Uses Chart.js with react-chartjs-2 for rendering.
  *
- * @param {DoughnutChartProps} props
- * @returns {JSX.Element}
+ * @description
+ * Renders an interactive doughnut chart showing balance distribution.
+ * Each segment represents a different linked wallet account with its current balance.
+ * The chart uses a 60% cutout for the classic doughnut appearance.
+ *
+ * @example
+ * ```tsx
+ * <DoughnutChart accounts={[
+ *   { name: "Checking", currentBalance: 1500 },
+ *   { name: "Savings", currentBalance: 5000 }
+ * ]} />
+ * ```
+ *
+ * @param props - Component props
+ * @param props.accounts - Array of wallet accounts with balances to visualize
+ * @returns Rendered doughnut chart with balance distribution
  */
 const DoughnutChart = ({ accounts }: DoughnutChartProps): JSX.Element => {
   const data = {

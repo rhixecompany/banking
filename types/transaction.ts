@@ -3,44 +3,25 @@ import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
 import { transactions } from "@/database/schema";
 
 /**
- * Description placeholder
- *
- * @export
- * @typedef {Transaction}
+ * Transaction type derived from Drizzle schema.
+ * Includes soft-delete deletedAt field and typed enums.
  */
 export type Transaction = InferSelectModel<typeof transactions>;
 /**
- * Description placeholder
- *
+ * NewTransaction type for inserting transactions.
  * @export
- * @typedef {NewTransaction}
  */
 export type NewTransaction = InferInsertModel<typeof transactions>;
 
 /**
- * Description placeholder
- *
- * @export
- * @interface TransactionStats
- * @typedef {TransactionStats}
+ * Aggregated transaction statistics for a user.
+ * Used for dashboard spending breakdowns.
  */
 export interface TransactionStats {
-  /**
-   * Description placeholder
-   *
-   * @type {number}
-   */
+  /** Total number of transactions in this group. */
   count: number;
-  /**
-   * Description placeholder
-   *
-   * @type {(null | string)}
-   */
+  /** Sum of all transaction amounts as a decimal string. */
   total: null | string;
-  /**
-   * Description placeholder
-   *
-   * @type {(null | string)}
-   */
+  /** Transaction type ("credit" or "debit") for this group. */
   type: null | string;
 }

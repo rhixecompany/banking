@@ -7,62 +7,27 @@ import {
   type PlaidLinkOptions,
 } from "react-plaid-link";
 
-import type { Bank } from "@/types/bank";
+import type { Wallet } from "@/types/wallet";
 
+import { createLinkToken, exchangePublicToken } from "@/actions/plaid.actions";
 import { Button } from "@/components/ui/button";
-import {
-  createLinkToken,
-  exchangePublicToken,
-} from "@/lib/actions/plaid.actions";
 
 /**
- * Description placeholder
- * @author [object Object]
+ * Props for the PlaidLink component.
  *
  * @export
  * @interface PlaidLinkProps
- * @typedef {PlaidLinkProps}
  */
 export interface PlaidLinkProps {
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {string}
-   */
+  /** User ID for creating the Plaid link token */
   userId: string;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {?(bank: Bank) => void}
-   */
-  onSuccess?: (bank: Bank) => void;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {?() => void}
-   */
+  /** Callback fired when wallet is successfully linked */
+  onSuccess?: (wallet: Wallet) => void;
+  /** Callback fired when Plaid Link is closed by user */
   onExit?: () => void;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {?() => void}
-   */
+  /** Callback fired when Plaid Link loads */
   onLoad?: () => void;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {?(| "default"
-   *     | "destructive"
-   *     | "ghost"
-   *     | "link"
-   *     | "outline"
-   *     | "secondary")}
-   */
+  /** Button variant style */
   variant?:
     | "default"
     | "destructive"
@@ -70,52 +35,27 @@ export interface PlaidLinkProps {
     | "link"
     | "outline"
     | "secondary";
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {?("default" | "icon" | "lg" | "sm")}
-   */
+  /** Button size */
   size?: "default" | "icon" | "lg" | "sm";
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {?string}
-   */
+  /** Additional CSS classes */
   className?: string;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {?boolean}
-   */
+  /** Whether the button is disabled */
   disabled?: boolean;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {?React.ReactNode}
-   */
+  /** Button content */
   children?: React.ReactNode;
 }
 
 /**
- * Description placeholder
- * @author [object Object]
+ * PlaidLink wraps the Plaid Link UI for bank account connection.
+ * Handles token creation, Plaid Link initialization, and public token exchange.
  *
- * @export
- * @param {PlaidLinkProps} param0
- * @param {React.ReactNode} param0.children
- * @param {string} param0.className
- * @param {boolean} param0.disabled
- * @param {() => void} param0.onExit
- * @param {() => void} param0.onLoad
- * @param {(bank: Bank) => void} param0.onSuccess
- * @param {("default" | "icon" | "lg" | "sm")} [param0.size="default"]
- * @param {string} param0.userId
- * @param {("default" | "destructive" | "ghost" | "link" | "outline" | "secondary")} [param0.variant="default"]
- * @returns {ReactJSX.Element}
+ * @description
+ * Provides a button that opens the Plaid Link flow for connecting bank accounts.
+ * Automatically creates a link token, initializes Plaid Link, and exchanges the
+ * public token for an access token upon successful connection. Triggers optional
+ * callbacks for success, exit, and load events.
+ *
+ * @see PlaidLinkProps
  */
 export function PlaidLink({
   children,
@@ -158,8 +98,8 @@ export function PlaidLink({
         userId,
       });
 
-      if (result.ok && result.bank) {
-        onSuccess?.(result.bank);
+      if (result.ok && result.wallet) {
+        onSuccess?.(result.wallet);
       } else {
         setError(result.error ?? "Failed to link bank account");
       }

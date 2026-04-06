@@ -285,7 +285,6 @@ Deploy Traefik using Docker - for containerized environments
 ## Related Documentation in Project
 
 - [Traefik Quickstart](../traefik/quickstart.md)
-- [Traefik Docker Swarm](../traefik/docker-swarm.md)
 - [Traefik HTTPS/TLS](../traefik/https-tls.md)
 - [Traefik Dashboard](../traefik/dashboard.md)
 - [Traefik Middlewares](../traefik/middlewares.md)

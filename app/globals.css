@@ -292,6 +292,10 @@
   @apply flex flex-col gap-1;
 }
 
+@utility header-box-row {
+  @apply flex flex-row items-center justify-between;
+}
+
 @utility header-box-title {
   @apply text-24 font-semibold text-gray-900 lg:text-30;
 }

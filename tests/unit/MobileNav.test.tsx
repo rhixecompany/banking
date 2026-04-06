@@ -83,16 +83,18 @@ import MobileNav from "@/components/mobile-nav/mobile-nav";
  */
 const mockUser: User = {
   createdAt: new Date(),
+  // eslint-disable-next-line unicorn/no-null -- TypeScript User type requires null for deletedAt
+  deletedAt: null,
   email: "alice@example.com",
-  // eslint-disable-next-line unicorn/no-null
+  // eslint-disable-next-line unicorn/no-null -- TypeScript User type requires null for emailVerified
   emailVerified: null,
   id: "1",
-  // eslint-disable-next-line unicorn/no-null
+  // eslint-disable-next-line unicorn/no-null -- TypeScript User type requires null for image
   image: null,
   isActive: true,
   isAdmin: false,
   name: "Alice",
-  // eslint-disable-next-line unicorn/no-null
+  // eslint-disable-next-line unicorn/no-null -- TypeScript User type requires null for password
   password: null,
   role: "user",
   updatedAt: new Date(),
@@ -127,7 +129,7 @@ describe("MobileNav", () => {
   it("renders all navigation links", () => {
     render(<MobileNav user={mockUser} />);
     expect(screen.getByRole("link", { name: /home/i })).toBeTruthy();
-    expect(screen.getByRole("link", { name: /my banks/i })).toBeTruthy();
+    expect(screen.getByRole("link", { name: /my wallets/i })).toBeTruthy();
     expect(
       screen.getByRole("link", { name: /transaction history/i }),
     ).toBeTruthy();

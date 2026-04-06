@@ -12,10 +12,24 @@ priority: 4
 ### Auth Helper
 
 ```typescript
-// lib/auth.ts
-import { auth } from "@/lib/auth-options";
+// lib/auth.ts — wraps getServerSession(authOptions)
+import { auth } from "@/lib/auth";
 
 export { auth };
+```
+
+### Session Shape (from `types/next-auth.d.ts`)
+
+```typescript
+interface Session {
+  user: {
+    id: string;
+    name?: null | string;
+    email?: null | string;
+    isAdmin: boolean; // NO `role` field
+    isActive: boolean;
+  };
+}
 ```
 
 ### Auth Check in Server Actions
@@ -24,9 +38,11 @@ export { auth };
 "use server";
 
 import { auth } from "@/lib/auth";
-import { userDal } from "@/lib/dal";
+import { userDal } from "@/dal/user.dal";
 
-export async function protectedAction(input: unknown) {
+export async function protectedAction(
+  input: unknown
+): Promise<{ ok: boolean; error?: string }> {
   const session = await auth();
   if (!session?.user) {
     return { ok: false, error: "Unauthorized" };
@@ -42,7 +58,9 @@ export async function protectedAction(input: unknown) {
 ```typescript
 // IMPORTANT: session.user has NO `role` field.
 // Use `isAdmin: boolean` for admin checks (see types/next-auth.d.ts).
-export async function adminOnlyAction(input: unknown) {
+export async function adminOnlyAction(
+  input: unknown
+): Promise<{ ok: boolean; error?: string }> {
   const session = await auth();
   if (!session?.user) {
     return { ok: false, error: "Unauthorized" };
@@ -53,8 +71,27 @@ export async function adminOnlyAction(input: unknown) {
   }
 
   // Continue with admin operation
+  return { ok: true };
 }
 ```
+
+### Auth Configuration (`lib/auth-options.ts`)
+
+- Strategy: `jwt` (not database)
+- Adapter: `DrizzleAdapter` (for OAuth link records)
+- Providers: Credentials + GitHub + Google (conditional on env vars)
+- Password hashing: `bcryptjs` at cost 12
+- OAuth env vars: `AUTH_GITHUB_ID`/`AUTH_GITHUB_SECRET`, `AUTH_GOOGLE_ID`/`AUTH_GOOGLE_SECRET`
+- Custom signIn callback: auto-creates user for OAuth emails
+
+### Protected Routes (`proxy.ts`)
+
+Middleware guards: `/sign-in`, `/sign-up`, `/dashboard/*`, `/settings/*`, `/my-wallets/*`, `/transaction-history/*`, `/payment-transfer/*`
+
+- Authenticated users redirected away from `/sign-in` and `/sign-up`
+- Unauthenticated users redirected to `/sign-in?callbackUrl=<path>`
+- Inactive accounts (`isActive === false`) redirected to `/sign-in?error=AccountDeactivated`
+- Rate limiting on auth pages: 5 requests per 60s via Upstash Redis (skipped if `UPSTASH_REDIS_REST_URL`/`UPSTASH_REDIS_REST_TOKEN` absent)
 
 ## Testing Patterns
 
@@ -72,25 +109,35 @@ npm run test:ui         # Run Playwright tests
 npx playwright test tests/e2e/auth.spec.ts
 ```
 
+### Test Run Order
+
+`npm run test` runs **`test:ui` first, then `test:browser`** (reversed from typical convention). The E2E tests start the dev server, so they must run first.
+
 ### Test Structure
 
 ```
 tests/
-├── unit/              # Vitest tests
+├── setup.ts                   # Vitest setup (loads .env.local)
+├── unit/                      # Vitest tests
 │   ├── register.test.ts
 │   └── auth.test.ts
-├── e2e/               # Playwright tests
-│   ├── auth.spec.ts
-│   └── bank-linking.spec.ts
-└── fixtures/          # Test fixtures
-    └── auth.ts
+└── e2e/                       # Playwright tests
+    ├── global-setup.ts
+    ├── global-teardown.ts
+    ├── auth.spec.ts
+    └── bank-linking.spec.ts
 ```
 
 ### Writing Unit Tests
 
 ```typescript
 import { describe, it, expect, beforeEach, vi } from "vitest";
-import { userDal } from "@/lib/dal";
+import { auth } from "@/lib/auth";
+import { userDal } from "@/dal/user.dal";
+
+vi.mock("@/lib/auth", () => ({
+  auth: vi.fn()
+}));
 
 describe("UserDal", () => {
   beforeEach(() => {
@@ -111,12 +158,30 @@ describe("UserDal", () => {
             limit: vi.fn().mockResolvedValue([mockUser])
           })
         })
-      } as any);
+      });
 
       const result = await userDal.findByEmail("test@example.com");
       expect(result).toEqual([mockUser]);
     });
   });
+});
+```
+
+### Auth Mock Pattern (Vitest)
+
+```typescript
+// Unauthenticated
+vi.mocked(auth).mockResolvedValue(undefined);
+
+// Authenticated
+vi.mocked(auth).mockResolvedValue({
+  expires: new Date(Date.now() + 86400000).toISOString(),
+  user: {
+    id: "user-123",
+    email: "test@example.com",
+    isAdmin: false,
+    isActive: true
+  }
 });
 ```
 
@@ -133,27 +198,21 @@ test.describe("Bank Linking", () => {
   test("should redirect unauthenticated users to sign-in", async ({
     page
   }) => {
-    await page.goto("/my-banks");
+    await page.goto("/my-wallets");
     await expect(page).toHaveURL(/\/sign-in/);
   });
 });
 ```
 
-### Test Fixtures
+### Playwright Config Notes
 
-```typescript
-// tests/fixtures/auth.ts
-export const test = base.extend<AuthFixtures>({
-  authenticatedPage: async ({ page }, use) => {
-    await signInWithSeedUser(page);
-    await use(page);
-  },
-  unauthenticatedPage: async ({ page }, use) => {
-    await page.context().clearCookies();
-    await use(page);
-  }
-});
-```
+- **1 worker only** — app is stateful (auth sessions, shared DB)
+- **Chromium only** — other browsers commented out
+- `forbidOnly: true` in CI
+- `retries: 2` in CI only (0 locally)
+- Web server auto-started via `npm run dev` (180s timeout)
+- `reuseExistingServer: true` locally, `false` in CI
+- `globalSetup` / `globalTeardown` in `tests/e2e/`
 
 ## Best Practices
 
@@ -162,5 +221,6 @@ export const test = base.extend<AuthFixtures>({
 3. Use data-testid for reliable selectors
 4. Clean up after tests
 5. Use realistic test data
+6. Never use `any` in tests — use proper typing
 
 See: .opencode/skills/auth-skill/SKILL.md, .opencode/skills/testing-skill/SKILL.md

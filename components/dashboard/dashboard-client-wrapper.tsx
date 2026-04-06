@@ -5,8 +5,8 @@ import type { JSX } from "react";
 import Link from "next/link";
 
 import type { Account } from "@/types";
-import type { Bank } from "@/types/bank";
 import type { Transaction } from "@/types/transaction";
+import type { Wallet } from "@/types/wallet";
 
 import { ChartAreaInteractive } from "@/components/chart-area-interactive/chart-area-interactive";
 import DoughnutChart from "@/components/doughnut-chart/doughnut-chart";
@@ -23,49 +23,22 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
+/** Route path to the My Wallets page. */
+const MY_WALLETS_PATH = "/my-wallets" as const;
+
 /** Props for DashboardClientWrapper. */
 interface DashboardClientWrapperProps {
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {Account[]}
-   */
+  /** Array of account objects from Plaid with balance and type information. */
   accounts: Account[];
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {Bank[]}
-   */
-  banks: Bank[];
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {Transaction[]}
-   */
+  /** Array of linked wallet records from the database. */
+  wallets: Wallet[];
+  /** Array of transaction records for the current user. */
   transactions: Transaction[];
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {string}
-   */
+  /** The authenticated user's UUID, passed to PlaidProvider. */
   userId: string;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {string}
-   */
+  /** The authenticated user's display name for greeting. */
   userName: string;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {boolean}
-   */
+  /** When true, renders the onboarding flow instead of the full dashboard. */
   showOnboarding: boolean;
 }
 
@@ -90,11 +63,11 @@ function isWithinDays(date: Date | null, days: number): boolean {
  */
 export function DashboardClientWrapper({
   accounts,
-  banks,
   showOnboarding,
   transactions,
   userId,
   userName,
+  wallets,
 }: DashboardClientWrapperProps): JSX.Element {
   if (showOnboarding) {
     return (
@@ -137,7 +110,7 @@ export function DashboardClientWrapper({
         {/* Key metric cards */}
         <SectionCards
           totalBalance={totalBalance}
-          linkedBanks={banks.length}
+          linkedBanks={wallets.length}
           monthlySpend={monthlySpend}
           netChange={netChange}
           netChangePct={netChangePct}
@@ -157,62 +130,40 @@ export function DashboardClientWrapper({
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg">Quick Actions</CardTitle>
-              <CardDescription>Common banking operations</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <PlaidLinkButton variant="default" />
-              <Link
-                href="/payment-transfer"
-                className="block w-full rounded-md bg-primary px-4 py-2 text-center text-sm font-medium text-primary-foreground hover:bg-primary/90"
-              >
-                Transfer Money
-              </Link>
-              <Link
-                href="/transaction-history"
-                className="block w-full rounded-md border border-input bg-background px-4 py-2 text-center text-sm font-medium hover:bg-accent hover:text-accent-foreground"
-              >
-                View Transactions
-              </Link>
-            </CardContent>
-          </Card>
-
-          <Card className="md:col-span-2">
-            <CardHeader>
-              <CardTitle className="text-lg">Linked Banks</CardTitle>
+              <CardTitle className="text-lg">Linked Wallets</CardTitle>
               <CardDescription>
                 Your connected financial institutions
               </CardDescription>
             </CardHeader>
             <CardContent>
-              {banks.length === 0 ? (
+              {wallets.length === 0 ? (
                 <div className="py-4 text-center">
                   <p className="mb-4 text-muted-foreground">
-                    No banks linked yet
+                    No wallets linked yet
                   </p>
                   <PlaidLinkButton variant="outline">
-                    Link Your First Bank
+                    Link Your First Wallet
                   </PlaidLinkButton>
                 </div>
               ) : (
                 <div className="space-y-3">
-                  {banks.slice(0, 3).map((bank) => (
+                  {wallets.slice(0, 3).map((wallet) => (
                     <div
-                      key={bank.id}
+                      key={wallet.id}
                       className="flex items-center justify-between rounded-lg border p-3"
                     >
                       <div>
                         <p className="font-medium">
-                          {bank.institutionName ?? "Unknown Bank"}
+                          {wallet.institutionName ?? "Unknown Wallet"}
                         </p>
                         <p className="text-sm text-muted-foreground">
-                          {bank.accountType ?? "Account"} -{" "}
-                          {bank.accountSubtype ?? "Standard"}
+                          {wallet.accountType ?? "Account"} -{" "}
+                          {wallet.accountSubtype ?? "Standard"}
                         </p>
                       </div>
                       <div className="text-right">
                         <Link
-                          href="/my-banks"
+                          href={MY_WALLETS_PATH}
                           className="text-sm text-primary hover:underline"
                         >
                           View details
@@ -220,12 +171,68 @@ export function DashboardClientWrapper({
                       </div>
                     </div>
                   ))}
-                  {banks.length > 3 && (
+                  {wallets.length > 3 && (
                     <Link
-                      href="/my-banks"
+                      href={MY_WALLETS_PATH}
                       className="block text-center text-sm text-primary hover:underline"
                     >
-                      View all {banks.length} banks
+                      View all {wallets.length} wallets
+                    </Link>
+                  )}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          <Card className="md:col-span-2">
+            <CardHeader>
+              <CardTitle className="text-lg">Linked Wallets</CardTitle>
+              <CardDescription>
+                Your connected financial institutions
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              {wallets.length === 0 ? (
+                <div className="py-4 text-center">
+                  <p className="mb-4 text-muted-foreground">
+                    No wallets linked yet
+                  </p>
+                  <PlaidLinkButton variant="outline">
+                    Link Your First Wallet
+                  </PlaidLinkButton>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {wallets.slice(0, 3).map((wallet) => (
+                    <div
+                      key={wallet.id}
+                      className="flex items-center justify-between rounded-lg border p-3"
+                    >
+                      <div>
+                        <p className="font-medium">
+                          {wallet.institutionName ?? "Unknown Wallet"}
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                          {wallet.accountType ?? "Account"} -{" "}
+                          {wallet.accountSubtype ?? "Standard"}
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        <Link
+                          href={MY_WALLETS_PATH}
+                          className="text-sm text-primary hover:underline"
+                        >
+                          View details
+                        </Link>
+                      </div>
+                    </div>
+                  ))}
+                  {wallets.length > 3 && (
+                    <Link
+                      href={MY_WALLETS_PATH}
+                      className="block text-center text-sm text-primary hover:underline"
+                    >
+                      View all {wallets.length} wallets
                     </Link>
                   )}
                 </div>

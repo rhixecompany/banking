@@ -5,16 +5,28 @@ import Image from "next/image";
 
 import type { FooterProps } from "@/types";
 
-import { logoutAccount } from "@/lib/actions/user.actions";
+import { logoutAccount } from "@/actions/user.actions";
 
 /**
- * Description placeholder
- * @author [object Object]
+ * Footer component displays user info and logout functionality.
+ * Used in sidebar and mobile navigation for account management.
  *
- * @param {FooterProps} param0
- * @param {FooterProps} [param0.type="desktop"]
- * @param {FooterProps} param0.user
- * @returns {JSX.Element}
+ * @description
+ * Renders a footer section with user avatar initial, name, email, and logout button.
+ * Supports two layout variants: "desktop" for the sidebar and "mobile" for the
+ * mobile navigation drawer. Triggers logout via the server action and redirects
+ * to the sign-in page.
+ *
+ * @example
+ * ```tsx
+ * <Footer user={session.user} type="desktop" />
+ * <Footer user={session.user} type="mobile" />
+ * ```
+ *
+ * @param props - Component props
+ * @param props.type - Layout variant: "desktop" for sidebar, "mobile" for drawer
+ * @param props.user - Authenticated user data with name and email
+ * @returns Rendered footer with user info and logout button
  */
 const Footer = ({ type = "desktop", user }: FooterProps): JSX.Element => {
   const handleLogOut = async (): Promise<void> => {

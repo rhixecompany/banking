@@ -47,7 +47,8 @@ on:
   uses: docker/build-push-action@v6
   with:
     context: .
-    file: ./compose/production/node/Dockerfile
+    file: ./compose/dev/node/Dockerfile
+    target: production
     push: true
     provenance: true
     sbom: true
@@ -111,32 +112,30 @@ Deploy to production (manual or on main)
     script: |
       set -e
       cd /opt/banking
-      docker stack deploy \
-        --with-registry-auth \
-        -c stacks/app.stack.yml \
-        banking
+      docker compose pull
+      docker compose up -d
 ```
 
-## Docker Stack Deploy
+## Docker Compose Deploy
 
-The deployment uses Docker Swarm stack files:
+The deployment uses Docker Compose:
 
 ```bash
-docker stack deploy \
-  --with-registry-auth \
-  --resolve-image always \
-  -c stacks/app.stack.yml \
-  banking
+docker compose pull
+docker compose up -d
 ```
 
 ## Verifying Deployment
 
 ```bash
 # Check service status
-docker service ps banking_app --no-trunc
+docker compose ps
 
-# Rollback if needed
-docker service rollback banking_app
+# View logs
+docker compose logs -f
+
+# Restart if needed
+docker compose restart
 ```
 
 ## Environment Configuration
@@ -165,11 +164,11 @@ docker service rollback banking_app
 
 ### Service Not Starting
 
-- Check logs: `docker service logs banking_app`
-- Verify stack file syntax
+- Check logs: `docker compose logs app`
+- Verify compose file syntax: `docker compose config`
 
 ## See Also
 
-- [Docker Swarm Overview](../docker/swarm-overview.md)
+- [Docker Configuration](../docker/README.md)
 - [Secrets Management](../secrets-management.md)
 - [Environment Variables](../env-vars.md)

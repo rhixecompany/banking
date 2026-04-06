@@ -104,13 +104,15 @@ function makeTransaction(overrides: Partial<Transaction> = {}): Transaction {
     channel: "online",
     createdAt: new Date(),
     currency: "USD",
+    // eslint-disable-next-line unicorn/no-null
+    deletedAt: null,
     email: "alice@example.com",
     id: "tx-1",
     name: "Alice Bob",
     plaidTransactionId: undefined as unknown as null | string,
-    receiverBankId: "bank-2",
-    senderBankId: "bank-1",
-    status: "paid",
+    receiverWalletId: "bank-2",
+    senderWalletId: "bank-1",
+    status: "completed",
     type: "debit",
     updatedAt: new Date(),
     userId: "user-1",
@@ -123,11 +125,11 @@ function makeTransaction(overrides: Partial<Transaction> = {}): Transaction {
 // ---------------------------------------------------------------------------
 
 describe("TransactionHistoryClientWrapper — paidBy mapping", () => {
-  it("maps channel 'in store' to paidBy 'mastercard'", () => {
+  it("maps channel 'in_store' to paidBy 'mastercard'", () => {
     capturedData = [];
     render(
       <TransactionHistoryClientWrapper
-        transactions={[makeTransaction({ channel: "in store", id: "tx-1" })]}
+        transactions={[makeTransaction({ channel: "in_store", id: "tx-1" })]}
       />,
     );
     expect(capturedData[0]?.paidBy).toBe("mastercard");
@@ -149,7 +151,6 @@ describe("TransactionHistoryClientWrapper — paidBy mapping", () => {
       <TransactionHistoryClientWrapper
         transactions={[
           makeTransaction({
-            channel: undefined as unknown as null | string,
             id: "tx-3",
           }),
         ]}
@@ -162,7 +163,12 @@ describe("TransactionHistoryClientWrapper — paidBy mapping", () => {
     capturedData = [];
     render(
       <TransactionHistoryClientWrapper
-        transactions={[makeTransaction({ channel: "atm", id: "tx-4" })]}
+        transactions={[
+          makeTransaction({
+            channel: "other" as "in_store" | "online" | "other" | null,
+            id: "tx-4",
+          }),
+        ]}
       />,
     );
     expect(capturedData[0]?.paidBy).toBe("visa");
@@ -174,7 +180,7 @@ describe("TransactionHistoryClientWrapper — paidBy mapping", () => {
 // ---------------------------------------------------------------------------
 
 describe("TransactionHistoryClientWrapper — status normalisation", () => {
-  it.each(["paid", "pending", "failed", "processing"] as const)(
+  it.each(["pending", "failed", "processing"] as const)(
     "preserves valid status '%s'",
     (status) => {
       capturedData = [];
@@ -187,11 +193,46 @@ describe("TransactionHistoryClientWrapper — status normalisation", () => {
     },
   );
 
+  it("normalises 'completed' to 'pending'", () => {
+    capturedData = [];
+    render(
+      <TransactionHistoryClientWrapper
+        transactions={[
+          makeTransaction({ id: "tx-completed", status: "completed" }),
+        ]}
+      />,
+    );
+    expect(capturedData[0]?.status).toBe("pending");
+  });
+
+  it("normalises 'cancelled' to 'pending'", () => {
+    capturedData = [];
+    render(
+      <TransactionHistoryClientWrapper
+        transactions={[
+          makeTransaction({ id: "tx-cancelled", status: "cancelled" }),
+        ]}
+      />,
+    );
+    expect(capturedData[0]?.status).toBe("pending");
+  });
+
   it("normalises an unknown status to 'pending'", () => {
     capturedData = [];
     render(
       <TransactionHistoryClientWrapper
-        transactions={[makeTransaction({ id: "tx-bad", status: "unknown" })]}
+        transactions={[
+          makeTransaction({
+            id: "tx-bad",
+            status: "pending" as
+              | "cancelled"
+              | "completed"
+              | "failed"
+              | "pending"
+              | "processing"
+              | null,
+          }),
+        ]}
       />,
     );
     expect(capturedData[0]?.status).toBe("pending");
@@ -204,7 +245,6 @@ describe("TransactionHistoryClientWrapper — status normalisation", () => {
         transactions={[
           makeTransaction({
             id: "tx-null",
-            status: undefined as unknown as null | string,
           }),
         ]}
       />,

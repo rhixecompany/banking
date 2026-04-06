@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 
+import { getTransactionHistory } from "@/actions/transaction.actions";
 import { TransactionHistoryClientWrapper } from "@/components/transaction-history/transaction-history-client-wrapper";
-import { getTransactionHistory } from "@/lib/actions/transaction.actions";
 import { auth } from "@/lib/auth";
 
 /**

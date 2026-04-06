@@ -6,6 +6,7 @@ import type { MenuData } from "@/components/shadcn-studio/blocks/hero-section-41
 import Header from "@/components/shadcn-studio/blocks/hero-section-41/header";
 import HeroSection from "@/components/shadcn-studio/blocks/hero-section-41/hero-section-41";
 import { Button } from "@/components/ui/button";
+import { Container } from "@/components/ui/container";
 
 /**
  * Description placeholder
@@ -60,7 +61,7 @@ export function HomeServerWrapper(): JSX.Element {
         <HeroSection menudata={bankingMenuData} />
 
         <section className="bg-white py-20">
-          <div className="container mx-auto px-4">
+          <Container>
             <div className="mb-12 text-center">
               <h2 className="mb-4 text-3xl font-bold text-gray-900 sm:text-4xl">
                 Why Choose Horizon?
@@ -144,11 +145,11 @@ export function HomeServerWrapper(): JSX.Element {
                 </p>
               </div>
             </div>
-          </div>
+          </Container>
         </section>
 
         <section className="bg-gradient-to-br from-blue-600 to-blue-700 py-20 text-white">
-          <div className="container mx-auto px-4 text-center">
+          <Container>
             <h2 className="mb-6 text-3xl font-bold sm:text-4xl">
               Ready to Get Started?
             </h2>
@@ -165,11 +166,11 @@ export function HomeServerWrapper(): JSX.Element {
                 Create Your Account
               </Button>
             </Link>
-          </div>
+          </Container>
         </section>
 
         <section className="bg-gray-50 py-16">
-          <div className="container mx-auto px-4">
+          <Container>
             <div className="grid gap-8 md:grid-cols-3">
               <div className="rounded-xl bg-white p-6 shadow-sm">
                 <div className="mb-4 text-3xl font-bold text-blue-600">0</div>
@@ -206,12 +207,12 @@ export function HomeServerWrapper(): JSX.Element {
                 </p>
               </div>
             </div>
-          </div>
+          </Container>
         </section>
       </main>
 
       <footer className="border-t border-gray-200 bg-white py-12">
-        <div className="container mx-auto px-4">
+        <Container>
           <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
             <div className="flex items-center gap-2">
               <Image
@@ -239,7 +240,7 @@ export function HomeServerWrapper(): JSX.Element {
               &copy; {2026} Horizon Banking. All rights reserved.
             </div>
           </div>
-        </div>
+        </Container>
       </footer>
     </div>
   );

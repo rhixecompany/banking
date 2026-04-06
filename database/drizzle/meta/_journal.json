@@ -4,15 +4,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1774894721261,
-      "tag": "0000_broken_khan",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1775202610912,
-      "tag": "0001_silent_tempest",
+      "when": 1775402402591,
+      "tag": "0000_mysterious_lizard",
       "breakpoints": true
     }
   ],

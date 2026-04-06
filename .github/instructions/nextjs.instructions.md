@@ -1,23 +1,17 @@
 ---
 name: "nextjs-patterns"
-description: "Best practices for building Next.js (App Router) apps with modern caching, tooling, and server/client boundaries (aligned with Next.js 16.1.1)."
+description: "Best practices for building Next.js (App Router) apps with modern caching, tooling, and server/client boundaries (aligned with Next.js 16.2.2)."
 applyTo: "**/*.tsx, **/*.ts, **/*.jsx, **/*.js, **/*.css"
 priority: "high"
-version: "1.0"
-lastUpdated: "2026-03-31"
+version: "1.1"
+lastUpdated: "2026-04-05"
 ---
 
 # Next.js Best Practices for LLMs (2026)
 
-_Last updated: January 2026 (aligned to Next.js 16.1.1)_
+_Last updated: April 2026 (aligned to Next.js 16.2.2)_
 
 This document summarizes the latest, authoritative best practices for building, structuring, and maintaining Next.js applications. It is intended for use by LLMs and developers to ensure code quality, maintainability, and scalability.
-
----
-
-name: "nextjs-patterns" description: "Best practices for building Next.js (App Router) apps with modern caching, tooling, and server/client boundaries (aligned with Next.js 16.1.1)." applyTo: "**/\*.tsx, **/_.ts, \*\*/_.jsx, **/\*.js, **/\*.css" priority: "high" version: "1.0" lastUpdated: "2026-03-31"
-
----
 
 ## 3. Component Best Practices
 
@@ -56,28 +50,27 @@ name: "nextjs-patterns" description: "Best practices for building Next.js (App R
 
 ## 5. API Routes (Route Handlers)
 
-- **Prefer API Routes over Edge Functions** unless you need ultra-low latency or geographic distribution.
-- **Location:** Place API routes in `app/api/` (e.g., `app/api/users/route.ts`).
+- **Prefer Server Actions over API Routes** for mutations in this project.
+- **Location:** Place API routes in `app/api/` (e.g., `app/api/auth/[...nextauth]/route.ts`).
 - **HTTP Methods:** Export async functions named after HTTP verbs (`GET`, `POST`, etc.).
 - **Request/Response:** Use the Web `Request` and `Response` APIs. Use `NextRequest`/`NextResponse` for advanced features.
-- **Dynamic Segments:** Use `[param]` for dynamic API routes (e.g., `app/api/users/[id]/route.ts`).
-- **Validation:** Always validate and sanitize input. Use libraries like `zod` or `yup`.
+- **Dynamic Segments:** Use `[param]` for dynamic API routes.
+- **Validation:** Always validate and sanitize input. Use `zod`.
 - **Error Handling:** Return appropriate HTTP status codes and error messages.
-- **Authentication:** Protect sensitive routes using middleware or server-side session checks.
+- **Authentication:** Protect sensitive routes using middleware (`proxy.ts`) or server-side session checks.
 
 ### Route Handler usage note (performance)
 
-- **Do not call your own Route Handlers from Server Components** (e.g., `fetch('/api/...')`) just to reuse logic. Prefer extracting shared logic into modules (e.g., `lib/`) and calling it directly to avoid extra server hops.
+- **Do not call your own Route Handlers from Server Components** (e.g., `fetch('/api/...')`) just to reuse logic. Prefer extracting shared logic into modules (e.g., `lib/`, `dal/`) and calling it directly.
 
 ## 6. General Best Practices
 
 - **TypeScript:** Use TypeScript for all code. Enable `strict` mode in `tsconfig.json`.
 - **ESLint & Prettier:** Enforce code style and linting. Use the official Next.js ESLint config. In Next.js 16, prefer running ESLint via the ESLint CLI (not `next lint`).
 - **Environment Variables:** Store secrets in `.env.local`. Never commit secrets to version control.
-  - In Next.js 16, `serverRuntimeConfig` / `publicRuntimeConfig` are removed. Use environment variables instead.
-  - `NEXT_PUBLIC_` variables are **inlined at build time** (changing them after build won’t affect a deployed build).
-  - If you truly need runtime evaluation of env in a dynamic context, follow Next.js guidance (e.g., call `connection()` before reading `process.env`).
-- **Testing:** Use Jest, React Testing Library, or Playwright. Write tests for all critical logic and components.
+  - **Never read `process.env` directly** — use `app-config.ts` (preferred) or `lib/env.ts`.
+  - `NEXT_PUBLIC_` variables are **inlined at build time**.
+- **Testing:** Use Vitest (unit) and Playwright (E2E). Write tests for all critical logic and components.
 - **Accessibility:** Use semantic HTML and ARIA attributes. Test with screen readers.
 - **Performance:**
   - Use built-in Image and Font optimization.
@@ -85,13 +78,10 @@ name: "nextjs-patterns" description: "Best practices for building Next.js (App R
   - Use Suspense and loading states for async data.
   - Avoid large client bundles; keep most logic in Server Components.
 - **Security:**
-  - Sanitize all user input.
+  - Sanitize all user input through Zod.
   - Use HTTPS in production.
   - Set secure HTTP headers.
   - Prefer server-side authorization for Server Actions and Route Handlers; never trust client input.
-- **Documentation:**
-  - Write clear README and code comments.
-  - Document public APIs and components.
 
 ## 7. Caching & Revalidation (Next.js 16 Cache Components)
 
@@ -102,15 +92,16 @@ name: "nextjs-patterns" description: "Best practices for building Next.js (App R
   - Use `cacheTag(...)` to associate cached results with tags.
   - Use `cacheLife(...)` to control cache lifetime (presets or configured profiles).
 - **Revalidation guidance:**
-  - Prefer `revalidateTag(tag, 'max')` (stale-while-revalidate) for most cases.
-  - The single-argument form `revalidateTag(tag)` is legacy/deprecated.
-  - Use `updateTag(...)` inside **Server Actions** when you need “read-your-writes” / immediate consistency.
+  - Use `updateTag(...)` inside **Server Actions** when you need "read-your-writes" / immediate consistency.
+  - Use `revalidateTag(tag)` for background stale-while-revalidate.
+  - Use `revalidatePath()` for route-level invalidation.
 - **Avoid `unstable_cache`** for new code; treat it as legacy and migrate toward Cache Components.
 
 ## 8. Tooling updates (Next.js 16)
 
-- **Turbopack is the default dev bundler.** Configure via the top-level `turbopack` field in `next.config.*` (do not use the removed `experimental.turbo`).
+- **Turbopack is the default dev bundler.** Configure via the top-level `turbopack` field in `next.config.*`.
 - **Typed routes are stable** via `typedRoutes` (TypeScript required).
+- **React Compiler** enabled for automatic memoization.
 
 ## 9. Avoid Unnecessary Example Files
 

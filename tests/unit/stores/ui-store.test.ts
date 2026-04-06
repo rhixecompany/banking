@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { createUIStore, defaultUIState } from "@/lib/stores/create-ui-store";
+import { createUIStore, defaultUIState } from "@/stores/create-ui-store";
 
 describe("createUIStore", () => {
   it("initialises with default state", () => {

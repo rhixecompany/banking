@@ -365,7 +365,7 @@ docs/
 
 | Service | Dockerfile | Base Image |
 | --- | --- | --- |
-| Next.js app (prod) | `compose/production/node/Dockerfile` | `gcr.io/distroless/nodejs22-debian12:nonroot` |
+| Next.js app (prod) | `compose/dev/node/Dockerfile --target production` | `gcr.io/distroless/nodejs22-debian12:nonroot` |
 | Next.js app (dev) | `compose/development/node/Dockerfile` | `node:22-alpine` |
 | Next.js app (local) | `compose/local/node/Dockerfile` | `node:22-alpine` |
 | PostgreSQL | Official | `postgres:17-alpine` |
@@ -699,7 +699,7 @@ npm run build:analyze
 - [ ] `npm run type-check` → 0 errors
 - [ ] `npm run lint:strict` → 0 warnings
 - [ ] `npm run test` → all green
-- [ ] `docker build -f compose/production/node/Dockerfile .` → success
+- [ ] `docker build -f compose/dev/node/Dockerfile --target production .` → success
 - [ ] All pages load without console errors
 - [ ] Security headers present on all responses
 - [ ] `curl http://localhost:3000/api/health` → `200 OK`
@@ -1091,7 +1091,7 @@ compose/production/traefik/      (1 dir + 3 new files)
 
 | File | Changes |
 | --- | --- |
-| `compose/production/node/Dockerfile` | Add HEALTHCHECK, update ENTRYPOINT to use read-secrets.sh |
+| `compose/dev/node/Dockerfile --target production` | Add HEALTHCHECK, update ENTRYPOINT to use read-secrets.sh |
 
 ### Dead Code to Eliminate
 
@@ -1128,7 +1128,7 @@ compose/production/traefik/      (1 dir + 3 new files)
    └── Add HEALTHCHECK + read-secrets.sh entrypoint
 
 5. Verify
-   ├── docker build -f compose/production/node/Dockerfile .
+   ├── docker build -f compose/dev/node/Dockerfile --target production .
    └── npm run validate
 ```
 
@@ -1394,7 +1394,7 @@ CMD ["node", "server.js"]
 
 After implementation:
 
-- [ ] `docker build -f compose/production/node/Dockerfile .` succeeds
+- [ ] `docker build -f compose/dev/node/Dockerfile --target production .` succeeds
 - [ ] `stacks/app.stack.yml` references ENCRYPTION_KEY, NEXTAUTH_SECRET secrets
 - [ ] `scripts/read-secrets.sh` loads all \_FILE variants
 - [ ] `scripts/gen-certs.sh` generates certificates

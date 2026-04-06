@@ -7,6 +7,7 @@ import { z } from "zod";
 
 import type { UserWithProfile } from "@/types/user";
 
+import { updateProfile } from "@/actions/updateProfile";
 import HeaderBox from "@/components/header-box/header-box";
 import { Button } from "@/components/ui/button";
 import {
@@ -26,7 +27,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { updateProfile } from "@/lib/actions/updateProfile";
 
 // ---------------------------------------------------------------------------
 // Schemas — derived from UpdateProfileSchema in lib/actions/updateProfile.ts

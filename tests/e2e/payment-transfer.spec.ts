@@ -12,10 +12,10 @@ test.describe("Payment Transfer", () => {
 
   test.describe("Authenticated Access", () => {
     test("should render payment transfer content", async ({
-      authenticatedPage: page,
+      paymentTransferPage,
     }) => {
-      await page.goto("/payment-transfer");
-      await expect.soft(page.getByText("Payment Transfer")).toBeVisible({
+      await paymentTransferPage.navigate();
+      await expect.soft(paymentTransferPage.pageHeading).toBeVisible({
         timeout: 15_000,
       });
     });

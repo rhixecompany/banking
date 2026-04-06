@@ -2,10 +2,10 @@ import Image from "next/image";
 import { redirect } from "next/navigation";
 import { ReactNode, Suspense } from "react";
 
+import { getUserWithProfile } from "@/actions/user.actions";
 import MobileNav from "@/components/mobile-nav/mobile-nav";
 import Sidebar from "@/components/sidebar/sidebar";
 import { LoadingSpinner } from "@/components/ui/spinner";
-import { getUserWithProfile } from "@/lib/actions/user.actions";
 
 /**
  * Protected banking layout content component.

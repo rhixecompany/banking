@@ -11,41 +11,44 @@ priority: 6
 
 ```bash
 npm run dev              # Dev server (localhost:3000)
-npm run build           # Production build
-npm run start           # Start production server
-npm run clean           # Clean build artifacts
+                         # predev hook: clean + type-check
+npm run build            # Production build
+                         # prebuild hook: clean + type-check
+                         # postbuild hook: next-sitemap
+npm run start            # Start production server
+npm run clean            # Clean build artifacts
 ```
 
 ## Validation Commands (Required Before Commit)
 
 ```bash
-npm run validate        # Run all checks (format + type-check + lint + test)
-npm run format         # Format code with Prettier
-npm run format:check   # WARNING: destructive — runs format (writes files) first, then checks
-npm run lint           # ESLint with compact output
-npm run lint:fix       # ESLint with auto-fix
-npm run lint:strict   # Strict ESLint (blocks PR at 0 warnings)
-npm run type-check     # TypeScript type checking
+npm run validate         # Run all checks (build + lint:strict + test)
+npm run format           # Format code with Prettier (writes files)
+npm run format:check     # ⚠️ DESTRUCTIVE — runs format (writes files) FIRST, then checks
+npm run lint             # ESLint with compact output
+npm run lint:fix         # ESLint with auto-fix
+npm run lint:strict      # Strict ESLint (blocks PR at 0 warnings)
+npm run type-check       # TypeScript type checking
 ```
 
 ## Database Commands
 
 ```bash
-npm run db:studio      # Drizzle Studio (GUI)
-npm run db:push        # Push schema changes to DB
-npm run db:migrate     # Run migrations
-npm run db:generate    # Generate migrations
-npm run db:check       # Drizzle migration/schema check
-npm run db:seed        # Seed database with test data
-npm run db:reset       # Drop, generate, push (full reset)
+npm run db:studio        # Drizzle Studio (GUI, localhost:8000)
+npm run db:push          # Push schema changes to DB
+npm run db:migrate       # Run migrations
+npm run db:generate      # Generate migrations
+npm run db:check         # Drizzle migration/schema check
+npm run db:seed          # Seed database with test data (PLAID_TOKEN_MODE=sandbox)
+npm run db:reset         # Full reset: db:drop + db:generate + db:push (NOT seed)
 ```
 
 ## Testing Commands
 
 ```bash
-npm run test            # All tests (Vitest + Playwright)
-npm run test:browser    # Vitest unit/integration tests only
-npm run test:ui         # Playwright E2E tests only
+npm run test             # All tests (test:ui THEN test:browser — reversed order!)
+npm run test:browser     # Vitest unit/integration tests only (happy-dom, forks pool)
+npm run test:ui          # Playwright E2E tests only (Chromium, 1 worker)
 ```
 
 ## Single Test Execution
@@ -84,10 +87,10 @@ npm run validate
 ### Code Generation
 
 ```bash
-npm run generate:dal       # Generate DAL files
-npm run generate:action   # Generate Server Action files
-npm run generate:component # Generate React components
-npm run generate:feature  # Generate feature scaffolding
+npm run generate:feature   # Full feature (DAL + action + component)
+npm run generate:dal       # DAL file only
+npm run generate:action    # Server Action file only
+npm run generate:component # React component only
 ```
 
 ## OpenCode Agents

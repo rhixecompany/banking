@@ -4,7 +4,7 @@ import { Merriweather, Roboto } from "next/font/google";
 import { ReactNode, Suspense } from "react";
 
 import { Toaster } from "@/components/ui/sonner";
-import { RootProviders } from "@/providers/root-providers";
+import { RootProviders } from "@/stores/providers";
 
 import "./globals.css";
 

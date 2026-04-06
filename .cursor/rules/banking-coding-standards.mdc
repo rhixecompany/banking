@@ -8,7 +8,7 @@ alwaysApply: true
 Follow these standards for all code changes:
 
 - Never use `any`; use `unknown` with narrowing or type guards.
-- Never read `process.env` directly in app code; use `lib/env.ts`.
+- Never read `process.env` directly in app code; use `app-config.ts` (preferred) or `lib/env.ts`.
 - Implement all data mutations through Server Actions, not API routes.
 - Avoid N+1 queries; use eager loading for related data.
 - Keep TypeScript strict-safe and prefer explicit return types for exported functions.
@@ -19,9 +19,13 @@ Follow these standards for all code changes:
 // BAD
 const token: any = process.env.API_TOKEN;
 
-// GOOD
+// GOOD (preferred)
+import { plaid } from "@/app-config";
+const clientId = plaid.PLAID_CLIENT_ID;
+
+// GOOD (backward compat)
 import { env } from "@/lib/env";
-const token: string = env.API_TOKEN;
+const token: string = env.ENCRYPTION_KEY;
 ```
 
 ```typescript

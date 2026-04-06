@@ -1,14 +1,14 @@
 import type { User } from "@/types/user";
 
 /**
- * Props for the `CreditCard` component that renders a styled bank card tile.
+ * Props for the `WalletCard` component that renders a styled wallet card tile.
  *
  * @export
- * @typedef {CreditCardProps}
+ * @typedef {WalletCardProps}
  */
-export interface CreditCardProps {
+export interface WalletCardProps {
   /**
-   * The bank account to display on the card.
+   * The wallet account to display on the card.
    *
    * @type {Account}
    */
@@ -97,6 +97,12 @@ export interface HeaderBoxProps {
    * @type {?string}
    */
   user?: string;
+  /**
+   * Optional action elements (e.g., buttons) displayed on the right side of the header.
+   *
+   * @type {?React.ReactNode}
+   */
+  actions?: React.ReactNode;
 }
 
 /**
@@ -117,7 +123,7 @@ export interface MobileNavProps {
 
 /**
  * Props for the `RightSidebar` component that renders the contextual panel
- * showing the user's linked banks and recent transactions.
+ * showing the user's linked wallets and recent transactions.
  *
  * @export
  * @typedef {RightSidebarProps}
@@ -130,11 +136,11 @@ export interface RightSidebarProps {
    */
   user: User;
   /**
-   * Array of linked bank records used to render the banks summary section.
+   * Array of linked wallet records used to render the wallets summary section.
    *
-   * @type {Bank[]}
+   * @type {Wallet[]}
    */
-  banks: Bank[];
+  wallets: Wallet[];
   /**
    * Array of recent transactions to display in the sidebar transaction list.
    *
@@ -173,11 +179,11 @@ export interface TotalBalanceBoxProps {
    */
   accounts?: Account[];
   /**
-   * Total number of linked bank connections, displayed alongside the balance.
+   * Total number of linked wallet connections, displayed alongside the balance.
    *
    * @type {number}
    */
-  totalBanks: number;
+  totalWallets: number;
   /**
    * Sum of current balances across all linked accounts, in USD.
    *
@@ -269,8 +275,8 @@ export interface UserProfile {
 }
 
 /**
- * A bank account returned by Plaid. Combines Plaid balance data with the app's
- * `banks` record metadata for display in the UI.
+ * A wallet account returned by Plaid. Combines Plaid balance data with the app's
+ * `wallets` record metadata for display in the UI.
  *
  * @export
  * @typedef {Account}
@@ -331,7 +337,7 @@ export interface Account {
    */
   subtype?: string;
   /**
-   * Public-safe shareable identifier for this account, stored in the `banks` table.
+   * Public-safe shareable identifier for this account, stored in the `wallets` table.
    * Used in transfer flows to identify recipient accounts without exposing internal IDs.
    *
    * @type {?string}
@@ -408,17 +414,17 @@ export interface Transaction {
    */
   image?: string;
   /**
-   * Foreign key referencing the `banks.id` of the account that sent this transaction.
+   * Foreign key referencing the `wallets.id` of the account that sent this transaction.
    *
    * @type {?string}
    */
-  senderBankId?: string;
+  senderWalletId?: string;
   /**
-   * Foreign key referencing the `banks.id` of the account that received this transaction.
+   * Foreign key referencing the `wallets.id` of the account that received this transaction.
    *
    * @type {?string}
    */
-  receiverBankId?: string;
+  receiverWalletId?: string;
   /**
    * Current status of the transaction (e.g., "pending", "completed", "failed").
    *
@@ -428,15 +434,15 @@ export interface Transaction {
 }
 
 /**
- * A linked bank account record from the `banks` table. Stores Plaid and Dwolla
+ * A linked wallet account record from the `wallets` table. Stores Plaid and Dwolla
  * integration data alongside account metadata for the owning user.
  *
  * @export
- * @typedef {Bank}
+ * @typedef {Wallet}
  */
-export interface Bank {
+export interface Wallet {
   /**
-   * Unique bank record identifier (UUID string, primary key in `banks` table).
+   * Unique wallet record identifier (UUID string, primary key in `wallets` table).
    *
    * @type {string}
    */
@@ -455,7 +461,7 @@ export interface Bank {
    */
   accessToken: string;
   /**
-   * Dwolla funding source URL for this bank account. Used as the source or destination
+   * Dwolla funding source URL for this wallet. Used as the source or destination
    * in ACH transfer requests. Null until a Dwolla funding source has been created.
    *
    * @type {?(null | string)}
@@ -481,7 +487,7 @@ export interface Bank {
    */
   institutionName?: null | string;
   /**
-   * Plaid account ID, unique within the Plaid Item for this bank connection.
+   * Plaid account ID, unique within the Plaid Item for this wallet connection.
    *
    * @type {?(null | string)}
    */
@@ -499,13 +505,13 @@ export interface Bank {
    */
   accountSubtype?: null | string;
   /**
-   * Timestamp when the bank record was created (i.e., when the account was linked).
+   * Timestamp when the wallet record was created (i.e., when the account was linked).
    *
    * @type {Date}
    */
   createdAt: Date;
   /**
-   * Timestamp when the bank record was last updated.
+   * Timestamp when the wallet record was last updated.
    *
    * @type {Date}
    */
@@ -721,12 +727,12 @@ export interface PageHeaderProps {
    */
   bottomDescription: string;
   /**
-   * When true, renders a "Connect Bank" button prompt in the header. Used on pages
-   * where the user has not yet linked any bank accounts.
+   * When true, renders a "Connect Wallet" button prompt in the header. Used on pages
+   * where the user has not yet linked any wallet accounts.
    *
    * @type {?boolean}
    */
-  connectBank?: boolean;
+  connectWallet?: boolean;
 }
 
 /**
@@ -754,7 +760,7 @@ export interface PaginationProps {
 
 /**
  * Props for the `PlaidLink` component that initiates the Plaid Link flow
- * to connect a new bank account.
+ * to connect a new wallet.
  *
  * @export
  * @interface PlaidLinkProps
@@ -763,7 +769,7 @@ export interface PaginationProps {
 export interface PlaidLinkProps {
   /**
    * The currently authenticated user. Used to create the Plaid link token
-   * and associate the resulting bank account with the correct user record.
+   * and associate the resulting wallet with the correct user record.
    *
    * @type {User}
    */
@@ -776,7 +782,7 @@ export interface PlaidLinkProps {
   variant?: "ghost" | "primary";
   /**
    * The user's Dwolla customer ID, required to create a funding source after
-   * successfully linking a bank account via Plaid.
+   * successfully linking a wallet via Plaid.
    *
    * @type {?string}
    */
@@ -784,14 +790,14 @@ export interface PlaidLinkProps {
 }
 
 /**
- * Props for the `BankDropdown` component that renders a styled dropdown
- * for selecting a source or destination bank account in the transfer form.
+ * Props for the `WalletDropdown` component that renders a styled dropdown
+ * for selecting a source or destination wallet in the transfer form.
  *
  * @export
- * @interface BankDropdownProps
- * @typedef {BankDropdownProps}
+ * @interface WalletDropdownProps
+ * @typedef {WalletDropdownProps}
  */
-export interface BankDropdownProps {
+export interface WalletDropdownProps {
   /**
    * Array of linked accounts to populate the dropdown options.
    *
@@ -814,16 +820,16 @@ export interface BankDropdownProps {
 }
 
 /**
- * Props for the `BankTabItem` component that renders a single tab button
- * in the bank account tab switcher on the Transaction History page.
+ * Props for the `WalletTabItem` component that renders a single tab button
+ * in the wallet tab switcher on the Transaction History page.
  *
  * @export
- * @interface BankTabItemProps
- * @typedef {BankTabItemProps}
+ * @interface WalletTabItemProps
+ * @typedef {WalletTabItemProps}
  */
-export interface BankTabItemProps {
+export interface WalletTabItemProps {
   /**
-   * The linked bank account this tab represents.
+   * The linked wallet this tab represents.
    *
    * @type {Account}
    */
@@ -1014,8 +1020,8 @@ export interface GetInstitutionProps {
  */
 export interface GetTransactionsProps {
   /**
-   * Plaid access token for the linked bank Item. Obtained after the
-   * public token exchange and stored encrypted in the `banks` table.
+   * Plaid access token for the linked wallet. Obtained after the
+   * public token exchange and stored encrypted in the `wallets` table.
    *
    * @type {string}
    */
@@ -1088,11 +1094,11 @@ export interface CreateTransactionProps {
    */
   senderId: string;
   /**
-   * Bank record ID (UUID) of the sender's funding source, referencing `banks.id`.
+   * Wallet record ID (UUID) of the sender's funding source, referencing `wallets.id`.
    *
    * @type {string}
    */
-  senderBankId: string;
+  senderWalletId: string;
   /**
    * User ID (UUID) of the recipient, referencing `users.id`.
    *
@@ -1100,11 +1106,11 @@ export interface CreateTransactionProps {
    */
   receiverId: string;
   /**
-   * Bank record ID (UUID) of the recipient's funding source, referencing `banks.id`.
+   * Wallet record ID (UUID) of the recipient's funding source, referencing `wallets.id`.
    *
    * @type {string}
    */
-  receiverBankId: string;
+  receiverWalletId: string;
   /**
    * Email address of the recipient, used for transfer confirmation notifications.
    *
@@ -1115,20 +1121,20 @@ export interface CreateTransactionProps {
 
 /**
  * Input parameters for querying all transactions associated with a specific
- * bank record in the `transactions` table.
+ * wallet record in the `transactions` table.
  *
  * @export
- * @interface GetTransactionsByBankIdProps
- * @typedef {GetTransactionsByBankIdProps}
+ * @interface GetTransactionsByWalletIdProps
+ * @typedef {GetTransactionsByWalletIdProps}
  */
-export interface GetTransactionsByBankIdProps {
+export interface GetTransactionsByWalletIdProps {
   /**
-   * The UUID of the bank record (`banks.id`) whose transactions should be fetched.
-   * Matches on either `senderBankId` or `receiverBankId`.
+   * The UUID of the wallet record (`wallets.id`) whose transactions should be fetched.
+   * Matches on either `senderWalletId` or `receiverWalletId`.
    *
    * @type {string}
    */
-  bankId: string;
+  walletId: string;
 }
 
 /**
@@ -1172,7 +1178,7 @@ export interface GetUserInfoProps {
 }
 
 /**
- * Parameters for the Plaid public token exchange flow that links a bank
+ * Parameters for the Plaid public token exchange flow that links a wallet
  * account after the user completes the Plaid Link UI.
  *
  * @export
@@ -1188,7 +1194,7 @@ export interface ExchangePublicTokenProps {
    */
   publicToken: string;
   /**
-   * The currently authenticated user. Used to associate the resulting bank
+   * The currently authenticated user. Used to associate the resulting wallet
    * record with the correct user and to create the Dwolla customer if needed.
    *
    * @type {User}
@@ -1197,17 +1203,17 @@ export interface ExchangePublicTokenProps {
 }
 
 /**
- * Parameters for creating a new bank record in the `banks` table after
+ * Parameters for creating a new wallet record in the `wallets` table after
  * successfully completing the Plaid public token exchange.
  *
  * @export
- * @interface CreateBankAccountProps
- * @typedef {CreateBankAccountProps}
+ * @interface CreateWalletProps
+ * @typedef {CreateWalletProps}
  */
-export interface CreateBankAccountProps {
+export interface CreateWalletProps {
   /**
    * Plaid access token for the linked Item. Stored encrypted (AES-256-GCM) in
-   * the `banks.accessToken` column.
+   * the `wallets.accessToken` column.
    *
    * @type {string}
    */
@@ -1225,15 +1231,15 @@ export interface CreateBankAccountProps {
    */
   accountId: string;
   /**
-   * Internal bank record ID (UUID) generated at creation time, used as the
-   * primary key in the `banks` table.
+   * Internal wallet record ID (UUID) generated at creation time, used as the
+   * primary key in the `wallets` table.
    *
    * @type {string}
    */
-  bankId: string;
+  walletId: string;
   /**
-   * Dwolla funding source URL created for this bank account. Stored in
-   * `banks.fundingSourceUrl` and used as source/destination in ACH transfers.
+   * Dwolla funding source URL created for this wallet. Stored in
+   * `wallets.fundingSourceUrl` and used as source/destination in ACH transfers.
    *
    * @type {string}
    */
@@ -1248,15 +1254,15 @@ export interface CreateBankAccountProps {
 }
 
 /**
- * Input parameters for fetching all bank records linked to a specific user.
+ * Input parameters for fetching all wallet records linked to a specific user.
  *
  * @export
- * @interface GetBanksProps
- * @typedef {GetBanksProps}
+ * @interface GetWalletsProps
+ * @typedef {GetWalletsProps}
  */
-export interface GetBanksProps {
+export interface GetWalletsProps {
   /**
-   * The UUID of the user whose linked bank records should be fetched,
+   * The UUID of the user whose linked wallet records should be fetched,
    * referencing `users.id`.
    *
    * @type {string}
@@ -1265,32 +1271,32 @@ export interface GetBanksProps {
 }
 
 /**
- * Input parameters for fetching a single bank record by its primary key.
+ * Input parameters for fetching a single wallet record by its primary key.
  *
  * @export
- * @interface GetBankProps
- * @typedef {GetBankProps}
+ * @interface GetWalletProps
+ * @typedef {GetWalletProps}
  */
-export interface GetBankProps {
+export interface GetWalletProps {
   /**
-   * The UUID primary key of the bank record to fetch (`banks.id`).
+   * The UUID primary key of the wallet record to fetch (`wallets.id`).
    *
    * @type {string}
    */
-  bankId: string;
+  walletId: string;
 }
 
 /**
- * Input parameters for fetching a bank record by its associated Plaid account ID.
+ * Input parameters for fetching a wallet record by its associated Plaid account ID.
  *
  * @export
- * @interface GetBankByAccountIdProps
- * @typedef {GetBankByAccountIdProps}
+ * @interface GetWalletByAccountIdProps
+ * @typedef {GetWalletByAccountIdProps}
  */
-export interface GetBankByAccountIdProps {
+export interface GetWalletByAccountIdProps {
   /**
-   * The Plaid account ID (`banks.accountId`) used to look up the corresponding
-   * bank record. Useful when mapping Plaid transaction data back to internal records.
+   * The Plaid account ID (`wallets.accountId`) used to look up the corresponding
+   * wallet record. Useful when mapping Plaid transaction data back to internal records.
    *
    * @type {string}
    */

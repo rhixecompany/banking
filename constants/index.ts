@@ -1,7 +1,8 @@
 /**
- * Description placeholder
+ * Navigation links for the sidebar and mobile nav.
  *
- * @type {{}}
+ * @constant
+ * @type {Array<{imgURL: string, label: string, route: string}>}
  */
 export const sidebarLinks = [
   {
@@ -11,8 +12,8 @@ export const sidebarLinks = [
   },
   {
     imgURL: "/icons/dollar-circle.svg",
-    label: "My Banks",
-    route: "/my-banks",
+    label: "My Wallets",
+    route: "/my-wallets",
   },
   {
     imgURL: "/icons/transaction.svg",

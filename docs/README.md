@@ -1,5 +1,32 @@
 # Documentation Index
 
+## Docker & Containerization
+
+### Docker (Primary)
+
+- [Docker Docs Home](docker/README.md) - Main Docker documentation
+- [Quick Start](docker/quickstart.md) - Get up and running in 5 minutes
+- [Development](docker/development.md) - Local development with hot-reload
+- [Production](docker/production.md) - Production deployment with Traefik
+- [Troubleshooting](docker/troubleshooting.md) - Common issues and solutions
+- [Reference](docker/reference.md) - Environment variables, ports, commands
+
+### Automation Scripts
+
+- [Scripts Index](../scripts/README.md) - All automation scripts (Bash/PowerShell/BAT)
+
+### Docker Services
+
+- [Next.js Docker Images](services/nextjs-docker.md) - Docker image configuration
+
+## Traefik
+
+- [Traefik Quickstart](traefik/quickstart.md)
+- [Traefik HTTPS/TLS](traefik/https-tls.md)
+- [Traefik Dashboard](traefik/dashboard.md)
+- [Traefik Middlewares](traefik/middlewares.md)
+- [Traefik Guide](services/traefik.md)
+
 ## Integration Docs
 
 ### Plaid
@@ -30,22 +57,6 @@
 - [shadcn/ui Documentation](services/shadcn-ui.md)
 - [shadcn/studio](services/shadcn-studio.md)
 
-## DevOps & Infrastructure
-
-### Docker
-
-- [Docker Swarm Overview](docker/swarm-overview.md)
-- [Next.js Docker Images Guide](services/nextjs-docker.md)
-
-### Traefik
-
-- [Traefik Quickstart](traefik/quickstart.md)
-- [Traefik Docker Swarm](traefik/docker-swarm.md)
-- [Traefik HTTPS/TLS](traefik/https-tls.md)
-- [Traefik Dashboard](traefik/dashboard.md)
-- [Traefik Middlewares](traefik/middlewares.md)
-- [Traefik Guide](services/traefik.md)
-
 ## Database & ORM
 
 - [Drizzle PostgreSQL](GetStartedWithDrizzleAndPostgreSQL-context.md)
@@ -69,26 +80,17 @@
 - [TypeScript Context](TypeScript-context.md)
 - [Getting Started Example](Getting-Started-Example-context.md)
 
-## Docker & Infrastructure
+## Infrastructure
 
-- [Docker Swarm Overview](docker/swarm-overview.md)
 - [Environment Variables](env-vars.md)
 - [Secrets Management](secrets-management.md)
 - [GitHub Actions CI/CD](github-actions.md)
-
-## Traefik
-
-- [Traefik Quickstart](traefik/quickstart.md)
-- [Traefik Docker Swarm](traefik/docker-swarm.md)
-- [Traefik HTTPS/TLS](traefik/https-tls.md)
-- [Traefik Dashboard](traefik/dashboard.md)
-- [Traefik Middlewares](traefik/middlewares.md)
 
 ## ESLint & Tools
 
 - [ESLint Config Next](eslint-config-next-context.md)
 - [ESLint Config Prettier](eslint-config-prettier-context.md)
-- [ESLint Plugins](eslint-plugin-*.md) - Various ESLint plugin guides
+- [ESLint Plugins](eslint-plugin-*.md)
 
 ## Deployment
 

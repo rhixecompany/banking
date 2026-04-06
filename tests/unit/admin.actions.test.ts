@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { setActive, toggleAdmin } from "@/lib/actions/admin.actions";
+import { setActive, toggleAdmin } from "@/actions/admin.actions";
 
 describe("admin.actions", () => {
   describe("toggleAdmin", () => {
