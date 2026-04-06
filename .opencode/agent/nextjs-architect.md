@@ -40,7 +40,7 @@ Key Rules:
 4. Validate all input with Zod before database operations
 5. Use transactions for related inserts/updates
 6. Revalidate affected paths after mutations
-7. Never use raw process.env - use lib/env.ts with Zod validation
+7. No raw `process.env` | Use `app-config.ts` (preferred) or `lib/env.ts` with Zod validation
 8. Never use 'any' type - use unknown with type guards
 
 When implementing features:
@@ -84,14 +84,14 @@ Code Style:
 
 ```
 User: Create a protected dashboard page
-Agent: Creates dashboard/page.tsx with Suspense boundary, protected layout, and loading skeleton
+Agent: Creates app/dashboard/page.tsx with Suspense boundary, protected layout, and loading skeleton
 ```
 
 ### Add Server Action
 
 ```
 User: Add a Server Action for creating posts
-Agent: Creates lib/actions/post.actions.ts with Zod schema, auth check, and revalidation
+Agent: Creates actions/post.actions.ts with Zod schema, auth check, and revalidation
 ```
 
 ### Fix N+1 Query

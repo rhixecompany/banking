@@ -1,0 +1,79 @@
+{
+  "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/dev/assets/oh-my-opencode.schema.json",
+  "agents": {
+    "build": {
+      "model": "opencode/minimax-m2.5-free"
+    },
+    "explore": {
+      "model": "opencode/minimax-m2.5-free"
+    },
+    "librarian": {
+      "model": "opencode/minimax-m2.5-free"
+    },
+    "oracle": {
+      "model": "opencode/minimax-m2.5-free",
+      "variant": "high"
+    },
+    "plan": {
+      "model": "opencode/minimax-m2.5-free"
+    },
+    "prometheus": {
+      "prompt_append": "Leverage deep & quick agents heavily, always in parallel."
+    },
+    "sisyphus": {
+      "model": "opencode/minimax-m2.5-free",
+      "ultrawork": {
+        "model": "opencode/minimax-m2.5-free",
+        "variant": "max"
+      }
+    }
+  },
+  "background_task": {
+    "modelConcurrency": {
+      "anthropic/claude-opus-4-6": 2,
+      "opencode/gpt-5-nano": 20
+    },
+    "providerConcurrency": {
+      "anthropic": 3,
+      "openai": 3,
+      "opencode": 10,
+      "zai-coding-plan": 10
+    }
+  },
+  "categories": {
+    "git": {
+      "description": "All git operations",
+      "model": "opencode/gpt-5-nano",
+      "prompt_append": "Focus on atomic commits, clear messages, and safe operations."
+    },
+    "quick": {
+      "model": "opencode/gpt-5-nano"
+    },
+    "unspecified-high": {
+      "model": "anthropic/claude-sonnet-4-6",
+      "variant": "max"
+    },
+    "unspecified-low": {
+      "model": "opencode/minimax-m2.5-free"
+    },
+    "visual-engineering": {
+      "model": "opencode/minimax-m2.5-free",
+      "variant": "high"
+    },
+    "writing": {
+      "model": "opencode/minimax-m2.5-free"
+    }
+  },
+  "experimental": {
+    "aggressive_truncation": true,
+    "task_system": true
+  },
+  "tmux": {
+    "agent_pane_min_width": 40,
+    "enabled": false,
+    "isolation": "inline",
+    "layout": "main-vertical",
+    "main_pane_min_width": 120,
+    "main_pane_size": 60
+  }
+}

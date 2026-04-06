@@ -6,7 +6,7 @@
     },
     "custom-agent": {
       "description": "Specialized coding agent using Qwen 3.6 Plus",
-      "model": "opencode/nemotron-3-super-free",
+      "model": "opencode/minimax-m2.5-free",
       "temperature": 0.2,
       "tools": {
         "bash": true,
@@ -64,7 +64,11 @@
       "type": "local"
     },
     "shadcn": {
-      "command": ["npx", "shadcn@latest", "mcp"],
+      "command": [
+        "npx",
+        "shadcn@latest",
+        "mcp"
+      ],
       "enabled": true,
       "timeout": 900000,
       "type": "local"
@@ -72,16 +76,22 @@
   },
   "mode": {
     "build": {
-      "model": "opencode/nemotron-3-super-free",
+      "model": "opencode/minimax-m2.5-free",
       "temperature": 0.55
     },
     "plan": {
-      "model": "opencode/nemotron-3-super-free",
+      "model": "opencode/minimax-m2.5-free",
       "temperature": 0.2
     }
   },
-  "model": "opencode/nemotron-3-super-free",
+  "model": "opencode/minimax-m2.5-free",
   "watcher": {
-    "ignore": ["node_modules", ".next", "dist", ".git", "*.log"]
+    "ignore": [
+      "node_modules",
+      ".next",
+      "dist",
+      ".git",
+      "*.log"
+    ]
   }
 }
