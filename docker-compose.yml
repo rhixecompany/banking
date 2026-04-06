@@ -199,8 +199,6 @@ services:
         - DWOLLA_ENV=${DWOLLA_ENV:-sandbox}
         - DATABASE_URL=${DATABASE_URL}
     container_name: banking-init
-    env_file:
-      - .envs/local/.env
     depends_on:
       db:
         condition: service_healthy
