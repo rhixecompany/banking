@@ -60,13 +60,13 @@ docs/
 scripts/
 
 # Config files (mounted or generated at runtime)
-drizzle.config.ts
 .prettierrc.ts
 .prettierignore
 .eslintrc*
 eslint.config.mts
 *.config.*
 *.config.ts
+!drizzle.config.ts
 tsconfig.json
 
 # CI config
