@@ -1,5 +1,5 @@
 # =============================================================================
-# Banking Application - Multi-stage Dockerfile
+# Banking Application - Multi-stage Dockerfile (Production Optimized)
 # =============================================================================
 # Build targets:
 #   - docker build . -t banking:dev --target development  # Hot-reload dev
@@ -7,64 +7,84 @@
 #   - docker build . -t banking:builder --target builder  # Build stage only
 # =============================================================================
 
+# Use build cache from buildkit for better layer reuse
+# syntax=docker/dockerfile:1.4
+
+# Alpine base for smaller images
+ARG NODE_VERSION=22
+
+# Use bookworm slim for compatibility (Alpine breaks node-gyp builds)
+# Smaller than full bookworm, faster than Alpine for Node.js projects
+
 # -----------------------------------------------------------------------------
-# Stage: base - Shared setup for all stages
+# Stage: base - Shared build dependencies (Alpine)
 # -----------------------------------------------------------------------------
-FROM node:22-bookworm AS base
+FROM node:${NODE_VERSION}-bookworm-slim AS base
 
 WORKDIR /app
 
-# Install common build dependencies
+# Install build dependencies (Debian slim packages)
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    python3 make g++ \
+    python3 make g++ ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
 # -----------------------------------------------------------------------------
-# Stage: builder - Production build with type-check
+# Stage: builder - Production build with dependencies cached
 # -----------------------------------------------------------------------------
 FROM base AS builder
 
-WORKDIR /app
-
-# Copy dependency files
-COPY package.json package-lock.json ./
-
-# Install all dependencies (including devDependencies for build)
-RUN npm ci
-
-# Copy application code
-COPY . .
-
 # Build arguments for environment-specific configuration
 ARG NEXT_PUBLIC_SITE_URL=https://localhost
+ARG ENCRYPTION_KEY=""
+ARG NEXTAUTH_SECRET=""
+ARG DWOLLA_BASE_URL=https://api-sandbox.dwolla.com
+ARG DWOLLA_ENV=sandbox
+ARG DATABASE_URL=""
 
 # Set build environment variables
 ENV NODE_ENV=production \
-    NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL}
+    NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL} \
+    ENCRYPTION_KEY=${ENCRYPTION_KEY} \
+    NEXTAUTH_SECRET=${NEXTAUTH_SECRET} \
+    DWOLLA_BASE_URL=${DWOLLA_BASE_URL} \
+    DWOLLA_ENV=${DWOLLA_ENV} \
+    DATABASE_URL=${DATABASE_URL}
+
+# Copy dependency files from context root (better cache layer)
+COPY package.json package-lock.json ./
+
+# Install dependencies with cache optimization
+RUN --mount=type=cache,target=/root/.npm \
+    npm ci --legacy-peer-deps
+
+# Copy application code from context root
+COPY . .
 
 # Run type-check and build standalone output
-RUN npm run type-check && npm run build:standalone
+RUN npm run type-check && npm run build:standalone && \
+    npm prune --production --legacy-peer-deps
 
-# -----------------------------------------------------------------------------
-# Stage: production - Final production runtime image
-# -----------------------------------------------------------------------------
-FROM node:22-bookworm AS production
+# Alpine runtime image (minimal surface area)
+FROM node:${NODE_VERSION}-bookworm-slim AS production
 
 WORKDIR /app
 
-# Install runtime dependencies only
+# Install runtime dependencies and signal handler
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    dumb-init curl \
+    dumb-init curl ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy built application from builder stage
-COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/.next/static ./.next/static
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/package.json ./
+# Create non-root user with proper permissions
+RUN useradd -m -u 1001 appuser
 
-# Create non-root user for better security
-RUN groupadd -r appuser && useradd -r -g appuser appuser
+# Copy built application from builder stage with ownership
+COPY --from=builder --chown=appuser:appuser /app/.next/standalone ./
+COPY --from=builder --chown=appuser:appuser /app/.next/static ./.next/static
+COPY --from=builder --chown=appuser:appuser /app/public ./public
+COPY --from=builder --chown=appuser:appuser /app/package.json ./
+COPY --from=builder --chown=appuser:appuser /app/node_modules ./node_modules
+
+# Switch to non-root user
 USER appuser
 
 # Runtime configuration
@@ -79,7 +99,7 @@ EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
     CMD curl -f http://localhost:3000/api/health || exit 1
 
-# Use dumb-init to handle signals properly and prevent zombie processes
+# Use dumb-init to handle signals properly (PID 1, reaping zombies)
 ENTRYPOINT ["/usr/sbin/dumb-init", "--"]
 CMD ["node", "server.js"]
 
@@ -88,15 +108,22 @@ CMD ["node", "server.js"]
 # -----------------------------------------------------------------------------
 FROM base AS development
 
-WORKDIR /app
+# Clean up build dependencies from base layer
+RUN apt-get remove -y python3 make g++ && apt-get autoremove -y && rm -rf /var/lib/apt/lists/*
 
-# Copy dependency files
+# Install dumb-init and curl for dev
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    dumb-init curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy dependency files from context root
 COPY package.json package-lock.json ./
 
-# Install dependencies (dev dependencies included for hot-reload)
-RUN npm ci --legacy-peer-deps
+# Install all dependencies (dev dependencies included for hot-reload/debugging)
+RUN --mount=type=cache,target=/root/.npm \
+    npm ci --legacy-peer-deps
 
-# Copy source code
+# Copy source code from context root
 COPY . .
 
 # Development environment variables
@@ -107,5 +134,6 @@ ENV NODE_ENV=development \
 
 EXPOSE 3000
 
-# Run Next.js dev server with hot-reload
+# Use dumb-init in dev too for proper signal handling
+ENTRYPOINT ["/usr/sbin/dumb-init", "--"]
 CMD ["npm", "run", "dev"]
