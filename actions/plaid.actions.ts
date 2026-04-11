@@ -194,7 +194,26 @@ export async function exchangePublicToken(
 
     const sharableId = `wallet_${crypto.randomUUID().slice(0, 16)}`;
 
-    const wallet = await walletsDal.createWallet({
+    // Defensive: avoid creating duplicate wallet records for the same
+    // (userId, accountId) pair. If a wallet already exists for this user
+    // and account, reuse it instead of inserting a duplicate. This prevents
+    // unique-constraint migration problems and improves UX.
+    const existingByAccount = account?.account_id
+      ? await walletsDal.findByAccountId(account.account_id)
+      : undefined;
+
+    // If an existing wallet belongs to the current user, reuse it. We use a
+    // single expression here (ternary) to satisfy linter ordering and keep the
+    // logic compact and explicit.
+    let wallet: undefined | Wallet =
+      existingByAccount?.userId === session.user.id
+        ? existingByAccount
+        : undefined;
+
+    // If wallet is still undefined, create it. Use nullish coalescing
+    // assignment (??=) to satisfy the linter suggestion and keep the
+    // operation concise.
+    wallet ??= await walletsDal.createWallet({
       accessToken,
       accountId: account?.account_id,
       accountSubtype: account?.subtype ?? undefined,

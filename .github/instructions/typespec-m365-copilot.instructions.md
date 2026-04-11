@@ -1,6 +1,6 @@
 ---
-description: "Guidelines and best practices for building TypeSpec-based declarative agents and API plugins for Microsoft 365 Copilot"
-applyTo: "**/*.tsp"
+description: 'Guidelines and best practices for building TypeSpec-based declarative agents and API plugins for Microsoft 365 Copilot'
+applyTo: '**/*.tsp'
 ---
 
 # TypeSpec for Microsoft 365 Copilot Development Guidelines
@@ -18,7 +18,6 @@ When working with TypeSpec for Microsoft 365 Copilot:
 ## File Organization
 
 ### Standard Structure
-
 ```
 project/
 ├── appPackage/
@@ -34,7 +33,6 @@ project/
 ```
 
 ### Import Statements
-
 Always include required imports at the top of TypeSpec files:
 
 ```typescript
@@ -50,7 +48,6 @@ using TypeSpec.M365.Copilot.Actions; // For API plugins
 ## Agent Development Best Practices
 
 ### Agent Declaration
-
 ```typescript
 @agent({
   name: "Role-Based Name",  // e.g., "Customer Support Assistant"
@@ -63,19 +60,18 @@ using TypeSpec.M365.Copilot.Actions; // For API plugins
 - Avoid generic names like "Helper" or "Bot"
 
 ### Instructions
-
 ```typescript
 @instructions("""
   You are a [specific role] specialized in [domain].
-
+  
   Your responsibilities include:
   - [Key responsibility 1]
   - [Key responsibility 2]
-
+  
   When helping users:
   - [Behavioral guideline 1]
   - [Behavioral guideline 2]
-
+  
   You should NOT:
   - [Constraint 1]
   - [Constraint 2]
@@ -89,7 +85,6 @@ using TypeSpec.M365.Copilot.Actions; // For API plugins
 - Use clear, structured formatting
 
 ### Conversation Starters
-
 ```typescript
 @conversationStarter(#{
   title: "Action-Oriented Title",  // e.g., "Check Status"
@@ -105,7 +100,6 @@ using TypeSpec.M365.Copilot.Actions; // For API plugins
 ### Capabilities - Knowledge Sources
 
 **Web Search** - Scope to specific sites when possible:
-
 ```typescript
 op webSearch is AgentCapabilities.WebSearch<Sites = [
   { url: "https://learn.microsoft.com" },
@@ -114,7 +108,6 @@ op webSearch is AgentCapabilities.WebSearch<Sites = [
 ```
 
 **OneDrive and SharePoint** - Use URLs or IDs:
-
 ```typescript
 op oneDriveAndSharePoint is AgentCapabilities.OneDriveAndSharePoint<
   ItemsByUrl = [
@@ -124,7 +117,6 @@ op oneDriveAndSharePoint is AgentCapabilities.OneDriveAndSharePoint<
 ```
 
 **Teams Messages** - Specify channels/chats:
-
 ```typescript
 op teamsMessages is AgentCapabilities.TeamsMessages<Urls = [
   { url: "https://teams.microsoft.com/l/channel/..." }
@@ -132,7 +124,6 @@ op teamsMessages is AgentCapabilities.TeamsMessages<Urls = [
 ```
 
 **Email** - Scope to specific folders:
-
 ```typescript
 op email is AgentCapabilities.Email<
   Folders = [
@@ -144,13 +135,11 @@ op email is AgentCapabilities.Email<
 ```
 
 **People** - No scoping needed:
-
 ```typescript
 op people is AgentCapabilities.People;
 ```
 
 **Copilot Connectors** - Specify connection IDs:
-
 ```typescript
 op copilotConnectors is AgentCapabilities.GraphConnectors<
   Connections = [
@@ -160,7 +149,6 @@ op copilotConnectors is AgentCapabilities.GraphConnectors<
 ```
 
 **Dataverse** - Scope to specific tables:
-
 ```typescript
 op dataverse is AgentCapabilities.Dataverse<
   KnowledgeSources = [
@@ -198,7 +186,6 @@ op scenarioModels is AgentCapabilities.ScenarioModels<
 ## API Plugin Development Best Practices
 
 ### Service Definition
-
 ```typescript
 @service
 @actions(#{
@@ -217,7 +204,6 @@ namespace APINamespace {
 ```
 
 ### Operation Definition
-
 ```typescript
 @route("/resource/{id}")
 @get
@@ -243,7 +229,6 @@ op getResource(
 ```
 
 ### Models
-
 ```typescript
 model Resource {
   id: string;
@@ -266,7 +251,6 @@ model ResourceList {
 ### Authentication
 
 **API Key**
-
 ```typescript
 @useAuth(ApiKeyAuth<ApiKeyLocation.header, "X-API-Key">)
 
@@ -277,7 +261,6 @@ model Auth is ApiKeyAuth<ApiKeyLocation.header, "X-API-Key">;
 ```
 
 **OAuth2**
-
 ```typescript
 @useAuth(OAuth2Auth<[{
   type: OAuth2FlowType.authorizationCode;
@@ -296,14 +279,12 @@ model Auth is OAuth2Auth<[...]>;
 ## Naming Conventions
 
 ### Files
-
 - `main.tsp` - Agent definition
 - `actions.tsp` - API operations
 - `[feature].tsp` - Additional feature files
 - `cards/*.json` - Adaptive Card templates
 
 ### TypeSpec Elements
-
 - **Namespaces**: PascalCase (e.g., `CustomerSupportAgent`)
 - **Operations**: camelCase (e.g., `listProjects`, `createTicket`)
 - **Models**: PascalCase (e.g., `Project`, `TicketResponse`)
@@ -312,7 +293,6 @@ model Auth is OAuth2Auth<[...]>;
 ## Common Patterns
 
 ### Multi-Capability Agent
-
 ```typescript
 @agent("Knowledge Worker", "Description")
 @instructions("...")
@@ -324,23 +304,22 @@ namespace KnowledgeWorker {
 ```
 
 ### CRUD API Plugin
-
 ```typescript
 namespace ProjectAPI {
   @route("/projects") @get @action
   op list(): Project[];
-
+  
   @route("/projects/{id}") @get @action
   op get(@path id: string): Project;
-
+  
   @route("/projects") @post @action
   @capabilities(#{confirmation: ...})
   op create(@body project: CreateProject): Project;
-
+  
   @route("/projects/{id}") @patch @action
   @capabilities(#{confirmation: ...})
   op update(@path id: string, @body project: UpdateProject): Project;
-
+  
   @route("/projects/{id}") @delete @action
   @capabilities(#{confirmation: ...})
   op delete(@path id: string): void;
@@ -348,10 +327,11 @@ namespace ProjectAPI {
 ```
 
 ### Adaptive Card Data Binding
-
 ```json
 {
+  "type": "AdaptiveCard",
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.5",
   "body": [
     {
       "type": "Container",
@@ -364,16 +344,13 @@ namespace ProjectAPI {
         }
       ]
     }
-  ],
-  "type": "AdaptiveCard",
-  "version": "1.5"
+  ]
 }
 ```
 
 ## Validation and Testing
 
 ### Before Provisioning
-
 1. Run TypeSpec validation: `npm run build` or use Agents Toolkit
 2. Check all file paths in `@card` decorators exist
 3. Verify authentication references match configuration
@@ -381,7 +358,6 @@ namespace ProjectAPI {
 5. Review instructions for clarity and length
 
 ### Testing Strategy
-
 1. **Provision**: Deploy to development environment
 2. **Test**: Use Microsoft 365 Copilot at https://m365.cloud.microsoft/chat
 3. **Debug**: Enable Copilot developer mode for orchestrator insights
@@ -429,7 +405,7 @@ Include comments in TypeSpec for complex operations:
 ```typescript
 /**
  * Retrieves project details with associated tasks and team members.
- *
+ * 
  * @param id - Unique project identifier
  * @param includeArchived - Whether to include archived tasks
  * @returns Complete project information

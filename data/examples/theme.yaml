@@ -20,7 +20,7 @@ description: A dark theme designed for extended coding sessions.
 # Scope defines where the extension can be installed (defaults to [global])
 # Themes are typically global-only
 scope:
-  - global # ~/.config/opencode/themes/
+  - global   # ~/.config/opencode/themes/
 
 tags:
   - dark

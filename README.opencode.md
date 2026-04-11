@@ -116,7 +116,6 @@ Features: - **Banking Agent**: Pre-configured AI agent for banking development -
 Perfect for building production-ready banking applications.
 
     <br><br><a href="https://github.com/awesome-opencode/opencode-banking">🔗 <b>View Repository</b></a>
-
   </blockquote>
 </details>
 
@@ -168,7 +167,6 @@ Features: - Schema definition best practices - Migration strategies - Data Acces
 Essential for any PostgreSQL-based application.
 
     <br><br><a href="https://github.com/awesome-opencode/opencode-drizzle">🔗 <b>View Repository</b></a>
-
   </blockquote>
 </details>
 
@@ -260,7 +258,6 @@ Features: - SuspenseSkill: Handle async auth in Next.js 16 without blocking rout
 Based on production patterns from the Banking project template.
 
     <br><br><a href="https://github.com/awesome-opencode/opencode-nextjs-dev">🔗 <b>View Repository</b></a>
-
   </blockquote>
 </details>
 
@@ -528,7 +525,6 @@ Features: - AES-256-GCM encryption utilities - Rate limiting with Upstash Redis 
 Essential for banking and financial applications.
 
     <br><br><a href="https://github.com/awesome-opencode/opencode-security">🔗 <b>View Repository</b></a>
-
   </blockquote>
 </details>
 
@@ -588,7 +584,6 @@ Features: - Vitest unit test patterns - Server Action testing - DAL testing with
 Includes examples for banking application testing.
 
     <br><br><a href="https://github.com/awesome-opencode/opencode-testing">🔗 <b>View Repository</b></a>
-
   </blockquote>
 </details>
 
@@ -728,7 +723,6 @@ Includes examples for banking application testing.
 Based on production patterns from the Banking project template.
 
     <br><br><a href="https://github.com/awesome-opencode/opencode-banking">🔗 <b>View Repository</b></a>
-
   </blockquote>
 </details>
 
@@ -748,7 +742,6 @@ Based on production patterns from the Banking project template.
 Based on production patterns from the Banking project template.
 
     <br><br><a href="https://github.com/awesome-opencode/opencode-nextjs-dev">🔗 <b>View Repository</b></a>
-
   </blockquote>
 </details>
 
@@ -1047,6 +1040,14 @@ Based on production patterns from the Banking project template.
 <details>
 <summary><strong>📚 RESOURCES</strong></summary>
 <br>
+
+<details>
+  <summary><b>09PlanFileStandards</b> - <i>When a task is expected to change more than 1 files, create a plan before implementation.</i></summary>
+  <blockquote>
+    Standardize plan creation, naming, and plan quality checks
+    <br><br><a href=".opencode\instructions/">🔗 <b>View Repository</b></a>
+  </blockquote>
+</details>
 
 <details>
   <summary><b>alibaba-rate-limit-handling</b> - <i>```</i></summary>

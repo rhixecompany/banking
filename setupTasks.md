@@ -2,7 +2,7 @@
 
 ## tasks
 
-1: Load all skill by /shadcn /TestingSkill /ValidationSkill /UISkill /SecuritySkill /PlaidSkill /ServerActionSkill /DwollaSkill /DeploymentSkill /DBSkill /AuthSkill then Audit `database/schema.ts` to identify any missing database table and fields.
+1: Audit `database/schema.ts` to identify any missing database table and fields.
 
 2: Enhance `database/schema.ts` with any missing database table and fields,
 

@@ -1,17 +1,79 @@
 ---
-name: "nextjs-patterns"
-description: "Best practices for building Next.js (App Router) apps with modern caching, tooling, and server/client boundaries (aligned with Next.js 16.2.2)."
+description: "Best practices for building Next.js (App Router) apps with modern caching, tooling, and server/client boundaries (aligned with Next.js 16.1.1)."
 applyTo: "**/*.tsx, **/*.ts, **/*.jsx, **/*.js, **/*.css"
-priority: "high"
-version: "1.1"
-lastUpdated: "2026-04-05"
 ---
 
 # Next.js Best Practices for LLMs (2026)
 
-_Last updated: April 2026 (aligned to Next.js 16.2.2)_
+_Last updated: January 2026 (aligned to Next.js 16.1.1)_
 
 This document summarizes the latest, authoritative best practices for building, structuring, and maintaining Next.js applications. It is intended for use by LLMs and developers to ensure code quality, maintainability, and scalability.
+
+---
+
+## 1. Project Structure & Organization
+
+- **Use the `app/` directory** (App Router) for all new projects. Prefer it over the legacy `pages/` directory.
+- **Top-level folders:**
+  - `app/` — Routing, layouts, pages, and route handlers
+  - `public/` — Static assets (images, fonts, etc.)
+  - `lib/` — Shared utilities, API clients, and logic
+  - `components/` — Reusable UI components
+  - `contexts/` — React context providers
+  - `styles/` — Global and modular stylesheets
+  - `hooks/` — Custom React hooks
+  - `types/` — TypeScript type definitions
+- **Colocation:** Place files (components, styles, tests) near where they are used, but avoid deeply nested structures.
+- **Route Groups:** Use parentheses (e.g., `(admin)`) to group routes without affecting the URL path.
+- **Private Folders:** Prefix with `_` (e.g., `_internal`) to opt out of routing and signal implementation details.
+- **Feature Folders:** For large apps, group by feature (e.g., `app/dashboard/`, `app/auth/`).
+- **Use `src/`** (optional): Place all source code in `src/` to separate from config files.
+
+## 2. Next.js 16+ App Router Best Practices
+
+### 2.1. Server and Client Component Integration (App Router)
+
+**Never use `next/dynamic` with `{ ssr: false }` inside a Server Component.** This is not supported and will cause a build/runtime error.
+
+**Correct Approach:**
+
+- If you need to use a Client Component (e.g., a component that uses hooks, browser APIs, or client-only libraries) inside a Server Component, you must:
+  1. Move all client-only logic/UI into a dedicated Client Component (with `'use client'` at the top).
+  2. Import and use that Client Component directly in the Server Component (no need for `next/dynamic`).
+  3. If you need to compose multiple client-only elements (e.g., a navbar with a profile dropdown), create a single Client Component that contains all of them.
+
+**Example:**
+
+```tsx
+// Server Component
+import DashboardNavbar from "@/components/DashboardNavbar";
+
+export default async function DashboardPage() {
+  // ...server logic...
+  return (
+    <>
+      <DashboardNavbar /> {/* This is a Client Component */}
+      {/* ...rest of server-rendered page... */}
+    </>
+  );
+}
+```
+
+**Why:**
+
+- Server Components cannot use client-only features or dynamic imports with SSR disabled.
+- Client Components can be rendered inside Server Components, but not the other way around.
+
+**Summary:**
+Always move client-only UI into a Client Component and import it directly in your Server Component. Never use `next/dynamic` with `{ ssr: false }` in a Server Component.
+
+### 2.2. Next.js 16+ async request APIs (App Router)
+
+- **Assume request-bound data is async in Server Components and Route Handlers.** In Next.js 16, APIs like `cookies()`, `headers()`, and `draftMode()` are async in the App Router.
+- **Be careful with route props:** `params` / `searchParams` may be Promises in Server Components. Prefer `await`ing them instead of treating them as plain objects.
+- **Avoid dynamic rendering by accident:** Accessing request data (cookies/headers/searchParams) opts the route into dynamic behavior. Read them intentionally and isolate dynamic parts behind `Suspense` boundaries when appropriate.
+
+---
 
 ## 3. Component Best Practices
 
@@ -50,27 +112,28 @@ This document summarizes the latest, authoritative best practices for building, 
 
 ## 5. API Routes (Route Handlers)
 
-- **Prefer Server Actions over API Routes** for mutations in this project.
-- **Location:** Place API routes in `app/api/` (e.g., `app/api/auth/[...nextauth]/route.ts`).
+- **Prefer API Routes over Edge Functions** unless you need ultra-low latency or geographic distribution.
+- **Location:** Place API routes in `app/api/` (e.g., `app/api/users/route.ts`).
 - **HTTP Methods:** Export async functions named after HTTP verbs (`GET`, `POST`, etc.).
 - **Request/Response:** Use the Web `Request` and `Response` APIs. Use `NextRequest`/`NextResponse` for advanced features.
-- **Dynamic Segments:** Use `[param]` for dynamic API routes.
-- **Validation:** Always validate and sanitize input. Use `zod`.
+- **Dynamic Segments:** Use `[param]` for dynamic API routes (e.g., `app/api/users/[id]/route.ts`).
+- **Validation:** Always validate and sanitize input. Use libraries like `zod` or `yup`.
 - **Error Handling:** Return appropriate HTTP status codes and error messages.
-- **Authentication:** Protect sensitive routes using middleware (`proxy.ts`) or server-side session checks.
+- **Authentication:** Protect sensitive routes using middleware or server-side session checks.
 
 ### Route Handler usage note (performance)
 
-- **Do not call your own Route Handlers from Server Components** (e.g., `fetch('/api/...')`) just to reuse logic. Prefer extracting shared logic into modules (e.g., `lib/`, `dal/`) and calling it directly.
+- **Do not call your own Route Handlers from Server Components** (e.g., `fetch('/api/...')`) just to reuse logic. Prefer extracting shared logic into modules (e.g., `lib/`) and calling it directly to avoid extra server hops.
 
 ## 6. General Best Practices
 
 - **TypeScript:** Use TypeScript for all code. Enable `strict` mode in `tsconfig.json`.
 - **ESLint & Prettier:** Enforce code style and linting. Use the official Next.js ESLint config. In Next.js 16, prefer running ESLint via the ESLint CLI (not `next lint`).
 - **Environment Variables:** Store secrets in `.env.local`. Never commit secrets to version control.
-  - **Never read `process.env` directly** — use `app-config.ts` (preferred) or `lib/env.ts`.
-  - `NEXT_PUBLIC_` variables are **inlined at build time**.
-- **Testing:** Use Vitest (unit) and Playwright (E2E). Write tests for all critical logic and components.
+  - In Next.js 16, `serverRuntimeConfig` / `publicRuntimeConfig` are removed. Use environment variables instead.
+  - `NEXT_PUBLIC_` variables are **inlined at build time** (changing them after build won’t affect a deployed build).
+  - If you truly need runtime evaluation of env in a dynamic context, follow Next.js guidance (e.g., call `connection()` before reading `process.env`).
+- **Testing:** Use Jest, React Testing Library, or Playwright. Write tests for all critical logic and components.
 - **Accessibility:** Use semantic HTML and ARIA attributes. Test with screen readers.
 - **Performance:**
   - Use built-in Image and Font optimization.
@@ -78,10 +141,13 @@ This document summarizes the latest, authoritative best practices for building, 
   - Use Suspense and loading states for async data.
   - Avoid large client bundles; keep most logic in Server Components.
 - **Security:**
-  - Sanitize all user input through Zod.
+  - Sanitize all user input.
   - Use HTTPS in production.
   - Set secure HTTP headers.
   - Prefer server-side authorization for Server Actions and Route Handlers; never trust client input.
+- **Documentation:**
+  - Write clear README and code comments.
+  - Document public APIs and components.
 
 ## 7. Caching & Revalidation (Next.js 16 Cache Components)
 
@@ -92,16 +158,15 @@ This document summarizes the latest, authoritative best practices for building, 
   - Use `cacheTag(...)` to associate cached results with tags.
   - Use `cacheLife(...)` to control cache lifetime (presets or configured profiles).
 - **Revalidation guidance:**
-  - Use `updateTag(...)` inside **Server Actions** when you need "read-your-writes" / immediate consistency.
-  - Use `revalidateTag(tag)` for background stale-while-revalidate.
-  - Use `revalidatePath()` for route-level invalidation.
+  - Prefer `revalidateTag(tag, 'max')` (stale-while-revalidate) for most cases.
+  - The single-argument form `revalidateTag(tag)` is legacy/deprecated.
+  - Use `updateTag(...)` inside **Server Actions** when you need “read-your-writes” / immediate consistency.
 - **Avoid `unstable_cache`** for new code; treat it as legacy and migrate toward Cache Components.
 
 ## 8. Tooling updates (Next.js 16)
 
-- **Turbopack is the default dev bundler.** Configure via the top-level `turbopack` field in `next.config.*`.
+- **Turbopack is the default dev bundler.** Configure via the top-level `turbopack` field in `next.config.*` (do not use the removed `experimental.turbo`).
 - **Typed routes are stable** via `typedRoutes` (TypeScript required).
-- **React Compiler** enabled for automatic memoization.
 
 ## 9. Avoid Unnecessary Example Files
 

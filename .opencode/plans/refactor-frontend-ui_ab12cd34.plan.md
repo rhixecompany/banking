@@ -50,6 +50,23 @@ Phase 1 — Inventory (read-only audits) 4. List all pages in app/, detect page 
 
 Phase 2 — DB audit & non-destructive proposals 7. Cross-reference database/schema.ts with DALs and actions to find missing fields/tables. 8. Propose schema changes and migration steps (drizzle migration plan). If approved, generate migrations and run against local dev DB.
 
+Phase 2b — DB audit: implementation steps (detailed)
+
+9. Read the canonical schema file: database/schema.ts and build an index of tables and columns.
+10. Grep all DAL files under lib/dal/** and actions under lib/actions/** and app/\*\* for referenced columns, table names, and fields used in code.
+11. Produce a diff-style report mapping: { table -> [used columns], missing columns -> [usages], unused columns -> [locations] }.
+12. For each missing column or table usage, propose one of: (a) add column with type/default, (b) backfill via migration script, (c) change DAL/action to stop referencing the field (with code pointer and rationale).
+13. Create a Drizzle migration plan file in .opencode/plans/migrations/ describing SQL/Drizzle steps for each proposed change (up/down), including rollback and estimated downtime/risk.
+14. Validate the proposed migrations locally in a disposable dev DB (Docker or Neon clone) by running: npm run db:generate && npm run db:push (dry-run first). Do NOT apply to prod.
+15. If migrations pass validation, generate concrete migrations using drizzle-kit (npm run db:generate) and run them against the disposable dev DB (npm run db:migrate or db:push depending on setup).
+16. Update the plan with the final migration files, DB check results, and any needed code changes mapped to migration steps.
+
+Notes and safeguards
+
+- Every proposed migration must include an up and a down step and should avoid destructive column drops without an explicit, signed-off rollback plan.
+- For schema changes that impact runtime (NOT NULL columns), plan a two-step migration (1. Add nullable column with default/backfill; 2. Populate; 3. Make non-nullable).
+- If a change touches >3 files in code, create a short plan in .opencode/plans/ specifically for that change before implementing.
+
 Phase 3 — Actions, Zod schemas, DALs 9. Ensure Server Actions use auth() where required, validate inputs with Zod, and return { ok, error? }. 10. Ensure every Zod field has .describe(...) and validators include messages. Replace any usage of any with unknown + guards. 11. Refactor DALs to avoid N+1 queries; add join-based helpers and consolidate duplicated queries. 12. Add/update unit tests for critical changes where practical.
 
 Phase 4 — Components & UI refactor 13. Extract reusable, dynamic generic components into components/layouts/. 14. Split large custom components into container + presentational parts; keep imports consistent. 15. Ensure proper client/server boundaries ("use client" only where needed). 16. Run visual checks and Playwright tests for pages touched.

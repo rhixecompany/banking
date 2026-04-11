@@ -1,6 +1,6 @@
 # AGENTS.md — Banking Project (Compact)
 
-Version: 10.2 | Updated: 2026-04-11
+Version: 10.3 | Updated: 2026-04-11
 
 Purpose
 
@@ -119,6 +119,10 @@ What to trust when docs conflict
   4. database/schema.ts
   5. scripts/\* (codegen, registry generators)
 - If prose in .opencode/instructions or older AGENTS.md conflicts with these, update the prose to match the executable source.
+
+When docs disagree
+
+- If documentation or instructional files conflict, prefer executable sources of truth in this order: package.json scripts, eslint.config.mts, app-config.ts/lib/env.ts, database/schema.ts. Update prose files to reflect those executable sources and record the decision in the relevant plan file under .opencode/plans/.
 
 Short checklist for agents
 

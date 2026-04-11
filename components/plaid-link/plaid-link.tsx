@@ -10,7 +10,7 @@ import {
 import type { Wallet } from "@/types/wallet";
 
 import { createLinkToken, exchangePublicToken } from "@/actions/plaid.actions";
-import { usePlaid } from "@/components/plaid-context/plaid-context";
+import { usePlaidSafe } from "@/components/plaid-context/plaid-context";
 import { Button } from "@/components/ui/button";
 
 /**
@@ -86,15 +86,10 @@ export function PlaidLink({
       }
     | undefined = undefined;
 
-  try {
-    // usePlaid throws when there is no provider in the tree; catch and
-    // fallback to local initialization.
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    plaidContext = usePlaid();
-  } catch {
-    // No provider available; continue with local Plaid initialization.
-    // Leave plaidContext undefined to trigger local behaviour.
-  }
+  // Prefer the safe hook variant which won't throw if no provider exists.
+  // This hook is safe to call here because it does not use other hooks.
+
+  plaidContext = usePlaidSafe();
 
   useEffect(() => {
     // If a PlaidProvider is present, it will handle link token creation and
@@ -145,59 +140,84 @@ export function PlaidLink({
     onExit?.();
   }, [onExit]);
 
-  // If we have a provider, delegate to it to avoid duplicate script injection.
-  let open: (() => void) | undefined;
-  let ready = false;
+  // Render path: if a PlaidProvider exists, render a provider-backed button
+  // that delegates open/ready state. Otherwise render a local button that
+  // initializes usePlaidLink. Splitting into two components keeps hook usage
+  // consistent inside each component and avoids conditional hooks in the
+  // same function.
   if (plaidContext) {
-    open = plaidContext.open;
-    ready = plaidContext.ready;
-  } else {
+    const handleClick = () => {
+      // Provider manages token/open; just delegate.
+      plaidContext.open();
+    };
+
+    if (error) {
+      return <div className="text-sm text-destructive">{error}</div>;
+    }
+
+    return (
+      <Button
+        variant={variant}
+        size={size}
+        className={className}
+        disabled={disabled || isLoading || !plaidContext.ready}
+        onClick={handleClick}
+      >
+        {isLoading ? "Loading..." : (children ?? "Link Bank Account")}
+      </Button>
+    );
+  }
+
+  // LocalPlaidButton is a separate component that always calls hooks used to
+  // initialize Plaid Link. Keeping it as a nested component ensures hooks are
+  // used in a consistent order for that component.
+  function LocalPlaidButton() {
     const config: PlaidLinkOptions = {
       onExit: handleExit,
       onSuccess: handleSuccess,
       token: linkToken ?? null,
     };
 
-    // Only call usePlaidLink when there is no provider on the tree.
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const plaid = usePlaidLink(config);
-    // react-plaid-link's types sometimes expose `open` as a generic Function.
-    // Narrow it to the expected `() => void` so TypeScript accepts assignment.
-    open = plaid.open as () => void;
-    ready = plaid.ready;
+    const openLocal = plaid.open as () => void;
+    const readyLocal = plaid.ready;
 
     useEffect(() => {
-      if (ready && onLoad) {
+      if (readyLocal && onLoad) {
+        // onLoad is a stable callback provided by the caller; call it when
+        // the Plaid link is ready. We intentionally do not include onLoad in
+        // the dependency array to avoid re-running this effect if the parent
+        // provides a new callback reference.
         onLoad();
       }
-    }, [ready, onLoad]);
-  }
+    }, [readyLocal]);
 
-  const handleClick = () => {
-    if (linkToken || plaidContext) {
-      open?.();
+    const handleClickLocal = () => {
+      if (linkToken) openLocal();
+    };
+
+    if (error) {
+      return <div className="text-sm text-destructive">{error}</div>;
     }
-  };
+
+    return (
+      <Button
+        variant={variant}
+        size={size}
+        className={className}
+        disabled={disabled || isLoading || !readyLocal || !linkToken}
+        onClick={handleClickLocal}
+      >
+        {isLoading ? "Loading..." : (children ?? "Link Bank Account")}
+      </Button>
+    );
+  }
 
   if (error) {
     return <div className="text-sm text-destructive">{error}</div>;
   }
 
-  return (
-    <Button
-      variant={variant}
-      size={size}
-      className={className}
-      // When a provider exists, linkToken is managed by the provider so we
-      // don't require a local linkToken to enable the button.
-      disabled={
-        disabled || isLoading || !ready || (!linkToken && !plaidContext)
-      }
-      onClick={handleClick}
-    >
-      {isLoading ? "Loading..." : (children ?? "Link Bank Account")}
-    </Button>
-  );
+  return <LocalPlaidButton />;
 }
 
 export default PlaidLink;

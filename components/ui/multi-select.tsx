@@ -206,7 +206,10 @@ export function MultiSelectTrigger({
         )}
       >
         {children}
-        <ChevronsUpDownIcon className="size-4 shrink-0 opacity-50" />
+        <ChevronsUpDownIcon
+          data-icon="inline-end"
+          className="shrink-0 opacity-50"
+        />
       </Button>
     </PopoverTrigger>
   );
@@ -342,7 +345,10 @@ export function MultiSelectValue({
           >
             {items.get(value)}
             {clickToRemove && (
-              <XIcon className="size-2 text-muted-foreground group-hover:text-destructive" />
+              <XIcon
+                data-icon="inline-end"
+                className="text-muted-foreground group-hover:text-destructive"
+              />
             )}
           </Badge>
         ))}
@@ -455,7 +461,8 @@ export function MultiSelectItem({
       }}
     >
       <CheckIcon
-        className={cn("me-2 size-4", isSelected ? "opacity-100" : "opacity-0")}
+        data-icon="inline-start"
+        className={cn("me-2", isSelected ? "opacity-100" : "opacity-0")}
       />
       {children}
     </CommandItem>

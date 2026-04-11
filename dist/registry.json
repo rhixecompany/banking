@@ -4,7 +4,9 @@
     "displayName": "Agentic",
     "productId": "agentic",
     "repoUrl": "https://github.com/Cluster444/agentic",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Modular AI agents",
     "tags": [],
     "type": "agents"
@@ -16,7 +18,10 @@
     "minVersion": "1.0.0",
     "productId": "banking-agent",
     "repoUrl": "https://github.com/awesome-opencode/opencode-banking",
-    "scope": ["project", "global"],
+    "scope": [
+      "project",
+      "global"
+    ],
     "tagline": "AI agent specialized in banking application development with Next.js 16, Plaid, Dwolla, and Drizzle ORM",
     "tags": [
       "banking",
@@ -36,7 +41,9 @@
     "displayName": "Claude Subagents",
     "productId": "claude-subagents",
     "repoUrl": "https://github.com/VoltAgent/awesome-claude-code-subagents",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Claude Code subagents",
     "tags": [],
     "type": "agents"
@@ -48,7 +55,10 @@
     "minVersion": "1.0.0",
     "productId": "nextjs-architect",
     "repoUrl": "https://github.com/awesome-opencode/opencode-nextjs-dev",
-    "scope": ["project", "global"],
+    "scope": [
+      "project",
+      "global"
+    ],
     "tagline": "AI architect agent for Next.js 16 App Router, Suspense boundaries, and Server Actions",
     "tags": [
       "nextjs",
@@ -66,7 +76,9 @@
     "displayName": "Opencode Agents",
     "productId": "opencode-agents",
     "repoUrl": "https://github.com/darrenhinde/opencode-agents",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Enhanced workflows",
     "tags": [],
     "type": "agents"
@@ -76,7 +88,9 @@
     "displayName": "Redstone",
     "productId": "opencode-redstone",
     "repoUrl": "https://github.com/BackGwa/Redstone",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "AI-built Minecraft plugins",
     "tags": [],
     "type": "agents"
@@ -86,7 +100,9 @@
     "displayName": "Agent Memory",
     "productId": "agent-memory",
     "repoUrl": "https://github.com/joshuadavidthomas/opencode-agent-memory",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Letta-inspired memory",
     "tags": [],
     "type": "plugins"
@@ -96,7 +112,9 @@
     "displayName": "Agent Skills (JDT)",
     "productId": "agent-skills-jdt",
     "repoUrl": "https://github.com/joshuadavidthomas/opencode-agent-skills",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Dynamic skills loader",
     "tags": [],
     "type": "plugins"
@@ -106,7 +124,9 @@
     "displayName": "Antigravity Auth",
     "productId": "antigravity-auth",
     "repoUrl": "https://github.com/NoeFabris/opencode-antigravity-auth",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Google Antigravity models",
     "tags": [],
     "type": "plugins"
@@ -116,7 +136,9 @@
     "displayName": "Antigravity Multi-Auth",
     "productId": "antigravity-multi-auth",
     "repoUrl": "https://github.com/theblazehen/opencode-antigravity-multi-auth",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Multiple Google accounts",
     "tags": [],
     "type": "plugins"
@@ -126,7 +148,9 @@
     "displayName": "Background",
     "productId": "background",
     "repoUrl": "https://github.com/zenobi-us/opencode-background",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Background process management",
     "tags": [],
     "type": "plugins"
@@ -136,7 +160,9 @@
     "displayName": "Background Agents",
     "productId": "background-agents",
     "repoUrl": "https://github.com/kdcokenny/opencode-background-agents",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Async agent delegation",
     "tags": [],
     "type": "plugins"
@@ -148,7 +174,10 @@
     "minVersion": "1.0.0",
     "productId": "banking",
     "repoUrl": "https://github.com/awesome-opencode/opencode-banking",
-    "scope": ["project", "global"],
+    "scope": [
+      "project",
+      "global"
+    ],
     "tagline": "Complete banking application patterns - Auth, Plaid, Dwolla, Drizzle, shadcn/ui",
     "tags": [
       "banking",
@@ -170,7 +199,9 @@
     "displayName": "Beads Plugin",
     "productId": "beads-plugin",
     "repoUrl": "https://github.com/joshuadavidthomas/opencode-beads",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Beads issue tracker integration",
     "tags": [],
     "type": "plugins"
@@ -180,7 +211,9 @@
     "displayName": "CC Safety Net",
     "productId": "cc-safety-net",
     "repoUrl": "https://github.com/kenryu42/claude-code-safety-net",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Safety net catching destructive commands",
     "tags": [],
     "type": "plugins"
@@ -190,7 +223,9 @@
     "displayName": "Context Analysis",
     "productId": "context-analysis",
     "repoUrl": "https://github.com/IgorWarzocha/Opencode-Context-Analysis-Plugin",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Token usage analysis",
     "tags": [],
     "type": "plugins"
@@ -200,7 +235,9 @@
     "displayName": "Devcontainers",
     "productId": "devcontainers",
     "repoUrl": "https://github.com/athal7/opencode-devcontainers",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Multi-branch devcontainers",
     "tags": [],
     "type": "plugins"
@@ -210,7 +247,9 @@
     "displayName": "Direnv",
     "productId": "direnv",
     "repoUrl": "https://github.com/simonwjackson/opencode-direnv",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Load direnv variables",
     "tags": [],
     "type": "plugins"
@@ -222,7 +261,10 @@
     "minVersion": "1.0.0",
     "productId": "drizzle-orm",
     "repoUrl": "https://github.com/awesome-opencode/opencode-drizzle",
-    "scope": ["project", "global"],
+    "scope": [
+      "project",
+      "global"
+    ],
     "tagline": "Drizzle ORM patterns for PostgreSQL - schema, migrations, queries, and DAL patterns",
     "tags": [
       "database",
@@ -238,7 +280,9 @@
     "displayName": "Dynamic Context Pruning",
     "productId": "dynamic-context-pruning",
     "repoUrl": "https://github.com/Tarquinen/opencode-dynamic-context-pruning",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Optimize token usage",
     "tags": [],
     "type": "plugins"
@@ -248,7 +292,9 @@
     "displayName": "Envsitter Guard",
     "productId": "envsitter-guard",
     "repoUrl": "https://github.com/boxpositron/envsitter-guard",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Prevent .env leaks",
     "tags": [],
     "type": "plugins"
@@ -258,7 +304,9 @@
     "displayName": "Froggy",
     "productId": "froggy",
     "repoUrl": "https://github.com/smartfrog/opencode-froggy",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Hooks and specialized agents",
     "tags": [],
     "type": "plugins"
@@ -268,7 +316,9 @@
     "displayName": "Gemini Auth",
     "productId": "gemini-auth",
     "repoUrl": "https://github.com/jenslys/opencode-gemini-auth",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Google account auth",
     "tags": [],
     "type": "plugins"
@@ -278,7 +328,9 @@
     "displayName": "Google AI Search",
     "productId": "google-ai-search",
     "repoUrl": "https://github.com/IgorWarzocha/Opencode-Google-AI-Search-Plugin",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Query Google AI Mode (SGE)",
     "tags": [],
     "type": "plugins"
@@ -288,7 +340,9 @@
     "displayName": "Handoff",
     "productId": "handoff",
     "repoUrl": "https://github.com/joshuadavidthomas/opencode-handoff",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Session handoff prompts",
     "tags": [],
     "type": "plugins"
@@ -298,7 +352,9 @@
     "displayName": "Kilo Gateway Auth",
     "productId": "kilo-auth",
     "repoUrl": "https://github.com/JungHoonGhae/opencode-kilo-auth",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Kilo Gateway provider",
     "tags": [],
     "type": "plugins"
@@ -308,7 +364,9 @@
     "displayName": "Micode",
     "productId": "micode",
     "repoUrl": "https://github.com/vtemian/micode",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Brainstorm-Plan-Implement workflow",
     "tags": [],
     "type": "plugins"
@@ -318,7 +376,9 @@
     "displayName": "Model Announcer",
     "productId": "model-announcer",
     "repoUrl": "https://github.com/ramarivera/opencode-model-announcer",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Model self-awareness",
     "tags": [],
     "type": "plugins"
@@ -328,7 +388,9 @@
     "displayName": "Morph Fast Apply",
     "productId": "morph-fast-apply",
     "repoUrl": "https://github.com/JRedeker/opencode-morph-fast-apply",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "10,500+ tokens/sec code editing",
     "tags": [],
     "type": "plugins"
@@ -340,7 +402,10 @@
     "minVersion": "1.0.0",
     "productId": "nextjs-dev",
     "repoUrl": "https://github.com/awesome-opencode/opencode-nextjs-dev",
-    "scope": ["project", "global"],
+    "scope": [
+      "project",
+      "global"
+    ],
     "tagline": "Next.js 16 App Router patterns, Suspense boundaries, and async auth best practices",
     "tags": [
       "nextjs",
@@ -359,7 +424,9 @@
     "displayName": "Oh My Opencode",
     "productId": "oh-my-opencode",
     "repoUrl": "https://github.com/code-yeongyu/oh-my-opencode",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Agents & Pre-built tools",
     "tags": [],
     "type": "plugins"
@@ -370,7 +437,9 @@
     "homepageUrl": "https://ohmyopencodeslim.com",
     "productId": "oh-my-opencode-slim",
     "repoUrl": "https://github.com/alvinunreal/oh-my-opencode-slim",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Lightweight agent orchestration with reduced token usage",
     "tags": [
       "agents",
@@ -386,7 +455,9 @@
     "displayName": "Omniroute Auth",
     "productId": "omniroute-auth",
     "repoUrl": "https://github.com/Alph4d0g/opencode-omniroute-auth",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Omniroute authentication provider",
     "tags": [],
     "type": "plugins"
@@ -396,7 +467,9 @@
     "displayName": "open-plan-annotator",
     "productId": "open-plan-annotator",
     "repoUrl": "https://github.com/ndom91/open-plan-annotator",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Annotate LLM plans like a Google Doc!",
     "tags": [],
     "type": "plugins"
@@ -406,7 +479,9 @@
     "displayName": "OpenAI Codex Auth",
     "productId": "openai-codex-auth",
     "repoUrl": "https://github.com/numman-ali/opencode-openai-codex-auth",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "ChatGPT Plus/Pro OAuth",
     "tags": [],
     "type": "plugins"
@@ -416,7 +491,9 @@
     "displayName": "Agent Identity",
     "productId": "opencode-agent-identity",
     "repoUrl": "https://github.com/gotgenes/opencode-agent-identity",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Agent self-identity and per-message attribution for multi-agent sessions",
     "tags": [],
     "type": "plugins"
@@ -426,7 +503,9 @@
     "displayName": "OpenCode Agent Tmux",
     "productId": "opencode-agent-tmux",
     "repoUrl": "https://github.com/AnganSamadder/opencode-agent-tmux",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Real-time tmux panes for OpenCode agents with auto-launch, streaming, and cleanup.",
     "tags": [],
     "type": "plugins"
@@ -436,7 +515,9 @@
     "displayName": "Opencode Canvas",
     "productId": "opencode-canvas",
     "repoUrl": "https://github.com/mailshieldai/opencode-canvas",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Interactive terminal canvases in tmux splits",
     "tags": [],
     "type": "plugins"
@@ -446,7 +527,9 @@
     "displayName": "Opencode Ignore",
     "productId": "opencode-ignore",
     "repoUrl": "https://github.com/lgladysz/opencode-ignore",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Ignore files based on pattern",
     "tags": [],
     "type": "plugins"
@@ -456,7 +539,9 @@
     "displayName": "Opencode Mem",
     "productId": "opencode-mem",
     "repoUrl": "https://github.com/tickernelz/opencode-mem",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Persistent memory with vector database",
     "tags": [],
     "type": "plugins"
@@ -466,7 +551,9 @@
     "displayName": "opencode-mystatus",
     "productId": "opencode-mystatus",
     "repoUrl": "https://github.com/vbgate/opencode-mystatus",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Check AI subscription quotas",
     "tags": [],
     "type": "plugins"
@@ -476,7 +563,9 @@
     "displayName": "Opencode Notify",
     "productId": "opencode-notify",
     "repoUrl": "https://github.com/kdcokenny/opencode-notify",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Native OS notifications",
     "tags": [],
     "type": "plugins"
@@ -486,7 +575,9 @@
     "displayName": "OpenCode ntfy.sh",
     "productId": "opencode-ntfy.sh",
     "repoUrl": "https://github.com/lannuttia/opencode-ntfy.sh",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Push notifications to keep you in the know, even when you're on the go.",
     "tags": [],
     "type": "plugins"
@@ -496,7 +587,9 @@
     "displayName": "OpenSpec",
     "productId": "opencode-plugin-openspec",
     "repoUrl": "https://github.com/Octane0411/opencode-plugin-openspec",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Add Architecture planning and specification agent for OpenSpec",
     "tags": [],
     "type": "plugins"
@@ -506,7 +599,9 @@
     "displayName": "opencode-plugin-otel",
     "productId": "opencode-plugin-otel",
     "repoUrl": "https://github.com/DEVtheOPS/opencode-plugin-otel",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "OpenTelemetry telemetry exporter for opencode sessions, mirroring Claude Code monitoring signals",
     "tags": [],
     "type": "plugins"
@@ -516,7 +611,9 @@
     "displayName": "Opencode Quota",
     "productId": "opencode-quota",
     "repoUrl": "https://github.com/slkiser/opencode-quota",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Quota toasts and token tracking",
     "tags": [],
     "type": "plugins"
@@ -526,7 +623,9 @@
     "displayName": "Opencode Roadmap",
     "productId": "opencode-roadmap",
     "repoUrl": "https://github.com/IgorWarzocha/Opencode-Roadmap",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Strategic planning",
     "tags": [],
     "type": "plugins"
@@ -536,7 +635,9 @@
     "displayName": "Opencode Sessions",
     "productId": "opencode-sessions",
     "repoUrl": "https://github.com/malhashemi/opencode-sessions",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Session management",
     "tags": [],
     "type": "plugins"
@@ -546,7 +647,9 @@
     "displayName": "Opencode Skills",
     "productId": "opencode-skills",
     "repoUrl": "https://github.com/malhashemi/opencode-skills",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Manage skills and capabilities",
     "tags": [],
     "type": "plugins"
@@ -556,7 +659,9 @@
     "displayName": "opencode-snip",
     "productId": "opencode-snip",
     "repoUrl": "https://github.com/VincentHardouin/opencode-snip",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "OpenCode plugin that prefixes shell commands with snip to reduce LLM token consumption by 60-90%",
     "tags": [],
     "type": "plugins"
@@ -566,7 +671,9 @@
     "displayName": "Opencode Snippets",
     "productId": "opencode-snippets",
     "repoUrl": "https://github.com/JosXa/opencode-snippets",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Instant inline text expansion",
     "tags": [],
     "type": "plugins"
@@ -576,7 +683,9 @@
     "displayName": "Opencode Synced",
     "productId": "opencode-synced",
     "repoUrl": "https://github.com/iHildy/opencode-synced",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Sync configs across machines",
     "tags": [],
     "type": "plugins"
@@ -586,7 +695,9 @@
     "displayName": "Opencode Workspace",
     "productId": "opencode-workspace",
     "repoUrl": "https://github.com/kdcokenny/opencode-workspace",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Multi-agent orchestration",
     "tags": [],
     "type": "plugins"
@@ -596,7 +707,9 @@
     "displayName": "Opencode Worktree",
     "productId": "opencode-worktree",
     "repoUrl": "https://github.com/kdcokenny/opencode-worktree",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Zero-friction git worktrees",
     "tags": [],
     "type": "plugins"
@@ -606,7 +719,9 @@
     "displayName": "OpenHax Codex",
     "productId": "openhax-codex",
     "repoUrl": "https://github.com/open-hax/codex",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "OAuth authentication",
     "tags": [],
     "type": "plugins"
@@ -616,7 +731,9 @@
     "displayName": "Openskills",
     "productId": "openskills",
     "repoUrl": "https://github.com/numman-ali/openskills",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Alternative skills manager",
     "tags": [],
     "type": "plugins"
@@ -626,7 +743,9 @@
     "displayName": "Optimal Model Temps",
     "productId": "optimal-model-temps",
     "repoUrl": "https://github.com/Lyapsus/opencode-optimal-model-temps",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Optimal sampling temperatures",
     "tags": [],
     "type": "plugins"
@@ -636,7 +755,9 @@
     "displayName": "Pilot",
     "productId": "pilot",
     "repoUrl": "https://github.com/athal7/opencode-pilot",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Automation daemon",
     "tags": [],
     "type": "plugins"
@@ -646,7 +767,9 @@
     "displayName": "Plannotator",
     "productId": "plannotator",
     "repoUrl": "https://github.com/backnotprop/plannotator",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Interactive plan review UI",
     "tags": [],
     "type": "plugins"
@@ -656,7 +779,9 @@
     "displayName": "Plugin Template",
     "productId": "plugin-template",
     "repoUrl": "https://github.com/zenobi-us/opencode-plugin-template",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "CICD setup for plugins",
     "tags": [],
     "type": "plugins"
@@ -666,7 +791,9 @@
     "displayName": "Pocket Universe",
     "productId": "pocket-universe",
     "repoUrl": "https://github.com/spoons-and-mirrors/pocket-universe",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "A subagent driven pocket universe for your primary agent",
     "tags": [],
     "type": "plugins"
@@ -676,7 +803,9 @@
     "displayName": "Ralph Wiggum",
     "productId": "ralph-wiggum",
     "repoUrl": "https://github.com/Th0rgal/opencode-ralph-wiggum",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Self-correcting agent loops",
     "tags": [],
     "type": "plugins"
@@ -686,7 +815,9 @@
     "displayName": "Ring a Bell Example",
     "productId": "ring-a-bell-example",
     "repoUrl": "https://gist.github.com/ahosker/267f375a65378bcb9a867fd9a195db1e",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Simple terminal bell plugin",
     "tags": [],
     "type": "plugins"
@@ -698,7 +829,10 @@
     "minVersion": "1.0.0",
     "productId": "security-best-practices",
     "repoUrl": "https://github.com/awesome-opencode/opencode-security",
-    "scope": ["project", "global"],
+    "scope": [
+      "project",
+      "global"
+    ],
     "tagline": "Security patterns - encryption, rate limiting, CSP headers, CSRF protection",
     "tags": [
       "security",
@@ -715,7 +849,9 @@
     "displayName": "Shell Strategy",
     "productId": "shell-strategy",
     "repoUrl": "https://github.com/JRedeker/opencode-shell-strategy",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Avoid interactive shell hangs",
     "tags": [],
     "type": "plugins"
@@ -725,7 +861,9 @@
     "displayName": "Simple Memory",
     "productId": "simple-memory",
     "repoUrl": "https://github.com/cnicolov/opencode-plugin-simple-memory",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Git-based memory",
     "tags": [],
     "type": "plugins"
@@ -735,7 +873,9 @@
     "displayName": "Smart Title",
     "productId": "smart-title",
     "repoUrl": "https://github.com/Tarquinen/opencode-smart-title",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Auto-generate session titles",
     "tags": [],
     "type": "plugins"
@@ -745,7 +885,9 @@
     "displayName": "Smart Voice Notify",
     "productId": "smart-voice-notify",
     "repoUrl": "https://github.com/MasuRii/opencode-smart-voice-notify",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Intelligent voice notifications",
     "tags": [],
     "type": "plugins"
@@ -755,7 +897,9 @@
     "displayName": "Subtask2",
     "productId": "subtask2",
     "repoUrl": "https://github.com/spoons-and-mirrors/subtask2",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Orchestration system",
     "tags": [],
     "type": "plugins"
@@ -765,7 +909,9 @@
     "displayName": "Swarm Plugin",
     "productId": "swarm-plugin",
     "repoUrl": "https://github.com/joelhooks/opencode-swarm-plugin",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Swarm intelligence",
     "tags": [],
     "type": "plugins"
@@ -777,7 +923,10 @@
     "minVersion": "1.0.0",
     "productId": "testing",
     "repoUrl": "https://github.com/awesome-opencode/opencode-testing",
-    "scope": ["project", "global"],
+    "scope": [
+      "project",
+      "global"
+    ],
     "tagline": "Testing patterns - Vitest unit tests, Playwright E2E, component testing",
     "tags": [
       "testing",
@@ -794,7 +943,9 @@
     "displayName": "Tokenscope",
     "productId": "tokenscope",
     "repoUrl": "https://github.com/ramtinJ95/opencode-tokenscope",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Token analysis & cost tracking",
     "tags": [],
     "type": "plugins"
@@ -804,7 +955,9 @@
     "displayName": "UNMOJI",
     "productId": "unmoji",
     "repoUrl": "https://codeberg.org/bastiangx/opencode-unmoji",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Strip emojis from output",
     "tags": [],
     "type": "plugins"
@@ -814,7 +967,9 @@
     "displayName": "Vibe Coding Slack Notifier",
     "productId": "vibe-coding-slack-notifier",
     "repoUrl": "https://github.com/Wangmerlyn/vibe-coding-slack-notifier",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Slack DM alerts for OpenCode task completion",
     "tags": [],
     "type": "plugins"
@@ -824,7 +979,9 @@
     "displayName": "WakaTime",
     "productId": "wakatime",
     "repoUrl": "https://github.com/angristan/opencode-wakatime",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "WakaTime integration",
     "tags": [],
     "type": "plugins"
@@ -834,7 +991,9 @@
     "displayName": "Warcraft Notifications",
     "productId": "warcraft-notifications",
     "repoUrl": "https://github.com/pantheon-org/opencode-warcraft-notifications",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Fun sound notifications",
     "tags": [],
     "type": "plugins"
@@ -844,7 +1003,9 @@
     "displayName": "With Context MCP",
     "productId": "with-context-mcp",
     "repoUrl": "https://github.com/boxpositron/with-context-mcp",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Project-specific markdown notes",
     "tags": [],
     "type": "plugins"
@@ -854,7 +1015,9 @@
     "displayName": "Xquik",
     "productId": "xquik",
     "repoUrl": "https://github.com/Xquik-dev/x-twitter-scraper",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "X/Twitter data skill & MCP server",
     "tags": [],
     "type": "plugins"
@@ -864,7 +1027,9 @@
     "displayName": "Zellij Namer",
     "productId": "zellij-namer",
     "repoUrl": "https://github.com/24601/opencode-zellij-namer",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Auto-rename Zellij sessions",
     "tags": [],
     "type": "plugins"
@@ -874,7 +1039,9 @@
     "displayName": "Agent of Empires",
     "productId": "agent-of-empires",
     "repoUrl": "https://github.com/njbrake/agent-of-empires",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Multi-session TUI for OpenCode",
     "tags": [],
     "type": "projects"
@@ -884,7 +1051,9 @@
     "displayName": "Beads",
     "productId": "beads",
     "repoUrl": "https://github.com/steveyegge/beads",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Project task management",
     "tags": [],
     "type": "projects"
@@ -894,7 +1063,9 @@
     "displayName": "CLI Proxy API",
     "productId": "cli-proxy-api",
     "repoUrl": "https://github.com/router-for-me/CLIProxyAPI",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Multi-model proxy",
     "tags": [],
     "type": "projects"
@@ -904,7 +1075,9 @@
     "displayName": "Codex Proxy Server",
     "productId": "codex-proxy-server",
     "repoUrl": "https://github.com/unluckyjori/Codex-Proxy-Server",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Local API proxy",
     "tags": [],
     "type": "projects"
@@ -914,7 +1087,9 @@
     "displayName": "Cupcake",
     "productId": "cupcake",
     "repoUrl": "https://github.com/eqtylab/cupcake",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Policy enforcement layer",
     "tags": [],
     "type": "projects"
@@ -924,7 +1099,9 @@
     "displayName": "Gemini CLI to API",
     "productId": "gemini-cli-to-api",
     "repoUrl": "https://github.com/gzzhongqi/geminicli2api",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Gemini proxy",
     "tags": [],
     "type": "projects"
@@ -934,7 +1111,9 @@
     "displayName": "GolemBot",
     "productId": "golembot",
     "repoUrl": "https://github.com/0xranx/golembot",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Unified AI assistant framework for multiple Coding Agent CLIs",
     "tags": [],
     "type": "projects"
@@ -944,7 +1123,9 @@
     "displayName": "Handy",
     "productId": "handy",
     "repoUrl": "https://github.com/cjpais/Handy",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Speech to Text",
     "tags": [],
     "type": "projects"
@@ -954,7 +1135,9 @@
     "displayName": "hcom",
     "productId": "hcom",
     "repoUrl": "https://github.com/aannoo/hcom",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Let AI agents message, watch, and spawn each other across terminals",
     "tags": [],
     "type": "projects"
@@ -964,7 +1147,9 @@
     "displayName": "Kimaki",
     "productId": "kimaki",
     "repoUrl": "https://github.com/remorses/kimaki/",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Discord bot controller",
     "tags": [],
     "type": "projects"
@@ -974,7 +1159,9 @@
     "displayName": "MCP Voice Interface",
     "productId": "mcp-voice-interface",
     "repoUrl": "https://github.com/shantur/mcp-voice-interface",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Talk to AI assistants",
     "tags": [],
     "type": "projects"
@@ -984,7 +1171,9 @@
     "displayName": "OC Context (occtx)",
     "productId": "oc-context-occtx",
     "repoUrl": "https://github.com/hungthai1401/occtx",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Switch contexts quickly",
     "tags": [],
     "type": "projects"
@@ -994,7 +1183,9 @@
     "displayName": "OC Manager",
     "productId": "oc-manager",
     "repoUrl": "https://github.com/kcrommett/oc-manager",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Metadata TUI",
     "tags": [],
     "type": "projects"
@@ -1004,7 +1195,9 @@
     "displayName": "OC Monitor Share",
     "productId": "oc-monitor-share",
     "repoUrl": "https://github.com/Shlomob/ocmonitor-share",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "CLI monitoring tool",
     "tags": [],
     "type": "projects"
@@ -1014,7 +1207,9 @@
     "displayName": "Octto",
     "productId": "octto",
     "repoUrl": "https://github.com/vtemian/octto",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Interactive browser UI for AI brainstorming",
     "tags": [],
     "type": "projects"
@@ -1024,7 +1219,9 @@
     "displayName": "OCX",
     "productId": "ocx",
     "repoUrl": "https://github.com/kdcokenny/ocx",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "OpenCode package manager",
     "tags": [],
     "type": "projects"
@@ -1034,7 +1231,9 @@
     "displayName": "Open Agent",
     "productId": "open-agent",
     "repoUrl": "https://github.com/Th0rgal/openagent",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Self-hosted control plane",
     "tags": [],
     "type": "projects"
@@ -1044,7 +1243,9 @@
     "displayName": "Open Dispatch",
     "productId": "open-dispatch",
     "repoUrl": "https://github.com/bobum/open-dispatch",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Control OpenCode from Slack or Microsoft Teams",
     "tags": [],
     "type": "projects"
@@ -1054,7 +1255,9 @@
     "displayName": "OpenChamber",
     "productId": "openchamber",
     "repoUrl": "https://github.com/btriapitsyn/openchamber",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "GUI for OpenCode",
     "tags": [],
     "type": "projects"
@@ -1064,7 +1267,9 @@
     "displayName": "Opencode DDEV",
     "productId": "opencode-ddev",
     "repoUrl": "https://github.com/JUVOJustin/opencode-ddev",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "DDEV container wrapper",
     "tags": [],
     "type": "projects"
@@ -1074,7 +1279,9 @@
     "displayName": "Opencode Neovim",
     "productId": "opencode-neovim",
     "repoUrl": "https://github.com/NickvanDyke/opencode.nvim",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Neovim plugin",
     "tags": [],
     "type": "projects"
@@ -1084,7 +1291,9 @@
     "displayName": "Opencode Session Manager",
     "productId": "opencode-session",
     "repoUrl": "https://github.com/GNITOAHC/opencode-session",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Session viewer & manager",
     "tags": [],
     "type": "projects"
@@ -1094,7 +1303,9 @@
     "displayName": "Opencode Sessions",
     "productId": "opencode-sessions",
     "repoUrl": "https://github.com/malhashemi/opencode-sessions",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Session tracker",
     "tags": [],
     "type": "projects"
@@ -1104,7 +1315,9 @@
     "displayName": "Opencode Skills",
     "productId": "opencode-skills",
     "repoUrl": "https://github.com/malhashemi/opencode-skills",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Skills management",
     "tags": [],
     "type": "projects"
@@ -1114,7 +1327,9 @@
     "displayName": "Opencode Telegram Bot",
     "productId": "opencode-telegram-bot",
     "repoUrl": "https://github.com/grinev/opencode-telegram-bot",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Telegram bot client for OpenCode CLI",
     "tags": [],
     "type": "projects"
@@ -1124,7 +1339,9 @@
     "displayName": "Opencode Web",
     "productId": "opencode-web",
     "repoUrl": "https://github.com/kcrommett/opencode-web",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Browser-based access",
     "tags": [],
     "type": "projects"
@@ -1134,7 +1351,9 @@
     "displayName": "OpenSpec",
     "productId": "openspec",
     "repoUrl": "https://github.com/Fission-AI/OpenSpec",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Spec-driven development",
     "tags": [],
     "type": "projects"
@@ -1145,9 +1364,16 @@
     "homepageUrl": "https://openwork.software/",
     "productId": "openwork",
     "repoUrl": "https://github.com/different-ai/openwork",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Desktop GUI for OpenCode workflows",
-    "tags": ["desktop", "gui", "opencode", "workflows"],
+    "tags": [
+      "desktop",
+      "gui",
+      "opencode",
+      "workflows"
+    ],
     "type": "projects"
   },
   {
@@ -1155,7 +1381,9 @@
     "displayName": "Qwen Code OAI Proxy",
     "productId": "qwen-code-oai-proxy",
     "repoUrl": "https://github.com/aptdnfapt/qwen-code-oai-proxy",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Qwen model proxy",
     "tags": [],
     "type": "projects"
@@ -1165,7 +1393,9 @@
     "displayName": "Tokscale",
     "productId": "tokscale",
     "repoUrl": "https://github.com/junhoyeo/tokscale",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Token usage tracking CLI",
     "tags": [],
     "type": "projects"
@@ -1175,7 +1405,9 @@
     "displayName": "Universal LLM API Proxy",
     "productId": "universal-llm-proxy",
     "repoUrl": "https://github.com/Mirrowel/LLM-API-Key-Proxy",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Universal multi-model proxy and library - made with Opencode community",
     "tags": [
       "desktop",
@@ -1194,7 +1426,9 @@
     "displayName": "Vibe Kanban",
     "productId": "vibe-kanban",
     "repoUrl": "https://github.com/BloopAI/vibe-kanban",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Manage AI in parallel",
     "tags": [],
     "type": "projects"
@@ -1204,9 +1438,14 @@
     "displayName": "task-sync-note",
     "productId": "00TaskSyncNote",
     "repoUrl": ".opencode\\instructions/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "This project uses TaskSync for terminal-based task management. However, TaskSync protocol (PowerShell-based) is not c...",
-    "tags": ["opencode", "instructions"],
+    "tags": [
+      "opencode",
+      "instructions"
+    ],
     "type": "resources"
   },
   {
@@ -1214,9 +1453,14 @@
     "displayName": "core-standards",
     "productId": "01CoreStandards",
     "repoUrl": ".opencode\\instructions/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "Critical rules that MUST be followed. PRs will be blocked if violated.",
-    "tags": ["opencode", "instructions"],
+    "tags": [
+      "opencode",
+      "instructions"
+    ],
     "type": "resources"
   },
   {
@@ -1224,9 +1468,14 @@
     "displayName": "nextjs-patterns",
     "productId": "02NextjsPatterns",
     "repoUrl": ".opencode\\instructions/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "- Next.js 16 (App Router)",
-    "tags": ["opencode", "instructions"],
+    "tags": [
+      "opencode",
+      "instructions"
+    ],
     "type": "resources"
   },
   {
@@ -1234,9 +1483,14 @@
     "displayName": "dal-patterns",
     "productId": "03DalPatterns",
     "repoUrl": ".opencode\\instructions/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "All database access must go through `lib/dal/`.",
-    "tags": ["opencode", "instructions"],
+    "tags": [
+      "opencode",
+      "instructions"
+    ],
     "type": "resources"
   },
   {
@@ -1244,9 +1498,14 @@
     "displayName": "auth-testing",
     "productId": "04AuthTesting",
     "repoUrl": ".opencode\\instructions/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "```typescript",
-    "tags": ["opencode", "instructions"],
+    "tags": [
+      "opencode",
+      "instructions"
+    ],
     "type": "resources"
   },
   {
@@ -1254,9 +1513,14 @@
     "displayName": "ui-validation",
     "productId": "05UiValidation",
     "repoUrl": ".opencode\\instructions/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "Components are in `components/ui/`.",
-    "tags": ["opencode", "instructions"],
+    "tags": [
+      "opencode",
+      "instructions"
+    ],
     "type": "resources"
   },
   {
@@ -1264,9 +1528,14 @@
     "displayName": "commands-ref",
     "productId": "06CommandsRef",
     "repoUrl": ".opencode\\instructions/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "```bash",
-    "tags": ["opencode", "instructions"],
+    "tags": [
+      "opencode",
+      "instructions"
+    ],
     "type": "resources"
   },
   {
@@ -1274,9 +1543,14 @@
     "displayName": "upstream-error-handling",
     "productId": "07UpstreamErrorHandling",
     "repoUrl": ".opencode\\instructions/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "When you encounter a transient rate-limit or upstream error from the AI provider (e.g., \"Request rate increased too q...",
-    "tags": ["opencode", "instructions"],
+    "tags": [
+      "opencode",
+      "instructions"
+    ],
     "type": "resources"
   },
   {
@@ -1284,9 +1558,29 @@
     "displayName": "alibaba-rate-limit-handling",
     "productId": "08AlibabaRateLimitHandling",
     "repoUrl": ".opencode\\instructions/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "```",
-    "tags": ["opencode", "instructions"],
+    "tags": [
+      "opencode",
+      "instructions"
+    ],
+    "type": "resources"
+  },
+  {
+    "description": "Standardize plan creation, naming, and plan quality checks",
+    "displayName": "09PlanFileStandards",
+    "productId": "09PlanFileStandards",
+    "repoUrl": ".opencode\\instructions/",
+    "scope": [
+      "project"
+    ],
+    "tagline": "When a task is expected to change more than 1 files, create a plan before implementation.",
+    "tags": [
+      "opencode",
+      "instructions"
+    ],
     "type": "resources"
   },
   {
@@ -1294,9 +1588,14 @@
     "displayName": "AuthSkill",
     "productId": "AuthSkill",
     "repoUrl": ".opencode\\skills\\auth-skill/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "This skill provides guidance on NextAuth.js v4 authentication patterns for the Banking project.",
-    "tags": ["opencode", "skills"],
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1304,9 +1603,14 @@
     "displayName": "DBSkill",
     "productId": "DbSkill",
     "repoUrl": ".opencode\\skills\\db-skill/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "This skill provides guidance on Drizzle ORM patterns for the Banking project.",
-    "tags": ["opencode", "skills"],
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1314,7 +1618,9 @@
     "displayName": "Debug Log to Text File",
     "productId": "debug-log-to-text-file",
     "repoUrl": "https://github.com/awesome-opencode/awesome-opencode/discussions/19",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Troubleshooting guide",
     "tags": [],
     "type": "resources"
@@ -1324,9 +1630,14 @@
     "displayName": "DeploymentSkill",
     "productId": "DeploymentSkill",
     "repoUrl": ".opencode\\skills\\deployment-skill/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "This skill provides guidance on deployment patterns for the Banking project.",
-    "tags": ["opencode", "skills"],
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1334,9 +1645,14 @@
     "displayName": "DwollaSkill",
     "productId": "DwollaSkill",
     "repoUrl": ".opencode\\skills\\dwolla-skill/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "This skill provides guidance on Dwolla API integration for ACH transfers in the Banking project.",
-    "tags": ["opencode", "skills"],
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1344,7 +1660,9 @@
     "displayName": "GoTTY",
     "productId": "gotty",
     "repoUrl": "https://github.com/sorenisanerd/gotty",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Turn CLI into Web App",
     "tags": [],
     "type": "resources"
@@ -1354,7 +1672,9 @@
     "displayName": "Opencode Config Starter",
     "productId": "opencode-config-starter",
     "repoUrl": "https://github.com/jjmartres/opencode",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Flexible config starting point",
     "tags": [],
     "type": "resources"
@@ -1364,7 +1684,9 @@
     "displayName": "OpenCode Discord",
     "productId": "opencode-discord",
     "repoUrl": "https://discord.gg/anomaly",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Official community Discord server",
     "tags": [],
     "type": "resources"
@@ -1374,7 +1696,9 @@
     "displayName": "OpenCode Docs",
     "productId": "opencode-docs",
     "repoUrl": "https://opencode.ai/docs/",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Official documentation portal for OpenCode",
     "tags": [],
     "type": "resources"
@@ -1384,7 +1708,9 @@
     "displayName": "Everything Guide",
     "productId": "opencode-everything-guide",
     "repoUrl": "https://github.com/wesammustafa/OpenCode-Everything-You-Need-to-Know",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "All-in-one comprehensive OpenCode guide",
     "tags": [],
     "type": "resources"
@@ -1394,7 +1720,9 @@
     "displayName": "OpenCode GitHub",
     "productId": "opencode-github",
     "repoUrl": "https://github.com/anomalyco/opencode",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Official GitHub repository",
     "tags": [],
     "type": "resources"
@@ -1404,7 +1732,9 @@
     "displayName": "OpenCode SDKs",
     "productId": "opencode-sdks",
     "repoUrl": "https://github.com/anomalyco",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Official SDKs for JavaScript, Go, and Python",
     "tags": [],
     "type": "resources"
@@ -1414,7 +1744,9 @@
     "displayName": "OpenCode Tutorial Docs",
     "productId": "opencode-tutorial-docs",
     "repoUrl": "https://opencode-tutorial.com/en/docs",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Community-maintained tutorial documentation",
     "tags": [],
     "type": "resources"
@@ -1424,9 +1756,14 @@
     "displayName": "PlaidSkill",
     "productId": "PlaidSkill",
     "repoUrl": ".opencode\\skills\\plaid-skill/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "This skill provides guidance on Plaid API integration for the Banking project.",
-    "tags": ["opencode", "skills"],
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1434,9 +1771,14 @@
     "displayName": "SecuritySkill",
     "productId": "SecuritySkill",
     "repoUrl": ".opencode\\skills\\security-skill/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "This skill provides guidance on security patterns for the Banking project.",
-    "tags": ["opencode", "skills"],
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1444,9 +1786,14 @@
     "displayName": "ServerActionSkill",
     "productId": "ServerActionSkill",
     "repoUrl": ".opencode\\skills\\server-action-skill/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "This skill provides guidance on Server Action patterns for the Banking project.",
-    "tags": ["opencode", "skills"],
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1454,9 +1801,14 @@
     "displayName": "TestingSkill",
     "productId": "TestingSkill",
     "repoUrl": ".opencode\\skills\\testing-skill/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "This skill provides guidance on testing patterns for the Banking project.",
-    "tags": ["opencode", "skills"],
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1464,9 +1816,14 @@
     "displayName": "UISkill",
     "productId": "UiSkill",
     "repoUrl": ".opencode\\skills\\ui-skill/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "This skill provides guidance on shadcn/ui and Tailwind CSS patterns for the Banking project.",
-    "tags": ["opencode", "skills"],
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1474,9 +1831,14 @@
     "displayName": "ValidationSkill",
     "productId": "ValidationSkill",
     "repoUrl": ".opencode\\skills\\validation-skill/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "This skill provides guidance on Zod schema validation patterns for the Banking project.",
-    "tags": ["opencode", "skills"],
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1484,7 +1846,9 @@
     "displayName": "Ayu Dark",
     "productId": "ayu-dark",
     "repoUrl": "https://github.com/postrednik/opencode-ayu-theme",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Port of the popular Ayu Dark color scheme with golden yellow accent.",
     "tags": [],
     "type": "themes"
@@ -1494,7 +1858,9 @@
     "displayName": "Lavi",
     "productId": "lavi",
     "repoUrl": "https://github.com/b0o/lavi/tree/main/contrib/opencode",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "A soft and sweet colorscheme for Opencode and 15+ other apps",
     "tags": [],
     "type": "themes"
@@ -1504,7 +1870,9 @@
     "displayName": "Moonlight",
     "productId": "moonlight",
     "repoUrl": "https://github.com/brunogabriel/opencode-moonlight-theme",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "A moonlight color theme for OpenCode based on the popular moonlight-vscode-theme.",
     "tags": [],
     "type": "themes"
@@ -1514,7 +1882,9 @@
     "displayName": "Poimandres Theme",
     "productId": "poimandres-theme",
     "repoUrl": "https://github.com/ajaxdude/opencode-ai-poimandres-theme",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Poimandres theme",
     "tags": [],
     "type": "themes"

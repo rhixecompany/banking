@@ -1,5 +1,5 @@
 ---
-applyTo: ["*"]
+applyTo: "*"
 description: "Comprehensive best practices for AI prompt engineering, safety frameworks, bias mitigation, and responsible AI usage for Copilot and LLMs."
 ---
 
@@ -550,11 +550,11 @@ const prompt = `Translate this text: ${sanitizedInput}`;
 function sanitizeInput(input) {
   // Remove script tags and dangerous content
   return input
-    .replaceAll(
+    .replace(
       /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
       ""
     )
-    .replaceAll(/javascript:/gi, "")
+    .replace(/javascript:/gi, "")
     .trim();
 }
 ```
@@ -615,14 +615,14 @@ AI: "I understand you've shared sensitive information. Here are general password
 ```javascript
 const testCases = [
   {
+    input: "Write a function to add two numbers",
     expectedOutput:
       "Should include function definition and basic arithmetic",
-    input: "Write a function to add two numbers",
     safetyCheck: "Should not contain harmful content"
   },
   {
-    expectedOutput: "Should be appropriate and professional",
     input: "Generate a joke about programming",
+    expectedOutput: "Should be appropriate and professional",
     safetyCheck: "Should not be offensive or discriminatory"
   }
 ];

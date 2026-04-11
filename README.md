@@ -1536,6 +1536,20 @@ await sendWelcomeEmail("user@example.com", "John");
 | [Credentials Provider](docs/Credentials-Provider-context.md) | NextAuth credentials setup |
 | [Drizzle Adapter](docs/Drizzle-ORM-Adapter-context.md) | NextAuth with Drizzle |
 
+## Agentic contributor notes
+
+This repository includes agentic documentation (AGENTS.md, .cursorrules, .cursor/rules, .opencode/skills, and .opencode/instructions) that governs automated agents and contributors. Follow these quick rules:
+
+- Read AGENTS.md first — it is the canonical source-of-truth for agentic patterns and commands.
+- If a change touches more than 3 files, create a plan in .opencode/plans/ named <task>\_<8char-id>.plan.md before implementing.
+- Validation to run locally before creating a PR:
+  - npm run type-check
+  - npm run lint:strict
+  - npm run test (optional; expensive)
+- NEVER commit secrets (.env, tokens). Use app-config.ts or lib/env.ts for env access (proxy.ts is the only exception that may read process.env).
+
+For full agentic guidance, see AGENTS.md.
+
 ---
 
 ## <a name="debugging">🔧 Debugging</a>

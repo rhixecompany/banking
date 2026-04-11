@@ -5,7 +5,7 @@ applyTo: "**"
 
 # Plan File Standards
 
-When a task is expected to change more than 1 files, create a plan before implementation.
+When a task is expected to change more than 3 files, create a plan before implementation.
 
 ## Location and Naming
 

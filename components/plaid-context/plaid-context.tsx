@@ -76,6 +76,13 @@ export function usePlaid() {
   return context;
 }
 
+// Safe hook variant that returns undefined when no provider is present.
+// Use this in components that need to operate both with and without a
+// PlaidProvider higher in the tree.
+export function usePlaidSafe(): PlaidContextValue | undefined {
+  return useContext(PlaidContext);
+}
+
 /**
  * Description placeholder
  * @author [object Object]
