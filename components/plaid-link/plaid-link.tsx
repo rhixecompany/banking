@@ -161,7 +161,9 @@ export function PlaidLink({
     // Only call usePlaidLink when there is no provider on the tree.
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const plaid = usePlaidLink(config);
-    open = plaid.open;
+    // react-plaid-link's types sometimes expose `open` as a generic Function.
+    // Narrow it to the expected `() => void` so TypeScript accepts assignment.
+    open = plaid.open as () => void;
     ready = plaid.ready;
 
     useEffect(() => {
@@ -186,7 +188,11 @@ export function PlaidLink({
       variant={variant}
       size={size}
       className={className}
-      disabled={disabled || isLoading || !ready || !linkToken}
+      // When a provider exists, linkToken is managed by the provider so we
+      // don't require a local linkToken to enable the button.
+      disabled={
+        disabled || isLoading || !ready || (!linkToken && !plaidContext)
+      }
       onClick={handleClick}
     >
       {isLoading ? "Loading..." : (children ?? "Link Bank Account")}
