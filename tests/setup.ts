@@ -6,3 +6,5 @@ import { afterEach } from "vitest";
 config({ path: resolve(process.cwd(), ".env.local") });
 
 afterEach(cleanup);
+
+// Debug env removed after diagnostics

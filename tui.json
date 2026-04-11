@@ -1,7 +1,13 @@
 {
   "$schema": "https://opencode.ai/tui.json",
-  "diff_style": "word",
+  "diff_style": "stacked",
   "keybinds": {},
+  "mouse": true,
+  "plugin": [],
+  "plugin_enabled": {},
+  "scroll_acceleration": {
+    "enabled": true
+  },
   "scroll_speed": 5,
   "theme": "tokyonight"
 }

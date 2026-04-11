@@ -4,7 +4,7 @@
     "build": {
       "description": "Build and implement features for the Banking project",
       "model": "github-copilot/gpt-5-mini",
-      "steps": 10,
+      "steps": 20,
       "temperature": 0.3,
       "tools": {
         "bash": true,
@@ -48,8 +48,8 @@
     "quick-thinker": {
       "description": "Fast reasoning with limited iterations",
       "prompt": "You are a quick thinker. Solve problems with minimal steps.",
-      "steps": 10,
-      "temperature": 0.3,
+      "steps": 15,
+      "temperature": 0.1,
       "tools": {
         "bash": true,
         "edit": true,
@@ -70,8 +70,8 @@
     "review": {
       "description": "Review code changes and PRs for the Banking project",
       "model": "github-copilot/gpt-5-mini",
-      "steps": 10,
-      "temperature": 0.3,
+      "steps": 20,
+      "temperature": 0.1,
       "tools": {
         "bash": true,
         "edit": true,
@@ -146,8 +146,8 @@
     "build": {
       "description": "Build and implement features for the Banking project",
       "model": "github-copilot/gpt-5-mini",
-      "steps": 10,
-      "temperature": 0.3,
+      "steps": 20,
+      "temperature": 0.1,
       "tools": {
         "bash": true,
         "edit": true,
@@ -190,8 +190,8 @@
     "quick-thinker": {
       "description": "Fast reasoning with limited iterations",
       "prompt": "You are a quick thinker. Solve problems with minimal steps.",
-      "steps": 10,
-      "temperature": 0.3,
+      "steps": 20,
+      "temperature": 0.1,
       "tools": {
         "bash": true,
         "edit": true,
@@ -212,8 +212,8 @@
     "review": {
       "description": "Review code changes and PRs for the Banking project",
       "model": "github-copilot/gpt-5-mini",
-      "steps": 10,
-      "temperature": 0.3,
+      "steps": 20,
+      "temperature": 0.1,
       "tools": {
         "bash": true,
         "edit": true,
