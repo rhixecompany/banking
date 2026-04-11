@@ -24,7 +24,7 @@ Analyze, refactor, and update the `AGENTS.md`,`.cursorrules` and `.github/copilo
 
 3. **Enforce Banking Project Conventions:**
    - Ensure all instructions align with current project architecture, naming conventions, and workflow patterns.
-   - Reference file paths and section headings explicitly (e.g., “See `lib/dal/` for DAL patterns”).
+   - Reference file paths and section headings explicitly (e.g., “See `dal/` or `@/dal` for DAL patterns”). [FLAG: historical reference — verify before mass-replace]
    - Use Diátaxis documentation principles: separate how-to guides, reference, explanation, and tutorials.
 
 4. **Optimize for AI Agent Productivity:**

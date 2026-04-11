@@ -54,8 +54,7 @@ Before ANY file modification:
 
 - Functions calling `swap!`/`reset!` on global atoms
 - Business logic mixed with side effects
-- Untestable functions requiring mocks
-  → **Action**: Flag violation, propose refactoring, fix root cause
+- Untestable functions requiring mocks → **Action**: Flag violation, propose refactoring, fix root cause
 
 ### Evaluation Guidelines
 

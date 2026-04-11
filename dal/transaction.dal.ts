@@ -92,20 +92,25 @@ export class TransactionDal {
    *   }} data - Transaction fields to insert.
    * @returns {Promise<Transaction>} The newly created transaction record.
    */
-  async createTransaction(data: {
-    userId: string;
-    senderWalletId?: string;
-    receiverWalletId?: string;
-    name?: string;
-    email?: string;
-    amount: string;
-    type?: "credit" | "debit";
-    status?: "cancelled" | "completed" | "failed" | "pending" | "processing";
-    channel?: "in_store" | "online" | "other";
-    category?: string;
-    currency?: string;
-  }): Promise<Transaction> {
-    const [txn] = await db.insert(transactions).values(data).returning();
+  async createTransaction(
+    data: {
+      userId: string;
+      senderWalletId?: string;
+      receiverWalletId?: string;
+      name?: string;
+      email?: string;
+      amount: string;
+      type?: "credit" | "debit";
+      status?: "cancelled" | "completed" | "failed" | "pending" | "processing";
+      channel?: "in_store" | "online" | "other";
+      category?: string;
+      currency?: string;
+    },
+    opts?: { db?: typeof db },
+  ): Promise<Transaction> {
+    // Allow callers to pass a transaction-scoped DB instance via opts.db.
+    const database = opts?.db ?? db;
+    const [txn] = await database.insert(transactions).values(data).returning();
     return txn;
   }
 

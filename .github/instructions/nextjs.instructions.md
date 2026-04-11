@@ -64,8 +64,7 @@ export default async function DashboardPage() {
 - Server Components cannot use client-only features or dynamic imports with SSR disabled.
 - Client Components can be rendered inside Server Components, but not the other way around.
 
-**Summary:**
-Always move client-only UI into a Client Component and import it directly in your Server Component. Never use `next/dynamic` with `{ ssr: false }` in a Server Component.
+**Summary:** Always move client-only UI into a Client Component and import it directly in your Server Component. Never use `next/dynamic` with `{ ssr: false }` in a Server Component.
 
 ### 2.2. Next.js 16+ async request APIs (App Router)
 

@@ -38,18 +38,24 @@ export class DwollaDal {
    * Creates a Dwolla transfer metadata record in the dwolla_transfers table.
    * Returns the created row.
    */
-  async createDwollaTransfer(data: {
-    dwollaTransferId?: string;
-    transferUrl?: string;
-    amount: number | string;
-    currency?: string;
-    status?: string;
-    sourceFundingSourceUrl?: string;
-    destinationFundingSourceUrl?: string;
-    senderWalletId?: string;
-    receiverWalletId?: string;
-    userId?: string;
-  }) {
+  async createDwollaTransfer(
+    data: {
+      dwollaTransferId?: string;
+      transferUrl?: string;
+      amount: number | string;
+      currency?: string;
+      status?: string;
+      sourceFundingSourceUrl?: string;
+      destinationFundingSourceUrl?: string;
+      senderWalletId?: string;
+      receiverWalletId?: string;
+      userId?: string;
+    },
+    opts?: { db?: typeof db },
+  ) {
+    // Support transaction-scoped DB instance via opts.db.
+    const database = opts?.db ?? db;
+
     const insertData = {
       amount:
         typeof data.amount === "string" ? data.amount : String(data.amount),
@@ -66,7 +72,7 @@ export class DwollaDal {
       userId: data.userId ?? undefined,
     } as typeof dwolla_transfers.$inferInsert;
 
-    const [row] = await db
+    const [row] = await database
       .insert(dwolla_transfers)
       .values(insertData)
       .returning();

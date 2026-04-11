@@ -94,8 +94,8 @@ Rules by severity:
 
 File-specific overrides:
 
-- `lib/actions/**` — `no-console: "off"`, `require-await: "off"`
-- `lib/dal/base.dal.ts` — `@typescript-eslint/no-explicit-any: "off"`
+- `actions/**` — `no-console: "off"`, `require-await: "off"`
+- `dal/base.dal.ts` — `@typescript-eslint/no-explicit-any: "off"`
 - `components/plaid-link.tsx`, `lib/auth-config.ts`, `lib/auth-options.ts` — `unicorn/no-null: "off"`
 - `scripts/**` — `no-console` allowed for `warn` and `error`
 - `tests/e2e/global-setup.ts` — `no-console: "off"`, `n/no-process-env: "off"`
@@ -197,10 +197,10 @@ Same as v3.0.
 
 | # | Location | Issue | Severity | Status |
 | --- | --- | --- | --- | --- |
-| 1 | `lib/dal/base.dal.ts` | Generic rewrite done; internal `as any` casts remain (intentional, ESLint disabled) | Low | Substantially resolved |
-| 2 | `lib/actions/admin.actions.ts` | Auth + isAdmin guard added; signature changed to `input: unknown` | — | **RESOLVED** |
+| 1 | `dal/base.dal.ts` | Generic rewrite done; internal `as any` casts remain (intentional, ESLint disabled) | Low | Substantially resolved |
+| 2 | `actions/admin.actions.ts` | Auth + isAdmin guard added; signature changed to `input: unknown` | — | **RESOLVED** |
 | 3 | `lib/actions/updateProfile.ts` | userId now from session only | — | **RESOLVED** |
-| 4 | `lib/actions/plaid.actions.ts` | `getAllBalances()` N+1 — calls `getBalance()` per bank in loop | Medium | Open |
+| 4 | `actions/plaid.actions.ts` | `getAllBalances()` N+1 — calls `getBalance()` per bank in loop | Medium | Open |
 | 5 | `proxy.ts` | `app/middleware.ts` deleted; no root proxy yet — routes unprotected | Critical | Partially resolved |
 | 6 | `lib/auth-options.ts` + `lib/auth-config.ts` | Two conflicting auth configs (JWT vs database) | Critical | Open |
 | 7 | `/api/health` | DB/Redis checks always return `true` (stub) | Low | Open |

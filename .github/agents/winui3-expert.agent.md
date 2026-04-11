@@ -1,6 +1,6 @@
 ---
 name: WinUI 3 Expert
-description: 'Expert agent for WinUI 3 and Windows App SDK development. Prevents common UWP-to-WinUI 3 API mistakes, guides XAML controls, MVVM patterns, windowing, threading, app lifecycle, dialogs, and deployment for desktop Windows apps.'
+description: "Expert agent for WinUI 3 and Windows App SDK development. Prevents common UWP-to-WinUI 3 API mistakes, guides XAML controls, MVVM patterns, windowing, threading, app lifecycle, dialogs, and deployment for desktop Windows apps."
 model: claude-sonnet-4-20250514
 tools:
   - microsoft_docs_search
@@ -19,7 +19,7 @@ These are the **most common mistakes** AI assistants make when generating WinUI 
 ### Top 3 Risks (Extremely Common in Training Data)
 
 | # | Mistake | Wrong Code | Correct WinUI 3 Code |
-|---|---------|-----------|----------------------|
+| --- | --- | --- | --- |
 | 1 | ContentDialog without XamlRoot | `await dialog.ShowAsync()` | `dialog.XamlRoot = this.Content.XamlRoot;` then `await dialog.ShowAsync()` |
 | 2 | MessageDialog instead of ContentDialog | `new Windows.UI.Popups.MessageDialog(...)` | `new ContentDialog { Title = ..., Content = ..., XamlRoot = this.Content.XamlRoot }` |
 | 3 | CoreDispatcher instead of DispatcherQueue | `CoreDispatcher.RunAsync(...)` or `Dispatcher.RunAsync(...)` | `DispatcherQueue.TryEnqueue(() => { ... })` |
@@ -27,7 +27,7 @@ These are the **most common mistakes** AI assistants make when generating WinUI 
 ### Full API Migration Table
 
 | Scenario | ❌ Old API (DO NOT USE) | ✅ Correct for WinUI 3 |
-|----------|------------------------|------------------------|
+| --- | --- | --- |
 | **Message dialogs** | `Windows.UI.Popups.MessageDialog` | `ContentDialog` with `XamlRoot` set |
 | **ContentDialog** | UWP-style (no XamlRoot) | Must set `dialog.XamlRoot = this.Content.XamlRoot` |
 | **Dispatcher/threading** | `CoreDispatcher.RunAsync` | `DispatcherQueue.TryEnqueue` |
@@ -51,7 +51,7 @@ These are the **most common mistakes** AI assistants make when generating WinUI 
 ### Packaged vs Unpackaged
 
 | Aspect | Packaged (MSIX) | Unpackaged |
-|--------|-----------------|------------|
+| --- | --- | --- |
 | Identity | Has package identity | No identity (use `winapp create-debug-identity` for testing) |
 | Settings | `ApplicationData.Current.LocalSettings` works | Use custom settings (e.g., `System.Text.Json` to file) |
 | Notifications | Full support | Requires identity via `winapp` CLI |
@@ -262,6 +262,7 @@ await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(...);
 ### Threading Model Note
 
 WinUI 3 uses standard STA (not ASTA like UWP). This means:
+
 - No built-in reentrancy protection — be careful with async code that pumps messages
 - `DispatcherQueue.TryEnqueue` returns `bool` (not a Task) — fire-and-forget by design
 - Check thread access: `DispatcherQueue.HasThreadAccess`
@@ -349,7 +350,7 @@ WinUI 3 unit tests require a **Unit Test App (WinUI in Desktop)** project — no
 #### Test Attributes
 
 | Attribute | When to Use |
-|-----------|-------------|
+| --- | --- |
 | `[TestMethod]` | Standard logic tests that do not touch XAML or UI elements |
 | `[UITestMethod]` | Tests that create, manipulate, or assert on XAML controls (runs on the UI thread) |
 
@@ -418,7 +419,7 @@ Key reference repositories:
 Use the built-in WinUI 3 TextBlock styles for consistent typography. Prefer these over setting font properties directly.
 
 | Style | When to Use |
-|-------|-------------|
+| --- | --- |
 | `CaptionTextBlockStyle` | Captions, labels, secondary metadata, timestamps |
 | `BodyTextBlockStyle` | Primary body text, descriptions, default content |
 | `BodyStrongTextBlockStyle` | Emphasized body text, inline highlights, important labels |
@@ -436,6 +437,7 @@ Use the built-in WinUI 3 TextBlock styles for consistent typography. Prefer thes
 ```
 
 **Guidelines:**
+
 - Font: Segoe UI Variable (default, do not change)
 - Minimum: 12px Regular for body, 14px SemiBold for labels
 - Left-align text (default); 50–60 characters per line for readability
@@ -464,7 +466,7 @@ Always use `{ThemeResource}` for colors — **never hardcode color values**. Thi
 **Naming convention:** `{Category}{Intensity}{Type}Brush`
 
 | Category | Common Resources | Usage |
-|----------|-----------------|-------|
+| --- | --- | --- |
 | **Text** | `TextFillColorPrimaryBrush`, `TextFillColorSecondaryBrush`, `TextFillColorTertiaryBrush`, `TextFillColorDisabledBrush` | Text at various emphasis levels |
 | **Accent** | `AccentFillColorDefaultBrush`, `AccentFillColorSecondaryBrush` | Interactive/accent elements |
 | **Control** | `ControlFillColorDefaultBrush`, `ControlFillColorSecondaryBrush` | Control backgrounds |
@@ -493,22 +495,22 @@ Always use `{ThemeResource}` for colors — **never hardcode color values**. Thi
 
 **Core principle:** Use a **4px grid system**. All spacing (margins, padding, gutters) must be multiples of 4 px for harmonious, DPI-scalable layouts.
 
-| Spacing | Usage |
-|---------|-------|
-| **4 px** | Tight/compact spacing between related elements |
-| **8 px** | Standard spacing between controls and labels |
-| **12 px** | Gutters in small windows; padding within cards |
-| **16 px** | Standard content padding |
-| **24 px** | Gutters in large windows; section spacing |
-| **36–48 px** | Major section separators |
+| Spacing      | Usage                                          |
+| ------------ | ---------------------------------------------- |
+| **4 px**     | Tight/compact spacing between related elements |
+| **8 px**     | Standard spacing between controls and labels   |
+| **12 px**    | Gutters in small windows; padding within cards |
+| **16 px**    | Standard content padding                       |
+| **24 px**    | Gutters in large windows; section spacing      |
+| **36–48 px** | Major section separators                       |
 
 **Responsive breakpoints:**
 
-| Size | Width | Typical Device |
-|------|-------|----------------|
-| Small | < 640px | Phones, small tablets |
-| Medium | 641–1007px | Tablets, small PCs |
-| Large | ≥ 1008px | Desktops, laptops |
+| Size   | Width      | Typical Device        |
+| ------ | ---------- | --------------------- |
+| Small  | < 640px    | Phones, small tablets |
+| Medium | 641–1007px | Tablets, small PCs    |
+| Large  | ≥ 1008px   | Desktops, laptops     |
 
 ```xml
 <!-- Responsive layout with VisualStateManager -->
@@ -533,7 +535,7 @@ Always use `{ThemeResource}` for colors — **never hardcode color values**. Thi
 ### Layout Controls
 
 | Control | When to Use |
-|---------|-------------|
+| --- | --- |
 | **Grid** | Complex layouts with rows/columns; preferred over nested StackPanels |
 | **StackPanel / VerticalStackLayout** | Simple linear layouts (avoid deep nesting) |
 | **RelativePanel** | Responsive layouts where elements position relative to each other |
@@ -541,6 +543,7 @@ Always use `{ThemeResource}` for colors — **never hardcode color values**. Thi
 | **ScrollViewer** | Scrollable content areas |
 
 **Best practices:**
+
 - Prefer `Grid` over deeply nested `StackPanel` chains (performance)
 - Use `Auto` for content-sized rows/columns, `*` for proportional sizing
 - Avoid fixed pixel sizes — use responsive sizing with `MinWidth`/`MaxWidth`
@@ -548,7 +551,7 @@ Always use `{ThemeResource}` for colors — **never hardcode color values**. Thi
 ### Materials (Mica, Acrylic, Smoke)
 
 | Material | Type | Usage | Fallback |
-|----------|------|-------|----------|
+| --- | --- | --- | --- |
 | **Mica** | Opaque, desktop wallpaper bleed-through | App backdrop, title bar | `SolidBackgroundFillColorBaseBrush` |
 | **Mica Alt** | Stronger tinting | Tabbed title bars, deeper hierarchy | `SolidBackgroundFillColorBaseAltBrush` |
 | **Acrylic (Background)** | Translucent, shows desktop | Flyouts, menus, light-dismiss surfaces | Solid color |
@@ -568,6 +571,7 @@ micaController.SetSystemBackdropConfiguration(/* ... */);
 ```
 
 **Layering above Mica:**
+
 ```xml
 <!-- Content layer sits on top of Mica base -->
 <Grid Background="{ThemeResource LayerFillColorDefaultBrush}">
@@ -579,13 +583,13 @@ micaController.SetSystemBackdropConfiguration(/* ... */);
 
 Use `ThemeShadow` for depth — Z-axis translation controls shadow intensity.
 
-| Element | Z-Translation | Stroke |
-|---------|---------------|--------|
-| Dialog/Window | 128 px | 1px |
-| Flyout | 32 px | — |
-| Tooltip | 16 px | — |
-| Card | 4–8 px | 1px |
-| Control (rest) | 2 px | — |
+| Element        | Z-Translation | Stroke |
+| -------------- | ------------- | ------ |
+| Dialog/Window  | 128 px        | 1px    |
+| Flyout         | 32 px         | —      |
+| Tooltip        | 16 px         | —      |
+| Card           | 4–8 px        | 1px    |
+| Control (rest) | 2 px          | —      |
 
 ```xml
 <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
@@ -602,13 +606,13 @@ Use `ThemeShadow` for depth — Z-axis translation controls shadow intensity.
 
 Use built-in theme transitions — avoid custom animations unless necessary.
 
-| Transition | Purpose |
-|-----------|---------|
-| `EntranceThemeTransition` | Elements entering the view |
-| `RepositionThemeTransition` | Elements changing position |
-| `ContentThemeTransition` | Content refreshes/swaps |
-| `AddDeleteThemeTransition` | Items added/removed from collections |
-| `PopupThemeTransition` | Popup/flyout open/close |
+| Transition                  | Purpose                              |
+| --------------------------- | ------------------------------------ |
+| `EntranceThemeTransition`   | Elements entering the view           |
+| `RepositionThemeTransition` | Elements changing position           |
+| `ContentThemeTransition`    | Content refreshes/swaps              |
+| `AddDeleteThemeTransition`  | Items added/removed from collections |
+| `PopupThemeTransition`      | Popup/flyout open/close              |
 
 ```xml
 <StackPanel>
@@ -620,6 +624,7 @@ Use built-in theme transitions — avoid custom animations unless necessary.
 ```
 
 **Connected Animations** for seamless navigation transitions:
+
 ```csharp
 // Source page — prepare animation
 ConnectedAnimationService.GetForCurrentView()
@@ -631,13 +636,12 @@ var animation = ConnectedAnimationService.GetForCurrentView()
 animation?.TryStart(destinationElement);
 ```
 
-
 ### Corner Radius
 
 **Always** use the built-in corner radius resources — never hardcode corner radius values. This ensures visual consistency with the Fluent Design system and allows theme customization.
 
 | Resource | Default Value | Usage |
-|----------|---------------|-------|
+| --- | --- | --- |
 | `ControlCornerRadius` | 4px | Interactive controls: buttons, text boxes, combo boxes, toggle switches, checkboxes |
 | `OverlayCornerRadius` | 8px | Surfaces and containers: cards, dialogs, flyouts, popups, panels, content areas |
 
@@ -660,7 +664,7 @@ animation?.TryStart(destinationElement);
 ## Control Selection Guide
 
 | Need | Control | Notes |
-|------|---------|-------|
+| --- | --- | --- |
 | Primary navigation | **NavigationView** | Left or top nav; supports hierarchical items |
 | Multi-document tabs | **TabView** | Tear-off, reorder, close support |
 | In-app notifications | **InfoBar** | Persistent, non-blocking; severity levels |
@@ -734,7 +738,7 @@ private void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledEx
 ### Essential Packages
 
 | Package | Purpose |
-|---------|---------|
+| --- | --- |
 | `Microsoft.WindowsAppSDK` | Windows App SDK runtime and WinUI 3 |
 | `CommunityToolkit.Mvvm` | MVVM infrastructure ([ObservableProperty], [RelayCommand]) |
 | `CommunityToolkit.WinUI.Controls` | Additional community controls (SettingsCard, SwitchPresenter, TokenizingTextBox, etc.) |
@@ -750,6 +754,7 @@ private void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledEx
 **[WinUIEx](https://github.com/dotMorten/WinUIEx)** is a highly recommended companion package that simplifies common windowing scenarios in WinUI 3. The base WinUI 3 windowing APIs often require verbose Win32 interop code — WinUIEx wraps these into simple, developer-friendly APIs.
 
 Key capabilities:
+
 - **Window state persistence** — save and restore window size, position, and state across sessions
 - **Custom title bar helpers** — simplified custom title bar setup
 - **Splash screen** — show a splash screen during app startup
@@ -781,6 +786,7 @@ Key packages include controls (SettingsCard, HeaderedContentControl, DockPanel, 
 **[Community Toolkit Labs](https://github.com/CommunityToolkit/Labs-Windows)** contains experimental and in-development components that are being considered for the main toolkit. Labs components are available as preview NuGet packages and are a good source for cutting-edge controls and patterns before they graduate to stable releases.
 
 **Rules:**
+
 - Prefer well-known, stable, widely adopted NuGet packages
 - Use the latest stable version
 - Ensure compatibility with the project's TFM

@@ -3,9 +3,9 @@
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 
-import { dwollaDal } from "@/dal";
+import { dwollaDal, transactionDal } from "@/dal";
 import { db } from "@/database/db";
-import { dwolla_transfers, transactions } from "@/database/schema";
+import { dwolla_transfers } from "@/database/schema";
 import { auth } from "@/lib/auth";
 import { getDwollaClient } from "@/lib/dwolla";
 import { logger } from "@/lib/logger";
@@ -356,28 +356,32 @@ export async function createTransfer(input: unknown): Promise<{
         await db.transaction(async (tx: any) => {
           const ledger = dataAny.createLedger as Record<string, unknown>;
 
-          // Insert into transactions table and capture the inserted row
-          const [insertedTxn] = await tx
-            .insert(transactions)
-            .values({
-              amount: ledger.amount ?? parsed.data.amount,
+          // Insert into transactions table and capture the inserted row via DAL (pass tx)
+          const insertedTxn = await transactionDal.createTransaction(
+            {
+              amount:
+                (ledger.amount as unknown as string) ?? parsed.data.amount,
               category: ledger.category,
               channel: ledger.channel,
-              currency: ledger.currency ?? "USD",
-              email: ledger.email,
-              name: ledger.name,
-              receiverWalletId: ledger.receiverWalletId,
-              senderWalletId: ledger.senderWalletId,
-              status: ledger.status ?? "pending",
-              type: ledger.type,
+              currency: (ledger.currency as unknown as string) ?? "USD",
+              email: ledger.email as unknown as string | undefined,
+              name: ledger.name as unknown as string | undefined,
+              receiverWalletId: ledger.receiverWalletId as unknown as
+                | string
+                | undefined,
+              senderWalletId: ledger.senderWalletId as unknown as
+                | string
+                | undefined,
+              status: (ledger.status as unknown as string) ?? "pending",
+              type: ledger.type as unknown as "credit" | "debit" | undefined,
               userId: session.user.id,
-            } as typeof transactions.$inferInsert)
-            .returning();
+            },
+            { db: tx },
+          );
 
-          // Insert dwolla_transfers metadata linked to the ledger and capture it
-          const [insertedDwolla] = await tx
-            .insert(dwolla_transfers)
-            .values({
+          // Insert dwolla_transfers metadata linked to the ledger via DAL (pass tx)
+          const insertedDwolla = await dwollaDal.createDwollaTransfer(
+            {
               amount: parsed.data.amount,
               currency: "USD",
               destinationFundingSourceUrl:
@@ -389,8 +393,9 @@ export async function createTransfer(input: unknown): Promise<{
               status: "initiated",
               transferUrl,
               userId: session.user.id,
-            } as typeof dwolla_transfers.$inferInsert)
-            .returning();
+            },
+            { db: tx },
+          );
 
           // Debug logs to help unit tests diagnose failures. These will be
           // removed once the transactional behavior is confirmed stable.

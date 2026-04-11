@@ -1,7 +1,18 @@
 ---
 name: react18-test-guardian
-description: 'Test suite fixer and verifier for React 16/17 → 18.3.1 migration. Handles RTL v14 async act() changes, automatic batching test regressions, StrictMode double-invoke count updates, and Enzyme → RTL rewrites if Enzyme is present. Loops until zero test failures. Invoked as subagent by react18-commander.'
-tools: ['vscode/memory', 'edit/editFiles', 'execute/getTerminalOutput', 'execute/runInTerminal', 'read/terminalLastCommand', 'read/terminalSelection', 'search', 'search/usages', 'read/problems']
+description: "Test suite fixer and verifier for React 16/17 → 18.3.1 migration. Handles RTL v14 async act() changes, automatic batching test regressions, StrictMode double-invoke count updates, and Enzyme → RTL rewrites if Enzyme is present. Loops until zero test failures. Invoked as subagent by react18-commander."
+tools:
+  [
+    "vscode/memory",
+    "edit/editFiles",
+    "execute/getTerminalOutput",
+    "execute/runInTerminal",
+    "read/terminalLastCommand",
+    "read/terminalSelection",
+    "search",
+    "search/usages",
+    "read/problems"
+  ]
 user-invocable: false
 ---
 
@@ -57,36 +68,36 @@ grep -rl "from 'enzyme'\|require.*enzyme" src/ --include="*.test.*" --include="*
 
 ```jsx
 // ENZYME: shallow render
-import { shallow } from 'enzyme';
+import { shallow } from "enzyme";
 const wrapper = shallow(<MyComponent prop="value" />);
 
 // RTL equivalent:
-import { render, screen } from '@testing-library/react';
+import { render, screen } from "@testing-library/react";
 render(<MyComponent prop="value" />);
 ```
 
 ```jsx
 // ENZYME: find + simulate
-const button = wrapper.find('button');
-button.simulate('click');
-expect(wrapper.find('.result').text()).toBe('Clicked');
+const button = wrapper.find("button");
+button.simulate("click");
+expect(wrapper.find(".result").text()).toBe("Clicked");
 
 // RTL equivalent:
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent } from "@testing-library/react";
 render(<MyComponent />);
-fireEvent.click(screen.getByRole('button'));
-expect(screen.getByText('Clicked')).toBeInTheDocument();
+fireEvent.click(screen.getByRole("button"));
+expect(screen.getByText("Clicked")).toBeInTheDocument();
 ```
 
 ```jsx
 // ENZYME: prop/state assertion
-expect(wrapper.prop('disabled')).toBe(true);
-expect(wrapper.state('count')).toBe(3);
+expect(wrapper.prop("disabled")).toBe(true);
+expect(wrapper.state("count")).toBe(3);
 
 // RTL equivalent (test behavior, not internals):
-expect(screen.getByRole('button')).toBeDisabled();
+expect(screen.getByRole("button")).toBeDisabled();
 // State is internal - test the rendered output instead:
-expect(screen.getByText('Count: 3')).toBeInTheDocument();
+expect(screen.getByText("Count: 3")).toBeInTheDocument();
 ```
 
 ```jsx
@@ -94,12 +105,12 @@ expect(screen.getByText('Count: 3')).toBeInTheDocument();
 wrapper.instance().handleClick();
 
 // RTL equivalent: trigger through the UI
-fireEvent.click(screen.getByRole('button', { name: /click me/i }));
+fireEvent.click(screen.getByRole("button", { name: /click me/i }));
 ```
 
 ```jsx
 // ENZYME: mount with context
-import { mount } from 'enzyme';
+import { mount } from "enzyme";
 const wrapper = mount(
   <Provider store={store}>
     <MyComponent />
@@ -107,7 +118,7 @@ const wrapper = mount(
 );
 
 // RTL equivalent:
-import { render } from '@testing-library/react';
+import { render } from "@testing-library/react";
 render(
   <Provider store={store}>
     <MyComponent />
@@ -128,22 +139,24 @@ React 18's `act()` is more strict about async updates. Most failures with `act` 
 act(() => {
   fireEvent.click(button);
 });
-expect(screen.getByText('Updated')).toBeInTheDocument();
+expect(screen.getByText("Updated")).toBeInTheDocument();
 
 // After (React 18 - async act for async state updates)
 await act(async () => {
   fireEvent.click(button);
 });
-expect(screen.getByText('Updated')).toBeInTheDocument();
+expect(screen.getByText("Updated")).toBeInTheDocument();
 ```
 
 **Or simply use RTL's built-in async utilities which wrap act internally:**
 
 ```jsx
 fireEvent.click(button);
-await waitFor(() => expect(screen.getByText('Updated')).toBeInTheDocument());
+await waitFor(() =>
+  expect(screen.getByText("Updated")).toBeInTheDocument()
+);
 // OR:
-await screen.findByText('Updated'); // findBy* waits automatically
+await screen.findByText("Updated"); // findBy* waits automatically
 ```
 
 ---
@@ -154,23 +167,29 @@ Tests that asserted on intermediate state between setState calls will fail:
 
 ```jsx
 // Before (React 17 - each setState re-rendered immediately)
-it('shows loading then content', async () => {
+it("shows loading then content", async () => {
   render(<AsyncComponent />);
-  fireEvent.click(screen.getByText('Load'));
+  fireEvent.click(screen.getByText("Load"));
   // Asserted immediately after click - intermediate state render was synchronous
-  expect(screen.getByText('Loading...')).toBeInTheDocument();
-  await waitFor(() => expect(screen.getByText('Data Loaded')).toBeInTheDocument());
+  expect(screen.getByText("Loading...")).toBeInTheDocument();
+  await waitFor(() =>
+    expect(screen.getByText("Data Loaded")).toBeInTheDocument()
+  );
 });
 ```
 
 ```jsx
 // After (React 18 - use waitFor for intermediate states)
-it('shows loading then content', async () => {
+it("shows loading then content", async () => {
   render(<AsyncComponent />);
-  fireEvent.click(screen.getByText('Load'));
+  fireEvent.click(screen.getByText("Load"));
   // Loading state now appears asynchronously
-  await waitFor(() => expect(screen.getByText('Loading...')).toBeInTheDocument());
-  await waitFor(() => expect(screen.getByText('Data Loaded')).toBeInTheDocument());
+  await waitFor(() =>
+    expect(screen.getByText("Loading...")).toBeInTheDocument()
+  );
+  await waitFor(() =>
+    expect(screen.getByText("Data Loaded")).toBeInTheDocument()
+  );
 });
 ```
 
@@ -186,15 +205,15 @@ RTL v14 introduced some breaking changes from v13:
 
 ```jsx
 // Before (RTL v13 - userEvent was synchronous)
-import userEvent from '@testing-library/user-event';
+import userEvent from "@testing-library/user-event";
 userEvent.click(button);
-expect(screen.getByText('Clicked')).toBeInTheDocument();
+expect(screen.getByText("Clicked")).toBeInTheDocument();
 
 // After (RTL v14 - userEvent is async)
-import userEvent from '@testing-library/user-event';
+import userEvent from "@testing-library/user-event";
 const user = userEvent.setup();
 await user.click(button);
-expect(screen.getByText('Clicked')).toBeInTheDocument();
+expect(screen.getByText("Clicked")).toBeInTheDocument();
 ```
 
 Scan for all `userEvent.` calls that are not awaited:
@@ -249,8 +268,8 @@ Ensure custom render helpers use RTL's `render` (which uses `createRoot` interna
 
 ```jsx
 // RTL v14 custom render - React 18 compatible
-import { render } from '@testing-library/react';
-import { MockedProvider } from '@apollo/client/testing';
+import { render } from "@testing-library/react";
+import { MockedProvider } from "@apollo/client/testing";
 
 const customRender = (ui, { mocks = [], ...options } = {}) =>
   render(ui, {
@@ -259,7 +278,7 @@ const customRender = (ui, { mocks = [], ...options } = {}) =>
         {children}
       </MockedProvider>
     ),
-    ...options,
+    ...options
   });
 ```
 
@@ -271,7 +290,7 @@ Apollo 3.8+ with React 18 - MockedProvider works but async behavior changed:
 
 ```jsx
 // React 18 - Apollo mocks need explicit async flush
-it('loads user data', async () => {
+it("loads user data", async () => {
   render(
     <MockedProvider mocks={mocks} addTypename={false}>
       <UserCard id="1" />
@@ -280,7 +299,7 @@ it('loads user data', async () => {
 
   // React 18: use waitFor or findBy - act() may not be sufficient alone
   await waitFor(() => {
-    expect(screen.getByText('John Doe')).toBeInTheDocument();
+    expect(screen.getByText("John Doe")).toBeInTheDocument();
   });
 });
 ```
@@ -332,7 +351,7 @@ npm test -- --watchAll=false --passWithNoTests --forceExit 2>&1 | grep -E "^Test
 ## React 18 Test Error Triage Table
 
 | Error | Cause | Fix |
-|---|---|---|
+| --- | --- | --- |
 | `Enzyme cannot find module react-dom/adapter` | No React 18 adapter | Full RTL rewrite |
 | `Cannot read getByText of undefined` | Enzyme wrapper ≠ screen | Switch to RTL queries |
 | `act() not returned` | Async state update outside act | Use `await act(async () => {...})` or `waitFor` |

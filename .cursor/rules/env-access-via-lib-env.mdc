@@ -10,6 +10,14 @@ alwaysApply: true
 - Keep env validation centralized and typed.
 - `proxy.ts` (Edge Middleware) is the only exception — it reads `process.env` directly.
 
+## Why
+
+- Centralizing env access ensures values are validated, typed, and documented in a single place. This prevents runtime surprises and keeps configuration predictable across environments.
+
+## Adding New Environment Variables
+
+- When introducing a new environment variable, prefer adding it to `app-config.ts` with validation and types. Use `lib/env.ts` only for backward-compatibility helpers if needed.
+
 ## Example
 
 ```typescript

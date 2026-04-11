@@ -1,7 +1,18 @@
 ---
 name: react18-batching-fixer
-description: 'Automatic batching regression specialist. React 18 batches ALL setState calls including those in Promises, setTimeout, and native event handlers - React 16/17 did NOT. Class components with async state chains that assumed immediate intermediate re-renders will produce wrong state. This agent finds every vulnerable pattern and fixes with flushSync where semantically required.'
-tools: ['vscode/memory', 'edit/editFiles', 'execute/getTerminalOutput', 'execute/runInTerminal', 'read/terminalLastCommand', 'read/terminalSelection', 'search', 'search/usages', 'read/problems']
+description: "Automatic batching regression specialist. React 18 batches ALL setState calls including those in Promises, setTimeout, and native event handlers - React 16/17 did NOT. Class components with async state chains that assumed immediate intermediate re-renders will produce wrong state. This agent finds every vulnerable pattern and fixes with flushSync where semantically required."
+tools:
+  [
+    "vscode/memory",
+    "edit/editFiles",
+    "execute/getTerminalOutput",
+    "execute/runInTerminal",
+    "read/terminalLastCommand",
+    "read/terminalSelection",
+    "search",
+    "search/usages",
+    "read/problems"
+  ]
 user-invocable: false
 ---
 
@@ -31,10 +42,11 @@ Write checkpoints:
 
 ```jsx
 // In an async method or setTimeout:
-this.setState({ loading: true });     // → React re-renders immediately
+this.setState({ loading: true }); // → React re-renders immediately
 // ... re-render happened, this.state.loading === true
 const data = await fetchData();
-if (this.state.loading) {             // ← reads the UPDATED state
+if (this.state.loading) {
+  // ← reads the UPDATED state
   this.setState({ data, loading: false });
 }
 ```
@@ -43,10 +55,11 @@ if (this.state.loading) {             // ← reads the UPDATED state
 
 ```jsx
 // In an async method or Promise:
-this.setState({ loading: true });     // → BATCHED - no immediate re-render
+this.setState({ loading: true }); // → BATCHED - no immediate re-render
 // ... NO re-render yet, this.state.loading is STILL false
 const data = await fetchData();
-if (this.state.loading) {             // ← STILL false! The condition fails silently.
+if (this.state.loading) {
+  // ← STILL false! The condition fails silently.
   this.setState({ data, loading: false }); // ← never called
 }
 // All setState calls flush TOGETHER at the end
@@ -205,17 +218,17 @@ When adding `flushSync`:
 
 ```jsx
 // Add to react-dom import (not react-dom/client)
-import { flushSync } from 'react-dom';
+import { flushSync } from "react-dom";
 ```
 
 If file already imports from `react-dom`:
 
 ```jsx
-import ReactDOM from 'react-dom';
+import ReactDOM from "react-dom";
 // Add flushSync to the import:
-import ReactDOM, { flushSync } from 'react-dom';
+import ReactDOM, { flushSync } from "react-dom";
 // OR:
-import { flushSync } from 'react-dom';
+import { flushSync } from "react-dom";
 ```
 
 ---
@@ -226,25 +239,31 @@ Batching also breaks tests. Common patterns:
 
 ```jsx
 // Test that asserted on intermediate state (React 17)
-it('shows loading state', async () => {
+it("shows loading state", async () => {
   render(<UserCard userId="1" />);
-  fireEvent.click(screen.getByText('Load'));
-  expect(screen.getByText('Loading...')).toBeInTheDocument(); // ← may not render yet in React 18
-  await waitFor(() => expect(screen.getByText('User Name')).toBeInTheDocument());
+  fireEvent.click(screen.getByText("Load"));
+  expect(screen.getByText("Loading...")).toBeInTheDocument(); // ← may not render yet in React 18
+  await waitFor(() =>
+    expect(screen.getByText("User Name")).toBeInTheDocument()
+  );
 });
 ```
 
 Fix: wrap the trigger in `act` and use `waitFor` for intermediate states:
 
 ```jsx
-it('shows loading state', async () => {
+it("shows loading state", async () => {
   render(<UserCard userId="1" />);
   await act(async () => {
-    fireEvent.click(screen.getByText('Load'));
+    fireEvent.click(screen.getByText("Load"));
   });
   // Check loading state appears - may need waitFor since batching may delay it
-  await waitFor(() => expect(screen.getByText('Loading...')).toBeInTheDocument());
-  await waitFor(() => expect(screen.getByText('User Name')).toBeInTheDocument());
+  await waitFor(() =>
+    expect(screen.getByText("Loading...")).toBeInTheDocument()
+  );
+  await waitFor(() =>
+    expect(screen.getByText("User Name")).toBeInTheDocument()
+  );
 });
 ```
 

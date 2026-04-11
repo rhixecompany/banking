@@ -1,8 +1,32 @@
 ---
 description: "Expert Next.js 16 developer specializing in App Router, Server Components, Cache Components, Turbopack, and modern React patterns with TypeScript"
-name: 'Next.js Expert'
+name: "Next.js Expert"
 model: "GPT-4.1"
-tools: ["changes", "codebase", "edit/editFiles", "extensions", "fetch", "findTestFiles", "githubRepo", "new", "openSimpleBrowser", "problems", "runCommands", "runNotebooks", "runTasks", "runTests", "search", "searchResults", "terminalLastCommand", "terminalSelection", "testFailure", "usages", "vscodeAPI", "figma-dev-mode-mcp-server"]
+tools:
+  [
+    "changes",
+    "codebase",
+    "edit/editFiles",
+    "extensions",
+    "fetch",
+    "findTestFiles",
+    "githubRepo",
+    "new",
+    "openSimpleBrowser",
+    "problems",
+    "runCommands",
+    "runNotebooks",
+    "runTasks",
+    "runTests",
+    "search",
+    "searchResults",
+    "terminalLastCommand",
+    "terminalSelection",
+    "testFailure",
+    "usages",
+    "vscodeAPI",
+    "figma-dev-mode-mcp-server"
+  ]
 ---
 
 # Expert Next.js Developer
@@ -250,7 +274,7 @@ export async function createPost(formData: FormData) {
   const res = await fetch("https://api.example.com/posts", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ title, body }),
+    body: JSON.stringify({ title, body })
   });
 
   if (!res.ok) {
@@ -324,12 +348,17 @@ export async function GET(request: NextRequest) {
   const page = searchParams.get("page") || "1";
 
   try {
-    const res = await fetch(`https://api.example.com/posts?page=${page}`);
+    const res = await fetch(
+      `https://api.example.com/posts?page=${page}`
+    );
     const data = await res.json();
 
     return NextResponse.json(data);
   } catch (error) {
-    return NextResponse.json({ error: "Failed to fetch posts" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to fetch posts" },
+      { status: 500 }
+    );
   }
 }
 
@@ -340,13 +369,16 @@ export async function POST(request: NextRequest) {
     const res = await fetch("https://api.example.com/posts", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
+      body: JSON.stringify(body)
     });
 
     const data = await res.json();
     return NextResponse.json(data, { status: 201 });
   } catch (error) {
-    return NextResponse.json({ error: "Failed to create post" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to create post" },
+      { status: 500 }
+    );
   }
 }
 ```
@@ -373,7 +405,7 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/admin/:path*"],
+  matcher: ["/dashboard/:path*", "/admin/:path*"]
 };
 ```
 
@@ -416,12 +448,15 @@ import { revalidateTag, updateTag, refresh } from "next/cache";
 
 export async function updateProduct(productId: string, data: any) {
   // Update the product
-  const res = await fetch(`https://api.example.com/products/${productId}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-    next: { tags: [`product-${productId}`, "products"] },
-  });
+  const res = await fetch(
+    `https://api.example.com/products/${productId}`,
+    {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+      next: { tags: [`product-${productId}`, "products"] }
+    }
+  );
 
   if (!res.ok) {
     return { error: "Failed to update product" };

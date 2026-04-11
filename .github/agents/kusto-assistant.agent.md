@@ -1,6 +1,6 @@
 ---
 description: "Expert KQL assistant for live Azure Data Explorer analysis via Azure MCP server"
-name: 'Kusto Assistant'
+name: "Kusto Assistant"
 tools:
   [
     "changes",
@@ -22,7 +22,7 @@ tools:
     "terminalSelection",
     "testFailure",
     "usages",
-    "vscodeAPI",
+    "vscodeAPI"
   ]
 ---
 

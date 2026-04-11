@@ -264,7 +264,7 @@ export const exchangePublicToken = async ({
 
 ```typescript
 "use server";
-import { hash } from "bcryptjs";
+import bcrypt from "bcrypt"; // docs: updated snippet — verify vs. source
 import { z } from "zod";
 
 import { db } from "@/database/db";
@@ -282,7 +282,7 @@ export async function registerUser(input: unknown) {
   if (!parsed.success)
     return { error: parsed.error.errors[0]?.message, ok: false };
   const { email, name, password } = parsed.data;
-  const hashed = await hash(password, 12);
+  const hashed = await bcrypt.hash(password, 12); // docs: updated snippet — verify vs. source
   try {
     const [user] = await db
       .insert(users)
@@ -885,9 +885,9 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-import { createTransfer } from "@/lib/actions/dwolla.actions";
-import { createTransaction } from "@/lib/actions/transaction.actions";
-import { getBank, getBankByAccountId } from "@/lib/actions/user.actions";
+import { createTransfer } from "@/actions/dwolla.actions";
+import { createTransaction } from "@/actions/transaction.actions";
+import { getBank, getBankByAccountId } from "@/actions/user.actions";
 import { decryptId } from "@/lib/utils";
 
 import { BankDropdown } from "./bank/BankDropdown";
@@ -1422,15 +1422,15 @@ Data Access Layer for type-safe database queries.
 
 ### DAL Files
 
-| File                         | Purpose                |
-| ---------------------------- | ---------------------- |
-| `lib/dal/user.dal.ts`        | User CRUD operations   |
-| `lib/dal/transaction.dal.ts` | Transaction operations |
+| File                     | Purpose                |
+| ------------------------ | ---------------------- |
+| `dal/user.dal.ts`        | User CRUD operations   |
+| `dal/transaction.dal.ts` | Transaction operations |
 
 ### Usage Example
 
 ```typescript
-import { userDal } from "@/lib/dal";
+import { userDal } from "@/dal";
 
 // Find user by email
 const user = await userDal.findByEmail("user@example.com");
@@ -1455,18 +1455,18 @@ All mutations use Next.js Server Actions.
 
 ### Action Files
 
-| File                                 | Purpose                |
-| ------------------------------------ | ---------------------- |
-| `lib/actions/register.ts`            | User registration      |
-| `lib/actions/updateProfile.ts`       | Profile updates        |
-| `lib/actions/admin.actions.ts`       | Admin operations       |
-| `lib/actions/transaction.actions.ts` | Transaction operations |
+| File                             | Purpose                |
+| -------------------------------- | ---------------------- |
+| `actions/register.ts`            | User registration      |
+| `actions/updateProfile.ts`       | Profile updates        |
+| `actions/admin.actions.ts`       | Admin operations       |
+| `actions/transaction.actions.ts` | Transaction operations |
 
 ### Usage Example
 
 ```typescript
 "use server";
-import { registerUser } from "@/lib/actions/register";
+import { registerUser } from "@/actions/register";
 
 async function handleSubmit(formData: FormData) {
   const result = await registerUser({

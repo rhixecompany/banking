@@ -1,6 +1,6 @@
 ---
-description: 'Ensure documentation and examples use only generic, cliche placeholder data — never real or sensitive data sourced from local scripts, configuration, task files, or prompt context.'
-applyTo: '**/*.{md,js,mjs,cjs,ts,tsx,jsx,py,json}'
+description: "Ensure documentation and examples use only generic, cliche placeholder data — never real or sensitive data sourced from local scripts, configuration, task files, or prompt context."
+applyTo: "**/*.{md,js,mjs,cjs,ts,tsx,jsx,py,json}"
 ---
 
 # Use Cliche Data in Documentation
@@ -62,9 +62,9 @@ If you add a feature using real account data (e.g., a script named after a real 
 ```javascript
 // accounts/acme.mjs — Example account configuration
 export default {
-  name: 'Acme Corp',
-  email: 'reports@example.com',
-  folder: 'INBOX',
+  name: "Acme Corp",
+  email: "reports@example.com",
+  folder: "INBOX"
 };
 ```
 
@@ -76,10 +76,10 @@ If a config file references real domains, real paths, or real credentials, repla
 
 ```json
 {
-  "host": "imap.example.com",
-  "user": "admin@example.com",
   "folder": "INBOX/Reports",
-  "outputDir": "./downloads"
+  "host": "imap.example.com",
+  "outputDir": "./downloads",
+  "user": "admin@example.com"
 }
 ```
 
@@ -112,4 +112,4 @@ A word from real data may appear in documentation **only** if it is a common Eng
 
 ## Summary
 
-Documentation is public. Implementation data is private. Keep them separate. Every example in every doc file should pass a simple test: *could a stranger read this and learn nothing about the real users, clients, or organizations behind this tool?* If the answer is no, replace the data with cliche placeholders.
+Documentation is public. Implementation data is private. Keep them separate. Every example in every doc file should pass a simple test: _could a stranger read this and learn nothing about the real users, clients, or organizations behind this tool?_ If the answer is no, replace the data with cliche placeholders.

@@ -107,7 +107,7 @@ const session = await client.createSession({
 ```typescript
 const session = await client.resumeSession("session-id", {
   tools: [myNewTool],
-  onPermissionRequest: approveAll,
+  onPermissionRequest: approveAll
 });
 ```
 
@@ -127,8 +127,8 @@ const session = await client.resumeSession("session-id", {
 ALWAYS use async/await or Promises for waiting on session events:
 
 ```typescript
-await new Promise<void>((resolve) => {
-  session.on((event) => {
+await new Promise<void>(resolve => {
+  session.on(event => {
     if (event.type === "assistant.message") {
       console.log(event.data.content);
     } else if (event.type === "session.idle") {
@@ -145,7 +145,7 @@ await new Promise<void>((resolve) => {
 The `on()` method returns a function that unsubscribes:
 
 ```typescript
-const unsubscribe = session.on((event) => {
+const unsubscribe = session.on(event => {
   // handler
 });
 // Later...
@@ -157,7 +157,7 @@ unsubscribe();
 Use discriminated unions with type guards for event handling:
 
 ```typescript
-session.on((event) => {
+session.on(event => {
   switch (event.type) {
     case "user.message":
       // Handle user message
@@ -192,9 +192,9 @@ Set `streaming: true` in SessionConfig:
 
 ```typescript
 const session = await client.createSession({
-    onPermissionRequest: approveAll,
-    model: "gpt-5",
-    streaming: true,
+  onPermissionRequest: approveAll,
+  model: "gpt-5",
+  streaming: true
 });
 ```
 
@@ -203,8 +203,8 @@ const session = await client.createSession({
 Handle both delta events (incremental) and final events:
 
 ```typescript
-await new Promise<void>((resolve) => {
-  session.on((event) => {
+await new Promise<void>(resolve => {
+  session.on(event => {
     switch (event.type) {
       case "assistant.message_delta":
         // Incremental text chunk
@@ -246,8 +246,8 @@ Use `defineTool` for type-safe tool definitions:
 import { defineTool } from "@github/copilot-sdk";
 
 const session = await client.createSession({
-    onPermissionRequest: approveAll,
-    model: "gpt-5",
+  onPermissionRequest: approveAll,
+  model: "gpt-5",
   tools: [
     defineTool({
       name: "lookup_issue",
@@ -255,16 +255,16 @@ const session = await client.createSession({
       parameters: {
         type: "object",
         properties: {
-          id: { type: "string", description: "Issue ID" },
+          id: { type: "string", description: "Issue ID" }
         },
-        required: ["id"],
+        required: ["id"]
       },
-      handler: async (args) => {
+      handler: async args => {
         const issue = await fetchIssue(args.id);
         return issue;
-      },
-    }),
-  ],
+      }
+    })
+  ]
 });
 ```
 
@@ -276,20 +276,20 @@ The SDK supports Zod schemas for parameters:
 import { z } from "zod";
 
 const session = await client.createSession({
-    onPermissionRequest: approveAll,
+  onPermissionRequest: approveAll,
   tools: [
     defineTool({
       name: "get_weather",
       description: "Get weather for a location",
       parameters: z.object({
         location: z.string().describe("City name"),
-        units: z.enum(["celsius", "fahrenheit"]).optional(),
+        units: z.enum(["celsius", "fahrenheit"]).optional()
       }),
-      handler: async (args) => {
+      handler: async args => {
         return { temperature: 72, units: args.units || "fahrenheit" };
-      },
-    }),
-  ],
+      }
+    })
+  ]
 });
 ```
 
@@ -321,8 +321,8 @@ When Copilot invokes a tool, the client automatically:
 
 ```typescript
 const session = await client.createSession({
-    onPermissionRequest: approveAll,
-    model: "gpt-5",
+  onPermissionRequest: approveAll,
+  model: "gpt-5",
   systemMessage: {
     mode: "append",
     content: `
@@ -330,8 +330,8 @@ const session = await client.createSession({
 - Always check for security vulnerabilities
 - Suggest performance improvements when applicable
 </workflow_rules>
-`,
-  },
+`
+  }
 });
 ```
 
@@ -339,12 +339,12 @@ const session = await client.createSession({
 
 ```typescript
 const session = await client.createSession({
-    onPermissionRequest: approveAll,
-    model: "gpt-5",
+  onPermissionRequest: approveAll,
+  model: "gpt-5",
   systemMessage: {
     mode: "replace",
-    content: "You are a helpful assistant.",
-  },
+    content: "You are a helpful assistant."
+  }
 });
 ```
 
@@ -359,9 +359,9 @@ await session.send({
     {
       type: "file",
       path: "/path/to/file.ts",
-      displayName: "My File",
-    },
-  ],
+      displayName: "My File"
+    }
+  ]
 });
 ```
 
@@ -375,7 +375,7 @@ Use the `mode` property in message options:
 ```typescript
 await session.send({
   prompt: "...",
-  mode: "enqueue",
+  mode: "enqueue"
 });
 ```
 
@@ -385,17 +385,17 @@ Sessions are independent and can run concurrently:
 
 ```typescript
 const session1 = await client.createSession({
-    onPermissionRequest: approveAll,
-    model: "gpt-5",
+  onPermissionRequest: approveAll,
+  model: "gpt-5"
 });
 const session2 = await client.createSession({
-    onPermissionRequest: approveAll,
-    model: "claude-sonnet-4.5",
+  onPermissionRequest: approveAll,
+  model: "claude-sonnet-4.5"
 });
 
 await Promise.all([
   session1.send({ prompt: "Hello from session 1" }),
-  session2.send({ prompt: "Hello from session 2" }),
+  session2.send({ prompt: "Hello from session 2" })
 ]);
 ```
 
@@ -405,12 +405,12 @@ Use custom API providers via `provider`:
 
 ```typescript
 const session = await client.createSession({
-    onPermissionRequest: approveAll,
+  onPermissionRequest: approveAll,
   provider: {
     type: "openai",
     baseUrl: "https://api.openai.com/v1",
-    apiKey: "your-api-key",
-  },
+    apiKey: "your-api-key"
+  }
 });
 ```
 
@@ -436,7 +436,9 @@ await client.deleteSession(sessionId);
 ```typescript
 const lastId = await client.getLastSessionId();
 if (lastId) {
-  const session = await client.resumeSession(lastId, { onPermissionRequest: approveAll });
+  const session = await client.resumeSession(lastId, {
+    onPermissionRequest: approveAll
+  });
 }
 ```
 
@@ -453,7 +455,9 @@ const state = client.getState();
 
 ```typescript
 try {
-  const session = await client.createSession({ onPermissionRequest: approveAll });
+  const session = await client.createSession({
+    onPermissionRequest: approveAll
+  });
   await session.send({ prompt: "Hello" });
 } catch (error) {
   console.error(`Error: ${error.message}`);
@@ -465,7 +469,7 @@ try {
 Monitor `session.error` event type for runtime errors:
 
 ```typescript
-session.on((event) => {
+session.on(event => {
   if (event.type === "session.error") {
     console.error(`Session Error: ${event.data.message}`);
   }
@@ -491,7 +495,9 @@ ALWAYS use try-finally or cleanup in a finally block:
 const client = new CopilotClient();
 try {
   await client.start();
-  const session = await client.createSession({ onPermissionRequest: approveAll });
+  const session = await client.createSession({
+    onPermissionRequest: approveAll
+  });
   try {
     // Use session...
   } finally {
@@ -506,7 +512,7 @@ try {
 
 ```typescript
 async function withClient<T>(
-  fn: (client: CopilotClient) => Promise<T>,
+  fn: (client: CopilotClient) => Promise<T>
 ): Promise<T> {
   const client = new CopilotClient();
   try {
@@ -519,9 +525,11 @@ async function withClient<T>(
 
 async function withSession<T>(
   client: CopilotClient,
-  fn: (session: CopilotSession) => Promise<T>,
+  fn: (session: CopilotSession) => Promise<T>
 ): Promise<T> {
-  const session = await client.createSession({ onPermissionRequest: approveAll });
+  const session = await client.createSession({
+    onPermissionRequest: approveAll
+  });
   try {
     return await fn(session);
   } finally {
@@ -530,8 +538,8 @@ async function withSession<T>(
 }
 
 // Usage
-await withClient(async (client) => {
-  await withSession(client, async (session) => {
+await withClient(async client => {
+  await withSession(client, async session => {
     await session.send({ prompt: "Hello!" });
   });
 });
@@ -564,11 +572,11 @@ try {
 
   const session = await client.createSession({
     onPermissionRequest: approveAll,
-    model: "gpt-5",
+    model: "gpt-5"
   });
   try {
-    await new Promise<void>((resolve) => {
-      session.on((event) => {
+    await new Promise<void>(resolve => {
+      session.on(event => {
         if (event.type === "assistant.message") {
           console.log(event.data.content);
         } else if (event.type === "session.idle") {
@@ -589,11 +597,13 @@ try {
 ### Multi-Turn Conversation
 
 ```typescript
-const session = await client.createSession({ onPermissionRequest: approveAll });
+const session = await client.createSession({
+  onPermissionRequest: approveAll
+});
 
 async function sendAndWait(prompt: string): Promise<void> {
   await new Promise<void>((resolve, reject) => {
-    const unsubscribe = session.on((event) => {
+    const unsubscribe = session.on(event => {
       if (event.type === "assistant.message") {
         console.log(event.data.content);
       } else if (event.type === "session.idle") {
@@ -617,7 +627,10 @@ await sendAndWait("What is its population?");
 
 ```typescript
 // Use built-in sendAndWait for simpler synchronous interaction
-const response = await session.sendAndWait({ prompt: "What is 2+2?" }, 60000);
+const response = await session.sendAndWait(
+  { prompt: "What is 2+2?" },
+  60000
+);
 
 if (response) {
   console.log(response.data.content);
@@ -638,24 +651,24 @@ interface UserInfo {
 }
 
 const session = await client.createSession({
-    onPermissionRequest: approveAll,
+  onPermissionRequest: approveAll,
   tools: [
     defineTool({
       name: "get_user",
       description: "Retrieve user information",
       parameters: z.object({
-        userId: z.string().describe("User ID"),
+        userId: z.string().describe("User ID")
       }),
       handler: async (args): Promise<UserInfo> => {
         return {
           id: args.userId,
           name: "John Doe",
           email: "john@example.com",
-          role: "Developer",
+          role: "Developer"
         };
-      },
-    }),
-  ],
+      }
+    })
+  ]
 });
 ```
 
@@ -664,7 +677,7 @@ const session = await client.createSession({
 ```typescript
 let currentMessage = "";
 
-const unsubscribe = session.on((event) => {
+const unsubscribe = session.on(event => {
   if (event.type === "assistant.message_delta") {
     currentMessage += event.data.deltaContent;
     process.stdout.write(event.data.deltaContent);
@@ -682,7 +695,7 @@ await session.send({ prompt: "Write a long story" });
 ### Error Recovery
 
 ```typescript
-session.on((event) => {
+session.on(event => {
   if (event.type === "session.error") {
     console.error("Session error:", event.data.message);
     // Optionally retry or handle error
@@ -702,7 +715,10 @@ try {
 ### Type Inference
 
 ```typescript
-import type { SessionEvent, AssistantMessageEvent } from "@github/copilot-sdk";
+import type {
+  SessionEvent,
+  AssistantMessageEvent
+} from "@github/copilot-sdk";
 
 session.on((event: SessionEvent) => {
   if (event.type === "assistant.message") {
@@ -717,10 +733,10 @@ session.on((event: SessionEvent) => {
 ```typescript
 async function waitForEvent<T extends SessionEvent["type"]>(
   session: CopilotSession,
-  eventType: T,
+  eventType: T
 ): Promise<Extract<SessionEvent, { type: T }>> {
-  return new Promise((resolve) => {
-    const unsubscribe = session.on((event) => {
+  return new Promise(resolve => {
+    const unsubscribe = session.on(event => {
       if (event.type === eventType) {
         unsubscribe();
         resolve(event as Extract<SessionEvent, { type: T }>);

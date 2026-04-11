@@ -1,130 +1,48 @@
 ---
 name: ServerActionSkill
-description: Server Action patterns for mutations, form handling, revalidation, and error handling in the Banking app. Use when creating forms, mutations, or data updates.
+description: Patterns and examples for Next.js Server Actions in the Banking app.
 ---
 
-# ServerActionSkill - Server Actions Patterns
+# ServerActionSkill — Server Actions
 
-## Overview
+Overview
 
-This skill provides guidance on Server Action patterns for the Banking project.
+Server Actions are the only allowed place for stateful mutations. Follow these rules: validate input with Zod, guard auth with `auth()`, perform DB operations through `dal/`, and revalidate caches after changes.
 
-## Action Files Location
+Quick Example
 
-All Server Actions live in `actions/` directory (NOT `lib/actions/`):
-
-| File | Coverage |
-| --- | --- |
-| `actions/register.ts` | User registration |
-| `actions/user.actions.ts` | Auth helpers (getLoggedInUser, logoutAccount, updateProfile) |
-| `actions/admin.actions.ts` | Admin toggle |
-| `actions/wallet.actions.ts` | Wallet CRUD (getUserWallets, disconnectWallet, createLinkToken, exchangePublicToken) |
-| `actions/dwolla.actions.ts` | Transfers (createTransfer) |
-| `actions/transaction.actions.ts` | Transaction queries (getRecentTransactions, getTransactionHistory) |
-| `actions/plaid.actions.ts` | Plaid integration |
-| `actions/recipient.actions.ts` | Recipient management |
-| `actions/admin-stats.actions.ts` | Admin statistics |
-
-## Basic Server Action
-
-```typescript
+```ts
 "use server";
-
-import { auth } from "@/lib/auth";
-import { userDal } from "@/dal/user.dal";
-import {
-  revalidatePath,
-  unstable_updateTag as updateTag
-} from "next/cache";
+import { auth } from "@/auth";
+import { userDal } from "@/dal";
+import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-const updateProfileSchema = z.object({
-  name: z.string().min(2).describe("User display name"),
-  image: z.string().url().optional().describe("Profile image URL")
+const Schema = z.object({
+  name: z.string().min(1).describe("Display name")
 });
 
-export async function updateProfile(
-  input: unknown
-): Promise<{ ok: boolean; error?: string }> {
+export async function updateProfile(input: unknown) {
   const session = await auth();
-  if (!session?.user?.id) {
-    return { ok: false, error: "Unauthorized" };
-  }
+  if (!session?.user) return { ok: false, error: "Unauthorized" };
+  const parsed = Schema.safeParse(input);
+  if (!parsed.success)
+    return { ok: false, error: parsed.error.message };
 
-  const result = updateProfileSchema.safeParse(input);
-  if (!result.success) {
-    return { ok: false, error: result.error.message };
-  }
-
-  await userDal.update(session.user.id, result.data);
-  revalidatePath("/dashboard");
-  updateTag("user");
-
+  await userDal.update(session.user.id, parsed.data);
+  revalidatePath("/profile");
   return { ok: true };
 }
 ```
 
-## Cache Revalidation
+Rules
 
-```typescript
-import {
-  revalidatePath,
-  unstable_updateTag as updateTag
-} from "next/cache";
+- Return shape: `{ ok: boolean; error?: string }`.
+- Always validate inputs on the server.
+- Use `dal/` for DB access and avoid queries in loops (no N+1).
+- Use `revalidatePath` / `revalidateTag` after mutations.
 
-// Use updateTag in Server Actions for immediate cache invalidation
-updateTag("wallets");
+Validation
 
-// Use revalidatePath for route-level invalidation
-revalidatePath("/my-wallets");
-```
-
-## Error Handling
-
-```typescript
-export async function transferFunds(
-  input: unknown
-): Promise<{ ok: boolean; error?: string }> {
-  try {
-    const session = await auth();
-    if (!session?.user) return { ok: false, error: "Unauthorized" };
-
-    const parsed = transferSchema.safeParse(input);
-    if (!parsed.success)
-      return { ok: false, error: parsed.error.message };
-
-    // ... transfer logic via DAL
-
-    revalidatePath("/transaction-history");
-    updateTag("transactions");
-    return { ok: true };
-  } catch {
-    return { ok: false, error: "Transfer failed. Please try again." };
-  }
-}
-```
-
-## Zod Schema Requirements
-
-Every schema field **must** include `.describe("...")` (enforced by ESLint `zod/prefer-meta`):
-
-```typescript
-const transferSchema = z.object({
-  amount: z.coerce.number().min(0.01).describe("Transfer amount"),
-  senderWalletId: z.string().min(1).describe("Sender wallet ID"),
-  receiverWalletId: z.string().min(1).describe("Receiver wallet ID")
-});
-```
-
-## Validation
-
-Run: `npm run type-check` and `npm run lint:strict`
-
-## Critical Rules
-
-1. **No API routes for mutations** — Use Server Actions for all writes
-2. **Always validate input** — Use Zod schemas with `.describe()` on every field
-3. **Auth check first** — Verify session before any action
-4. **Revalidate after mutations** — Use `revalidatePath()` and `updateTag()`
-5. **Return error shape** — `{ ok: boolean; error?: string }`
-6. **DAL only** — All DB access through `dal/`, never in actions directly
+- `npm run type-check`
+- `npm run lint:strict`

@@ -1,9 +1,8 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://github.com/awesome-opencode/awesome-opencode/data/schema.json",
-  "title": "Awesome Opencode Entry",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": true,
   "description": "Schema for validating YAML entries in the awesome-opencode list",
-  "type": "object",
   "properties": {
     "name": {
       "type": "string",
@@ -59,5 +58,6 @@
     }
   },
   "required": ["name", "repo", "tagline", "description"],
-  "additionalProperties": true
+  "title": "Awesome Opencode Entry",
+  "type": "object"
 }

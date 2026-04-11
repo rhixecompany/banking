@@ -52,14 +52,14 @@ Follow these steps for every draw.io task:
 
 ### Semantic Color Palette — Use consistently across the project
 
-| Role | fillColor | strokeColor |
-|---|---|---|
-| Primary / Info (default) | `#dae8fc` | `#6c8ebf` |
-| Success / Start / Positive | `#d5e8d4` | `#82b366` |
-| Warning / Decision | `#fff2cc` | `#d6b656` |
-| Error / End / Danger | `#f8cecc` | `#b85450` |
-| Neutral / Interface | `#f5f5f5` | `#666666` |
-| External / Partner | `#e1d5e7` | `#9673a6` |
+| Role                       | fillColor | strokeColor |
+| -------------------------- | --------- | ----------- |
+| Primary / Info (default)   | `#dae8fc` | `#6c8ebf`   |
+| Success / Start / Positive | `#d5e8d4` | `#82b366`   |
+| Warning / Decision         | `#fff2cc` | `#d6b656`   |
+| Error / End / Danger       | `#f8cecc` | `#b85450`   |
+| Neutral / Interface        | `#f5f5f5` | `#666666`   |
+| External / Partner         | `#e1d5e7` | `#9673a6`   |
 
 ### Always include on vertex shapes
 
@@ -80,7 +80,7 @@ edgeStyle=orthogonalEdgeStyle;html=1;
 ## Diagram-Type Quick Reference
 
 | Type | Container | Key shapes | Connector style |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | Flowchart | None | `ellipse` (start/end), `rounded=1` (process), `rhombus` (decision) | `orthogonalEdgeStyle` |
 | Architecture | `swimlane` per tier | `rounded=1` services, cloud/DB shapes | `orthogonalEdgeStyle` with labels |
 | Sequence | None | `mxgraph.uml.actor`, dashed lifeline edges | `endArrow=block` (sync), `endArrow=open;dashed=1` (return) |
@@ -134,7 +134,7 @@ python .github/skills/draw-io/scripts/validate-drawio.py <file.drawio>
 ## Reference Files
 
 | File | Use For |
-|---|---|
+| --- | --- |
 | `.github/skills/draw-io/SKILL.md` | Full agent workflow, recipes, troubleshooting |
 | `.github/skills/draw-io/references/drawio-xml-schema.md` | Complete mxCell attribute reference |
 | `.github/skills/draw-io/references/style-reference.md` | All style keys, shape names, edge types |

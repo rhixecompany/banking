@@ -1,18 +1,47 @@
-# Test Context Inventory
+# Test Context
 
-This document lists test files, helpers, and important fixtures used by unit and E2E tests.
+This document lists test files, helpers, fixtures and configuration discovered in the repository. Use this to understand test coverage, test helpers, and environment expectations.
 
-- tests/setup.ts — Test environment setup
-- tests/unit/\*\* — Vitest unit tests (many files)
-- tests/unit/plaid.test.ts — Plaid-specific unit tests
-- tests/unit/_dal_.test.ts — DAL tests (wallet.dal, dwolla.dal, transaction.dal)
-- tests/unit/_actions_.test.ts — Action tests (transaction.actions, user.actions, dwolla.actions)
+## Test frameworks
+
+- Playwright for E2E tests (tests/e2e)
+- Vitest for unit tests (tests/unit)
+
+## Setup and global helpers
+
+- tests/setup.ts — Vitest setup file
 - tests/e2e/global-setup.ts — Playwright global setup
 - tests/e2e/global-teardown.ts — Playwright global teardown
-- tests/e2e/helpers/\* — Playwright helpers (auth, db, plaid, dwolla)
-- tests/fixtures/\*\* — Test fixtures for pages and data
+- tests/mocks/msw/server.ts — MSW mock server for unit tests
 
-Notes:
+## Fixtures
 
-- E2E tests rely on a running dev server and a dev DB; ensure port 3000 is free before running tests.
-- Plaid & Dwolla helpers abstract external integrations for E2E; keep sandbox tokens out of repo.
+- tests/fixtures/pages/\* — Page fixtures for Playwright tests
+- tests/fixtures/wallets.ts — Wallet fixture data
+- tests/fixtures/transactions.ts — Transaction fixture data
+- tests/fixtures/auth.ts — Auth fixtures
+
+## Notable test files
+
+- tests/unit/TotalBalanceBox.test.tsx
+- tests/unit/Sidebar.test.tsx
+- tests/unit/MobileNav.test.tsx
+- tests/unit/AuthForm.test.tsx
+- tests/unit/plaid.test.ts
+- tests/unit/wallet.actions.test.ts
+- tests/e2e/auth.spec.ts
+- tests/e2e/my-wallets.spec.ts
+- tests/e2e/wallet-linking.spec.ts
+- tests/e2e/payment-transfer.spec.ts
+- tests/e2e/transaction-history.spec.ts
+
+## Test-related scripts
+
+- npm run test (runs Playwright E2E then Vitest)
+- tests use port 3000 for the dev server (ensure free before running E2E)
+
+## Recommended improvements
+
+- Ensure MSW handlers cover all external API calls used by unit tests (Plaid, Dwolla)
+- Add more unit tests around DAL methods to assert no N+1 patterns
+- Add CI job to run E2E against a local ephemeral DB seeded via scripts/seed

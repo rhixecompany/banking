@@ -1,7 +1,18 @@
 ---
 name: react18-auditor
-description: 'Deep-scan specialist for React 16/17 class-component codebases targeting React 18.3.1. Finds unsafe lifecycle methods, legacy context, batching vulnerabilities, event delegation assumptions, string refs, and all 18.3.1 deprecation surface. Reads everything, touches nothing. Saves .github/react18-audit.md.'
-tools: ['vscode/memory', 'search', 'search/usages', 'execute/getTerminalOutput', 'execute/runInTerminal', 'read/terminalLastCommand', 'read/terminalSelection', 'edit/editFiles', 'web/fetch']
+description: "Deep-scan specialist for React 16/17 class-component codebases targeting React 18.3.1. Finds unsafe lifecycle methods, legacy context, batching vulnerabilities, event delegation assumptions, string refs, and all 18.3.1 deprecation surface. Reads everything, touches nothing. Saves .github/react18-audit.md."
+tools:
+  [
+    "vscode/memory",
+    "search",
+    "search/usages",
+    "execute/getTerminalOutput",
+    "execute/runInTerminal",
+    "read/terminalLastCommand",
+    "read/terminalSelection",
+    "edit/editFiles",
+    "web/fetch"
+  ]
 user-invocable: false
 ---
 
@@ -186,7 +197,7 @@ Flag any `document.addEventListener` for manual review - particularly ones liste
 
 ## PHASE 8 - StrictMode Status
 
-React 18 StrictMode is stricter than React 16/17 StrictMode. If the app wasn't using StrictMode before, there will be no existing UNSAFE_ migration. If it was - there may already be some done.
+React 18 StrictMode is stricter than React 16/17 StrictMode. If the app wasn't using StrictMode before, there will be no existing UNSAFE\_ migration. If it was - there may already be some done.
 
 ```bash
 grep -rn "StrictMode\|React\.StrictMode" src/ --include="*.js" --include="*.jsx" 2>/dev/null
@@ -247,71 +258,79 @@ Create `.github/react18-audit.md`:
 
 ```markdown
 # React 18.3.1 Migration Audit Report
-Generated: [timestamp]
-Current React Version: [version]
-Codebase Profile: ~[N] class components / ~[N] function components
+
+Generated: [timestamp] Current React Version: [version] Codebase Profile: ~[N] class components / ~[N] function components
 
 ## ⚠️ Why 18.3.1 is the Target
-React 18.3.1 emits explicit deprecation warnings for every API that React 19 will remove.
-A clean 18.3.1 build with zero warnings = a codebase ready for the React 19 orchestra.
+
+React 18.3.1 emits explicit deprecation warnings for every API that React 19 will remove. A clean 18.3.1 build with zero warnings = a codebase ready for the React 19 orchestra.
 
 ## 🔴 Critical - Silent Runtime Breakers
 
 ### Automatic Batching Vulnerabilities
-These patterns WORKED in React 17 but will produce wrong behavior in React 18 without flushSync.
-| File | Line | Pattern | Risk |
-[Every async class method with setState chains]
+
+These patterns WORKED in React 17 but will produce wrong behavior in React 18 without flushSync. | File | Line | Pattern | Risk | [Every async class method with setState chains]
 
 ### Enzyme Usage (React 18 Incompatible)
+
 [List every file - these must be completely rewritten in RTL]
 
 ## 🟠 Unsafe Lifecycle Methods (Warns in 18.3.1, Required for React 19)
 
 ### componentWillMount (→ componentDidMount or constructor)
-| File | Line | What it does | Migration path |
-[List every hit]
+
+| File | Line | What it does | Migration path | [List every hit]
 
 ### componentWillReceiveProps (→ getDerivedStateFromProps or componentDidUpdate)
-| File | Line | What it does | Migration path |
-[List every hit]
+
+| File | Line | What it does | Migration path | [List every hit]
 
 ### componentWillUpdate (→ getSnapshotBeforeUpdate or componentDidUpdate)
-| File | Line | What it does | Migration path |
-[List every hit]
+
+| File | Line | What it does | Migration path | [List every hit]
 
 ## 🟠 Legacy Root API
 
 ### ReactDOM.render (→ createRoot - required for batching)
+
 [List all hits]
 
 ## 🟡 Deprecated APIs (Warn in 18.3.1, Removed in React 19)
 
 ### Legacy Context (contextTypes / childContextTypes / getChildContext)
+
 [List all hits - these are typically cross-file: find the provider AND consumer for each]
 
 ### String Refs
+
 [List all this.refs.x usage]
 
 ### findDOMNode
+
 [List all hits]
 
 ## 🔵 Event Delegation Audit
 
 ### document.addEventListener Patterns to Review
+
 [List all hits with context - flag those that may interact with React events]
 
 ## 📦 Dependency Issues
 
 ### Peer Conflicts
+
 [npm ls output filtered to errors]
 
 ### Packages Needing Upgrade for React 18
+
 [List each package with current version and required version]
 
 ### Enzyme (BLOCKER if found)
+
 [If found: list all files with Enzyme imports - full RTL rewrite required]
 
 ## Test File Issues
+
 [List all test-specific patterns needing migration]
 
 ## Ordered Migration Plan
@@ -335,12 +354,15 @@ These patterns WORKED in React 17 but will produce wrong behavior in React 18 wi
 ## Files Requiring Changes
 
 ### Source Files
+
 [Complete sorted list]
 
 ### Test Files
+
 [Complete sorted list]
 
 ## Totals
+
 - Unsafe lifecycle hits: [N]
 - Batching vulnerabilities: [N]
 - Legacy context patterns: [N]

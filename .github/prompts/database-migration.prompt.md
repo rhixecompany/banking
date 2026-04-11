@@ -19,7 +19,7 @@ Migrate from legacy auth/ORM (Appwrite/Prisma) to Drizzle ORM + next-auth (Drizz
 - Core fields in `users` table (id, email, password, name, image, isAdmin, isActive, createdAt, updatedAt)
 - Sensitive/extra fields in `user_profiles` table (address, SSN, etc.)
 - All database files (including `schema.ts` and `db.ts`) live in the `./database` folder
-- All mutations (registration, profile update, admin, etc.) use Server Actions in `lib/actions/` (never API routes)
+- All mutations (registration, profile update, admin, etc.) use Server Actions in `actions/` (never API routes)
 - Full E2E and unit/integration test coverage for all new logic
 - Use Drizzle’s recommended schema, migration, and query patterns
 
@@ -45,7 +45,7 @@ Migrate from legacy auth/ORM (Appwrite/Prisma) to Drizzle ORM + next-auth (Drizz
 - See [Drizzle-ORM-Adapter-context.md](../../docs/Drizzle-ORM-Adapter-context.md) for setup, schema, and migration commands.
 - Create `drizzle.config.ts` in project root (see Drizzle docs for config pattern)
 - Create `./database/schema.ts`:
-  - Define `users` and `user_profiles` tables using Drizzle’s `pgTable`, `varchar`, `timestamp`, and FK patterns
+- Define `users` and `user_profiles` tables using Drizzle’s `pgTable`, `varchar`, `timestamp`, and FK patterns
 - Create `./database/db.ts`:
   - Initialize Drizzle connection using `drizzle-orm/node-postgres` and `process.env.DATABASE_URL`
   - Example:
@@ -78,7 +78,7 @@ Migrate from legacy auth/ORM (Appwrite/Prisma) to Drizzle ORM + next-auth (Drizz
 
   ```ts
   import { DrizzleAdapter } from "@auth/drizzle-adapter";
-  import { compare } from "bcryptjs";
+  import bcrypt from "bcrypt"; // docs: updated snippet — verify vs. source
   import NextAuth from "next-auth";
   import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -96,7 +96,7 @@ Migrate from legacy auth/ORM (Appwrite/Prisma) to Drizzle ORM + next-auth (Drizz
             .where(users.email.eq(credentials.email))
             .then(r => r[0]);
           if (!user) return null;
-          const valid = await compare(
+          const valid = await bcrypt.compare(
             credentials.password,
             user.password
           );
@@ -120,22 +120,22 @@ Migrate from legacy auth/ORM (Appwrite/Prisma) to Drizzle ORM + next-auth (Drizz
 
 ### 4. Registration Action
 
-- Create `lib/actions/register.ts` (Server Action):
-  - Validate input (zod)
-  - Hash password (bcrypt)
-  - Insert user into `users` and `user_profiles` using Drizzle’s insert/query patterns
-  - Enforce unique email (handle constraint errors)
-  - Return appropriate errors
-  - Optionally send welcome email
+- Create `actions/register.ts` (Server Action):
+- Validate input (zod)
+- Hash password (bcrypt)
+- Insert user into `users` and `user_profiles` using Drizzle’s insert/query patterns
+- Enforce unique email (handle constraint errors)
+- Return appropriate errors
+- Optionally send welcome email
 - See [Getting-Started-Example-context.md](../../docs/Getting-Started-Example-context.md) and [TypeScript-context.md](../../docs/TypeScript-context.md) for validation and type safety patterns.
 
 ### 5. Profile Update Action
 
-- Create `lib/actions/updateProfile.ts` (Server Action):
-  - Allow updating image, email, password, and profile fields
-  - Require current password for sensitive changes
-  - Update both `users` and `user_profiles` as needed
-  - Send email notification on changes
+- Create `actions/updateProfile.ts` (Server Action):
+- Allow updating image, email, password, and profile fields
+- Require current password for sensitive changes
+- Update both `users` and `user_profiles` as needed
+- Send email notification on changes
 
 ### 6. Admin & Soft-Delete Actions
 
@@ -143,7 +143,7 @@ Migrate from legacy auth/ORM (Appwrite/Prisma) to Drizzle ORM + next-auth (Drizz
   - Toggling `isAdmin`
   - Deactivate/reactivate logic (toggle `isActive`)
   - Prevent login for inactive users
-- All mutations must use Server Actions in `lib/actions/`
+- All mutations must use Server Actions in `actions/`
 
 ### 7. Refactor Auth UI
 

@@ -116,6 +116,7 @@ Features: - **Banking Agent**: Pre-configured AI agent for banking development -
 Perfect for building production-ready banking applications.
 
     <br><br><a href="https://github.com/awesome-opencode/opencode-banking">🔗 <b>View Repository</b></a>
+
   </blockquote>
 </details>
 
@@ -167,6 +168,7 @@ Features: - Schema definition best practices - Migration strategies - Data Acces
 Essential for any PostgreSQL-based application.
 
     <br><br><a href="https://github.com/awesome-opencode/opencode-drizzle">🔗 <b>View Repository</b></a>
+
   </blockquote>
 </details>
 
@@ -258,6 +260,7 @@ Features: - SuspenseSkill: Handle async auth in Next.js 16 without blocking rout
 Based on production patterns from the Banking project template.
 
     <br><br><a href="https://github.com/awesome-opencode/opencode-nextjs-dev">🔗 <b>View Repository</b></a>
+
   </blockquote>
 </details>
 
@@ -525,6 +528,7 @@ Features: - AES-256-GCM encryption utilities - Rate limiting with Upstash Redis 
 Essential for banking and financial applications.
 
     <br><br><a href="https://github.com/awesome-opencode/opencode-security">🔗 <b>View Repository</b></a>
+
   </blockquote>
 </details>
 
@@ -584,6 +588,7 @@ Features: - Vitest unit test patterns - Server Action testing - DAL testing with
 Includes examples for banking application testing.
 
     <br><br><a href="https://github.com/awesome-opencode/opencode-testing">🔗 <b>View Repository</b></a>
+
   </blockquote>
 </details>
 
@@ -723,6 +728,7 @@ Includes examples for banking application testing.
 Based on production patterns from the Banking project template.
 
     <br><br><a href="https://github.com/awesome-opencode/opencode-banking">🔗 <b>View Repository</b></a>
+
   </blockquote>
 </details>
 
@@ -742,6 +748,7 @@ Based on production patterns from the Banking project template.
 Based on production patterns from the Banking project template.
 
     <br><br><a href="https://github.com/awesome-opencode/opencode-nextjs-dev">🔗 <b>View Repository</b></a>
+
   </blockquote>
 </details>
 
@@ -1042,7 +1049,7 @@ Based on production patterns from the Banking project template.
 <br>
 
 <details>
-  <summary><b>09PlanFileStandards</b> - <i>When a task is expected to change more than 1 files, create a plan before implementation.</i></summary>
+  <summary><b>09PlanFileStandards</b> - <i>When a task is expected to change more than 3 files, create a plan before implementation.</i></summary>
   <blockquote>
     Standardize plan creation, naming, and plan quality checks
     <br><br><a href=".opencode\instructions/">🔗 <b>View Repository</b></a>
@@ -1058,6 +1065,14 @@ Based on production patterns from the Banking project template.
 </details>
 
 <details>
+  <summary><b>ApplyPatchVerificationFix</b> - <i>Purpose</i></summary>
+  <blockquote>
+    - Provide a short, practical checklist and rules for diagnosing and fixing `apply_patch` verification failures (the "apply_patch verification failed: Error: Failed to find expected lines" error). Keep this document read-first — follow the steps in order. Symptoms - `apply_patch` returns: "apply_patch verification failed: Error: Failed to find expected lines in <path>: <context>" - Patch is not applied and changes remain uncommitted. Important System Reminder (Plan Mode) ```
+    <br><br><a href=".opencode\instructions/">🔗 <b>View Repository</b></a>
+  </blockquote>
+</details>
+
+<details>
   <summary><b>auth-testing</b> - <i>```typescript</i></summary>
   <blockquote>
     NextAuth v4 patterns and Testing patterns (Vitest, Playwright)
@@ -1066,9 +1081,9 @@ Based on production patterns from the Banking project template.
 </details>
 
 <details>
-  <summary><b>AuthSkill</b> - <i>This skill provides guidance on NextAuth.js v4 authentication patterns for the Banking project.</i></summary>
+  <summary><b>AuthSkill</b> - <i>Overview</i></summary>
   <blockquote>
-    NextAuth.js v4 authentication patterns, session management, OAuth providers, and protected routes for the Banking app. Use when working with auth, sessions, or user authentication flows.
+    NextAuth v4 authentication patterns, session helper, and protected route guidance.
     <br><br><a href=".opencode\skills\auth-skill/">🔗 <b>View Repository</b></a>
   </blockquote>
 </details>
@@ -1090,7 +1105,7 @@ Based on production patterns from the Banking project template.
 </details>
 
 <details>
-  <summary><b>dal-patterns</b> - <i>All database access must go through `lib/dal/`.</i></summary>
+  <summary><b>dal-patterns</b> - <i>All database access must go through `dal/`.</i></summary>
   <blockquote>
     Drizzle ORM patterns, DAL pattern, and N+1 prevention
     <br><br><a href=".opencode\instructions/">🔗 <b>View Repository</b></a>
@@ -1114,17 +1129,17 @@ Based on production patterns from the Banking project template.
 </details>
 
 <details>
-  <summary><b>DeploymentSkill</b> - <i>This skill provides guidance on deployment patterns for the Banking project.</i></summary>
+  <summary><b>DeploymentSkill</b> - <i>Overview</i></summary>
   <blockquote>
-    Deployment patterns for the Banking app - Vercel, Docker, Railway, and CI/CD pipelines. Use when deploying the app or setting up automated deployments.
+    Deployment patterns for Vercel, Railway, and Docker for the Banking app.
     <br><br><a href=".opencode\skills\deployment-skill/">🔗 <b>View Repository</b></a>
   </blockquote>
 </details>
 
 <details>
-  <summary><b>DwollaSkill</b> - <i>This skill provides guidance on Dwolla API integration for ACH transfers in the Banking project.</i></summary>
+  <summary><b>DwollaSkill</b> - <i>Overview</i></summary>
   <blockquote>
-    Dwolla API integration for ACH transfers, payment processing, and bank account verification in the Banking app. Use when working with transfers, ACH, or payment flows.
+    Dwolla API integration for ACH transfers, payment processing, and bank account verification in the Banking app.
     <br><br><a href=".opencode\skills\dwolla-skill/">🔗 <b>View Repository</b></a>
   </blockquote>
 </details>
@@ -1202,41 +1217,41 @@ Based on production patterns from the Banking project template.
 </details>
 
 <details>
-  <summary><b>PlaidSkill</b> - <i>This skill provides guidance on Plaid API integration for the Banking project.</i></summary>
+  <summary><b>PlaidSkill</b> - <i>Overview</i></summary>
   <blockquote>
-    Plaid API integration for bank account linking, transaction retrieval, and balance fetching in the Banking app. Use when working with PlaidLink, bank connections, or financial data.
+    Plaid API integration for bank account linking, transaction retrieval, and balance fetching in the Banking app.
     <br><br><a href=".opencode\skills\plaid-skill/">🔗 <b>View Repository</b></a>
   </blockquote>
 </details>
 
 <details>
-  <summary><b>SecuritySkill</b> - <i>This skill provides guidance on security patterns for the Banking project.</i></summary>
+  <summary><b>SecuritySkill</b> - <i>Overview</i></summary>
   <blockquote>
-    Security patterns for the Banking app - encryption, input sanitization, CSRF protection, and secure headers. Use when handling sensitive data, authentication, or security-critical code.
+    Security patterns — encryption, env handling, and secret management.
     <br><br><a href=".opencode\skills\security-skill/">🔗 <b>View Repository</b></a>
   </blockquote>
 </details>
 
 <details>
-  <summary><b>ServerActionSkill</b> - <i>This skill provides guidance on Server Action patterns for the Banking project.</i></summary>
+  <summary><b>ServerActionSkill</b> - <i>Overview</i></summary>
   <blockquote>
-    Server Action patterns for mutations, form handling, revalidation, and error handling in the Banking app. Use when creating forms, mutations, or data updates.
+    Patterns and examples for Next.js Server Actions in the Banking app.
     <br><br><a href=".opencode\skills\server-action-skill/">🔗 <b>View Repository</b></a>
   </blockquote>
 </details>
 
 <details>
-  <summary><b>task-sync-note</b> - <i>This project uses TaskSync for terminal-based task management. However, TaskSync protocol (PowerShell-based) is not c...</i></summary>
+  <summary><b>task-sync-note</b> - <i>Purpose</i></summary>
   <blockquote>
-    TaskSync protocol compatibility note for OpenCode
+    TaskSync — Safe Task Handoff Guidance. Explains a safe, optional protocol for handing tasks to an agent via a terminal-like interface without mandating continuous operation.
     <br><br><a href=".opencode\instructions/">🔗 <b>View Repository</b></a>
   </blockquote>
 </details>
 
 <details>
-  <summary><b>TestingSkill</b> - <i>This skill provides guidance on testing patterns for the Banking project.</i></summary>
+  <summary><b>TestingSkill</b> - <i>Overview</i></summary>
   <blockquote>
-    Testing patterns for the Banking app using Vitest and Playwright. Use when writing tests, unit tests, integration tests, or E2E tests.
+    Testing patterns for Vitest (unit) and Playwright (E2E) used by the Banking app.
     <br><br><a href=".opencode\skills\testing-skill/">🔗 <b>View Repository</b></a>
   </blockquote>
 </details>

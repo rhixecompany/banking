@@ -1,46 +1,32 @@
-# App Pages Inventory
+# App Pages
 
-This document lists files under the app/ directory. Pages are marked as Client when they contain a top-level "use client" directive; otherwise they are Server (Next.js Server Component by default).
+This document lists all routes discovered in the Next.js app/ directory, notes about layouts and caching, and includes references to rendered screenshots saved under docs/screenshots/. Screenshots are captured at desktop (1280x800) and mobile (390x844) sizes.
 
-Format: - Path — Type
+Notes
 
-- app/page.tsx — Server
-- app/layout.tsx — Server
-- app/global-error.tsx — Client
-- app/not-found.tsx — Server
-- app/api/auth/[...nextauth]/route.ts — Server (API route)
-- app/api/dwolla/webhook/route.ts — Server (API route)
-- app/api/health/route.ts — Server (API route)
-- app/(root)/layout.tsx — Server
-- app/(root)/page.tsx — Server
-- app/(root)/my-wallets/page.tsx — Server
-- app/(root)/my-wallets/loading.tsx — Server
-- app/(root)/my-wallets/error.tsx — Client
-- app/(root)/dashboard/page.tsx — Server
-- app/(root)/dashboard/loading.tsx — Server
-- app/(root)/dashboard/error.tsx — Client
-- app/(root)/transaction-history/page.tsx — Server
-- app/(root)/transaction-history/loading.tsx — Server
-- app/(root)/transaction-history/error.tsx — Client
-- app/(root)/payment-transfer/page.tsx — Server
-- app/(root)/payment-transfer/loading.tsx — Server
-- app/(root)/payment-transfer/error.tsx — Client
-- app/(root)/settings/page.tsx — Server
-- app/(root)/settings/loading.tsx — Server
-- app/(root)/settings/error.tsx — Client
-- app/(auth)/layout.tsx — Server
-- app/(auth)/sign-in/page.tsx — Server
-- app/(auth)/sign-in/loading.tsx — Client
-- app/(auth)/sign-in/error.tsx — Client
-- app/(auth)/sign-up/page.tsx — Server
-- app/(auth)/sign-up/loading.tsx — Client
-- app/(auth)/sign-up/error.tsx — Client
-- app/(admin)/layout.tsx — Server
-- app/(admin)/admin/page.tsx — Server
-- app/(admin)/admin/loading.tsx — Client
-- app/(admin)/admin/error.tsx — Client
+- Rendered screenshots: docs/screenshots/<route-name>-desktop.png and -mobile.png
+- If a route is a dynamic segment, the file path is shown and the example URL used for screenshots is provided.
 
-Notes:
+## Routes
 
-- Pages marked Client were identified by the presence of a top-level "use client" directive.
-- Server actions and Zod usage should be audited per page; this inventory is a starting point for triage.
+- / (app/page.tsx) — Layout: app/(root)/layout.tsx — Screenshot: docs/screenshots/root-desktop.png, docs/screenshots/root-mobile.png
+- /dashboard (app/(root)/dashboard/page.tsx) — Layout: app/(root)/layout.tsx — Screenshot: docs/screenshots/dashboard-desktop.png, docs/screenshots/dashboard-mobile.png
+- /my-wallets (app/(root)/my-wallets/page.tsx) — Screenshot: docs/screenshots/my-wallets-desktop.png, docs/screenshots/my-wallets-mobile.png
+- /transaction-history (app/(root)/transaction-history/page.tsx) — Screenshot: docs/screenshots/transaction-history-desktop.png, docs/screenshots/transaction-history-mobile.png
+- /settings (app/(root)/settings/page.tsx) — Screenshot: docs/screenshots/settings-desktop.png, docs/screenshots/settings-mobile.png
+- /payment-transfer (app/(root)/payment-transfer/page.tsx) — Screenshot: docs/screenshots/payment-transfer-desktop.png, docs/screenshots/payment-transfer-mobile.png
+- /sign-in (app/(auth)/sign-in/page.tsx) — Layout: app/(auth)/layout.tsx — Screenshot: docs/screenshots/sign-in-desktop.png, docs/screenshots/sign-in-mobile.png
+- /sign-up (app/(auth)/sign-up/page.tsx) — Screenshot: docs/screenshots/sign-up-desktop.png, docs/screenshots/sign-up-mobile.png
+- /admin (app/(admin)/admin/page.tsx) — Layout: app/(admin)/layout.tsx — Screenshot: docs/screenshots/admin-desktop.png, docs/screenshots/admin-mobile.png
+
+## API routes
+
+- /api/auth/[...nextauth] (app/api/auth/[...nextauth]/route.ts)
+- /api/dwolla/webhook (app/api/dwolla/webhook/route.ts)
+- /api/health (app/api/health/route.ts)
+
+## How screenshots were captured
+
+- Dev server started via `npm run dev`
+- Playwright script visited each route and captured desktop and mobile screenshots
+- Screenshots saved to docs/screenshots/

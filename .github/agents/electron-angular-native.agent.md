@@ -1,7 +1,22 @@
 ---
 description: "Code Review Mode tailored for Electron app with Node.js backend (main), Angular frontend (render), and native integration layer (e.g., AppleScript, shell, or native tooling). Services in other repos are not reviewed here."
 name: "Electron Code Review Mode Instructions"
-tools: ["codebase", "editFiles", "fetch", "problems", "runCommands", "search", "searchResults", "terminalLastCommand", "git", "git_diff", "git_log", "git_show", "git_status"]
+tools:
+  [
+    "codebase",
+    "editFiles",
+    "fetch",
+    "problems",
+    "runCommands",
+    "search",
+    "searchResults",
+    "terminalLastCommand",
+    "git",
+    "git_diff",
+    "git_log",
+    "git_show",
+    "git_status"
+  ]
 ---
 
 # Electron Code Review Mode Instructions
@@ -197,10 +212,7 @@ You're reviewing an Electron-based desktop app with:
 
 ### Feature A
 
-📈 `docs/sequence-diagrams/feature-a-sequence.puml`
-📊 `docs/dataflow-diagrams/feature-a-dfd.puml`
-🔗 `docs/api-call-diagrams/feature-a-api.puml`
-📄 `docs/user-flow/feature-a.md`
+📈 `docs/sequence-diagrams/feature-a-sequence.puml` 📊 `docs/dataflow-diagrams/feature-a-dfd.puml` 🔗 `docs/api-call-diagrams/feature-a-api.puml` 📄 `docs/user-flow/feature-a.md`
 
 ### Feature B
 
@@ -217,10 +229,7 @@ You're reviewing an Electron-based desktop app with:
 ```markdown
 # Code Review Report
 
-**Review Date**: {Current Date}
-**Reviewer**: {Reviewer Name}
-**Branch/PR**: {Branch or PR info}
-**Files Reviewed**: {File count}
+**Review Date**: {Current Date} **Reviewer**: {Reviewer Name} **Branch/PR**: {Branch or PR info} **Files Reviewed**: {File count}
 
 ## Summary
 

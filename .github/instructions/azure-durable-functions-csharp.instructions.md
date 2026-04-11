@@ -1,6 +1,6 @@
 ---
-description: 'Guidelines and best practices for building Azure Durable Functions in C# using the isolated worker model'
-applyTo: '**/*.cs, **/host.json, **/local.settings.json, **/*.csproj'
+description: "Guidelines and best practices for building Azure Durable Functions in C# using the isolated worker model"
+applyTo: "**/*.cs, **/host.json, **/local.settings.json, **/*.csproj"
 ---
 
 # Azure Durable Functions C# Development
@@ -26,6 +26,7 @@ applyTo: '**/*.cs, **/host.json, **/local.settings.json, **/*.csproj'
 ## Configuration Files
 
 ### local.settings.json
+
 - Always include `AzureWebJobsStorage` connection string for local development — Durable Functions requires storage to maintain orchestration state.
 - Use `"UseDevelopmentStorage=true"` or Azurite connection string for local testing — never use a production storage account from local dev.
 - Set `FUNCTIONS_WORKER_RUNTIME` to `"dotnet-isolated"` in local.settings.json.
@@ -34,6 +35,7 @@ applyTo: '**/*.cs, **/host.json, **/local.settings.json, **/*.csproj'
 - Store sensitive values (storage keys, Event Hub connection strings) using Azure Key Vault locally via `@Microsoft.KeyVault(...)` references if needed.
 
 ### host.json
+
 - Configure Durable Functions-specific settings under `"extensions": { "durableTask": { ... } }` — do not rely on defaults for production.
 - Set `"hubName"` to a meaningful, environment-specific value (e.g., `"MyAppProd"`, `"MyAppDev"`) to isolate Task Hubs across environments sharing the same storage account.
 - Tune `"maxConcurrentActivityFunctions"` and `"maxConcurrentOrchestratorFunctions"` based on expected throughput and hosting plan — defaults are conservative.
@@ -45,35 +47,42 @@ applyTo: '**/*.cs, **/host.json, **/local.settings.json, **/*.csproj'
 ## Orchestration Patterns
 
 ### Function Chaining
+
 - Use sequential `await context.CallActivityAsync<T>(nameof(ActivityName), input)` calls for step-by-step workflows where each step depends on the result of the previous.
 - Pass only serializable, lightweight data as inputs/outputs between activities — avoid passing entire domain objects with circular references.
 
 ### Fan-Out / Fan-In
+
 - Use `Task.WhenAll(tasks)` after fanning out with multiple `context.CallActivityAsync` calls to aggregate parallel results.
 - Cap the degree of parallelism when fanning out over large collections — use batching (e.g., partitioning input lists) to avoid overwhelming downstream services or hitting Durable Functions storage limits.
 - Prefer `List<Task<T>>` over dynamic task arrays; capture all tasks before awaiting to avoid replay issues.
 
 ### Async HTTP API (Human Interaction / Long-Running)
+
 - Use `client.ScheduleNewOrchestrationInstanceAsync` from an HTTP trigger starter function; return `await client.CreateCheckStatusResponseAsync(req, instanceId)` to provide polling URLs to callers.
 - Use `context.WaitForExternalEvent<T>("EventName", timeout)` combined with `context.CreateTimer(deadline, CancellationToken)` to implement approval/callback patterns with timeouts.
 - Always handle the timeout race: use `Task.WhenAny(externalEventTask, timerTask)` and cancel the timer if the event arrives first.
 
 ### Monitoring / Polling Pattern
+
 - Use a `while` loop with `context.CreateTimer(context.CurrentUtcDateTime.Add(interval), CancellationToken.None)` for polling workflows instead of separate timer-triggered functions.
 - Ensure the monitoring loop has a clear exit condition to avoid infinite loops that never terminate.
 - For recurring eternal workflows, use `context.ContinueAsNew(input)` to restart the orchestration with fresh state and prevent unbounded history growth.
 
 ### Eternal Orchestrations
+
 - Use `context.ContinueAsNew(newInput)` at the end of the orchestrator body to restart with clean state for long-lived recurring workflows.
 - Drain any pending external events before calling `ContinueAsNew` when using `isKeepRunning` patterns.
 - Combine `ContinueAsNew` with `context.CreateTimer` to implement periodic tasks (e.g., daily report generation, cache refresh).
 
 ### Sub-Orchestrations
+
 - Use `context.CallSubOrchestratorAsync<T>(nameof(SubOrchestrator), instanceId, input)` to decompose complex workflows into reusable child orchestrations.
 - Provide an explicit `instanceId` for sub-orchestrations when idempotency or correlation is required.
 - Limit sub-orchestration nesting depth to avoid history size issues; flatten workflows where possible.
 
 ### Entity Functions (Stateful Entities)
+
 - Define entities using class-based syntax implementing `TaskEntity<TState>` for typed, encapsulated state management.
 - Access entity state only via entity operations (`entity.State`); never read or write entity storage directly.
 - Use `context.Entities.CallEntityAsync<T>` from activities or `context.Entities.SignalEntityAsync` from orchestrators for fire-and-forget entity operations.

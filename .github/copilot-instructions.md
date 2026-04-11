@@ -44,7 +44,7 @@ When updating this file, verify alignment with:
 ### Key Characteristics
 
 - **Server Components by default** — Use `'use client'` only when needed
-- **DAL Pattern** — All database access through `lib/dal/`
+- **DAL Pattern** — All database access through `dal/` (docs: prefer `@/dal` imports in examples)
 - **Server Actions** — All mutations via Server Actions
 - **React Compiler enabled** — `reactCompiler: true` in next.config.ts
 
@@ -122,11 +122,15 @@ npm exec playwright test tests/e2e/sign-in.spec.ts
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { auth } from "@/lib/auth";
-import { bankDal } from "@/lib/dal";
+import { auth } from "@/auth"; // docs: prefer '@/auth' when referencing auth helper
+import { bankDal } from "@/dal";
 
 const DisconnectBankSchema = z.object({
-  bankId: z.string().trim().min(1)
+  bankId: z
+    .string()
+    .trim()
+    .min(1, "bankId is required")
+    .describe("Bank identifier")
 });
 
 export async function disconnectBank(input: unknown) {
@@ -193,3 +197,5 @@ Banking/
 ---
 
 **End of copilot-instructions.md** — See [AGENTS.md](./AGENTS.md) for full documentation.
+
+Note: This file was reviewed and synchronized as part of the agentic docs standardization. See plan: `.opencode/plans/update-agentic-docs_4f7a8b2c.plan.md`.

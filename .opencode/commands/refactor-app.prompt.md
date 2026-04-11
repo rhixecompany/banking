@@ -57,10 +57,10 @@
 
 These files were fixed in a prior session — leave them alone:
 
-- `lib/dal/base.dal.ts`
-- `lib/actions/admin.actions.ts`
-- `lib/actions/updateProfile.ts`
-- `lib/actions/plaid.actions.ts`
+- `dal/base.dal.ts`
+- `actions/admin.actions.ts`
+- `actions/updateProfile.ts`
+- `actions/plaid.actions.ts`
 - `app/middleware.ts` (deleted — do not recreate; use `proxy.ts` at root instead)
 - `eslint.config.mts`
 - `opencode.json` + `.opencode/mcp-runner.ts`
@@ -143,7 +143,7 @@ Each `app/(root)/*/page.tsx` and `app/(auth)/*/page.tsx` becomes a **thin orches
 - Recipient selector (from `getRecipients()`)
 - Amount input (validated with Zod: positive number, max 100,000)
 - Memo / note input (optional)
-- Submit → calls `createTransfer()` from `lib/actions/dwolla.actions.ts`
+- Submit → calls `createTransfer()` from `actions/dwolla.actions.ts`
 - Success/error toast feedback
 - Uses shadcn/ui: `Form`, `Select`, `Input`, `Button`, `Card`
 
@@ -153,12 +153,12 @@ Each `app/(root)/*/page.tsx` and `app/(auth)/*/page.tsx` becomes a **thin orches
 - Date range filter (start date / end date)
 - Bank account filter (dropdown)
 - Pagination (page size selector)
-- Data source: `getTransactionHistory(page, pageSize)` from `lib/actions/transaction.actions.ts`
+- Data source: `getTransactionHistory(page, pageSize)` from `actions/transaction.actions.ts`
 
 ### SettingsClient
 
 - Profile form: name (editable), email (read-only), bio (textarea)
-- Save button → calls `updateProfile()` from `lib/actions/updateProfile.ts`
+- Save button → calls `updateProfile()` from `actions/updateProfile.ts`
 - Uses React Hook Form + Zod validation
 - Success/error feedback
 
@@ -250,12 +250,12 @@ npm run test
 
 ### Actions
 
-- `lib/actions/user.actions.ts`
-- `lib/actions/bank.actions.ts`
-- `lib/actions/transaction.actions.ts`
-- `lib/actions/recipient.actions.ts`
-- `lib/actions/dwolla.actions.ts`
-- `lib/actions/updateProfile.ts`
+- `actions/user.actions.ts`
+- `actions/bank.actions.ts`
+- `actions/transaction.actions.ts`
+- `actions/recipient.actions.ts`
+- `actions/dwolla.actions.ts`
+- `actions/updateProfile.ts`
 
 ### Tests
 

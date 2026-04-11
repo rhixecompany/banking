@@ -1,7 +1,17 @@
 ---
 description: "Act as implementation planner for your Azure Terraform Infrastructure as Code task."
 name: "Azure Terraform Infrastructure Planning"
-tools: ["edit/editFiles", "fetch", "todos", "azureterraformbestpractices", "cloudarchitect", "documentation", "get_bestpractices", "microsoft-docs"]
+tools:
+  [
+    "edit/editFiles",
+    "fetch",
+    "todos",
+    "azureterraformbestpractices",
+    "cloudarchitect",
+    "documentation",
+    "get_bestpractices",
+    "microsoft-docs"
+  ]
 ---
 
 # Azure Terraform Infrastructure Planning
@@ -26,11 +36,11 @@ Review existing `.tf` code in the repository and attempt guess the desired requi
 
 Execute rapid classification to determine planning depth as necessary based on prior steps.
 
-| Scope                | Requires                                                              | Action                                                                                                                                                   |
-| -------------------- | --------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Demo/Learning        | Minimal WAF: budget, availability                                     | Use introduction to note project type                                                                                                                    |
-| Production           | Core WAF pillars: cost, reliability, security, operational excellence | Use WAF summary in Implementation Plan to record requirements, use sensitive defaults and existing code if available to make suggestions for user review |
-| Enterprise/Regulated | Comprehensive requirements capture                                    | Recommend switching to specification-driven approach using a dedicated architect chat mode                                                               |
+| Scope | Requires | Action |
+| --- | --- | --- |
+| Demo/Learning | Minimal WAF: budget, availability | Use introduction to note project type |
+| Production | Core WAF pillars: cost, reliability, security, operational excellence | Use WAF summary in Implementation Plan to record requirements, use sensitive defaults and existing code if available to make suggestions for user review |
+| Enterprise/Regulated | Comprehensive requirements capture | Recommend switching to specification-driven approach using a dedicated architect chat mode |
 
 ## Core requirements
 
@@ -153,10 +163,10 @@ avm: {module repo URL or commit} # if applicable
 
 - IMPLEMENT-GOAL-001: {Describe the goal of this phase, e.g., "Implement feature X", "Refactor module Y", etc.}
 
-| Task     | Description                       | Action                                 |
-| -------- | --------------------------------- | -------------------------------------- |
+| Task | Description | Action |
+| --- | --- | --- |
 | TASK-001 | {Specific, agent-executable step} | {file/change, e.g., resources section} |
-| TASK-002 | {...}                             | {...}                                  |
+| TASK-002 | {...} | {...} |
 
 <!-- Repeat Phase blocks as needed: Phase 1, Phase 2, Phase 3, … -->
 ````

@@ -2,7 +2,30 @@
 description: "Expert Power BI report design and visualization guidance using Microsoft best practices for creating effective, performant, and user-friendly reports and dashboards."
 name: "Power BI Visualization Expert Mode"
 model: "gpt-4.1"
-tools: ["changes", "search/codebase", "editFiles", "extensions", "fetch", "findTestFiles", "githubRepo", "new", "openSimpleBrowser", "problems", "runCommands", "runTasks", "runTests", "search", "search/searchResults", "runCommands/terminalLastCommand", "runCommands/terminalSelection", "testFailure", "usages", "vscodeAPI", "microsoft.docs.mcp"]
+tools:
+  [
+    "changes",
+    "search/codebase",
+    "editFiles",
+    "extensions",
+    "fetch",
+    "findTestFiles",
+    "githubRepo",
+    "new",
+    "openSimpleBrowser",
+    "problems",
+    "runCommands",
+    "runTasks",
+    "runTests",
+    "search",
+    "search/searchResults",
+    "runCommands/terminalLastCommand",
+    "runCommands/terminalSelection",
+    "testFailure",
+    "usages",
+    "vscodeAPI",
+    "microsoft.docs.mcp"
+  ]
 ---
 
 # Power BI Visualization Expert Mode
@@ -421,10 +444,23 @@ For each visualization request:
 ```json
 // Complete report theme JSON structure
 {
-  "name": "Corporate Theme",
-  "dataColors": ["#31B6FD", "#4584D3", "#5BD078", "#A5D028", "#F5C040", "#05E0DB", "#3153FD", "#4C45D3", "#5BD0B0", "#54D028", "#D0F540", "#057BE0"],
   "background": "#FFFFFF",
+  "dataColors": [
+    "#31B6FD",
+    "#4584D3",
+    "#5BD078",
+    "#A5D028",
+    "#F5C040",
+    "#05E0DB",
+    "#3153FD",
+    "#4C45D3",
+    "#5BD0B0",
+    "#54D028",
+    "#D0F540",
+    "#057BE0"
+  ],
   "foreground": "#F2F2F2",
+  "name": "Corporate Theme",
   "tableAccent": "#5BD078",
   "visualStyles": {
     "*": {
@@ -482,15 +518,15 @@ let embedConfig = {
       pageSize: {
         type: models.PageSizeType.Custom,
         width: 1600,
-        height: 1200,
+        height: 1200
       },
       displayOption: models.DisplayOption.ActualSize,
       pagesLayout: {
         ReportSection1: {
           defaultLayout: {
             displayState: {
-              mode: models.VisualContainerDisplayMode.Hidden,
-            },
+              mode: models.VisualContainerDisplayMode.Hidden
+            }
           },
           visualsLayout: {
             VisualContainer1: {
@@ -500,19 +536,19 @@ let embedConfig = {
               width: 400,
               height: 300,
               displayState: {
-                mode: models.VisualContainerDisplayMode.Visible,
-              },
+                mode: models.VisualContainerDisplayMode.Visible
+              }
             },
             VisualContainer2: {
               displayState: {
-                mode: models.VisualContainerDisplayMode.Visible,
-              },
-            },
-          },
-        },
-      },
-    },
-  },
+                mode: models.VisualContainerDisplayMode.Visible
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 };
 ```
 

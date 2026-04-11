@@ -2,9 +2,7 @@
 
 import type { UserWithProfile } from "@/types/user";
 
-import { userDal } from "@/dal";
-import { db } from "@/database/db";
-import { errors } from "@/database/schema";
+import { errorsDal, userDal } from "@/dal";
 import { auth } from "@/lib/auth";
 
 /**
@@ -44,7 +42,7 @@ export async function logoutAccount(): Promise<boolean> {
   const session = await auth();
   if (!session?.user) return false;
 
-  await db.insert(errors).values({
+  await errorsDal.insertError({
     message: "User logout",
     path: "/sign-out",
     severity: "info",

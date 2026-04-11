@@ -7,14 +7,14 @@
 
 ## Scope
 
-- Files touched: docs/, .opencode/commands/init-enhanced.md, database/schema.ts, lib/actions/, lib/dal/ (or dal/), components/, scripts/, tests/.
+- Files touched: docs/, .opencode/commands/init-enhanced.md, database/schema.ts, actions/, dal/ (or dal/), components/, scripts/, tests/.
 
 ## Target Files
 
 - .opencode/commands/init-enhanced.md
 - database/schema.ts
-- lib/actions/\*_/_ (server actions)
-- lib/dal/**/\* or dal/**/\*
+- actions/\*_/_ (server actions)
+- dal/**/\* or dal/**/\*
 - components/layouts/\*_/_
 - scripts/\* (replace with Node AST-safe scripts)
 - docs/\*.md (new audits and inventories)

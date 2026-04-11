@@ -32,7 +32,7 @@ isProject: false
 | Overclaiming what AGENTS contains | Copilot/Cursor “See AGENTS.md for: Database schema reference, Deployment guide…” — [AGENTS.md](AGENTS.md) has none of those as dedicated sections | Either add minimal **Reference** pointers (e.g. `database/schema.ts`, `README.md`, `lib/env.ts`) or narrow the bullet list to what actually exists |
 | Wrong summary metadata | “~500-line summary” in both files; files are ~215 / ~425 lines | Replace with accurate line count or remove line-based bragging |
 | `db:check` description | [package.json](package.json) `"db:check": "drizzle-kit check --config drizzle.config.ts"` | Document as **Drizzle migration/schema check** (not “check DB connection”) |
-| N+1 / eager loading wording | Rules cite `.with()`; project may use JOINs / single-query patterns in Drizzle | Phrase rule as: **eager load / batch / JOIN — no per-row queries in loops**; cite real pattern from `lib/dal/` if one exists |
+| N+1 / eager loading wording | Rules cite `.with()`; project may use JOINs / single-query patterns in Drizzle | Phrase rule as: **eager load / batch / JOIN — no per-row queries in loops**; cite real pattern from `dal/` if one exists |
 | “DAL eager loading” example | Sequential `user` then `profile` queries in examples | Replace or annotate with a **single-query** or documented join pattern so examples don’t contradict the N+1 rule |
 | AGENTS.md footer | Self-link “See AGENTS.md for full documentation” | Remove or replace with links to `.cursor/rules/` pointers and repo docs |
 | `format:check` wording | [package.json](package.json) runs `npm run format && prettier --check .` | Match AGENTS description to actual behavior (or note “formats then checks” if documenting honestly) |
@@ -58,7 +58,8 @@ If the product requirement is “keep both comprehensive,” then add an explici
 
 ## Cross-checks before writing
 
-- Verify paths: `lib/actions/*.ts`, `lib/dal/*.ts`, [lib/actions/bank.actions.ts](lib/actions/bank.actions.ts) (`disconnectBank` exists).
+-- Verify paths: `actions/*.ts`, `dal/*.ts`, [actions/bank.actions.ts](actions/bank.actions.ts) (`disconnectBank` exists). [NOTE: some docs still reference `lib/actions/` and `lib/dal/` historically — flag for manual review] [FLAG ADDED] Review and convert historical `lib/actions/*` and `lib/dal/*` references in older docs when safe.
+
 - Confirm stack claims: React Compiler in [next.config.ts](next.config.ts) (`reactCompiler: true`).
 - Align command lists with [package.json](package.json) scripts actually present.
 

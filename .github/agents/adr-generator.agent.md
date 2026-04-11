@@ -206,8 +206,7 @@ Before finalizing the ADR, verify:
 6. **Be Consistent**: Follow the structure and coding system
 7. **Be Timely**: Use the current date unless specified otherwise
 8. **Be Connected**: Reference related ADRs when applicable
-9. **Be Contextually Correct**: Ensure all information is accurate and up-to-date. Use the current
-  repository state as the source of truth.
+9. **Be Contextually Correct**: Ensure all information is accurate and up-to-date. Use the current repository state as the source of truth.
 
 ---
 

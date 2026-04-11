@@ -1,12 +1,11 @@
 ---
-applyTo: '**/*.ps1,**/*.psm1'
-description: 'PowerShell cmdlet and scripting best practices based on Microsoft guidelines'
+applyTo: "**/*.ps1,**/*.psm1"
+description: "PowerShell cmdlet and scripting best practices based on Microsoft guidelines"
 ---
 
 # PowerShell Cmdlet Development Guidelines
 
-This guide provides PowerShell-specific instructions to help GitHub Copilot generate idiomatic,
-safe, and maintainable scripts. It aligns with Microsoft’s PowerShell cmdlet development guidelines.
+This guide provides PowerShell-specific instructions to help GitHub Copilot generate idiomatic, safe, and maintainable scripts. It aligns with Microsoft’s PowerShell cmdlet development guidelines.
 
 ## Naming Conventions
 
@@ -234,7 +233,7 @@ function Remove-CacheFiles {
 
     try {
         $files = Get-ChildItem -Path $Path -Filter "*.cache" -ErrorAction Stop
-        
+
         # Demonstrates WhatIf support
         if ($PSCmdlet.ShouldProcess($Path, 'Remove cache files')) {
             $files | Remove-Item -Force -ErrorAction Stop
@@ -325,7 +324,7 @@ function Remove-UserAccount {
                 # This prompt is bypassed when -Force is specified
                 if ($Force -or $PSCmdlet.ShouldContinue("Are you sure you want to remove '$Username'?", "Confirm Removal")) {
                     Write-Verbose "Removing user account: $Username"
-                    
+
                     # Main operation
                     Remove-ADUser -Identity $Username -ErrorAction Stop
                     Write-Warning "User account '$Username' has been removed"

@@ -9,12 +9,12 @@ priority: 3
 
 ## Data Access Layer (DAL)
 
-All database access must go through `lib/dal/`.
+All database access must go through `dal/`.
 
 ### File Structure
 
 ```typescript
-// lib/dal/user.dal.ts
+// dal/user.dal.ts
 import { eq } from "drizzle-orm";
 import { db } from "@/database/db";
 import { users } from "@/database/schema";

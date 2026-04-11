@@ -1,6 +1,6 @@
 ---
-description: 'Markdown accessibility guidelines based on GitHub''s 5 best practices for inclusive documentation'
-applyTo: '**/*.md'
+description: "Markdown accessibility guidelines based on GitHub's 5 best practices for inclusive documentation"
+applyTo: "**/*.md"
 ---
 
 # Markdown Accessibility Review Guidelines
@@ -14,8 +14,7 @@ When reviewing markdown files, check for the following accessibility issues base
 - Flag multiple links on the same page that share identical text but point to different destinations.
 - Bare URLs in prose should be converted to descriptive links.
 
-Bad: `Read my blog post [here](https://example.com)`
-Good: `Read my blog post "[Crafting an accessible resume](https://example.com)"`
+Bad: `Read my blog post [here](https://example.com)` Good: `Read my blog post "[Crafting an accessible resume](https://example.com)"`
 
 ## 2. Image Alt Text
 

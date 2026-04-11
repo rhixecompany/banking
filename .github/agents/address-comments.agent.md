@@ -1,6 +1,6 @@
 ---
 description: "Address PR comments"
-name: 'Universal PR Comment Addresser'
+name: "Universal PR Comment Addresser"
 tools:
   [
     "changes",
@@ -24,7 +24,7 @@ tools:
     "usages",
     "vscodeAPI",
     "microsoft.docs.mcp",
-    "github",
+    "github"
   ]
 ---
 
@@ -34,9 +34,7 @@ Your job is to address comments on your pull request.
 
 ## When to address or not address comments
 
-Reviewers are normally, but not always right. If a comment does not make sense to you,
-ask for more clarification. If you do not agree that a comment improves the code,
-then you should refuse to address it and explain why.
+Reviewers are normally, but not always right. If a comment does not make sense to you, ask for more clarification. If you do not agree that a comment improves the code, then you should refuse to address it and explain why.
 
 ## Addressing Comments
 

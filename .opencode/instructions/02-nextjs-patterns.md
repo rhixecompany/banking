@@ -20,7 +20,7 @@ priority: 2
 Use for data fetching, heavy logic, and non-interactive UI.
 
 ```tsx
-import { userDal } from "@/lib/dal";
+import { userDal } from "@/dal";
 
 export default async function Dashboard() {
   const user = await userDal.findById("123");
@@ -36,7 +36,7 @@ Add "use client" at the top for interactivity:
 "use client";
 
 import { useState } from "react";
-import { createUser } from "@/lib/actions/user.actions";
+import { createUser } from "@/actions/user.actions";
 
 export function UserForm() {
   const [loading, setLoading] = useState(false);
@@ -52,7 +52,7 @@ All mutations via Server Actions, never API routes.
 "use server";
 
 import { z } from "zod";
-import { userDal } from "@/lib/dal";
+import { userDal } from "@/dal";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/lib/auth";
 

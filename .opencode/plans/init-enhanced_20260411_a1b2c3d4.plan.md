@@ -17,8 +17,8 @@
 
 - Config / authoritative: package.json, AGENTS.md, app-config.ts, lib/env.ts, types/next-auth.d.ts
 - Auth: lib/auth.ts, lib/auth-options.ts, app/api/auth/\*\*, proxy.ts
-- Server Actions: actions/**, lib/actions/**
-- DAL / DB: lib/dal/**, database/**, database/schema.ts
+- Server Actions: actions/** (preferred). Legacy `lib/actions/**` references may remain and are flagged for review.
+- DAL / DB: dal/**, database/**, database/schema.ts
 - Zod schemas: files containing z.object, z.enum, z.array
 - Tests: tests/\*\* (vitest + Playwright configs)
 - Docs & rules: .opencode/**, .cursor/**, docs/\*\*, README.md

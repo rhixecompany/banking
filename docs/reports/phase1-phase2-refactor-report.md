@@ -68,8 +68,8 @@ This report documents the completion of Phase 1 and Phase 2 refactoring tasks fo
 
 | # | Issue | File | Status |
 | --- | --- | --- | --- |
-| 1 | Internal `as any` casts in base.dal.ts | `lib/dal/base.dal.ts` | ✅ Resolved |
-| 4 | N+1 in `getAllBalances()` | `lib/actions/plaid.actions.ts` | ✅ Resolved (cached) |
+| 1 | Internal `as any` casts in base.dal.ts | `dal/base.dal.ts` | ✅ Resolved |
+| 4 | N+1 in `getAllBalances()` | `actions/plaid.actions.ts` | ✅ Resolved (cached) |
 | 5 | Routes unprotected at edge | `app/middleware.ts` | ✅ Deleted (not needed) |
 | 6 | Two conflicting auth configs | `lib/auth-config.ts` | ✅ Deleted (not needed) |
 | 7 | Health check stub | `app/api/health/route.ts` | ⚠️ Still a stub |

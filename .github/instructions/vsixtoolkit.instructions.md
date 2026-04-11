@@ -1,6 +1,6 @@
 ---
-description: 'Guidelines for Visual Studio extension (VSIX) development using Community.VisualStudio.Toolkit'
-applyTo: '**/*.cs, **/*.vsct, **/*.xaml, **/source.extension.vsixmanifest'
+description: "Guidelines for Visual Studio extension (VSIX) development using Community.VisualStudio.Toolkit"
+applyTo: "**/*.cs, **/*.vsct, **/*.xaml, **/source.extension.vsixmanifest"
 ---
 
 # Visual Studio Extension Development with Community.VisualStudio.Toolkit
@@ -10,6 +10,7 @@ applyTo: '**/*.cs, **/*.vsct, **/*.xaml, **/source.extension.vsixmanifest'
 **These instructions apply ONLY to Visual Studio extensions using `Community.VisualStudio.Toolkit`.**
 
 Verify the project uses the toolkit by checking for:
+
 - `Community.VisualStudio.Toolkit.*` NuGet package reference
 - `ToolkitPackage` base class (not raw `AsyncPackage`)
 - `BaseCommand<T>` pattern for commands
@@ -30,6 +31,7 @@ Verify the project uses the toolkit by checking for:
 **If an `.editorconfig` file exists in the repository, all generated and modified code MUST follow its rules.**
 
 This includes but is not limited to:
+
 - Indentation style (tabs vs spaces) and size
 - Line endings and final newline requirements
 - Naming conventions (fields, properties, methods, etc.)
@@ -43,6 +45,7 @@ Before generating code, check for `.editorconfig` in the repository root and app
 **Visual Studio extensions target .NET Framework 4.8** but can use modern C# syntax (up to C# 14) with constraints imposed by the .NET Framework runtime.
 
 ### ✅ Supported Modern C# Features
+
 - Primary constructors
 - File-scoped namespaces
 - Global usings
@@ -55,6 +58,7 @@ Before generating code, check for `.editorconfig` in the repository root and app
 - Collection expressions
 
 ### ❌ Not Supported (.NET Framework Limitations)
+
 - `Span<T>`, `ReadOnlySpan<T>`, `Memory<T>` (no runtime support)
 - `IAsyncEnumerable<T>` (without polyfill packages)
 - Default interface implementations
@@ -63,17 +67,20 @@ Before generating code, check for `.editorconfig` in the repository root and app
 - Some `System.Text.Json` features
 
 ### Best Practice
+
 When writing code, prefer APIs available in .NET Framework 4.8. If a modern API is needed, check if a polyfill NuGet package exists (e.g., `Microsoft.Bcl.AsyncInterfaces` for `IAsyncEnumerable<T>`).
 
 ## Example Prompt Behaviors
 
 ### ✅ Good Suggestions
+
 - "Create a command that opens the current file's containing folder using `BaseCommand<T>`"
 - "Add an options page with a boolean setting using `BaseOptionModel<T>`"
 - "Write a tagger provider for C# files that highlights TODO comments"
 - "Show a status bar progress indicator while processing files"
 
 ### ❌ Avoid
+
 - Suggesting raw `AsyncPackage` instead of `ToolkitPackage`
 - Using `OleMenuCommandService` directly instead of `BaseCommand<T>`
 - Creating WPF elements without switching to UI thread first
@@ -262,14 +269,16 @@ dotnet_diagnostic.VSTHRD*.severity = error
 ```
 
 ### Performance Rules
+
 | ID | Rule | Fix |
-|----|------|-----|
+| --- | --- | --- |
 | **VSSDK001** | Derive from `AsyncPackage` | Use `ToolkitPackage` (derives from AsyncPackage) |
 | **VSSDK002** | `AllowsBackgroundLoading = true` | Add to `[PackageRegistration]` |
 
 ### Threading Rules (VSTHRD)
+
 | ID | Rule | Fix |
-|----|------|-----|
+| --- | --- | --- |
 | **VSTHRD001** | Avoid `.Wait()` | Use `await` |
 | **VSTHRD002** | Avoid `JoinableTaskFactory.Run` | Use `RunAsync` or `await` |
 | **VSTHRD010** | COM calls require UI thread | `await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync()` |
@@ -321,7 +330,7 @@ For dialog windows, use `DialogWindow`:
 ### Common Theme Color Tokens
 
 | Category | Token | Usage |
-|----------|-------|-------|
+| --- | --- | --- |
 | **Background** | `EnvironmentColors.ToolWindowBackgroundBrushKey` | Window/panel background |
 | **Foreground** | `EnvironmentColors.ToolWindowTextBrushKey` | Text |
 | **Command Bar** | `EnvironmentColors.CommandBarTextActiveBrushKey` | Menu items |
@@ -336,6 +345,7 @@ public ImageMoniker IconMoniker => KnownMonikers.Settings;
 ```
 
 In VSCT:
+
 ```xml
 <Icon guid="ImageCatalogGuid" id="Settings"/>
 <CommandFlag>IconIsMoniker</CommandFlag>
@@ -523,6 +533,7 @@ public void Dispose()
 ### 4. Content Types
 
 Common content types for `[ContentType]` attribute:
+
 - `"text"` - All text files
 - `"code"` - All code files
 - `"CSharp"` - C# files
@@ -542,6 +553,7 @@ public ImageMoniker IconMoniker => KnownMonikers.Settings;
 ```
 
 In VSCT:
+
 ```xml
 <Icon guid="ImageCatalogGuid" id="Settings"/>
 <CommandFlag>IconIsMoniker</CommandFlag>
@@ -556,7 +568,7 @@ In VSCT:
 ## Common Pitfalls
 
 | Pitfall | Solution |
-|---------|----------|
+| --- | --- |
 | Blocking UI thread | Always use `async`/`await` |
 | Creating WPF on background thread | Call `SwitchToMainThreadAsync()` first |
 | Ignoring cancellation tokens | Pass them through async chains |
@@ -588,7 +600,7 @@ Test in VS Experimental Instance before release.
 ## NuGet Packages
 
 | Package | Purpose |
-|---------|---------|
+| --- | --- |
 | `Community.VisualStudio.Toolkit.17` | Simplifies VS extension development |
 | `Microsoft.VisualStudio.SDK` | Core VS SDK |
 | `Microsoft.VSSDK.BuildTools` | Build tools for VSIX |
@@ -613,14 +625,11 @@ A good README works on both GitHub and the VS Marketplace. The Marketplace uses 
 
 # Extension Name
 
-[![Build](https://github.com/user/repo/actions/workflows/build.yaml/badge.svg)](...)
-[![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/Publisher.ExtensionName)][marketplace]
-[![Visual Studio Marketplace Downloads](https://img.shields.io/visual-studio-marketplace/d/Publisher.ExtensionName)][marketplace]
+[![Build](https://github.com/user/repo/actions/workflows/build.yaml/badge.svg)](...) [![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/Publisher.ExtensionName)][marketplace] [![Visual Studio Marketplace Downloads](https://img.shields.io/visual-studio-marketplace/d/Publisher.ExtensionName)][marketplace]
 
-Download this extension from the [Visual Studio Marketplace][marketplace]
-or get the [CI build](http://vsixgallery.com/extension/ExtensionId/).
+Download this extension from the [Visual Studio Marketplace][marketplace] or get the [CI build](http://vsixgallery.com/extension/ExtensionId/).
 
---------------------------------------
+---
 
 **Hook line that sells the extension in one sentence.**
 
@@ -629,19 +638,22 @@ or get the [CI build](http://vsixgallery.com/extension/ExtensionId/).
 ## Features
 
 ### Feature 1
+
 Description with screenshot...
 
 ## How to Use
+
 ...
 
 ## License
+
 [Apache 2.0](LICENSE)
 ```
 
 ### README Best Practices
 
 | Element | Guideline |
-|---------|-----------|
+| --- | --- |
 | **Title** | Use the same name as `DisplayName` in vsixmanifest |
 | **Hook line** | Bold, one-sentence value proposition immediately after badges |
 | **Screenshots** | Place in `/art` folder, use relative paths (`art/image.png`) |
@@ -670,7 +682,7 @@ Description with screenshot...
 ### Manifest Best Practices
 
 | Element | Guideline |
-|---------|-----------|
+| --- | --- |
 | **DisplayName** | 3-5 words, no "for Visual Studio" (implied) |
 | **Description** | Under 200 chars, focus on value not features. Appears in search tiles |
 | **Tags** | 5-10 relevant keywords, comma-separated, helps discoverability |

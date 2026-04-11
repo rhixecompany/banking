@@ -13,7 +13,7 @@
 ## Proposed Change (Up)
 
 1. Verify no existing duplicate rows where the same (user_id, account_id) pair appears more than once.
-   - SQL: SELECT user_id, account_id, COUNT(_) FROM wallets WHERE account_id IS NOT NULL GROUP BY user_id, account_id HAVING COUNT(_) > 1;
+   - SQL: SELECT user*id, account_id, COUNT(*) FROM wallets WHERE account*id IS NOT NULL GROUP BY user_id, account_id HAVING COUNT(*) > 1;
 2. If duplicates exist, choose one of:
    - Option A (recommended): Keep the most recently created row and soft-delete the others (set deleted_at) after notifying owners via logs; backfill `sharable_id` if necessary.
    - Option B: Create a merge script to consolidate funding_source_url, customer_url, and other non-null fields into the chosen canonical row.

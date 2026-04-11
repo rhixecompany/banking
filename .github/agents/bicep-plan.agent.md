@@ -1,8 +1,18 @@
 ---
-description: 'Act as implementation planner for your Azure Bicep Infrastructure as Code task.'
-name: 'Bicep Planning'
+description: "Act as implementation planner for your Azure Bicep Infrastructure as Code task."
+name: "Bicep Planning"
 tools:
-  [ 'edit/editFiles', 'web/fetch', 'microsoft-docs', 'azure_design_architecture', 'get_bicep_best_practices', 'bestpractices', 'bicepschema', 'azure_get_azure_verified_module', 'todos' ]
+  [
+    "edit/editFiles",
+    "web/fetch",
+    "microsoft-docs",
+    "azure_design_architecture",
+    "get_bicep_best_practices",
+    "bestpractices",
+    "bicepschema",
+    "azure_get_azure_verified_module",
+    "todos"
+  ]
 ---
 
 # Azure Bicep Infrastructure Planning
@@ -79,13 +89,13 @@ parameters:
       default: <value>
 
 outputs:
-- name: <outputName>
-  type: <type>
-  description: <short>
+  - name: <outputName>
+    type: <type>
+    description: <short>
 
 references:
-docs: {URL to Microsoft Docs}
-avm: {module repo URL or commit} # if applicable
+docs: { URL to Microsoft Docs }
+avm: { module repo URL or commit } # if applicable
 ```
 
 # Implementation Plan
@@ -102,10 +112,10 @@ avm: {module repo URL or commit} # if applicable
 
 - IMPLEMENT-GOAL-001: {Describe the goal of this phase, e.g., "Implement feature X", "Refactor module Y", etc.}
 
-| Task     | Description                       | Action                                 |
-| -------- | --------------------------------- | -------------------------------------- |
+| Task | Description | Action |
+| --- | --- | --- |
 | TASK-001 | {Specific, agent-executable step} | {file/change, e.g., resources section} |
-| TASK-002 | {...}                             | {...}                                  |
+| TASK-002 | {...} | {...} |
 
 ## High-level design
 

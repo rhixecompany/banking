@@ -11,8 +11,8 @@
 ## Scope
 
 - database/schema.ts
-- lib/actions/\*\*
-- lib/dal/\*\*
+- actions/\*\*
+- dal/\*\*
 - Zod schemas across repo
 - app/\*\* (all pages/layouts/routes)
 - components/** (exclude components/ui/**)
@@ -24,7 +24,7 @@
 ## Target Files (patterns)
 
 - database/schema.ts
-- lib/dal/\*_/_.ts
+- dal/\*_/_.ts
 - lib/actions/\*_/_.ts
 - **/_schema_.ts, **/_zod_.ts, \*_/_.schema.ts
 - app/\*_/{page,layout,template,route,loading}.tsx_
@@ -53,7 +53,7 @@ Phase 2 — DB audit & non-destructive proposals 7. Cross-reference database/sch
 Phase 2b — DB audit: implementation steps (detailed)
 
 9. Read the canonical schema file: database/schema.ts and build an index of tables and columns.
-10. Grep all DAL files under lib/dal/** and actions under lib/actions/** and app/\*\* for referenced columns, table names, and fields used in code.
+10. Grep all DAL files under dal/** and actions under actions/** and app/\*\* for referenced columns, table names, and fields used in code.
 11. Produce a diff-style report mapping: { table -> [used columns], missing columns -> [usages], unused columns -> [locations] }.
 12. For each missing column or table usage, propose one of: (a) add column with type/default, (b) backfill via migration script, (c) change DAL/action to stop referencing the field (with code pointer and rationale).
 13. Create a Drizzle migration plan file in .opencode/plans/migrations/ describing SQL/Drizzle steps for each proposed change (up/down), including rollback and estimated downtime/risk.

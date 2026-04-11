@@ -1,6 +1,6 @@
 ---
-description: 'Using dependent libraries in PCF components'
-applyTo: '**/*.{ts,tsx,js,json,xml,pcfproj,csproj}'
+description: "Using dependent libraries in PCF components"
+applyTo: "**/*.{ts,tsx,js,json,xml,pcfproj,csproj}"
 ---
 
 # Dependent Libraries (Preview)
@@ -13,11 +13,9 @@ Having copies of a prebuilt library in multiple controls is undesirable. Reusing
 
 ## Before and After
 
-**Before**: Custom library files contained in each PCF component
-![Diagram showing custom library files contained in each pcf component](https://learn.microsoft.com/en-us/power-apps/developer/component-framework/media/dependent-library-before-example.png)
+**Before**: Custom library files contained in each PCF component ![Diagram showing custom library files contained in each pcf component](https://learn.microsoft.com/en-us/power-apps/developer/component-framework/media/dependent-library-before-example.png)
 
-**After**: Components calling a shared function from a Library Control
-![Diagram showing components calling a shared function from a Library Control](https://learn.microsoft.com/en-us/power-apps/developer/component-framework/media/dependent-library-after-example.png)
+**After**: Components calling a shared function from a Library Control ![Diagram showing components calling a shared function from a Library Control](https://learn.microsoft.com/en-us/power-apps/developer/component-framework/media/dependent-library-after-example.png)
 
 ## Implementation Steps
 
@@ -45,25 +43,27 @@ Add this file to override the default feature flags for a component without modi
 **Feature Flags:**
 
 | Flag | Description |
-|------|-------------|
+| --- | --- |
 | `pcfResourceDependency` | Enables the component to use a library resource. |
 | `pcfAllowCustomWebpack` | Enables the component to use a custom web pack. This feature must be enabled for components that define a library resource. |
 
 By default, these values are `off`. Set them to `on` to override the default.
 
 **Example 1:**
+
 ```json
-{ 
-  "pcfAllowCustomWebpack": "on" 
-} 
+{
+  "pcfAllowCustomWebpack": "on"
+}
 ```
 
 **Example 2:**
+
 ```json
-{ 
-   "pcfResourceDependency": "on",
-   "pcfAllowCustomWebpack": "off" 
-} 
+{
+  "pcfAllowCustomWebpack": "off",
+  "pcfResourceDependency": "on"
+}
 ```
 
 ### webpack.config.js
@@ -73,14 +73,14 @@ The build process for components uses [Webpack](https://webpack.js.org/) to bund
 This file might look like the following when the library alias is `myLib`:
 
 ```javascript
-/* eslint-disable */ 
-"use strict"; 
+/* eslint-disable */
+"use strict";
 
-module.exports = { 
-  externals: { 
-    "myLib": "myLib" 
-  }, 
-}  
+module.exports = {
+  externals: {
+    myLib: "myLib"
+  }
+};
 ```
 
 ### Register Dependencies
