@@ -16,7 +16,9 @@ describe("DwollaDal", () => {
         "https://api-sandbox.dwolla.com/funding-sources/src-1",
       destinationFundingSourceUrl:
         "https://api-sandbox.dwolla.com/funding-sources/dst-1",
-      userId: null,
+      // tests should use undefined for optional fields rather than null
+      // to satisfy strict TypeScript typing (userId?: string)
+      userId: undefined,
     });
 
     expect(row).toBeDefined();
@@ -25,9 +27,9 @@ describe("DwollaDal", () => {
   });
 
   it("finds transfers by user id", async () => {
-    const rows = await dwollaDal
-      .findTransfersByUserId(null as unknown as string)
-      .catch(() => []);
+    // intentionally call with an empty string to represent anonymous/none
+    // (avoid passing null which is not assignable to string)
+    const rows = await dwollaDal.findTransfersByUserId("").catch(() => []);
     // We can't assert much for anonymous null user, but ensure the method runs
     expect(Array.isArray(rows)).toBe(true);
   });
