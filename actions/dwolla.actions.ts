@@ -395,9 +395,8 @@ export async function createTransfer(input: unknown): Promise<{
           // Debug logs to help unit tests diagnose failures. These will be
           // removed once the transactional behavior is confirmed stable.
           if (process.env.VITEST_DEBUG) {
-             
             console.log("Inserted transaction row:", insertedTxn);
-             
+
             console.log("Inserted dwolla_transfers row:", insertedDwolla);
           }
         });
@@ -433,7 +432,6 @@ export async function createTransfer(input: unknown): Promise<{
           err,
         );
         if (process.env.VITEST_DEBUG) {
-           
           console.error("TRANSACTION ERROR:", err);
         }
         return { error: "Failed to create transfer and ledger", ok: false };
