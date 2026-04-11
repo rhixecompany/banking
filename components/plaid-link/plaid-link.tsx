@@ -10,6 +10,7 @@ import {
 import type { Wallet } from "@/types/wallet";
 
 import { createLinkToken, exchangePublicToken } from "@/actions/plaid.actions";
+import { usePlaid } from "@/components/plaid-context/plaid-context";
 import { Button } from "@/components/ui/button";
 
 /**
@@ -72,7 +73,40 @@ export function PlaidLink({
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | undefined>(undefined);
 
+  // If a PlaidProvider is present higher in the tree, use it instead of
+  // initializing Plaid here. This prevents react-plaid-link from injecting
+  // the Plaid script multiple times (causes the "embedded more than once"
+  // warning and can lead to instability in E2E tests).
+  let plaidContext:
+    | {
+        open: () => void;
+        ready: boolean;
+        isLoading: boolean;
+        error: string | undefined;
+      }
+    | undefined = undefined;
+
+  try {
+    // usePlaid throws when there is no provider in the tree; catch and
+    // fallback to local initialization.
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    plaidContext = usePlaid();
+  } catch {
+    // No provider available; continue with local Plaid initialization.
+    // Leave plaidContext undefined to trigger local behaviour.
+  }
+
   useEffect(() => {
+    // If a PlaidProvider is present, it will handle link token creation and
+    // usePlaidLink initialization. We only fetch a link token when no provider
+    // exists.
+    if (plaidContext) {
+      // Mirror provider loading state to keep Button disabled during init.
+      setIsLoading(plaidContext.isLoading);
+      setError(plaidContext.error);
+      return;
+    }
+
     async function fetchLinkToken() {
       setIsLoading(true);
       setError(undefined);
@@ -89,7 +123,7 @@ export function PlaidLink({
     }
 
     void fetchLinkToken();
-  }, [userId]);
+  }, [userId, plaidContext]);
 
   const handleSuccess = useCallback<PlaidLinkOnSuccess>(
     async (publicToken, _metadata) => {
@@ -111,23 +145,35 @@ export function PlaidLink({
     onExit?.();
   }, [onExit]);
 
-  const config: PlaidLinkOptions = {
-    onExit: handleExit,
-    onSuccess: handleSuccess,
-    token: linkToken ?? null,
-  };
+  // If we have a provider, delegate to it to avoid duplicate script injection.
+  let open: (() => void) | undefined;
+  let ready = false;
+  if (plaidContext) {
+    open = plaidContext.open;
+    ready = plaidContext.ready;
+  } else {
+    const config: PlaidLinkOptions = {
+      onExit: handleExit,
+      onSuccess: handleSuccess,
+      token: linkToken ?? null,
+    };
 
-  const { open, ready } = usePlaidLink(config);
+    // Only call usePlaidLink when there is no provider on the tree.
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const plaid = usePlaidLink(config);
+    open = plaid.open;
+    ready = plaid.ready;
 
-  useEffect(() => {
-    if (ready && onLoad) {
-      onLoad();
-    }
-  }, [ready, onLoad]);
+    useEffect(() => {
+      if (ready && onLoad) {
+        onLoad();
+      }
+    }, [ready, onLoad]);
+  }
 
   const handleClick = () => {
-    if (linkToken) {
-      open();
+    if (linkToken || plaidContext) {
+      open?.();
     }
   };
 

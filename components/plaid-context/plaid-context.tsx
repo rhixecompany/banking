@@ -13,6 +13,7 @@ import { usePlaidLink, type PlaidLinkOnSuccess } from "react-plaid-link";
 import type { Wallet } from "@/types/wallet";
 
 import { createLinkToken, exchangePublicToken } from "@/actions/plaid.actions";
+import { logger } from "@/lib/logger";
 
 /**
  * Description placeholder
@@ -136,12 +137,19 @@ export function PlaidProvider({
       setIsLoading(true);
       setError(undefined);
 
-      const result = await createLinkToken({ userId });
+      try {
+        const result = await createLinkToken({ userId });
 
-      if (result.ok && result.linkToken) {
-        setLinkToken(result.linkToken);
-      } else {
-        setError(result.error ?? "Failed to initialize Plaid Link");
+        if (result.ok && result.linkToken) {
+          setLinkToken(result.linkToken);
+        } else {
+          setError(result.error ?? "Failed to initialize Plaid Link");
+        }
+      } catch (err) {
+        // Defensive: catch any unexpected errors from createLinkToken to avoid
+        // uncaught exceptions bubbling to the dev server during Playwright runs.
+        logger.error("PlaidProvider createLinkToken unexpected error:", err);
+        setError("Failed to initialize Plaid Link");
       }
 
       setIsLoading(false);

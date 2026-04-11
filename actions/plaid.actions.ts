@@ -128,6 +128,9 @@ export async function createLinkToken(
       ok: true,
     };
   } catch (error) {
+    // Defensive: ensure errors are logged and return a stable error shape so
+    // callers do not throw. This reduces the chance of uncaught exceptions
+    // propagating to the dev server during Playwright runs.
     logger.error("Plaid createLinkToken error:", error);
     return { error: "Failed to create link token", ok: false };
   }
@@ -208,6 +211,8 @@ export async function exchangePublicToken(
     updateTag("balances");
     return { ok: true, wallet };
   } catch (error) {
+    // Defensive: log and return a stable error so server-render paths don't
+    // throw uncaught exceptions during E2E runs.
     logger.error("Plaid exchangePublicToken error:", error);
     return { error: "Failed to exchange public token", ok: false };
   }
