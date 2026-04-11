@@ -7,6 +7,13 @@
       "when": 1775402402591,
       "tag": "0000_mysterious_lizard",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1775918154033,
+      "tag": "0001_right_penance",
+      "breakpoints": true
     }
   ],
   "version": "7"
