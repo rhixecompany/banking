@@ -46,9 +46,9 @@ export class DwollaDal {
     status?: string;
     sourceFundingSourceUrl?: string;
     destinationFundingSourceUrl?: string;
-    senderWalletId?: null | string;
-    receiverWalletId?: null | string;
-    userId?: null | string;
+    senderWalletId?: string;
+    receiverWalletId?: string;
+    userId?: string;
   }) {
     const insertData = {
       amount:
@@ -57,13 +57,13 @@ export class DwollaDal {
       currency: data.currency ?? "USD",
       destinationFundingSourceUrl: data.destinationFundingSourceUrl,
       dwollaTransferId: data.dwollaTransferId,
-      receiverWalletId: data.receiverWalletId ?? null,
-      senderWalletId: data.senderWalletId ?? null,
+      receiverWalletId: data.receiverWalletId ?? undefined,
+      senderWalletId: data.senderWalletId ?? undefined,
       sourceFundingSourceUrl: data.sourceFundingSourceUrl,
-      status: data.status ?? null,
+      status: data.status ?? undefined,
       transferUrl: data.transferUrl,
       updatedAt: new Date(),
-      userId: data.userId ?? null,
+      userId: data.userId ?? undefined,
     } as typeof dwolla_transfers.$inferInsert;
 
     const [row] = await db
@@ -76,7 +76,7 @@ export class DwollaDal {
   /**
    * Finds dwolla_transfers rows by user id.
    */
-  async findTransfersByUserId(userId: string) {
+  findTransfersByUserId(userId: string) {
     return db
       .select()
       .from(dwolla_transfers)

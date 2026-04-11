@@ -383,8 +383,8 @@ export async function createTransfer(input: unknown): Promise<{
               destinationFundingSourceUrl:
                 parsed.data.destinationFundingSourceUrl,
               dwollaTransferId: undefined,
-              receiverWalletId: ledger.receiverWalletId ?? null,
-              senderWalletId: ledger.senderWalletId ?? null,
+              receiverWalletId: ledger.receiverWalletId ?? undefined,
+              senderWalletId: ledger.senderWalletId ?? undefined,
               sourceFundingSourceUrl: parsed.data.sourceFundingSourceUrl,
               status: "initiated",
               transferUrl,
@@ -394,7 +394,7 @@ export async function createTransfer(input: unknown): Promise<{
 
           // Debug logs to help unit tests diagnose failures. These will be
           // removed once the transactional behavior is confirmed stable.
-          if (process.env.VITEST_DEBUG) {
+          if ((globalThis as any).VITEST_DEBUG) {
             console.log("Inserted transaction row:", insertedTxn);
 
             console.log("Inserted dwolla_transfers row:", insertedDwolla);
@@ -406,21 +406,33 @@ export async function createTransfer(input: unknown): Promise<{
         // the transaction did not persist the metadata for any reason, try a
         // best-effort upsert via the DAL so tests and reconciliation succeed.
         try {
-          const existing = await db
-            .select()
-            .from(dwolla_transfers)
-            .where(eq(dwolla_transfers.transferUrl, transferUrl));
+          // Only query by transferUrl when it is defined. Headers.get may
+          // return null/undefined in some environments (tests or proxies),
+          // and Drizzle's eq() does not accept undefined.
+          if (transferUrl) {
+            const existing = await db
+              .select()
+              .from(dwolla_transfers)
+              .where(eq(dwolla_transfers.transferUrl, transferUrl));
 
-          if (existing.length === 0) {
-            await dwollaDal.createDwollaTransfer({
-              amount: parsed.data.amount,
-              destinationFundingSourceUrl:
-                parsed.data.destinationFundingSourceUrl,
-              sourceFundingSourceUrl: parsed.data.sourceFundingSourceUrl,
-              status: "initiated",
-              transferUrl,
-              userId: session.user.id,
-            });
+            if (existing.length === 0) {
+              await dwollaDal.createDwollaTransfer({
+                amount: parsed.data.amount,
+                destinationFundingSourceUrl:
+                  parsed.data.destinationFundingSourceUrl,
+                sourceFundingSourceUrl: parsed.data.sourceFundingSourceUrl,
+                status: "initiated",
+                transferUrl,
+                userId: session.user.id,
+              });
+            }
+          } else {
+            // transferUrl missing — skip post-insert verification. This can
+            // happen in test environments or if the upstream API did not
+            // return a Location header. It's non-fatal.
+            logger.debug(
+              "Transfer created but transferUrl header was missing; skipping verification.",
+            );
           }
         } catch (err) {
           // Non-fatal: log and continue — do not fail the user-facing flow
@@ -431,7 +443,7 @@ export async function createTransfer(input: unknown): Promise<{
           "Transactional creation of ledger + dwolla_transfer failed:",
           err,
         );
-        if (process.env.VITEST_DEBUG) {
+        if ((globalThis as any).VITEST_DEBUG) {
           console.error("TRANSACTION ERROR:", err);
         }
         return { error: "Failed to create transfer and ledger", ok: false };

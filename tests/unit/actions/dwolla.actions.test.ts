@@ -12,11 +12,12 @@ vi.mock("@/lib/auth", () => ({
 
 vi.mock("@/lib/dwolla", () => ({
   getDwollaClient: () => ({
-    post: async () => ({
-      headers: {
-        get: (_: string) => "https://api-sandbox.dwolla.com/transfers/t-123",
-      },
-    }),
+    post: () =>
+      Promise.resolve({
+        headers: {
+          get: (_: string) => "https://api-sandbox.dwolla.com/transfers/t-123",
+        },
+      }),
   }),
 }));
 

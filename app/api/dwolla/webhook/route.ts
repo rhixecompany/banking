@@ -68,7 +68,7 @@ export async function POST(req: Request) {
       // fallback: match by transferUrl containing the transferId
       const all = await db.select().from(schema.dwolla_transfers);
       for (const r of all) {
-        if (r.transferUrl && r.transferUrl.includes(String(transferId))) {
+        if (r.transferUrl?.includes(String(transferId))) {
           await dwollaDal.updateTransferStatus(r.id, String(status));
           updated = true;
         }
