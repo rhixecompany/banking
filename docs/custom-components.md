@@ -1,25 +1,29 @@
----
-title: Custom Components Inventory
----
+# Custom Components Inventory
 
-# Custom Components (excluding components/ui)
+This document lists custom components under components/ excluding components/ui. For each component we record: path, likely client/server, notes and candidate for extraction.
 
-This file lists custom components found under `components/`, excluding the `components/ui/` library items.
-
-Each entry: path — short description — refactor candidates
-
-- components/dashboard/dashboard-client-wrapper.tsx — Dashboard client wrapper; renders wallet list and onboarding — candidate: split WalletList, OnboardingCard
-- components/dashboard/dashboard-server-wrapper.tsx — Server wrapper for dashboard data fetching — OK
-- components/my-wallets/my-wallets-client-wrapper.tsx — My Wallets client wrapper — candidate: WalletCard, WalletList
-- components/my-wallets/\* — various subcomponents used by my-wallets page — likely candidates to genericize
-- components/bank/BankDropdown.tsx — Select dropdown for wallets — candidate: generic Dropdown / SelectItem
-- components/bank/BankInfo.tsx — Bank card with balance display — candidate: Card + Meta + Balance components
-- components/payment/PaymentTransferForm.tsx — Transfer form including BankDropdown and validations — candidate: FormField primitives, AmountInput
-- components/Copy.tsx — Small copy-to-clipboard button — keep as-is or move to components/layouts/primitives
-- components/Category.tsx — Category card used on dashboard — candidate: GenericStatCard
-- components/BankTabItem.tsx — Tab item for banks list — small, keep
+- components/plaid-link/plaid-link.tsx — Client — Plaid link button; candidate for extraction of simple Button wrapper and token-fetching hook.
+- components/plaid-context/plaid-context.tsx — Client — Provides Plaid context/provider; central to Plaid embed fix.
+- components/site-header/site-header.tsx — Likely Client — header UI
+- components/shadcn-studio/... — Mixed — template blocks (keep as-is unless duplication noticed)
+- components/site-header/site-header.tsx — Client — header
+- components/settings/settings-client-wrapper.tsx — Client
+- components/section-cards/section-cards.tsx — Server/Client (depends on props) — candidate for split into Card + Layout
+- components/plaid-link-button/plaid-link-button.tsx — Client — simple wrapper around Plaid Link UI
+- components/nav-user/nav-user.tsx — Client
+- components/app-sidebar/app-sidebar.tsx — Client — layout
+- components/data-table/data-table.tsx — Client — candidate for generic table component in components/layouts
+- components/home/home-server-wrapper.tsx — Server
+- components/home/home-client-wrapper.tsx — Client
+- components/dashboard/\* — Mixed — server/client wrappers used in dashboard
+- components/my-wallets/\* — Mixed — wallet-specific components; some parts could be extracted to generic WalletCard
+- components/payment-transfer/\* — Mixed — contains server & client wrappers
+- components/transaction-history/\* — Mixed — server/client wrappers
+- components/sign-up/_ and sign-in/_ — Auth form wrappers (split form controls and container)
+- components/custom-input/custom-input.tsx — Client — candidate for generic input wrapper
+- components/total-balance-box/total-balance-box.tsx — Client — presentational
 
 Notes:
 
-- Many components are composite (UI + data mapping). Splitting presentational primitives into `components/layouts` will improve reuse and testability.
-- Recommended new layout components: `Card`, `List`, `ListItem`, `Dropdown`, `FormField`, `AmountInput`, `BalanceDisplay`.
+- Many components follow the server-wrapper / client-wrapper pattern; extract presentational components where possible into components/layouts to maximize reusability.
+- Plaid components are central to the Plaid embed issue and will be prioritized.

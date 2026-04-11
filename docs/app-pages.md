@@ -1,59 +1,46 @@
----
-title: App Pages Inventory
----
-
 # App Pages Inventory
 
-This document lists all routes/pages found under the `app/` directory and basic metadata useful for audits and refactors.
+This document lists files under the app/ directory. Pages are marked as Client when they contain a top-level "use client" directive; otherwise they are Server (Next.js Server Component by default).
 
-Format: path — Server/Client — Notes
+Format: - Path — Type
 
-- app/page.tsx — Server — Root landing page (uses dashboard wrapper)
-- app/not-found.tsx — Server — Global not-found UI
-- app/layout.tsx — Server — Root layout for the app
-- app/global-error.tsx — Server — Global error boundary
-
-- app/api/auth/[...nextauth]/route.ts — Server — NextAuth route (strategy: jwt)
-- app/api/health/route.ts — Server — Health-check endpoint
-
-- app/(root)/layout.tsx — Server — Protected root layout
-- app/(root)/page.tsx — Server — Root dashboard redirect/landing
-
-- app/(root)/dashboard/page.tsx — Server — Dashboard page
-- app/(root)/dashboard/loading.tsx — Server — Suspense loading
-- app/(root)/dashboard/error.tsx — Server — Error boundary
-
-- app/(root)/my-wallets/page.tsx — Server — My Wallets list
-- app/(root)/my-wallets/loading.tsx — Server — Loading
-- app/(root)/my-wallets/error.tsx — Server — Error boundary
-
-- app/(root)/transaction-history/page.tsx — Server — Transaction history
-- app/(root)/transaction-history/loading.tsx — Server — Loading
-- app/(root)/transaction-history/error.tsx — Server — Error boundary
-
-- app/(root)/settings/page.tsx — Server — User settings
-- app/(root)/settings/loading.tsx — Server — Loading
-- app/(root)/settings/error.tsx — Server — Error boundary
-
-- app/(root)/payment-transfer/page.tsx — Server — Transfer funds page
-- app/(root)/payment-transfer/loading.tsx — Server — Loading
-- app/(root)/payment-transfer/error.tsx — Server — Error boundary
-
-- app/(auth)/layout.tsx — Server — Auth layout (sign-in/sign-up)
-- app/(auth)/sign-in/page.tsx — Client — Sign-in form (client component)
-- app/(auth)/sign-in/loading.tsx — Client — Loading
-- app/(auth)/sign-in/error.tsx — Client — Error boundary
-- app/(auth)/sign-up/page.tsx — Client — Sign-up form (client component)
-- app/(auth)/sign-up/loading.tsx — Client — Loading
-- app/(auth)/sign-up/error.tsx — Client — Error boundary
-
-- app/(admin)/layout.tsx — Server — Admin layout
-- app/(admin)/admin/page.tsx — Server — Admin dashboard
-- app/(admin)/admin/loading.tsx — Server — Loading
-- app/(admin)/admin/error.tsx — Server — Error boundary
+- app/page.tsx — Server
+- app/layout.tsx — Server
+- app/global-error.tsx — Client
+- app/not-found.tsx — Server
+- app/api/auth/[...nextauth]/route.ts — Server (API route)
+- app/api/dwolla/webhook/route.ts — Server (API route)
+- app/api/health/route.ts — Server (API route)
+- app/(root)/layout.tsx — Server
+- app/(root)/page.tsx — Server
+- app/(root)/my-wallets/page.tsx — Server
+- app/(root)/my-wallets/loading.tsx — Server
+- app/(root)/my-wallets/error.tsx — Client
+- app/(root)/dashboard/page.tsx — Server
+- app/(root)/dashboard/loading.tsx — Server
+- app/(root)/dashboard/error.tsx — Client
+- app/(root)/transaction-history/page.tsx — Server
+- app/(root)/transaction-history/loading.tsx — Server
+- app/(root)/transaction-history/error.tsx — Client
+- app/(root)/payment-transfer/page.tsx — Server
+- app/(root)/payment-transfer/loading.tsx — Server
+- app/(root)/payment-transfer/error.tsx — Client
+- app/(root)/settings/page.tsx — Server
+- app/(root)/settings/loading.tsx — Server
+- app/(root)/settings/error.tsx — Client
+- app/(auth)/layout.tsx — Server
+- app/(auth)/sign-in/page.tsx — Server
+- app/(auth)/sign-in/loading.tsx — Client
+- app/(auth)/sign-in/error.tsx — Client
+- app/(auth)/sign-up/page.tsx — Server
+- app/(auth)/sign-up/loading.tsx — Client
+- app/(auth)/sign-up/error.tsx — Client
+- app/(admin)/layout.tsx — Server
+- app/(admin)/admin/page.tsx — Server
+- app/(admin)/admin/loading.tsx — Client
+- app/(admin)/admin/error.tsx — Client
 
 Notes:
 
-- The project uses App Router; most pages are server components by default. Client pages/components include explicit `"use client"` directive.
-- Pages that perform mutations call Server Actions located in `lib/actions` or `actions/`.
-- Before changing routes, run `npm run type-check` and `npm run lint:strict`.
+- Pages marked Client were identified by the presence of a top-level "use client" directive.
+- Server actions and Zod usage should be audited per page; this inventory is a starting point for triage.
