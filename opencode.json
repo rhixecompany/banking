@@ -3,8 +3,8 @@
   "agent": {
     "build": {
       "description": "Build and implement features for the Banking project",
-      "model": "opencode/minimax-m2.5-free",
-      "steps": 5,
+      "model": "github-copilot/gpt-5-mini",
+      "steps": 10,
       "temperature": 0.3,
       "tools": {
         "bash": true,
@@ -25,7 +25,8 @@
     },
     "plan": {
       "description": "Review and plan changes for the Banking project",
-      "model": "opencode/minimax-m2.5-free",
+      "model": "github-copilot/gpt-5-mini",
+      "steps": 15,
       "temperature": 0.1,
       "tools": {
         "bash": true,
@@ -47,13 +48,30 @@
     "quick-thinker": {
       "description": "Fast reasoning with limited iterations",
       "prompt": "You are a quick thinker. Solve problems with minimal steps.",
-      "steps": 5
+      "steps": 10,
+      "temperature": 0.3,
+      "tools": {
+        "bash": true,
+        "edit": true,
+        "glob": true,
+        "grep": true,
+        "list": true,
+        "lsp": true,
+        "MCP_DOCKER_*": true,
+        "question": true,
+        "read": true,
+        "shadcn_*": true,
+        "skill": true,
+        "todowrite": true,
+        "webfetch": true,
+        "websearch": true
+      }
     },
     "review": {
       "description": "Review code changes and PRs for the Banking project",
-      "model": "opencode/minimax-m2.5-free",
-      "steps": 5,
-      "temperature": 0.7,
+      "model": "github-copilot/gpt-5-mini",
+      "steps": 10,
+      "temperature": 0.3,
       "tools": {
         "bash": true,
         "edit": true,
@@ -97,8 +115,10 @@
   "instructions": [
     "AGENTS.md",
     ".opencode/instructions/*.md",
+    ".cursor/rules/*.mdc",
     "docs/README.md",
     "scripts/README.md",
+    ".github/instructions/documentation.instructions.md",
     "README.md"
   ],
   "mcp": {
@@ -124,15 +144,95 @@
   },
   "mode": {
     "build": {
-      "model": "opencode/minimax-m2.5-free",
-      "temperature": 0.55
+      "description": "Build and implement features for the Banking project",
+      "model": "github-copilot/gpt-5-mini",
+      "steps": 10,
+      "temperature": 0.3,
+      "tools": {
+        "bash": true,
+        "edit": true,
+        "glob": true,
+        "grep": true,
+        "list": true,
+        "lsp": true,
+        "MCP_DOCKER_*": true,
+        "question": true,
+        "read": true,
+        "shadcn_*": true,
+        "skill": true,
+        "todowrite": true,
+        "webfetch": true,
+        "websearch": true
+      }
     },
     "plan": {
-      "model": "opencode/minimax-m2.5-free",
-      "temperature": 0.2
+      "description": "Review and plan changes for the Banking project",
+      "model": "github-copilot/gpt-5-mini",
+      "steps": 15,
+      "temperature": 0.1,
+      "tools": {
+        "bash": true,
+        "edit": false,
+        "glob": true,
+        "grep": true,
+        "list": true,
+        "lsp": true,
+        "MCP_DOCKER_*": true,
+        "question": true,
+        "read": true,
+        "shadcn_*": true,
+        "skill": true,
+        "todowrite": true,
+        "webfetch": true,
+        "websearch": true
+      }
+    },
+    "quick-thinker": {
+      "description": "Fast reasoning with limited iterations",
+      "prompt": "You are a quick thinker. Solve problems with minimal steps.",
+      "steps": 10,
+      "temperature": 0.3,
+      "tools": {
+        "bash": true,
+        "edit": true,
+        "glob": true,
+        "grep": true,
+        "list": true,
+        "lsp": true,
+        "MCP_DOCKER_*": true,
+        "question": true,
+        "read": true,
+        "shadcn_*": true,
+        "skill": true,
+        "todowrite": true,
+        "webfetch": true,
+        "websearch": true
+      }
+    },
+    "review": {
+      "description": "Review code changes and PRs for the Banking project",
+      "model": "github-copilot/gpt-5-mini",
+      "steps": 10,
+      "temperature": 0.3,
+      "tools": {
+        "bash": true,
+        "edit": true,
+        "glob": true,
+        "grep": true,
+        "list": true,
+        "lsp": true,
+        "MCP_DOCKER_*": true,
+        "question": true,
+        "read": true,
+        "shadcn_*": true,
+        "skill": true,
+        "todowrite": true,
+        "webfetch": true,
+        "websearch": true
+      }
     }
   },
-  "model": "opencode/minimax-m2.5-free",
+  "model": "github-copilot/gpt-5-mini",
   "permission": {
     "bash": "ask",
     "edit": "ask",

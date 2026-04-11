@@ -1049,6 +1049,14 @@ Based on production patterns from the Banking project template.
 <br>
 
 <details>
+  <summary><b>alibaba-rate-limit-handling</b> - <i>```</i></summary>
+  <blockquote>
+    How to handle Alibaba API rate-limit errors — adjust client logic to scale requests smoothly
+    <br><br><a href=".opencode\instructions/">🔗 <b>View Repository</b></a>
+  </blockquote>
+</details>
+
+<details>
   <summary><b>auth-testing</b> - <i>```typescript</i></summary>
   <blockquote>
     NextAuth v4 patterns and Testing patterns (Vitest, Playwright)
@@ -1245,6 +1253,14 @@ Based on production patterns from the Banking project template.
   <blockquote>
     shadcn/ui component patterns and Tailwind CSS styling for the Banking app. Use when building forms, tables, dialogs, or UI components.
     <br><br><a href=".opencode\skills\ui-skill/">🔗 <b>View Repository</b></a>
+  </blockquote>
+</details>
+
+<details>
+  <summary><b>upstream-error-handling</b> - <i>When you encounter a transient rate-limit or upstream error from the AI provider (e.g., "Request rate increased too q...</i></summary>
+  <blockquote>
+    How to handle transient AI provider rate-limit errors — do NOT add them to AGENTS.md
+    <br><br><a href=".opencode\instructions/">🔗 <b>View Repository</b></a>
   </blockquote>
 </details>
 
