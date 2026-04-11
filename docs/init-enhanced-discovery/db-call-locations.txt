@@ -1,0 +1,10 @@
+lib/error-tracking.ts:74: await db.insert(errors).values({
+lib/error-tracking.ts:95: return await db.select().from(errors).orderBy(errors.createdAt).limit(limit);
+lib/error-tracking.ts:155: await db.delete(errors).where(eq(errors.createdAt, cutoff));
+lib/auth-options.ts:85: await db.insert(users).values({
+dal/dwolla.dal.ts:103: fundingSourceUrl: string,
+dal/dwolla.dal.ts:112: .where(eq(wallets.fundingSourceUrl, fundingSourceUrl))
+dal/dwolla.dal.ts:155: .set({ fundingSourceUrl, updatedAt: new Date() })
+dal/wallet.dal.ts:72: .where(eq(wallets.sharableId, sharableId))
+database/schema.ts:490: fundingSourceUrl: text("funding_source_url"),
+database/schema.ts:519: sharableId: varchar("sharable_id", { length: 255 }).notNull().unique(),
