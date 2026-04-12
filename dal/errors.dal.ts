@@ -11,18 +11,18 @@ export class ErrorsDal {
    */
   async insertError(data: {
     message: string;
-    path?: string | null;
-    severity?: string | null;
-    stack?: string | null;
-    userId?: string | null;
+    path?: string | undefined;
+    severity?: string | undefined;
+    stack?: string | undefined;
+    userId?: string | undefined;
   }) {
     const insertData = {
       message: data.message,
-      path: data.path ?? null,
-      severity: data.severity ?? "error",
-      stack: data.stack ?? null,
-      userId: data.userId ?? null,
       createdAt: new Date(),
+      path: data.path ?? undefined,
+      severity: data.severity ?? "error",
+      stack: data.stack ?? undefined,
+      userId: data.userId ?? undefined,
     } as typeof errors.$inferInsert;
 
     const [row] = await db.insert(errors).values(insertData).returning();

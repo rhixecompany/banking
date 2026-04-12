@@ -356,24 +356,64 @@ export async function createTransfer(input: unknown): Promise<{
         await db.transaction(async (tx: any) => {
           const ledger = dataAny.createLedger as Record<string, unknown>;
 
+          // Coerce ledger fields into expected types before calling DAL.
+          const amountVal =
+            typeof ledger.amount === "string"
+              ? ledger.amount
+              : String(parsed.data.amount);
+          const categoryVal =
+            typeof ledger.category === "string" ? ledger.category : undefined;
+          const channelVal =
+            typeof ledger.channel === "string" &&
+            ["online", "in_store", "other"].includes(ledger.channel as string)
+              ? (ledger.channel as "online" | "in_store" | "other")
+              : undefined;
+          const emailVal =
+            typeof ledger.email === "string" ? ledger.email : undefined;
+          const nameVal =
+            typeof ledger.name === "string" ? ledger.name : undefined;
+          const receiverWalletIdVal =
+            typeof ledger.receiverWalletId === "string"
+              ? ledger.receiverWalletId
+              : undefined;
+          const senderWalletIdVal =
+            typeof ledger.senderWalletId === "string"
+              ? ledger.senderWalletId
+              : undefined;
+          const statusVal =
+            typeof ledger.status === "string" &&
+            [
+              "pending",
+              "processing",
+              "completed",
+              "failed",
+              "cancelled",
+            ].includes(ledger.status as string)
+              ? (ledger.status as
+                  | "pending"
+                  | "processing"
+                  | "completed"
+                  | "failed"
+                  | "cancelled")
+              : "pending";
+          const typeVal =
+            typeof ledger.type === "string"
+              ? (ledger.type as "credit" | "debit")
+              : undefined;
+
           // Insert into transactions table and capture the inserted row via DAL (pass tx)
           const insertedTxn = await transactionDal.createTransaction(
             {
-              amount:
-                (ledger.amount as unknown as string) ?? parsed.data.amount,
-              category: ledger.category,
-              channel: ledger.channel,
+              amount: amountVal,
+              category: categoryVal,
+              channel: channelVal,
               currency: (ledger.currency as unknown as string) ?? "USD",
-              email: ledger.email as unknown as string | undefined,
-              name: ledger.name as unknown as string | undefined,
-              receiverWalletId: ledger.receiverWalletId as unknown as
-                | string
-                | undefined,
-              senderWalletId: ledger.senderWalletId as unknown as
-                | string
-                | undefined,
-              status: (ledger.status as unknown as string) ?? "pending",
-              type: ledger.type as unknown as "credit" | "debit" | undefined,
+              email: emailVal,
+              name: nameVal,
+              receiverWalletId: receiverWalletIdVal,
+              senderWalletId: senderWalletIdVal,
+              status: statusVal,
+              type: typeVal,
               userId: session.user.id,
             },
             { db: tx },
@@ -387,8 +427,8 @@ export async function createTransfer(input: unknown): Promise<{
               destinationFundingSourceUrl:
                 parsed.data.destinationFundingSourceUrl,
               dwollaTransferId: undefined,
-              receiverWalletId: ledger.receiverWalletId ?? undefined,
-              senderWalletId: ledger.senderWalletId ?? undefined,
+              receiverWalletId: receiverWalletIdVal,
+              senderWalletId: senderWalletIdVal,
               sourceFundingSourceUrl: parsed.data.sourceFundingSourceUrl,
               status: "initiated",
               transferUrl,

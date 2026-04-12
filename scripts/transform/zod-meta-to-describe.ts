@@ -36,10 +36,10 @@ function convertFile(filePath: string) {
       const name = propAccess.getName();
       if (name !== "meta") continue;
 
-      const args = call.getArguments();
-      if (args.length !== 1) continue;
+      const callArgs = call.getArguments();
+      if (callArgs.length !== 1) continue;
 
-      const arg = args[0];
+      const arg = callArgs[0];
       if (arg.getKind() !== SyntaxKind.ObjectLiteralExpression) continue;
 
       const obj = arg.asKindOrThrow(SyntaxKind.ObjectLiteralExpression);
@@ -75,7 +75,7 @@ function convertFile(filePath: string) {
 async function findFiles() {
   // Scan src-like directories and actions/lib folders for ts/tsx files
   const glob = (await import("glob")) as any;
-  const patterns = [
+  const patterns: string[] = [
     "actions/**/*.ts",
     "lib/**/*.ts",
     "components/**/*.ts",
@@ -86,7 +86,7 @@ async function findFiles() {
     const matches = glob.globSync(pattern, {
       cwd: process.cwd(),
       absolute: true,
-    });
+    }) as string[];
     for (const m of matches) files.push(m);
   }
   return Array.from(new Set(files));
