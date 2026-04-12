@@ -12,6 +12,7 @@ import type { Wallet } from "@/types/wallet";
 import { createLinkToken, exchangePublicToken } from "@/actions/plaid.actions";
 import { usePlaidSafe } from "@/components/plaid-context/plaid-context";
 import { Button } from "@/components/ui/button";
+import { logger } from "@/lib/logger";
 
 /**
  * Props for the PlaidLink component.
@@ -99,6 +100,24 @@ export function PlaidLink({
       // Mirror provider loading state to keep Button disabled during init.
       setIsLoading(plaidContext.isLoading);
       setError(plaidContext.error);
+      return;
+    }
+
+    // If a global Plaid script guard exists, prefer the provider pattern and
+    // avoid doing a local initialization that could duplicate script insertion.
+    // This can happen when a page renders both provider-backed and local
+    // components. In that case, we attempt to fall back to provider behavior
+    // by setting an informative error so callers can prefer provider usage.
+    if (
+      typeof window !== "undefined" &&
+      (window as any).__plaid_link_script_loaded
+    ) {
+      // Prefer using the project logger instead of console statements.
+      logger.info(
+        "Plaid script already loaded; skipping local initialization and expecting provider.",
+      );
+      setIsLoading(false);
+      setError(undefined);
       return;
     }
 

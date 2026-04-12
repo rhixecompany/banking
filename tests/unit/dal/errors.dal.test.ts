@@ -2,13 +2,16 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 // Mock the db module to avoid touching a real DB in unit tests.
 vi.mock("@/database/db", () => {
-  const valuesMock = vi.fn().mockResolvedValue([
+  const returningMock = vi.fn().mockResolvedValue([
     {
       id: "err-1",
       message: "mocked error",
       createdAt: new Date().toISOString(),
     },
   ]);
+
+  const valuesMock = vi.fn().mockReturnValue({ returning: returningMock });
+
   return {
     db: {
       insert: vi.fn().mockReturnValue({ values: valuesMock }),

@@ -365,8 +365,8 @@ export async function createTransfer(input: unknown): Promise<{
             typeof ledger.category === "string" ? ledger.category : undefined;
           const channelVal =
             typeof ledger.channel === "string" &&
-            ["online", "in_store", "other"].includes(ledger.channel as string)
-              ? (ledger.channel as "online" | "in_store" | "other")
+            ["in_store", "online", "other"].includes(ledger.channel as string)
+              ? (ledger.channel as "in_store" | "online" | "other")
               : undefined;
           const emailVal =
             typeof ledger.email === "string" ? ledger.email : undefined;
@@ -383,18 +383,18 @@ export async function createTransfer(input: unknown): Promise<{
           const statusVal =
             typeof ledger.status === "string" &&
             [
-              "pending",
-              "processing",
+              "cancelled",
               "completed",
               "failed",
-              "cancelled",
+              "pending",
+              "processing",
             ].includes(ledger.status as string)
               ? (ledger.status as
-                  | "pending"
-                  | "processing"
+                  | "cancelled"
                   | "completed"
                   | "failed"
-                  | "cancelled")
+                  | "pending"
+                  | "processing")
               : "pending";
           const typeVal =
             typeof ledger.type === "string"
@@ -437,12 +437,24 @@ export async function createTransfer(input: unknown): Promise<{
             { db: tx },
           );
 
-          // Debug logs to help unit tests diagnose failures. These will be
-          // removed once the transactional behavior is confirmed stable.
+          // Debug logs to help unit tests diagnose failures. Redact sensitive
+          // fields (only expose non-sensitive identifiers) and use the
+          // centralized logger. Keep the VITEST_DEBUG guard so these never run
+          // in normal environments unless explicitly enabled.
           if ((globalThis as any).VITEST_DEBUG) {
-            console.log("Inserted transaction row:", insertedTxn);
-
-            console.log("Inserted dwolla_transfers row:", insertedDwolla);
+            try {
+              logger.warn(
+                "Inserted transaction id:",
+                (insertedTxn as any)?.id ?? "(unknown)",
+              );
+              logger.warn(
+                "Inserted dwolla_transfers id/status:",
+                (insertedDwolla as any)?.id ?? "(unknown)",
+                (insertedDwolla as any)?.status ?? "(unknown)",
+              );
+            } catch {
+              // Swallow logging errors to avoid affecting the transactional flow
+            }
           }
         });
 
@@ -489,7 +501,14 @@ export async function createTransfer(input: unknown): Promise<{
           err,
         );
         if ((globalThis as any).VITEST_DEBUG) {
-          console.error("TRANSACTION ERROR:", err);
+          try {
+            logger.debug(
+              "TRANSACTION ERROR (message only):",
+              (err as any)?.message ?? String(err),
+            );
+          } catch {
+            // ignore logging errors
+          }
         }
         return { error: "Failed to create transfer and ledger", ok: false };
       }

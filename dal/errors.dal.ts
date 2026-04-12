@@ -17,8 +17,8 @@ export class ErrorsDal {
     userId?: string | undefined;
   }) {
     const insertData = {
-      message: data.message,
       createdAt: new Date(),
+      message: data.message,
       path: data.path ?? undefined,
       severity: data.severity ?? "error",
       stack: data.stack ?? undefined,

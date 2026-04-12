@@ -1,5 +1,6 @@
-import { errorsDal } from "@/dal/errors.dal";
 import { describe, expect, it } from "vitest";
+
+import { errorsDal } from "@/dal/errors.dal";
 
 // Note: This test runs against the real DB referenced by DATABASE_URL in .env.local.
 // Ensure you have applied migrations locally (npm run db:push) before running.

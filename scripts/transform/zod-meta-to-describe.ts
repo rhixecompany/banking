@@ -10,6 +10,11 @@ import { Project, SyntaxKind } from "ts-morph";
 
 const args = process.argv.slice(2);
 const dryRun = args.includes("--dry-run") || !args.includes("--apply");
+const filesArgIndex = args.indexOf("--files");
+let filesArg: string | undefined;
+if (filesArgIndex !== -1 && args.length > filesArgIndex + 1) {
+  filesArg = args[filesArgIndex + 1];
+}
 
 const project = new Project({
   tsConfigFilePath: path.join(process.cwd(), "tsconfig.json"),
@@ -75,17 +80,20 @@ function convertFile(filePath: string) {
 async function findFiles() {
   // Scan src-like directories and actions/lib folders for ts/tsx files
   const glob = (await import("glob")) as any;
-  const patterns: string[] = [
-    "actions/**/*.ts",
-    "lib/**/*.ts",
-    "components/**/*.ts",
-    "components/**/*.tsx",
-  ];
+  const patterns: string[] = filesArg
+    ? [filesArg]
+    : [
+        "actions/**/*.ts",
+        "dal/**/*.ts",
+        "lib/**/*.ts",
+        "components/**/*.ts",
+        "components/**/*.tsx",
+      ];
   const files: string[] = [];
   for (const pattern of patterns) {
     const matches = glob.globSync(pattern, {
-      cwd: process.cwd(),
       absolute: true,
+      cwd: process.cwd(),
     }) as string[];
     for (const m of matches) files.push(m);
   }
@@ -94,31 +102,31 @@ async function findFiles() {
 
 async function run() {
   const files = await findFiles();
-  const results: Array<{ file: string; sourceFile: any }> = [];
+  const results: { file: string; sourceFile: any }[] = [];
 
   for (const f of files) {
     try {
       const result = convertFile(f);
       if (result) results.push({ file: f, sourceFile: result.sourceFile });
-    } catch (err) {
+    } catch {
       // ignore parse errors
     }
   }
 
   if (results.length === 0) {
-    console.log("No z.meta(...) -> .describe(...) transformations required");
+    console.warn("No z.meta(...) -> .describe(...) transformations required");
     return;
   }
 
-  console.log(`Found ${results.length} files to update.`);
+  console.warn(`Found ${results.length} files to update.`);
 
   for (const r of results) {
     const text = r.sourceFile.getFullText();
     if (dryRun) {
-      console.log(`--- DRY RUN: ${r.file} ---\n` + text.slice(0, 4000));
+      console.warn(`--- DRY RUN: ${r.file} ---\n` + text.slice(0, 4000));
     } else {
       fs.writeFileSync(r.file, text, "utf8");
-      console.log(`Updated: ${r.file}`);
+      console.warn(`Updated: ${r.file}`);
     }
   }
 }

@@ -14,11 +14,11 @@
 
 6: List all custom components in `./components` skip all components in `./components/ui` save the list to `docs/custom-components.md` format with markdownlint then triage, then identify any custom components that can be split up into smaller dynamic generic reusable components.
 
-7: Read and understand `docs/custom-components.md` then Update all custom components in `docs/custom-components.md` ensure to create and use any reusable dynamic generic custom components and saved to `./components/layouts` ensure to verify and valid all reusable dynamic generic custom components in `./components/layouts`.
+7: Update all custom components,pages in `docs/custom-components.md` and `docs/app-pages.md` ensure to create and use any reusable dynamic generic custom components and saved to `./components/layouts` ensure to verify and valid all reusable dynamic generic custom components in `./components/layouts` use dry practices.
 
 8: List all test its helpers and configurations in the codebase save the list to `docs/test-context.md` format with markdownlint then triage.
 
-9: Read and understand `docs/app-pages.md` and `docs/test-context.md` then Update all pages,test,helpers and configurations in `docs/app-pages.md` and `docs/test-context.md`
+9: Update all test,helpers and configurations in `docs/test-context.md` use dry practices Harden all vitest and Playwright E2E specs by removing skipped/non-deterministic tests, standardizing assertions, and making authenticated scenarios deterministic with a seeded user.
 
 10: fix Warning: The Plaid link-initialize.js script was embedded more than once. This is an unsupported configuration and may lead to unpredictable behavior. Please ensure Plaid Link is embedded only once per page. (<https://cdn.plaid.com/link/v2/stable/link-initialize.js:1:91992>)
 

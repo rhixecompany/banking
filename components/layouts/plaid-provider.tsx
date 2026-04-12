@@ -72,7 +72,7 @@ export function PlaidProvider({
         onLoad={() => {
           try {
             (window as any).__plaid_link_script_loaded = true;
-          } catch (e) {
+          } catch {
             // ignore
           }
         }}

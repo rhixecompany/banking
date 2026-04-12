@@ -10,5 +10,7 @@ test("Plaid script is loaded at most once on my-wallets", async ({ page }) => {
     (els) => els.length,
   );
 
-  expect(count).toBeLessThanOrEqual(1);
+  // Use soft assertion helpers where possible; playwright's default
+  // assertion is acceptable here but keep the shape consistent.
+  expect.soft(count).toBeLessThanOrEqual(1);
 });
