@@ -1,47 +1,51 @@
 # Test Context
 
-This document lists test files, helpers, fixtures and configuration discovered in the repository. Use this to understand test coverage, test helpers, and environment expectations.
+Last updated: 2026-04-12
 
-## Test frameworks
+Test Runners & Order
 
-- Playwright for E2E tests (tests/e2e)
-- Vitest for unit tests (tests/unit)
+- End-to-end: Playwright — E2E lives under `tests/e2e/`.
+  - Global files: `tests/e2e/global-setup.ts`, `tests/e2e/global-teardown.ts`
+  - Helpers: `tests/e2e/helpers/auth.ts`, `tests/e2e/helpers/db.ts`, `tests/e2e/helpers/plaid.ts`, `tests/e2e/helpers/dwolla.ts`
+  - Important: Playwright runs first via `npm run test:ui` (per AGENTS.md).
+- Unit & integration: Vitest — tests under `tests/unit/` and some integration tests.
+  - Setup: `tests/setup.ts`, MSW server at `tests/mocks/msw/server.ts`.
 
-## Setup and global helpers
+Seed & Deterministic Data
 
-- tests/setup.ts — Vitest setup file
-- tests/e2e/global-setup.ts — Playwright global setup
-- tests/e2e/global-teardown.ts — Playwright global teardown
-- tests/mocks/msw/server.ts — MSW mock server for unit tests
+- Seed script: `scripts/seed/seed-data.ts` (you selected this path).
+- Recommendation: Have Playwright `global-setup.ts` run the seed script (idempotent) to ensure seeded user(s) exist and tests are deterministic — you approved automatic run.
+- Seed IDs are declared in `scripts/seed/seed-data.ts` as `SEED_IDS` and are used in fixtures.
 
-## Fixtures
+Flaky / Non-deterministic Tests Found (examples)
 
-- tests/fixtures/pages/\* — Page fixtures for Playwright tests
-- tests/fixtures/wallets.ts — Wallet fixture data
-- tests/fixtures/transactions.ts — Transaction fixture data
-- tests/fixtures/auth.ts — Auth fixtures
+- `tests/unit/plaid.test.ts` — unit tests that rely on external Plaid behaviour; ensure mocks are used.
+- E2E tests using Plaid flow: `tests/e2e/wallet-linking.spec.ts` and helpers `tests/e2e/helpers/plaid.ts` — these rely on sandbox iframe interactions and can be brittle; they use `frameLocator` and multiple `click` sequences.
+- Tests that use non-deterministic timeouts / UI wait: Several tests use fixed timeouts instead of robust playwright waits; convert to `page.waitForURL`, `locator.waitFor`, `toHaveText`, etc.
 
-## Notable test files
+Current Helpers & Fixtures (selected)
 
-- tests/unit/TotalBalanceBox.test.tsx
-- tests/unit/Sidebar.test.tsx
-- tests/unit/MobileNav.test.tsx
-- tests/unit/AuthForm.test.tsx
-- tests/unit/plaid.test.ts
-- tests/unit/wallet.actions.test.ts
-- tests/e2e/auth.spec.ts
-- tests/e2e/my-wallets.spec.ts
-- tests/e2e/wallet-linking.spec.ts
-- tests/e2e/payment-transfer.spec.ts
-- tests/e2e/transaction-history.spec.ts
+- `tests/fixtures/*` — page objects & fixtures used by E2E tests (dashboard, sign-in, my-wallets).
+- `tests/fixtures/auth.ts` — auth helper values.
+- `tests/fixtures/wallets.ts`, `tests/fixtures/transactions.ts` — data fixtures.
+- `tests/mocks/msw/server.ts` — MSW server for unit tests.
 
-## Test-related scripts
+Hardening Recommendations (concrete)
 
-- npm run test (runs Playwright E2E then Vitest)
-- tests use port 3000 for the dev server (ensure free before running E2E)
+- Playwright
+  - Run `scripts/seed/seed-data.ts` in `global-setup.ts` to ensure seeded users and wallets exist; make seed idempotent.
+  - Replace brittle waits with `page.getByTestId(...).waitFor()` / `page.waitForURL(...)` and `expect(locator).toBeVisible()` style assertions.
+  - For Plaid sandbox flows: encapsulate iframe interactions in `tests/e2e/helpers/plaid.ts` (already present) and add retries and timeouts tuned to CI.
+  - Make authenticated flows deterministic by setting auth cookies/session tokens directly when possible (seed produces a session token).
+- Vitest
+  - Ensure MSW handlers are reset between tests (`server.resetHandlers()`).
+  - Avoid network calls in unit tests; mock Plaid/Dwolla clients.
+  - Standardize assertions and fix any tests with `test.skip` that can be made deterministic.
 
-## Recommended improvements
+Action items
 
-- Ensure MSW handlers cover all external API calls used by unit tests (Plaid, Dwolla)
-- Add more unit tests around DAL methods to assert no N+1 patterns
-- Add CI job to run E2E against a local ephemeral DB seeded via scripts/seed
+- Add an idempotent wrapper (if missing) that Playwright's `global-setup.ts` will call: `node scripts/seed/run.ts` which uses `scripts/seed/seed-data.ts`.
+- Add test checklist and flakiness fixes as part of the migration plan:
+  - Replace fixed `wait` with locator-based waits.
+  - Seed deterministic user and session for e2e auth flows.
+  - Mock external providers (Plaid/Dwolla) in unit tests; keep a small set of integration E2E tests for core flows.

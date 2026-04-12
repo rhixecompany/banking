@@ -1,32 +1,44 @@
 # App Pages
 
-This document lists all routes discovered in the Next.js app/ directory, notes about layouts and caching, and includes references to rendered screenshots saved under docs/screenshots/. Screenshots are captured at desktop (1280x800) and mobile (390x844) sizes.
+Last updated: 2026-04-12
 
-Notes
+Summary
 
-- Rendered screenshots: docs/screenshots/<route-name>-desktop.png and -mobile.png
-- If a route is a dynamic segment, the file path is shown and the example URL used for screenshots is provided.
+- Pages discovered under `app/`: 10
+- API routes discovered under `app/api/`: 3
+- Notes: Routes use App Router conventions and a protected layout under `app/(root)/layout.tsx` that wraps with `PlaidProvider`.
 
-## Routes
+| Route | File | Auth | Notes | Triage |
+| --- | --- | --: | --- | --- |
+| / | `app/page.tsx` | Public | Root landing/marketing page | Low |
+| / (app/(root) index) | `app/(root)/page.tsx` | Protected (layout) | Protected site root; wrapped by protected layout | Medium |
+| /dashboard | `app/(root)/dashboard/page.tsx` | Protected | Uses server actions for dashboard data | Medium |
+| /my-wallets | `app/(root)/my-wallets/page.tsx` | Protected | Primary Plaid integration point — ensure single Plaid loader | High |
+| /transaction-history | `app/(root)/transaction-history/page.tsx` | Protected | History UI; paginated server actions | Medium |
+| /settings | `app/(root)/settings/page.tsx` | Protected | Account settings UI | Low |
+| /payment-transfer | `app/(root)/payment-transfer/page.tsx` | Protected | Transfer flow (Dwolla + Plaid interactions possible) | High |
+| /sign-up | `app/(auth)/sign-up/page.tsx` | Public | Auth flow (credentials) | Low |
+| /sign-in | `app/(auth)/sign-in/page.tsx` | Public | Auth flow | Low |
+| /admin | `app/(admin)/admin/page.tsx` | Protected, Admin only | Admin dashboard — requires `session.user.isAdmin` checks | High |
 
-- / (app/page.tsx) — Layout: app/(root)/layout.tsx — Screenshot: docs/screenshots/root-desktop.png, docs/screenshots/root-mobile.png
-- /dashboard (app/(root)/dashboard/page.tsx) — Layout: app/(root)/layout.tsx — Screenshot: docs/screenshots/dashboard-desktop.png, docs/screenshots/dashboard-mobile.png
-- /my-wallets (app/(root)/my-wallets/page.tsx) — Screenshot: docs/screenshots/my-wallets-desktop.png, docs/screenshots/my-wallets-mobile.png
-- /transaction-history (app/(root)/transaction-history/page.tsx) — Screenshot: docs/screenshots/transaction-history-desktop.png, docs/screenshots/transaction-history-mobile.png
-- /settings (app/(root)/settings/page.tsx) — Screenshot: docs/screenshots/settings-desktop.png, docs/screenshots/settings-mobile.png
-- /payment-transfer (app/(root)/payment-transfer/page.tsx) — Screenshot: docs/screenshots/payment-transfer-desktop.png, docs/screenshots/payment-transfer-mobile.png
-- /sign-in (app/(auth)/sign-in/page.tsx) — Layout: app/(auth)/layout.tsx — Screenshot: docs/screenshots/sign-in-desktop.png, docs/screenshots/sign-in-mobile.png
-- /sign-up (app/(auth)/sign-up/page.tsx) — Screenshot: docs/screenshots/sign-up-desktop.png, docs/screenshots/sign-up-mobile.png
-- /admin (app/(admin)/admin/page.tsx) — Layout: app/(admin)/layout.tsx — Screenshot: docs/screenshots/admin-desktop.png, docs/screenshots/admin-mobile.png
+| API Route | File | Notes |
+| --- | --- | --- |
+| `/api/dwolla/webhook` | `app/api/dwolla/webhook/route.ts` | Webhook handler for Dwolla; ensure CSRF and signature validation |
+| `/api/auth/[...nextauth]` | `app/api/auth/[...nextauth]/route.ts` | NextAuth route (jwt strategy) |
+| `/api/health` | `app/api/health/route.ts` | Health-check endpoint used by CI |
 
-## API routes
+Triage Details (short)
 
-- /api/auth/[...nextauth] (app/api/auth/[...nextauth]/route.ts)
-- /api/dwolla/webhook (app/api/dwolla/webhook/route.ts)
-- /api/health (app/api/health/route.ts)
+- High
+  - Pages that use Plaid (e.g., `/my-wallets`, `/payment-transfer`) — must ensure Plaid Link script is injected exactly once.
+  - Admin page — ensure authorization checks and tests are deterministic.
+- Medium
+  - Pages with heavy server actions (dashboard, transaction-history) — consider caching/joins to avoid N+1 or slow loads.
+- Low
+  - Static marketing or settings pages — small UX or accessibility tweaks.
 
-## How screenshots were captured
+Action items
 
-- Dev server started via `npm run dev`
-- Playwright script visited each route and captured desktop and mobile screenshots
-- Screenshots saved to docs/screenshots/
+- Confirm that pages using Plaid are always wrapped by the single `PlaidProvider` (preferred) or that local initializers check `window.__plaid_link_script_loaded`.
+- Add route-level tests for protected redirects (unauthenticated → /sign-in).
+- Consider dynamic imports for heavy client libraries (charts, Plaid consumer) on pages that need them.
