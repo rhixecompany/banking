@@ -25,3 +25,5 @@
 11: Update all custom typescript scripts in `./scripts` to be AST-safe and enhanced with re-run in dry-run functionality.
 
 12: Update all bash,powershell,bat scripts in `./scripts` to be AST-safe and enhanced with re-run in dry-run functionality.
+
+13: ask all needed questions one at a time then show me the full final plan
