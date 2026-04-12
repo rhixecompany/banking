@@ -1,12 +1,6 @@
 ---
-name: "task-implementation"
-description: "Instructions for implementing task plans with progressive tracking and change record"
 applyTo: "**/.copilot-tracking/changes/*.md"
-priority: "medium"
-version: "1.0"
-lastUpdated: "2026-03-31"
-exclude:
-  - opencode
+description: "Instructions for implementing task plans with progressive tracking and change record - Brought to you by microsoft/edge-ai"
 ---
 
 # Task Plan Implementation Instructions

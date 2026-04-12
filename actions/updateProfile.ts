@@ -1,10 +1,8 @@
 "use server";
-import { compare, hash } from "bcryptjs";
-import { eq } from "drizzle-orm";
+import bcrypt from "bcrypt";
 import { z } from "zod";
 
-import { db } from "@/database/db";
-import { user_profiles, users } from "@/database/schema";
+import { userDal } from "@/dal";
 import { auth } from "@/lib/auth";
 
 /**
@@ -92,24 +90,26 @@ export async function updateProfile(
   } = parsed.data;
   try {
     if (newPassword || email) {
-      const [user] = await db.select().from(users).where(eq(users.id, userId));
+      const user = await userDal.findById(userId);
       if (!user) return { error: "User not found", ok: false };
       if (
         !password ||
         !user.password ||
-        !(await compare(password, user.password))
+        !(await bcrypt.compare(password, user.password))
       ) {
         return { error: "Current password is incorrect", ok: false };
       }
     }
+
     const userUpdate: Record<string, unknown> = {};
     if (email) userUpdate.email = email;
     if (name) userUpdate.name = name;
     if (image) userUpdate.image = image;
-    if (newPassword) userUpdate.password = await hash(newPassword, 12);
+    if (newPassword) userUpdate.password = await bcrypt.hash(newPassword, 12);
     if (Object.keys(userUpdate).length > 0) {
-      await db.update(users).set(userUpdate).where(eq(users.id, userId));
+      await userDal.update(userId, userUpdate);
     }
+
     const profileUpdate: Record<string, unknown> = {};
     if (address) profileUpdate.address = address;
     if (city) profileUpdate.city = city;
@@ -117,10 +117,7 @@ export async function updateProfile(
     if (postalCode) profileUpdate.postalCode = postalCode;
     if (phone) profileUpdate.phone = phone;
     if (Object.keys(profileUpdate).length > 0) {
-      await db
-        .update(user_profiles)
-        .set(profileUpdate)
-        .where(eq(user_profiles.userId, userId));
+      await userDal.updateProfile(userId, profileUpdate);
     }
     return { ok: true };
   } catch (e) {

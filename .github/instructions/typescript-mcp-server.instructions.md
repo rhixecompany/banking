@@ -67,8 +67,8 @@ app.use(express.json());
 
 app.post("/mcp", async (req, res) => {
   const transport = new StreamableHTTPServerTransport({
-    enableJsonResponse: true,
-    sessionIdGenerator: undefined
+    sessionIdGenerator: undefined,
+    enableJsonResponse: true
   });
 
   res.on("close", () => transport.close());
@@ -105,14 +105,14 @@ import { z } from "zod";
 server.registerTool(
   "calculate",
   {
+    title: "Calculator",
     description: "Perform basic calculations",
     inputSchema: {
       a: z.number(),
       b: z.number(),
       op: z.enum(["+", "-", "*", "/"])
     },
-    outputSchema: { result: z.number() },
-    title: "Calculator"
+    outputSchema: { result: z.number() }
   },
   async ({ a, b, op }) => {
     const result =
@@ -125,7 +125,7 @@ server.registerTool(
             : a / b;
     const output = { result };
     return {
-      content: [{ text: JSON.stringify(output), type: "text" }],
+      content: [{ type: "text", text: JSON.stringify(output) }],
       structuredContent: output
     };
   }
@@ -141,14 +141,14 @@ server.registerResource(
   "user",
   new ResourceTemplate("users://{userId}", { list: undefined }),
   {
-    description: "Fetch user profile data",
-    title: "User Profile"
+    title: "User Profile",
+    description: "Fetch user profile data"
   },
   async (uri, { userId }) => ({
     contents: [
       {
-        text: `User ${userId} data here`,
-        uri: uri.href
+        uri: uri.href,
+        text: `User ${userId} data here`
       }
     ]
   })
@@ -161,20 +161,20 @@ server.registerResource(
 server.registerTool(
   "summarize",
   {
+    title: "Text Summarizer",
     description: "Summarize text using LLM",
     inputSchema: { text: z.string() },
-    outputSchema: { summary: z.string() },
-    title: "Text Summarizer"
+    outputSchema: { summary: z.string() }
   },
   async ({ text }) => {
     const response = await server.server.createMessage({
-      maxTokens: 500,
       messages: [
         {
-          content: { text: `Summarize: ${text}`, type: "text" },
-          role: "user"
+          role: "user",
+          content: { type: "text", text: `Summarize: ${text}` }
         }
-      ]
+      ],
+      maxTokens: 500
     });
 
     const summary =
@@ -183,7 +183,7 @@ server.registerTool(
         : "Unable to summarize";
     const output = { summary };
     return {
-      content: [{ text: JSON.stringify(output), type: "text" }],
+      content: [{ type: "text", text: JSON.stringify(output) }],
       structuredContent: output
     };
   }
@@ -198,25 +198,25 @@ import { completable } from "@modelcontextprotocol/sdk/server/completable.js";
 server.registerPrompt(
   "review",
   {
+    title: "Code Review",
+    description: "Review code with specific focus",
     argsSchema: {
-      code: z.string(),
       language: completable(z.string(), value =>
         ["typescript", "python", "javascript", "java"].filter(l =>
           l.startsWith(value)
         )
-      )
-    },
-    description: "Review code with specific focus",
-    title: "Code Review"
+      ),
+      code: z.string()
+    }
   },
-  ({ code, language }) => ({
+  ({ language, code }) => ({
     messages: [
       {
+        role: "user",
         content: {
-          text: `Review this ${language} code:\n\n${code}`,
-          type: "text"
-        },
-        role: "user"
+          type: "text",
+          text: `Review this ${language} code:\n\n${code}`
+        }
       }
     ]
   })
@@ -229,23 +229,23 @@ server.registerPrompt(
 server.registerTool(
   "risky-operation",
   {
+    title: "Risky Operation",
     description: "An operation that might fail",
     inputSchema: { input: z.string() },
-    outputSchema: { result: z.string() },
-    title: "Risky Operation"
+    outputSchema: { result: z.string() }
   },
   async ({ input }) => {
     try {
       const result = await performRiskyOperation(input);
       const output = { result };
       return {
-        content: [{ text: JSON.stringify(output), type: "text" }],
+        content: [{ type: "text", text: JSON.stringify(output) }],
         structuredContent: output
       };
     } catch (err: unknown) {
       const error = err as Error;
       return {
-        content: [{ text: `Error: ${error.message}`, type: "text" }],
+        content: [{ type: "text", text: `Error: ${error.message}` }],
         isError: true
       };
     }

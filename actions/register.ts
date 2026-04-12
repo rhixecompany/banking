@@ -1,5 +1,5 @@
 "use server";
-import { hash } from "bcryptjs";
+import bcrypt from "bcrypt";
 import { z } from "zod";
 
 import { userDal } from "@/dal";
@@ -94,7 +94,7 @@ export async function registerUser(
     return { error: "Email already registered", ok: false };
   }
 
-  const hashed = await hash(password, 12);
+  const hashed = await bcrypt.hash(password, 12);
   try {
     const user = await userDal.createWithProfile({
       email,

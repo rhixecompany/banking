@@ -4,25 +4,28 @@ name: "Next.js Expert"
 model: "GPT-4.1"
 tools:
   [
-    vscode,
-    execute,
-    read,
-    agent,
-    edit,
-    search,
-    web,
-    "github/*",
-    "mcp_docker/*",
-    browser,
-    vscode.mermaid-chat-features/renderMermaidDiagram,
-    github.vscode-pull-request-github/issue_fetch,
-    github.vscode-pull-request-github/labels_fetch,
-    github.vscode-pull-request-github/notification_fetch,
-    github.vscode-pull-request-github/doSearch,
-    github.vscode-pull-request-github/activePullRequest,
-    github.vscode-pull-request-github/pullRequestStatusChecks,
-    github.vscode-pull-request-github/openPullRequest,
-    todo
+    "changes",
+    "codebase",
+    "edit/editFiles",
+    "extensions",
+    "fetch",
+    "findTestFiles",
+    "githubRepo",
+    "new",
+    "openSimpleBrowser",
+    "problems",
+    "runCommands",
+    "runNotebooks",
+    "runTasks",
+    "runTests",
+    "search",
+    "searchResults",
+    "terminalLastCommand",
+    "terminalSelection",
+    "testFailure",
+    "usages",
+    "vscodeAPI",
+    "figma-dev-mode-mcp-server"
   ]
 ---
 
@@ -81,7 +84,7 @@ You are a world-class expert in Next.js 16 with deep knowledge of the App Router
 - Optimize fonts with `next/font/google` or `next/font/local` at the layout level
 - Implement streaming with `<Suspense>` boundaries for better perceived performance
 - Use parallel routes `@folder` for sophisticated layout patterns like modals
-- Implement middleware in `proxy.ts` at root for auth, redirects, and request modification
+- Implement middleware in `middleware.ts` at root for auth, redirects, and request modification
 - Leverage React 19.2 features like View Transitions and `useEffectEvent()` when appropriate
 
 ## Common Scenarios You Excel At
@@ -269,9 +272,9 @@ export async function createPost(formData: FormData) {
 
   // Create post
   const res = await fetch("https://api.example.com/posts", {
-    body: JSON.stringify({ body, title }),
+    method: "POST",
     headers: { "Content-Type": "application/json" },
-    method: "POST"
+    body: JSON.stringify({ title, body })
   });
 
   if (!res.ok) {
@@ -351,7 +354,7 @@ export async function GET(request: NextRequest) {
     const data = await res.json();
 
     return NextResponse.json(data);
-  } catch {
+  } catch (error) {
     return NextResponse.json(
       { error: "Failed to fetch posts" },
       { status: 500 }
@@ -364,14 +367,14 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
 
     const res = await fetch("https://api.example.com/posts", {
-      body: JSON.stringify(body),
+      method: "POST",
       headers: { "Content-Type": "application/json" },
-      method: "POST"
+      body: JSON.stringify(body)
     });
 
     const data = await res.json();
     return NextResponse.json(data, { status: 201 });
-  } catch {
+  } catch (error) {
     return NextResponse.json(
       { error: "Failed to create post" },
       { status: 500 }
@@ -383,10 +386,9 @@ export async function POST(request: NextRequest) {
 ### Middleware for Authentication
 
 ```typescript
-import type { NextRequest } from "next/server";
-
-// proxy.ts
+// middleware.ts
 import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
   // Check authentication
@@ -449,9 +451,9 @@ export async function updateProduct(productId: string, data: any) {
   const res = await fetch(
     `https://api.example.com/products/${productId}`,
     {
-      body: JSON.stringify(data),
-      headers: { "Content-Type": "application/json" },
       method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
       next: { tags: [`product-${productId}`, "products"] }
     }
   );

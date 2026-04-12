@@ -61,17 +61,17 @@ Use React Query for:
 ```typescript
 // Route Loader
 export const Route = createFileRoute("/users")({
-  component: UserList,
   loader: async () => {
     const users = await fetchUsers();
     return { users: userListSchema.parse(users) };
-  }
+  },
+  component: UserList
 });
 
 // React Query
 const { data: stats } = useQuery({
-  queryFn: () => fetchUserStats(userId),
   queryKey: ["user-stats", userId],
+  queryFn: () => fetchUserStats(userId),
   refetchInterval: 30000
 });
 ```
@@ -82,9 +82,9 @@ Always validate external data. Define schemas in `src/lib/schemas.ts`:
 
 ```typescript
 export const userSchema = z.object({
-  email: z.string().email().optional(),
   id: z.string(),
   name: z.string().min(1).max(100),
+  email: z.string().email().optional(),
   role: z.enum(["admin", "user"]).default("user")
 });
 

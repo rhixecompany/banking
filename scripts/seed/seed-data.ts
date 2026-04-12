@@ -1,4 +1,4 @@
-import { hash } from "bcryptjs";
+import bcrypt from "bcrypt";
 import "dotenv/config";
 
 import { db } from "@/database/db";
@@ -58,7 +58,7 @@ export const SEED_IDS = {
  * Hash a password the same way as registration and auth-options (bcrypt cost 12).
  */
 export function hashSeedPassword(plain: string): Promise<string> {
-  return hash(plain, 12);
+  return bcrypt.hash(plain, 12);
 }
 
 /**

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Comprehensive documentation sync for all agentic coding tools (OpenCode, Cursor, GitHub Copilot) operating in this Banking repository. This command ensures all agentic documentation files are accurate, consistent, and up-to-date with the current source code.
+Comprehensive documentation sync for all agentic coding tools (OpenCode, Cursor, GitHub Copilot) operating in this Banking repository. This document is a reproducible checklist to bring documentation in sync with source code and to collect actionable issues for maintainers.
 
 ## When to Use
 
@@ -10,364 +10,110 @@ Comprehensive documentation sync for all agentic coding tools (OpenCode, Cursor,
 - Before major refactoring or feature work
 - When documentation may have drifted from source truth
 - After adding new integrations, commands, or dependencies
+- When onboarding a new developer, reviewer, or QA
 
 ## Usage
 
-```
+```text
 /init-enhanced
 ```
 
-## Workflow
+Note: This file is documentation only. The steps describe an agent or human-driven workflow — it is not an executable script in the repo. Use the recommended repository tools (Glob, Grep, Read) when examining files.
 
-This command executes in 6 phases, automatically managing all agentic documentation files.
+This checklist has six phases. Follow them sequentially and capture outputs where requested.
 
----
+Phase 1 — Discovery & Verification
 
-## Phase 1: Discovery & Verification
+1. Collect authoritative sources of truth:
+   - AGENTS.md
+   - package.json (scripts)
+   - app-config.ts and lib/env.ts (env validation)
+   - database/schema.ts
+   - types/next-auth.d.ts
+   - .cursor/rules, .opencode/instructions, .opencode/skills, .github/instructions
 
-### Step 1.1: Read Existing Documentation
+2. Use the repository search tools (Glob + Grep + Read) instead of brittle shell parsing. Examples:
+   - Glob: find files by pattern (fast & ordered)
+   - Grep: search for code patterns (use ripgrep via project tooling)
+   - Read: open files with context (avoid cat/awk/grep one-liners)
 
-Read these files to understand current state:
+Phase 2 — Run Validation Commands
 
-| File                   | Lines | Purpose                          |
-| ---------------------- | ----- | -------------------------------- |
-| `AGENTS.md`            | ~602  | Primary canonical reference      |
-| `package.json`         | —     | Command scripts, dependencies    |
-| `app-config.ts`        | —     | Environment variable definitions |
-| `database/schema.ts`   | —     | Database schema                  |
-| `types/next-auth.d.ts` | —     | Session type definitions         |
+Run the standard validation sequence and capture outputs for audit:
 
-### Step 1.2: Read Agentic Rules
+- npm run format:check → capture output to format-check.txt
+- npm run type-check → capture output to type-check.txt
+- npm run lint:strict → capture output to lint-strict.txt
+- npm run test:browser → capture output to test-browser.txt (Vitest)
+- npm run test:ui → capture output to test-ui.txt (Playwright)
 
-Read all agent tool-specific documentation:
+Execution notes:
 
-```
-# Cursor Rules
-.cursor/rules/*.mdc
+- Run sequentially to avoid port conflicts.
+- Free port 3000 before Playwright using the OS-appropriate command:
+  - PowerShell (Windows): $p = Get-NetTCPConnection -LocalPort 3000 -State Listen -ErrorAction SilentlyContinue | Select -ExpandProperty OwningProcess -Unique
+    if ($p) { $p | ForEach-Object { Stop-Process -Id $\_ -Force } }
+  - Bash (macOS/Linux): fuser -k 3000/tcp || true
 
-# GitHub Copilot Instructions
-.github/instructions/*.instructions.md
+Phase 3 — Analyze Outputs & Create Issue Catalog
 
-# OpenCode Instructions
-.opencode/instructions/*.md
+1. Read the captured outputs and categorize issues into:
+   - Format violations
+   - TypeScript errors
+   - ESLint warnings/errors
+   - Unit test failures
+   - E2E failures
 
-# OpenCode Skills
-.opencode/skills/**/SKILL.md
-```
+2. Produce an Issue Catalog with severity (Critical/High/Medium/Low), file references, and suggested fixes.
 
-### Step 1.3: Read Source Files for Verification
+Phase 4 — Documentation Updates (after creating a small checkpoint commit)
 
-Verify accuracy against these source files:
-
-```bash
-# Read package.json for commands
-cat package.json | grep -A2 '"scripts"'
-
-# Read env.ts for env vars
-cat app-config.ts
-
-# Read schema for DB tables
-cat database/schema.ts
-
-# Read auth types
-cat types/next-auth.d.ts
-
-# Read key actions for inventory
-ls actions/*.ts
-
-# Read key dal for inventory
-ls dal/*.ts
-```
-
----
-
-## Phase 2: Run Validation Commands & Capture Output
-
-**Execute validation commands and capture output to text files for analysis.**
-
-### Commands to Execute
-
-| # | Command | Output File | Purpose |
-| --- | --- | --- | --- |
-| 1 | `npm run format:check 2>&1 > format-check.txt` | format-check.txt | Prettier violations |
-| 2 | `npm run type-check 2>&1 > type-check.txt` | type-check.txt | TypeScript errors |
-| 3 | `npm run lint:strict 2>&1 > lint-strict.txt` | lint-strict.txt | ESLint warnings/errors |
-| 4 | `npm run test:ui 2>&1 > test-ui.txt` | test-ui.txt | Playwright E2E results |
-| 5 | `npm run test:browser 2>&1 > test-browser.txt` | test-browser.txt | Vitest unit test results |
-
-### Execution Notes
-
-- Run commands sequentially (not in parallel) to avoid port conflicts
-- Each command may take 1-5 minutes to complete
-- Output files will be created in project root
-- Free port 3000 before running tests:
-  ```powershell
-  $p = Get-NetTCPConnection -LocalPort 3000 -State Listen -EA SilentlyContinue | Select -ExpandProperty OwningProcess -Unique
-  if ($p) { $p | % { Stop-Process -Id $_ -Force } }
-  ```
-
----
-
-## Phase 3: Analyze Outputs & Identify Issues
-
-### Step 3.1: Read Output Files
-
-Read each generated text file and document findings:
-
-```
-.read format-check.txt
-.read type-check.txt
-.read lint-strict.txt
-.read test-ui.txt
-.read test-browser.txt
-```
-
-### Step 3.2: Create Issue Catalog
-
-Categorize all issues found:
-
-| Category | Source File | Count | Examples |
-| --- | --- | --- | --- |
-| Format violations | format-check.txt | # | Files needing Prettier fixes |
-| TypeScript errors | type-check.txt | # | Type errors by file |
-| ESLint warnings | lint-strict.txt | # | Warning types |
-| ESLint errors | lint-strict.txt | # | Error types |
-| Test failures (E2E) | test-ui.txt | # | Failed specs |
-| Test failures (Unit) | test-browser.txt | # | Failed test files |
-
-### Step 3.3: Cross-Reference with Stale Sections
-
-Check if issues relate to stale documentation:
-
-- [ ] Commands added/removed since last commit
-- [ ] New environment variables
-- [ ] New server actions
-- [ ] New database tables
-- [ ] Debt items resolved or added
-- [ ] ESLint/Prettier config changes
-
----
-
-## Phase 4: Documentation Updates
-
-**CRITICAL:** Create git checkpoint before making changes:
+Checkpoint guidance:
 
 ```bash
-git add -A
-git commit -m "docs: checkpoint before init-enhanced update"
+# Stage only the plan/docs checkpoint
+git add .opencode/commands/init-enhanced.md .cursor/plans/refactor-ui-audit_*.plan.md
+git commit -m "chore(docs): checkpoint before documentation sync"
 ```
 
-### Priority 1: Update AGENTS.md
+Priority doc updates (apply only when validated):
 
-The canonical reference. Re-write these sections with verified content:
+- AGENTS.md — canonical reference. Update only after audits and include a changelog entry and version/date bump.
+- .cursor/rules — sync critical PR-blocking rules where they drift.
+- .opencode/instructions & .opencode/skills — align with AGENTS.md and code patterns.
+- .github/instructions — minor edits to reflect runtime and test behaviors.
 
-#### Section 1: Tech Stack
+Phase 5 — Code Audits and Small Fixes
 
-- Next.js 16.2.2, React 19, TypeScript 6.0.2
-- React Compiler enabled, Cache Components enabled
-- All dependencies from `package.json`
+Run targeted audits and make additive fixes in small commits:
 
-#### Section 2: Commands
+- Database schema audit (docs/database/schema-audit.md): compare schema.ts against code usage and identify missing fields (e.g., sharableId, fundingSourceUrl, webhook tables).
+- Actions/Zod/DAL audit (docs/actions-audit.md): ensure Zod schemas include .describe, validators have messages, protected actions call auth(), return shapes match Promise<{ok:boolean; error?:string}>.
+- DAL audit: find N+1 patterns and replace with JOINs/IN queries; add transactional wrappers for multi-step writes.
 
-- All scripts from `package.json`
-- Corrections: `predev`/`prebuild` run `clean + type-check`
-- `db:reset` = `db:drop + db:generate + db:push` (NOT seed)
-- Document all 84 npm scripts
+Phase 6 — Report & Rollback
 
-#### Section 3: Environment Variables
+After changes, run the validation sequence again and produce a summary report including:
 
-- vars from `app-config.ts`
-- Only `ENCRYPTION_KEY` and `NEXTAUTH_SECRET` required
-- SMTP var is `SMTP_PASS` (NOT `SMTP_PASSWORD`)
+- Files changed and why (commit summary)
+- DB migration notes and any backfill steps
+- Test results and remaining risks
 
-#### Section 6: ESLint Configuration
+Rollback notes:
 
-- **CRITICAL WARNING — `noInlineConfig: true`:**
-  > Inline `// eslint-disable` comments have NO EFFECT. Do NOT add disable comments.
-- All error rules (zod, unicorn, security, etc.)
-- File-specific overrides documented
+- Keep commits small. If a migration must be reverted, provide down migration or revert the migration commit and re-run db:push against a fresh DB.
 
-#### Section 11: Server Actions
+Checklist (ready to run):
 
-- Complete inventory from `actions/*.ts`:
-  - register.ts
-  - user.actions.ts
-  - admin.actions.ts
-  - admin-stats.actions.ts
-  - wallet.actions.ts
-  - dwolla.actions.ts
-  - transaction.actions.ts
-  - plaid.actions.ts
-  - recipient.actions.ts
-  - updateProfile.ts
-- Return types verified from source
+- [ ] Create local branch feature/refactor-ui-audit-<date>-<id>
+- [ ] Add .cursor/plans/refactor-ui-audit\*.plan.md (this file accompanies the plan)
+- [ ] Commit the init-enhanced update
+- [ ] Run format/type-check/lint and capture outputs
+- [ ] Produce docs audits under docs/
+- [ ] Implement additive DB schema changes with migrations
+- [ ] Fix Actions/Zod/DALs with tests
+- [ ] Extract shared UI components incrementally
+- [ ] Replace scripts with AST-safe Node implementations (support --dry-run)
+- [ ] Run full test suite (Vitest then Playwright)
 
-#### Section 13: Authentication
-
-- Session shape: `isAdmin: boolean`, `isActive: boolean` (NOT `role`)
-- JWT strategy in `lib/auth-options.ts`
-
-#### Section 14: Database Schema
-
-- 10 tables + 4 enums from `database/schema.ts`
-- Key fields: `users.isAdmin`, `wallets.sharableId`, `transactions.numeric(12,2)`
-
-#### Section 19: Known Technical Debt
-
-| # | Issue | Status |
-| --- | --- | --- |
-| 1 | `base.dal.ts` internal `as any` casts | Substantially resolved |
-| 2 | `admin.actions.ts` auth guard | RESOLVED |
-| 3 | `updateProfile.ts` userId from session | RESOLVED |
-| 4 | `getAllBalances()` N+1 | Open |
-| 5 | `proxy.ts` / middleware rate limiting | Partially resolved |
-| 6 | Two auth configs | Open |
-| 7 | Health check stubs | Open |
-| 8 | Legacy numeric IDs | Open |
-| 9 | Unsafe cast in layout | Open |
-
-#### Sync Checklist
-
-```
-- [ ] database/schema.ts → Section 14
-- [ ] lib/env.ts → Section 3
-- [ ] actions/*.ts → Section 11
-- [ ] types/next-auth.d.ts → Section 13
-- [ ] dal/*.ts → Section 12
-- [ ] package.json scripts → Section 2
-- [ ] eslint.config.mts → Section 6
-- [ ] .prettierrc.ts → Section 7
-- [ ] Technical debt resolved → Section 19
-```
-
-### Priority 2: Update Cursor Rules (12 .mdc files)
-
-Cross-reference with AGENTS.md:
-
-- Ensure all PR-blocking rules documented
-- Add `noInlineConfig: true` warning to `banking-coding-standards.mdc`
-- Verify workflow matches AGENTS.md validation process
-
-### Priority 3: Update GitHub Copilot Instructions (23 files)
-
-- Update `agents.instructions.md` to reference AGENTS.md v10.0
-- Update `nextjs.instructions.md` for Next.js 16 patterns
-- Add Plaid/Dwolla integration notes
-
-### Priority 4: Update OpenCode Instructions (9 files)
-
-- Verify commands in `06-commands-ref.md` match `package.json`
-- Fix `04-auth-testing.md` session shape (`isAdmin`, not `role`)
-- Update `00-task-sync-note.md` for current TaskSync compatibility
-
-### Priority 5: Update OpenCode Skills (10 files)
-
-- Verify skill coverage matches AGENTS.md sections
-- Add any new patterns from recent source changes
-- Skills: Auth, DBSkill, DeploymentSkill, DwollaSkill, PlaidSkill, SecuritySkill, ServerActionSkill, TestingSkill, UISkill, ValidationSkill
-
----
-
-## Phase 5: Post-Update Validation
-
-### Re-run Validation Commands
-
-Run these commands to verify documentation updates didn't break anything:
-
-```bash
-# Format check (Prettier)
-npm run format:check
-
-# Type check
-npm run type-check
-
-# Lint strict
-npm run lint:strict
-
-# Tests pass
-npm run test
-```
-
-### Validation Checks
-
-- [ ] All .md/.mdc files pass Prettier format
-- [ ] AGENTS.md line count ~900-2000
-- [ ] Cross-reference: Cursor rules ↔ AGENTS.md ↔ OpenCode instructions
-- [ ] No `any` types in documented code patterns
-- [ ] All 9 debt items have current status
-- [ ] All npm scripts documented
-- [ ] All env vars documented
-- [ ] All Server Actions have correct signatures
-
----
-
-## Phase 6: Report & Rollback
-
-### Summary Report
-
-After completion, output:
-
-```
-## init-enhanced Complete
-
-### Validation Results (Before Fixes)
-- format-check.txt: X violations
-- type-check.txt: Y errors
-- lint-strict.txt: Z warnings
-- test-ui.txt: A E2E failures
-- test-browser.txt: B unit test failures
-
-### Issue Categories Identified
-- (List issues by category)
-
-### Files Updated
-- AGENTS.md (602→~950 lines)
-- .cursor/rules/ (12 files)
-- .github/instructions/ (3 key files)
-- .opencode/instructions/ (9 files)
-- .opencode/skills/ (10 files)
-
-### Verification (After Updates)
-- [x] npm run format:check
-- [x] npm run type-check
-- [x] npm run lint:strict
-- [x] npm run test
-
-### New in This Update
-- (List any new content added)
-
-### Rollback Command
-git checkout <checkpoint> -- AGENTS.md .cursor/rules/ .github/instructions/ .opencode/
-```
-
-### Rollback Instructions
-
-If issues occur:
-
-```bash
-# Find the checkpoint commit
-git log --oneline -3
-
-# Rollback all agentic documentation
-git checkout <checkpoint-commit> -- AGENTS.md .cursor/rules/ .github/instructions/ .opencode/
-```
-
----
-
-## Notes
-
-- This command always updates files (no staleness check) to ensure source truth
-- AGENTS.md is the anchor; all other files reference it
-- Version bump protocol: Increment version, update date, add changelog entry
-- `noInlineConfig: true` means NO inline ESLint disables work anywhere
-- Phase 2 creates 5 output files for issue analysis before Phase 4 updates
-
-## Related Commands
-
-- `/validate` — Run all validation checks
-- `/test` — Run all tests
-- `/build` — Build the project
-
----
-
-**End of /init-enhanced**
+End of /init-enhanced

@@ -165,7 +165,7 @@ export default async function PaymentPage() {
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createPayment } from "@/lib/actions/payment.actions";
+import { createPayment } from "@/actions/payment.actions";
 
 export function PaymentForm() {
   // ... form implementation

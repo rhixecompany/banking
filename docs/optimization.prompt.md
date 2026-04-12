@@ -22,9 +22,9 @@ This document outlines the implementation plan for enhancing the Banking project
 
 - `lib/plaid.ts` - Plaid client configured ✓
 - `lib/dwolla.ts` - Dwolla client configured ✓
-- `lib/actions/dwolla.actions.ts` - Basic operations exist
-- `lib/actions/bank.actions.ts` - Basic operations exist
-- `lib/dal/bank.dal.ts` - Bank DAL with encryption ✓
+- `actions/dwolla.actions.ts` - Basic operations exist
+- `actions/bank.actions.ts` - Basic operations exist
+- `dal/bank.dal.ts` - Bank DAL with encryption ✓
 - `database/schema.ts` - Existing tables analyzed
 
 ---
@@ -65,7 +65,7 @@ File: `types/plaid.ts`
 
 #### 3.1 Create Dwolla DAL
 
-File: `lib/dal/dwolla.dal.ts`
+File: `dal/dwolla.dal.ts`
 
 - findCustomerByUserId
 - createCustomer
@@ -79,7 +79,7 @@ File: `lib/dal/dwolla.dal.ts`
 
 #### 4.1 Create Plaid Actions
 
-File: `lib/actions/plaid.actions.ts`
+File: `actions/plaid.actions.ts`
 
 - createLinkToken - Create Plaid Link token for user
 - exchangePublicToken - Exchange public token for access token
@@ -91,7 +91,7 @@ File: `lib/actions/plaid.actions.ts`
 
 #### 4.2 Enhance Dwolla Actions
 
-File: `lib/actions/dwolla.actions.ts`
+File: `actions/dwolla.actions.ts`
 
 - Enhance existing actions with better error handling
 - Add webhook processing

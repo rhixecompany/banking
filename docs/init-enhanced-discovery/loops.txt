@@ -1,0 +1,4 @@
+lib/error-tracking.ts:74: await db.insert(errors).values({
+dal/wallet.dal.ts:269: for (const wallet of wallets) {
+components/data-table/data-table.tsx:200: items.map((item) => (
+actions/plaid.actions.ts:312: banks?.map(async (bank: Bank) => {

@@ -1,5 +1,6 @@
 "use client";
 
+import Script from "next/script";
 import {
   createContext,
   useCallback,
@@ -13,6 +14,7 @@ import { usePlaidLink, type PlaidLinkOnSuccess } from "react-plaid-link";
 import type { Wallet } from "@/types/wallet";
 
 import { createLinkToken, exchangePublicToken } from "@/actions/plaid.actions";
+import { logger } from "@/lib/logger";
 
 /**
  * Description placeholder
@@ -75,6 +77,17 @@ export function usePlaid() {
   return context;
 }
 
+// Safe hook variant that returns undefined when no provider is present.
+// Use this in components that need to operate both with and without a
+// PlaidProvider higher in the tree.
+export function usePlaidSafe(): PlaidContextValue | undefined {
+  return useContext(PlaidContext);
+}
+
+// Backwards-compatible export: if callers import PlaidProvider from the old
+// path, re-export the provider from the new layouts location.
+export { default as PlaidProviderCompat } from "@/components/layouts/plaid-provider";
+
 /**
  * Description placeholder
  * @author [object Object]
@@ -132,16 +145,25 @@ export function PlaidProvider({
   });
 
   useEffect(() => {
+    // If the global script guard is already set, we still fetch a link token
+    // but avoid re-inserting the script elsewhere. The runtime guard is set
+    // by the Script loader below when it completes.
     async function fetchLinkToken() {
       setIsLoading(true);
       setError(undefined);
 
-      const result = await createLinkToken({ userId });
+      try {
+        const result = await createLinkToken({ userId });
 
-      if (result.ok && result.linkToken) {
-        setLinkToken(result.linkToken);
-      } else {
-        setError(result.error ?? "Failed to initialize Plaid Link");
+        if (result.ok && result.linkToken) {
+          setLinkToken(result.linkToken);
+        } else {
+          setError(result.error ?? "Failed to initialize Plaid Link");
+        }
+      } catch (err) {
+        // Defensive: catch unexpected errors to avoid uncaught exceptions.
+        logger.error("PlaidProvider createLinkToken unexpected error:", err);
+        setError("Failed to initialize Plaid Link");
       }
 
       setIsLoading(false);
@@ -185,6 +207,24 @@ export function PlaidProvider({
   };
 
   return (
-    <PlaidContext.Provider value={value}>{children}</PlaidContext.Provider>
+    <>
+      {/* Ensure the Plaid Link script is loaded exactly once on pages that use Plaid */}
+      {/* Load Plaid Link script exactly once and set a runtime guard for
+          components that cannot rely on a provider. */}
+      <Script
+        id="plaid-link-script"
+        src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"
+        strategy="afterInteractive"
+        onLoad={() => {
+          // set a runtime guard so non-Script consumers can check for script presence
+          try {
+            (window as any).__plaid_link_script_loaded = true;
+          } catch {
+            // ignore if window isn't available
+          }
+        }}
+      />
+      <PlaidContext.Provider value={value}>{children}</PlaidContext.Provider>
+    </>
   );
 }

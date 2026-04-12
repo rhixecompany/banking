@@ -3,7 +3,7 @@ import { eq } from "drizzle-orm";
 import type { Wallet } from "@/types/wallet";
 
 import { db } from "@/database/db";
-import { wallets } from "@/database/schema";
+import { dwolla_transfers, wallets } from "@/database/schema";
 import { decrypt, encrypt } from "@/lib/encryption";
 
 /**
@@ -32,6 +32,73 @@ export class DwollaDal {
       wallet.accountNumberEncrypted = decrypt(wallet.accountNumberEncrypted);
     }
     return wallet;
+  }
+
+  /**
+   * Creates a Dwolla transfer metadata record in the dwolla_transfers table.
+   * Returns the created row.
+   */
+  async createDwollaTransfer(
+    data: {
+      dwollaTransferId?: string;
+      transferUrl?: string;
+      amount: number | string;
+      currency?: string;
+      status?: string;
+      sourceFundingSourceUrl?: string;
+      destinationFundingSourceUrl?: string;
+      senderWalletId?: string;
+      receiverWalletId?: string;
+      userId?: string;
+    },
+    opts?: { db?: typeof db },
+  ) {
+    // Support transaction-scoped DB instance via opts.db.
+    const database = opts?.db ?? db;
+
+    const insertData = {
+      amount:
+        typeof data.amount === "string" ? data.amount : String(data.amount),
+      createdAt: new Date(),
+      currency: data.currency ?? "USD",
+      destinationFundingSourceUrl: data.destinationFundingSourceUrl,
+      dwollaTransferId: data.dwollaTransferId,
+      receiverWalletId: data.receiverWalletId ?? undefined,
+      senderWalletId: data.senderWalletId ?? undefined,
+      sourceFundingSourceUrl: data.sourceFundingSourceUrl,
+      status: data.status ?? undefined,
+      transferUrl: data.transferUrl,
+      updatedAt: new Date(),
+      userId: data.userId ?? undefined,
+    } as typeof dwolla_transfers.$inferInsert;
+
+    const [row] = await database
+      .insert(dwolla_transfers)
+      .values(insertData)
+      .returning();
+    return row;
+  }
+
+  /**
+   * Finds dwolla_transfers rows by user id.
+   */
+  findTransfersByUserId(userId: string) {
+    return db
+      .select()
+      .from(dwolla_transfers)
+      .where(eq(dwolla_transfers.userId, userId));
+  }
+
+  /**
+   * Updates status for a dwolla transfer by id and returns updated row.
+   */
+  async updateTransferStatus(id: string, status: string) {
+    const [row] = await db
+      .update(dwolla_transfers)
+      .set({ status, updatedAt: new Date() })
+      .where(eq(dwolla_transfers.id, id))
+      .returning();
+    return row;
   }
 
   /**

@@ -651,6 +651,42 @@ export const transactions = pgTable(
 );
 
 /**
+ * Dwolla transfers table - records provider-specific metadata for ACH transfers
+ * initiated via the Dwolla API. This is separate from `transactions` which is
+ * the application's canonical ledger. Storing provider IDs allows reconciling
+ * transfer status with Dwolla webhooks and debugging transfer lifecycle issues.
+ */
+export const dwolla_transfers = pgTable(
+  "dwolla_transfers",
+  {
+    amount: numeric("amount", { precision: 12, scale: 2 }).notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    currency: varchar("currency", { length: 3 }).default("USD"),
+    destinationFundingSourceUrl: text("destination_funding_source_url"),
+    dwollaTransferId: text("dwolla_transfer_id"),
+    id: text("id")
+      .primaryKey()
+      .notNull()
+      .$defaultFn(() => crypto.randomUUID()),
+    receiverWalletId: text("receiver_wallet_id").references(() => wallets.id),
+    senderWalletId: text("sender_wallet_id").references(() => wallets.id),
+    sourceFundingSourceUrl: text("source_funding_source_url"),
+    status: varchar("status", { length: 50 }),
+    transferUrl: text("transfer_url"),
+    updatedAt: timestamp("updated_at")
+      .defaultNow()
+      .notNull()
+      .$onUpdateFn(() => new Date()),
+    userId: text("user_id").references(() => users.id),
+  },
+  (table) => [
+    index("dwolla_transfers_user_id_idx").on(table.userId),
+    index("dwolla_transfers_status_idx").on(table.status),
+    index("dwolla_transfers_created_at_idx").on(table.createdAt),
+  ],
+);
+
+/**
  * Recipients table - Saved transfer recipients for quick transfer initiation.
  * Stores contact information for frequently used transfer destinations.
  */

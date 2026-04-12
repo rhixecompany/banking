@@ -3,75 +3,26 @@
 > cross-env NODE_OPTIONS='--max-old-space-size=4096' eslint --config eslint.config.mts . --max-warnings=0
 
 
-C:\Users\Alexa\Desktop\SandBox\Banking\app\api\health\route.ts
-   81:12  warning  Use `undefined` instead of `null`  unicorn/no-null
-  121:16  warning  Unexpected use of process.env      n/no-process-env
-  136:16  warning  Use `undefined` instead of `null`  unicorn/no-null
+C:\Users\Alexa\Desktop\SandBox\Banking\actions\dwolla.actions.ts
+  386:60  warning  Use `undefined` instead of `null`  unicorn/no-null
+  387:56  warning  Use `undefined` instead of `null`  unicorn/no-null
+  397:15  warning  Unexpected use of process.env      n/no-process-env
+  446:13  warning  Unexpected use of process.env      n/no-process-env
 
-C:\Users\Alexa\Desktop\SandBox\Banking\components\animated-counter\animated-counter.tsx
-  10:1  warning  Invalid JSDoc tag name "component"  jsdoc/check-tag-names
+C:\Users\Alexa\Desktop\SandBox\Banking\app\api\dwolla\webhook\route.ts
+  71:13  warning  Prefer using an optional chain expression instead, as it's more concise and easier to read  @typescript-eslint/prefer-optional-chain
 
-C:\Users\Alexa\Desktop\SandBox\Banking\components\auth-form\auth-form.tsx
-  58:1  warning  Invalid JSDoc tag name "component"  jsdoc/check-tag-names
+C:\Users\Alexa\Desktop\SandBox\Banking\dal\dwolla.dal.ts
+  60:50  warning  Use `undefined` instead of `null`                               unicorn/no-null
+  61:46  warning  Use `undefined` instead of `null`                               unicorn/no-null
+  63:30  warning  Use `undefined` instead of `null`                               unicorn/no-null
+  66:30  warning  Use `undefined` instead of `null`                               unicorn/no-null
+  79:3   warning  Async method 'findTransfersByUserId' has no 'await' expression  require-await
 
-C:\Users\Alexa\Desktop\SandBox\Banking\components\bank-card\bank-card.tsx
-  12:1  warning  Invalid JSDoc tag name "component"  jsdoc/check-tag-names
+C:\Users\Alexa\Desktop\SandBox\Banking\tests\unit\actions\dwolla.actions.test.ts
+  15:5  warning  Async method 'post' has no 'await' expression  @typescript-eslint/require-await
+  15:5  warning  Async method 'post' has no 'await' expression  require-await
 
-C:\Users\Alexa\Desktop\SandBox\Banking\components\custom-input\custom-input.tsx
-  33:1  warning  Invalid JSDoc tag name "component"  jsdoc/check-tag-names
+Γ£û 12 problems (0 errors, 12 warnings)
 
-C:\Users\Alexa\Desktop\SandBox\Banking\components\doughnut-chart\doughnut-chart.tsx
-  15:1  warning  Invalid JSDoc tag name "component"  jsdoc/check-tag-names
-
-C:\Users\Alexa\Desktop\SandBox\Banking\components\footer\footer.tsx
-  14:1  warning  Invalid JSDoc tag name "component"  jsdoc/check-tag-names
-
-C:\Users\Alexa\Desktop\SandBox\Banking\components\header-box\header-box.tsx
-  7:1  warning  Invalid JSDoc tag name "component"  jsdoc/check-tag-names
-
-C:\Users\Alexa\Desktop\SandBox\Banking\components\mobile-nav\mobile-nav.tsx
-  26:1  warning  Invalid JSDoc tag name "component"  jsdoc/check-tag-names
-
-C:\Users\Alexa\Desktop\SandBox\Banking\components\plaid-link\plaid-link.tsx
-  52:1  warning  Invalid JSDoc tag name "component"  jsdoc/check-tag-names
-
-C:\Users\Alexa\Desktop\SandBox\Banking\components\right-sidebar\right-sidebar.tsx
-  10:1  warning  Invalid JSDoc tag name "component"  jsdoc/check-tag-names
-
-C:\Users\Alexa\Desktop\SandBox\Banking\components\sidebar\sidebar.tsx
-  17:1  warning  Invalid JSDoc tag name "component"  jsdoc/check-tag-names
-
-C:\Users\Alexa\Desktop\SandBox\Banking\components\total-balance-box\total-balance-box.tsx
-  10:1  warning  Invalid JSDoc tag name "component"  jsdoc/check-tag-names
-
-C:\Users\Alexa\Desktop\SandBox\Banking\tests\unit\MobileNav.test.tsx
-  86:14  warning  Use `undefined` instead of `null`  unicorn/no-null
-
-C:\Users\Alexa\Desktop\SandBox\Banking\tests\unit\Sidebar.test.tsx
-  64:14  warning  Use `undefined` instead of `null`  unicorn/no-null
-
-C:\Users\Alexa\Desktop\SandBox\Banking\tests\unit\bank.dal.test.ts
-   17:26  warning  Use `undefined` instead of `null`  unicorn/no-null
-   18:24  warning  Use `undefined` instead of `null`  unicorn/no-null
-   19:31  warning  Use `undefined` instead of `null`  unicorn/no-null
-   23:28  warning  Use `undefined` instead of `null`  unicorn/no-null
-   41:28  warning  Use `undefined` instead of `null`  unicorn/no-null
-   42:26  warning  Use `undefined` instead of `null`  unicorn/no-null
-   43:33  warning  Use `undefined` instead of `null`  unicorn/no-null
-   47:30  warning  Use `undefined` instead of `null`  unicorn/no-null
-   66:28  warning  Use `undefined` instead of `null`  unicorn/no-null
-   68:33  warning  Use `undefined` instead of `null`  unicorn/no-null
-   72:30  warning  Use `undefined` instead of `null`  unicorn/no-null
-  189:20  warning  Use `undefined` instead of `null`  unicorn/no-null
-  190:18  warning  Use `undefined` instead of `null`  unicorn/no-null
-
-C:\Users\Alexa\Desktop\SandBox\Banking\tests\unit\dwolla.dal.test.ts
-   87:14  warning  Use `undefined` instead of `null`  unicorn/no-null
-  106:21  warning  Use `undefined` instead of `null`  unicorn/no-null
-  178:58  warning  Use `undefined` instead of `null`  unicorn/no-null
-
-C:\Users\Alexa\Desktop\SandBox\Banking\tests\unit\transaction-history-client-wrapper.test.tsx
-  107:16  warning  Use `undefined` instead of `null`  unicorn/no-null
-
-Γ£û 34 problems (0 errors, 34 warnings)
-
+ESLint found too many warnings (maximum: 0).

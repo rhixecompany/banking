@@ -249,18 +249,47 @@ async function ensureSeededData(databaseUrl: string): Promise<void> {
   // Clean up any leftover test data before reseeding
   await cleanupTestData(databaseUrl, SEED_USER_EMAIL);
 
-  console.info("    Running db:push && db:seed...");
+  console.info("    Running db:push && db:seed or seed runner script...");
 
   try {
-    execSync("npm run db:push", { env: process.env, stdio: "inherit" });
-    execSync("npm run db:seed -- --reset", {
-      env: process.env,
-      stdio: "inherit",
-    });
+    // Prefer the seed runner script which is idempotent and faster in local dev
+    // It internally calls drizzle seed or performs inserts directly.
+    const seedRunner = path.join(
+      __dirname,
+      "..",
+      "..",
+      "scripts",
+      "seed",
+      "run.ts",
+    );
+
+    // Attempt to import and run the TypeScript seed runner for better local
+    // diagnostics. If import fails (CI), fall back to running the npm scripts.
+    try {
+      const imported = await import(seedRunner);
+      const runner = imported?.run ?? imported?.default ?? imported;
+      if (typeof runner === "function") {
+        await runner();
+      } else {
+        execSync("npm run db:push", { env: process.env, stdio: "inherit" });
+        execSync("npm run db:seed -- --reset", {
+          env: process.env,
+          stdio: "inherit",
+        });
+      }
+    } catch {
+      // Import failed - fallback to npm scripts which are CI-friendly
+      execSync("npm run db:push", { env: process.env, stdio: "inherit" });
+      execSync("npm run db:seed -- --reset", {
+        env: process.env,
+        stdio: "inherit",
+      });
+    }
+
     console.info("    ✓ Database schema pushed and seeded successfully");
   } catch (error) {
     throw new Error(
-      "Database setup failed (db:push / db:seed).\n" +
+      "Database setup failed (db:push / db:seed / seed runner).\n" +
         "Authenticated tests will fail until the database is properly seeded.\n" +
         "See tests/e2e/README.md for troubleshooting.",
       { cause: error },

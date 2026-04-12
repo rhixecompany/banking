@@ -72,7 +72,7 @@ export function PasswordInput({
 
   return (
     <PasswordInputContext value={{ password: currentValue.toString() }}>
-      <div className="space-y-3">
+      <div className="flex flex-col gap-3">
         <InputGroup>
           <InputGroupInput
             {...props}
@@ -86,7 +86,7 @@ export function PasswordInput({
               size="icon-xs"
               onClick={() => setShowPassword((p) => !p)}
             >
-              <Icon className="size-4.5" />
+              <Icon data-icon="inline-end" />
               <span className="sr-only">
                 {showPassword ? "Hide password" : "Show password"}
               </span>
@@ -161,7 +161,7 @@ export function PasswordInputStrengthChecker() {
   if (errorLoadingOptions) return undefined;
 
   return (
-    <div className="space-y-0.5">
+    <div className="flex flex-col gap-0.5">
       <div
         role="progressbar"
         aria-label="Password Strength"

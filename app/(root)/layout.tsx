@@ -3,8 +3,8 @@ import { redirect } from "next/navigation";
 import { ReactNode, Suspense } from "react";
 
 import { getUserWithProfile } from "@/actions/user.actions";
+import PlaidProvider from "@/components/layouts/plaid-provider";
 import MobileNav from "@/components/mobile-nav/mobile-nav";
-import { PlaidProvider } from "@/components/plaid-context/plaid-context";
 import Sidebar from "@/components/sidebar/sidebar";
 import { LoadingSpinner } from "@/components/ui/spinner";
 

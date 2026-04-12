@@ -128,6 +128,9 @@ export async function createLinkToken(
       ok: true,
     };
   } catch (error) {
+    // Defensive: ensure errors are logged and return a stable error shape so
+    // callers do not throw. This reduces the chance of uncaught exceptions
+    // propagating to the dev server during Playwright runs.
     logger.error("Plaid createLinkToken error:", error);
     return { error: "Failed to create link token", ok: false };
   }
@@ -191,7 +194,26 @@ export async function exchangePublicToken(
 
     const sharableId = `wallet_${crypto.randomUUID().slice(0, 16)}`;
 
-    const wallet = await walletsDal.createWallet({
+    // Defensive: avoid creating duplicate wallet records for the same
+    // (userId, accountId) pair. If a wallet already exists for this user
+    // and account, reuse it instead of inserting a duplicate. This prevents
+    // unique-constraint migration problems and improves UX.
+    const existingByAccount = account?.account_id
+      ? await walletsDal.findByAccountId(account.account_id)
+      : undefined;
+
+    // If an existing wallet belongs to the current user, reuse it. We use a
+    // single expression here (ternary) to satisfy linter ordering and keep the
+    // logic compact and explicit.
+    let wallet: undefined | Wallet =
+      existingByAccount?.userId === session.user.id
+        ? existingByAccount
+        : undefined;
+
+    // If wallet is still undefined, create it. Use nullish coalescing
+    // assignment (??=) to satisfy the linter suggestion and keep the
+    // operation concise.
+    wallet ??= await walletsDal.createWallet({
       accessToken,
       accountId: account?.account_id,
       accountSubtype: account?.subtype ?? undefined,
@@ -208,6 +230,8 @@ export async function exchangePublicToken(
     updateTag("balances");
     return { ok: true, wallet };
   } catch (error) {
+    // Defensive: log and return a stable error so server-render paths don't
+    // throw uncaught exceptions during E2E runs.
     logger.error("Plaid exchangePublicToken error:", error);
     return { error: "Failed to exchange public token", ok: false };
   }

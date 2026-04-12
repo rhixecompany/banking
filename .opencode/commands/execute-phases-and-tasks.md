@@ -873,16 +873,16 @@ export const metadata: Metadata = {
 
 Search for `"Description placeholder"` and delete only those stub lines in:
 
-- `lib/actions/user.actions.ts`
-- `lib/actions/bank.actions.ts`
-- `lib/actions/transaction.actions.ts`
-- `lib/actions/recipient.actions.ts`
-- `lib/actions/dwolla.actions.ts`
-- `lib/actions/register.ts`
-- `lib/dal/bank.dal.ts`
-- `lib/dal/transaction.dal.ts`
-- `lib/dal/recipient.dal.ts`
-- `lib/dal/dwolla.dal.ts`
+- `actions/user.actions.ts`
+- `actions/bank.actions.ts`
+- `actions/transaction.actions.ts`
+- `actions/recipient.actions.ts`
+- `actions/dwolla.actions.ts`
+- `actions/register.ts`
+- `dal/bank.dal.ts`
+- `dal/transaction.dal.ts`
+- `dal/recipient.dal.ts`
+- `dal/dwolla.dal.ts`
 
 ### Track B — shadcn-studio Prune (No dependencies)
 
@@ -916,11 +916,11 @@ await userDal.update(parsed.data.userId, {
 
 **C2 — Delete base.dal.ts**
 
-Delete `lib/dal/base.dal.ts`.
+Delete `dal/base.dal.ts`.
 
 **C3 — Remove base.dal.ts re-export**
 
-Remove `export * from "./base.dal"` from `lib/dal/index.ts`.
+Remove `export * from "./base.dal"` from `dal/index.ts`.
 
 ### Track D — Layout Type Safety (Depends on Track C)
 
@@ -1045,7 +1045,8 @@ npm run test:ui
 
 These files were intentionally left as-is or fixed in prior sessions:
 
-- `lib/actions/updateProfile.ts` — direct `db` calls acceptable
+`actions/updateProfile.ts` — direct `db` calls acceptable
+
 - `lib/auth-config.ts` — does not exist; debt #6 pre-resolved
 - `proxy.ts` — middleware placement is separate concern
 - `app/middleware.ts` — already deleted

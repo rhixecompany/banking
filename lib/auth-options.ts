@@ -1,7 +1,7 @@
 import type { DefaultSession, NextAuthOptions, Session, User } from "next-auth";
 
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 import { eq } from "drizzle-orm";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GitHubProvider from "next-auth/providers/github";

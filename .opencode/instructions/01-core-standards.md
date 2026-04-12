@@ -14,9 +14,9 @@ Critical rules that MUST be followed. PRs will be blocked if violated.
 | # | Rule | Requirement | Enforcement |
 | --- | --- | --- | --- |
 | 1 | No `any` types | Use `unknown` + type guards | TypeScript strict |
-| 2 | No N+1 queries | Always eager load / JOIN | Code review |
-| 3 | No raw `process.env` | Use `lib/env.ts` | ESLint + TypeScript |
-| 4 | Mutations via Server Actions | Never API routes for mutations | Code review |
+| 2 | No N+1 queries | Always eager load / JOIN — never query in loops | Code review |
+| 3 | No raw `process.env` | Use `app-config.ts` (preferred) or `lib/env.ts` | ESLint + TypeScript |
+| 4 | Mutations via Server Actions | All writes must be Server Actions in `actions/` | Code review |
 | 5 | Zero TypeScript errors | Pass `npm run type-check` | CI check |
 | 6 | Zero lint warnings | Pass `npm run lint:strict` | CI check |
 | 7 | All tests pass | Pass `npm run test` | CI check |
@@ -89,10 +89,10 @@ import { z } from "zod";
 import { eq } from "drizzle-orm";
 
 // 4. Internal - DAL
-import { userDal } from "@/lib/dal";
+import { userDal } from "@/dal";
 
 // 5. Internal - Actions
-import { createUser } from "@/lib/actions/user.actions";
+import { createUser } from "@/actions/user.actions";
 
 // 6. Internal - Components
 import { Button } from "@/components/ui/button";
@@ -109,4 +109,4 @@ import { Button } from "@/components/ui/button";
 | Constants | UPPER_SNAKE | `MAX_RETRY`   |
 | Types     | PascalCase  | `UserProfile` |
 
-See: `.opencode/skills/` for detailed patterns.
+See: `.opencode/skills/` for detailed patterns and AGENTS.md for canonical agent rules.

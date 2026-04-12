@@ -1,0 +1,6 @@
+database/schema.ts:490: fundingSourceUrl: text("funding_source_url"),
+database/schema.ts:519: sharableId: varchar("sharable_id", { length: 255 }).notNull().unique(),
+dal/dwolla.dal.ts:112: .where(eq(wallets.fundingSourceUrl, fundingSourceUrl))
+app/api/dwolla/webhook/route.ts:10: // Dwolla webhook receiver that verifies signature and updates dwolla_transfers status.
+tests/unit/actions/dwolla.actions.test.ts:61: sharableId: "sender-sharable",
+dal/wallet.dal.ts:76: .where(eq(wallets.sharableId, sharableId))

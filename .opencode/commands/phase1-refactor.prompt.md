@@ -8,7 +8,7 @@
 
 These files were intentionally left as-is or fixed in a prior session. Do not modify them:
 
-- `lib/actions/updateProfile.ts` — direct `db` calls are acceptable here due to password-verification complexity (user decision)
+- `actions/updateProfile.ts` — direct `db` calls are acceptable here due to password-verification complexity (user decision)
 - `lib/auth-config.ts` — does not exist; debt #6 is pre-resolved, nothing to delete
 - `proxy.ts` — middleware placement is a separate concern (debt #5), out of scope
 - `app/middleware.ts` — already deleted in a prior session, do not recreate
@@ -23,8 +23,8 @@ These files were intentionally left as-is or fixed in a prior session. Do not mo
 
 | File | Issue |
 | --- | --- |
-| `lib/dal/base.dal.ts` | Three standalone utility fns (`findById`, `findAll`, `deleteById`) — never called |
-| `lib/dal/index.ts` | Re-exports `base.dal.ts` — becomes dead after file is deleted |
+| `dal/base.dal.ts` | Three standalone utility fns (`findById`, `findAll`, `deleteById`) — never called |
+| `dal/index.ts` | Re-exports `base.dal.ts` — becomes dead after file is deleted |
 | `tests/unit/HelloWorld.test.tsx` | `expect(true).toBe(true)` placeholder — no real coverage |
 
 ### Type Safety Issues
@@ -32,7 +32,7 @@ These files were intentionally left as-is or fixed in a prior session. Do not mo
 | File | Issue |
 | --- | --- |
 | `app/(root)/layout.tsx` | Calls `getLoggedInUser()` → `{ name?, email? } \| undefined`, then casts `as unknown as User` |
-| `lib/actions/admin.actions.ts` | Calls `db.update(users).set({ isAdmin })` directly, bypassing `userDal.update()` |
+| `actions/admin.actions.ts` | Calls `db.update(users).set({ isAdmin })` directly, bypassing `userDal.update()` |
 
 ### Metadata Bugs
 
@@ -45,7 +45,7 @@ These files were intentionally left as-is or fixed in a prior session. Do not mo
 
 | File | Issue |
 | --- | --- |
-| `lib/actions/plaid.actions.ts` | `getAllBalances()` calls `getBalance()` per bank in a `Promise.all` loop — no caching |
+| `actions/plaid.actions.ts` | `getAllBalances()` calls `getBalance()` per bank in a `Promise.all` loop — no caching |
 
 ### Missing Test Coverage
 
@@ -101,16 +101,16 @@ Search all files listed below for the string `"Description placeholder"` and del
 
 Files to scan:
 
-- `lib/actions/user.actions.ts`
-- `lib/actions/bank.actions.ts`
-- `lib/actions/transaction.actions.ts`
-- `lib/actions/recipient.actions.ts`
-- `lib/actions/dwolla.actions.ts`
-- `lib/actions/register.ts`
-- `lib/dal/bank.dal.ts`
-- `lib/dal/transaction.dal.ts`
-- `lib/dal/recipient.dal.ts`
-- `lib/dal/dwolla.dal.ts`
+- `actions/user.actions.ts`
+- `actions/bank.actions.ts`
+- `actions/transaction.actions.ts`
+- `actions/recipient.actions.ts`
+- `actions/dwolla.actions.ts`
+- `actions/register.ts`
+- `dal/bank.dal.ts`
+- `dal/transaction.dal.ts`
+- `dal/recipient.dal.ts`
+- `dal/dwolla.dal.ts`
 
 ---
 
@@ -182,7 +182,7 @@ No dependencies. Run in parallel with Tracks A and B.
 
 ### C1 — Fix admin actions to use userDal
 
-**File:** `lib/actions/admin.actions.ts`
+**File:** `actions/admin.actions.ts`
 
 Replace direct `db.update()` calls with `userDal.update()`:
 
@@ -217,18 +217,18 @@ After both replacements, remove the now-unused imports: `db`, `users`, `eq`.
 Add import if not already present:
 
 ```ts
-import { userDal } from "@/lib/dal";
+import { userDal } from "@/dal"; // Prefer '@/dal' in docs/examples
 ```
 
 ### C2 — Delete base.dal.ts
 
-**File:** `lib/dal/base.dal.ts` — delete entirely.
+**File:** `dal/base.dal.ts` — delete entirely.
 
 The three standalone utility functions (`findById<T>`, `findAll<T>`, `deleteById<T>`) are never called by any DAL class, action, or test. The `UserDal` class in `lib/dal/user.dal.ts` extends `BaseDal` from its own internal class — not these functions.
 
 ### C3 — Remove base.dal.ts re-export from index
 
-**File:** `lib/dal/index.ts`
+**File:** `dal/index.ts`
 
 Remove the line that re-exports `base.dal.ts`. Keep all other exports unchanged.
 
@@ -249,12 +249,12 @@ export * from "./base.dal";
 
 1. Replace the `getLoggedInUser()` call with `getUserWithProfile()`.
 2. Remove the `as unknown as User` cast.
-3. Update the import — `getUserWithProfile` is exported from `lib/actions/user.actions.ts`.
+3. Update the import — `getUserWithProfile` is exported from `actions/user.actions.ts`.
 4. Update the type annotation from `User` to `UserWithProfile` (from `@/types/user`).
 
 ```ts
 // Before
-import { getLoggedInUser } from "@/lib/actions/user.actions";
+import { getLoggedInUser } from "@/actions/user.actions"; // Prefer '@/actions' in docs/examples
 import type { User } from "@/types";
 
 const user = await getLoggedInUser();
@@ -265,7 +265,7 @@ if (!user) redirect("/sign-in");
 <MobileNav user={user as unknown as User} ... />
 
 // After
-import { getUserWithProfile } from "@/lib/actions/user.actions";
+import { getUserWithProfile } from "@/actions/user.actions"; // Prefer '@/actions' in docs/examples
 import type { UserWithProfile } from "@/types/user";
 
 const result = await getUserWithProfile();
@@ -296,7 +296,7 @@ No dependencies. Run in parallel with Tracks A, B, C.
 
 ### E1 — Wrap getAllBalances with "use cache"
 
-**File:** `lib/actions/plaid.actions.ts`
+**File:** `actions/plaid.actions.ts`
 
 Extract the loop body of `getAllBalances()` into a new cached helper, or add the `"use cache"` directive with `cacheLife` and `cacheTag` directly to the function.
 
@@ -359,7 +359,7 @@ export async function getAllBalances(): Promise<{
 
 ### E2 — Invalidate balances cache on bank mutations
 
-**File:** `lib/actions/plaid.actions.ts`
+**File:** `actions/plaid.actions.ts`
 
 In `exchangePublicToken()` and `removeBank()`, after the mutation succeeds, add:
 
@@ -466,9 +466,9 @@ Tracks A, B, C, and E have no inter-dependencies and can be executed in parallel
 - `app/(root)/dashboard/page.tsx` — A1
 - `app/(root)/page.tsx` — A2
 - `app/(root)/layout.tsx` — D1
-- `lib/actions/admin.actions.ts` — C1
-- `lib/actions/plaid.actions.ts` — E1, E2
-- `lib/dal/index.ts` — C3
+- `actions/admin.actions.ts` — C1
+- `actions/plaid.actions.ts` — E1, E2
+- `dal/index.ts` — C3
 - `components/sidebar/sidebar.tsx` — D2 (verify only)
 - `components/mobile-nav/mobile-nav.tsx` — D3 (verify only)
 - `components/footer/footer.tsx` — D4 (verify only)
@@ -477,7 +477,7 @@ Tracks A, B, C, and E have no inter-dependencies and can be executed in parallel
 ### Deleted
 
 - `tests/unit/HelloWorld.test.tsx` — A3
-- `lib/dal/base.dal.ts` — C2
+- `dal/base.dal.ts` — C2
 - `components/shadcn-studio/*-server-wrapper.tsx` (12 files) — B1
 - `components/shadcn-studio/*-client-wrapper.tsx` (12 files) — B1
 - `components/shadcn-studio/blocks/login-page-01/` — B2
@@ -501,16 +501,16 @@ Tracks A, B, C, and E have no inter-dependencies and can be executed in parallel
 
 ### Scanned for JSDoc stubs (A4)
 
-- `lib/actions/user.actions.ts`
-- `lib/actions/bank.actions.ts`
-- `lib/actions/transaction.actions.ts`
-- `lib/actions/recipient.actions.ts`
-- `lib/actions/dwolla.actions.ts`
-- `lib/actions/register.ts`
-- `lib/dal/bank.dal.ts`
-- `lib/dal/transaction.dal.ts`
-- `lib/dal/recipient.dal.ts`
-- `lib/dal/dwolla.dal.ts`
+- `actions/user.actions.ts`
+- `actions/bank.actions.ts`
+- `actions/transaction.actions.ts`
+- `actions/recipient.actions.ts`
+- `actions/dwolla.actions.ts`
+- `actions/register.ts`
+- `dal/bank.dal.ts`
+- `dal/transaction.dal.ts`
+- `dal/recipient.dal.ts`
+- `dal/dwolla.dal.ts`
 
 ---
 
@@ -1288,7 +1288,7 @@ npm run build:analyze
 ### 11b — Database Query Performance
 
 ```typescript
-// Fix N+1 in lib/actions/plaid.actions.ts — wrap with "use cache"
+// Fix N+1 in actions/plaid.actions.ts — wrap with "use cache"
 "use cache";
 cacheLife("minutes");
 cacheTag(`balance-${bankId}`);
@@ -1303,7 +1303,7 @@ export async function getCachedBalance(
 ```
 
 - [ ] Profile slow queries via `npm run db:studio` with `EXPLAIN ANALYZE`
-- [ ] Fix N+1 in `lib/actions/plaid.actions.ts:getAllBalances()` (Debt #4)
+- [ ] Fix N+1 in `actions/plaid.actions.ts:getAllBalances()` (Debt #4)
 - [ ] Add DB indexes for `transactions.userId`, `transactions.createdAt`, `banks.userId`
 - [ ] Generate migration: `npm run db:generate && npm run db:migrate`
 

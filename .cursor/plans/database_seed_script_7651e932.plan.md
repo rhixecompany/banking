@@ -60,8 +60,8 @@ flowchart TD
 
 ## Implementation notes (match existing app behavior)
 
-- **Passwords**: Use `bcryptjs` `hash(..., 12)` like [lib/actions/register.ts](lib/actions/register.ts) / [lib/auth-options.ts](lib/auth-options.ts). Document a single known dev password (e.g. same as E2E tests: `password123`) in a one-line comment in `seed-data.ts` only.
-- **Bank `access_token`**: Store encrypted — either call `[bankDal.createBank](lib/dal/bank.dal.ts)` (preferred, single encryption path) or `encrypt()` from `[lib/encryption.ts](lib/encryption.ts)` before `insert`. Requires valid `ENCRYPTION_KEY` via `[lib/env.ts](lib/env.ts)` when those modules load.
+- **Passwords**: Use `bcrypt` `hash(..., 12)` like [actions/register.ts](actions/register.ts) / [lib/auth-options.ts](lib/auth-options.ts). Document a single known dev password (e.g. same as E2E tests: `password123`) in a one-line comment in `seed-data.ts` only. // docs: updated snippet — verify vs. source
+- **Bank `access_token`**: Store encrypted — either call `[bankDal.createBank](dal/bank.dal.ts)` (preferred, single encryption path) or `encrypt()` from `[lib/encryption.ts](lib/encryption.ts)` before `insert`. Requires valid `ENCRYPTION_KEY` via `[lib/env.ts](lib/env.ts)` when those modules load.
 - `**transactions.amount**`: Drizzle `numeric` — use string decimals (e.g. `"100.00"`) consistent with PostgreSQL expectations.
 - **NextAuth-shaped rows**: For `account`, `session`, `authenticator`, use plausible placeholder values (composite PKs on `account` and `authenticator`, `sessionToken` PK on `session`) so inserts validate; no need to mirror real OAuth/WebAuthn bytes beyond non-empty strings.
 - **Optional reset**: Implement safe truncate for **development only**: e.g. if `NODE_ENV === "production"` then refuse unless `ALLOW_DB_SEED=true` (or similar), and document that `DATABASE_URL` must point at a dev database. Use Drizzle `sql` + `TRUNCATE ... CASCADE` listing all schema tables (quote mixed-case identifiers like `"verificationToken"` / `"session"` as in PostgreSQL).
