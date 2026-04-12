@@ -46,7 +46,7 @@ export function UserForm() {
 
 ## Server Actions Pattern
 
-All mutations via Server Actions, never API routes.
+All mutations must use Server Actions; avoid API routes for write logic.
 
 ```typescript
 "use server";
@@ -83,6 +83,8 @@ export async function createUser(
   }
 }
 ```
+
+Note: Server Actions should return a consistent shape (Promise<{ ok: boolean; error?: string }>) and validate inputs with Zod before any DB or external API calls.
 
 ## Cache Components (Next.js 16)
 

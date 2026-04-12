@@ -4,45 +4,44 @@
     "build": {
       "description": "Build and implement features for the Banking project",
       "model": "github-copilot/gpt-5-mini",
-      "steps": 25,
-      "temperature": 0.2,
-      "tools": {
-        "bash": true,
-        "edit": true,
-        "glob": true,
-        "grep": true,
-        "list": true,
-        "lsp": true,
-        "MCP_DOCKER_*": true,
-        "question": true,
-        "read": true,
-        "shadcn_*": true,
-        "skill": true,
-        "todowrite": true,
-        "webfetch": true,
-        "websearch": true
+      "temperature": 0.1,
+      "permission": {
+        "bash": "allow",
+        "edit": "allow",
+        "glob": "allow",
+        "grep": "allow",
+        "list": "allow",
+        "lsp": "allow",
+        "MCP_DOCKER_*": "allow",
+        "question": "allow",
+        "read": "allow",
+        "shadcn_*": "allow",
+        "skill": "allow",
+        "todowrite": "allow",
+        "webfetch": "allow",
+        "websearch": "allow"
       }
     },
     "plan": {
       "description": "Review and plan changes for the Banking project",
       "model": "github-copilot/gpt-5-mini",
       "steps": 20,
-      "temperature": 0.1,
-      "tools": {
-        "bash": true,
-        "edit": false,
-        "glob": true,
-        "grep": true,
-        "list": true,
-        "lsp": true,
-        "MCP_DOCKER_*": true,
-        "question": true,
-        "read": true,
-        "shadcn_*": true,
-        "skill": true,
-        "todowrite": true,
-        "webfetch": true,
-        "websearch": true
+      "temperature": 0.2,
+      "permission": {
+        "bash": "allow",
+        "edit": "allow",
+        "glob": "allow",
+        "grep": "allow",
+        "list": "allow",
+        "lsp": "allow",
+        "MCP_DOCKER_*": "allow",
+        "question": "allow",
+        "read": "allow",
+        "shadcn_*": "allow",
+        "skill": "allow",
+        "todowrite": "allow",
+        "webfetch": "allow",
+        "websearch": "allow"
       }
     },
     "quick-thinker": {
@@ -50,21 +49,21 @@
       "prompt": "You are a quick thinker. Solve problems with minimal steps.",
       "steps": 20,
       "temperature": 0.1,
-      "tools": {
-        "bash": true,
-        "edit": true,
-        "glob": true,
-        "grep": true,
-        "list": true,
-        "lsp": true,
-        "MCP_DOCKER_*": true,
-        "question": true,
-        "read": true,
-        "shadcn_*": true,
-        "skill": true,
-        "todowrite": true,
-        "webfetch": true,
-        "websearch": true
+      "permission": {
+        "bash": "allow",
+        "edit": "allow",
+        "glob": "allow",
+        "grep": "allow",
+        "list": "allow",
+        "lsp": "allow",
+        "MCP_DOCKER_*": "allow",
+        "question": "allow",
+        "read": "allow",
+        "shadcn_*": "allow",
+        "skill": "allow",
+        "todowrite": "allow",
+        "webfetch": "allow",
+        "websearch": "allow"
       }
     },
     "review": {
@@ -72,25 +71,25 @@
       "model": "github-copilot/gpt-5-mini",
       "steps": 20,
       "temperature": 0.2,
-      "tools": {
-        "bash": true,
-        "edit": true,
-        "glob": true,
-        "grep": true,
-        "list": true,
-        "lsp": true,
-        "MCP_DOCKER_*": true,
-        "question": true,
-        "read": true,
-        "shadcn_*": true,
-        "skill": true,
-        "todowrite": true,
-        "webfetch": true,
-        "websearch": true
+      "permission": {
+        "bash": "allow",
+        "edit": "allow",
+        "glob": "allow",
+        "grep": "allow",
+        "list": "allow",
+        "lsp": "allow",
+        "MCP_DOCKER_*": "allow",
+        "question": "allow",
+        "read": "allow",
+        "shadcn_*": "allow",
+        "skill": "allow",
+        "todowrite": "allow",
+        "webfetch": "allow",
+        "websearch": "allow"
       }
     }
   },
-  "autoupdate": true,
+  "autoupdate": "notify",
   "command": {
     "build": {
       "agent": "build",
@@ -112,6 +111,7 @@
     "auto": true,
     "reserved": 10000
   },
+  "default_agent": "build",
   "instructions": [
     "AGENTS.md",
     ".opencode/instructions/*.md",
@@ -138,96 +138,7 @@
       "type": "local"
     }
   },
-  "mode": {
-    "build": {
-      "description": "Build and implement features for the Banking project",
-      "model": "github-copilot/gpt-5-mini",
-      "steps": 25,
-      "temperature": 0.2,
-      "tools": {
-        "bash": true,
-        "edit": true,
-        "glob": true,
-        "grep": true,
-        "list": true,
-        "lsp": true,
-        "MCP_DOCKER_*": true,
-        "question": true,
-        "read": true,
-        "shadcn_*": true,
-        "skill": true,
-        "todowrite": true,
-        "webfetch": true,
-        "websearch": true
-      }
-    },
-    "plan": {
-      "description": "Review and plan changes for the Banking project",
-      "model": "github-copilot/gpt-5-mini",
-      "steps": 20,
-      "temperature": 0.1,
-      "tools": {
-        "bash": true,
-        "edit": false,
-        "glob": true,
-        "grep": true,
-        "list": true,
-        "lsp": true,
-        "MCP_DOCKER_*": true,
-        "question": true,
-        "read": true,
-        "shadcn_*": true,
-        "skill": true,
-        "todowrite": true,
-        "webfetch": true,
-        "websearch": true
-      }
-    },
-    "quick-thinker": {
-      "description": "Fast reasoning with limited iterations",
-      "prompt": "You are a quick thinker. Solve problems with minimal steps.",
-      "steps": 20,
-      "temperature": 0.1,
-      "tools": {
-        "bash": true,
-        "edit": true,
-        "glob": true,
-        "grep": true,
-        "list": true,
-        "lsp": true,
-        "MCP_DOCKER_*": true,
-        "question": true,
-        "read": true,
-        "shadcn_*": true,
-        "skill": true,
-        "todowrite": true,
-        "webfetch": true,
-        "websearch": true
-      }
-    },
-    "review": {
-      "description": "Review code changes and PRs for the Banking project",
-      "model": "github-copilot/gpt-5-mini",
-      "steps": 20,
-      "temperature": 0.2,
-      "tools": {
-        "bash": true,
-        "edit": true,
-        "glob": true,
-        "grep": true,
-        "list": true,
-        "lsp": true,
-        "MCP_DOCKER_*": true,
-        "question": true,
-        "read": true,
-        "shadcn_*": true,
-        "skill": true,
-        "todowrite": true,
-        "webfetch": true,
-        "websearch": true
-      }
-    }
-  },
+
   "model": "github-copilot/gpt-5-mini",
   "permission": {
     "bash": "allow",

@@ -18,6 +18,8 @@ import { auth } from "@/lib/auth";
 export { auth };
 ```
 
+Note: In Vitest unit tests, mock `auth` with `vi.mocked(auth).mockResolvedValue(...)` to simulate authenticated and unauthenticated states. See `tests/setup.ts` for test environment loading.
+
 ### Session Shape (from `types/next-auth.d.ts`)
 
 ```typescript

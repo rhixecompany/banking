@@ -1,6 +1,6 @@
 # AGENTS.md — Banking Project (Canonical Agent Guide)
 
-Version: 11.1 | Updated: 2026-04-11
+Version: 11.2 | Updated: 2026-04-12
 
 Purpose
 
@@ -110,6 +110,18 @@ Workflow & planning
 - If a change touches more than 3 files, create a plan before implementing. Plans live in `.opencode/plans/` and follow the naming `<short-kebab-task>_<8charid>.plan.md`.
 - Validation checklist before commit/PR: `npm run format` (or format:check), `npm run type-check`, `npm run lint:strict`. Running tests is recommended but may be expensive.
 - `AGENTS.md` is the canonical agentic reference file. When you update it, bump the version/date at the top and record the change in a plan.
+
+Agent Tests (Quick Validate)
+
+- Run these locally before proposing PRs that change behavior or agentic docs:
+  - `npm run format` (applies Prettier)
+  - `npm run type-check` (tsc --noEmit)
+  - `npm run lint:strict` (ESLint zero-warnings)
+
+How to update AGENTS.md or .opencode instructions
+
+- Preserve existing content where possible. If your edits touch more than 3 files, create a plan file in `.opencode/plans/` using the filename format above and include Goals, Scope, Target Files, Risks, Planned Changes, Validation, and Rollback. See `.opencode/instructions/09-plan-file-standards.md` for the template.
+- If prose conflicts with executable sources (package.json scripts, eslint.config.mts, app-config.ts, database/schema.ts, scripts/), update the prose to match the executable sources and record the change in a plan.
 
 Note: This update is part of an agentic docs standardization effort. See plan: `.opencode/plans/update-agentic-docs_4f7a8b2c.plan.md`.
 

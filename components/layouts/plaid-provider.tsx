@@ -4,9 +4,10 @@ import Script from "next/script";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { type PlaidLinkOnSuccess } from "react-plaid-link";
 
+import type { Wallet } from "@/types/wallet";
+
 import { createLinkToken, exchangePublicToken } from "@/actions/plaid.actions";
 import { logger } from "@/lib/logger";
-import type { Wallet } from "@/types/wallet";
 
 interface PlaidProviderProps {
   userId: string;
@@ -30,7 +31,7 @@ export function PlaidProvider({
 
   useEffect(() => {
     onSuccessRef.current = onSuccess;
-  });
+  }, [onSuccess]);
 
   useEffect(() => {
     async function fetchLinkToken() {
@@ -51,10 +52,18 @@ export function PlaidProvider({
   }, [userId]);
 
   const handleSuccess = useCallback<PlaidLinkOnSuccess>(
-    async (publicToken) => {
-      const result = await exchangePublicToken({ publicToken, userId });
-      if (result.ok && result.wallet) onSuccessRef.current?.(result.wallet);
-      else setError(result.error ?? "Failed to link bank account");
+    async (publicToken, _metadata) => {
+      try {
+        const result = await exchangePublicToken({ publicToken, userId });
+        if (result.ok && result.wallet) onSuccessRef.current?.(result.wallet);
+        else setError(result.error ?? "Failed to link bank account");
+      } catch (err) {
+        logger.error(
+          "PlaidProvider exchangePublicToken unexpected error:",
+          err,
+        );
+        setError("Failed to link bank account");
+      }
     },
     [userId],
   );

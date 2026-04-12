@@ -46,13 +46,15 @@ function hasValue(input: unknown): input is HasValue {
 
 ### Explicit Return Types
 
-Always include return types for exported functions:
+Always include return types for exported functions (this helps reviewers and ensures stable public typings):
 
 ```typescript
 export function getUser(id: string): Promise<User | null> {
   return db.query.users.findFirst({ where: eq(users.id, id) });
 }
 ```
+
+Note: Exported Server Actions and public helpers should use explicit return types as well.
 
 ## Environment Variables
 

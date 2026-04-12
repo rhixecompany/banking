@@ -39,7 +39,7 @@ export const userDal = new UserDal();
 
 ## N+1 Prevention - CRITICAL
 
-**NEVER query inside loops.**
+**NEVER query inside loops.** Use JOINs or structured selects to eagerly load relations.
 
 ```typescript
 // BAD - N+1 query pattern

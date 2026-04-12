@@ -1,13 +1,15 @@
 {
   "$schema": "https://opencode.ai/tui.json",
   "diff_style": "auto",
-  "keybinds": {},
+  "keybinds": {
+    "leader": "ctrl+x"
+  },
   "mouse": true,
   "plugin": [],
   "plugin_enabled": {},
   "scroll_acceleration": {
     "enabled": true
   },
-  "scroll_speed": 5,
+  "scroll_speed": 3,
   "theme": "tokyonight"
 }

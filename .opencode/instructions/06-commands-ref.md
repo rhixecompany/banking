@@ -84,6 +84,8 @@ npm run validate
 3. Ensure all tests pass
 4. Create PR
 
+Note: On Windows, free port 3000 before running Playwright tests. See the PowerShell snippet in AGENTS.md.
+
 ### Code Generation
 
 ```bash

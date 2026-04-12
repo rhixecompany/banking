@@ -1,34 +1,43 @@
----
-# Update Agentic Documentation And Skills
-
-Version: 1.0
-Created: 2026-04-11
+# Update Agentic Documentation
 
 ## Goals
-- Consolidate and standardize agent-facing documentation across the repository so agents and humans have a single, consistent source of truth about agent rules, skills, and workflows.
-- Perform an opinionated rewrite of agentic docs (AGENTS.md, .cursorrules, .cursor/rules/*.mdc, .github/copilot-instructions.md, all .opencode/skills/**/SKILL.md, .opencode/instructions/*.md, and selected .github/instructions/*.md).
+
+- Standardize and augment agentic documentation across the repository.
+- Ensure AGENTS.md, .opencode/instructions/\*.md, and README.md are consistent and point to authoritative sources.
+- Create a permanent plan record for the update.
 
 ## Scope
-- Read-only discovery already completed.
-- Implementation will change documentation files only (markdown and skill docs). No runtime code changes.
 
-## Batches
-1. Core canonical sources: AGENTS.md, .cursorrules, .github/copilot-instructions.md
-2. TaskSync rewrite: .opencode/instructions/00-task-sync-note.md (safe rewrite)
-3. Cursor rules normalization: .cursor/rules/*.mdc
-4. SKILL.md standardization: .opencode/skills/**/SKILL.md
-5. README sync and selected .github/instructions/*.md
+- Update AGENTS.md (version bump + clarifications)
+- Update .opencode/instructions/\* for consistency and missing clarifications
+- Update README.md agentic contributor notes section
+- Create this plan file under .opencode/plans/
 
-## Validation
-- Run: `npm run format`, `npm run type-check`, `npm run lint:strict` after applying patches locally.
+## Target Files
 
-## Rollout
-- Prepare patches here for review. Do not push until user approval.
+- AGENTS.md
+- README.md (agentic sections)
+- .opencode/instructions/\*.md (all files in that folder)
+- .opencode/plans/update-agentic-docs_4f7a8b2c.plan.md (this file)
 
 ## Risks
-- Large edits may generate lint/type-check failures. Mitigation: run checks per-batch and keep commits small.
 
-## Plan file location
-This file documents the Phase 2 plan and is saved to `.opencode/plans/update-agentic-docs_4f7a8b2c.plan.md`.
+- Minor wording changes could be contested by contributors. Mitigation: Keep edits conservative and preserve original examples.
+- Lint or formatting scripts may change files (format). Mitigation: run Quick Validate and adjust.
 
----
+## Planned Changes
+
+- Bump AGENTS.md version and add Quick Validate checklist.
+- Standardize front-matter and add missing clarifications in instruction files.
+- Update README.md agentic contributor notes to reference AGENTS.md and plan rules.
+
+## Validation
+
+- Run these locally:
+  - `npm run format`
+  - `npm run type-check`
+  - `npm run lint:strict`
+
+## Rollback or Mitigation
+
+- Use git to revert the commit(s) if needed. Changes are documentation-only; rollbacks are safe.
