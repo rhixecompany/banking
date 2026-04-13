@@ -7,6 +7,8 @@ priority: 4
 
 # Auth & Testing Patterns - Banking Project
 
+Agentic note: Use lib/auth() in Server Actions and mock it in Vitest with vi.mocked(auth). See tests/setup.ts for test environment loading.
+
 ## NextAuth v4 Authentication
 
 ### Auth Helper

@@ -23,7 +23,7 @@ import { logger } from "@/lib/logger";
  * @interface PlaidContextValue
  * @typedef {PlaidContextValue}
  */
-interface PlaidContextValue {
+export interface PlaidContextValue {
   /**
    * Description placeholder
    * @author [object Object]
@@ -60,7 +60,9 @@ interface PlaidContextValue {
  *
  * @type {*}
  */
-const PlaidContext = createContext<PlaidContextValue | undefined>(undefined);
+export const PlaidContext = createContext<PlaidContextValue | undefined>(
+  undefined,
+);
 
 /**
  * Description placeholder

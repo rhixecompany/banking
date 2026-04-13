@@ -7,6 +7,8 @@ applyTo: "**"
 
 When a task is expected to change more than 3 files, create a plan before implementation.
 
+Agentic note: If changes touch >3 files, create the plan BEFORE making code edits. Plans are required for agentic documentation changes.
+
 ## Location and Naming
 
 - Save every plan in `.opencode/plans/`.

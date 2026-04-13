@@ -11,6 +11,13 @@
 
 ---
 
+### CI E2E label
+
+- This repository may skip expensive E2E checks for PRs coming from forks. To request that maintainers run the full E2E suite (Playwright), add the label `run-e2e` to your PR or ask a maintainer to add it.
+- Maintainers can add `run-e2e` to trigger the full verify-agents workflow including Playwright E2E.
+- This repository may skip expensive E2E checks for PRs coming from forks. To request that maintainers run the full E2E suite (Playwright), add the label `run-e2e` to your PR or ask a maintainer to add it.
+- Maintainers can add `run-e2e` to trigger the full verify-agents workflow including Playwright E2E. If you do not have write access, request one of the maintainers listed in CONTRIBUTING.md to add the label or comment `/run-e2e`.
+
 ## Description
 
 <!-- Briefly describe your contribution and its purpose. Include any relevant context or usage notes. -->

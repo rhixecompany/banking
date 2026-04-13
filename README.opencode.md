@@ -3,11 +3,11 @@
 
 <br>
 <!-- LOGO -->
-<img src="https://github.com/user-attachments/assets/aced1e8e-e6be-485a-9015-b822d01ab064" alt="Awesome Opencode" />
+<img src="https://github.com/user-attachments/assets/aced1e8e-e6be-485a-9015-b822d01ab064" alt="Banking" />
 <br><br>
 
 <!-- TITLE -->
-<h1>Awesome Opencode</h1>
+<h1>Banking</h1>
 
 <!-- BADGES -->
 <p>
@@ -1057,6 +1057,14 @@ Based on production patterns from the Banking project template.
 </details>
 
 <details>
+  <summary><b>10ApplyPatchVerificationFix</b> - <i>Purpose</i></summary>
+  <blockquote>
+    - Provide a short, practical checklist and rules for diagnosing and fixing `apply_patch` verification failures (the "apply_patch verification failed: Error: Failed to find expected lines" error). Keep this document read-first — follow the steps in order. Symptoms - `apply_patch` returns: "apply_patch verification failed: Error: Failed to find expected lines in <path>: <context>" - Patch is not applied and changes remain uncommitted. Important System Reminder (Plan Mode) ```
+    <br><br><a href=".opencode\instructions/">🔗 <b>View Repository</b></a>
+  </blockquote>
+</details>
+
+<details>
   <summary><b>alibaba-rate-limit-handling</b> - <i>```</i></summary>
   <blockquote>
     How to handle Alibaba API rate-limit errors — adjust client logic to scale requests smoothly
@@ -1065,15 +1073,7 @@ Based on production patterns from the Banking project template.
 </details>
 
 <details>
-  <summary><b>ApplyPatchVerificationFix</b> - <i>Purpose</i></summary>
-  <blockquote>
-    - Provide a short, practical checklist and rules for diagnosing and fixing `apply_patch` verification failures (the "apply_patch verification failed: Error: Failed to find expected lines" error). Keep this document read-first — follow the steps in order. Symptoms - `apply_patch` returns: "apply_patch verification failed: Error: Failed to find expected lines in <path>: <context>" - Patch is not applied and changes remain uncommitted. Important System Reminder (Plan Mode) ```
-    <br><br><a href=".opencode\instructions/">🔗 <b>View Repository</b></a>
-  </blockquote>
-</details>
-
-<details>
-  <summary><b>auth-testing</b> - <i>```typescript</i></summary>
+  <summary><b>auth-testing</b> - <i>Agentic note: Use lib/auth() in Server Actions and mock it in Vitest with vi.mocked(auth). See tests/setup.ts for tes...</i></summary>
   <blockquote>
     NextAuth v4 patterns and Testing patterns (Vitest, Playwright)
     <br><br><a href=".opencode\instructions/">🔗 <b>View Repository</b></a>
@@ -1089,7 +1089,7 @@ Based on production patterns from the Banking project template.
 </details>
 
 <details>
-  <summary><b>commands-ref</b> - <i>```bash</i></summary>
+  <summary><b>commands-ref</b> - <i>Agentic note: Use these exact commands. When in doubt, consult package.json scripts first.</i></summary>
   <blockquote>
     Command reference and workflow guidance for Banking project
     <br><br><a href=".opencode\instructions/">🔗 <b>View Repository</b></a>
@@ -1097,7 +1097,7 @@ Based on production patterns from the Banking project template.
 </details>
 
 <details>
-  <summary><b>core-standards</b> - <i>Critical rules that MUST be followed. PRs will be blocked if violated.</i></summary>
+  <summary><b>core-standards</b> - <i>Agentic note: Read AGENTS.md first. If these prose docs conflict with executable sources (package.json, eslint.config...</i></summary>
   <blockquote>
     Critical coding standards and PR-blocking rules for Banking project
     <br><br><a href=".opencode\instructions/">🔗 <b>View Repository</b></a>
@@ -1105,10 +1105,18 @@ Based on production patterns from the Banking project template.
 </details>
 
 <details>
-  <summary><b>dal-patterns</b> - <i>All database access must go through `dal/`.</i></summary>
+  <summary><b>dal-patterns</b> - <i>Agentic note: All DB access must go through dal/. Avoid querying in components or Server Actions. See AGENTS.md for e...</i></summary>
   <blockquote>
     Drizzle ORM patterns, DAL pattern, and N+1 prevention
     <br><br><a href=".opencode\instructions/">🔗 <b>View Repository</b></a>
+  </blockquote>
+</details>
+
+<details>
+  <summary><b>dal-skill</b> - <i>Overview</i></summary>
+  <blockquote>
+    Drizzle ORM and Data Access Layer (DAL) patterns for efficient, type-safe DB access.
+    <br><br><a href=".opencode\skills\dal-skill/">🔗 <b>View Repository</b></a>
   </blockquote>
 </details>
 
@@ -1137,6 +1145,14 @@ Based on production patterns from the Banking project template.
 </details>
 
 <details>
+  <summary><b>documentation</b> - <i>Maintain comprehensive and accessible documentation throughout the Banking project.</i></summary>
+  <blockquote>
+    Documentation standards for Banking project
+    <br><br><a href=".opencode\instructions/">🔗 <b>View Repository</b></a>
+  </blockquote>
+</details>
+
+<details>
   <summary><b>DwollaSkill</b> - <i>Overview</i></summary>
   <blockquote>
     Dwolla API integration for ACH transfers, payment processing, and bank account verification in the Banking app.
@@ -1161,7 +1177,7 @@ Based on production patterns from the Banking project template.
 </details>
 
 <details>
-  <summary><b>nextjs-patterns</b> - <i>- Next.js 16 (App Router)</i></summary>
+  <summary><b>nextjs-patterns</b> - <i>Agentic note: These patterns assume Next.js 16+ and the app-router. Confirm with package.json if in doubt.</i></summary>
   <blockquote>
     Next.js patterns, App Router, Cache Components, and Server Actions
     <br><br><a href=".opencode\instructions/">🔗 <b>View Repository</b></a>
@@ -1241,6 +1257,14 @@ Based on production patterns from the Banking project template.
 </details>
 
 <details>
+  <summary><b>suspense-skill</b> - <i>This skill provides guidance for implementing Suspense boundaries in Next.js 16 to handle async auth APIs without blo...</i></summary>
+  <blockquote>
+    Guidance for implementing Suspense boundaries in Next.js 16 to handle async auth APIs without blocking route rendering.
+    <br><br><a href=".opencode\skills\suspense-skill/">🔗 <b>View Repository</b></a>
+  </blockquote>
+</details>
+
+<details>
   <summary><b>task-sync-note</b> - <i>Purpose</i></summary>
   <blockquote>
     TaskSync — Safe Task Handoff Guidance. Explains a safe, optional protocol for handing tasks to an agent via a terminal-like interface without mandating continuous operation.
@@ -1257,7 +1281,7 @@ Based on production patterns from the Banking project template.
 </details>
 
 <details>
-  <summary><b>ui-validation</b> - <i>Components are in `components/ui/`.</i></summary>
+  <summary><b>ui-validation</b> - <i>Agentic note: ESLint enforces Zod meta rules (`.describe(...)`) — missing meta will fail lint:strict.</i></summary>
   <blockquote>
     shadcn/UI components, Zod validation, and forms
     <br><br><a href=".opencode\instructions/">🔗 <b>View Repository</b></a>
@@ -1296,7 +1320,7 @@ Based on production patterns from the Banking project template.
 
 <div align="center">
 <h3>🤝 Contributing</h3>
-Found an Awesome Opencode project? <br>
+Found an Banking project? <br>
 <a href="https://github.com/awesome-opencode/awesome-opencode/blob/main/contributing.md"><b>Submit a Pull Request</b></a> to add it to the list!
 <br><br>
 <sub>Released under <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0 Universal</a>.</sub>

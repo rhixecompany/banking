@@ -6,6 +6,7 @@ import {
   account,
   authenticator,
   errors,
+  plaid_items,
   recipients,
   session,
   transactions,
@@ -16,6 +17,7 @@ import {
 } from "@/database/schema";
 import { encrypt } from "@/lib/encryption";
 
+import { sql } from "drizzle-orm";
 import { getSeedAccessToken } from "./seed-config";
 
 /** Dev-only login for all seeded users (matches E2E tests). */
@@ -185,6 +187,20 @@ function buildWalletRow(
   };
 }
 
+function buildPlaidItemRow(
+  id: string,
+  userId: string,
+  accessToken: string,
+  itemId: string,
+) {
+  return {
+    id,
+    itemId,
+    accessTokenEncrypted: encrypt(accessToken),
+    userId,
+  };
+}
+
 /**
  * Description placeholder
  *
@@ -338,6 +354,41 @@ export async function seedAll(): Promise<void> {
         1,
       ),
     ]);
+
+  // Insert Plaid items and link wallets to them via plaid_item_id
+  // Create a Plaid item per seeded wallet for deterministic tests
+  const plaidItemCheckingId = `plaid-item-${SEED_IDS.wallets.checking}`;
+  const plaidItemSavingsId = `plaid-item-${SEED_IDS.wallets.savings}`;
+
+  await db
+    .insert(plaid_items)
+    .values([
+      buildPlaidItemRow(
+        plaidItemCheckingId,
+        SEED_IDS.users.user,
+        getSeedAccessToken(),
+        `item-seed-${SEED_IDS.wallets.checking}`,
+      ),
+      buildPlaidItemRow(
+        plaidItemSavingsId,
+        SEED_IDS.users.user,
+        getSeedAccessToken(),
+        `item-seed-${SEED_IDS.wallets.savings}`,
+      ),
+    ]);
+
+  // Backfill wallets.plaid_item_id
+  // Note: Drizzle column names are snake_case in the DB. Use the
+  // column key as defined on the `wallets` table variable. If the
+  // generated table type doesn't expose `plaidItemId`, use the raw
+  // SQL update as a safe path that avoids TypeScript type mismatches.
+  await db.execute(
+    sql`UPDATE wallets SET plaid_item_id = ${plaidItemCheckingId} WHERE id = ${SEED_IDS.wallets.checking}`,
+  );
+
+  await db.execute(
+    sql`UPDATE wallets SET plaid_item_id = ${plaidItemSavingsId} WHERE id = ${SEED_IDS.wallets.savings}`,
+  );
 
   await db
     .insert(transactions)

@@ -1,6 +1,11 @@
 import { test as base, Page } from "@playwright/test";
 
+import { request as playwrightRequest } from "@playwright/test";
 import { SEED_USER, signInWithSeedUser } from "../e2e/helpers/auth";
+import {
+  makeNextAuthJwtToken,
+  setAuthCookie,
+} from "../e2e/utils/auth-fixtures";
 import {
   DashboardPage,
   MyWalletsPage,
@@ -54,8 +59,30 @@ export interface AuthFixtures {
 export const test = base.extend<AuthFixtures>({
   // Page fixtures (in alphabetical order)
   authenticatedPage: async ({ page }, use) => {
-    await signInWithSeedUser(page);
-    await use(page);
+    // Prefer deterministic session via seeded JWT when NEXTAUTH_SECRET exists
+    // and the tests are running with a seeded DB. Fall back to UI sign-in.
+    const secret = process.env.NEXTAUTH_SECRET;
+    const baseUrl = process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3000";
+
+    if (secret) {
+      const token = makeNextAuthJwtToken({ id: "seed-user" }, secret);
+
+      // Use Playwright APIRequestContext to set cookie on the app domain
+      const apiReq = playwrightRequest.newContext();
+      try {
+        // This hits a small test-only endpoint we'll add to the app in dev mode
+        await setAuthCookie(apiReq, baseUrl, token);
+        // Load the page with the authenticated cookie set
+        await page.goto(`${baseUrl}/dashboard`);
+        await page.waitForLoadState("domcontentloaded");
+        await use(page);
+      } finally {
+        await apiReq.dispose();
+      }
+    } else {
+      await signInWithSeedUser(page);
+      await use(page);
+    }
   },
 
   dashboardPage: async ({ authenticatedPage }, use) => {

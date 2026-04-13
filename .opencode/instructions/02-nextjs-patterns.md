@@ -7,6 +7,8 @@ priority: 2
 
 # Next.js Patterns - Banking Project
 
+Agentic note: These patterns assume Next.js 16+ and the app-router. Confirm with package.json if in doubt.
+
 ## Tech Stack
 
 - Next.js 16 (App Router)

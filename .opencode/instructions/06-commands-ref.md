@@ -7,6 +7,8 @@ priority: 6
 
 # Commands Reference - Banking Project
 
+Agentic note: Use these exact commands. When in doubt, consult package.json scripts first.
+
 ## Development Commands
 
 ```bash

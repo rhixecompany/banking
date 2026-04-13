@@ -117,14 +117,52 @@ export const authOptions: NextAuthOptions = {
     CredentialsProvider({
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null;
+
+        // Debug logging for E2E investigations: log lookup result and bcrypt outcome.
+        // Keep logs minimal and remove after debugging is complete.
         const user = await db
           .select()
           .from(users)
           .where(eq(users.email, credentials.email))
           .then((r) => r[0]);
-        if (!user?.isActive || !user.password) return null;
-        const valid = await bcrypt.compare(credentials.password, user.password);
-        if (!valid) return null;
+
+        try {
+          console.info(
+            `[E2E-DEBUG] authorize: lookup email=${credentials.email} found=${!!user}`,
+          );
+        } catch {}
+
+        if (!user?.isActive || !user.password) {
+          try {
+            console.info(
+              `[E2E-DEBUG] authorize: rejecting - isActive=${!!user?.isActive} hasPassword=${!!user?.password}`,
+            );
+          } catch {}
+          return null;
+        }
+
+        let valid = false;
+        try {
+          valid = await bcrypt.compare(credentials.password, user.password);
+          try {
+            console.info(
+              `[E2E-DEBUG] authorize: bcrypt.compare result=${valid}`,
+            );
+          } catch {}
+        } catch (e) {
+          console.error("[E2E-DEBUG] authorize: bcrypt.compare threw", e);
+          return null;
+        }
+
+        if (!valid) {
+          try {
+            console.info(
+              "[E2E-DEBUG] authorize: rejecting - invalid credentials",
+            );
+          } catch {}
+          return null;
+        }
+
         return {
           email: user.email,
           id: String(user.id),

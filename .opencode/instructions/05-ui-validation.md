@@ -7,6 +7,8 @@ priority: 5
 
 # UI & Validation Patterns - Banking Project
 
+Agentic note: ESLint enforces Zod meta rules (`.describe(...)`) — missing meta will fail lint:strict.
+
 ## shadcn/UI Components
 
 Components are in `components/ui/`.

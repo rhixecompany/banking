@@ -4,7 +4,6 @@
     "build": {
       "description": "Build and implement features for the Banking project",
       "model": "github-copilot/gpt-5-mini",
-      "temperature": 0.1,
       "permission": {
         "bash": "allow",
         "edit": "allow",
@@ -20,16 +19,36 @@
         "todowrite": "allow",
         "webfetch": "allow",
         "websearch": "allow"
-      }
+      },
+      "temperature": 0.1
+    },
+    "Next.js Expert": {
+      "description": "Next.js Expert agent for building and implementing features in the Banking project",
+      "model": "github-copilot/gpt-5-mini",
+      "permission": {
+        "bash": "allow",
+        "edit": "allow",
+        "glob": "allow",
+        "grep": "allow",
+        "list": "allow",
+        "lsp": "allow",
+        "MCP_DOCKER_*": "allow",
+        "question": "allow",
+        "read": "allow",
+        "shadcn_*": "allow",
+        "skill": "allow",
+        "todowrite": "allow",
+        "webfetch": "allow",
+        "websearch": "allow"
+      },
+      "temperature": 0.1
     },
     "plan": {
       "description": "Review and plan changes for the Banking project",
       "model": "github-copilot/gpt-5-mini",
-      "steps": 20,
-      "temperature": 0.2,
       "permission": {
         "bash": "allow",
-        "edit": "allow",
+        "edit": "deny",
         "glob": "allow",
         "grep": "allow",
         "list": "allow",
@@ -42,13 +61,12 @@
         "todowrite": "allow",
         "webfetch": "allow",
         "websearch": "allow"
-      }
+      },
+      "steps": 20,
+      "temperature": 0.2
     },
     "quick-thinker": {
       "description": "Fast reasoning with limited iterations",
-      "prompt": "You are a quick thinker. Solve problems with minimal steps.",
-      "steps": 20,
-      "temperature": 0.1,
       "permission": {
         "bash": "allow",
         "edit": "allow",
@@ -64,13 +82,14 @@
         "todowrite": "allow",
         "webfetch": "allow",
         "websearch": "allow"
-      }
+      },
+      "prompt": "You are a quick thinker. Solve problems with minimal steps.",
+      "steps": 20,
+      "temperature": 0.1
     },
     "review": {
       "description": "Review code changes and PRs for the Banking project",
       "model": "github-copilot/gpt-5-mini",
-      "steps": 20,
-      "temperature": 0.2,
       "permission": {
         "bash": "allow",
         "edit": "allow",
@@ -86,7 +105,9 @@
         "todowrite": "allow",
         "webfetch": "allow",
         "websearch": "allow"
-      }
+      },
+      "steps": 20,
+      "temperature": 0.2
     }
   },
   "autoupdate": "notify",
@@ -108,14 +129,26 @@
     }
   },
   "compaction": {
-    "auto": true,
+    "auto": false,
     "reserved": 10000
   },
-  "default_agent": "build",
+  "default_agent": "Next.js Expert",
   "instructions": [
     "AGENTS.md",
-    ".opencode/instructions/*.md",
-    ".github/instructions/documentation.instructions.md"
+    "docs/personas-list.md",
+    ".opencode/instructions/00-task-sync-note.md",
+    ".opencode/instructions/01-core-standards.md",
+    ".opencode/instructions/02-nextjs-patterns.md",
+    ".opencode/instructions/03-dal-patterns.md",
+    ".opencode/instructions/04-auth-testing.md",
+    ".opencode/instructions/05-ui-validation.md",
+    ".opencode/instructions/06-commands-ref.md",
+    ".opencode/instructions/07-upstream-error-handling.md",
+    ".opencode/instructions/08-alibaba-rate-limit-handling.md",
+    ".opencode/instructions/09-plan-file-standards.md",
+    ".opencode/instructions/10-apply-patch-verification-fix.md",
+    ".opencode/instructions/11-documentation-standards.md",
+    ".opencode/plans/*.md"
   ],
   "mcp": {
     "MCP_DOCKER": {
@@ -132,13 +165,16 @@
       "type": "local"
     },
     "shadcn": {
-      "command": ["npx", "shadcn@latest", "mcp"],
+      "command": [
+        "npx",
+        "shadcn@latest",
+        "mcp"
+      ],
       "enabled": true,
       "timeout": 900000,
       "type": "local"
     }
   },
-
   "model": "github-copilot/gpt-5-mini",
   "permission": {
     "bash": "allow",
@@ -157,6 +193,12 @@
     "websearch": "allow"
   },
   "watcher": {
-    "ignore": ["node_modules", ".next", "dist", ".git", "*.log"]
+    "ignore": [
+      "node_modules",
+      ".next",
+      "dist",
+      ".git",
+      "*.log"
+    ]
   }
 }

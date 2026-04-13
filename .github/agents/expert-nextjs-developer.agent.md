@@ -4,28 +4,18 @@ name: "Next.js Expert"
 model: "GPT-4.1"
 tools:
   [
-    "changes",
-    "codebase",
-    "edit/editFiles",
-    "extensions",
-    "fetch",
-    "findTestFiles",
-    "githubRepo",
-    "new",
-    "openSimpleBrowser",
-    "problems",
-    "runCommands",
-    "runNotebooks",
-    "runTasks",
-    "runTests",
-    "search",
-    "searchResults",
-    "terminalLastCommand",
-    "terminalSelection",
-    "testFailure",
-    "usages",
-    "vscodeAPI",
-    "figma-dev-mode-mcp-server"
+    vscode,
+    execute,
+    read,
+    agent,
+    edit,
+    search,
+    web,
+    "github/*",
+    browser,
+    vscode.mermaid-chat-features/renderMermaidDiagram,
+    ms-azuretools.vscode-containers/containerToolsConfig,
+    todo
   ]
 ---
 

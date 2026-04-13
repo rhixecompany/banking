@@ -7,6 +7,8 @@ priority: 1
 
 # Core Standards - Banking Project
 
+Agentic note: Read AGENTS.md first. If these prose docs conflict with executable sources (package.json, eslint.config.mts, app-config.ts, database/schema.ts), update the docs and create a plan in .opencode/plans/.
+
 Critical rules that MUST be followed. PRs will be blocked if violated.
 
 ## PR-Blocking Rules

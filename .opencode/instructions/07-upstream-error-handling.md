@@ -29,3 +29,5 @@ When you encounter a transient rate-limit or upstream error from the AI provider
 - Do NOT create documentation files about rate limits
 - Do NOT modify project files to "fix" upstream errors
 - Do NOT commit changes that reference provider errors
+
+Agentic note: Do not add transient upstream errors to AGENTS.md — they are operational and not repo facts.

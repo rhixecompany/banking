@@ -7,6 +7,8 @@ priority: 3
 
 # DAL Patterns - Banking Project
 
+Agentic note: All DB access must go through dal/. Avoid querying in components or Server Actions. See AGENTS.md for enforcement rules.
+
 ## Data Access Layer (DAL)
 
 All database access must go through `dal/`.

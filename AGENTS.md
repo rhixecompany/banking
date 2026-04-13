@@ -1,158 +1,182 @@
 # AGENTS.md — Banking Project (Canonical Agent Guide)
 
-Version: 11.2 | Updated: 2026-04-12
+Version: 11.3 | Updated: 2026-04-13
 
 Purpose
 
-- Canonical guidance for human and automated contributors (agents) working in this repository.
-- Provide concise, actionable rules, exact commands, and references agents must follow to make safe, consistent changes.
+- Short, high-signal rules for humans and automated agents working in this repo. Keep this file minimal — only include facts an agent would likely miss.
 
-Quick Commands (exact)
+Must-know commands (exact — run with the repo package manager)
 
 - npm run dev — Start dev server (predev runs clean)
-- npm run build — Production build (prebuild: clean + type-check)
+- npm run build — Production build (prebuild runs clean + type-check)
+- npm run start — Start production server
+- npm run clean — Clean build artifacts
 - npm run validate — build + lint:strict + test (CI gate; expensive)
-- npm run lint:strict — ESLint (zero warnings required for PRs)
-- npm run type-check — TypeScript type check (tsc --noEmit)
-- npm run db:push — Push Drizzle schema
-- npm run db:studio — Open Drizzle Studio (local)
-- npm run db:seed — Seed database (PLAID_TOKEN_MODE=sandbox)
+- npm run lint:strict — ESLint (ZERO warnings required for PRs)
+- npm run type-check — TypeScript check (tsc --noEmit)
 - npm run test — Runs test:ui THEN test:browser (order matters)
 - npm run test:ui — Playwright E2E (Chromium, single worker). Starts dev server; ensure port 3000 is free.
 - npm run test:browser — Vitest unit tests (happy-dom)
-- npm run registry:build — Generate README.opencode.md and dist/registry.json
+- npm run db:push — Push Drizzle schema
+- npm run db:studio — Open Drizzle Studio (local)
+- npm run registry:build — Regenerate .opencode registry files
 
-Pre- and Post-hooks
+Pre/post hooks and ordering
 
-- predev / prebuild: scripts run clean and type-check. Builds assume type-check ran successfully first.
+- predev / prebuild: run clean + type-check automatically. Type-check is assumed before build.
 - pretest: runs clean. Tests assume a clean workspace.
 
-Environment variables / config
+Env / config gotchas
 
-- Do NOT read process.env directly in app code. Prefer app-config.ts; lib/env.ts is allowed for backward compatibility. Exception: proxy.ts (Edge middleware) may read process.env.
-- Required in production: ENCRYPTION_KEY, NEXTAUTH_SECRET.
-- Drizzle migrations load .env.local first, then .env via dotenv (drizzle.config.ts).
-- Optional env vars should be treated as possibly undefined; app-config uses Zod .optional().
+- Do NOT read process.env in app code. Use app-config.ts (preferred) or lib/env.ts. Exception: proxy.ts (Edge middleware) may read process.env.
+- Production required: ENCRYPTION_KEY, NEXTAUTH_SECRET.
+- Drizzle migrations: .env.local is loaded before .env (see drizzle.config.ts).
 
-PR-blocking, safety & style rules (must follow)
+PR-blocking rules (enforced)
 
-- No `any` types. Use `unknown` with type guards. TypeScript strict is enforced and type errors are PR-blocking.
-- Avoid N+1 queries. Eager load relations with JOINs — never perform DB calls inside loops.
-- All mutations must be Server Actions (actions/). Do NOT place write logic in API routes.
-- Zero TypeScript errors and zero lint warnings (lint:strict) before opening a PR.
-- All tests must pass before merging (npm run test).
-- Do NOT commit secrets (.env, tokens). `eslint-plugin-no-secrets` is enabled (warn-level).
+- No use of `any`. Use `unknown` + type guards. Type errors are blocking.
+- Zero TypeScript errors and ZERO ESLint warnings (run npm run lint:strict).
+- All DB access must go through dal/ — never query the DB from components or Server Actions directly.
+- Avoid N+1 queries; eager-load relations (JOINs) — never perform DB calls inside loops.
+- All stateful mutations must be Server Actions in actions/ (no write logic in API routes).
+- Do NOT commit secrets (.env, tokens). eslint-plugin-no-secrets is enabled (warn-level).
 
-Where the important code lives
+Server Actions / validation
 
-- Next.js app: app/ (App Router; Server Components by default) -- Server Actions: actions/ (mutations) -- Data Access Layer: dal/ (all DB access)
-- Database: database/ (db.ts, schema.ts, drizzle migrations)
-- Env / config: app-config.ts (preferred), lib/env.ts (backwards compatibility)
-- Auth helpers: lib/auth.ts, lib/auth-options.ts
-- UI components: components/ui/ (shadcn/ui generated code)
+- Server Actions must use "use server" and return Promise<{ ok: boolean; error?: string }>.
+- Validate inputs with Zod before any DB or external API call. Zod rules require .describe(...) and validator messages.
+- After mutations revalidate cache with revalidatePath / revalidateTag / updateTag as appropriate.
 
-Testing quirks
+Database / Drizzle
 
-- `npm run test` runs E2E first (`test:ui`), then unit (`test:browser`). E2E starts the dev server — ensure port 3000 is available.
-- On Windows, free port 3000 before Playwright: PowerShell snippet below.
-- Playwright uses a single worker (tests assume stateful DB/session) and runs Chromium.
-- Vitest uses the `happy-dom` environment.
-
-PowerShell: free port 3000 before Playwright
-
-```powershell
-$p = Get-NetTCPConnection -LocalPort 3000 -State Listen -ErrorAction SilentlyContinue | Select -ExpandProperty OwningProcess -Unique
-if ($p) { $p | ForEach-Object { Stop-Process -Id $_ -Force } }
-```
-
-ESLint / inline disables
-
-- Source of truth: `eslint.config.mts`. Inline disables are allowed (`linterOptions.noInlineConfig: false`) but `unicorn/no-abusive-eslint-disable` remains enabled — avoid broad disables.
-- Check `eslint.config.mts` for file-specific overrides (scripts/, database/, actions/, tests/) before making exceptions.
-
-Zod / validation
-
-- ESLint enforces zod rules: each schema field must include `.describe("...")` and validators must include messages. Do NOT use `z.any()`.
-
-Database & Drizzle
-
--- All DB access must go through `dal/`. Do NOT query the DB directly from Server Actions or components.
-
-- `database/**/*.ts` and `dal/**/*.ts` have stricter lint rules (e.g., enforce update/delete with WHERE clauses). Docs should prefer `@/dal` when showing import examples.
-- Use `db.transaction(...)` for multi-step operations.
-- `lib/encryption.ts` uses `ENCRYPTION_KEY`; encryption format is `iv:authTag:ciphertext` (hex, colon-separated).
+- Use db.transaction(...) for multi-step operations.
+- database/ and dal/ files have stricter lint rules (e.g., update/delete must include WHERE).
+- lib/encryption.ts expects ENCRYPTION_KEY and uses format iv:authTag:ciphertext (hex, colon-separated).
 
 Auth / sessions
 
-- Session.user shape (types/next-auth.d.ts): `{ id: string; name?: string | null; email?: string | null; isAdmin: boolean; isActive: boolean }`.
-- JWT carries `id`, `isAdmin`, and `isActive`. Use `session.user.isAdmin` (there is NO `role` field).
-- Use the `lib/auth()` helper to obtain server sessions inside Server Actions.
+- Use lib/auth() to get the server session. Session.user shape: { id: string; name?: string | null; email?: string | null; isAdmin: boolean; isActive: boolean }.
+- There is NO role field — check session.user.isAdmin for admin-only checks.
 
-Server Actions pattern
+Testing notes (important)
 
-- Server Actions ("use server") in `actions/` should return a consistent shape: `Promise<{ ok: boolean; error?: string }>`.
-- Validate inputs with Zod before DB or external API calls.
-- Use `revalidatePath`, `revalidateTag`, or `updateTag` to refresh cached components after mutations.
+- npm run test runs E2E first (test:ui) then unit tests (test:browser). E2E starts the dev server — ensure port 3000 is free.
+- Playwright runs with a single worker and Chromium only; tests assume shared state (do not parallelize locally).
+- On Windows, free port 3000 before Playwright (PowerShell): $p = Get-NetTCPConnection -LocalPort 3000 -State Listen -ErrorAction SilentlyContinue | Select -ExpandProperty OwningProcess -Unique; if ($p) { Stop-Process -Id $p -Force }
 
-Security & secrets
+Formatting / lint / pre-PR checklist
 
-- Never log access tokens, passwords, account numbers, routing numbers, or other sensitive data.
-- Hash passwords with `bcrypt` (use the `bcrypt` package, not `bcryptjs`).
-- Upstash Redis is optional — `proxy.ts` guards Redis initialization and will skip if env vars are absent.
+- Before opening a PR run: npm run format, npm run type-check, npm run lint:strict. Run tests for behavior changes.
+- Avoid broad ESLint disables; check eslint.config.mts for file-specific overrides first.
 
-Docs and agentic artifacts
+Common Next.js / App Router patterns (must follow)
 
-- Agentic resources are under `.opencode/` and `.cursor/`. Keep them synchronized with `AGENTS.md` and executable sources of truth.
-- To refresh the registry: `npm run registry:build` (runs registry:generate → registry:export) and writes `README.opencode.md` and `dist/registry.json`.
+- Always use the App Router (app/) for new routes and pages.
+- Server Components by default. Mark Client Components explicitly with "use client".
+- In Next.js 16+: params and searchParams are async types — always await them in page/layout functions and generateMetadata. (e.g., const { id } = await params;)
+- Use "use cache" directive for components that benefit from Partial Pre-Rendering (PPR).
+- Implement loading states via loading.tsx and Suspense boundaries.
+- Implement error boundaries using error.tsx for route segments; use not-found.tsx for 404s.
+- Use next/font/google or next/font/local at layout level for font optimization.
+- Use next/image for images with width, height, alt. Follow v16 image defaults in docs.
+- Turbopack is the default bundler for Next.js 16 — typically no manual config needed.
 
-Workflow & planning
+Cache Components & Caching APIs (Next.js 16+)
 
-- If a change touches more than 3 files, create a plan before implementing. Plans live in `.opencode/plans/` and follow the naming `<short-kebab-task>_<8charid>.plan.md`.
-- Validation checklist before commit/PR: `npm run format` (or format:check), `npm run type-check`, `npm run lint:strict`. Running tests is recommended but may be expensive.
-- `AGENTS.md` is the canonical agentic reference file. When you update it, bump the version/date at the top and record the change in a plan.
+- Use "use cache" for cache components and cacheLife() where applicable.
+- For server-side cache control and invalidation use: revalidatePath, revalidateTag, updateTag, refresh from next/cache.
+- When using fetch in Server Components, pass next: { revalidate: <seconds> } or tags for revalidation.
 
-Agent Tests (Quick Validate)
+Routing & Layouts
 
-- Run these locally before proposing PRs that change behavior or agentic docs:
-  - `npm run format` (applies Prettier)
-  - `npm run type-check` (tsc --noEmit)
-  - `npm run lint:strict` (ESLint zero-warnings)
+- Use nested layouts, templates, and route groups (group syntax) for URL-agnostic layout boundaries.
+- Implement parallel routes (@folder) for independent UI regions (e.g. dashboard sidebars).
+- Use intercepting routes for overlays and modals.
 
-How to update AGENTS.md or .opencode instructions
+Server & Client components guidance
 
-- Preserve existing content where possible. If your edits touch more than 3 files, create a plan file in `.opencode/plans/` using the filename format above and include Goals, Scope, Target Files, Risks, Planned Changes, Validation, and Rollback. See `.opencode/instructions/09-plan-file-standards.md` for the template.
-- If prose conflicts with executable sources (package.json scripts, eslint.config.mts, app-config.ts, database/schema.ts, scripts/), update the prose to match the executable sources and record the change in a plan.
+- Use Server Components for data fetching and non-interactive UI.
+- Use Client Components ("use client") for interactivity, browser APIs, hooks, or local component state.
+- Prefer small client wrappers when converting interactive third-party components for RSC usage.
 
-Note: This update is part of an agentic docs standardization effort. See plan: `.opencode/plans/update-agentic-docs_4f7a8b2c.plan.md`.
+Data fetching & streaming
+
+- Server Components for fetching; use fetch with next caching options for revalidation.
+- Use Suspense boundaries and streaming to improve perceived performance.
+
+Zod validation & forms
+
+- Zod schemas must include .describe(...) metadata for fields.
+- All validators must include error messages for user-facing feedback.
+- Use react-hook-form + zodResolver in client forms and follow UI composition rules (FieldGroup / Field).
+
+shadcn/ui & UI Component Patterns
+
+- Use existing shadcn components from components/ui first — do not recreate UI if a component is available.
+- Components requiring interactivity must be used in client components ("use client"), otherwise prefer server components.
+- Follow the project's component composition rules (FieldGroup/Field, CardHeader/CardContent, etc.) and Tailwind v4 conventions (gap-_ not space-y-_, size-\* for equal dims, semantic tokens).
+- When adding/updating shadcn components:
+  - Use the CLI (npx shadcn@latest) with the project's package manager runner.
+  - Always preview with --dry-run and --diff before applying updates.
+  - Fix icon imports to use the project's iconLibrary (lucide-react).
+
+DAL patterns / N+1 prevention
+
+- All DB queries must use dal/ helpers. Avoid writing DB queries directly in components or Server Actions.
+- Use single queries with JOINs to fetch related data. Never loop and query per item.
+
+Playwright deterministic auth pattern (adopted)
+
+- Tests should prefer a deterministic auth fixture (signed NextAuth cookie/JWT + guarded test-only endpoint) instead of performing UI sign-in.
+- Test-only endpoints must be gated with environment guards (NODE_ENV !== "production" and/or ENABLE_TEST_ENDPOINTS).
+
+Server Actions & return shape
+
+- Server Actions should always return: Promise<{ ok: boolean; error?: string }>.
+- Validate with Zod first, then call DAL, update cache, and revalidate/reload paths as required.
+
+Error handling & logging
+
+- Follow the repo's error handling conventions: surface actionable error messages and avoid leaking secrets.
+- Use logger utilities (if present) and match logging patterns across the codebase.
+
+Apply_patch / patch verification guidance (for automated edits)
+
+- When apply_patch verification fails: read file with exact context, match CRLF/LF differences, and craft minimal single-line replacements.
+- Prefer small, targeted patches rather than large multi-line context changes.
+
+Plans & change management
+
+- If a change touches > 3 files, create a plan in .opencode/plans/<short-kebab>\_<8charid>.plan.md before implementation. The plan must include Goals, Scope, Target Files, Risks, Planned Changes, Validation, Rollback.
+- Run markdown lint on plans.
 
 What to trust when docs conflict
 
-- Prefer executable sources of truth (in order):
+- Prefer executable sources of truth in order:
   1. package.json scripts
   2. eslint.config.mts
   3. app-config.ts / lib/env.ts
   4. database/schema.ts
-  5. scripts/ (codegen, registry generators)
+  5. tests/
+- If you find a contradiction between docs and code: update the documentation and record the change in .opencode/plans/ with a short rationale.
 
-- If prose in `.opencode/instructions` or legacy docs conflicts with these sources, update the prose to match the executable sources and record the decision in a plan under `.opencode/plans/`.
+Quick references (high-value files)
 
-Short checklist for agents
+- package.json, eslint.config.mts, app-config.ts, lib/env.ts, database/schema.ts, dal/, actions/, .opencode/, tests/ (tests/setup.ts, e2e/).
 
-- Read `package.json` scripts and `eslint.config.mts` before running lint or changing linter settings.
-- Before opening a PR run at minimum: `npm run format`, `npm run type-check`, `npm run lint:strict`. Run tests for behavior changes. -- Use Server Actions for stateful mutations; use `dal/` for all DB access.
-- Avoid adding broad ESLint disables. Prefer fixing the underlying issue.
-- Free port 3000 before running Playwright on Windows (use the PowerShell snippet above).
-- Run `npm run registry:build` after modifying `.opencode/` content to regenerate `README.opencode.md` and `dist/registry.json`.
+If you are automating work (agent rules)
 
-References (high-value files)
+- NEVER push commits, create PRs, or start external services (Docker, cloud) without explicit permission.
+- When asked to run commands, show the exact command and wait for user confirmation.
+- If blocked by missing secrets or services, report exact errors and recommended next steps rather than attempting to bypass blockers.
 
-- package.json (scripts)
-- eslint.config.mts
-- app-config.ts, lib/env.ts
-- database/schema.ts
-- actions/, dal/, .opencode/ (skills & instructions)
-- tests/ (tests/setup.ts, e2e/)
+PR-blocking rules (enforced)
 
-If you find a contradiction between documentation and code, fix the documentation and record the change in `.opencode/plans/` with a short rationale.
+- No `any` types
+- Zero TypeScript errors
+- All DB access via dal/
+- Server Actions for mutations
+- Zero lint warnings
 
 End.

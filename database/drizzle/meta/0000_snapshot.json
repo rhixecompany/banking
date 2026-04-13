@@ -33,7 +33,7 @@
       "values": ["user", "admin", "moderator"]
     }
   },
-  "id": "ca79900f-5ca1-4c21-bbee-ca73d1569d87",
+  "id": "14119da9-93e2-40ab-a5ba-4dd772666074",
   "policies": {},
   "prevId": "00000000-0000-0000-0000-000000000000",
   "roles": {},
@@ -272,6 +272,174 @@
           "columns": ["credentialID"]
         }
       },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.dwolla_transfers": {
+      "name": "dwolla_transfers",
+      "schema": "",
+      "columns": {
+        "amount": {
+          "name": "amount",
+          "type": "numeric(12, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "currency": {
+          "name": "currency",
+          "type": "varchar(3)",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'USD'"
+        },
+        "destination_funding_source_url": {
+          "name": "destination_funding_source_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "dwolla_transfer_id": {
+          "name": "dwolla_transfer_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "receiver_wallet_id": {
+          "name": "receiver_wallet_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "sender_wallet_id": {
+          "name": "sender_wallet_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "source_funding_source_url": {
+          "name": "source_funding_source_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status": {
+          "name": "status",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "transfer_url": {
+          "name": "transfer_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "dwolla_transfers_user_id_idx": {
+          "name": "dwolla_transfers_user_id_idx",
+          "columns": [
+            {
+              "expression": "user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "dwolla_transfers_status_idx": {
+          "name": "dwolla_transfers_status_idx",
+          "columns": [
+            {
+              "expression": "status",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "dwolla_transfers_created_at_idx": {
+          "name": "dwolla_transfers_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "dwolla_transfers_receiver_wallet_id_wallets_id_fk": {
+          "name": "dwolla_transfers_receiver_wallet_id_wallets_id_fk",
+          "tableFrom": "dwolla_transfers",
+          "tableTo": "wallets",
+          "columnsFrom": ["receiver_wallet_id"],
+          "columnsTo": ["id"],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "dwolla_transfers_sender_wallet_id_wallets_id_fk": {
+          "name": "dwolla_transfers_sender_wallet_id_wallets_id_fk",
+          "tableFrom": "dwolla_transfers",
+          "tableTo": "wallets",
+          "columnsFrom": ["sender_wallet_id"],
+          "columnsTo": ["id"],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "dwolla_transfers_user_id_users_id_fk": {
+          "name": "dwolla_transfers_user_id_users_id_fk",
+          "tableFrom": "dwolla_transfers",
+          "tableTo": "users",
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false

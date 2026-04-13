@@ -433,6 +433,29 @@ export const user_profiles = pgTable(
 );
 
 /**
+ * Plaid items table - normalized Plaid Item storage
+ * Stores Plaid item_id and the encrypted access token per user.
+ */
+export const plaid_items = pgTable(
+  "plaid_items",
+  {
+    id: text("id")
+      .primaryKey()
+      .notNull()
+      .$defaultFn(() => crypto.randomUUID()),
+    itemId: varchar("item_id", { length: 255 }).notNull(),
+    accessTokenEncrypted: text("access_token_encrypted").notNull(),
+    userId: text("user_id").references(() => users.id, { onDelete: "cascade" }),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at")
+      .defaultNow()
+      .notNull()
+      .$onUpdateFn(() => new Date()),
+  },
+  (table) => [index("plaid_items_item_id_idx").on(table.itemId)],
+);
+
+/**
  * Wallets table - Linked Plaid bank accounts with Dwolla ACH integration.
  * Stores Plaid access tokens (encrypted), account metadata, and Dwolla funding source URLs.
  */

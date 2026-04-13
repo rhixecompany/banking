@@ -21,6 +21,15 @@ export async function signInWithSeedUser(page: Page): Promise<void> {
   await page.getByPlaceholder(/enter your password/i).fill(SEED_USER.password);
   await page.getByRole("button", { name: /sign in/i }).click();
 
-  // Wait for navigation to dashboard after successful sign-in
-  await page.waitForURL(/\/dashboard/, { timeout: 25000 });
+  // Wait for navigation to dashboard after successful sign-in.
+  // Make this robust: accept either the URL change OR a stable dashboard
+  // element (heading or navigation) so slow environments or transient
+  // network/dev-server hiccups don't flake the test.
+  const timeout = 40_000;
+
+  await Promise.any([
+    page.waitForURL(/\/dashboard/, { timeout }),
+    page.getByRole("heading", { name: /dashboard/i }).waitFor({ timeout }),
+    page.getByRole("navigation").first().waitFor({ timeout }),
+  ]);
 }

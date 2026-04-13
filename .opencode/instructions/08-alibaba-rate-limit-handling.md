@@ -160,6 +160,8 @@ This instruction applies to any tool call that hits the Alibaba AI API, includin
 - Documentation fetch operations
 - Any parallel tool calls that generate multiple API requests
 
+Agentic note: If you encounter these errors while running parallel tool calls, reduce concurrency and retry. Do not document transient upstream messages in repo docs.
+
 ## Quick Fix Checklist
 
 1. [ ] Identify the operation causing rate limits
