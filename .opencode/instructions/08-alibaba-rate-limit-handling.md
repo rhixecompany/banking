@@ -2,6 +2,7 @@
 name: "alibaba-rate-limit-handling"
 description: "How to handle Alibaba API rate-limit errors — adjust client logic to scale requests smoothly"
 applyTo: "**"
+lastReviewed: 2026-04-13
 ---
 
 # Alibaba AI Provider Rate Limit Handling

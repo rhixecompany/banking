@@ -27,6 +27,20 @@ npm run lint:strict
 echo "-> lint:strict: OK"
 
 echo
+echo "2.5) Scripts smoke dry-run"
+echo "----------------------------------------"
+# Run a small dry-run check for TypeScript scripts
+DRY_RUN_SCRIPTS=("scripts/generate/feature.ts" "scripts/generate/dal.ts" "scripts/generate/component.ts" "scripts/generate/action.ts")
+for s in "${DRY_RUN_SCRIPTS[@]}"; do
+  echo "-> dry-run: $s"
+  npx tsx "$s" --dry-run || {
+    echo "✗ Script dry-run failed: $s"
+    exit 1
+  }
+done
+echo "-> scripts dry-run: OK"
+
+echo
 echo "3) Unit tests (Vitest)"
 echo "----------------------------------------"
 # Run full unit test suite once

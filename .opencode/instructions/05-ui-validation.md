@@ -3,6 +3,7 @@ name: "ui-validation"
 description: "shadcn/UI components, Zod validation, and forms"
 applyTo: "**/*.{ts,tsx}"
 priority: 5
+lastReviewed: 2026-04-13
 ---
 
 # UI & Validation Patterns - Banking Project

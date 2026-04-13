@@ -9,6 +9,7 @@ metadata:
     env:
       - OPENROUTER_API_KEY
   primaryEnv: OPENROUTER_API_KEY
+lastReviewed: 2026-04-13
 ---
 
 # Nano Banana Pro OpenRouter

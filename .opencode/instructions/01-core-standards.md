@@ -3,6 +3,7 @@ name: "core-standards"
 description: "Critical coding standards and PR-blocking rules for Banking project"
 applyTo: "**/*.{ts,tsx,js,jsx}"
 priority: 1
+lastReviewed: 2026-04-13
 ---
 
 # Core Standards - Banking Project

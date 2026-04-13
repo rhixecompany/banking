@@ -1,6 +1,7 @@
 ---
 description: Standardize plan creation, naming, and plan quality checks
 applyTo: "**"
+lastReviewed: 2026-04-13
 ---
 
 # Plan File Standards

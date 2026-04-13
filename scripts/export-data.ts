@@ -147,8 +147,18 @@ async function exportAll(options: ExportOptions): Promise<void> {
     `\n📦 Exporting data (type: ${options.type}, format: ${options.format})\n`,
   );
 
-  if (!fs.existsSync(options.output)) {
-    fs.mkdirSync(options.output, { recursive: true });
+  const DRY_RUN =
+    process.argv.includes("--dry-run") ||
+    process.env["DRY_RUN"] === "true" ||
+    (globalThis as any).__SCRIPTS_DRY_RUN;
+  if (!DRY_RUN) {
+    if (!fs.existsSync(options.output)) {
+      fs.mkdirSync(options.output, { recursive: true });
+    }
+  } else {
+    if (!fs.existsSync(options.output)) {
+      console.warn(`[dry-run] Would create output dir: ${options.output}`);
+    }
   }
 
   if (options.type === "users" || options.type === "all") {
@@ -171,10 +181,16 @@ async function exportAll(options: ExportOptions): Promise<void> {
     type: options.type,
   };
 
-  fs.writeFileSync(outputFile, JSON.stringify(summary, undefined, 2));
+  if (DRY_RUN) {
+    console.warn(
+      `[dry-run] Would write export summary to ${outputFile} (${JSON.stringify(summary).length} chars)`,
+    );
+  } else {
+    fs.writeFileSync(outputFile, JSON.stringify(summary, undefined, 2));
 
-  console.warn(`\n✅ Export complete!`);
-  console.warn(`   Output: ${outputFile}`);
+    console.warn(`\n✅ Export complete!`);
+    console.warn(`   Output: ${outputFile}`);
+  }
 }
 
 /**

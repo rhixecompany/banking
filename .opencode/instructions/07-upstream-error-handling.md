@@ -2,6 +2,7 @@
 name: "upstream-error-handling"
 description: "How to handle transient AI provider rate-limit errors — do NOT add them to AGENTS.md"
 applyTo: "**"
+lastReviewed: 2026-04-13
 ---
 
 # Upstream AI Provider Error Handling

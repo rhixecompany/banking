@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import "dotenv/config";
+import { sql } from "drizzle-orm";
 
 import { db } from "@/database/db";
 import {
@@ -17,7 +18,6 @@ import {
 } from "@/database/schema";
 import { encrypt } from "@/lib/encryption";
 
-import { sql } from "drizzle-orm";
 import { getSeedAccessToken } from "./seed-config";
 
 /** Dev-only login for all seeded users (matches E2E tests). */
@@ -194,9 +194,9 @@ function buildPlaidItemRow(
   itemId: string,
 ) {
   return {
+    accessTokenEncrypted: encrypt(accessToken),
     id,
     itemId,
-    accessTokenEncrypted: encrypt(accessToken),
     userId,
   };
 }

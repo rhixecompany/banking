@@ -19,8 +19,8 @@ export function makeNextAuthJwtToken(
   // Keep the shape minimal: include id, name, email and exp.
   const now = Math.floor(Date.now() / 1000);
   const token = {
-    iat: now,
     exp: now + maxAge,
+    iat: now,
     ...payload,
   };
 
@@ -40,10 +40,10 @@ export async function setAuthCookie(
   const res = await request.post(`${baseUrl}/__playwright__/set-cookie`, {
     data: {
       name: cookieName,
-      value: token,
       options: { path: "/" },
+      value: token,
     },
   });
 
-  expect(res.ok()).toBeTruthy();
+  expect.soft(res.ok()).toBeTruthy();
 }

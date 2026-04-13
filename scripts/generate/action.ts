@@ -13,6 +13,7 @@
 import fs from "fs";
 import path from "path";
 import readline from "readline";
+import io from "../utils/io";
 
 /**
  * Description placeholder
@@ -289,10 +290,9 @@ async function generateAction(
   }
 
   const content = generateActionContent(actionName, options);
-
-  fs.writeFileSync(filePath, content);
-
-  console.warn(`✅ Generated Server Action: ${filePath}`);
+  await io.writeFile(filePath, content, {
+    dryRun: (globalThis as any).__SCRIPTS_DRY_RUN ?? undefined,
+  });
 }
 
 /**

@@ -1,6 +1,4 @@
 "use client";
-
-import Script from "next/script";
 import {
   createContext,
   useCallback,
@@ -210,22 +208,6 @@ export function PlaidProvider({
 
   return (
     <>
-      {/* Ensure the Plaid Link script is loaded exactly once on pages that use Plaid */}
-      {/* Load Plaid Link script exactly once and set a runtime guard for
-          components that cannot rely on a provider. */}
-      <Script
-        id="plaid-link-script"
-        src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"
-        strategy="afterInteractive"
-        onLoad={() => {
-          // set a runtime guard so non-Script consumers can check for script presence
-          try {
-            (window as any).__plaid_link_script_loaded = true;
-          } catch {
-            // ignore if window isn't available
-          }
-        }}
-      />
       <PlaidContext.Provider value={value}>{children}</PlaidContext.Provider>
     </>
   );

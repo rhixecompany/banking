@@ -3,6 +3,7 @@ name: "auth-testing"
 description: "NextAuth v4 patterns and Testing patterns (Vitest, Playwright)"
 applyTo: "**/*.{ts,tsx}"
 priority: 4
+lastReviewed: 2026-04-13
 ---
 
 # Auth & Testing Patterns - Banking Project

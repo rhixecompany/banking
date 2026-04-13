@@ -98,3 +98,76 @@ Quick checklist (copy-and-use)
 Contact
 
 If you're blocked, add a short note with exact error output and the file path; a reviewer will provide next steps.
+
+## Opencode‑AI Guidance
+
+This repository is agent-enabled. The following rules and workflow are required when an automated agent (opencode‑ai or similar) diagnoses or repairs an apply_patch verification failure.
+
+1. Always obey Plan Mode. If Plan Mode is active the agent must NOT edit files. Produce a plan and await human confirmation before writing files.
+2. Prefer the repository's high-level tools — functions.grep and functions.read — instead of running shell grep/cat. These tools capture repository-safe context and avoid leaking secrets.
+3. When reading multiple files in parallel, use multi_tool_use.parallel to speed discovery and reduce upstream rate-limits.
+4. Do not use sed/awk/echo/cat for file manipulation. Use functions.apply_patch for modifications and functions.read to capture exact lines to include in the patch.
+5. Use the centralized IO helper approach (scripts/utils/io.ts) for scripts changes — the doc describes the same safe dry-run semantics agents should follow.
+
+## Tool Usage & Sequence (Recommended)
+
+1. Reproduce the error message from apply_patch and record the target file path and the expected context block reported by the tool.
+2. Use functions.grep to search the repo for the reported context (pattern or unique nearby lines).
+3. Use functions.read to capture the file content around the reported area (read a 30–80 line window to ensure you have exact lines).
+4. Compare the exact lines from the file to the context in the failing patch. Look for subtle differences (trailing spaces, CRLF vs LF, different quoting).
+5. If multiple files must be inspected, call multi_tool_use.parallel with multiple functions.read calls.
+6. Prepare a minimized apply_patch that replaces only the exact non-matching lines (1–3 lines) rather than a large multi-line replace.
+7. Run apply_patch. If it fails again, repeat steps 2–6 using the freshly read file state.
+
+## Concrete Recovery Steps (Opencode‑AI checklist)
+
+1. Re-run functions.read on the target file to ensure it hasn't changed since the patch was prepared. Use offset to fetch the exact reported region.
+2. Normalize line endings mentally: if the repo uses LF and the working environment uses CRLF (Windows), ensure the patch context matches the file’s actual line endings. Prefer copying exact lines returned by functions.read into the patch.
+3. Reduce the context block: shorten the surrounding context to 1–3 highly unique lines when possible. Less context reduces mismatch probability.
+4. If the file is large or generated, prefer a single-line replacement or add a small comment rather than rewriting big blocks.
+5. If a previous partial patch may have partially applied, re-run functions.read and regenerate the patch from that live state.
+6. If you cannot craft a safe minimal patch and the change touches >3 files or a large prompt/plan file, prepare a plan in .opencode/plans/ and request human approval.
+
+## Example — Minimal repair of a mismatched line
+
+1. Use functions.read to capture exact lines around the error:
+
+- read -> shows (example): 102: const componentsDir = path.resolve(getComponentsDir(options)); 103: 104: - if (!fs.existsSync(componentsDir)) { 105: - fs.mkdirSync(componentsDir, { recursive: true }); 106: - } 107:
+
+2. Create an apply_patch that replaces exactly those three lines with the new single line using the exact verbatim text returned by functions.read. Example patch fragment:
+
+**_ Begin Patch _** Update File: scripts/generate/component.ts @@
+
+- if (!fs.existsSync(componentsDir)) {
+- fs.mkdirSync(componentsDir, { recursive: true });
+- }
+
+* if (!fs.existsSync(componentsDir)) {
+* await io.mkdirp(componentsDir, { dryRun: (globalThis as any).\_\_SCRIPTS_DRY_RUN ?? undefined });
+* } \*\*\* End Patch
+
+Notes:
+
+- Copy the lines exactly as reported by functions.read — do not reformat whitespace or change quotes.
+- If functions.read shows CRLF markers or trailing spaces, include them verbatim in the patch context.
+
+## When to escalate to a human
+
+1. Patch touches more than 3 files.
+2. Patch modifies large prompt/plan/skilled SKILL.md files or other agent-instruction files.
+3. The file contains sensitive content that might be inadvertently exposed (secrets or long tokens).
+4. The apply_patch failures persist after 3 iterative small attempts.
+
+When escalating, include:
+
+- The failing apply_patch error output (copy verbatim).
+- The functions.grep results (file:line matches).
+- functions.read output for the 30–80 line context the agent used.
+- The proposed minimal patch.
+
+## Short Troubleshooting Cheat‑sheet
+
+1. apply_patch verification failed -> functions.grep -> functions.read -> craft minimal apply_patch -> retry.
+2. If failure mentions CRLF/LF, copy exact read output and include in patch.
+3. If file changed during attempts, re-read and regenerate the patch from the new state.
+4. For large, sensitive, or multi-file edits: create a plan in .opencode/plans/ and wait for human approval.

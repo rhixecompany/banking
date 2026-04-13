@@ -439,18 +439,18 @@ export const user_profiles = pgTable(
 export const plaid_items = pgTable(
   "plaid_items",
   {
+    accessTokenEncrypted: text("access_token_encrypted").notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
     id: text("id")
       .primaryKey()
       .notNull()
       .$defaultFn(() => crypto.randomUUID()),
     itemId: varchar("item_id", { length: 255 }).notNull(),
-    accessTokenEncrypted: text("access_token_encrypted").notNull(),
-    userId: text("user_id").references(() => users.id, { onDelete: "cascade" }),
-    createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at")
       .defaultNow()
       .notNull()
       .$onUpdateFn(() => new Date()),
+    userId: text("user_id").references(() => users.id, { onDelete: "cascade" }),
   },
   (table) => [index("plaid_items_item_id_idx").on(table.itemId)],
 );

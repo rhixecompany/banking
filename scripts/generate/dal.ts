@@ -87,6 +87,15 @@ function parseArgs(): { tableName: string; options: DALOptions } {
   return { options, tableName };
 }
 
+import io from "../utils/io";
+
+// Use centralized IO helper which respects global dry-run flags
+function writeFile(filePath: string, content: string) {
+  // Keep legacy semantics: use global __SCRIPTS_DRY_RUN as fallback
+  const dryRun = (globalThis as any).__SCRIPTS_DRY_RUN ?? undefined;
+  return io.writeFile(filePath, content, { dryRun });
+}
+
 /**
  * Description placeholder
  *
@@ -221,9 +230,13 @@ async function generateDAL(
 
   const content = generateDALContent(tableName, options);
 
-  fs.writeFileSync(filePath, content);
+  await writeFile(filePath, content);
 
-  console.warn(`✅ Generated DAL: ${filePath}`);
+  if (!(DRY_RUN || (globalThis as any).__SCRIPTS_DRY_RUN)) {
+    console.warn(`✅ Generated DAL: ${filePath}`);
+  } else {
+    console.warn(`[dry-run] Would generate DAL: ${filePath}`);
+  }
 
   const indexPath = path.resolve(DAL_DIR, "index.ts");
   if (fs.existsSync(indexPath)) {
@@ -239,8 +252,15 @@ async function generateDAL(
         /export \{$/,
         `export {\n  ${toCamelCase(tableName)}Dal,`,
       );
-      fs.writeFileSync(indexPath, indexContent);
-      console.warn(`✅ Updated DAL index: ${indexPath}`);
+      // Use centralized IO helper
+      await io.writeFile(indexPath, indexContent, {
+        dryRun: (globalThis as any).__SCRIPTS_DRY_RUN ?? undefined,
+      });
+      if (!(globalThis as any).__SCRIPTS_DRY_RUN) {
+        console.warn(`✅ Updated DAL index: ${indexPath}`);
+      } else {
+        console.warn(`[dry-run] Would update DAL index: ${indexPath}`);
+      }
     }
   }
 }

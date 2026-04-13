@@ -3,6 +3,7 @@ name: "commands-ref"
 description: "Command reference and workflow guidance for Banking project"
 applyTo: "**"
 priority: 6
+lastReviewed: 2026-04-13
 ---
 
 # Commands Reference - Banking Project

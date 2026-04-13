@@ -69,4 +69,5 @@ Troubleshooting & tips
 
 Contributing
 
-- If you add new scripts under `scripts/`, please update this README with the filename, purpose, and usage examples.
+- If you add new scripts under `scripts/`, please update this README with the filename, purpose, and usage examples. Policy
+- Scripts must follow the repository scripts patterns documented at `.opencode/instructions/12-scripts-patterns.md`. Prefer TypeScript scripts for cross-platform logic, support `--dry-run`, and avoid printing secrets. Agents must run scripts with `--dry-run` first.

@@ -5,6 +5,7 @@ applyTo: "**/*.md,**/*.ts,**/*.tsx"
 priority: "medium"
 version: "1.0"
 lastUpdated: "2026-03-31"
+lastReviewed: 2026-04-13
 ---
 
 # Documentation Guidelines

@@ -4,7 +4,8 @@ import { readFileSync } from "fs";
 import { join } from "path";
 import { Pool } from "pg";
 
-dotenv.config({ path: join(process.cwd(), ".env.local"), override: true });
+const localEnv = join(process.cwd(), ".env.local");
+dotenv.config({ override: true, path: localEnv });
 dotenv.config();
 
 const files = [
@@ -15,26 +16,22 @@ const files = [
 
 async function run() {
   const dir = join(process.cwd(), "database", "drizzle");
-  const connectionString =
-    process.env.DATABASE_URL || process.env.NEON_DATABASE_URL;
-  if (!connectionString) {
-    console.error("DATABASE_URL / NEON_DATABASE_URL is not set");
-    process.exit(1);
-  }
-
+  const { getConnectionString } =
+    await import("../utils/get-connection-string");
+  const connectionString = await getConnectionString();
   const pool = new Pool({ connectionString });
 
   try {
     for (const file of files) {
       const path = join(dir, file);
-      console.log(`\n=== Applying ${file} ===`);
+      console.warn(`\n=== Applying ${file} ===`);
       const sql = readFileSync(path, "utf8");
       const client = await pool.connect();
       try {
         await client.query("BEGIN");
         await client.query(sql);
         await client.query("COMMIT");
-        console.log(`Applied ${file}`);
+        console.warn(`Applied ${file}`);
       } catch (err) {
         await client.query("ROLLBACK");
         // err is unknown - stringify safely for diagnostics
@@ -47,7 +44,7 @@ async function run() {
       }
       client.release();
     }
-    console.log("Selected migrations applied.");
+    console.warn("Selected migrations applied.");
   } finally {
     await pool.end();
   }

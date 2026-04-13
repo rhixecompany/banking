@@ -1,0 +1,226 @@
+
+> banking@0.1.0 test:browser
+> vitest --config=vitest.config.ts run .
+
+
+ RUN  v4.1.2 C:/Users/Alexa/Desktop/SandBox/Banking
+
+stdout | tests/unit/dal/dwolla-dal.test.ts
+Γùç injecting env (110) from .env.local // tip: Γùê secrets for agents [www.dotenvx.com]
+
+ Γ¥» tests/unit/dal/dwolla-dal.test.ts (3 tests | 1 failed) 172ms
+     ├ù creates a dwolla transfer 147ms
+stdout | tests/unit/actions/dwolla.actions.test.ts
+Γùç injecting env (110) from .env.local // tip: Γîÿ custom filepath { path: '/custom/path/.env' }
+
+ Γ¥» tests/unit/actions/dwolla.actions.test.ts (1 test | 1 failed) 151ms
+     ├ù creates ledger and dwolla_transfers row atomically when createLedger provided 146ms
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ» Failed Tests 2 ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+
+ FAIL  tests/unit/actions/dwolla.actions.test.ts > dwolla.actions.createTransfer transactional path > creates ledger and dwolla_transfers row atomically when createLedger provided
+Error: Failed query: insert into "users" ("created_at", "deleted_at", "email", "emailVerified", "id", "image", "is_active", "is_admin", "name", "password", "role", "updated_at") values (default, default, $1, default, $2, default, default, default, default, default, default, default) on conflict do nothing
+params: test-user@example.com,user-test-1
+ Γ¥» NodePgPreparedQuery.queryWithCache node_modules/src/pg-core/session.ts:73:10
+ Γ¥» tests/unit/actions/dwolla.actions.test.ts:49:5
+     47|     // Ensure a user record exists for the transactional insert (foreiΓÇª
+     48|     const { users } = await import("@/database/schema");
+     49|     await db
+       |     ^
+     50|       .insert(users)
+     51|       .values({ id: "user-test-1", email: "test-user@example.com" })
+
+{
+  stack: 'AggregateError: \n' +
+    '    at C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\node_modules\\pg-pool\\index.js:45:11\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:104:5)\n' +
+    '    at file:///C:/Users/Alexa/Desktop/SandBox/Banking/node_modules/drizzle-orm/node-postgres/session.js:113:20\n' +
+    '    at NodePgPreparedQuery.queryWithCache (file:///C:/Users/Alexa/Desktop/SandBox/Banking/node_modules/drizzle-orm/pg-core/session.js:39:16)\n' +
+    '    at C:/Users/Alexa/Desktop/SandBox/Banking/tests/unit/actions/dwolla.actions.test.ts:49:5\n' +
+    '    at file:///C:/Users/Alexa/Desktop/SandBox/Banking/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:20',
+  errors: [
+    {
+      stack: 'Error: connect ECONNREFUSED ::1:5432\n' +
+        '    at createConnectionError (node:net:1686:14)\n' +
+        '    at afterConnectMultiple (node:net:1716:16)',
+      message: 'connect ECONNREFUSED ::1:5432',
+      errno: -4078,
+      code: 'ECONNREFUSED',
+      syscall: 'connect',
+      address: '::1',
+      port: 5432,
+      constructor: 'Function<Error>',
+      name: 'Error',
+      toString: 'Function<toString>'
+    },
+    {
+      stack: 'Error: connect ECONNREFUSED 127.0.0.1:5432\n' +
+        '    at createConnectionError (node:net:1686:14)\n' +
+        '    at afterConnectMultiple (node:net:1716:16)',
+      message: 'connect ECONNREFUSED 127.0.0.1:5432',
+      errno: -4078,
+      code: 'ECONNREFUSED',
+      syscall: 'connect',
+      address: '127.0.0.1',
+      port: 5432,
+      constructor: 'Function<Error>',
+      name: 'Error',
+      toString: 'Function<toString>'
+    }
+  ],
+  code: 'ECONNREFUSED',
+  constructor: 'Function<AggregateError>',
+  name: 'Caused by: AggregateError',
+  message: '',
+  toString: 'Function<toString>',
+  stacks: [
+    {
+      method: '',
+      file: 'C:/Users/Alexa/Desktop/SandBox/Banking/node_modules/pg-pool/index.js',
+      line: 45,
+      column: 11
+    },
+    {
+      method: '',
+      file: 'C:/Users/Alexa/Desktop/SandBox/Banking/node_modules/drizzle-orm/node-postgres/session.js',
+      line: 113,
+      column: 20
+    },
+    {
+      method: 'NodePgPreparedQuery.queryWithCache',
+      file: 'C:/Users/Alexa/Desktop/SandBox/Banking/node_modules/drizzle-orm/pg-core/session.js',
+      line: 39,
+      column: 16
+    },
+    {
+      method: '',
+      file: 'C:/Users/Alexa/Desktop/SandBox/Banking/tests/unit/actions/dwolla.actions.test.ts',
+      line: 49,
+      column: 5
+    }
+  ]
+}
+ Γ¥» node_modules/pg-pool/index.js:45:11
+ Γ¥» node_modules/drizzle-orm/node-postgres/session.js:113:20
+ Γ¥» NodePgPreparedQuery.queryWithCache node_modules/drizzle-orm/pg-core/session.js:39:16
+ Γ¥» tests/unit/actions/dwolla.actions.test.ts:49:5
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+Serialized Error: { errors: [ { stack: 'Error: connect ECONNREFUSED ::1:5432\n    at createConnectionError (node:net:1686:14)\n    at afterConnectMultiple (node:net:1716:16)', message: 'connect ECONNREFUSED ::1:5432', errno: -4078, code: 'ECONNREFUSED', syscall: 'connect', address: '::1', port: 5432, constructor: 'Function<Error>', name: 'Error', toString: 'Function<toString>' }, { stack: 'Error: connect ECONNREFUSED 127.0.0.1:5432\n    at createConnectionError (node:net:1686:14)\n    at afterConnectMultiple (node:net:1716:16)', message: 'connect ECONNREFUSED 127.0.0.1:5432', errno: -4078, code: 'ECONNREFUSED', syscall: 'connect', address: '127.0.0.1', port: 5432, constructor: 'Function<Error>', name: 'Error', toString: 'Function<toString>' } ], code: 'ECONNREFUSED' }
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[1/2]ΓÄ»
+
+ FAIL  tests/unit/dal/dwolla-dal.test.ts > DwollaDal > creates a dwolla transfer
+Error: Failed query: insert into "dwolla_transfers" ("amount", "created_at", "currency", "destination_funding_source_url", "dwolla_transfer_id", "id", "receiver_wallet_id", "sender_wallet_id", "source_funding_source_url", "status", "transfer_url", "updated_at", "user_id") values ($1, $2, $3, $4, $5, $6, default, default, $7, $8, $9, $10, default) returning "amount", "created_at", "currency", "destination_funding_source_url", "dwolla_transfer_id", "id", "receiver_wallet_id", "sender_wallet_id", "source_funding_source_url", "status", "transfer_url", "updated_at", "user_id"
+params: 10.00,2026-04-13T21:50:27.235Z,USD,https://api-sandbox.dwolla.com/funding-sources/dst-1,dw-123,8d3e3b06-ed02-4475-a161-868f10064e5c,https://api-sandbox.dwolla.com/funding-sources/src-1,initiated,https://api-sandbox.dwolla.com/transfers/dw-123,2026-04-13T21:50:27.236Z
+ Γ¥» NodePgPreparedQuery.queryWithCache node_modules/src/pg-core/session.ts:73:10
+ Γ¥» node_modules/src/node-postgres/session.ts:154:18
+ Γ¥» DwollaDal.createDwollaTransfer dal/dwolla.dal.ts:75:19
+     73|     } as typeof dwolla_transfers.$inferInsert;
+     74|
+     75|     const [row] = await database
+       |                   ^
+     76|       .insert(dwolla_transfers)
+     77|       .values(insertData)
+ Γ¥» tests/unit/dal/dwolla-dal.test.ts:9:17
+
+{
+  stack: 'AggregateError: \n' +
+    '    at C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\node_modules\\pg-pool\\index.js:45:11\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:104:5)\n' +
+    '    at file:///C:/Users/Alexa/Desktop/SandBox/Banking/node_modules/drizzle-orm/node-postgres/session.js:124:18\n' +
+    '    at NodePgPreparedQuery.queryWithCache (file:///C:/Users/Alexa/Desktop/SandBox/Banking/node_modules/drizzle-orm/pg-core/session.js:39:16)\n' +
+    '    at file:///C:/Users/Alexa/Desktop/SandBox/Banking/node_modules/drizzle-orm/node-postgres/session.js:117:22\n' +
+    '    at DwollaDal.createDwollaTransfer (C:/Users/Alexa/Desktop/SandBox/Banking/dal/dwolla.dal.ts:75:19)\n' +
+    '    at C:/Users/Alexa/Desktop/SandBox/Banking/tests/unit/dal/dwolla-dal.test.ts:9:17\n' +
+    '    at file:///C:/Users/Alexa/Desktop/SandBox/Banking/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:20',
+  errors: [
+    {
+      stack: 'Error: connect ECONNREFUSED ::1:5432\n' +
+        '    at createConnectionError (node:net:1686:14)\n' +
+        '    at afterConnectMultiple (node:net:1716:16)',
+      message: 'connect ECONNREFUSED ::1:5432',
+      errno: -4078,
+      code: 'ECONNREFUSED',
+      syscall: 'connect',
+      address: '::1',
+      port: 5432,
+      constructor: 'Function<Error>',
+      name: 'Error',
+      toString: 'Function<toString>'
+    },
+    {
+      stack: 'Error: connect ECONNREFUSED 127.0.0.1:5432\n' +
+        '    at createConnectionError (node:net:1686:14)\n' +
+        '    at afterConnectMultiple (node:net:1716:16)',
+      message: 'connect ECONNREFUSED 127.0.0.1:5432',
+      errno: -4078,
+      code: 'ECONNREFUSED',
+      syscall: 'connect',
+      address: '127.0.0.1',
+      port: 5432,
+      constructor: 'Function<Error>',
+      name: 'Error',
+      toString: 'Function<toString>'
+    }
+  ],
+  code: 'ECONNREFUSED',
+  constructor: 'Function<AggregateError>',
+  name: 'Caused by: AggregateError',
+  message: '',
+  toString: 'Function<toString>',
+  stacks: [
+    {
+      method: '',
+      file: 'C:/Users/Alexa/Desktop/SandBox/Banking/node_modules/pg-pool/index.js',
+      line: 45,
+      column: 11
+    },
+    {
+      method: '',
+      file: 'C:/Users/Alexa/Desktop/SandBox/Banking/node_modules/drizzle-orm/node-postgres/session.js',
+      line: 124,
+      column: 18
+    },
+    {
+      method: 'NodePgPreparedQuery.queryWithCache',
+      file: 'C:/Users/Alexa/Desktop/SandBox/Banking/node_modules/drizzle-orm/pg-core/session.js',
+      line: 39,
+      column: 16
+    },
+    {
+      method: '',
+      file: 'C:/Users/Alexa/Desktop/SandBox/Banking/node_modules/drizzle-orm/node-postgres/session.js',
+      line: 117,
+      column: 22
+    },
+    {
+      method: 'DwollaDal.createDwollaTransfer',
+      file: 'C:/Users/Alexa/Desktop/SandBox/Banking/dal/dwolla.dal.ts',
+      line: 75,
+      column: 19
+    },
+    {
+      method: '',
+      file: 'C:/Users/Alexa/Desktop/SandBox/Banking/tests/unit/dal/dwolla-dal.test.ts',
+      line: 9,
+      column: 17
+    }
+  ]
+}
+ Γ¥» node_modules/pg-pool/index.js:45:11
+ Γ¥» node_modules/drizzle-orm/node-postgres/session.js:124:18
+ Γ¥» NodePgPreparedQuery.queryWithCache node_modules/drizzle-orm/pg-core/session.js:39:16
+ Γ¥» node_modules/drizzle-orm/node-postgres/session.js:117:22
+ Γ¥» DwollaDal.createDwollaTransfer dal/dwolla.dal.ts:75:19
+ Γ¥» tests/unit/dal/dwolla-dal.test.ts:9:17
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+Serialized Error: { errors: [ { stack: 'Error: connect ECONNREFUSED ::1:5432\n    at createConnectionError (node:net:1686:14)\n    at afterConnectMultiple (node:net:1716:16)', message: 'connect ECONNREFUSED ::1:5432', errno: -4078, code: 'ECONNREFUSED', syscall: 'connect', address: '::1', port: 5432, constructor: 'Function<Error>', name: 'Error', toString: 'Function<toString>' }, { stack: 'Error: connect ECONNREFUSED 127.0.0.1:5432\n    at createConnectionError (node:net:1686:14)\n    at afterConnectMultiple (node:net:1716:16)', message: 'connect ECONNREFUSED 127.0.0.1:5432', errno: -4078, code: 'ECONNREFUSED', syscall: 'connect', address: '127.0.0.1', port: 5432, constructor: 'Function<Error>', name: 'Error', toString: 'Function<toString>' } ], code: 'ECONNREFUSED' }
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[2/2]ΓÄ»
+
+
+ Test Files  2 failed | 23 passed (25)
+      Tests  2 failed | 214 passed (216)
+   Start at  22:50:18
+   Duration  30.42s (transform 6.61s, setup 21.90s, import 44.43s, tests 23.02s, environment 58.58s)
+

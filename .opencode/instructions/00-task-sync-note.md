@@ -2,6 +2,7 @@
 name: "task-sync-note"
 applyTo: "**"
 description: "TaskSync — Safe Task Handoff Guidance. Explains a safe, optional protocol for handing tasks to an agent via a terminal-like interface without mandating continuous operation."
+lastReviewed: 2026-04-13
 ---
 
 # TaskSync — Safe Task Handoff Guidance

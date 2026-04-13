@@ -1,9 +1,10 @@
 ---
-name: AuthSkill
+name: auth-skill
 description: NextAuth v4 authentication patterns, session helper, and protected route guidance.
+lastReviewed: 2026-04-13
 ---
 
-# AuthSkill — Authentication Patterns
+# auth-skill — Authentication Patterns
 
 Overview
 

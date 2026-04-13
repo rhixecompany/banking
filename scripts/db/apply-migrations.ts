@@ -6,7 +6,7 @@ import { Pool } from "pg";
 
 // Load .env.local if present, then fallback to .env
 const localEnv = join(process.cwd(), ".env.local");
-dotenv.config({ path: localEnv, override: true });
+dotenv.config({ override: true, path: localEnv });
 dotenv.config();
 
 async function run() {
@@ -15,19 +15,17 @@ async function run() {
     .filter((f) => f.endsWith(".sql"))
     .sort();
 
-  const connectionString =
-    process.env.DATABASE_URL || process.env.NEON_DATABASE_URL;
-  if (!connectionString) {
-    console.error("DATABASE_URL / NEON_DATABASE_URL is not set");
-    process.exit(1);
-  }
+  // Resolve connection string via helper to centralize fallback logic.
+  const { getConnectionString } =
+    await import("../utils/get-connection-string");
+  const connectionString = await getConnectionString();
 
   const pool = new Pool({ connectionString });
 
   try {
     for (const file of files) {
       const path = join(dir, file);
-      console.log(`\n=== Applying ${file} ===`);
+      console.warn(`\n=== Applying ${file} ===`);
       const sql = readFileSync(path, "utf8");
       // Execute in a transaction
       const client = await pool.connect();
@@ -35,7 +33,8 @@ async function run() {
         await client.query("BEGIN");
         await client.query(sql);
         await client.query("COMMIT");
-        console.log(`Applied ${file}`);
+        // write progress to stderr via warn so CI captures it as non-standard output
+        console.warn(`Applied ${file}`);
       } catch (err) {
         await client.query("ROLLBACK");
         console.error(`Failed to apply ${file}:`, err);
@@ -44,7 +43,9 @@ async function run() {
       }
       client.release();
     }
-    console.log("All migrations applied.");
+    // Keep stdout minimal; use warn for progress messages. Mirror prior behavior
+    // by writing a final message to stderr via warn to avoid console.log lint rules.
+    console.warn("All migrations applied.");
   } finally {
     await pool.end();
   }

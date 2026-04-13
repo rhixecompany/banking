@@ -1,48 +1,12 @@
-# Banking Project - Cursor AI Agent Rules (Canonical)
+# Cursor Rules — Agent Quick Summary
 
-> Project: Next.js 16, TypeScript (strict), Drizzle ORM, PostgreSQL, NextAuth, shadcn/UI, Tailwind CSS v4
+These rules are a short, machine-friendly summary for Cursor agents. They reflect the PR-blocking rules in AGENTS.md and the repository's executable sources-of-truth.
 
-Last Updated: 2026-04-11
+- enforce: "no-any" — Do not introduce `any` types in TypeScript files.
+- enforce: "lint-zero-warnings" — All commits must pass `npm run lint:strict` (zero warnings) in CI.
+- enforce: "dal-only-db-access" — All database access must be routed through `dal/` helpers.
+- enforce: "server-actions-for-writes" — All stateful writes must be implemented as Server Actions under `actions/`.
+- enforce: "zod-metadata" — All Zod schemas used in public inputs must include `.describe()` metadata and explicit validator messages.
+- plan-needed-threshold: 3 — When a change touches more than 3 files create a plan in `.opencode/plans/` before applying edits.
 
-Purpose
-
-- Short, machine-friendly reference for automated agents (Cursor/OpenCode) to consult before making edits or running commands.
-- Defer to `AGENTS.md` for expanded guidance. When in doubt, follow executable sources of truth (package.json, eslint.config.mts, app-config.ts/lib/env.ts).
-
-Critical Rules (PR-blocking)
-
-- No `any` types — use `unknown` + type guards. TypeScript strict is enforced.
-- No N+1 queries — eager load relations with JOINs; do not query inside loops.
-- Do not read `process.env` directly in application code; use `app-config.ts` or `lib/env.ts`.
-- All stateful mutations must be Server Actions (`actions/`).
-- Zero TypeScript errors and zero ESLint warnings (`npm run lint:strict`) before PR.
-
-Quick Commands
-
-- `npm run dev` — Start dev server
-- `npm run build` — Production build
-- `npm run type-check` — Run TypeScript checks
-- `npm run lint:strict` — Run strict ESLint (0 warnings)
-- `npm run test` — Run tests (E2E first, then unit)
-
-Project Structure (important paths)
-
-- `app/` — Next.js App Router routes
--- `actions/` — Server Actions (mutations)
--- `dal/` — Data Access Layer (all DB access)
-- `database/` — Drizzle schema and db connection
-- `.opencode/` — Agent skills and instructions
-
-When Docs Conflict
-
-- Prefer executable sources of truth. Update prose to match and record the decision in `.opencode/plans/`.
-
-Checklist for agents (minimal)
-
-1. Read `package.json` scripts and `eslint.config.mts` before running lint or changing lint configs.
-2. Create a plan in `.opencode/plans/` if a change touches more than 3 files.
-3. Run `npm run format`, `npm run type-check`, and `npm run lint:strict` before committing.
-
-End of .cursorrules
-
-Note: This file is synchronized with AGENTS.md. See plan: `.opencode/plans/update-agentic-docs_4f7a8b2c.plan.md`.
+Last Updated: 2026-04-14

@@ -1,6 +1,7 @@
 ---
 name: SecuritySkill
 description: Security patterns — encryption, env handling, and secret management.
+lastReviewed: 2026-04-13
 ---
 
 # SecuritySkill — Security Patterns

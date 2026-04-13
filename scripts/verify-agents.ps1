@@ -17,6 +17,26 @@ Write-Host "----------------------------------------"
 npm run lint:strict
 Write-Host "-> lint:strict: OK"
 
+Write-Host "`n2.5) Scripts smoke dry-run"
+Write-Host "----------------------------------------"
+$scripts = @(
+  "scripts/generate/feature.ts",
+  "scripts/generate/dal.ts",
+  "scripts/generate/component.ts",
+  "scripts/generate/action.ts",
+)
+
+foreach ($s in $scripts) {
+  Write-Host "-> dry-run: $s"
+  $res = & npx tsx $s --dry-run
+  if ($LASTEXITCODE -ne 0) {
+    Write-Error "✗ Script dry-run failed: $s"
+    exit 1
+  }
+}
+
+Write-Host "-> scripts dry-run: OK"
+
 Write-Host "`n3) Unit tests (Vitest)"
 Write-Host "----------------------------------------"
 # Run full unit test suite once

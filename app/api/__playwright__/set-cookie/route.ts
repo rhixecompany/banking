@@ -10,27 +10,31 @@ export async function POST(request: Request) {
   // Guard: only allow this test-only endpoint when running in non-production
   // and when an explicit test flag is set. This prevents accidental exposure
   // of a cookie-setting endpoint in production environments.
+  // Use validated env via lib/env.ts per project standards.
+  // Importing inside handler to avoid top-level env reads during edge/production bundling.
+  const { env } = await import("@/lib/env");
+
   const enabled =
-    process.env.NODE_ENV !== "production" &&
-    (process.env.ENABLE_TEST_ENDPOINTS === "true" ||
-      process.env.PLAYWRIGHT_PREPARE_DB === "true");
+    env.NODE_ENV !== "production" &&
+    (env.ENABLE_TEST_ENDPOINTS === "true" ||
+      env.PLAYWRIGHT_PREPARE_DB === "true");
 
   if (!enabled) {
     return NextResponse.json(
-      { ok: false, error: "Not found" },
+      { error: "Not found", ok: false },
       { status: 404 },
     );
   }
 
   try {
     const body = await request.json();
-    const { name, value, options } = body as {
+    const { name, options, value } = body as {
       name: string;
-      value: string;
       options?: { path?: string };
+      value: string;
     };
 
-    const res = NextResponse.json({ ok: true });
+    const res = NextResponse.json({ error: undefined, ok: true });
     // Minimal cookie string for tests. Not secure; this endpoint is test-only.
     res.headers.append(
       "Set-Cookie",
@@ -39,6 +43,6 @@ export async function POST(request: Request) {
 
     return res;
   } catch (e) {
-    return NextResponse.json({ ok: false, error: String(e) }, { status: 400 });
+    return NextResponse.json({ error: String(e), ok: false }, { status: 400 });
   }
 }

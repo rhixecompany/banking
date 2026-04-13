@@ -5,6 +5,7 @@ description: >
 
 
 allowed-tools: ask_user, sql, fetch_copilot_cli_documentation
+lastReviewed: 2026-04-13
 ---
 
 # 🚀 Copilot CLI Quick Start — Your Friendly Terminal Tutor

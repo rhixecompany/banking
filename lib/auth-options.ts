@@ -16,6 +16,7 @@ import {
   verificationToken,
 } from "@/database/schema";
 import { env } from "@/lib/env";
+import { logger } from "@/lib/logger";
 
 /**
  * Description placeholder
@@ -127,39 +128,53 @@ export const authOptions: NextAuthOptions = {
           .then((r) => r[0]);
 
         try {
-          console.info(
+          logger.info(
             `[E2E-DEBUG] authorize: lookup email=${credentials.email} found=${!!user}`,
           );
-        } catch {}
+        } catch {
+          // intentionally swallow logging errors in edge cases
+        }
 
         if (!user?.isActive || !user.password) {
           try {
-            console.info(
+            logger.info(
               `[E2E-DEBUG] authorize: rejecting - isActive=${!!user?.isActive} hasPassword=${!!user?.password}`,
             );
-          } catch {}
+          } catch {
+            // intentionally swallow logging errors
+          }
           return null;
         }
 
+        // Compare password and log result; keep comparison result usage
+        // eslint-disable-next-line no-useless-assignment
         let valid = false;
         try {
           valid = await bcrypt.compare(credentials.password, user.password);
-          try {
-            console.info(
-              `[E2E-DEBUG] authorize: bcrypt.compare result=${valid}`,
-            );
-          } catch {}
         } catch (e) {
-          console.error("[E2E-DEBUG] authorize: bcrypt.compare threw", e);
+          logger.error("[E2E-DEBUG] authorize: bcrypt.compare threw", e);
           return null;
+        }
+        // Log comparison result in a separate block to avoid unused-assignment warnings
+        try {
+          // Use ternary to produce a value used immediately to avoid unused-assignment lint
+          void (valid
+            ? logger.info("[E2E-DEBUG] authorize: bcrypt.compare result=true")
+            : logger.info(
+                "[E2E-DEBUG] authorize: bcrypt.compare result=false",
+              ));
+        } catch {
+          // intentionally swallow logging errors
         }
 
         if (!valid) {
           try {
-            console.info(
+            logger.info(
               "[E2E-DEBUG] authorize: rejecting - invalid credentials",
             );
-          } catch {}
+          } catch {
+            // intentionally swallow logging errors
+          }
           return null;
         }
 

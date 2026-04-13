@@ -1,182 +1,144 @@
 # AGENTS.md — Banking Project (Canonical Agent Guide)
 
-Version: 11.3 | Updated: 2026-04-13
+Version: 4.0 | Last Updated: 2026-04-13
 
 Purpose
 
-- Short, high-signal rules for humans and automated agents working in this repo. Keep this file minimal — only include facts an agent would likely miss.
+This file is the canonical guide for human contributors and automated agents operating on this repository. It prioritizes executable sources-of-truth and documents the exact project conventions, PR-blocking rules, and workflows agents and humans must follow. When docs conflict with code, prefer executable sources of truth (package.json, eslint.config.mts, app-config.ts / lib/env.ts, database/schema.ts, tests/).
 
-Must-know commands (exact — run with the repo package manager)
+Core principles
+
+- App Router & Server Components first (Next.js 16+)
+- Data access centralized in dal/
+- Mutations via Server Actions (actions/)
+- Strict type safety (no any) and Zod validation with .describe() metadata
+- Zero ESLint warnings in CI (npm run lint:strict)
+
+Must-know commands (source: package.json)
 
 - npm run dev — Start dev server (predev runs clean)
 - npm run build — Production build (prebuild runs clean + type-check)
 - npm run start — Start production server
 - npm run clean — Clean build artifacts
-- npm run validate — build + lint:strict + test (CI gate; expensive)
-- npm run lint:strict — ESLint (ZERO warnings required for PRs)
-- npm run type-check — TypeScript check (tsc --noEmit)
+- npm run validate — build + lint:strict + test (CI gate)
+- Scripts policy: See .opencode/instructions/12-scripts-patterns.md — agents must prefer TypeScript scripts in scripts/, always run --dry-run first, and never execute destructive scripts without explicit human approval (RUN_DESTRUCTIVE=true).
+- npm run lint:strict — ESLint with ZERO warnings required for PRs
+- npm run type-check — TypeScript type checking (tsc --noEmit)
 - npm run test — Runs test:ui THEN test:browser (order matters)
-- npm run test:ui — Playwright E2E (Chromium, single worker). Starts dev server; ensure port 3000 is free.
+- npm run test:ui — Playwright E2E (Chromium, 1 worker); ensure port 3000 free
 - npm run test:browser — Vitest unit tests (happy-dom)
-- npm run db:push — Push Drizzle schema
-- npm run db:studio — Open Drizzle Studio (local)
-- npm run registry:build — Regenerate .opencode registry files
 
-Pre/post hooks and ordering
+Sources of truth (in priority)
 
-- predev / prebuild: run clean + type-check automatically. Type-check is assumed before build.
-- pretest: runs clean. Tests assume a clean workspace.
-
-Env / config gotchas
-
-- Do NOT read process.env in app code. Use app-config.ts (preferred) or lib/env.ts. Exception: proxy.ts (Edge middleware) may read process.env.
-- Production required: ENCRYPTION_KEY, NEXTAUTH_SECRET.
-- Drizzle migrations: .env.local is loaded before .env (see drizzle.config.ts).
+1. package.json — scripts and developer commands
+2. eslint.config.mts — lint rules and critical enforcement
+3. app-config.ts / lib/env.ts — environment validation
+4. database/schema.ts — canonical DB types and columns
+5. tests/ — test ordering and assumptions
 
 PR-blocking rules (enforced)
 
-- No use of `any`. Use `unknown` + type guards. Type errors are blocking.
-- Zero TypeScript errors and ZERO ESLint warnings (run npm run lint:strict).
-- All DB access must go through dal/ — never query the DB from components or Server Actions directly.
-- Avoid N+1 queries; eager-load relations (JOINs) — never perform DB calls inside loops.
-- All stateful mutations must be Server Actions in actions/ (no write logic in API routes).
-- Do NOT commit secrets (.env, tokens). eslint-plugin-no-secrets is enabled (warn-level).
+1. No use of any — use unknown + type guards (TypeScript strictly enforced)
+2. Zero TypeScript errors (npm run type-check) and ZERO ESLint warnings (npm run lint:strict)
+3. All DB access must go through dal/ — never query DB from components or Server Actions directly
+4. Avoid N+1 queries — use JOINs or eager loading helpers in DALs
+5. All stateful writes must be implemented as Server Actions in actions/
+6. Never commit secrets (.env, tokens). Use lib/env.ts or app-config.ts to access env values in app code
 
-Server Actions / validation
+Server Actions — required pattern
 
-- Server Actions must use "use server" and return Promise<{ ok: boolean; error?: string }>.
-- Validate inputs with Zod before any DB or external API call. Zod rules require .describe(...) and validator messages.
-- After mutations revalidate cache with revalidatePath / revalidateTag / updateTag as appropriate.
+All mutations must follow this pattern:
 
-Database / Drizzle
+- Include "use server" at top
+- Validate inputs with Zod (schemas must include .describe() for every field and explicit error messages)
+- Call auth() first in protected actions; return { ok: false, error: 'Unauthorized' } if missing
+- Use DAL helpers for DB writes; accept optional tx for transactions
+- After success, revalidate or update cache tags using next/cache APIs (revalidatePath, revalidateTag, updateTag, refresh)
+- Return Promise<{ ok: boolean; error?: string }>
 
-- Use db.transaction(...) for multi-step operations.
-- database/ and dal/ files have stricter lint rules (e.g., update/delete must include WHERE).
-- lib/encryption.ts expects ENCRYPTION_KEY and uses format iv:authTag:ciphertext (hex, colon-separated).
+Example Server Action
 
-Auth / sessions
+```ts
+"use server";
+import { z } from "zod";
+import { auth } from "@/lib/auth";
+import { revalidatePath } from "next/cache";
 
-- Use lib/auth() to get the server session. Session.user shape: { id: string; name?: string | null; email?: string | null; isAdmin: boolean; isActive: boolean }.
-- There is NO role field — check session.user.isAdmin for admin-only checks.
+const UpdateSchema = z.object({
+  id: z.string().uuid().describe("Entity ID"),
+  name: z.string().min(1, "Name required").describe("Name")
+});
 
-Testing notes (important)
+export async function updateEntity(
+  input: unknown
+): Promise<{ ok: boolean; error?: string }> {
+  const session = await auth();
+  if (!session?.user) return { ok: false, error: "Unauthorized" };
 
-- npm run test runs E2E first (test:ui) then unit tests (test:browser). E2E starts the dev server — ensure port 3000 is free.
-- Playwright runs with a single worker and Chromium only; tests assume shared state (do not parallelize locally).
-- On Windows, free port 3000 before Playwright (PowerShell): $p = Get-NetTCPConnection -LocalPort 3000 -State Listen -ErrorAction SilentlyContinue | Select -ExpandProperty OwningProcess -Unique; if ($p) { Stop-Process -Id $p -Force }
+  const parsed = UpdateSchema.safeParse(input);
+  if (!parsed.success)
+    return { ok: false, error: parsed.error.message };
 
-Formatting / lint / pre-PR checklist
+  // call DAL to update entity
+  revalidatePath("/entities");
+  return { ok: true };
+}
+```
 
-- Before opening a PR run: npm run format, npm run type-check, npm run lint:strict. Run tests for behavior changes.
-- Avoid broad ESLint disables; check eslint.config.mts for file-specific overrides first.
+Data Access Layer (DAL) patterns
 
-Common Next.js / App Router patterns (must follow)
+- Centralize DB logic in dal/ helpers (export instances or classes). Do not perform DB queries inside components or Server Actions directly.
+- Avoid N+1 queries: prefer single SELECT with JOINs or .with() eager loaders. If multiple queries are required, batch them using IN or optimized queries.
+- Use db.transaction(...) for multi-step operations that must be atomic
 
-- Always use the App Router (app/) for new routes and pages.
-- Server Components by default. Mark Client Components explicitly with "use client".
-- In Next.js 16+: params and searchParams are async types — always await them in page/layout functions and generateMetadata. (e.g., const { id } = await params;)
-- Use "use cache" directive for components that benefit from Partial Pre-Rendering (PPR).
-- Implement loading states via loading.tsx and Suspense boundaries.
-- Implement error boundaries using error.tsx for route segments; use not-found.tsx for 404s.
-- Use next/font/google or next/font/local at layout level for font optimization.
-- Use next/image for images with width, height, alt. Follow v16 image defaults in docs.
-- Turbopack is the default bundler for Next.js 16 — typically no manual config needed.
+Zod & validation
 
-Cache Components & Caching APIs (Next.js 16+)
+- All Zod schemas used in Server Actions and public inputs MUST include .describe(...) metadata and explicit validator error messages (zod/prefer-meta and zod/require-error-message rules)
+- Avoid z.any(); zod/no-any-schema is enforced
 
-- Use "use cache" for cache components and cacheLife() where applicable.
-- For server-side cache control and invalidation use: revalidatePath, revalidateTag, updateTag, refresh from next/cache.
-- When using fetch in Server Components, pass next: { revalidate: <seconds> } or tags for revalidation.
+Next.js / App Router conventions
 
-Routing & Layouts
+- Use Server Components by default; mark client components with "use client"
+- In Next.js 16+, params and searchParams are async; always await them in pages/layouts/generateMetadata
+- Use the new "use cache" directive for Cache Components that benefit from PPR
+- Implement loading.tsx and error.tsx route-level boundaries
 
-- Use nested layouts, templates, and route groups (group syntax) for URL-agnostic layout boundaries.
-- Implement parallel routes (@folder) for independent UI regions (e.g. dashboard sidebars).
-- Use intercepting routes for overlays and modals.
+Caching & invalidation
 
-Server & Client components guidance
+- Use next/cache APIs for granular invalidation: revalidatePath, revalidateTag, updateTag, refresh
+- When fetching server-side, set fetch(..., { next: { revalidate: <seconds>, tags: ["tag"] } }) as appropriate
 
-- Use Server Components for data fetching and non-interactive UI.
-- Use Client Components ("use client") for interactivity, browser APIs, hooks, or local component state.
-- Prefer small client wrappers when converting interactive third-party components for RSC usage.
+Testing guidance
 
-Data fetching & streaming
+- Test order: E2E (Playwright) first (npm run test:ui), then unit/integ (Vitest) (npm run test:browser)
+- Playwright tests run with 1 worker and Chromium only — ensure port 3000 is free before running E2E
+- Use deterministic auth fixtures and test-only endpoints gated by NODE_ENV !== 'production' and ENABLE_TEST_ENDPOINTS
 
-- Server Components for fetching; use fetch with next caching options for revalidation.
-- Use Suspense boundaries and streaming to improve perceived performance.
+Documentation & plans
 
-Zod validation & forms
+- When a change touches more than 3 files create a plan in .opencode/plans/ with Goals, Scope, Target Files, Risks, Planned Changes, Validation, and Rollback
+- For any normative claim in AGENTS.md include an evidence pointer in docs/evidence_map.md (file:line)
 
-- Zod schemas must include .describe(...) metadata for fields.
-- All validators must include error messages for user-facing feedback.
-- Use react-hook-form + zodResolver in client forms and follow UI composition rules (FieldGroup / Field).
+Formatting & linting
 
-shadcn/ui & UI Component Patterns
+- Run npm run format and npm run lint:strict before opening PRs
+- Avoid inline eslint-disable comments; prefer file-level overrides in eslint.config.mts where justified
 
-- Use existing shadcn components from components/ui first — do not recreate UI if a component is available.
-- Components requiring interactivity must be used in client components ("use client"), otherwise prefer server components.
-- Follow the project's component composition rules (FieldGroup/Field, CardHeader/CardContent, etc.) and Tailwind v4 conventions (gap-_ not space-y-_, size-\* for equal dims, semantic tokens).
-- When adding/updating shadcn components:
-  - Use the CLI (npx shadcn@latest) with the project's package manager runner.
-  - Always preview with --dry-run and --diff before applying updates.
-  - Fix icon imports to use the project's iconLibrary (lucide-react).
+Operational safety (agents)
 
-DAL patterns / N+1 prevention
+- Agents MUST NOT push commits or create PRs without explicit human approval.
+- Agents MAY apply working-tree edits directly and MAY create local commits, provided they follow the safety checklist below before any push:
+  1. If changes touch more than 3 files, create a plan file in `.opencode/plans/` describing Goals, Scope, Target Files, Risks, Planned Changes, Validation, and Rollback.
+  2. Run the validation commands and attach logs to the plan: `npx tsx scripts/validate.ts --all`, `npm run type-check`, and `npm run lint:strict`.
+  3. If edits are destructive (file deletions, database migrations, or revealing secrets), require both `RUN_DESTRUCTIVE=true` and an explicit `--yes` flag to execute those operations.
+  4. Do NOT push or open a PR until a human reviewer approves the plan and the staged changes.
+- Agents may prepare patches or working-tree edits for review, but must wait for human approval to push to remote when the safety checklist is not satisfied.
 
-- All DB queries must use dal/ helpers. Avoid writing DB queries directly in components or Server Actions.
-- Use single queries with JOINs to fetch related data. Never loop and query per item.
+Quick references
 
-Playwright deterministic auth pattern (adopted)
+- package.json, eslint.config.mts, app-config.ts, lib/env.ts, database/schema.ts, dal/, actions/, .opencode/, tests/
 
-- Tests should prefer a deterministic auth fixture (signed NextAuth cookie/JWT + guarded test-only endpoint) instead of performing UI sign-in.
-- Test-only endpoints must be gated with environment guards (NODE_ENV !== "production" and/or ENABLE_TEST_ENDPOINTS).
+Evidence & audit
 
-Server Actions & return shape
-
-- Server Actions should always return: Promise<{ ok: boolean; error?: string }>.
-- Validate with Zod first, then call DAL, update cache, and revalidate/reload paths as required.
-
-Error handling & logging
-
-- Follow the repo's error handling conventions: surface actionable error messages and avoid leaking secrets.
-- Use logger utilities (if present) and match logging patterns across the codebase.
-
-Apply_patch / patch verification guidance (for automated edits)
-
-- When apply_patch verification fails: read file with exact context, match CRLF/LF differences, and craft minimal single-line replacements.
-- Prefer small, targeted patches rather than large multi-line context changes.
-
-Plans & change management
-
-- If a change touches > 3 files, create a plan in .opencode/plans/<short-kebab>\_<8charid>.plan.md before implementation. The plan must include Goals, Scope, Target Files, Risks, Planned Changes, Validation, Rollback.
-- Run markdown lint on plans.
-
-What to trust when docs conflict
-
-- Prefer executable sources of truth in order:
-  1. package.json scripts
-  2. eslint.config.mts
-  3. app-config.ts / lib/env.ts
-  4. database/schema.ts
-  5. tests/
-- If you find a contradiction between docs and code: update the documentation and record the change in .opencode/plans/ with a short rationale.
-
-Quick references (high-value files)
-
-- package.json, eslint.config.mts, app-config.ts, lib/env.ts, database/schema.ts, dal/, actions/, .opencode/, tests/ (tests/setup.ts, e2e/).
-
-If you are automating work (agent rules)
-
-- NEVER push commits, create PRs, or start external services (Docker, cloud) without explicit permission.
-- When asked to run commands, show the exact command and wait for user confirmation.
-- If blocked by missing secrets or services, report exact errors and recommended next steps rather than attempting to bypass blockers.
-
-PR-blocking rules (enforced)
-
-- No `any` types
-- Zero TypeScript errors
-- All DB access via dal/
-- Server Actions for mutations
-- Zero lint warnings
-
-End.
+See docs/evidence_map.md for the mapping of claims to file:line evidence used to prepare this AGENTS.md \
+Changelog pointer: previous AGENTS.md preserved at commit: (will be filled with git commit hash on finalization)

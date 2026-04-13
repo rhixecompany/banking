@@ -3,6 +3,7 @@ name: "dal-patterns"
 description: "Drizzle ORM patterns, DAL pattern, and N+1 prevention"
 applyTo: "**/*.{ts,tsx}"
 priority: 3
+lastReviewed: 2026-04-13
 ---
 
 # DAL Patterns - Banking Project

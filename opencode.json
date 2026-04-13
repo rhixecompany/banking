@@ -5,8 +5,12 @@
       "description": "Build and implement features for the Banking project",
       "model": "github-copilot/gpt-5-mini",
       "permission": {
+        "__originalKeys": [],
         "bash": "allow",
+        "codesearch": "allow",
+        "doom_loop": "allow",
         "edit": "allow",
+        "external_directory": "allow",
         "glob": "allow",
         "grep": "allow",
         "list": "allow",
@@ -16,6 +20,7 @@
         "read": "allow",
         "shadcn_*": "allow",
         "skill": "allow",
+        "task": "allow",
         "todowrite": "allow",
         "webfetch": "allow",
         "websearch": "allow"
@@ -23,11 +28,15 @@
       "temperature": 0.1
     },
     "Next.js Expert": {
-      "description": "Next.js Expert agent for building and implementing features in the Banking project",
+      "description": "Expert Next.js 16 developer specializing in App Router, Server Components, Cache Components, Turbopack, and modern React patterns with TypeScript",
       "model": "github-copilot/gpt-5-mini",
       "permission": {
+        "__originalKeys": [],
         "bash": "allow",
+        "codesearch": "allow",
+        "doom_loop": "allow",
         "edit": "allow",
+        "external_directory": "allow",
         "glob": "allow",
         "grep": "allow",
         "list": "allow",
@@ -37,6 +46,7 @@
         "read": "allow",
         "shadcn_*": "allow",
         "skill": "allow",
+        "task": "allow",
         "todowrite": "allow",
         "webfetch": "allow",
         "websearch": "allow"
@@ -47,8 +57,12 @@
       "description": "Review and plan changes for the Banking project",
       "model": "github-copilot/gpt-5-mini",
       "permission": {
+        "__originalKeys": [],
         "bash": "allow",
+        "codesearch": "allow",
+        "doom_loop": "allow",
         "edit": "deny",
+        "external_directory": "allow",
         "glob": "allow",
         "grep": "allow",
         "list": "allow",
@@ -58,18 +72,22 @@
         "read": "allow",
         "shadcn_*": "allow",
         "skill": "allow",
+        "task": "allow",
         "todowrite": "allow",
         "webfetch": "allow",
         "websearch": "allow"
       },
-      "steps": 20,
-      "temperature": 0.2
+      "temperature": 0.1
     },
     "quick-thinker": {
       "description": "Fast reasoning with limited iterations",
       "permission": {
+        "__originalKeys": [],
         "bash": "allow",
+        "codesearch": "allow",
+        "doom_loop": "allow",
         "edit": "allow",
+        "external_directory": "allow",
         "glob": "allow",
         "grep": "allow",
         "list": "allow",
@@ -79,6 +97,7 @@
         "read": "allow",
         "shadcn_*": "allow",
         "skill": "allow",
+        "task": "allow",
         "todowrite": "allow",
         "webfetch": "allow",
         "websearch": "allow"
@@ -91,8 +110,12 @@
       "description": "Review code changes and PRs for the Banking project",
       "model": "github-copilot/gpt-5-mini",
       "permission": {
+        "__originalKeys": [],
         "bash": "allow",
+        "codesearch": "allow",
+        "doom_loop": "allow",
         "edit": "allow",
+        "external_directory": "allow",
         "glob": "allow",
         "grep": "allow",
         "list": "allow",
@@ -102,12 +125,12 @@
         "read": "allow",
         "shadcn_*": "allow",
         "skill": "allow",
+        "task": "allow",
         "todowrite": "allow",
         "webfetch": "allow",
         "websearch": "allow"
       },
-      "steps": 20,
-      "temperature": 0.2
+      "temperature": 0.1
     }
   },
   "autoupdate": "notify",
@@ -129,8 +152,8 @@
     }
   },
   "compaction": {
-    "auto": false,
-    "reserved": 10000
+    "auto": true,
+    "reserved": 8000
   },
   "default_agent": "Next.js Expert",
   "instructions": [
@@ -148,7 +171,7 @@
     ".opencode/instructions/09-plan-file-standards.md",
     ".opencode/instructions/10-apply-patch-verification-fix.md",
     ".opencode/instructions/11-documentation-standards.md",
-    ".opencode/plans/*.md"
+    ".opencode/instructions/12-scripts-patterns.md"
   ],
   "mcp": {
     "MCP_DOCKER": {
@@ -165,7 +188,11 @@
       "type": "local"
     },
     "shadcn": {
-      "command": ["npx", "shadcn@latest", "mcp"],
+      "command": [
+        "npx",
+        "shadcn@latest",
+        "mcp"
+      ],
       "enabled": true,
       "timeout": 900000,
       "type": "local"
@@ -173,8 +200,12 @@
   },
   "model": "github-copilot/gpt-5-mini",
   "permission": {
+    "__originalKeys": [],
     "bash": "allow",
+    "codesearch": "allow",
+    "doom_loop": "allow",
     "edit": "allow",
+    "external_directory": "allow",
     "glob": "allow",
     "grep": "allow",
     "list": "allow",
@@ -184,11 +215,18 @@
     "read": "allow",
     "shadcn_*": "allow",
     "skill": "allow",
+    "task": "allow",
     "todowrite": "allow",
     "webfetch": "allow",
     "websearch": "allow"
   },
   "watcher": {
-    "ignore": ["node_modules", ".next", "dist", ".git", "*.log"]
+    "ignore": [
+      "node_modules",
+      ".next",
+      "dist",
+      ".git",
+      "*.log"
+    ]
   }
 }
