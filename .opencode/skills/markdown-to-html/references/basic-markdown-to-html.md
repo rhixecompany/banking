@@ -363,9 +363,7 @@ Here is a footnote[^1].
 ```html
 <p>
   Here is a footnote
-  <sup id="fnref-1">
-    <a href="#fn-1">1</a> </sup
-  >.
+  <sup id="fnref-1"> <a href="#fn-1">1</a> </sup>.
 </p>
 
 <section class="footnotes">

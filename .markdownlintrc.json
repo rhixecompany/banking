@@ -47,11 +47,7 @@
     "MD041": false,
     "MD046": false
   },
-  "globs": [
-    "docs/**/*.md",
-    "docs/**/*.mdx",
-    "README.md"
-  ],
+  "globs": ["docs/**/*.md", "docs/**/*.mdx", "README.md"],
   "ignores": [
     "docs/zh-CN/**",
     "docs/.i18n/**",
