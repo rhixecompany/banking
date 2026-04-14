@@ -77,9 +77,7 @@ export type RegisterInput = z.infer<typeof RegisterSchema>;
  * @param {unknown} input
  * @returns {unknown}
  */
-export async function registerUser(
-  input: unknown,
-): Promise<{
+export async function registerUser(input: unknown): Promise<{
   ok: boolean;
   user?: UserWithProfile | undefined;
   error?: string;

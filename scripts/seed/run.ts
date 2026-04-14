@@ -171,7 +171,7 @@ try {
   const entry = process.argv[1];
   if (entry && entry.endsWith("scripts/seed/run.ts")) {
     // Direct invocation
-     
+
     void run().catch((error: unknown) => {
       console.error(error);
       process.exitCode = 1;
