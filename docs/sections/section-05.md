@@ -1,8 +1,8 @@
 # Section 5 — Server Actions
 
-Server Actions must validate inputs with Zod, call `auth()` when authorization is required, and return { ok: boolean; error?: string }.
+Server Actions must validate inputs with Zod, call `auth()` for protected actions, and use DAL for DB writes. Return a consistent shape: { ok: boolean; error?: string }.
 
-Example server action skeleton:
+Example:
 
 ```ts
 "use server";
@@ -21,8 +21,7 @@ export async function exampleAction(
   const parsed = Schema.safeParse(input);
   if (!parsed.success)
     return { ok: false, error: parsed.error.message };
-
-  // perform DB work via DAL
+  // DB work via DAL
   return { ok: true };
 }
 ```

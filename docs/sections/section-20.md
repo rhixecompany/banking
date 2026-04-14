@@ -1,9 +1,9 @@
 # Section 20 — Performance
 
 - Use streaming and Suspense boundaries to improve perceived performance.
-- Cache heavy queries and use pagination for large lists.
+- Cache heavy queries and paginate large lists.
 
-Example Suspense usage:
+Example:
 
 ```tsx
 import { Suspense } from "react";

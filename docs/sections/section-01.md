@@ -1,11 +1,8 @@
 # Section 1 — Purpose
 
-This fragment summarizes the purpose and scope of agentic guidance in the repository. It is intentionally short.
+This fragment summarizes the purpose and scope of agentic guidance in the repository. Keep instructions minimal and prefer executable sources-of-truth such as package.json, eslint.config.mts, and app-config.ts.
 
-- Keep instructions minimal and actionable.
-- Prefer executable sources-of-truth (package.json, eslint.config.mts, app-config.ts) over prose.
-
-Representative snippet (shell):
+Representative snippet:
 
 ```bash
 # Start the dev server

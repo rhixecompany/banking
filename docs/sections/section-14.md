@@ -1,9 +1,9 @@
 # Section 14 — Frontend Component Patterns
 
-- Prefer small Client wrappers for interactive third-party components.
-- Use shadcn/ui components where possible.
+- Prefer small client wrappers for interactive third-party components and keep components focused and testable.
+- Use shadcn/ui components where they fit the design system.
 
-Example client wrapper:
+Example:
 
 ```tsx
 "use client";

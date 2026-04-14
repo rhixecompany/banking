@@ -1,9 +1,9 @@
 # Section 6 — DAL Patterns
 
-- All DB access must go through `dal/` helpers.
-- Avoid N+1 queries; use JOINs and eager loading.
+- Route all DB access through `dal/` helpers; avoid ad-hoc queries in components.
+- Prevent N+1 by using JOINs or batching with `IN` when fetching related data.
 
-Example DAL method (Drizzle):
+Example (Drizzle):
 
 ```ts
 import { eq } from "drizzle-orm";

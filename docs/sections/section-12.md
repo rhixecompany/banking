@@ -1,9 +1,9 @@
 # Section 12 — Error Handling & Logging
 
-- Surface actionable error messages; avoid leaking secrets.
-- Use a central logger utility when available.
+- Surface actionable error messages without leaking sensitive details.
+- Use a central logger and include context (user id, request id) where appropriate.
 
-Example pattern:
+Example:
 
 ```ts
 try {

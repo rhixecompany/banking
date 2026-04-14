@@ -1,9 +1,9 @@
 # Section 19 — Secrets & Encryption
 
-- Use lib/encryption.ts and ENCRYPTION_KEY from env.
-- Never print sensitive values to logs.
+- Use lib/encryption.ts and ENCRYPTION_KEY from validated env variables.
+- Never log or print sensitive values.
 
-Example usage:
+Example:
 
 ```ts
 import { decrypt } from "@/lib/encryption";

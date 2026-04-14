@@ -1,7 +1,7 @@
 # Section 4 — Next.js App Router Patterns
 
-- Server Components by default; mark with "use client" for interactive components.
-- Use nested layouts and templates for route grouping.
+- Server Components are default; annotate client code with "use client".
+- Use nested layouts and templates to structure routes and shared UI.
 
 Example Server Component:
 

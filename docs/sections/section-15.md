@@ -1,9 +1,9 @@
 # Section 15 — Accessibility & UX
 
-- Use semantic HTML and ARIA attributes where needed.
-- Ensure forms have labels and validation feedback.
+- Use semantic HTML and ARIA attributes where required.
+- Ensure forms provide labels and validation feedback for users and assistive tech.
 
-Example accessible input:
+Example:
 
 ```tsx
 <label htmlFor="email">Email</label>

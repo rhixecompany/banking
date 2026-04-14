@@ -1,9 +1,8 @@
 # Section 10 — CI Validation
 
-- CI must run `npm run type-check`, `npm run lint:strict`, and `npm run test`.
-- Keep jobs small and provide secrets only to trusted jobs that require them.
+CI must run `npm run type-check`, `npm run lint:strict`, and `npm run test`. Keep jobs minimal and only expose secrets to trusted jobs.
 
-Example GitHub Actions job snippet:
+Example (GitHub Actions):
 
 ```yaml
 jobs:

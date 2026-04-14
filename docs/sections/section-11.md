@@ -1,9 +1,9 @@
 # Section 11 — Security Essentials
 
-- Never commit secrets. Use environment variables via lib/env.ts or app-config.ts instead of `process.env`.
-- Sanitize user input and avoid logging sensitive values.
+- Never commit secrets. Use app-config.ts / lib/env.ts for validated environment variables rather than direct `process.env` reads.
+- Sanitize user input and avoid logging secrets.
 
-Example env usage:
+Example:
 
 ```ts
 import { env } from "@/lib/env";

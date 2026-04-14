@@ -1,9 +1,9 @@
 # Section 18 — PLAID & External Integrations
 
-- Centralize third-party script embeds (e.g., Plaid) to avoid duplicate initialization.
-- Store secrets encrypted and use environment variables for runtime.
+- Centralize third-party embeds to avoid duplicate initialization and keep integration code in a single provider.
+- Keep secrets in environment variables and do not leak them to client bundles.
 
-Example client provider scaffold:
+Example provider:
 
 ```tsx
 "use client";

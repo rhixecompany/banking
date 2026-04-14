@@ -1,8 +1,8 @@
 # Section 7 — Zod Validation
 
-- All Zod fields must include `.describe(...)` and validators must provide messages for user-facing errors.
+All Zod fields must include `.describe(...)` and validators should provide explicit messages for user-facing errors.
 
-Example schema:
+Example:
 
 ```ts
 import { z } from "zod";

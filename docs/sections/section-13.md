@@ -1,6 +1,6 @@
 # Section 13 — Caching & Revalidation
 
-- Use Next.js revalidatePath, revalidateTag, or updateTag for cache invalidation in Server Actions.
+Use Next.js revalidatePath, revalidateTag, or updateTag for cache invalidation in Server Actions. Prefer updateTag for immediate changes and revalidateTag for background invalidation.
 
 Example:
 

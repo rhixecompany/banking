@@ -1,7 +1,6 @@
 # Section 16 — Styling & Tailwind Conventions
 
-- Tailwind v4 conventions (gap-_ preferred over space-_ in flex lists).
-- Use semantic tokens for colors (e.g., bg-muted, text-muted-foreground).
+- Follow Tailwind conventions used by the project and prefer semantic tokens for colors (bg-muted, text-muted-foreground).
 
 Example:
 

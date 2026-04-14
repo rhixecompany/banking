@@ -1,10 +1,10 @@
 # Section 3 — Repo Conventions
 
-- No use of `any` types; prefer `unknown` + type guards.
-- All DB access must go through `dal/`.
-- Mutations implemented as Server Actions in `actions/`.
+- Do not use `any`; use `unknown` and narrow with type guards.
+- All DB access must go through `dal/` helpers to avoid scattered SQL.
+- Mutations should be Server Actions in `actions/` with proper Zod validation.
 
-Representative TypeScript example (type guard):
+Type guard example:
 
 ```ts
 type HasValue = { value: string };

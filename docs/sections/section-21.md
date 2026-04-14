@@ -1,9 +1,9 @@
 # Section 21 — Observability
 
-- Add tracing and structured logs for critical paths.
-- Capture errors with context (user id, request id) but never include secrets.
+- Add tracing and structured logs for critical business paths.
+- Capture contextual metadata (userId, requestId) but never include secrets.
 
-Example structured log call (pseudo):
+Example:
 
 ```ts
 logger.info("wallet.link.success", {
