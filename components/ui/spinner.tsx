@@ -1,22 +1,18 @@
-import { clsx } from "clsx";
+import { Loader2Icon } from "lucide-react";
 
-/**
- * Loading spinner component for suspense fallbacks.
- * Uses Tailwind CSS for styling.
- *
- * @export
- * @param {Readonly<{ className?: string }>} props
- * @param {string} [props.className]
- * @returns {JSX.Element}
- */
-export function LoadingSpinner({
-  className,
-}: Readonly<{
-  className?: string;
-}>): JSX.Element {
+import { cn } from "@/lib/utils";
+
+function Spinner({ className, ...props }: React.ComponentProps<"svg">) {
   return (
-    <div className={clsx("flex items-center justify-center", className)}>
-      <div className="size-8 animate-spin rounded-full border-4 border-muted border-t-primary" />
-    </div>
+    <Loader2Icon
+      role="status"
+      aria-label="Loading"
+      className={cn("size-4 animate-spin", className)}
+      {...props}
+    />
   );
 }
+
+// Provide both Spinner and LoadingSpinner named exports for compatibility
+export { Spinner };
+export const LoadingSpinner = Spinner;

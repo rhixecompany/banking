@@ -6,6 +6,15 @@ import { getDwollaClient } from "@/lib/dwolla";
 import { env } from "@/lib/env";
 
 // Dwolla webhook receiver that verifies signature and updates dwolla_transfers status.
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @async
+ * @param {Request} req
+ * @returns {unknown}
+ */
 export async function POST(req: Request) {
   try {
     const rawBody = await req.text();

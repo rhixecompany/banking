@@ -6,6 +6,13 @@ import { db } from "@/database/db";
 import { wallets } from "@/database/schema";
 import { decrypt, encrypt } from "@/lib/encryption";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} value
+ * @returns {string}
+ */
 function safeDecrypt(value: string): string {
   try {
     return decrypt(value);

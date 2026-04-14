@@ -93,10 +93,35 @@ export function createMockAccountList(count: number): Account[] {
  * Mock wallet with Plaid balance data for dashboard display.
  */
 export interface WalletWithBalance {
+  /** Wallet fixture data */
   wallet: Wallet;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {number}
+   */
   currentBalance: number;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {number}
+   */
   availableBalance: number;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {string}
+   */
   accountType: string;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {string}
+   */
   accountSubtype: string;
 }
 

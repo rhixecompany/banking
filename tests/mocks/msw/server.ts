@@ -3,9 +3,27 @@ import { setupServer } from "msw/node";
 
 import { env } from "@/lib/env";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const PLAID_BASE = env.PLAID_BASE_URL ?? "https://sandbox.plaid.com";
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const DWOLLA_BASE = env.DWOLLA_BASE_URL ?? "https://api-sandbox.dwolla.com";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {{}}
+ */
 const handlers = [
   // Plaid: create link token
   http.post(`${PLAID_BASE}/link/token/create`, () =>
@@ -146,8 +164,20 @@ const handlers = [
   }),
 ];
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const server = setupServer(...handlers);
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ */
 export function startMockServer(): void {
   const globalState = globalThis as {
     __MSW_NODE_SERVER_STARTED__?: boolean;
@@ -159,6 +189,12 @@ export function startMockServer(): void {
   globalState.__MSW_NODE_SERVER_STARTED__ = true;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ */
 export function stopMockServer(): void {
   const globalState = globalThis as {
     __MSW_NODE_SERVER_STARTED__?: boolean;

@@ -27,11 +27,22 @@ export function makeNextAuthJwtToken(
   return jwt.sign(token, secret);
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @async
+ * @param {APIRequestContext} request
+ * @param {string} baseUrl
+ * @param {string} token
+ * @returns {Promise<boolean>}
+ */
 export async function setAuthCookie(
   request: APIRequestContext,
   baseUrl: string,
   token: string,
-): Promise<void> {
+): Promise<boolean> {
   // Set the cookie on the test browser context via the Playwright API endpoint
   // that the app exposes. We use a lightweight call to the test server to set
   // the cookie on the domain the app runs on.

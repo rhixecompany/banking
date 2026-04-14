@@ -10,7 +10,7 @@ fi
 
 INPUT=$(cat)
 
-mkdir -p logs/copilot/governance
+mkdir -p logs/opencode/governance
 
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 CWD=$(pwd)
@@ -21,7 +21,7 @@ jq -Rn \
   --arg cwd "$CWD" \
   --arg level "$LEVEL" \
   '{"timestamp":$timestamp,"event":"session_start","governance_level":$level,"cwd":$cwd}' \
-  >> logs/copilot/governance/audit.log
+  >> logs/opencode/governance/audit.log
 
 echo "🛡️ Governance audit active (level: $LEVEL)"
 exit 0

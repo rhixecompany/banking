@@ -32,9 +32,9 @@ describe("lib/error-tracking", () => {
 
     expect(errorsDal.insertError).toHaveBeenCalled();
     // errorsDal.insertError is a mocked function provided by our mock factory
-    const calledArg =
-      (errorsDal.insertError as unknown as jest.Mock)?.mock?.calls?.[0]?.[0] ??
-      undefined;
+    // vitest's global typings differ from Jest's. Cast to any to access mock
+    // call information safely in a testing context.
+    const calledArg = (errorsDal.insertError as any)?.mock?.calls?.[0]?.[0];
     expect(calledArg).toMatchObject({
       message: "Test error",
       path: "/test",
@@ -54,9 +54,7 @@ describe("lib/error-tracking", () => {
     await new Promise((r) => setTimeout(r, 0));
 
     expect(errorsDal.insertError).toHaveBeenCalled();
-    const calledArg2 =
-      (errorsDal.insertError as unknown as jest.Mock)?.mock?.calls?.[0]?.[0] ??
-      undefined;
+    const calledArg2 = (errorsDal.insertError as any)?.mock?.calls?.[0]?.[0];
     expect(calledArg2).toMatchObject({
       message: "Boom",
       path: "/some-path",

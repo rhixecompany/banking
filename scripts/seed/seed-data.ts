@@ -187,6 +187,16 @@ function buildWalletRow(
   };
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} id
+ * @param {string} userId
+ * @param {string} accessToken
+ * @param {string} itemId
+ * @returns {{ accessTokenEncrypted: any; id: string; itemId: string; userId: string; }}
+ */
 function buildPlaidItemRow(
   id: string,
   userId: string,

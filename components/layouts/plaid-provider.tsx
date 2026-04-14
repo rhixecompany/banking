@@ -9,9 +9,34 @@ import type { Wallet } from "@/types/wallet";
 import { createLinkToken, exchangePublicToken } from "@/actions/plaid.actions";
 import { logger } from "@/lib/logger";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @interface PlaidProviderProps
+ * @typedef {PlaidProviderProps}
+ */
 interface PlaidProviderProps {
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {string}
+   */
   userId: string;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {React.ReactNode}
+   */
   children: React.ReactNode;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?(wallet: Wallet) => void}
+   */
   onSuccess?: (wallet: Wallet) => void;
 }
 

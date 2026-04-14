@@ -24,6 +24,13 @@ export abstract class BasePage {
   /** The Playwright Page instance for all interactions. */
   readonly page: Page;
 
+  /**
+   * Creates an instance of BasePage.
+   * @author Adminbot
+   *
+   * @class
+   * @param {Page} page
+   */
   constructor(page: Page) {
     this.page = page;
   }

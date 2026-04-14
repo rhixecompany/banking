@@ -98,6 +98,6 @@ export function generateEntryHtml(entry: {
  * Write the final README
  */
 export function writeReadme(content: string): void {
-  const readmePath = path.join(ROOT_FOLDER, "README.opencode.md");
+  const readmePath = path.join(ROOT_FOLDER, "README.md");
   fs.writeFileSync(readmePath, content, "utf8");
 }

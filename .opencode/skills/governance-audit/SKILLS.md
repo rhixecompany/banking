@@ -1,16 +1,16 @@
 ---
 name: "Governance Audit"
-description: "Scans Copilot agent prompts for threat signals and logs governance events"
+description: "Scans opencode agent prompts for threat signals and logs governance events"
 tags: ["security", "governance", "audit", "safety"]
 ---
 
 # Governance Audit Hook
 
-Real-time threat detection and audit logging for GitHub Copilot coding agent sessions. Scans user prompts for dangerous patterns before the agent processes them.
+Real-time threat detection and audit logging for opencode coding agent sessions. Scans user prompts for dangerous patterns before the agent processes them.
 
 ## Overview
 
-This hook provides governance controls for Copilot coding agent sessions:
+This hook provides governance controls for opencode coding agent sessions:
 
 - **Threat detection**: Scans prompts for data exfiltration, privilege escalation, system destruction, prompt injection, and credential exposure
 - **Governance levels**: Open, standard, strict, locked — from audit-only to full blocking
@@ -41,19 +41,19 @@ This hook provides governance controls for Copilot coding agent sessions:
 1. Copy the hook folder to your repository:
 
    ```bash
-   cp -r hooks/governance-audit .github/hooks/
+   cp -r skills/governance-audit .opencode/skills/
    ```
 
 2. Ensure scripts are executable:
 
    ```bash
-   chmod +x .github/hooks/governance-audit/*.sh
+   chmod +x .opencode/skills/governance-audit/*.sh
    ```
 
 3. Create the logs directory and add to `.gitignore`:
 
    ```bash
-   mkdir -p logs/copilot/governance
+   mkdir -p logs/opencode/governance
    echo "logs/" >> .gitignore
    ```
 
@@ -80,7 +80,7 @@ Set environment variables in `hooks.json`:
 
 ## Log Format
 
-Events are written to `logs/copilot/governance/audit.log` in JSON Lines format:
+Events are written to `logs/opencode/governance/audit.log` in JSON Lines format:
 
 ```json
 {"timestamp":"2026-01-15T10:30:00Z","event":"session_start","governance_level":"standard","cwd":"/workspace/project"}

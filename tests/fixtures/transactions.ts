@@ -117,9 +117,13 @@ export function createPendingTransaction(
  * Transaction history page data structure for pagination testing.
  */
 export interface TransactionHistoryPage {
+  /** Transactions for the page */
   transactions: Transaction[];
+  /** Current page number */
   page: number;
+  /** Total pages available */
   totalPages: number;
+  /** Whether there are more pages beyond this one */
   hasMore: boolean;
 }
 
@@ -169,8 +173,11 @@ export const TRANSACTION_CATEGORIES = [
  * Aggregated transaction count for category breakdown display.
  */
 export interface CategoryCount {
+  /** Category name */
   name: string;
+  /** Count for the category */
   count: number;
+  /** Total count used to calculate percentages */
   totalCount: number;
 }
 

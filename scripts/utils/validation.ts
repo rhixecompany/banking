@@ -32,7 +32,7 @@ let validateFn: null | ReturnType<typeof ajv.compile> = null;
  */
 function getValidator() {
   if (!validateFn) {
-    const schemaPath = path.join(ROOT_FOLDER, "data/schema.json");
+    const schemaPath = path.join(ROOT_FOLDER, ".opencode/schema.json");
     const schemaContent = fs.readFileSync(schemaPath, "utf8");
     const schema = JSON.parse(schemaContent);
     validateFn = ajv.compile(schema);

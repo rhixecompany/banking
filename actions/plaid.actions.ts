@@ -13,6 +13,19 @@ import { logger } from "@/lib/logger";
 import { isMockAccessToken, plaidClient } from "@/lib/plaid";
 
 // Helper: process items in small batches to avoid rate-limiting external APIs.
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @template T
+ * @template R
+ * @param {T[]} items
+ * @param {number} batchSize
+ * @param {(item: T) => Promise<R>} fn
+ * @param {number} [delayMs=500]
+ * @returns {Promise<R[]>}
+ */
 async function processInBatches<T, R>(
   items: T[],
   batchSize: number,

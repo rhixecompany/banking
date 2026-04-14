@@ -13,6 +13,14 @@ import {
 import { db } from "@/database/db";
 import { transactions, user_profiles, users, wallets } from "@/database/schema";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @class AdminDal
+ * @typedef {AdminDal}
+ */
 export class AdminDal {
   /**
    * Get basic admin statistics: total users, total wallets, total transactions
@@ -253,4 +261,10 @@ export class AdminDal {
   }
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {AdminDal}
+ */
 export const adminDal = new AdminDal();

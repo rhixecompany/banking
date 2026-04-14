@@ -1,6 +1,7 @@
+import { gte, lt } from "drizzle-orm";
+
 import { db } from "@/database/db";
 import { errors } from "@/database/schema";
-import { gte, lt } from "drizzle-orm";
 
 /**
  * Data access layer for the `errors` table.
@@ -56,5 +57,11 @@ export class ErrorsDal {
     await db.delete(errors).where(lt(errors.createdAt, cutoff));
   }
 }
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {ErrorsDal}
+ */
 
 export const errorsDal = new ErrorsDal();

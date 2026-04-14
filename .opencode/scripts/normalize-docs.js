@@ -5,32 +5,60 @@
  * and perform conservative normalization (no destructive edits).
  */
 const fs = require("fs");
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const path = require("path");
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const glob = require("glob");
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {"2026-04-13"}
+ */
 const REVIEW_DATE = "2026-04-13";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {*} file
+ * @returns {boolean}
+ */
 function processFile(file) {
   const content = fs.readFileSync(file, "utf8");
   if (!content.startsWith("---")) return false;
-  const endIndex = content.indexOf("\n---", 3);
-  if (endIndex === -1) return false;
-  const fmBlock = content.slice(3, endIndex + 1); // includes leading newline
-  if (/lastReviewed:/i.test(fmBlock)) return false; // already present
-  const insertPos = endIndex + 1; // after closing --- line
-  // build new front-matter by inserting lastReviewed before closing ---
-  const fmLines = fmBlock.split(/\r?\n/);
-  // Remove any trailing empty lines
-  while (fmLines.length && fmLines[fmLines.length - 1].trim() === "")
-    fmLines.pop();
+  // Use a robust regex to capture front-matter including CRLF or LF line endings
+  const fmRegex = /^(---\r?\n([\s\S]*?)\r?\n---\r?\n)/;
+  const m = content.match(fmRegex);
+  if (!m) return false;
+  const fullFmBlock = m[1]; // includes opening and closing --- lines
+  const innerFm = m[2];
+  if (/lastReviewed:/i.test(innerFm)) return false; // already present
+  // build new front-matter by appending lastReviewed before closing ---
+  const fmLines = innerFm.split(/\r?\n/).filter(Boolean);
   fmLines.push(`lastReviewed: ${REVIEW_DATE}`);
-  const newFm = "---\n" + fmLines.join("\n") + "\n---\n";
-  const rest = content.slice(endIndex + 5); // skip \n---\n
+  const newFm = `---\n${fmLines.join("\n")}\n---\n`;
+  const rest = content.slice(fullFmBlock.length);
   const newContent = newFm + rest;
   fs.writeFileSync(file, newContent, "utf8");
   return true;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ */
 function run() {
   const instrFiles = glob.sync(".opencode/instructions/*.md");
   const skillFiles = glob.sync(".opencode/skills/**/SKILL.md");

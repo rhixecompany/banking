@@ -20,12 +20,47 @@ import { earningData, statisticsCardData, transactionData } from "./admin-data";
  * @returns {React.JSX.Element}
  */
 interface AdminDashboardContentProps {
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {(AdminTransaction[] | undefined)}
+   */
   recentTransactions: AdminTransaction[] | undefined;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {(AdminStats | null | undefined)}
+   */
   stats: AdminStats | null | undefined;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {(Record<string, number> | undefined)}
+   */
   transactionStatusStats: Record<string, number> | undefined;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {(Record<string, number> | undefined)}
+   */
   transactionTypeStats: Record<string, number> | undefined;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {AdminDashboardContentProps} param0
+ * @param {{}} param0.recentTransactions
+ * @param {*} param0.stats
+ * @param {*} param0.transactionStatusStats
+ * @param {*} param0.transactionTypeStats
+ * @returns {React.JSX.Element}
+ */
 const AdminDashboardContent = ({
   recentTransactions,
   stats,

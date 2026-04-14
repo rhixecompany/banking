@@ -4,6 +4,7 @@ import { Merriweather, Roboto } from "next/font/google";
 import { ReactNode, Suspense } from "react";
 
 import { Toaster } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { RootProviders } from "@/stores/providers";
 
 import "./globals.css";
@@ -42,18 +43,22 @@ export const metadata: Metadata = {
  * Description placeholder
  *
  * @export
- * @param {Readonly<{ children: ReactNode }>} param0
- * @param {Readonly<{ children: ReactNode; }>} param0.children
+ * @param {{ children: ReactNode }} param0
+ * @param {{ children: ReactNode }} param0.children
  * @returns {*}
  */
 export default function RootLayout({
   children,
-}: Readonly<{ children: ReactNode }>): JSX.Element {
+}: {
+  children: ReactNode;
+}): JSX.Element {
   return (
     <html lang="en">
       <body className={`${roboto.variable} ${merriweather.variable}`}>
         <Suspense fallback={undefined}>
-          <RootProviders>{children}</RootProviders>
+          <RootProviders>
+            <TooltipProvider>{children}</TooltipProvider>
+          </RootProviders>
         </Suspense>
         <Toaster position="top-right" expand={true} richColors closeButton />
       </body>

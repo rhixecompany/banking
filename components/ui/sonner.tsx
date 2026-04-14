@@ -1,56 +1,37 @@
 "use client";
 
 import {
-  CircleCheck,
-  Info,
-  LoaderCircle,
-  OctagonX,
-  TriangleAlert,
+  CircleCheckIcon,
+  InfoIcon,
+  Loader2Icon,
+  OctagonXIcon,
+  TriangleAlertIcon,
 } from "lucide-react";
 import { useTheme } from "next-themes";
-import { Toaster as Sonner } from "sonner";
+import { Toaster as Sonner, type ToasterProps } from "sonner";
 
-/**
- * Description placeholder
- *
- * @typedef {ToasterProps}
- */
-type ToasterProps = React.ComponentProps<typeof Sonner>;
-
-/**
- * Description placeholder
- *
- * @param {ToasterProps} param0
- * @param {React.ComponentProps<any>} param0....props
- * @returns {*}
- */
 const Toaster = ({ ...props }: ToasterProps) => {
   const { theme = "system" } = useTheme();
 
   return (
     <Sonner
       theme={theme as ToasterProps["theme"]}
-      className="group"
+      className="toaster group"
       icons={{
-        error: <OctagonX data-icon="inline-start" />,
-        info: <Info data-icon="inline-start" />,
-        loading: (
-          <LoaderCircle data-icon="inline-start" className="animate-spin" />
-        ),
-        success: <CircleCheck data-icon="inline-start" />,
-        warning: <TriangleAlert data-icon="inline-start" />,
+        success: <CircleCheckIcon className="size-4" />,
+        info: <InfoIcon className="size-4" />,
+        warning: <TriangleAlertIcon className="size-4" />,
+        error: <OctagonXIcon className="size-4" />,
+        loading: <Loader2Icon className="size-4 animate-spin" />,
       }}
-      toastOptions={{
-        classNames: {
-          actionButton:
-            "group-[.toast]:bg-primary group-[.toast]:text-primary-foreground",
-          cancelButton:
-            "group-[.toast]:bg-muted group-[.toast]:text-muted-foreground",
-          description: "group-[.toast]:text-muted-foreground",
-          toast:
-            "group toast group-[.toaster]:bg-background group-[.toaster]:text-foreground group-[.toaster]:border-border group-[.toaster]:shadow-lg",
-        },
-      }}
+      style={
+        {
+          "--normal-bg": "var(--popover)",
+          "--normal-text": "var(--popover-foreground)",
+          "--normal-border": "var(--border)",
+          "--border-radius": "var(--radius)",
+        } as React.CSSProperties
+      }
       {...props}
     />
   );

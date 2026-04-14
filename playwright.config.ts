@@ -122,22 +122,32 @@ export default defineConfig({
   },
 
   /* Run your local dev server before starting the tests */
-  webServer: {
-    command: "npm run dev",
-    reuseExistingServer: !process.env["CI"],
-    stderr: "pipe",
-    stdout: "pipe",
-    timeout: TIMEOUTS.WEB_SERVER,
-    url: "http://localhost:3000",
-    // Forward a small set of test flags to the spawned dev server process so
-    // test-only endpoints (like /__playwright__/set-cookie) are enabled when
-    // Playwright starts the application. We avoid forwarding the whole
-    // process.env to limit leakage of unrelated variables.
-    env: {
-      PLAYWRIGHT_PREPARE_DB: process.env.PLAYWRIGHT_PREPARE_DB,
-      ENABLE_TEST_ENDPOINTS: process.env.ENABLE_TEST_ENDPOINTS,
-    },
-  },
+  webServer: (() => {
+    // Only include env vars that are defined; Playwright expects string values
+    // for the webServer.env object (Record<string, string>), so we build a
+    // filtered object to satisfy the TypeScript type.
+    const webEnv: Record<string, string> = {};
+    if (process.env.ENABLE_TEST_ENDPOINTS) {
+      webEnv.ENABLE_TEST_ENDPOINTS = process.env.ENABLE_TEST_ENDPOINTS;
+    }
+    if (process.env.PLAYWRIGHT_PREPARE_DB) {
+      webEnv.PLAYWRIGHT_PREPARE_DB = process.env.PLAYWRIGHT_PREPARE_DB;
+    }
+
+    return {
+      command: "npm run dev",
+      // Forward a small set of test flags to the spawned dev server process so
+      // test-only endpoints (like /__playwright__/set-cookie) are enabled when
+      // Playwright starts the application. We avoid forwarding the whole
+      // process.env to limit leakage of unrelated variables.
+      env: webEnv,
+      reuseExistingServer: !process.env["CI"],
+      stderr: "pipe",
+      stdout: "pipe",
+      timeout: TIMEOUTS.WEB_SERVER,
+      url: "http://localhost:3000",
+    };
+  })(),
 
   /* Always 1 worker — stateful app (auth sessions, shared DB). */
   workers: 1,

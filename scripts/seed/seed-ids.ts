@@ -31,4 +31,11 @@ export const SEED_IDS = {
   },
 } as const;
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @typedef {SeedIds}
+ */
 export type SeedIds = typeof SEED_IDS;

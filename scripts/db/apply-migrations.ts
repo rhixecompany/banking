@@ -5,10 +5,23 @@ import { join } from "path";
 import { Pool } from "pg";
 
 // Load .env.local if present, then fallback to .env
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const localEnv = join(process.cwd(), ".env.local");
 dotenv.config({ override: true, path: localEnv });
 dotenv.config();
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @returns {*}
+ */
 async function run() {
   const dir = join(process.cwd(), "database", "drizzle");
   const files = readdirSync(dir)

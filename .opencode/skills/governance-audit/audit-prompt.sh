@@ -15,14 +15,14 @@ fi
 
 INPUT=$(cat)
 
-mkdir -p logs/copilot/governance
+mkdir -p logs/opencode/governance
 
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 LEVEL="${GOVERNANCE_LEVEL:-standard}"
 BLOCK="${BLOCK_ON_THREAT:-false}"
-LOG_FILE="logs/copilot/governance/audit.log"
+LOG_FILE="logs/opencode/governance/audit.log"
 
-# Extract prompt text from Copilot input (JSON with userMessage field)
+# Extract prompt text from OpenCode input (JSON with userMessage field)
 PROMPT=""
 if command -v jq &>/dev/null; then
   PROMPT=$(echo "$INPUT" | jq -r '.userMessage // .prompt // empty' 2>/dev/null || echo "")
@@ -83,7 +83,6 @@ if [[ ${#THREATS_FOUND[@]} -gt 0 ]]; then
   MAX_SEVERITY="0.0"
   for threat in "${THREATS_FOUND[@]}"; do
     IFS=$'\t' read -r category severity description evidence_encoded <<< "$threat"
-    local evidence
     evidence=$(printf '%s' "$evidence_encoded" | base64 -d 2>/dev/null || echo "[redacted]")
 
     if [[ "$FIRST" != "true" ]]; then

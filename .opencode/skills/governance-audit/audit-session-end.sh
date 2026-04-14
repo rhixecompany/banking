@@ -10,10 +10,10 @@ fi
 
 INPUT=$(cat)
 
-mkdir -p logs/copilot/governance
+mkdir -p logs/opencode/governance
 
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-LOG_FILE="logs/copilot/governance/audit.log"
+LOG_FILE="logs/opencode/governance/audit.log"
 
 # Count events from this session (filter by session start timestamp)
 TOTAL=0

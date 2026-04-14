@@ -34,6 +34,12 @@ const { db } = await import("@/database/db");
  * @type {*}
  */
 const seedModule = await import("./seed-data");
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const { getPlannedSeedSummary, seedAll } = seedModule;
 
 /**
@@ -65,6 +71,12 @@ function hasResetFlag(): boolean {
   return process.argv.includes("--reset");
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @returns {boolean}
+ */
 function hasDryRunFlag(): boolean {
   return (
     process.argv.includes("--dry-run") ||
@@ -74,6 +86,12 @@ function hasDryRunFlag(): boolean {
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @returns {boolean}
+ */
 function hasYesFlag(): boolean {
   return process.argv.includes("--yes") || process.argv.includes("-y");
 }
@@ -164,6 +182,14 @@ async function main(): Promise<void> {
   console.warn("Seed completed.");
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @async
+ * @returns {Promise<void>}
+ */
 export async function run(): Promise<void> {
   return main();
 }

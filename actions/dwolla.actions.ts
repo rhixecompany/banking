@@ -123,6 +123,12 @@ const CreateLedgerSchema = z
   })
   .optional();
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const TransferSchema = z.object({
   amount: z
     .string()

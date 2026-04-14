@@ -219,10 +219,44 @@ export type EmailConfig = z.infer<typeof emailSchema>;
  * Complete application configuration type
  */
 export interface AppConfig {
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {AuthConfig}
+   */
   auth: AuthConfig;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {DatabaseConfig}
+   */
   database: DatabaseConfig;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {EmailConfig}
+   */
   email: EmailConfig;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {EncryptionConfig}
+   */
   encryption: EncryptionConfig;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {{
+   *     dwolla: DwollaConfig;
+   *     plaid: PlaidConfig;
+   *     redis: RedisConfig;
+   *   }}
+   */
   integrations: {
     dwolla: DwollaConfig;
     plaid: PlaidConfig;
