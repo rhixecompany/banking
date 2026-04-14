@@ -23,7 +23,7 @@ async function processInBatches<T, R>(
   for (let i = 0; i < items.length; i += batchSize) {
     const batch = items.slice(i, i + batchSize);
     // Run the batch in parallel
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
     const res = await Promise.all(batch.map(fn));
     results.push(...res);
     if (i + batchSize < items.length) {

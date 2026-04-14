@@ -57,9 +57,11 @@ function validateScripts(): boolean {
 
   for (const script of scriptsToCheck) {
     console.warn(`  - Dry-run: ${script}`);
-    // Ensure DRY_RUN env is passed so scripts which gate destructive ops can run in dry-run mode
+    // Run the script with --dry-run flag. We avoid touching process.env here so
+    // the validation script doesn't rely on env propagation; most scripts
+    // detect the dry-run via argv (preferred). Leaving stdio inherited so
+    // any runtime output is visible during validation.
     const res = spawnSync("npx", ["tsx", script, "--dry-run"], {
-      env: { ...process.env, DRY_RUN: "true" },
       shell: false,
       stdio: "inherit",
     });

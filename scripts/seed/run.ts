@@ -66,7 +66,12 @@ function hasResetFlag(): boolean {
 }
 
 function hasDryRunFlag(): boolean {
-  return process.argv.includes("--dry-run") || process.argv.includes("-n");
+  return (
+    process.argv.includes("--dry-run") ||
+    process.argv.includes("-n") ||
+    process.env.DRY_RUN === "true" ||
+    process.env.DRY_RUN === "1"
+  );
 }
 
 function hasYesFlag(): boolean {
@@ -128,7 +133,7 @@ async function main(): Promise<void> {
           "../../docs/validation/seed-test-dryrun.txt",
         );
         await writeFile(reportPath, JSON.stringify(summary, null, 2), {
-          dryRun: false,
+          dryRun: true,
         });
         console.warn(`[dry-run] Wrote dry-run report to ${reportPath}`);
       } catch (err) {
@@ -169,11 +174,11 @@ export async function run(): Promise<void> {
 try {
   // fileURLToPath ensures cross-platform path comparisons
   const entry = process.argv[1];
-  if (entry && entry.endsWith("scripts/seed/run.ts")) {
+  if (entry?.endsWith("scripts/seed/run.ts")) {
     // Direct invocation
 
     void run().catch((error: unknown) => {
-      console.error(error);
+      console.error(String((error as any)?.message ?? error));
       process.exitCode = 1;
     });
   }

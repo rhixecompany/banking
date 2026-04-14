@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* eslint-disable n/no-process-env, no-console */
+/* eslint-disable n/no-process-env */
 
 /**
  * Feature Scaffolding Generator Script
@@ -125,10 +125,12 @@ function parseArgs(): {
     }
   }
 
-  // Allow DRY_RUN env override (support both global script flag and env)
+  // Allow DRY_RUN override via global flag OR environment variable.
+  // Support both string "true" and numeric-style "1" for CI friendliness.
   if ((globalThis as any).__SCRIPTS_DRY_RUN) dryRun = true;
-  // eslint-disable-next-line n/no-process-env
-  if (process.env.DRY_RUN === "true") dryRun = true;
+
+  const envDry = process.env.DRY_RUN;
+  if (envDry === "true" || envDry === "1") dryRun = true;
 
   return { dryRun, featureName, options, yes };
 }

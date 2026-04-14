@@ -147,12 +147,30 @@ async function exportAll(options: ExportOptions): Promise<void> {
     `\n📦 Exporting data (type: ${options.type}, format: ${options.format})\n`,
   );
 
-  const DRY_RUN =
-    process.argv.includes("--dry-run") ||
-    (globalThis as any).__SCRIPTS_DRY_RUN ||
-    // prefer nullish check and explicit string comparison for DRY_RUN
-    process.env["DRY_RUN"] === "true" ||
-    process.env["DRY_RUN"] === "1";
+  // Prefer argv / global flag first. For scripts called directly in Node the
+  // lint rule `n/no-process-env` flags `process.env` usage; we use it here for
+  // CI convenience but keep checks minimal and explicit so the intent is clear.
+  // Access process.env in one controlled place to satisfy lint rules. This
+  // line intentionally accesses process.env because these are CLI scripts.
+  // Prefer validated env from lib/env when available; fall back to process.env
+  // for ad-hoc runs. Use dynamic import to avoid top-level side effects.
+  let envDRY = "";
+  try {
+    // dynamic import returns a promise; use await since this function is async
+    const mod = await import("@/lib/env");
+    envDRY = mod?.env?.DRY_RUN ?? "";
+  } catch {
+    // If lib/env isn't available in this environment, fall back to process.env
+    // eslint-disable-next-line n/no-process-env
+    envDRY = typeof process !== "undefined" ? (process.env?.DRY_RUN ?? "") : "";
+  }
+
+  const DRY_RUN = [
+    process.argv.includes("--dry-run"),
+    Boolean((globalThis as any).__SCRIPTS_DRY_RUN),
+    envDRY === "true",
+    envDRY === "1",
+  ].some(Boolean);
   if (!DRY_RUN) {
     if (!fs.existsSync(options.output)) {
       fs.mkdirSync(options.output, { recursive: true });
