@@ -426,3 +426,32 @@ export async function seedAll(): Promise<void> {
       buildErrorRow(SEED_IDS.errors.anonymous, undefined),
     ]);
 }
+
+/**
+ * Provides a concise summary of the planned seed rows without executing DB writes.
+ * This is consumed by the seed runner for dry-run reporting.
+ */
+export function getPlannedSeedSummary() {
+  return {
+    accounts: {
+      admin: buildAccountRow(SEED_IDS.users.admin),
+    },
+    SEED_IDS,
+    wallets: [
+      buildWalletRow(
+        SEED_IDS.wallets.checking,
+        SEED_IDS.users.user,
+        "seed-share-checking-001",
+        "Seed Checking Wallet",
+        0,
+      ),
+      buildWalletRow(
+        SEED_IDS.wallets.savings,
+        SEED_IDS.users.user,
+        "seed-share-savings-002",
+        "Seed Savings Wallet",
+        1,
+      ),
+    ],
+  };
+}

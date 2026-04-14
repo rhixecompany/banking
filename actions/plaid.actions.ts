@@ -12,6 +12,28 @@ import { auth } from "@/lib/auth";
 import { logger } from "@/lib/logger";
 import { isMockAccessToken, plaidClient } from "@/lib/plaid";
 
+// Helper: process items in small batches to avoid rate-limiting external APIs.
+async function processInBatches<T, R>(
+  items: T[],
+  batchSize: number,
+  fn: (item: T) => Promise<R>,
+  delayMs = 500,
+): Promise<R[]> {
+  const results: R[] = [];
+  for (let i = 0; i < items.length; i += batchSize) {
+    const batch = items.slice(i, i + batchSize);
+    // Run the batch in parallel
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const res = await Promise.all(batch.map(fn));
+    results.push(...res);
+    if (i + batchSize < items.length) {
+      // Small delay between batches to give external APIs breathing room
+      await new Promise((r) => setTimeout(r, delayMs));
+    }
+  }
+  return results;
+}
+
 /**
  * Zod schema for validating the input to {@link createLinkToken}.
  * Requires a non-empty user ID string.
@@ -33,7 +55,7 @@ const CreateLinkTokenSchema = z.object({
  * @type {*}
  */
 const ExchangePublicTokenSchema = z.object({
-  publicToken: z.string().trim().min(1),
+  publicToken: z.string().trim().min(1, "Public token is required"),
 });
 
 /**
@@ -43,7 +65,7 @@ const ExchangePublicTokenSchema = z.object({
  * @type {*}
  */
 const GetAccountsSchema = z.object({
-  walletId: z.string().trim().min(1),
+  walletId: z.string().trim().min(1, "Wallet ID is required"),
 });
 
 /**
@@ -54,10 +76,10 @@ const GetAccountsSchema = z.object({
  */
 const GetTransactionsSchema = z.object({
   count: z.number().min(1).max(500).optional(),
-  endDate: z.string().trim().min(1),
+  endDate: z.string().trim().min(1, "End date is required"),
   offset: z.number().min(0).optional(),
-  startDate: z.string().trim().min(1),
-  walletId: z.string().trim().min(1),
+  startDate: z.string().trim().min(1, "Start date is required"),
+  walletId: z.string().trim().min(1, "Wallet ID is required"),
 });
 
 /**
@@ -67,7 +89,7 @@ const GetTransactionsSchema = z.object({
  * @type {*}
  */
 const GetBalanceSchema = z.object({
-  walletId: z.string().trim().min(1),
+  walletId: z.string().trim().min(1, "Wallet ID is required"),
 });
 
 /**
@@ -77,7 +99,7 @@ const GetBalanceSchema = z.object({
  * @type {*}
  */
 const RefreshAccountsSchema = z.object({
-  walletId: z.string().trim().min(1),
+  walletId: z.string().trim().min(1, "Wallet ID is required"),
 });
 
 /**
@@ -87,7 +109,7 @@ const RefreshAccountsSchema = z.object({
  * @type {*}
  */
 const GetInstitutionSchema = z.object({
-  institutionId: z.string().trim().min(1),
+  institutionId: z.string().trim().min(1, "Institution ID is required"),
 });
 
 /**
@@ -447,8 +469,10 @@ export async function getAllBalances(userId: string): Promise<{
   try {
     const wallets = await walletsDal.findByUserId(userId);
 
-    const entries = await Promise.all(
-      wallets.map(async (wallet): Promise<[string, PlaidBalance[]]> => {
+    const entries = await processInBatches(
+      wallets,
+      2,
+      async (wallet): Promise<[string, PlaidBalance[]]> => {
         try {
           // Silently skip wallets with empty or mock tokens
           if (
@@ -478,7 +502,8 @@ export async function getAllBalances(userId: string): Promise<{
           logger.error(`Failed to get balance for wallet ${wallet.id}:`, error);
           return [wallet.id, []];
         }
-      }),
+      },
+      400,
     );
 
     return { balances: Object.fromEntries(entries), ok: true };
@@ -510,8 +535,10 @@ export async function getAllAccounts(): Promise<{
   try {
     const wallets = await walletsDal.findByUserId(session.user.id);
 
-    const accountArrays = await Promise.all(
-      wallets.map(async (wallet): Promise<Account[]> => {
+    const accountArrays = await processInBatches(
+      wallets,
+      2,
+      async (wallet): Promise<Account[]> => {
         try {
           // Skip wallets with empty or missing access tokens
           // Silently skip - these are expected in E2E test environments
@@ -559,7 +586,8 @@ export async function getAllAccounts(): Promise<{
           logger.warn(`getAllAccounts: skipping wallet ${wallet.id}:`, err);
           return [];
         }
-      }),
+      },
+      400,
     );
 
     return { accounts: accountArrays.flat(), ok: true };
@@ -616,7 +644,7 @@ export async function getInstitution(input: unknown): Promise<{
  * @type {*}
  */
 const GetWalletWithDetailsSchema = z.object({
-  walletId: z.string().trim().min(1),
+  walletId: z.string().trim().min(1, "Wallet ID is required"),
 });
 
 /**
@@ -727,8 +755,10 @@ export async function getAllWalletsWithDetails(): Promise<{
       ? (balancesResult.balances ?? {})
       : {};
 
-    const transactionsByWallet = await Promise.all(
-      wallets.map(async (wallet): Promise<[string, PlaidTransaction[]]> => {
+    const transactionsByWallet = await processInBatches(
+      wallets,
+      2,
+      async (wallet): Promise<[string, PlaidTransaction[]]> => {
         try {
           if (
             !wallet.accessToken ||
@@ -760,7 +790,8 @@ export async function getAllWalletsWithDetails(): Promise<{
           );
           return [wallet.id, []];
         }
-      }),
+      },
+      400,
     );
 
     const allTransactions = Object.fromEntries(transactionsByWallet);
@@ -789,7 +820,7 @@ export async function getAllWalletsWithDetails(): Promise<{
  * @type {*}
  */
 const RemoveWalletSchema = z.object({
-  walletId: z.string().trim().min(1),
+  walletId: z.string().trim().min(1, "Wallet ID is required"),
 });
 
 /**

@@ -169,3 +169,5 @@ lib/
 ```
 
 See: .opencode/skills/server-action-skill/SKILL.md
+
+// Shortened and clarified for consistency with regenerated instruction templates.

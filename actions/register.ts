@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import { z } from "zod";
 
 import { userDal } from "@/dal";
+import type { UserWithProfile } from "@/types/user";
 
 /**
  * Zod schema for validating new user registration input.
@@ -78,7 +79,11 @@ export type RegisterInput = z.infer<typeof RegisterSchema>;
  */
 export async function registerUser(
   input: unknown,
-): Promise<{ ok: boolean; user?: unknown; error?: string }> {
+): Promise<{
+  ok: boolean;
+  user?: UserWithProfile | undefined;
+  error?: string;
+}> {
   const parsed = RegisterSchema.safeParse(input);
   if (!parsed.success) {
     const allErrors = parsed.error.issues

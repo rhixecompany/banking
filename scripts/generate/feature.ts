@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable n/no-process-env, no-console */
 
 /**
  * Feature Scaffolding Generator Script
@@ -13,6 +14,7 @@
 import fs from "fs";
 import path from "path";
 import readline from "readline";
+
 import io from "../utils/io";
 
 /**
@@ -123,10 +125,12 @@ function parseArgs(): {
     }
   }
 
-  // Allow DRY_RUN env override
+  // Allow DRY_RUN env override (support both global script flag and env)
+  if ((globalThis as any).__SCRIPTS_DRY_RUN) dryRun = true;
+  // eslint-disable-next-line n/no-process-env
   if (process.env.DRY_RUN === "true") dryRun = true;
 
-  return { featureName, options, dryRun, yes };
+  return { dryRun, featureName, options, yes };
 }
 
 /**

@@ -353,7 +353,7 @@ export async function createTransfer(input: unknown): Promise<{
       try {
         // Use a typed but permissive tx type to satisfy TS for now. Drizzle's
         // transaction callback receives a transaction-scoped DB instance.
-        await db.transaction(async (tx: any) => {
+        await db.transaction(async (tx) => {
           const ledger = dataAny.createLedger as Record<string, unknown>;
 
           // Coerce ledger fields into expected types before calling DAL.
@@ -416,7 +416,7 @@ export async function createTransfer(input: unknown): Promise<{
               type: typeVal,
               userId: session.user.id,
             },
-            { db: tx },
+            { db: tx as unknown },
           );
 
           // Insert dwolla_transfers metadata linked to the ledger via DAL (pass tx)
@@ -434,7 +434,7 @@ export async function createTransfer(input: unknown): Promise<{
               transferUrl,
               userId: session.user.id,
             },
-            { db: tx },
+            { db: tx as unknown },
           );
 
           // Debug logs to help unit tests diagnose failures. Redact sensitive

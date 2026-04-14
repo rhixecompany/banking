@@ -13,6 +13,7 @@
 import fs from "fs";
 import path from "path";
 import readline from "readline";
+
 import io from "../utils/io";
 
 /**
@@ -166,8 +167,8 @@ const ${pascalName}Schema = z.object({
 `;
     if (options.type === "create" || options.type === "update") {
       content += `  // Add your fields here
-  name: z.string().min(1),
-  email: z.string().email().optional(),
+  name: z.string().min(1, "Name is required").meta({ description: "Name" }),
+  email: z.string().email("Invalid email address").optional().meta({ description: "Email address" }),
 `;
     }
     content += `});

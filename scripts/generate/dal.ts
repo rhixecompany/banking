@@ -232,10 +232,15 @@ async function generateDAL(
 
   await writeFile(filePath, content);
 
-  if (!(DRY_RUN || (globalThis as any).__SCRIPTS_DRY_RUN)) {
-    console.warn(`✅ Generated DAL: ${filePath}`);
+  if (typeof (globalThis as any).__SCRIPTS_DRY_RUN !== "undefined") {
+    if (!(globalThis as any).__SCRIPTS_DRY_RUN) {
+      console.warn(`✅ Generated DAL: ${filePath}`);
+    } else {
+      console.warn(`[dry-run] Would generate DAL: ${filePath}`);
+    }
   } else {
-    console.warn(`[dry-run] Would generate DAL: ${filePath}`);
+    // Fallback behavior when global flag is not present
+    console.warn(`✅ Generated DAL: ${filePath}`);
   }
 
   const indexPath = path.resolve(DAL_DIR, "index.ts");

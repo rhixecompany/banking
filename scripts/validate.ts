@@ -20,6 +20,7 @@
  */
 
 import { spawnSync } from "child_process";
+
 import { formatValidationErrors, validateEntry } from "./utils/validation.js";
 import { getAllYamlFiles, readYamlFile } from "./utils/yaml.js";
 import { validateActions } from "./validate/actions.js";
@@ -32,7 +33,14 @@ import { validateTypes } from "./validate/types.js";
  *
  * @typedef {ValidationTarget}
  */
-type ValidationTarget = "actions" | "all" | "env" | "schema" | "types" | "yaml";
+type ValidationTarget =
+  | "actions"
+  | "all"
+  | "env"
+  | "schema"
+  | "scripts"
+  | "types"
+  | "yaml";
 
 /**
  * Run a small smoke dry-run for TypeScript scripts to ensure they execute without runtime errors.
@@ -50,9 +58,9 @@ function validateScripts(): boolean {
   for (const script of scriptsToCheck) {
     console.warn(`  - Dry-run: ${script}`);
     const res = spawnSync("npx", ["tsx", script, "--dry-run"], {
-      stdio: "inherit",
+      env: { ...process.env },
       shell: false,
-      env: process.env,
+      stdio: "inherit",
     });
 
     if (res.status !== 0) {

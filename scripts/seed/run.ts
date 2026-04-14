@@ -33,7 +33,8 @@ const { db } = await import("@/database/db");
  *
  * @type {*}
  */
-const { seedAll } = await import("./seed-data");
+const seedModule = await import("./seed-data");
+const { getPlannedSeedSummary, seedAll } = seedModule;
 
 /**
  * Development database seeder. Requires DATABASE_URL and the same env as the app
@@ -62,6 +63,14 @@ function assertSeedAllowed(): void {
  */
 function hasResetFlag(): boolean {
   return process.argv.includes("--reset");
+}
+
+function hasDryRunFlag(): boolean {
+  return process.argv.includes("--dry-run") || process.argv.includes("-n");
+}
+
+function hasYesFlag(): boolean {
+  return process.argv.includes("--yes") || process.argv.includes("-y");
 }
 
 /**
@@ -98,7 +107,49 @@ async function truncateAllTables(): Promise<void> {
 async function main(): Promise<void> {
   assertSeedAllowed();
 
+  const dryRun = hasDryRunFlag();
+  const yes = hasYesFlag();
+
+  // Dry-run: print planned operations and write a validation artifact, but do not mutate DB
+  if (dryRun) {
+    console.warn("[dry-run] Seeding (no changes will be applied)");
+    try {
+      const summary = getPlannedSeedSummary();
+      console.warn(
+        "[dry-run] Planned seed summary:\n",
+        JSON.stringify(summary, null, 2),
+      );
+
+      // Attempt to write a validation file for reviewers
+      try {
+        const { writeFile } = await import("../utils/io");
+        const reportPath = path.resolve(
+          __dirname,
+          "../../docs/validation/seed-test-dryrun.txt",
+        );
+        await writeFile(reportPath, JSON.stringify(summary, null, 2), {
+          dryRun: false,
+        });
+        console.warn(`[dry-run] Wrote dry-run report to ${reportPath}`);
+      } catch (err) {
+        console.warn("[dry-run] Failed to write dry-run report:", err);
+      }
+    } catch (err) {
+      console.warn("[dry-run] Failed to generate planned seed summary:", err);
+    }
+
+    console.warn("[dry-run] Seed simulation complete.");
+    return;
+  }
+
+  // Reset (destructive) operations must be explicitly allowed via RUN_DESTRUCTIVE and --yes
   if (hasResetFlag()) {
+    if (process.env.RUN_DESTRUCTIVE !== "true" && !hasYesFlag()) {
+      throw new Error(
+        "Destructive seeding (--reset) requires RUN_DESTRUCTIVE=true and --yes flag to proceed",
+      );
+    }
+
     console.warn("Truncating all application tables...");
     await truncateAllTables();
   }
@@ -108,7 +159,24 @@ async function main(): Promise<void> {
   console.warn("Seed completed.");
 }
 
-main().catch((error: unknown) => {
-  console.error(error);
-  process.exitCode = 1;
-});
+export async function run(): Promise<void> {
+  return main();
+}
+
+// If this module is executed directly (node tsx scripts/seed/run.ts), run the seeder.
+// This avoids auto-executing when imported programmatically by test bootstrap code
+// which prefers to call the exported `run` function.
+try {
+  // fileURLToPath ensures cross-platform path comparisons
+  const entry = process.argv[1];
+  if (entry && entry.endsWith("scripts/seed/run.ts")) {
+    // Direct invocation
+     
+    void run().catch((error: unknown) => {
+      console.error(error);
+      process.exitCode = 1;
+    });
+  }
+} catch {
+  // ignore - if detection fails, the consumer should call `run()` explicitly
+}

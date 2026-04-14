@@ -106,10 +106,12 @@ export class TransactionDal {
       category?: string;
       currency?: string;
     },
-    opts?: { db?: typeof db },
+    opts?: { db?: unknown },
   ): Promise<Transaction> {
     // Allow callers to pass a transaction-scoped DB instance via opts.db.
-    const database = opts?.db ?? db;
+    // Use unknown to accept Drizzle transaction-scoped DB instances and cast
+    // to the shared `typeof db` shape at runtime.
+    const database = (opts?.db ?? db) as typeof db;
     const [txn] = await database.insert(transactions).values(data).returning();
     return txn;
   }

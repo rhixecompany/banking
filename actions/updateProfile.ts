@@ -15,7 +15,7 @@ const UpdateProfileSchema = z.object({
   email: z
     .string()
     .trim()
-    .email()
+    .email("Invalid email address")
     .optional()
     .meta({ description: "Email address" }),
   image: z
@@ -23,17 +23,22 @@ const UpdateProfileSchema = z.object({
     .trim()
     .optional()
     .meta({ description: "Profile image URL" }),
-  name: z.string().trim().min(2).optional().meta({ description: "Full name" }),
+  name: z
+    .string()
+    .trim()
+    .min(2, "Name must be at least 2 characters")
+    .optional()
+    .meta({ description: "Full name" }),
   newPassword: z
     .string()
     .trim()
-    .min(8)
+    .min(8, "New password must be at least 8 characters")
     .optional()
     .meta({ description: "New password" }),
   password: z
     .string()
     .trim()
-    .min(8)
+    .min(8, "Current password must be at least 8 characters")
     .optional()
     .meta({ description: "Current password" }),
   phone: z.string().trim().optional().meta({ description: "Phone number" }),

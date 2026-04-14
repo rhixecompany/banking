@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable n/no-process-env, no-console */
 /**
  * scripts/utils/io.ts
  *
@@ -27,7 +28,7 @@ function isDryRunFlagSet(argv = process.argv): boolean {
 
 function maskPreview(content: string, max = 200) {
   if (!content) return "";
-  const preview = content.slice(0, max).replace(/\n/g, "\\n");
+  const preview = content.slice(0, max).replaceAll("\n", "\\n");
   return preview + (content.length > max ? "..." : "");
 }
 
@@ -77,8 +78,8 @@ export async function writeFile(
     log(
       "[dry-run] writeFile",
       {
-        path: path.relative(process.cwd(), filePath),
         content: maskPreview(content),
+        path: path.relative(process.cwd(), filePath),
       },
       opts.json ?? false,
     );
@@ -133,4 +134,4 @@ export function isDryRun(opts?: IoOptions) {
   return opts?.dryRun ?? isDryRunFlagSet();
 }
 
-export default { mkdirp, writeFile, removeFile, isDryRun };
+export default { isDryRun, mkdirp, removeFile, writeFile };

@@ -51,10 +51,12 @@ export class DwollaDal {
       receiverWalletId?: string;
       userId?: string;
     },
-    opts?: { db?: typeof db },
+    opts?: { db?: unknown },
   ) {
     // Support transaction-scoped DB instance via opts.db.
-    const database = opts?.db ?? db;
+    // Accept unknown here because Drizzle's transaction-scoped DB type is
+    // structurally compatible but not assignable to `typeof db` in TS.
+    const database = (opts?.db ?? db) as typeof db;
 
     const insertData = {
       amount:

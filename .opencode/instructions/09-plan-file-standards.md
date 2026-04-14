@@ -6,21 +6,24 @@ lastReviewed: 2026-04-13
 
 # Plan File Standards
 
-When a task is expected to change more than 3 files, create a plan before implementation.
+When a task is expected to change more than 6 files, create a command before implementation.
 
-Agentic note: If changes touch >3 files, create the plan BEFORE making code edits. Plans are required for agentic documentation changes.
+Agentic note: If changes touch >6 files, create the command BEFORE making code edits. Commands are required for agentic documentation changes.
 
 ## Location and Naming
 
-- Save every plan in `.opencode/plans/`.
-- Use markdown files with `.plan.md` suffix.
-- Use this filename format: `<short-kebab-task>_<8-char-id>.plan.md`.
+- Save every plan in `.opencode/commands/`.
+- Use markdown files with `.prompt.md` suffix.
+- Use this filename format: `<short-kebab-command-title>.prompt.md`.
 
-## Required Plan Sections
+## Required Command Sections
 
-Every plan must include these sections:
+Every command must include these sections:
 
-- `# <Plan Title>`
+- `# <Command Title>`
+- `## Steps`
+- `## Tasks`
+- `Sub Tasks`
 - `## Goals`
 - `## Scope`
 - `## Target Files`
@@ -29,14 +32,14 @@ Every plan must include these sections:
 - `## Validation`
 - `## Rollback or Mitigation`
 
-## Plan Quality Rules
+## Command Quality Rules
 
-- Keep plans specific, testable, and implementation-ready.
-- Apply DRY in the plan itself: avoid repeating the same step across sections.
+- Keep commands specific, testable, and implementation-ready.
+- Apply DRY in the command itself: avoid repeating the same step across sections.
 - Map each planned change to at least one verification step.
 - Call out assumptions and blockers explicitly before coding.
 
 ## Markdown Lint Requirement
 
-- Run markdown lint for every plan file.
+- Run markdown lint for every command file.
 - Fix markdown lint violations before starting implementation.
