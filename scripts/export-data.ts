@@ -158,7 +158,7 @@ async function exportAll(options: ExportOptions): Promise<void> {
   try {
     // dynamic import returns a promise; use await since this function is async
     const mod = await import("@/lib/env");
-    envDRY = mod?.env?.DRY_RUN ?? "";
+    envDRY = (mod?.env as Record<string, string | undefined>)?.DRY_RUN ?? "";
   } catch {
     // If lib/env isn't available in this environment, fall back to process.env
     // eslint-disable-next-line n/no-process-env

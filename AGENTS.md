@@ -1,115 +1,146 @@
-# AGENTS.md — Banking Project (Concise agent guide)
+<!--
+  AGENTS.md — compact, high-signal guidance for automated agents.
+  Only include items an agent would likely miss.
+-->
 
-Version: 4.1 | Last Updated: 2026-04-14
+# AGENTS.md — Banking (compact)
 
-Purpose
+Read this first — it is authoritative for automated agents. If you are an agent, ask the user who they are and which persona/role you should act as (developer, reviewer, ops, CI), and whether you have permission to modify files or should only propose changes.
 
-This is the minimal, high-signal reference for automated agents (and humans) working in this repo. Only include facts an agent would likely miss by default. When in doubt, consult the executable sources-of-truth listed below.
+## Quick Commands
 
-Top sources-of-truth (check these first)
+```
+npm run dev
+npm run type-check
+npm run lint:strict
+npm run format
+npm run test
+npm run test:ui
+npm run test:browser
+npm run db:generate
+npm run db:migrate
+npm run db:push
+npm run db:seed
+npm run db:reset
+```
 
-- package.json — scripts and exact commands (single source for what CI runs)
-- eslint.config.mts — lint rules that block PRs
-- app-config.ts / lib/env.ts — validated environment variables (do NOT read process.env directly)
-- database/schema.ts — canonical DB types and constraints
-- scripts/validate.ts — canonical repo validation tool used by CI
-- tests/ and Playwright config — test ordering and E2E expectations
+## Single-Test Helpers
 
-Quick start facts an agent will miss
+```
+npx playwright test tests/e2e/<spec>.ts --project=chromium
+npx vitest run tests/unit/<test>.ts
+```
 
-- Install: npm install
-- Dev server: npm run dev (predev hook runs npm run clean first)
-- Build: npm run build (prebuild runs clean + type-check)
-- Validate (CI gate): npm run validate (runs `npx tsx scripts/validate.ts --all && npm run build && npm run lint:strict && npm run test`)
-- Format: npm run format
-- Typecheck: npm run type-check
+## Validation / Pre-merge
 
-Non-obvious script behaviors
+- Quick: `npm run format && npm run type-check && npm run lint:strict`
+- Full (CI-like): `npm run validate` (build + lint + tests — slow)
 
-- npm run dev and npm run build set NODE_OPTIONS to increase memory — run via npm scripts to preserve those flags.
-- Many helper scripts are Bash (scripts/\*.sh) or TypeScript under scripts/; on Windows use WSL / Git Bash or run TS scripts via npx tsx. Prefer the package.json scripts rather than invoking internals.
-- Destructive or infra scripts must support --dry-run and follow scripts/ patterns (see .opencode/instructions/12-scripts-patterns.md). Do NOT run destructive scripts without explicit human approval and RUN_DESTRUCTIVE=true + --yes.
+## Database & Migrations (do not guess)
 
-PR gating & required checks (always run locally before proposing changes)
+- Canonical/required table name: `wallets` (many DAL methods and tests expect this exact name).
+- Migration workflow (follow exactly):
+  1. `npm run db:generate` — review generated SQL in `database/migrations`.
+  2. `npm run db:migrate` — apply reviewed migrations (recommended for staging/prod).
+  3. Use `npm run db:push` only for local/dev/test flows (Playwright global-setup and docker use push).
+- `npm run db:reset` = `db:drop` + `db:generate` + `db:push` (local convenience).
+- Policy: require review/approval before applying migrations to staging/production. Do NOT run `db:push` against production.
 
-- npm run format
-- npm run type-check (must have ZERO TypeScript errors)
-- npm run lint:strict (must produce ZERO ESLint warnings)
-- npx tsx scripts/validate.ts --all
-- npm run test (note: runs E2E then unit tests)
+## Playwright / E2E (read before running)
 
-Testing gotchas (important)
+- Test order: Playwright E2E runs first (stateful), then Vitest unit tests. E2E is sequential and shares DB/auth state.
+- `playwright.config.ts` uses `fullyParallel: false` and `workers: 1`. The webServer launches `npm run dev` and forwards only a small set of test flags (`PLAYWRIGHT_PREPARE_DB`, `ENABLE_TEST_ENDPOINTS`) to the spawned dev server.
+- `npm run test:ui` sets `PLAYWRIGHT_PREPARE_DB=true`. If you start the dev server manually, export `ENABLE_TEST_ENDPOINTS=true` (or `PLAYWRIGHT_PREPARE_DB=true`) so test-only endpoints become available.
+- Test-only helper endpoint: `POST ${baseUrl}/__playwright__/set-cookie` — file: `app/__playwright__/set-cookie/route.ts`. This route is intentionally guarded and should be disabled in production.
+- Global-setup (`tests/e2e/global-setup.ts`) behavior:
+  - Loads `.env`, `.env.local`, `.env.test` from repo root.
+  - Validates `DATABASE_URL` is set and reachable.
+  - Prefers importing and calling the TypeScript seed runner `scripts/seed/run.ts` (idempotent).
+  - If import fails, fallback runs: `npm run db:push && npm run db:seed -- --reset` (destructive fallback). Avoid fallback surprises by ensuring CI tooling is present (see seed runner notes).
+  - Performs a dev-server warm-up request to reduce cold-start flakiness.
+- Windows: free port `3000` before running Playwright (webServer default).
 
-- Test order is deliberate: npm run test runs E2E (Playwright) first, then Vitest unit tests. Do not reorder in CI.
-- Run E2E with: npm run test:ui (this sets PLAYWRIGHT_PREPARE_DB=true). Ensure port 3000 is free before running Playwright (Windows: free the port or run inside CI/WSL).
-- Playwright is configured to run chromium only and uses a single worker (stateful). Treat Playwright runs as serial and stateful.
+## Seed Runner (scripts/seed/run.ts) — flags & safety
 
-DB & migrations
+- Loads `.env.local` before importing app modules (env must be present).
+- Usage: `npm run db:seed` (package script runs `tsx --env-file=.env.local scripts/seed/run.ts`).
+- Flags:
+  - `--reset` — truncates application tables (destructive). Requires `RUN_DESTRUCTIVE=true` and `--yes`.
+  - `--dry-run` / `-n` — show planned operations only.
+  - `--yes` / `-y` — skip confirmation prompts.
+- Production guard: seeding refuses unless `ALLOW_DB_SEED=true`.
+- Recommendation: ensure `tsx` is available in CI so global-setup can import the TS seed runner instead of triggering the destructive fallback.
 
-- Use drizzle-kit scripts from package.json: npm run db:generate, npm run db:push, npm run db:migrate, npm run db:seed. Use db:reset for full reset (drop+generate+push).
-- All DB access must go through dal/ helpers. Do not run queries in components or Server Actions directly.
-- Avoid N+1 queries: prefer JOINs or eager loaders; if you need multiple queries batch them using IN.
+## Env & Secrets (authoritative)
 
-Server Actions / Mutations (required pattern)
+- Use `app-config.ts` or `lib/env.ts` for environment access — do not read `process.env` directly except in sanctioned places.
+- Required secrets: `ENCRYPTION_KEY` (AES-256-GCM) and `NEXTAUTH_SECRET`. `validateRequiredConfig()` will throw in production if missing.
+- Recommended generators:
+  - `ENCRYPTION_KEY`: `openssl rand -hex 32` (32+ bytes)
+  - `NEXTAUTH_SECRET`: `openssl rand -base64 32`
+- NEVER commit `.env` or secret files to the repo.
 
-- Location: actions/ (Server Actions are the canonical place for stateful writes)
-- Always at the top of the file: "use server";
-- Validate input with Zod. EVERY schema field must include .describe("...") and validators must include explicit error messages (zod rules are enforced by ESLint).
-- Auth first: call auth() at the start of protected actions and return { ok: false, error: 'Unauthorized' } if missing.
-- Use DAL for DB writes; accept an optional tx for transactions and use db.transaction(...) for atomic multi-step ops.
-- Invalidate caches after mutations using next/cache APIs: revalidatePath(), revalidateTag(), updateTag(), refresh().
-- Return shape: Promise<{ ok: boolean; error?: string }>.
+## CI / Test Env Vars (documented)
 
-Type & lint rules agents often miss
+- `PLAYWRIGHT_PREPARE_DB` — when `true` Playwright global-setup will prepare/seed the DB.
+- `ENABLE_TEST_ENDPOINTS` — enables test-only routes when running dev server manually.
+- `PLAYWRIGHT_BASE_URL` — override Playwright base URL if not localhost.
+- `RUN_DESTRUCTIVE` — required by seed runner when performing destructive resets.
+- `ALLOW_DB_SEED` — permits seeding in production when explicitly allowed.
+- CI must set required secrets (`ENCRYPTION_KEY`, `NEXTAUTH_SECRET`, `DATABASE_URL`) securely.
 
-- NO use of `any` in committed code. Use unknown + type guards or proper types. PRs block on this.
-- Exports (especially public helpers) should have explicit return types.
-- Zod schemas: .describe() required on every field (ESLint enforces zod/prefer-meta and zod/require-error-message).
+## DAL & Server Actions (must-follow)
 
-Next.js / App Router specifics (v16+)
+- All DB access must go through `dal/*`. Do not run ad-hoc DB queries in components or server actions.
+- Prevent N+1 by writing JOINs in DAL rather than per-row calls.
+- Server Actions (`actions/*`):
+  - Validate inputs with Zod.
+  - Return the shape `{ ok: boolean; error?: string }`.
+  - Call `revalidatePath()` after successful mutations.
 
-- Next.js 16: params and searchParams are async (must await them in pages/layouts/generateMetadata and page handlers).
-- Server Components by default. Mark client components with "use client" when you need hooks, state, or browser APIs.
-- Use Suspense boundaries for async auth/cookies/headers to avoid blocking routes (see .opencode/instructions/02-nextjs-patterns.md and suspense-skill).
-- Use Cache Components when appropriate: add "use cache" at top of cacheable components (Partial Pre-Rendering / PPR). Use next/cache APIs for tag-based invalidation.
+## CI / Pre-merge
 
-Where agents should look first when investigating a problem
+- CI runs: `npm run type-check`, `npm run lint:strict`, `npm run test` (Playwright + Vitest).
+- For fast iteration: run `npm run type-check && npm run lint:strict` locally and run E2E only when needed.
 
-1. package.json — exact scripts and CI commands
-2. scripts/validate.ts and .opencode/instructions/\*\* — repo-specific validation and agent rules
-3. eslint.config.mts — lint blocks that will fail PRs
-4. app-config.ts / lib/env.ts — env validation and where secrets are read
-5. database/schema.ts and dal/ — DB shape and DAL conventions
-6. tests/ (Playwright + Vitest) — test order and fixtures
+## Agent contributor rules
 
-Change-management rules (must-follow)
+- Read this AGENTS.md first — it is the canonical source for agent behavior and repo gotchas.
+- If a change touches more than 3 files, create a plan at `.opencode/plans/<task>_<8char-id>.plan.md` before implementing.
+- For single-file doc edits (AGENTS.md), a plan is not required.
+- Branch name (recommended for PR): `chore/docs/agents-md`.
+- DO NOT commit secrets (.env, tokens, keys).
 
-- If a change touches > 3 files: create a plan in .opencode/plans/<short>\_<id>.plan.md BEFORE coding. Plan must include Goals, Scope, Target Files, Risks, Validation, Rollback.
-- Attach the outputs of these checks to the plan: npx tsx scripts/validate.ts --all ; npm run type-check ; npm run lint:strict ; (optional) npm run test
-- Destructive edits (migrations, file deletions, seeding, revealing secrets): require RUN_DESTRUCTIVE=true plus explicit --yes and a human approver.
+## Where To Look First
 
-Agent operational safety (short checklist)
+- `package.json` (scripts)
+- `playwright.config.ts` and `tests/e2e/global-setup.ts`
+- `scripts/seed/run.ts`
+- `app-config.ts` and `lib/env.ts`
+- `database/schema.ts` and `dal/*`
+- `actions/*`
+- `app/__playwright__/set-cookie/route.ts`
 
-- DO NOT push commits or create PRs without explicit human approval. Agents may prepare patches/commits locally for review but must not push.
-- Before asking to push or open a PR, verify the plan (if >3 files) and that all checks above pass.
-- Never surface or commit secrets (.env, tokens). Use app-config.ts / lib/env.ts for runtime secret access.
+## Troubleshooting (extended, high-signal)
 
-Quick examples (copy-paste)
-
-- Run full validation locally: npx tsx scripts/validate.ts --all
-- Run type-check + strict lint: npm run type-check && npm run lint:strict
-- Run E2E only (with DB prep): npm run test:ui
-- Run unit tests only: npm run test:browser
-
-If something is ambiguous
-
-- Prefer executable sources over prose. If docs conflict with package.json / scripts / eslint.config.mts, trust package.json and follow CI commands.
-- If you cannot determine an important convention from the repo, ask one short question to a human reviewer before making changes.
-
-Relevant files to review for any non-trivial change
-
-- package.json, scripts/validate.ts, eslint.config.mts, app-config.ts, lib/env.ts, database/schema.ts, dal/, actions/, .opencode/instructions/
-
-Minimal evidence map
-
-- For any new normative claim added to this file, include a pointer in docs/evidence_map.md (file:line).
+- Playwright seed failures
+  - Symptom: global-setup errors or tests fail during setup.
+  - Check: `DATABASE_URL` reachable, `tsx` installed in CI, `npm run db:generate` works locally.
+  - If seed import fails, global-setup falls back to `npm run db:push && npm run db:seed -- --reset` — this can be destructive. Ensure CI provides `RUN_DESTRUCTIVE=true` and `--yes` if that path is expected, or ensure `tsx` is present so the safer seed-runner is imported.
+  - Inspect Playwright and global-setup logs (Playwright output and `playwright-report`) for the exact failure step.
+- Test-only endpoints not reachable
+  - If you run `npm run dev` manually, set `ENABLE_TEST_ENDPOINTS=true` to enable `app/__playwright__/set-cookie`.
+  - `test:ui` sets `PLAYWRIGHT_PREPARE_DB=true` automatically when Playwright starts the dev server; prefer running `npm run test:ui` instead of manual sequences.
+- DB push / migrate errors
+  - If `drizzle-kit` commands fail, check `drizzle.config.ts`, `DATABASE_URL`, and Postgres connectivity. Run `npm run db:check` to validate Drizzle config.
+  - `npm run db:generate` writes SQL under `database/migrations` — always review those files before committing.
+- Missing ENCRYPTION_KEY / NEXTAUTH_SECRET
+  - Startup in production will throw. Add secrets to CI/env store securely (do not commit).
+  - Example: `ENCRYPTION_KEY=$(openssl rand -hex 32)`
+- Cold-start / flaky E2E
+  - Global-setup does a warm-up request; if your environment is slow increase Playwright timeouts or run a warm build first.
+- Local Windows specifics
+  - Ensure port 3000 is free before running Playwright (default webServer url).
+- Dry-run seeding
+  - Use `npm run db:seed -- --dry-run` to verify planned operations without mutating the DB.
+- If you’re unsure, stop and ask: “May I modify files / run commands?” — don’t proceed without explicit permission.

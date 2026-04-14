@@ -1,5 +1,6 @@
-import { eq } from "drizzle-orm";
+import { eq, gte, lt } from "drizzle-orm";
 
+import { errorsDal } from "@/dal";
 import { db } from "@/database/db";
 import { errors } from "@/database/schema";
 
@@ -71,7 +72,8 @@ export async function logError({
   userId,
 }: LogErrorParams): Promise<void> {
   try {
-    await db.insert(errors).values({
+    // Delegate to the Errors DAL to centralize error/audit logging
+    await errorsDal.insertError({
       message,
       path,
       severity,
@@ -132,10 +134,11 @@ export async function getRecentErrors(
   const since = new Date();
   since.setHours(since.getHours() - hours);
 
+  // Return errors created since the calculated timestamp (>=)
   return await db
     .select()
     .from(errors)
-    .where(eq(errors.createdAt, since))
+    .where(gte(errors.createdAt, since))
     .orderBy(errors.createdAt)
     .limit(limit);
 }
@@ -152,7 +155,8 @@ export async function clearOldErrors(days = 30): Promise<void> {
   const cutoff = new Date();
   cutoff.setDate(cutoff.getDate() - days);
 
-  await db.delete(errors).where(eq(errors.createdAt, cutoff));
+  // Delete records older than cutoff time
+  await db.delete(errors).where(lt(errors.createdAt, cutoff));
 }
 
 /**

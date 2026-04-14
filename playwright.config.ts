@@ -129,6 +129,14 @@ export default defineConfig({
     stdout: "pipe",
     timeout: TIMEOUTS.WEB_SERVER,
     url: "http://localhost:3000",
+    // Forward a small set of test flags to the spawned dev server process so
+    // test-only endpoints (like /__playwright__/set-cookie) are enabled when
+    // Playwright starts the application. We avoid forwarding the whole
+    // process.env to limit leakage of unrelated variables.
+    env: {
+      PLAYWRIGHT_PREPARE_DB: process.env.PLAYWRIGHT_PREPARE_DB,
+      ENABLE_TEST_ENDPOINTS: process.env.ENABLE_TEST_ENDPOINTS,
+    },
   },
 
   /* Always 1 worker — stateful app (auth sessions, shared DB). */

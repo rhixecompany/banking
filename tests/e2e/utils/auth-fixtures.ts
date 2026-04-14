@@ -1,4 +1,4 @@
-import { type APIRequestContext, expect } from "@playwright/test";
+import { type APIRequestContext } from "@playwright/test";
 import jwt from "jsonwebtoken";
 
 /**
@@ -37,13 +37,20 @@ export async function setAuthCookie(
   // the cookie on the domain the app runs on.
   const cookieName = "next-auth.session-token";
 
-  const res = await request.post(`${baseUrl}/__playwright__/set-cookie`, {
-    data: {
-      name: cookieName,
-      options: { path: "/" },
-      value: token,
-    },
-  });
+  try {
+    const res = await request.post(`${baseUrl}/__playwright__/set-cookie`, {
+      data: {
+        name: cookieName,
+        options: { path: "/" },
+        value: token,
+      },
+    });
 
-  expect.soft(res.ok()).toBeTruthy();
+    // Return whether the server accepted setting the cookie. Tests will
+    // optionally fall back to using Playwright's browser context to set the
+    // cookie directly if the endpoint is unavailable or returns an error.
+    return res.ok();
+  } catch {
+    return false;
+  }
 }

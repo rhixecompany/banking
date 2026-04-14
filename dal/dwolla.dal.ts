@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 
 import type { Wallet } from "@/types/wallet";
 
@@ -79,6 +79,31 @@ export class DwollaDal {
       .values(insertData)
       .returning();
     return row;
+  }
+
+  /**
+   * Find dwolla_transfers rows by dwollaTransferId, or fallback
+   * to rows whose transferUrl contains the transferId string.
+   * Uses SQL LIKE for the fallback to avoid loading all rows into memory.
+   */
+  async findByDwollaTransferIdOrTransferUrl(
+    transferId: string,
+  ): Promise<(typeof dwolla_transfers.$inferSelect)[]> {
+    // Exact match on dwollaTransferId
+    const byId = await db
+      .select()
+      .from(dwolla_transfers)
+      .where(eq(dwolla_transfers.dwollaTransferId, transferId));
+    if (byId.length > 0) return byId;
+
+    // Fallback: use SQL LIKE to match transferUrl containing transferId
+    // Use parametrized query fragment for portability
+    const pattern = `%${transferId}%`;
+    const results = await db
+      .select()
+      .from(dwolla_transfers)
+      .where(sql`${dwolla_transfers.transferUrl} LIKE ${pattern}`);
+    return results;
   }
 
   /**

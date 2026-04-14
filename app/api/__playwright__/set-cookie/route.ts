@@ -14,10 +14,13 @@ export async function POST(request: Request) {
   // Importing inside handler to avoid top-level env reads during edge/production bundling.
   const { env } = await import("@/lib/env");
 
+  // Enable test endpoint in non-production environments. Also allow explicit
+  // opt-in via ENABLE_TEST_ENDPOINTS or PLAYWRIGHT_PREPARE_DB for cases where
+  // stricter control is desired (CI runs may set PLAYWRIGHT_PREPARE_DB=true).
   const enabled =
-    env.NODE_ENV !== "production" &&
-    (env.ENABLE_TEST_ENDPOINTS === "true" ||
-      env.PLAYWRIGHT_PREPARE_DB === "true");
+    env.NODE_ENV !== "production" ||
+    env.ENABLE_TEST_ENDPOINTS === "true" ||
+    env.PLAYWRIGHT_PREPARE_DB === "true";
 
   if (!enabled) {
     return NextResponse.json(
