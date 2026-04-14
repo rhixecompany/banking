@@ -3,19 +3,6 @@ import { type ComponentProps } from "react";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
-/**
- * Description placeholder
- *
- * @export
- * @param {Omit<ComponentProps<typeof Input>, "type" | "onChange" | "value"> & {
- *   onChange: (value: number | null) => void
- *   value: undefined | null | number
- * }} param0
- * @param {*} param0.onChange
- * @param {*} param0.value
- * @param {*} param0....props
- * @returns {*}
- */
 export function NumberInput({
   onChange,
   value,
@@ -37,15 +24,6 @@ export function NumberInput({
   );
 }
 
-/**
- * Description placeholder
- *
- * @export
- * @param {React.ComponentProps<typeof NumberInput>} param0
- * @param {React.ComponentProps<({ onChange, value, ...props }: any) => any>} param0.className
- * @param {React.ComponentProps<({ onChange, value, ...props }: any) => any>} param0....props
- * @returns {any>) => any}
- */
 export function InputGroupNumberInput({
   className,
   ...props

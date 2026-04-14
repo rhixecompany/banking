@@ -1,0 +1,4 @@
+
+> banking@0.1.0 lint:strict
+> cross-env NODE_OPTIONS='--max-old-space-size=4096' eslint --config eslint.config.mts . --max-warnings=0 --format=compact
+

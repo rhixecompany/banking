@@ -25,7 +25,7 @@ function FieldLegend({
   className,
   variant = "legend",
   ...props
-}: React.ComponentProps<"legend"> & { variant?: "legend" | "label" }) {
+}: { variant?: "label" | "legend" } & React.ComponentProps<"legend">) {
   return (
     <legend
       data-slot="field-legend"
@@ -57,9 +57,11 @@ function FieldGroup({ className, ...props }: React.ComponentProps<"div">) {
 const fieldVariants = cva(
   "group/field flex w-full gap-3 data-[invalid=true]:text-destructive",
   {
+    defaultVariants: {
+      orientation: "vertical",
+    },
     variants: {
       orientation: {
-        vertical: ["flex-col [&>*]:w-full [&>.sr-only]:w-auto"],
         horizontal: [
           "flex-row items-center",
           "[&>[data-slot=field-label]]:flex-auto",
@@ -70,10 +72,8 @@ const fieldVariants = cva(
           "@md/field-group:[&>[data-slot=field-label]]:flex-auto",
           "@md/field-group:has-[>[data-slot=field-content]]:items-start @md/field-group:has-[>[data-slot=field-content]]:[&>[role=checkbox],[role=radio]]:mt-px",
         ],
+        vertical: ["flex-col [&>*]:w-full [&>.sr-only]:w-auto"],
       },
-    },
-    defaultVariants: {
-      orientation: "vertical",
     },
   },
 );
@@ -157,9 +157,9 @@ function FieldSeparator({
   children,
   className,
   ...props
-}: React.ComponentProps<"div"> & {
+}: {
   children?: React.ReactNode;
-}) {
+} & React.ComponentProps<"div">) {
   return (
     <div
       data-slot="field-separator"
@@ -184,13 +184,13 @@ function FieldSeparator({
 }
 
 function FieldError({
-  className,
   children,
+  className,
   errors,
   ...props
-}: React.ComponentProps<"div"> & {
-  errors?: Array<{ message?: string } | undefined>;
-}) {
+}: {
+  errors?: ({ message?: string } | undefined)[];
+} & React.ComponentProps<"div">) {
   const content = useMemo(() => {
     if (children) {
       return children;
@@ -204,7 +204,7 @@ function FieldError({
       ...new Map(errors.map((error) => [error?.message, error])).values(),
     ];
 
-    if (uniqueErrors?.length == 1) {
+    if (uniqueErrors?.length === 1) {
       return uniqueErrors[0]?.message;
     }
 

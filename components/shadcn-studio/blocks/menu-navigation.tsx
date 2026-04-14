@@ -118,7 +118,7 @@ const MenuNavigation = ({ className, navigationData }: MenuNavigationProps) => {
               <NavigationMenuTrigger className="bg-transparent px-3 py-1.5 text-base text-muted-foreground hover:text-primary dark:hover:bg-accent/50 dark:data-[state=open]:hover:bg-accent/50 [&>svg]:size-4">
                 {navItem.title}
               </NavigationMenuTrigger>
-              <NavigationMenuContent className="data-[motion=from-start]:slide-in-from-left-30! data-[motion=to-start]:slide-out-to-left-30! data-[motion=from-end]:slide-in-from-right-30! data-[motion=to-end]:slide-out-to-right-30! absolute w-auto">
+              <NavigationMenuContent className="absolute w-auto data-[motion=from-end]:slide-in-from-right-30! data-[motion=from-start]:slide-in-from-left-30! data-[motion=to-end]:slide-out-to-right-30! data-[motion=to-start]:slide-out-to-left-30!">
                 <ul className="grid w-38 gap-4">
                   <li>
                     {navItem.items?.map((item) => (

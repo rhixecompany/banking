@@ -8,26 +8,26 @@ import { toggleVariants } from "@/components/ui/toggle";
 import { cn } from "@/lib/utils";
 
 const ToggleGroupContext = React.createContext<
-  VariantProps<typeof toggleVariants> & {
+  {
     spacing?: number;
-  }
+  } & VariantProps<typeof toggleVariants>
 >({
   size: "default",
-  variant: "default",
   spacing: 0,
+  variant: "default",
 });
 
 function ToggleGroup({
+  children,
   className,
-  variant,
   size,
   spacing = 0,
-  children,
+  variant,
   ...props
-}: React.ComponentProps<typeof ToggleGroupPrimitive.Root> &
-  VariantProps<typeof toggleVariants> & {
-    spacing?: number;
-  }) {
+}: {
+  spacing?: number;
+} & React.ComponentProps<typeof ToggleGroupPrimitive.Root> &
+  VariantProps<typeof toggleVariants>) {
   return (
     <ToggleGroupPrimitive.Root
       data-slot="toggle-group"
@@ -41,7 +41,7 @@ function ToggleGroup({
       )}
       {...props}
     >
-      <ToggleGroupContext.Provider value={{ variant, size, spacing }}>
+      <ToggleGroupContext.Provider value={{ size, spacing, variant }}>
         {children}
       </ToggleGroupContext.Provider>
     </ToggleGroupPrimitive.Root>
@@ -49,10 +49,10 @@ function ToggleGroup({
 }
 
 function ToggleGroupItem({
-  className,
   children,
-  variant,
+  className,
   size,
+  variant,
   ...props
 }: React.ComponentProps<typeof ToggleGroupPrimitive.Item> &
   VariantProps<typeof toggleVariants>) {
@@ -66,8 +66,8 @@ function ToggleGroupItem({
       data-spacing={context.spacing}
       className={cn(
         toggleVariants({
-          variant: context.variant || variant,
           size: context.size || size,
+          variant: context.variant || variant,
         }),
         "w-auto min-w-0 shrink-0 px-3 focus:z-10 focus-visible:z-10",
         "data-[spacing=0]:rounded-none data-[spacing=0]:shadow-none data-[spacing=0]:first:rounded-s-md data-[spacing=0]:last:rounded-e-md data-[spacing=0]:data-[variant=outline]:border-s-0 data-[spacing=0]:data-[variant=outline]:first:border-s",

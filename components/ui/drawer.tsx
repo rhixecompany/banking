@@ -46,8 +46,8 @@ function DrawerOverlay({
 }
 
 function DrawerContent({
-  className,
   children,
+  className,
   ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Content>) {
   return (

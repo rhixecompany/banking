@@ -30,82 +30,17 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 
-/**
- * Description placeholder
- *
- * @typedef {MultiSelectContextType}
- */
 interface MultiSelectContextType {
-  /**
-   * Description placeholder
-   *
-   * @type {boolean}
-   */
   open: boolean;
-  /**
-   * Description placeholder
-   *
-   * @type {(open: boolean) => void}
-   */
   setOpen: (open: boolean) => void;
-  /**
-   * Description placeholder
-   *
-   * @type {Set<string>}
-   */
   selectedValues: Set<string>;
-  /**
-   * Description placeholder
-   *
-   * @type {(value: string) => void}
-   */
   toggleValue: (value: string) => void;
-  /**
-   * Description placeholder
-   *
-   * @type {Map<string, ReactNode>}
-   */
   items: Map<string, ReactNode>;
-  /**
-   * Description placeholder
-   *
-   * @type {boolean}
-   */
   single: boolean;
-  /**
-   * Description placeholder
-   *
-   * @type {(value: string, label: ReactNode) => void}
-   */
   onItemAdded: (value: string, label: ReactNode) => void;
 }
-/**
- * Description placeholder
- *
- * @type {*}
- */
-const MultiSelectContext = createContext<MultiSelectContextType | undefined>(
-  undefined,
-);
+const MultiSelectContext = createContext<MultiSelectContextType | null>(null);
 
-/**
- * Description placeholder
- *
- * @export
- * @param {{
- *   children: ReactNode
- *   values?: string[]
- *   defaultValues?: string[]
- *   onValuesChange?: (values: string[]) => void
- *   single?: boolean
- * }} param0
- * @param {ReactNode} param0.children
- * @param {{}} param0.values
- * @param {{}} param0.defaultValues
- * @param {(values: {}) => void} param0.onValuesChange
- * @param {boolean} [param0.single=false]
- * @returns {void; single?: boolean; }) => any}
- */
 export function MultiSelect({
   children,
   defaultValues,
@@ -170,19 +105,6 @@ export function MultiSelect({
   );
 }
 
-/**
- * Description placeholder
- *
- * @export
- * @param {({
- *   className?: string
- *   children?: ReactNode
- * } & ComponentPropsWithoutRef<typeof Button>)} param0
- * @param {*} param0.className
- * @param {*} param0.children
- * @param {*} param0....props
- * @returns {*}
- */
 export function MultiSelectTrigger({
   children,
   className,
@@ -206,31 +128,12 @@ export function MultiSelectTrigger({
         )}
       >
         {children}
-        <ChevronsUpDownIcon
-          data-icon="inline-end"
-          className="shrink-0 opacity-50"
-        />
+        <ChevronsUpDownIcon className="size-4 shrink-0 opacity-50" />
       </Button>
     </PopoverTrigger>
   );
 }
 
-/**
- * Description placeholder
- *
- * @export
- * @param {({
- *   placeholder?: string
- *   clickToRemove?: boolean
- *   overflowBehavior?: "wrap" | "wrap-when-open" | "cutoff"
- * } & Omit<ComponentPropsWithoutRef<"div">, "children">)} param0
- * @param {*} param0.placeholder
- * @param {*} [param0.clickToRemove=true]
- * @param {*} param0.className
- * @param {*} [param0.overflowBehavior="wrap-when-open"]
- * @param {*} param0....props
- * @returns {*}
- */
 export function MultiSelectValue({
   className,
   clickToRemove = true,
@@ -253,7 +156,7 @@ export function MultiSelectValue({
     (overflowBehavior === "wrap-when-open" && open);
 
   const checkOverflow = useCallback(() => {
-    if (!valueRef.current) return;
+    if (valueRef.current === null) return;
 
     const containerElement = valueRef.current;
     const overflowElement = overflowRef.current;
@@ -265,22 +168,22 @@ export function MultiSelectValue({
     for (const child of items) child.style.removeProperty("display");
     let amount = 0;
     for (let i = items.length - 1; i >= 0; i--) {
-      const child = items[i] as HTMLElement;
+      const child = items[i];
+      if (!child) continue;
       if (containerElement.scrollWidth <= containerElement.clientWidth) {
         break;
       }
       amount = items.length - i;
       child.style.display = "none";
-      overflowElement?.style.removeProperty("display");
+      if (overflowElement !== null)
+        overflowElement.style.removeProperty("display");
     }
     setOverflowAmount(amount);
   }, []);
 
   const handleResize = useCallback(
-    (node: HTMLDivElement | null) => {
+    (node: HTMLDivElement) => {
       valueRef.current = node;
-
-      if (!node) return;
 
       const mutationObserver = new MutationObserver(checkOverflow);
       const observer = new ResizeObserver(debounce(checkOverflow, 100));
@@ -295,6 +198,7 @@ export function MultiSelectValue({
       return () => {
         observer.disconnect();
         mutationObserver.disconnect();
+        valueRef.current = null;
       };
     },
     [checkOverflow],
@@ -345,38 +249,23 @@ export function MultiSelectValue({
           >
             {items.get(value)}
             {clickToRemove && (
-              <XIcon
-                data-icon="inline-end"
-                className="text-muted-foreground group-hover:text-destructive"
-              />
+              <XIcon className="size-2 text-muted-foreground group-hover:text-destructive" />
             )}
           </Badge>
         ))}
-      <div
-        ref={overflowRef}
+      <Badge
         style={{
           display: overflowAmount > 0 && !shouldWrap ? "block" : "none",
         }}
+        variant="outline"
+        ref={overflowRef}
       >
-        <Badge variant="outline">+{overflowAmount}</Badge>
-      </div>
+        +{overflowAmount}
+      </Badge>
     </div>
   );
 }
 
-/**
- * Description placeholder
- *
- * @export
- * @param {({
- *   search?: boolean | { placeholder?: string; emptyMessage?: string }
- *   children: ReactNode
- * } & Omit<ComponentPropsWithoutRef<typeof Command>, "children">)} param0
- * @param {*} [param0.search=true]
- * @param {*} param0.children
- * @param {*} param0....props
- * @returns {*}
- */
 export function MultiSelectContent({
   children,
   search = true,
@@ -386,6 +275,13 @@ export function MultiSelectContent({
   children: ReactNode;
 } & Omit<ComponentPropsWithoutRef<typeof Command>, "children">) {
   const canSearch = typeof search === "object" ? true : search;
+  // When search is disabled, focus a hidden button via ref instead of using autoFocus.
+  const hiddenFocusRef = useRef<HTMLButtonElement | null>(null);
+  useEffect(() => {
+    if (!canSearch && hiddenFocusRef.current) {
+      hiddenFocusRef.current.focus();
+    }
+  }, [canSearch]);
 
   return (
     <>
@@ -403,8 +299,7 @@ export function MultiSelectContent({
               }
             />
           ) : (
-            // eslint-disable-next-line jsx-a11y/no-autofocus
-            <button autoFocus className="sr-only" />
+            <button ref={hiddenFocusRef} className="sr-only" />
           )}
           <CommandList>
             {canSearch && (
@@ -420,21 +315,6 @@ export function MultiSelectContent({
   );
 }
 
-/**
- * Description placeholder
- *
- * @export
- * @param {({
- *   badgeLabel?: ReactNode
- *   value: string
- * } & Omit<ComponentPropsWithoutRef<typeof CommandItem>, "value">)} param0
- * @param {*} param0.value
- * @param {*} param0.children
- * @param {*} param0.badgeLabel
- * @param {*} param0.onSelect
- * @param {*} param0....props
- * @returns {*}
- */
 export function MultiSelectItem({
   badgeLabel,
   children,
@@ -461,48 +341,28 @@ export function MultiSelectItem({
       }}
     >
       <CheckIcon
-        data-icon="inline-start"
-        className={cn("me-2", isSelected ? "opacity-100" : "opacity-0")}
+        className={cn("me-2 size-4", isSelected ? "opacity-100" : "opacity-0")}
       />
       {children}
     </CommandItem>
   );
 }
 
-/**
- * Description placeholder
- *
- * @export
- * @param {ComponentPropsWithoutRef<typeof CommandGroup>} props
- * @returns {*}
- */
 export function MultiSelectGroup(
   props: ComponentPropsWithoutRef<typeof CommandGroup>,
 ) {
   return <CommandGroup {...props} />;
 }
 
-/**
- * Description placeholder
- *
- * @export
- * @param {ComponentPropsWithoutRef<typeof CommandSeparator>} props
- * @returns {*}
- */
 export function MultiSelectSeparator(
   props: ComponentPropsWithoutRef<typeof CommandSeparator>,
 ) {
   return <CommandSeparator {...props} />;
 }
 
-/**
- * Description placeholder
- *
- * @returns {*}
- */
 function useMultiSelectContext() {
   const context = useContext(MultiSelectContext);
-  if (context === undefined) {
+  if (context == null) {
     throw new Error(
       "useMultiSelectContext must be used within a MultiSelectContext",
     );
@@ -510,19 +370,11 @@ function useMultiSelectContext() {
   return context;
 }
 
-/**
- * Description placeholder
- *
- * @template {(...args: never[]) => void} T
- * @param {T} func
- * @param {number} wait
- * @returns {(...args: Parameters<T>) => void}
- */
 function debounce<T extends (...args: never[]) => void>(
   func: T,
   wait: number,
 ): (...args: Parameters<T>) => void {
-  let timeout: ReturnType<typeof setTimeout> | undefined = undefined;
+  let timeout: null | ReturnType<typeof setTimeout> = null;
   return function (this: unknown, ...args: Parameters<T>) {
     if (timeout) clearTimeout(timeout);
     timeout = setTimeout(() => func.apply(this, args), wait);

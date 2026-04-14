@@ -14,12 +14,12 @@ type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
 type CarouselOptions = UseCarouselParameters[0];
 type CarouselPlugin = UseCarouselParameters[1];
 
-type CarouselProps = {
+interface CarouselProps {
   opts?: CarouselOptions;
   plugins?: CarouselPlugin;
   orientation?: "horizontal" | "vertical";
   setApi?: (api: CarouselApi) => void;
-};
+}
 
 type CarouselContextProps = {
   carouselRef: ReturnType<typeof useEmblaCarousel>[0];
@@ -43,14 +43,14 @@ function useCarousel() {
 }
 
 function Carousel({
-  orientation = "horizontal",
-  opts,
-  setApi,
-  plugins,
-  className,
   children,
+  className,
+  opts,
+  orientation = "horizontal",
+  plugins,
+  setApi,
   ...props
-}: React.ComponentProps<"div"> & CarouselProps) {
+}: CarouselProps & React.ComponentProps<"div">) {
   const [carouselRef, api] = useEmblaCarousel(
     {
       ...opts,
@@ -107,15 +107,15 @@ function Carousel({
   return (
     <CarouselContext.Provider
       value={{
-        carouselRef,
         api: api,
+        canScrollNext,
+        canScrollPrev,
+        carouselRef,
         opts,
         orientation:
           orientation || (opts?.axis === "y" ? "vertical" : "horizontal"),
-        scrollPrev,
         scrollNext,
-        canScrollPrev,
-        canScrollNext,
+        scrollPrev,
       }}
     >
       <div
@@ -173,11 +173,11 @@ function CarouselItem({ className, ...props }: React.ComponentProps<"div">) {
 
 function CarouselPrevious({
   className,
-  variant = "outline",
   size = "icon",
+  variant = "outline",
   ...props
 }: React.ComponentProps<typeof Button>) {
-  const { orientation, scrollPrev, canScrollPrev } = useCarousel();
+  const { canScrollPrev, orientation, scrollPrev } = useCarousel();
 
   return (
     <Button
@@ -203,11 +203,11 @@ function CarouselPrevious({
 
 function CarouselNext({
   className,
-  variant = "outline",
   size = "icon",
+  variant = "outline",
   ...props
 }: React.ComponentProps<typeof Button>) {
-  const { orientation, scrollNext, canScrollNext } = useCarousel();
+  const { canScrollNext, orientation, scrollNext } = useCarousel();
 
   return (
     <Button

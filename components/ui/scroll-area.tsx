@@ -6,8 +6,8 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 function ScrollArea({
-  className,
   children,
+  className,
   ...props
 }: React.ComponentProps<typeof ScrollAreaPrimitive.Root>) {
   return (

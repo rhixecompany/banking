@@ -1,0 +1,11 @@
+CREATE TABLE "plaid_items" (
+	"access_token_encrypted" text NOT NULL,
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	"id" text PRIMARY KEY NOT NULL,
+	"item_id" varchar(255) NOT NULL,
+	"updated_at" timestamp DEFAULT now() NOT NULL,
+	"user_id" text
+);
+--> statement-breakpoint
+ALTER TABLE "plaid_items" ADD CONSTRAINT "plaid_items_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+CREATE INDEX "plaid_items_item_id_idx" ON "plaid_items" USING btree ("item_id");

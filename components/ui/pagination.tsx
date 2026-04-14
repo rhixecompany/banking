@@ -46,8 +46,11 @@ function PaginationLink({
   className,
   isActive,
   size = "icon",
+  children,
   ...props
-}: PaginationLinkProps) {
+}: PaginationLinkProps & { children?: React.ReactNode }) {
+  const ariaLabel = (props as any)["aria-label"] as string | undefined;
+  const fallback = ariaLabel ?? (isActive ? "Current page" : "Page");
   return (
     <a
       aria-current={isActive ? "page" : undefined}
@@ -55,13 +58,15 @@ function PaginationLink({
       data-active={isActive}
       className={cn(
         buttonVariants({
-          variant: isActive ? "outline" : "ghost",
           size,
+          variant: isActive ? "outline" : "ghost",
         }),
         className,
       )}
       {...props}
-    />
+    >
+      {children ?? <span className="sr-only">{fallback}</span>}
+    </a>
   );
 }
 

@@ -65,9 +65,9 @@ function MenubarTrigger({
 }
 
 function MenubarContent({
-  className,
   align = "start",
   alignOffset = -4,
+  className,
   sideOffset = 8,
   ...props
 }: React.ComponentProps<typeof MenubarPrimitive.Content>) {
@@ -93,10 +93,10 @@ function MenubarItem({
   inset,
   variant = "default",
   ...props
-}: React.ComponentProps<typeof MenubarPrimitive.Item> & {
+}: {
   inset?: boolean;
   variant?: "default" | "destructive";
-}) {
+} & React.ComponentProps<typeof MenubarPrimitive.Item>) {
   return (
     <MenubarPrimitive.Item
       data-slot="menubar-item"
@@ -112,16 +112,16 @@ function MenubarItem({
 }
 
 function MenubarCheckboxItem({
-  className,
-  children,
   checked,
+  children,
+  className,
   ...props
 }: React.ComponentProps<typeof MenubarPrimitive.CheckboxItem>) {
   return (
     <MenubarPrimitive.CheckboxItem
       data-slot="menubar-checkbox-item"
       className={cn(
-        "relative flex cursor-default items-center gap-2 rounded-xs py-1.5 pe-2 ps-8 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "relative flex cursor-default items-center gap-2 rounded-xs py-1.5 ps-8 pe-2 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className,
       )}
       checked={checked}
@@ -138,15 +138,15 @@ function MenubarCheckboxItem({
 }
 
 function MenubarRadioItem({
-  className,
   children,
+  className,
   ...props
 }: React.ComponentProps<typeof MenubarPrimitive.RadioItem>) {
   return (
     <MenubarPrimitive.RadioItem
       data-slot="menubar-radio-item"
       className={cn(
-        "relative flex cursor-default items-center gap-2 rounded-xs py-1.5 pe-2 ps-8 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "relative flex cursor-default items-center gap-2 rounded-xs py-1.5 ps-8 pe-2 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className,
       )}
       {...props}
@@ -165,9 +165,9 @@ function MenubarLabel({
   className,
   inset,
   ...props
-}: React.ComponentProps<typeof MenubarPrimitive.Label> & {
+}: {
   inset?: boolean;
-}) {
+} & React.ComponentProps<typeof MenubarPrimitive.Label>) {
   return (
     <MenubarPrimitive.Label
       data-slot="menubar-label"
@@ -217,13 +217,13 @@ function MenubarSub({
 }
 
 function MenubarSubTrigger({
+  children,
   className,
   inset,
-  children,
   ...props
-}: React.ComponentProps<typeof MenubarPrimitive.SubTrigger> & {
+}: {
   inset?: boolean;
-}) {
+} & React.ComponentProps<typeof MenubarPrimitive.SubTrigger>) {
   return (
     <MenubarPrimitive.SubTrigger
       data-slot="menubar-sub-trigger"
@@ -235,7 +235,7 @@ function MenubarSubTrigger({
       {...props}
     >
       {children}
-      <ChevronRightIcon className="ms-auto h-4 w-4" />
+      <ChevronRightIcon className="ms-auto size-4 " />
     </MenubarPrimitive.SubTrigger>
   );
 }

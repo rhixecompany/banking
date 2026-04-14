@@ -1,0 +1,38 @@
+
+> banking@0.1.0 lint:strict
+> cross-env NODE_OPTIONS='--max-old-space-size=4096' eslint --config eslint.config.mts . --max-warnings=0
+
+
+C:\Users\Alexa\Desktop\SandBox\Banking\components\ui\chart.tsx
+  256:35  warning  Expected '!==' and instead saw '!='  eqeqeq
+
+C:\Users\Alexa\Desktop\SandBox\Banking\components\ui\field.tsx
+  207:30  warning  Expected '===' and instead saw '=='  eqeqeq
+
+C:\Users\Alexa\Desktop\SandBox\Banking\components\ui\input-group.tsx
+  66:5  warning  Visible, non-interactive elements with click handlers must have at least one keyboard listener  jsx-a11y/click-events-have-key-events
+  66:5  warning  Non-interactive elements should not be assigned mouse or keyboard event listeners               jsx-a11y/no-noninteractive-element-interactions
+
+C:\Users\Alexa\Desktop\SandBox\Banking\components\ui\multi-select.tsx
+  159:26  warning  Expected '===' and instead saw '=='                                                            eqeqeq
+  167:25  warning  Expected '!==' and instead saw '!='                                                            eqeqeq
+  171:21  error    Forbidden non-null assertion                                                                   @typescript-eslint/no-non-null-assertion
+  293:21  warning  The autoFocus prop should not be used, as it can reduce usability and accessibility for users  jsx-a11y/no-autofocus
+  356:15  warning  Expected '===' and instead saw '=='                                                            eqeqeq
+
+C:\Users\Alexa\Desktop\SandBox\Banking\components\ui\number-input.tsx
+  19:18  warning  Prefer `Number.isNaN` over `isNaN`  unicorn/prefer-number-properties
+
+C:\Users\Alexa\Desktop\SandBox\Banking\components\ui\pagination.tsx
+  52:5  warning  Anchors must have content and the content must be accessible by a screen reader  jsx-a11y/anchor-has-content
+
+C:\Users\Alexa\Desktop\SandBox\Banking\components\ui\password-input.tsx
+  167:42  warning  Expected '===' and instead saw '=='  eqeqeq
+  186:15  warning  Expected '===' and instead saw '=='  eqeqeq
+
+C:\Users\Alexa\Desktop\SandBox\Banking\hooks\use-mobile.tsx
+  0:0  error  Parsing error: C:\Users\Alexa\Desktop\SandBox\Banking\hooks\use-mobile.tsx was not found by the project service. Consider either including it in the tsconfig.json or including it in allowDefaultProject.
+allowDefaultProject is set to [".prettierrc.ts","postcss.config.mjs"], which does not match 'hooks\use-mobile.tsx'
+
+Γ£û 14 problems (2 errors, 12 warnings)
+

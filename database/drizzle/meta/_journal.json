@@ -7,6 +7,13 @@
       "when": 1776096389013,
       "tag": "0000_icy_freak",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1776182039374,
+      "tag": "0001_crazy_exodus",
+      "breakpoints": true
     }
   ],
   "version": "7"
