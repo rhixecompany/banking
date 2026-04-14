@@ -57,8 +57,9 @@ function validateScripts(): boolean {
 
   for (const script of scriptsToCheck) {
     console.warn(`  - Dry-run: ${script}`);
+    // Ensure DRY_RUN env is passed so scripts which gate destructive ops can run in dry-run mode
     const res = spawnSync("npx", ["tsx", script, "--dry-run"], {
-      env: { ...process.env },
+      env: { ...process.env, DRY_RUN: "true" },
       shell: false,
       stdio: "inherit",
     });

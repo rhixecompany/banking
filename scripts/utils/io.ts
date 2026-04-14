@@ -134,4 +134,5 @@ export function isDryRun(opts?: IoOptions) {
   return opts?.dryRun ?? isDryRunFlagSet();
 }
 
-export default { isDryRun, mkdirp, removeFile, writeFile };
+const exported = { isDryRun, mkdirp, removeFile, writeFile };
+export default exported;

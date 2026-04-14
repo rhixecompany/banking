@@ -150,8 +150,9 @@ async function exportAll(options: ExportOptions): Promise<void> {
   const DRY_RUN =
     process.argv.includes("--dry-run") ||
     (globalThis as any).__SCRIPTS_DRY_RUN ||
-    // eslint-disable-next-line n/no-process-env
-    process.env["DRY_RUN"] === "true";
+    // prefer nullish check and explicit string comparison for DRY_RUN
+    process.env["DRY_RUN"] === "true" ||
+    process.env["DRY_RUN"] === "1";
   if (!DRY_RUN) {
     if (!fs.existsSync(options.output)) {
       fs.mkdirSync(options.output, { recursive: true });
