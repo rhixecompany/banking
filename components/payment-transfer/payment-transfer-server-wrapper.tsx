@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 
+import { createTransfer } from "@/actions/dwolla.actions";
 import { getRecipients } from "@/actions/recipient.actions";
 import { getUserWallets } from "@/actions/wallet.actions";
 import { PaymentTransferClientWrapper } from "@/components/payment-transfer/payment-transfer-client-wrapper";
@@ -31,6 +32,10 @@ export async function PaymentTransferServerWrapper(): Promise<JSX.Element> {
     : [];
 
   return (
-    <PaymentTransferClientWrapper wallets={wallets} recipients={recipients} />
+    <PaymentTransferClientWrapper
+      wallets={wallets}
+      recipients={recipients}
+      createTransfer={createTransfer}
+    />
   );
 }

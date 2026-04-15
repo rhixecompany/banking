@@ -7,7 +7,9 @@ import { z } from "zod";
 
 import type { UserWithProfile } from "@/types/user";
 
-import { updateProfile } from "@/actions/updateProfile";
+// Accept updateProfile as a prop from the surrounding server component instead
+// of importing the server action directly in client code. This keeps server
+// actions server-only and follows the server-wrapper → client-wrapper pattern.
 import HeaderBox from "@/components/header-box/header-box";
 import { Button } from "@/components/ui/button";
 import {
@@ -112,6 +114,11 @@ interface SettingsClientWrapperProps {
    * @type {UserWithProfile}
    */
   userWithProfile: UserWithProfile;
+  /**
+   * Server action provided by the server wrapper to update the profile.
+   * This mirrors the signature of the original updateProfile server action.
+   */
+  updateProfile?: (data: unknown) => Promise<{ ok: boolean; error?: string }>;
 }
 
 // ---------------------------------------------------------------------------
@@ -130,6 +137,7 @@ interface SettingsClientWrapperProps {
  */
 export function SettingsClientWrapper({
   userWithProfile,
+  updateProfile,
 }: SettingsClientWrapperProps): JSX.Element {
   // -- Profile form ----------------------------------------------------------
   const profileForm = useForm<ProfileFormData>({
@@ -147,6 +155,13 @@ export function SettingsClientWrapper({
   });
 
   async function onProfileSubmit(data: ProfileFormData): Promise<void> {
+    if (!updateProfile) {
+      profileForm.setError("root", {
+        message: "Update action not available",
+      });
+      return;
+    }
+
     const result = await updateProfile(data);
     if (!result.ok) {
       profileForm.setError("root", {
@@ -164,6 +179,13 @@ export function SettingsClientWrapper({
   });
 
   async function onPasswordSubmit(data: PasswordFormData): Promise<void> {
+    if (!updateProfile) {
+      passwordForm.setError("root", {
+        message: "Update action not available",
+      });
+      return;
+    }
+
     const result = await updateProfile(data);
     if (!result.ok) {
       passwordForm.setError("root", {

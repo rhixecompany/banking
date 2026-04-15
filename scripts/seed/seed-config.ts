@@ -22,7 +22,8 @@ export function getSeedAccessToken(): string {
   }
   // Return a mock token that will be detected by isMockAccessToken()
   // This allows E2E tests to work without real Plaid credentials
-  return "mock-access-token-sandbox";
+  // Use an uppercase MOCK_ prefix for clarity and consistent detection
+  return "MOCK_PLAID_ACCESS_TOKEN";
 }
 
 /**

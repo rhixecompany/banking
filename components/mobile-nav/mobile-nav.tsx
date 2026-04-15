@@ -38,7 +38,12 @@ import { sidebarLinks } from "@/constants";
  * @param props.user - Authenticated user data for footer display
  * @returns Rendered mobile navigation drawer
  */
-const MobileNav = ({ user }: MobileNavProps): JSX.Element => {
+const MobileNav = ({
+  user,
+  logoutAccount,
+}: MobileNavProps & {
+  logoutAccount?: () => Promise<boolean>;
+}): JSX.Element => {
   const pathname = usePathname();
   return (
     <section className="w-full max-w-66">
@@ -112,7 +117,7 @@ const MobileNav = ({ user }: MobileNavProps): JSX.Element => {
                 })}
               </nav>
             </SheetClose>
-            <Footer user={user} type="mobile" />
+            <Footer user={user} type="mobile" logoutAccount={logoutAccount} />
           </div>
         </SheetContent>
       </Sheet>

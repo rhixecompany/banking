@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 
+import { updateProfile } from "@/actions/updateProfile";
 import { getUserWithProfile } from "@/actions/user.actions";
 import { SettingsClientWrapper } from "@/components/settings/settings-client-wrapper";
 import ConnectedAccount from "@/components/shadcn-studio/blocks/account-settings-01/content/connect-account";
@@ -23,7 +24,10 @@ export async function SettingsServerWrapper(): Promise<JSX.Element> {
 
   return (
     <section className="space-y-10">
-      <SettingsClientWrapper userWithProfile={result.user} />
+      <SettingsClientWrapper
+        userWithProfile={result.user}
+        updateProfile={updateProfile}
+      />
       <ConnectedAccount />
       <SocialUrl />
       <DangerZone />

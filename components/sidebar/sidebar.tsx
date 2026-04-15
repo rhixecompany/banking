@@ -29,7 +29,12 @@ import { sidebarLinks } from "@/constants";
  * @param props.user - Authenticated user data for personalization and footer
  * @returns Rendered sidebar navigation
  */
-const Sidebar = ({ user }: SidebarProps): JSX.Element => {
+const Sidebar = ({
+  user,
+  logoutAccount,
+}: SidebarProps & {
+  logoutAccount?: () => Promise<boolean>;
+}): JSX.Element => {
   const pathname = usePathname();
   return (
     <section className="sidebar">
@@ -71,7 +76,7 @@ const Sidebar = ({ user }: SidebarProps): JSX.Element => {
           );
         })}
       </nav>
-      <Footer user={user} />
+      <Footer user={user} logoutAccount={logoutAccount} />
     </section>
   );
 };

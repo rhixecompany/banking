@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 
+import { registerUser } from "@/actions/register";
 import AuthForm from "@/components/auth-form/auth-form";
 import { auth } from "@/lib/auth";
 
@@ -18,7 +19,7 @@ export async function SignUpServerWrapper(): Promise<JSX.Element> {
 
   return (
     <section className="flex-center size-full max-sm:px-6">
-      <AuthForm type="sign-up" />
+      <AuthForm type="sign-up" register={registerUser} />
     </section>
   );
 }

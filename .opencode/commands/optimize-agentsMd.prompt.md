@@ -1,9 +1,9 @@
 ---
 description: "Technology-agnostic blueprint generator for creating comprehensive AGENTS.md files that guide Opencode to produce code consistent with project standards, architecture patterns, and exact technology versions by analyzing existing codebase patterns and avoiding assumptions."
-agent: "Next.js Expert"
+model: GPT-5 mini (copilot)
 ---
 
-# Copilot Instructions Blueprint Generator
+# Opencode Instructions Blueprint Generator
 
 ## Configuration Variables
 
@@ -14,7 +14,7 @@ ${VERSIONING="Semantic|CalVer|Custom"} <!-- Versioning approach -->
 
 ## Generated Prompt
 
-"Generate a comprehensive AGENTS.md file that will guide Opencode to produce code consistent with our project's standards, architecture, and technology versions. The instructions must be strictly based on actual code patterns in our codebase and avoid making any assumptions. Follow this approach:
+"Generate a comprehensive AGENTS.md file or update it if it already exists that will guide Opencode to produce code consistent with our project's standards, architecture, and technology versions. The instructions must be strictly based on actual code patterns in our codebase and avoid making any assumptions. Follow this approach:
 
 ### 1. Core Instruction Structure
 
@@ -30,6 +30,9 @@ When generating code for this repository:
 3. **Codebase Patterns**: When context files don't provide specific guidance, scan the codebase for established patterns
 4. **Architectural Consistency**: Maintain our ${ARCHITECTURE_STYLE} architectural style and established boundaries
 5. **Code Quality**: Prioritize ${CODE_QUALITY_FOCUS == "All" ? "maintainability, performance, security, accessibility, and testability" : CODE_QUALITY_FOCUS} in all generated code
+6. Include all skills and tools you can use
+7. Include all relevant context from existing codebase
+8. Include all custom typescripts, bash scripts, powershell scripts, bat scripts in the codebase
 
 ## Technology Version Detection
 

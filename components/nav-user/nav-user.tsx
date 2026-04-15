@@ -8,7 +8,6 @@ import {
 } from "lucide-react";
 import { signOut } from "next-auth/react";
 
-import { logoutAccount } from "@/actions/user.actions";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -43,12 +42,14 @@ import {
  */
 export function NavUser({
   user,
+  logoutAccount,
 }: {
   user: {
     name: string;
     email: string;
     avatar: string;
   };
+  logoutAccount?: () => Promise<boolean>;
 }): JSX.Element {
   const { isMobile } = useSidebar();
 
@@ -113,7 +114,7 @@ export function NavUser({
             <DropdownMenuItem
               onClick={() => {
                 void (async () => {
-                  await logoutAccount();
+                  if (logoutAccount) await logoutAccount();
                   await signOut({ callbackUrl: "/sign-in" });
                 })();
               }}

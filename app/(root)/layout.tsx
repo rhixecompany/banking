@@ -2,9 +2,10 @@ import Image from "next/image";
 import { redirect } from "next/navigation";
 import { ReactNode, Suspense } from "react";
 
-import { getUserWithProfile } from "@/actions/user.actions";
-import PlaidProvider from "@/components/layouts/plaid-provider";
+import { createLinkToken, exchangePublicToken } from "@/actions/plaid.actions";
+import { getUserWithProfile, logoutAccount } from "@/actions/user.actions";
 import MobileNav from "@/components/mobile-nav/mobile-nav";
+import { PlaidProvider } from "@/components/plaid-context/plaid-context";
 import Sidebar from "@/components/sidebar/sidebar";
 import { LoadingSpinner } from "@/components/ui/spinner";
 
@@ -23,9 +24,13 @@ async function ProtectedLayoutContent({
   }
 
   return (
-    <PlaidProvider userId={user.id}>
+    <PlaidProvider
+      userId={user.id}
+      createLinkToken={createLinkToken}
+      exchangePublicToken={exchangePublicToken}
+    >
       <main className="flex h-screen w-full font-sans">
-        <Sidebar user={user} />
+        <Sidebar user={user} logoutAccount={logoutAccount} />
         <div className="flex size-full flex-col">
           <div className="root-layout">
             <Image
@@ -37,7 +42,7 @@ async function ProtectedLayoutContent({
               style={{ height: "auto", width: "auto" }}
             />
             <div className="">
-              <MobileNav user={user} />
+              <MobileNav user={user} logoutAccount={logoutAccount} />
             </div>
           </div>
           {children}

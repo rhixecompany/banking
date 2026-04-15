@@ -1205,7 +1205,7 @@
     "productId": "00DefaultRules",
     "repoUrl": ".opencode\\instructions/",
     "scope": ["project"],
-    "tagline": "<!-- Canonical personas used by agents and reviewers -->",
+    "tagline": "When a User First start a new session ensure to Enforce Opencode To Ask For who the User is and his persona using the...",
     "tags": ["opencode", "instructions"],
     "type": "resources"
   },

@@ -4,10 +4,6 @@ import { Trash2 } from "lucide-react";
 import { useTransition } from "react";
 import { toast } from "sonner";
 
-import type { PlaidTransaction } from "@/types/plaid";
-import type { WalletWithDetails } from "@/types/wallet";
-
-import { removeWallet } from "@/actions/plaid.actions";
 import { PlaidLinkButton } from "@/components/plaid-link-button/plaid-link-button";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -19,6 +15,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { formatAmount, formatDate } from "@/lib/utils";
+import type { PlaidTransaction } from "@/types/plaid";
+import type { WalletWithDetails } from "@/types/wallet";
 
 /**
  * Props for the My Wallets client wrapper.
@@ -30,6 +28,8 @@ interface MyWalletsClientWrapperProps {
   totalBalance: number;
   /** The authenticated user's ID, used by PlaidProvider. */
   userId: string;
+  /** Server action to remove a wallet (passed from the server wrapper). */
+  removeWallet: (input: unknown) => Promise<{ ok: boolean; error?: string }>;
 }
 
 /**
@@ -44,12 +44,14 @@ export function MyWalletsClientWrapper({
   totalBalance,
   userId,
   walletsWithDetails,
+  removeWallet,
 }: MyWalletsClientWrapperProps): JSX.Element {
   return (
     <MyWalletsContent
       walletsWithDetails={walletsWithDetails}
       totalBalance={totalBalance}
       userId={userId}
+      removeWallet={removeWallet}
     />
   );
 }
@@ -65,6 +67,7 @@ export function MyWalletsClientWrapper({
 function MyWalletsContent({
   totalBalance,
   walletsWithDetails,
+  removeWallet,
 }: MyWalletsClientWrapperProps): JSX.Element {
   return (
     <section className="space-y-8">
@@ -103,7 +106,11 @@ function MyWalletsContent({
       ) : (
         <div className="grid gap-6">
           {walletsWithDetails.map((wallet) => (
-            <WalletCard key={wallet.id} wallet={wallet} />
+            <WalletCard
+              key={wallet.id}
+              wallet={wallet}
+              removeWallet={removeWallet}
+            />
           ))}
         </div>
       )}
@@ -117,7 +124,13 @@ function MyWalletsContent({
  * only the button for the wallet being deleted is disabled — not all buttons
  * simultaneously.
  */
-function WalletCard({ wallet }: { wallet: WalletWithDetails }): JSX.Element {
+function WalletCard({
+  wallet,
+  removeWallet,
+}: {
+  wallet: WalletWithDetails;
+  removeWallet: (input: unknown) => Promise<{ ok: boolean; error?: string }>;
+}): JSX.Element {
   const [isPending, startTransition] = useTransition();
 
   function handleRemove(): void {
@@ -147,18 +160,19 @@ function WalletCard({ wallet }: { wallet: WalletWithDetails }): JSX.Element {
               {formatAmount(wallet.balances[0]?.balances?.current ?? 0)}
             </div>
           </div>
-          <form action={handleRemove}>
+          <div>
             <Button
               variant="ghost"
               size="icon"
               className="text-destructive hover:text-destructive"
               disabled={isPending}
-              type="submit"
+              type="button"
               aria-label={`Remove ${wallet.institutionName ?? "wallet"}`}
+              onClick={handleRemove}
             >
               <Trash2 className="size-5" />
             </Button>
-          </form>
+          </div>
         </div>
       </CardHeader>
       <CardContent>

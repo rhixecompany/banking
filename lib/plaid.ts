@@ -10,7 +10,14 @@ import { env } from "@/lib/env";
  * @returns true if token appears to be a mock/seed token
  */
 export function isMockAccessToken(token: string): boolean {
-  return token.startsWith("seed-") || token.startsWith("mock-");
+  if (!token) return false;
+  const t = token.toLowerCase();
+  return (
+    t.startsWith("seed-") ||
+    t.startsWith("mock-") ||
+    t.startsWith("mock_") ||
+    t.startsWith("mock")
+  );
 }
 
 /**

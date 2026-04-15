@@ -77,12 +77,20 @@ export async function getUserWallets(): Promise<{
   wallets?: Wallet[];
   error?: string;
 }> {
-  const session = await auth();
-  if (!session?.user?.id) {
-    return { error: "Not authenticated", ok: false };
-  }
+  try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return { error: "Not authenticated", ok: false };
+    }
 
-  const userId = session.user.id;
-  const wallets = await walletsDal.findByUserId(userId);
-  return { ok: true, wallets };
+    const userId = session.user.id;
+    const wallets = await walletsDal.findByUserId(userId);
+    return { ok: true, wallets };
+  } catch (error) {
+    // Defensive: log the error and return a stable error shape for callers.
+    // This ensures SSR and E2E flows do not crash when the DAL or DB has
+    // unexpected failures.
+    logger.error("getUserWallets error:", error);
+    return { error: "Failed to get user wallets", ok: false };
+  }
 }

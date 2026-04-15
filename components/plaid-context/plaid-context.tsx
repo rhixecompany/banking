@@ -11,7 +11,6 @@ import { usePlaidLink, type PlaidLinkOnSuccess } from "react-plaid-link";
 
 import type { Wallet } from "@/types/wallet";
 
-import { createLinkToken, exchangePublicToken } from "@/actions/plaid.actions";
 import { logger } from "@/lib/logger";
 
 /**
@@ -124,6 +123,16 @@ interface PlaidProviderProps {
    * @type {?(wallet: Wallet) => void}
    */
   onSuccess?: (wallet: Wallet) => void;
+  createLinkToken?: (input: unknown) => Promise<{
+    ok: boolean;
+    linkToken?: string;
+    error?: string;
+  }>;
+  exchangePublicToken?: (input: unknown) => Promise<{
+    ok: boolean;
+    wallet?: Wallet;
+    error?: string;
+  }>;
 }
 
 /**
@@ -141,6 +150,8 @@ export function PlaidProvider({
   children,
   onSuccess,
   userId,
+  createLinkToken,
+  exchangePublicToken,
 }: PlaidProviderProps) {
   const [linkToken, setLinkToken] = useState<string | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(true);
@@ -160,6 +171,12 @@ export function PlaidProvider({
       setError(undefined);
 
       try {
+        if (!createLinkToken) {
+          setError("Plaid is not configured");
+          setIsLoading(false);
+          return;
+        }
+
         const result = await createLinkToken({ userId });
 
         if (result.ok && result.linkToken) {
@@ -181,6 +198,11 @@ export function PlaidProvider({
 
   const handleSuccess = useCallback<PlaidLinkOnSuccess>(
     async (publicToken) => {
+      if (!exchangePublicToken) {
+        setError("Plaid is not configured");
+        return;
+      }
+
       const result = await exchangePublicToken({
         publicToken,
         userId,
