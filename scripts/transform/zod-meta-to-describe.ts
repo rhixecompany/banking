@@ -8,18 +8,55 @@ import { Project, SyntaxKind } from "ts-morph";
 // Usage: node scripts/transform/zod-meta-to-describe.ts --dry-run
 //        node scripts/transform/zod-meta-to-describe.ts --apply
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const args = process.argv.slice(2);
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const dryRun = args.includes("--dry-run") || !args.includes("--apply");
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const filesArgIndex = args.indexOf("--files");
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {(string | undefined)}
+ */
 let filesArg: string | undefined;
 if (filesArgIndex !== -1 && args.length > filesArgIndex + 1) {
   filesArg = args[filesArgIndex + 1];
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const project = new Project({
   tsConfigFilePath: path.join(process.cwd(), "tsconfig.json"),
 });
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} filePath
+ * @returns {{ filePath: string; sourceFile: any; }}
+ */
 function convertFile(filePath: string) {
   const sourceFile = project.getSourceFile(filePath);
   if (!sourceFile) return null;
@@ -77,6 +114,13 @@ function convertFile(filePath: string) {
   return null;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @returns {unknown}
+ */
 async function findFiles() {
   // Scan src-like directories and actions/lib folders for ts/tsx files
   const glob = (await import("glob")) as any;
@@ -100,6 +144,13 @@ async function findFiles() {
   return Array.from(new Set(files));
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @returns {*}
+ */
 async function run() {
   const files = await findFiles();
   const results: { file: string; sourceFile: any }[] = [];

@@ -6,13 +6,55 @@ import { type PlaidLinkOnSuccess } from "react-plaid-link";
 
 import type { Wallet } from "@/types/wallet";
 
-import { createLinkToken, exchangePublicToken } from "@/actions/plaid.actions";
 import { logger } from "@/lib/logger";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @interface PlaidProviderProps
+ * @typedef {PlaidProviderProps}
+ */
 interface PlaidProviderProps {
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {string}
+   */
   userId: string;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {React.ReactNode}
+   */
   children: React.ReactNode;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?(wallet: Wallet) => void}
+   */
   onSuccess?: (wallet: Wallet) => void;
+  /**
+   * Server action to create a Plaid link token. Passed from a server
+   * component to avoid importing server actions directly in client code.
+   */
+  createLinkToken?: (input: unknown) => Promise<{
+    ok: boolean;
+    linkToken?: string;
+    error?: string;
+  }>;
+  /**
+   * Server action to exchange a Plaid public token. Passed from a server
+   * component to avoid importing server actions directly in client code.
+   */
+  exchangePublicToken?: (input: unknown) => Promise<{
+    ok: boolean;
+    wallet?: Wallet;
+    error?: string;
+  }>;
 }
 
 /**
@@ -23,6 +65,8 @@ export function PlaidProvider({
   children,
   onSuccess,
   userId,
+  createLinkToken,
+  exchangePublicToken,
 }: PlaidProviderProps) {
   const [linkToken, setLinkToken] = useState<string | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(true);
@@ -38,6 +82,11 @@ export function PlaidProvider({
       setIsLoading(true);
       setError(undefined);
       try {
+        if (!createLinkToken) {
+          setError("Plaid is not configured");
+          setIsLoading(false);
+          return;
+        }
         const result = await createLinkToken({ userId });
         if (result.ok && result.linkToken) setLinkToken(result.linkToken);
         else setError(result.error ?? "Failed to initialize Plaid Link");
@@ -49,11 +98,15 @@ export function PlaidProvider({
     }
 
     void fetchLinkToken();
-  }, [userId]);
+  }, [userId, createLinkToken]);
 
   const handleSuccess = useCallback<PlaidLinkOnSuccess>(
     async (publicToken, _metadata) => {
       try {
+        if (!exchangePublicToken) {
+          setError("Plaid is not configured");
+          return;
+        }
         const result = await exchangePublicToken({ publicToken, userId });
         if (result.ok && result.wallet) onSuccessRef.current?.(result.wallet);
         else setError(result.error ?? "Failed to link bank account");
@@ -65,7 +118,7 @@ export function PlaidProvider({
         setError("Failed to link bank account");
       }
     },
-    [userId],
+    [userId, exchangePublicToken],
   );
 
   // Provide the react-plaid-link hook here so children can use a safe hook

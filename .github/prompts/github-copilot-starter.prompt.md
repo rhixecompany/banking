@@ -1,26 +1,15 @@
 ---
-agent: "Next.js Expert"
-model: "Auto"
+agent: "agent"
+model: Claude Sonnet 4
 tools:
   [
-    vscode,
-    execute,
-    read,
-    agent,
-    edit,
-    search,
-    web,
-    "github/*",
-    browser,
-    vscode.mermaid-chat-features/renderMermaidDiagram,
-    github.vscode-pull-request-github/issue_fetch,
-    github.vscode-pull-request-github/labels_fetch,
-    github.vscode-pull-request-github/notification_fetch,
-    github.vscode-pull-request-github/doSearch,
-    github.vscode-pull-request-github/activePullRequest,
-    github.vscode-pull-request-github/pullRequestStatusChecks,
-    github.vscode-pull-request-github/openPullRequest,
-    todo
+    "edit",
+    "githubRepo",
+    "changes",
+    "problems",
+    "search",
+    "runCommands",
+    "web/fetch"
   ]
 description: "Set up complete GitHub Copilot configuration for a new project based on technology stack"
 ---

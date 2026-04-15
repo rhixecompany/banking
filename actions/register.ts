@@ -2,6 +2,8 @@
 import bcrypt from "bcrypt";
 import { z } from "zod";
 
+import type { UserWithProfile } from "@/types/user";
+
 import { userDal } from "@/dal";
 
 /**
@@ -76,9 +78,11 @@ export type RegisterInput = z.infer<typeof RegisterSchema>;
  * @param {unknown} input
  * @returns {unknown}
  */
-export async function registerUser(
-  input: unknown,
-): Promise<{ ok: boolean; user?: unknown; error?: string }> {
+export async function registerUser(input: unknown): Promise<{
+  ok: boolean;
+  user?: undefined | UserWithProfile;
+  error?: string;
+}> {
   const parsed = RegisterSchema.safeParse(input);
   if (!parsed.success) {
     const allErrors = parsed.error.issues

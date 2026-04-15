@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable n/no-process-env */
 
 /**
  * Feature Scaffolding Generator Script
@@ -13,6 +14,8 @@
 import fs from "fs";
 import path from "path";
 import readline from "readline";
+
+import io from "../utils/io";
 
 /**
  * Description placeholder
@@ -87,7 +90,12 @@ function prompt(question: string): Promise<string> {
  *
  * @returns {{ featureName: string; options: FeatureOptions }}
  */
-function parseArgs(): { featureName: string; options: FeatureOptions } {
+function parseArgs(): {
+  featureName: string;
+  options: FeatureOptions;
+  dryRun: boolean;
+  yes: boolean;
+} {
   const args = process.argv.slice(2);
   const options: FeatureOptions = {
     componentFolder: "ui",
@@ -96,6 +104,8 @@ function parseArgs(): { featureName: string; options: FeatureOptions } {
   };
 
   let featureName = "";
+  let dryRun = false;
+  let yes = false;
 
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
@@ -106,12 +116,23 @@ function parseArgs(): { featureName: string; options: FeatureOptions } {
     } else if (arg === "--folder" && args[i + 1]) {
       options.componentFolder = args[i + 1];
       i++;
+    } else if (arg === "--dry-run") {
+      dryRun = true;
+    } else if (arg === "--yes" || arg === "-y") {
+      yes = true;
     } else if (!arg.startsWith("--")) {
       featureName = arg;
     }
   }
 
-  return { featureName, options };
+  // Allow DRY_RUN override via global flag OR environment variable.
+  // Support both string "true" and numeric-style "1" for CI friendliness.
+  if ((globalThis as any).__SCRIPTS_DRY_RUN) dryRun = true;
+
+  const envDry = process.env.DRY_RUN;
+  if (envDry === "true" || envDry === "1") dryRun = true;
+
+  return { dryRun, featureName, options, yes };
 }
 
 /**
@@ -157,7 +178,11 @@ function toKebabCase(str: string): string {
  * @param {string} featureName
  * @param {FeatureOptions} options
  */
-function generateDAL(featureName: string, options: FeatureOptions): void {
+async function generateDAL(
+  featureName: string,
+  options: FeatureOptions,
+  dryRun = false,
+): Promise<void> {
   const pascalName = toPascalCase(featureName);
   const camelName = toCamelCase(featureName);
   const kebabName = toKebabCase(featureName);
@@ -232,8 +257,7 @@ export const ${camelName}Dal = new ${pascalName}Dal();
 `;
 
   const filePath = path.join(DAL_DIR, `${kebabName}.dal.ts`);
-  fs.writeFileSync(filePath, content);
-  console.warn(`  ✅ DAL: ${path.relative(process.cwd(), filePath)}`);
+  await io.writeFile(filePath, content, { dryRun });
 }
 
 /**
@@ -242,7 +266,11 @@ export const ${camelName}Dal = new ${pascalName}Dal();
  * @param {string} featureName
  * @param {FeatureOptions} options
  */
-function generateAction(featureName: string, options: FeatureOptions): void {
+async function generateAction(
+  featureName: string,
+  options: FeatureOptions,
+  dryRun = false,
+): Promise<void> {
   const pascalName = toPascalCase(featureName);
   const camelName = toCamelCase(featureName);
   const kebabName = toKebabCase(featureName);
@@ -343,8 +371,7 @@ export async function list${pascalName}() {
   }
 
   const filePath = path.resolve(ACTIONS_DIR, `${kebabName}.actions.ts`);
-  fs.writeFileSync(filePath, content);
-  console.warn(`  ✅ Action: ${path.relative(process.cwd(), filePath)}`);
+  await io.writeFile(filePath, content, { dryRun });
 }
 
 /**
@@ -353,13 +380,17 @@ export async function list${pascalName}() {
  * @param {string} featureName
  * @param {FeatureOptions} options
  */
-function generateComponent(featureName: string, options: FeatureOptions): void {
+async function generateComponent(
+  featureName: string,
+  options: FeatureOptions,
+  dryRun = false,
+): Promise<void> {
   const pascalName = toPascalCase(featureName);
   const kebabName = toKebabCase(featureName);
   const folderPath = path.resolve(COMPONENTS_DIR, options.componentFolder);
 
   if (!fs.existsSync(folderPath)) {
-    fs.mkdirSync(folderPath, { recursive: true });
+    await io.mkdirp(folderPath, { dryRun });
   }
 
   const content = `"use client";
@@ -423,8 +454,7 @@ export function ${pascalName}Form({ onSuccess }: ${pascalName}FormProps) {
 `;
 
   const filePath = path.resolve(folderPath, `${kebabName}-form.tsx`);
-  fs.writeFileSync(filePath, content);
-  console.warn(`  ✅ Component: ${path.relative(process.cwd(), filePath)}`);
+  await io.writeFile(filePath, content, { dryRun });
 }
 
 /**
@@ -438,6 +468,8 @@ export function ${pascalName}Form({ onSuccess }: ${pascalName}FormProps) {
 async function generateFeature(
   featureName: string,
   options: FeatureOptions,
+  dryRun = false,
+  yes = false,
 ): Promise<void> {
   if (!featureName) {
     console.error("❌ Feature name is required");
@@ -446,9 +478,10 @@ async function generateFeature(
 
   console.warn(`\n📦 Generating feature: ${featureName}\n`);
 
-  generateDAL(featureName, options);
-  generateAction(featureName, options);
-  generateComponent(featureName, options);
+  // Generate files, honoring dry-run
+  await generateDAL(featureName, options, dryRun);
+  await generateAction(featureName, options, dryRun);
+  await generateComponent(featureName, options, dryRun);
 
   console.warn(`\n✅ Feature "${featureName}" generated successfully!`);
 
@@ -471,11 +504,19 @@ async function main(): Promise<void> {
   try {
     console.warn("🚀 Feature Scaffolding Generator\n");
 
-    const { featureName: parsedFeatureName, options } = parseArgs();
-    let featureName = parsedFeatureName;
+    const parsed = parseArgs();
+    let featureName = parsed.featureName;
+    const options = parsed.options;
+    const dryRun = parsed.dryRun;
+    const yes = parsed.yes;
 
     if (!featureName) {
-      featureName = await prompt("Enter feature name (e.g., user-profile): ");
+      if (!yes) {
+        featureName = await prompt("Enter feature name (e.g., user-profile): ");
+      } else {
+        console.error("❌ Feature name is required");
+        process.exit(1);
+      }
     }
 
     if (!featureName.trim()) {
@@ -483,24 +524,30 @@ async function main(): Promise<void> {
       process.exit(1);
     }
 
-    const withCRUD =
-      options.withCRUD ||
-      (await prompt("Include CRUD operations? (Y/n): ")).toLowerCase() !== "n";
-    options.withCRUD = withCRUD;
+    if (!yes) {
+      const withCRUD =
+        options.withCRUD ||
+        (await prompt("Include CRUD operations? (Y/n): ")).toLowerCase() !==
+          "n";
+      options.withCRUD = withCRUD;
 
-    const withAuth =
-      options.withAuth ||
-      (await prompt("Include authentication? (Y/n): ")).toLowerCase() !== "n";
-    options.withAuth = withAuth;
+      const withAuth =
+        options.withAuth ||
+        (await prompt("Include authentication? (Y/n): ")).toLowerCase() !== "n";
+      options.withAuth = withAuth;
 
-    const folder = await prompt(
-      `Component folder [${options.componentFolder}]: `,
-    );
-    if (folder.trim()) {
-      options.componentFolder = folder.trim();
+      const folder = await prompt(
+        `Component folder [${options.componentFolder}]: `,
+      );
+      if (folder.trim()) {
+        options.componentFolder = folder.trim();
+      }
     }
 
-    await generateFeature(featureName, options);
+    // Attach dryRun flag to global context used by generators
+    (globalThis as any).__SCRIPTS_DRY_RUN = dryRun;
+
+    await generateFeature(featureName, options, dryRun, yes);
 
     console.warn("\n🎉 Feature scaffolding complete!");
   } catch (error) {

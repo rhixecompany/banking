@@ -12,6 +12,41 @@ import { auth } from "@/lib/auth";
 import { logger } from "@/lib/logger";
 import { isMockAccessToken, plaidClient } from "@/lib/plaid";
 
+// Helper: process items in small batches to avoid rate-limiting external APIs.
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @template T
+ * @template R
+ * @param {T[]} items
+ * @param {number} batchSize
+ * @param {(item: T) => Promise<R>} fn
+ * @param {number} [delayMs=500]
+ * @returns {Promise<R[]>}
+ */
+async function processInBatches<T, R>(
+  items: T[],
+  batchSize: number,
+  fn: (item: T) => Promise<R>,
+  delayMs = 500,
+): Promise<R[]> {
+  const results: R[] = [];
+  for (let i = 0; i < items.length; i += batchSize) {
+    const batch = items.slice(i, i + batchSize);
+    // Run the batch in parallel
+
+    const res = await Promise.all(batch.map(fn));
+    results.push(...res);
+    if (i + batchSize < items.length) {
+      // Small delay between batches to give external APIs breathing room
+      await new Promise((r) => setTimeout(r, delayMs));
+    }
+  }
+  return results;
+}
+
 /**
  * Zod schema for validating the input to {@link createLinkToken}.
  * Requires a non-empty user ID string.
@@ -33,7 +68,7 @@ const CreateLinkTokenSchema = z.object({
  * @type {*}
  */
 const ExchangePublicTokenSchema = z.object({
-  publicToken: z.string().trim().min(1),
+  publicToken: z.string().trim().min(1, "Public token is required"),
 });
 
 /**
@@ -43,7 +78,7 @@ const ExchangePublicTokenSchema = z.object({
  * @type {*}
  */
 const GetAccountsSchema = z.object({
-  walletId: z.string().trim().min(1),
+  walletId: z.string().trim().min(1, "Wallet ID is required"),
 });
 
 /**
@@ -54,10 +89,10 @@ const GetAccountsSchema = z.object({
  */
 const GetTransactionsSchema = z.object({
   count: z.number().min(1).max(500).optional(),
-  endDate: z.string().trim().min(1),
+  endDate: z.string().trim().min(1, "End date is required"),
   offset: z.number().min(0).optional(),
-  startDate: z.string().trim().min(1),
-  walletId: z.string().trim().min(1),
+  startDate: z.string().trim().min(1, "Start date is required"),
+  walletId: z.string().trim().min(1, "Wallet ID is required"),
 });
 
 /**
@@ -67,7 +102,7 @@ const GetTransactionsSchema = z.object({
  * @type {*}
  */
 const GetBalanceSchema = z.object({
-  walletId: z.string().trim().min(1),
+  walletId: z.string().trim().min(1, "Wallet ID is required"),
 });
 
 /**
@@ -77,7 +112,7 @@ const GetBalanceSchema = z.object({
  * @type {*}
  */
 const RefreshAccountsSchema = z.object({
-  walletId: z.string().trim().min(1),
+  walletId: z.string().trim().min(1, "Wallet ID is required"),
 });
 
 /**
@@ -87,7 +122,7 @@ const RefreshAccountsSchema = z.object({
  * @type {*}
  */
 const GetInstitutionSchema = z.object({
-  institutionId: z.string().trim().min(1),
+  institutionId: z.string().trim().min(1, "Institution ID is required"),
 });
 
 /**
@@ -159,6 +194,47 @@ export async function exchangePublicToken(
   const session = await auth();
   if (!session?.user?.id) {
     return { error: "Unauthorized", ok: false };
+  }
+
+  // Short-circuit behavior for mock/public tokens used in tests.
+  // If the public token appears to be a mock (seeded or test), create a
+  // deterministic wallet record without calling the external Plaid API.
+  if (isMockAccessToken(publicToken)) {
+    try {
+      const sharableId = `wallet_${crypto.randomUUID().slice(0, 16)}`;
+
+      // Create a deterministic mock account id
+      const mockAccountId = `mock-account-${crypto.randomUUID().slice(0, 8)}`;
+
+      const institutionName = "Mock Bank";
+
+      const existingByAccount = await walletsDal.findByAccountId(mockAccountId);
+
+      let wallet: undefined | Wallet =
+        existingByAccount?.userId === session.user.id
+          ? existingByAccount
+          : undefined;
+
+      wallet ??= await walletsDal.createWallet({
+        accessToken: `MOCK_ACCESS_TOKEN_${mockAccountId}`,
+        accountId: mockAccountId,
+        accountSubtype: "checking",
+        accountType: "depository",
+        institutionId: undefined,
+        institutionName,
+        sharableId,
+        userId: session.user.id,
+      });
+
+      revalidatePath("/my-wallets");
+      revalidatePath("/dashboard");
+      revalidateTag("balances", "minutes");
+      updateTag("balances");
+      return { ok: true, wallet };
+    } catch (error) {
+      logger.error("Plaid mock exchangePublicToken error:", error);
+      return { error: "Failed to exchange mock public token", ok: false };
+    }
   }
 
   try {
@@ -275,6 +351,13 @@ export async function getAccounts(input: unknown): Promise<{
       return { error: "Forbidden", ok: false };
     }
 
+    // If this wallet was created with a mock/seeding access token, do not
+    // call the external Plaid API. Return an empty accounts array so UI and
+    // tests can continue without external dependencies.
+    if (isMockAccessToken(wallet.accessToken)) {
+      return { ok: true, accounts: [] };
+    }
+
     const response = await plaidClient.accountsGet({
       access_token: wallet.accessToken,
     });
@@ -340,6 +423,12 @@ export async function getTransactions(input: unknown): Promise<{
       return { error: "Forbidden", ok: false };
     }
 
+    // If this wallet is a mock token, return an empty result set to avoid
+    // calling Plaid in test environments.
+    if (isMockAccessToken(wallet.accessToken)) {
+      return { ok: true, transactions: [], totalTransactions: 0 };
+    }
+
     const request = {
       access_token: wallet.accessToken,
       end_date: endDate,
@@ -402,6 +491,12 @@ export async function getBalance(input: unknown): Promise<{
       return { error: "Forbidden", ok: false };
     }
 
+    // If this wallet was created with a mock token, skip external calls and
+    // return an empty balances array. Tests expect a stable return shape.
+    if (isMockAccessToken(wallet.accessToken)) {
+      return { ok: true, balances: [] };
+    }
+
     const response = await plaidClient.accountsBalanceGet({
       access_token: wallet.accessToken,
     });
@@ -447,8 +542,10 @@ export async function getAllBalances(userId: string): Promise<{
   try {
     const wallets = await walletsDal.findByUserId(userId);
 
-    const entries = await Promise.all(
-      wallets.map(async (wallet): Promise<[string, PlaidBalance[]]> => {
+    const entries = await processInBatches(
+      wallets,
+      2,
+      async (wallet): Promise<[string, PlaidBalance[]]> => {
         try {
           // Silently skip wallets with empty or mock tokens
           if (
@@ -478,7 +575,8 @@ export async function getAllBalances(userId: string): Promise<{
           logger.error(`Failed to get balance for wallet ${wallet.id}:`, error);
           return [wallet.id, []];
         }
-      }),
+      },
+      400,
     );
 
     return { balances: Object.fromEntries(entries), ok: true };
@@ -510,8 +608,10 @@ export async function getAllAccounts(): Promise<{
   try {
     const wallets = await walletsDal.findByUserId(session.user.id);
 
-    const accountArrays = await Promise.all(
-      wallets.map(async (wallet): Promise<Account[]> => {
+    const accountArrays = await processInBatches(
+      wallets,
+      2,
+      async (wallet): Promise<Account[]> => {
         try {
           // Skip wallets with empty or missing access tokens
           // Silently skip - these are expected in E2E test environments
@@ -559,7 +659,8 @@ export async function getAllAccounts(): Promise<{
           logger.warn(`getAllAccounts: skipping wallet ${wallet.id}:`, err);
           return [];
         }
-      }),
+      },
+      400,
     );
 
     return { accounts: accountArrays.flat(), ok: true };
@@ -616,7 +717,7 @@ export async function getInstitution(input: unknown): Promise<{
  * @type {*}
  */
 const GetWalletWithDetailsSchema = z.object({
-  walletId: z.string().trim().min(1),
+  walletId: z.string().trim().min(1, "Wallet ID is required"),
 });
 
 /**
@@ -727,8 +828,10 @@ export async function getAllWalletsWithDetails(): Promise<{
       ? (balancesResult.balances ?? {})
       : {};
 
-    const transactionsByWallet = await Promise.all(
-      wallets.map(async (wallet): Promise<[string, PlaidTransaction[]]> => {
+    const transactionsByWallet = await processInBatches(
+      wallets,
+      2,
+      async (wallet): Promise<[string, PlaidTransaction[]]> => {
         try {
           if (
             !wallet.accessToken ||
@@ -760,7 +863,8 @@ export async function getAllWalletsWithDetails(): Promise<{
           );
           return [wallet.id, []];
         }
-      }),
+      },
+      400,
     );
 
     const allTransactions = Object.fromEntries(transactionsByWallet);
@@ -789,7 +893,7 @@ export async function getAllWalletsWithDetails(): Promise<{
  * @type {*}
  */
 const RemoveWalletSchema = z.object({
-  walletId: z.string().trim().min(1),
+  walletId: z.string().trim().min(1, "Wallet ID is required"),
 });
 
 /**

@@ -19,6 +19,8 @@
  *   npx tsx scripts/validate.ts --all
  */
 
+import { spawnSync } from "child_process";
+
 import { formatValidationErrors, validateEntry } from "./utils/validation.js";
 import { getAllYamlFiles, readYamlFile } from "./utils/yaml.js";
 import { validateActions } from "./validate/actions.js";
@@ -31,7 +33,48 @@ import { validateTypes } from "./validate/types.js";
  *
  * @typedef {ValidationTarget}
  */
-type ValidationTarget = "actions" | "all" | "env" | "schema" | "types" | "yaml";
+type ValidationTarget =
+  | "actions"
+  | "all"
+  | "env"
+  | "schema"
+  | "scripts"
+  | "types"
+  | "yaml";
+
+/**
+ * Run a small smoke dry-run for TypeScript scripts to ensure they execute without runtime errors.
+ */
+function validateScripts(): boolean {
+  console.warn("🔧 Running scripts smoke dry-run checks...");
+
+  const scriptsToCheck = [
+    "scripts/generate/feature.ts",
+    "scripts/generate/dal.ts",
+    "scripts/generate/component.ts",
+    "scripts/generate/action.ts",
+  ];
+
+  for (const script of scriptsToCheck) {
+    console.warn(`  - Dry-run: ${script}`);
+    // Run the script with --dry-run flag. We avoid touching process.env here so
+    // the validation script doesn't rely on env propagation; most scripts
+    // detect the dry-run via argv (preferred). Leaving stdio inherited so
+    // any runtime output is visible during validation.
+    const res = spawnSync("npx", ["tsx", script, "--dry-run"], {
+      shell: false,
+      stdio: "inherit",
+    });
+
+    if (res.status !== 0) {
+      console.error(`✗ Script dry-run failed: ${script}`);
+      return false;
+    }
+  }
+
+  console.warn("✓ Script dry-run smoke checks passed");
+  return true;
+}
 
 /**
  * Description placeholder
@@ -193,6 +236,12 @@ async function main(): Promise<void> {
     if (target === "all" || target === "actions") {
       const actionsResult = await validateActions();
       allPassed = allPassed && actionsResult;
+      console.warn("");
+    }
+
+    if (target === "all" || target === "scripts") {
+      const scriptsOk = validateScripts();
+      allPassed = allPassed && scriptsOk;
       console.warn("");
     }
   }

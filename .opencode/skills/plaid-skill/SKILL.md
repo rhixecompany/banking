@@ -1,6 +1,7 @@
 ---
 name: PlaidSkill
 description: Plaid API integration for bank account linking, transaction retrieval, and balance fetching in the Banking app.
+lastReviewed: 2026-04-13
 ---
 
 # PlaidSkill — Plaid Integration Patterns

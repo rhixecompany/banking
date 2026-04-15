@@ -220,7 +220,7 @@ async function generateReadme(): Promise<void> {
 
   try {
     writeReadme(content);
-    console.warn("\nREADME.opencode.md written successfully");
+    console.warn("\nREADME.md written successfully");
   } catch (err) {
     throw new Error(`Failed to write README.md: ${(err as Error).message}`);
   }
@@ -228,14 +228,14 @@ async function generateReadme(): Promise<void> {
   const errorCount = allErrors.length;
   if (errorCount > 0) {
     console.warn(
-      `\n⚠️  Generated README.opencode.md with ${totalEntries} entries across ${CATEGORIES.length} categories`,
+      `\n⚠️  Generated README.md with ${totalEntries} entries across ${CATEGORIES.length} categories`,
     );
     console.warn(
       `   ${errorCount} validation error(s) were logged (affected entries were skipped)`,
     );
   } else {
     console.warn(
-      `\n✅ Generated README.opencode.md with ${totalEntries} entries across ${CATEGORIES.length} categories`,
+      `\n✅ Generated README.md with ${totalEntries} entries across ${CATEGORIES.length} categories`,
     );
   }
 }

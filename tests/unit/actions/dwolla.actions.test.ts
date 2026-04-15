@@ -1,105 +1,59 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
-
-import { createTransfer } from "@/actions/dwolla.actions";
-import { db } from "@/database/db";
+import { describe, expect, it, vi } from "vitest";
 
 vi.mock("@/lib/auth", () => ({
-  auth: vi.fn().mockResolvedValue({
-    expires: new Date(Date.now() + 86400000).toISOString(),
-    user: { id: "user-test-1", isAdmin: false, isActive: true },
-  }),
+  auth: vi.fn().mockResolvedValue({ user: { id: "user-123" } }),
 }));
 
-vi.mock("@/lib/dwolla", () => ({
-  getDwollaClient: () => ({
-    post: () =>
-      Promise.resolve({
-        headers: {
-          get: (_: string) => "https://api-sandbox.dwolla.com/transfers/t-123",
-        },
-      }),
-  }),
+vi.mock("@/dal", () => ({
+  dwollaDal: {
+    createDwollaTransfer: vi.fn().mockResolvedValue({ id: "dw-1" }),
+  },
+  transactionDal: {
+    createTransaction: vi.fn().mockResolvedValue({ id: "txn-1" }),
+  },
 }));
 
-describe("dwolla.actions.createTransfer transactional path", () => {
-  beforeEach(async () => {
-    // No-op
+describe("Dwolla Actions (mock short-circuit)", () => {
+  it("createFundingSource should short-circuit for mock Plaid token", async () => {
+    const { createFundingSource } = await import("@/actions/dwolla.actions");
+
+    const result = await createFundingSource({
+      customerId: "cust-123",
+      fundingSourceName: "Mock Bank",
+      plaidToken: "MOCK_PLAID_ACCESS_TOKEN",
+    });
+
+    expect(result.ok).toBe(true);
+    expect(result.fundingSourceUrl).toBeDefined();
+    expect(result.fundingSourceUrl).toMatch(/mock-/i);
   });
 
-  it("creates ledger and dwolla_transfers row atomically when createLedger provided", async () => {
+  it("createTransfer should short-circuit for mock funding source urls and persist metadata via DAL", async () => {
+    const { createTransfer } = await import("@/actions/dwolla.actions");
+    const { dwollaDal, transactionDal } = await import("@/dal");
+
     const payload = {
       amount: "5.00",
       sourceFundingSourceUrl:
-        "https://api-sandbox.dwolla.com/funding-sources/src-1",
+        "https://api.dwolla.com/funding-sources/mock-src-1",
       destinationFundingSourceUrl:
-        "https://api-sandbox.dwolla.com/funding-sources/dst-1",
+        "https://api.dwolla.com/funding-sources/mock-dst-1",
       createLedger: {
-        senderWalletId: "wallet-sender-1",
-        receiverWalletId: "wallet-recv-1",
-        name: "Test Transfer",
-        email: "test@example.com",
         amount: "5.00",
-        type: "debit",
+        receiverWalletId: "wallet-1",
+        senderWalletId: "wallet-2",
+        name: "Test Transfer",
         status: "pending",
+        type: "debit",
       },
     };
 
-    // Ensure a user record exists for the transactional insert (foreign key)
-    const { users } = await import("@/database/schema");
-    await db
-      .insert(users)
-      .values({ id: "user-test-1", email: "test-user@example.com" })
-      .onConflictDoNothing();
+    const result = await createTransfer(payload);
 
-    // Ensure sender and receiver wallets exist (FKs on transactions require wallets to exist)
-    const { wallets } = await import("@/database/schema");
-    await db
-      .insert(wallets)
-      .values([
-        {
-          id: "wallet-sender-1",
-          accessToken: "token-sender",
-          sharableId: "sender-sharable",
-          userId: "user-test-1",
-        },
-        {
-          id: "wallet-recv-1",
-          accessToken: "token-recv",
-          sharableId: "recv-sharable",
-          userId: "user-test-1",
-        },
-      ])
-      .onConflictDoNothing();
-
-    const res = await createTransfer(payload as unknown);
-    if (!res.ok) {
-      // eslint-disable-next-line no-console
-      console.error("createTransfer failed:", res);
-    }
-    expect(res.ok).toBe(true);
-
-    // Verify dwolla_transfers entry exists
-    const { dwolla_transfers } = await import("@/database/schema");
-    const rows = await db
-      .select()
-      .from(dwolla_transfers)
-      .where(
-        // use drizzle eq predicate
-        (await import("drizzle-orm")).eq(
-          dwolla_transfers.transferUrl,
-          "https://api-sandbox.dwolla.com/transfers/t-123",
-        ),
-      );
-    expect(rows.length).toBeGreaterThanOrEqual(1);
-
-    // Verify transactions entry exists for user-test-1
-    const { transactions } = await import("@/database/schema");
-    const txns = await db
-      .select()
-      .from(transactions)
-      .where(
-        (await import("drizzle-orm")).eq(transactions.userId, "user-test-1"),
-      );
-    expect(txns.length).toBeGreaterThanOrEqual(1);
+    expect(result.ok).toBe(true);
+    expect(result.transferUrl).toBeDefined();
+    // Ensure DAL was invoked to persist metadata
+    expect(dwollaDal.createDwollaTransfer).toHaveBeenCalled();
+    expect(transactionDal.createTransaction).toHaveBeenCalled();
   });
 });

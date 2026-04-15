@@ -5,8 +5,6 @@ import Image from "next/image";
 
 import type { FooterProps } from "@/types";
 
-import { logoutAccount } from "@/actions/user.actions";
-
 /**
  * Footer component displays user info and logout functionality.
  * Used in sidebar and mobile navigation for account management.
@@ -28,9 +26,15 @@ import { logoutAccount } from "@/actions/user.actions";
  * @param props.user - Authenticated user data with name and email
  * @returns Rendered footer with user info and logout button
  */
-const Footer = ({ type = "desktop", user }: FooterProps): JSX.Element => {
+const Footer = ({
+  type = "desktop",
+  user,
+  logoutAccount,
+}: FooterProps & {
+  logoutAccount?: () => Promise<boolean>;
+}): JSX.Element => {
   const handleLogOut = async (): Promise<void> => {
-    await logoutAccount();
+    if (logoutAccount) await logoutAccount();
     await signOut({ callbackUrl: "/sign-in" });
   };
 

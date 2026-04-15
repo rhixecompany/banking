@@ -1,6 +1,9 @@
 import { redirect } from "next/navigation";
 
-import { getAllWalletsWithDetails } from "@/actions/plaid.actions";
+import {
+  getAllWalletsWithDetails,
+  removeWallet,
+} from "@/actions/plaid.actions";
 import { MyWalletsClientWrapper } from "@/components/my-wallets/my-wallets-client-wrapper";
 import { auth } from "@/lib/auth";
 
@@ -31,6 +34,7 @@ export async function MyWalletsServerWrapper(): Promise<JSX.Element> {
       walletsWithDetails={walletsWithDetails}
       totalBalance={totalBalance}
       userId={userId}
+      removeWallet={removeWallet}
     />
   );
 }

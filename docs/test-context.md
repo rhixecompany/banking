@@ -1,51 +1,67 @@
-# Test Context
+# Test Context Inventory — Phase 1 Audit
 
-Last updated: 2026-04-12
+Purpose
 
-Test Runners & Order
+- Inventory of test files, helpers, fixtures, and configurations discovered during Phase 1 audit.
+- Initial compliance notes and triage recommendations for hardening tests (Vitest + Playwright).
 
-- End-to-end: Playwright — E2E lives under `tests/e2e/`.
-  - Global files: `tests/e2e/global-setup.ts`, `tests/e2e/global-teardown.ts`
-  - Helpers: `tests/e2e/helpers/auth.ts`, `tests/e2e/helpers/db.ts`, `tests/e2e/helpers/plaid.ts`, `tests/e2e/helpers/dwolla.ts`
-  - Important: Playwright runs first via `npm run test:ui` (per AGENTS.md).
-- Unit & integration: Vitest — tests under `tests/unit/` and some integration tests.
-  - Setup: `tests/setup.ts`, MSW server at `tests/mocks/msw/server.ts`.
+Overview
 
-Seed & Deterministic Data
+- Test frameworks used: Playwright (E2E) and Vitest (unit/integration).
+- Playwright uses a single worker and relies on a seeded DB and helper hooks for authenticated flows.
 
-- Seed script: `scripts/seed/seed-data.ts` (you selected this path).
-- Recommendation: Have Playwright `global-setup.ts` run the seed script (idempotent) to ensure seeded user(s) exist and tests are deterministic — you approved automatic run.
-- Seed IDs are declared in `scripts/seed/seed-data.ts` as `SEED_IDS` and are used in fixtures.
+Key files & helpers
 
-Flaky / Non-deterministic Tests Found (examples)
+- tests/setup.ts — Vitest setup file. Ensure mocks and global test environment do not leak across tests.
+- tests/fixtures/
+  - auth.ts — Auth fixture users and tokens.
+  - wallets.ts — Wallet fixtures used by e2e/unit tests.
+  - transactions.ts — Transaction fixtures.
+  - pages/ — Fixture page objects for Playwright tests.
 
-- `tests/unit/plaid.test.ts` — unit tests that rely on external Plaid behaviour; ensure mocks are used.
-- E2E tests using Plaid flow: `tests/e2e/wallet-linking.spec.ts` and helpers `tests/e2e/helpers/plaid.ts` — these rely on sandbox iframe interactions and can be brittle; they use `frameLocator` and multiple `click` sequences.
-- Tests that use non-deterministic timeouts / UI wait: Several tests use fixed timeouts instead of robust playwright waits; convert to `page.waitForURL`, `locator.waitFor`, `toHaveText`, etc.
+- tests/e2e/helpers/
+  - auth.ts — Playwright helper to create authenticated contexts (likely via cookie injection or Playwright route to set cookie).
+  - db.ts — DB helpers for seeding and teardown. Ensure deterministic seeds are used and support idempotent runs.
+  - plaid.ts, dwolla.ts — Third-party integration helpers. Confirm these use sandbox/test modes and are stubbed in CI when not available.
 
-Current Helpers & Fixtures (selected)
+- tests/e2e/global-setup.ts, global-teardown.ts — orchestrates starting server and seeding DB for E2E. Important for deterministic runs.
 
-- `tests/fixtures/*` — page objects & fixtures used by E2E tests (dashboard, sign-in, my-wallets).
-- `tests/fixtures/auth.ts` — auth helper values.
-- `tests/fixtures/wallets.ts`, `tests/fixtures/transactions.ts` — data fixtures.
-- `tests/mocks/msw/server.ts` — MSW server for unit tests.
+- tests/e2e/specs — Playwright spec files per feature (wallet-linking.spec.ts, my-wallets.spec.ts, auth.spec.ts, payment-transfer.spec.ts, dashboard.spec.ts, settings.spec.ts, transaction-history.spec.ts)
 
-Hardening Recommendations (concrete)
+- tests/unit — Vitest unit tests (many files: auth, DALs, actions, components).
 
-- Playwright
-  - Run `scripts/seed/seed-data.ts` in `global-setup.ts` to ensure seeded users and wallets exist; make seed idempotent.
-  - Replace brittle waits with `page.getByTestId(...).waitFor()` / `page.waitForURL(...)` and `expect(locator).toBeVisible()` style assertions.
-  - For Plaid sandbox flows: encapsulate iframe interactions in `tests/e2e/helpers/plaid.ts` (already present) and add retries and timeouts tuned to CI.
-  - Make authenticated flows deterministic by setting auth cookies/session tokens directly when possible (seed produces a session token).
-- Vitest
-  - Ensure MSW handlers are reset between tests (`server.resetHandlers()`).
-  - Avoid network calls in unit tests; mock Plaid/Dwolla clients.
-  - Standardize assertions and fix any tests with `test.skip` that can be made deterministic.
+Initial findings & triage
 
-Action items
+1. Playwright deterministic auth: There are helper scripts and a dedicated API route for Playwright cookie setting (app/api/**playwright**/set-cookie/route.ts). This is acceptable for E2E but ensure that route is excluded from production or guarded — and clearly documented as test-only.
 
-- Add an idempotent wrapper (if missing) that Playwright's `global-setup.ts` will call: `node scripts/seed/run.ts` which uses `scripts/seed/seed-data.ts`.
-- Add test checklist and flakiness fixes as part of the migration plan:
-  - Replace fixed `wait` with locator-based waits.
-  - Seed deterministic user and session for e2e auth flows.
-  - Mock external providers (Plaid/Dwolla) in unit tests; keep a small set of integration E2E tests for core flows.
+2. Seeded data: tests/e2e/helpers/db.ts and tests/fixtures files indicate a seeding strategy. Ensure seeds are idempotent and fast; prefer lightweight in-memory or local test DB. (High)
+
+3. Flaky/Skipped tests: During audit I did not see explicit skips, but we will run `npm run test:ui` and `npm run test:browser` in subsequent phases and triage any skipped or flaky tests. (Medium)
+
+4. Mocking & MSW: tests/mocks/msw/server.ts exists — good for unit and integration tests that rely on network calls. Ensure MSW handlers are deterministic and timers are controlled. (Medium)
+
+5. Timeouts & retries: Playwright test timeouts and Vitest config should be standardized across specs. Ensure CI config does not mask flaky tests by excessive retries. (Medium)
+
+6. Test parallelization: Playwright uses a single worker — tests are stateful. Keep E2E tests isolated and avoid cross-test pollution. (High)
+
+Hardening recommendations (prioritized)
+
+- High
+  - Ensure all E2E specs use seeded users via tests/e2e/helpers/auth.ts and do not rely on UI sign-in flows for speed/determinism.
+  - Make DB seeds idempotent and fast (use transactions or truncate/insert per suite).
+  - Protect test-only API routes from production exposure.
+
+- Medium
+  - Standardize assertions and test timeouts across tests.
+  - Use MSW for unit tests that depend on external APIs; avoid network calls in unit tests.
+  - Convert any flaky tests to deterministic flows or mark with a TODO linked to a ticket (avoid permanent skips).
+
+- Low
+  - Add per-test cleanup to avoid global state leaks.
+
+Next steps (Phase 2)
+
+- Run test suites locally; capture failing or flaky tests and produce a prioritized fix list.
+- Implement seeded user workflows for any tests that still rely on UI sign-in.
+
+Generated by Phase 1 audit (read-only).

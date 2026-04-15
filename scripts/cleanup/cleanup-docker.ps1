@@ -20,7 +20,6 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-$ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 if ($Help) {
     Get-Help $MyInvocation.MyCommand.Path -Full
@@ -59,7 +58,7 @@ function Show-DiskUsage {
 }
 
 # List items before cleanup
-function List-Items {
+function Get-Items {
     Write-ColorOutput "Listing items to be cleaned:" "Cyan"
     Write-Host ""
 
@@ -170,7 +169,7 @@ Write-ColorOutput "Step 0: Current disk usage" "Cyan"
 Show-DiskUsage
 
 Write-ColorOutput "Step 1: Listing items to be cleaned" "Cyan"
-List-Items
+Get-Items
 
 if (-not $AutoConfirm) {
     $confirm = Read-Host "Proceed with aggressive Docker cleanup? (yes/no)"

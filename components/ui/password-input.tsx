@@ -7,6 +7,7 @@ import {
   useContext,
   useDeferredValue,
   useEffect,
+  useMemo,
   useState,
   type ChangeEvent,
   type ComponentProps,
@@ -27,29 +28,8 @@ import {
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 
-/**
- * Description placeholder
- *
- * @type {*}
- */
-const PasswordInputContext = createContext<{ password: string } | undefined>(
-  undefined,
-);
+const PasswordInputContext = createContext<{ password: string } | null>(null);
 
-/**
- * Description placeholder
- *
- * @export
- * @param {Omit<ComponentProps<typeof Input>, "type"> & {
- *   children?: ReactNode
- * }} param0
- * @param {*} param0.children
- * @param {*} param0.onChange
- * @param {*} param0.value
- * @param {*} param0.defaultValue
- * @param {*} param0....props
- * @returns {*}
- */
 export function PasswordInput({
   children,
   defaultValue,
@@ -72,7 +52,7 @@ export function PasswordInput({
 
   return (
     <PasswordInputContext value={{ password: currentValue.toString() }}>
-      <div className="flex flex-col gap-3">
+      <div className="space-y-3">
         <InputGroup>
           <InputGroupInput
             {...props}
@@ -86,7 +66,7 @@ export function PasswordInput({
               size="icon-xs"
               onClick={() => setShowPassword((p) => !p)}
             >
-              <Icon data-icon="inline-end" />
+              <Icon className="size-4.5" />
               <span className="sr-only">
                 {showPassword ? "Hide password" : "Show password"}
               </span>
@@ -99,22 +79,19 @@ export function PasswordInput({
   );
 }
 
-/**
- * Description placeholder
- *
- * @export
- * @returns {*}
- */
 export function PasswordInputStrengthChecker() {
   const [optionsLoaded, setOptionsLoaded] = useState(false);
   const [errorLoadingOptions, setErrorLoadingOptions] = useState(false);
 
   const { password } = usePasswordInput();
   const deferredPassword = useDeferredValue(password);
-  const strengthResult =
-    !optionsLoaded || deferredPassword.length === 0
-      ? ({ feedback: { warning: undefined }, score: 0 } as const)
-      : zxcvbn(deferredPassword);
+  const strengthResult = useMemo(() => {
+    if (!optionsLoaded || deferredPassword.length === 0) {
+      return { feedback: { warning: undefined }, score: 0 } as const;
+    }
+
+    return zxcvbn(deferredPassword);
+  }, [optionsLoaded, deferredPassword]);
 
   useEffect(() => {
     Promise.all([
@@ -158,10 +135,10 @@ export function PasswordInputStrengthChecker() {
 
   const label = getLabel();
 
-  if (errorLoadingOptions) return undefined;
+  if (errorLoadingOptions) return null;
 
   return (
-    <div className="flex flex-col gap-0.5">
+    <div className="space-y-0.5">
       <div
         role="progressbar"
         aria-label="Password Strength"
@@ -187,7 +164,8 @@ export function PasswordInputStrengthChecker() {
         })}
       </div>
       <div className="flex justify-end text-sm text-muted-foreground">
-        {strengthResult.feedback.warning === undefined ? (
+        {strengthResult.feedback.warning === undefined ||
+        strengthResult.feedback.warning === null ? (
           label
         ) : (
           <Tooltip>
@@ -204,14 +182,9 @@ export function PasswordInputStrengthChecker() {
   );
 }
 
-/**
- * Description placeholder
- *
- * @returns {*}
- */
 const usePasswordInput = () => {
   const context = useContext(PasswordInputContext);
-  if (context === undefined) {
+  if (context === null) {
     throw new Error(
       "usePasswordInput must be used within a PasswordInputContext",
     );

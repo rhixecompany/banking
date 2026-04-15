@@ -12,6 +12,8 @@ vi.mock("@/lib/plaid", () => ({
     linkTokenCreate: vi.fn(),
     transactionsGet: vi.fn(),
   },
+  // Ensure tests can mock detection of mock access tokens
+  isMockAccessToken: vi.fn(() => false),
 }));
 
 vi.mock("@/dal", () => ({

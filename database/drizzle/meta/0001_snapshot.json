@@ -33,9 +33,9 @@
       "values": ["user", "admin", "moderator"]
     }
   },
-  "id": "5ab94366-db22-4619-92f9-05d2b2dbb9cf",
+  "id": "1898714c-a660-4d62-9bec-235068668a77",
   "policies": {},
-  "prevId": "ca79900f-5ca1-4c21-bbee-ca73d1569d87",
+  "prevId": "14119da9-93e2-40ab-a5ba-4dd772666074",
   "roles": {},
   "schemas": {},
   "sequences": {},
@@ -280,29 +280,18 @@
       "name": "dwolla_transfers",
       "schema": "",
       "columns": {
-        "id": {
-          "name": "id",
-          "type": "text",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "dwolla_transfer_id": {
-          "name": "dwolla_transfer_id",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "transfer_url": {
-          "name": "transfer_url",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
         "amount": {
           "name": "amount",
           "type": "numeric(12, 2)",
           "primaryKey": false,
           "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
         },
         "currency": {
           "name": "currency",
@@ -311,20 +300,26 @@
           "notNull": false,
           "default": "'USD'"
         },
-        "status": {
-          "name": "status",
-          "type": "varchar(50)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "source_funding_source_url": {
-          "name": "source_funding_source_url",
+        "destination_funding_source_url": {
+          "name": "destination_funding_source_url",
           "type": "text",
           "primaryKey": false,
           "notNull": false
         },
-        "destination_funding_source_url": {
-          "name": "destination_funding_source_url",
+        "dwolla_transfer_id": {
+          "name": "dwolla_transfer_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "receiver_wallet_id": {
+          "name": "receiver_wallet_id",
           "type": "text",
           "primaryKey": false,
           "notNull": false
@@ -335,24 +330,23 @@
           "primaryKey": false,
           "notNull": false
         },
-        "receiver_wallet_id": {
-          "name": "receiver_wallet_id",
+        "source_funding_source_url": {
+          "name": "source_funding_source_url",
           "type": "text",
           "primaryKey": false,
           "notNull": false
         },
-        "user_id": {
-          "name": "user_id",
-          "type": "text",
+        "status": {
+          "name": "status",
+          "type": "varchar(50)",
           "primaryKey": false,
           "notNull": false
         },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
+        "transfer_url": {
+          "name": "transfer_url",
+          "type": "text",
           "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
+          "notNull": false
         },
         "updated_at": {
           "name": "updated_at",
@@ -360,6 +354,12 @@
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
         }
       },
       "indexes": {
@@ -410,20 +410,20 @@
         }
       },
       "foreignKeys": {
-        "dwolla_transfers_sender_wallet_id_wallets_id_fk": {
-          "name": "dwolla_transfers_sender_wallet_id_wallets_id_fk",
-          "tableFrom": "dwolla_transfers",
-          "tableTo": "wallets",
-          "columnsFrom": ["sender_wallet_id"],
-          "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        },
         "dwolla_transfers_receiver_wallet_id_wallets_id_fk": {
           "name": "dwolla_transfers_receiver_wallet_id_wallets_id_fk",
           "tableFrom": "dwolla_transfers",
           "tableTo": "wallets",
           "columnsFrom": ["receiver_wallet_id"],
+          "columnsTo": ["id"],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "dwolla_transfers_sender_wallet_id_wallets_id_fk": {
+          "name": "dwolla_transfers_sender_wallet_id_wallets_id_fk",
+          "tableFrom": "dwolla_transfers",
+          "tableTo": "wallets",
+          "columnsFrom": ["sender_wallet_id"],
           "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
@@ -544,6 +544,83 @@
         "errors_user_id_users_id_fk": {
           "name": "errors_user_id_users_id_fk",
           "tableFrom": "errors",
+          "tableTo": "users",
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.plaid_items": {
+      "name": "plaid_items",
+      "schema": "",
+      "columns": {
+        "access_token_encrypted": {
+          "name": "access_token_encrypted",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "item_id": {
+          "name": "item_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "plaid_items_item_id_idx": {
+          "name": "plaid_items_item_id_idx",
+          "columns": [
+            {
+              "expression": "item_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "plaid_items_user_id_users_id_fk": {
+          "name": "plaid_items_user_id_users_id_fk",
+          "tableFrom": "plaid_items",
           "tableTo": "users",
           "columnsFrom": ["user_id"],
           "columnsTo": ["id"],

@@ -1,473 +1,73 @@
-# Scripts Documentation
+# scripts/
 
-Automation scripts for the Banking application. All scripts are available in three formats:
+This folder contains repository helper scripts used by reviewers and CI to run quick verification steps.
 
-- **`.sh`** - Bash scripts (Linux/macOS/WSL)
-- **`.ps1`** - PowerShell scripts (Windows)
-- **`.bat`** - Batch scripts (Windows, runs PowerShell)
+Files
 
-## Quick Reference
+- verify-agents.sh — Reviewer checklist script that runs TypeScript type-check, ESLint strict lint, the Vitest unit test suite, and the Playwright E2E suite, in that order. It exits on the first failure and prints progress to stdout.
 
-| Script | Purpose | Usage |
-| --- | --- | --- |
-| `docker/docker-quickstart` | Interactive Docker menu | Start/stop/build services |
-| `docker/generate-env` | Generate `.env.production` | Create secure env file |
-| `docker/deploy-checklist` | Pre-deployment checks | Verify readiness |
-| `deploy/deploy` | Full deployment | Production deployment |
-| `deploy/generate-htpasswd` | Traefik auth | Create dashboard credentials |
-| `cleanup/cleanup-docker` | Docker cleanup | Prune images/containers/volumes |
-| `cleanup/cleanup-docs` | Doc cleanup | Categorize and delete docs |
-| `utils/build` | Docker build | Build images |
-| `utils/run-ci-checks` | CI validation | Run tests/lint/type-check |
-| `utils/fix-line-endings` | Git line endings | Normalize `.md` files |
-| `utils/disable-extensions` | VS Code utilities | Disable heavy extensions |
-| `utils/check-events` | Windows utilities | Check system events |
-| `utils/check-events-detail` | Windows utilities | Detailed event checker |
+Purpose
 
-## Docker Scripts
+- Provide a single, easy-to-run script that enforces top-level repository checks before creating a PR or merging code.
 
-### docker-quickstart
+How to run (Unix / macOS / WSL / Git Bash)
 
-Interactive menu for Docker operations.
+1. Make the script executable (only needed once):
 
-```bash
-# Bash
-./scripts/docker/docker-quickstart.sh
+   chmod +x scripts/verify-agents.sh
 
-# PowerShell
-.\scripts\docker\docker-quickstart.ps1
+2. Run the script:
 
-# Batch
-.\scripts\docker\docker-quickstart.bat
-```
+   ./scripts/verify-agents.sh
 
-**Options:**
+Notes for Windows users
 
-1. Start development (with Traefik)
-2. Start local (direct ports)
-3. Start with monitoring
-4. Stop all containers
-5. View logs
-6. Build images
-7. Run migrations
-8. Clean up & restart
-9. View status
-10. Exit
+- The script is a POSIX shell script and runs in Git Bash, WSL, or other bash-compatible environments. If you prefer PowerShell, run the equivalent commands manually:
 
----
+  # Type-check
 
-### generate-env
+  npm run type-check
 
-Generates secure `.envs/production/.env.production` with random secrets.
+  # Lint (strict)
 
-```bash
-# Bash
-./scripts/docker/generate-env.sh
+  npm run lint:strict
 
-# PowerShell
-.\scripts\docker\generate-env.ps1
-```
+  # Unit tests (Vitest)
 
-**Output:** `.envs/production/.env.production`
+  npm run test:browser -- --run
 
----
+  # E2E tests (Playwright)
 
-### deploy-checklist
+  npm run test:ui -- --run
 
-Checks if the project is ready for production deployment.
+CI usage
 
-```bash
-# Bash
-./scripts/docker/deploy-checklist.sh
+- Call `./scripts/verify-agents.sh` in your CI job to enforce the same checks. Ensure the CI environment has the required services and environment variables (e.g., DATABASE_URL, ENCRYPTION_KEY, NEXTAUTH_SECRET) available when running Playwright E2E.
 
-# PowerShell
-.\scripts\docker\deploy-checklist.ps1
-```
+Local Postgres/Redis (docker-compose example)
 
----
+If you don't want to install Postgres and Redis locally, you can use the repository's docker-compose.yml to start services for local E2E runs:
 
-## Deploy Scripts
+docker-compose up -d postgres redis
 
-### deploy
+Then set the env vars described in CONTRIBUTING.md before running the full script.
 
-Step-by-step production deployment with health checks.
+Customizing the script
 
-```bash
-# Bash
-./scripts/deploy/deploy.sh
+- The current script always runs all steps. You can edit the script to add guards or env variables such as:
+  - SKIP_E2E=true to skip Playwright E2E
+  - SMOKE_TEST_PATTERN="pattern" to run a subset of Vitest tests (using `-t`) if your tests are named consistently
+  - RUN_E2E=true to gate E2E runs behind an explicit flag
 
-# PowerShell
-.\scripts\deploy\deploy.ps1
+Troubleshooting & tips
 
-# Batch
-.\scripts\deploy\deploy.bat
-```
+- Playwright E2E may start the dev server and requires port 3000 to be free. On Windows you can free the port with:
 
-**Steps:**
+  $p = Get-NetTCPConnection -LocalPort 3000 -State Listen -ErrorAction SilentlyContinue | Select -ExpandProperty OwningProcess -Unique; if ($p) { Stop-Process -Id $p -Force }
 
-1. Verify prerequisites (Docker, Docker Compose)
-2. Generate htpasswd for Traefik
-3. Verify environment configuration
-4. Build Docker image
-5. Run database migrations
-6. Start application
-7. Verify deployment
+- If DB seeding or other preconditions are required for E2E, ensure you run the project's seed or prep steps (e.g., set PLAYWRIGHT_PREPARE_DB=true in CI or run npm run db:seed) before calling the script.
 
----
+Contributing
 
-### generate-htpasswd
-
-Creates htpasswd file for Traefik dashboard authentication.
-
-```bash
-# Bash
-./scripts/deploy/generate-htpasswd.sh [username] [password]
-
-# PowerShell
-.\scripts\deploy\generate-htpasswd.ps1 -Username admin -Password mypassword
-
-# Batch
-.\scripts\deploy\generate-htpasswd.bat
-```
-
-**Output:** `compose/traefik/auth/htpasswd`
-
----
-
-## Server Scripts
-
-### server-setup
-
-Bootstrap Docker on a fresh server.
-
-```bash
-# Bash
-./scripts/server/server-setup.sh
-
-# PowerShell
-.\scripts\server\server-setup.ps1
-
-# Batch
-.\scripts\server\server-setup.bat
-```
-
----
-
-### vps-setup
-
-Automated VPS setup for Linux servers.
-
-```bash
-# Bash (curl installation)
-curl -sSL https://raw.githubusercontent.com/rhixecompany/banking/main/scripts/server/vps-setup.sh | bash
-
-# PowerShell
-.\scripts\server\vps-setup.ps1 -Domain example.com -Email admin@example.com
-```
-
----
-
-### gen-certs
-
-Generate self-signed TLS certificates for local development.
-
-```bash
-# Bash
-./scripts/server/gen-certs.sh
-
-# PowerShell
-.\scripts\server\gen-certs.ps1
-
-# Batch
-.\scripts\server\gen-certs.bat
-```
-
-**Output:** `compose/traefik/certs/`
-
-**Note:** Requires OpenSSL on Windows.
-
----
-
-## Utility Scripts
-
-### build
-
-Docker build automation with optional migrations.
-
-```bash
-# Bash
-./scripts/utils/build.sh
-
-# PowerShell
-.\scripts\utils\build.ps1
-
-# Batch
-.\scripts\utils\build.bat
-
-# With options
-./scripts/utils/build.sh --skip-migrations --env-file .env.local
-```
-
-**Options:**
-
-- `--skip-migrations` - Skip database migrations
-- `--env-file FILE` - Use specific env file
-
----
-
-### run-ci-checks
-
-Run all CI validation steps.
-
-```bash
-# Bash
-./scripts/utils/run-ci-checks.sh
-
-# PowerShell
-.\scripts\utils\run-ci-checks.ps1
-
-# Batch
-.\scripts\utils\run-ci-checks.bat
-```
-
-**Steps:**
-
-- format-check
-- type-check
-- lint
-- build
-- test-browser
-
----
-
-### fix-line-endings
-
-Normalize line endings in markdown files.
-
-```bash
-# Bash
-./scripts/utils/fix-line-endings.sh
-
-# PowerShell
-.\scripts\utils\fix-line-endings.ps1
-
-# Batch
-.\scripts\utils\fix-line-endings.bat
-```
-
----
-
-### read-secrets
-
-Load environment variables from Docker Compose `.env` files.
-
-```bash
-# Bash
-./scripts/utils/read-secrets.sh
-
-# PowerShell
-.\scripts\utils\read-secrets.ps1
-```
-
----
-
-## Cleanup Scripts
-
-### cleanup-docker
-
-Aggressive Docker cleanup with volume pruning.
-
-```bash
-# Bash
-./scripts/cleanup/cleanup-docker.sh
-
-# PowerShell
-.\scripts\cleanup\cleanup-docker.ps1 -Aggressive
-
-# Batch
-.\scripts\cleanup\cleanup-docker.bat
-```
-
-**Options:**
-
-- `-Aggressive` - Prune volumes (WARNING: deletes data)
-- `-DryRun` - Preview what would be deleted
-
-**Scope:** Stops containers, removes images, prunes networks, optionally prunes volumes.
-
----
-
-### cleanup-docs
-
-Categorize and optionally delete duplicate/legacy documentation files.
-
-```bash
-# Bash
-./scripts/cleanup/cleanup-docs.sh
-
-# PowerShell
-.\scripts\cleanup\cleanup-docs.ps1 -DryRun
-
-# Batch
-.\scripts\cleanup\cleanup-docs.bat
-```
-
-**Options:**
-
-- `-DryRun` - Preview files that would be deleted (read-only)
-- `-AutoDelete` - Automatically delete confirmed categories (C, D)
-- `-Interactive` - Interactive mode (default)
-
-**Categories:**
-
-- **A** - Docker docs (`docs/docker/*.md`) - **KEEP**
-- **B** - Integration docs (`docs/plaid/`, `docs/services/`) - **KEEP**
-- **C** - Docker Swarm docs - **DELETE**
-- **D** - Legacy Docker docs - **DELETE**
-- **E** - Other root docs - **REVIEW** (interactive confirmation)
-
----
-
-## VS Code Utilities
-
-### disable-extensions
-
-Disables heavy VS Code extensions to improve performance.
-
-```powershell
-# PowerShell
-.\scripts\utils\disable-extensions.ps1
-
-# Batch
-.\scripts\utils\disable-extensions.bat
-```
-
-**Disabled Extensions:**
-
-- github.copilot-chat
-- eamodio.gitlens
-- ms-vscode-remote.remote-containers
-- mhutchie.git-graph
-- quicktype.quicktype
-- redis.redis-for-vscode
-- github.vscode-pull-request-github
-- github.vscode-github-actions
-- gruntfuggly.todo-tree
-
-**Note:** Requires VS Code with settings.json accessible. Restart VS Code after running.
-
----
-
-## Windows System Utilities
-
-### check-events
-
-Checks Windows System log for bugcheck and power-related events.
-
-```powershell
-# PowerShell
-.\scripts\utils\check-events.ps1
-
-# Batch
-.\scripts\utils\check-events.bat
-```
-
-**Filters:**
-
-- BugCheck events
-- Kernel-Power events
-- Power-Troubleshooter events
-- WHEA-Logger events
-- microsoft-windows-kernel events
-
----
-
-### check-events-detail
-
-Gets detailed power-related events with specific event IDs.
-
-```powershell
-# PowerShell
-.\scripts\utils\check-events-detail.ps1
-
-# Batch
-.\scripts\utils\check-events-detail.bat
-```
-
-**Event IDs Checked:** 41, 42, 43, 1001, 1002, 1074, 1076
-
-**Note:** Requires Administrator privileges for some event queries.
-
----
-
-## Platform Support
-
-| Script | Linux | macOS | Windows (PowerShell) | Windows (CMD) |
-| --- | --- | --- | --- | --- |
-| docker-quickstart | ✓ | ✓ | ✓ | ✓ |
-| generate-env | ✓ | ✓ | ✓ | ✓ |
-| deploy-checklist | ✓ | ✓ | ✓ | ✓ |
-| deploy | ✓ | ✓ | ✓ | ✓ |
-| generate-htpasswd | ✓ | ✓ | ✓ | ✓ |
-| cleanup-docker | ✓ | ✓ | ✓ | ✓ |
-| cleanup-docs | ✓ | ✓ | ✓ | ✓ |
-| server-setup | ✓ | ✓ | ✓ | ✓ |
-| vps-setup | ✓ | ✓ | ✓ | ✓ |
-| gen-certs | ✓ | ✓ | ✓\* | ✓\* |
-| build | ✓ | ✓ | ✓ | ✓ |
-| run-ci-checks | ✓ | ✓ | ✓ | ✓ |
-| fix-line-endings | ✓ | ✓ | ✓ | ✓ |
-| read-secrets | ✓ | ✓ | ✓ | ✓ |
-| disable-extensions | - | - | ✓ | ✓ |
-| check-events | - | - | ✓ | ✓ |
-| check-events-detail | - | - | ✓ | ✓ |
-
-\*Requires OpenSSL installed \*\*Windows utilities only (no Linux/macOS support)
-
----
-
-## Common Workflows
-
-### Development Setup
-
-```bash
-# 1. Generate environment file
-./scripts/docker/generate-env.sh
-
-# 2. Edit with real values
-nano .envs/production/.env.production
-
-# 3. Generate Traefik htpasswd
-./scripts/deploy/generate-htpasswd.sh
-
-# 4. Start services
-./scripts/docker/docker-quickstart.sh
-# Select option 1 (start default)
-```
-
-### Production Deployment
-
-```bash
-# Full deployment
-./scripts/deploy/deploy.sh
-
-# Or step by step:
-./scripts/docker/generate-env.sh
-./scripts/deploy/generate-htpasswd.sh
-./scripts/docker/deploy-checklist.sh
-./scripts/utils/build.sh
-docker compose --profile init up
-docker compose up -d
-```
-
-### CI/Validation
-
-```bash
-# Run all checks
-./scripts/utils/run-ci-checks.sh
-
-# Or individual:
-npm run type-check
-npm run lint
-npm run test:browser
-```
+- If you add new scripts under `scripts/`, please update this README with the filename, purpose, and usage examples. Policy
+- Scripts must follow the repository scripts patterns documented at `.opencode/instructions/12-scripts-patterns.md`. Prefer TypeScript scripts for cross-platform logic, support `--dry-run`, and avoid printing secrets. Agents must run scripts with `--dry-run` first.

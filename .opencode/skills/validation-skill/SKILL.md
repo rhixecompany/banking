@@ -1,6 +1,7 @@
 ---
 name: ValidationSkill
 description: Zod schema validation patterns for forms, API inputs, and type-safe data in the Banking app. Use when creating schemas, validating user input, or implementing form validation.
+lastReviewed: 2026-04-13
 ---
 
 # ValidationSkill - Zod Schema Validation

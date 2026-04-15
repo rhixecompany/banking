@@ -9,7 +9,6 @@ import {
 
 import type { Wallet } from "@/types/wallet";
 
-import { createLinkToken, exchangePublicToken } from "@/actions/plaid.actions";
 import { usePlaidSafe } from "@/components/plaid-context/plaid-context";
 import { Button } from "@/components/ui/button";
 import { logger } from "@/lib/logger";
@@ -45,6 +44,18 @@ export interface PlaidLinkProps {
   disabled?: boolean;
   /** Button content */
   children?: React.ReactNode;
+  /** Optional server action passed from a server component to create a link token when no provider exists */
+  createLinkToken?: (input: unknown) => Promise<{
+    ok: boolean;
+    linkToken?: string;
+    error?: string;
+  }>;
+  /** Optional server action passed from a server component to exchange a public token when no provider exists */
+  exchangePublicToken?: (input: unknown) => Promise<{
+    ok: boolean;
+    wallet?: Wallet;
+    error?: string;
+  }>;
 }
 
 /**
@@ -69,6 +80,8 @@ export function PlaidLink({
   size = "default",
   userId,
   variant = "default",
+  createLinkToken,
+  exchangePublicToken,
 }: PlaidLinkProps) {
   const [linkToken, setLinkToken] = useState<string | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(true);
@@ -125,6 +138,12 @@ export function PlaidLink({
       setIsLoading(true);
       setError(undefined);
 
+      if (!createLinkToken) {
+        setError("Plaid is not configured");
+        setIsLoading(false);
+        return;
+      }
+
       const result = await createLinkToken({ userId });
 
       if (result.ok && result.linkToken) {
@@ -141,6 +160,11 @@ export function PlaidLink({
 
   const handleSuccess = useCallback<PlaidLinkOnSuccess>(
     async (publicToken, _metadata) => {
+      if (!exchangePublicToken) {
+        setError("Plaid is not configured");
+        return;
+      }
+
       const result = await exchangePublicToken({
         publicToken,
         userId,
@@ -152,7 +176,7 @@ export function PlaidLink({
         setError(result.error ?? "Failed to link bank account");
       }
     },
-    [userId, onSuccess],
+    [userId, onSuccess, exchangePublicToken],
   );
 
   const handleExit = useCallback(() => {

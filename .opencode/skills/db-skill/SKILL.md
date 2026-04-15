@@ -1,6 +1,7 @@
 ---
 name: DBSkill
 description: Drizzle ORM patterns for the Banking app - schema definition, migrations, queries, and N+1 prevention. Use when working with database, schema, or data access layer.
+lastReviewed: 2026-04-13
 ---
 
 # DBSkill - Banking Database Patterns

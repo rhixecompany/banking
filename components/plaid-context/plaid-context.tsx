@@ -1,6 +1,4 @@
 "use client";
-
-import Script from "next/script";
 import {
   createContext,
   useCallback,
@@ -13,7 +11,6 @@ import { usePlaidLink, type PlaidLinkOnSuccess } from "react-plaid-link";
 
 import type { Wallet } from "@/types/wallet";
 
-import { createLinkToken, exchangePublicToken } from "@/actions/plaid.actions";
 import { logger } from "@/lib/logger";
 
 /**
@@ -23,7 +20,7 @@ import { logger } from "@/lib/logger";
  * @interface PlaidContextValue
  * @typedef {PlaidContextValue}
  */
-interface PlaidContextValue {
+export interface PlaidContextValue {
   /**
    * Description placeholder
    * @author [object Object]
@@ -60,7 +57,9 @@ interface PlaidContextValue {
  *
  * @type {*}
  */
-const PlaidContext = createContext<PlaidContextValue | undefined>(undefined);
+export const PlaidContext = createContext<PlaidContextValue | undefined>(
+  undefined,
+);
 
 /**
  * Description placeholder
@@ -80,6 +79,13 @@ export function usePlaid() {
 // Safe hook variant that returns undefined when no provider is present.
 // Use this in components that need to operate both with and without a
 // PlaidProvider higher in the tree.
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @returns {(PlaidContextValue | undefined)}
+ */
 export function usePlaidSafe(): PlaidContextValue | undefined {
   return useContext(PlaidContext);
 }
@@ -117,6 +123,16 @@ interface PlaidProviderProps {
    * @type {?(wallet: Wallet) => void}
    */
   onSuccess?: (wallet: Wallet) => void;
+  createLinkToken?: (input: unknown) => Promise<{
+    ok: boolean;
+    linkToken?: string;
+    error?: string;
+  }>;
+  exchangePublicToken?: (input: unknown) => Promise<{
+    ok: boolean;
+    wallet?: Wallet;
+    error?: string;
+  }>;
 }
 
 /**
@@ -134,6 +150,8 @@ export function PlaidProvider({
   children,
   onSuccess,
   userId,
+  createLinkToken,
+  exchangePublicToken,
 }: PlaidProviderProps) {
   const [linkToken, setLinkToken] = useState<string | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(true);
@@ -153,6 +171,12 @@ export function PlaidProvider({
       setError(undefined);
 
       try {
+        if (!createLinkToken) {
+          setError("Plaid is not configured");
+          setIsLoading(false);
+          return;
+        }
+
         const result = await createLinkToken({ userId });
 
         if (result.ok && result.linkToken) {
@@ -174,6 +198,11 @@ export function PlaidProvider({
 
   const handleSuccess = useCallback<PlaidLinkOnSuccess>(
     async (publicToken) => {
+      if (!exchangePublicToken) {
+        setError("Plaid is not configured");
+        return;
+      }
+
       const result = await exchangePublicToken({
         publicToken,
         userId,
@@ -208,22 +237,6 @@ export function PlaidProvider({
 
   return (
     <>
-      {/* Ensure the Plaid Link script is loaded exactly once on pages that use Plaid */}
-      {/* Load Plaid Link script exactly once and set a runtime guard for
-          components that cannot rely on a provider. */}
-      <Script
-        id="plaid-link-script"
-        src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"
-        strategy="afterInteractive"
-        onLoad={() => {
-          // set a runtime guard so non-Script consumers can check for script presence
-          try {
-            (window as any).__plaid_link_script_loaded = true;
-          } catch {
-            // ignore if window isn't available
-          }
-        }}
-      />
       <PlaidContext.Provider value={value}>{children}</PlaidContext.Provider>
     </>
   );

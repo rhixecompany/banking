@@ -27,7 +27,7 @@ export const ROOT_FOLDER = path.resolve(__dirname, "../..");
 /**
  * Data folder containing YAML entries
  */
-export const DATA_DIR = path.join(ROOT_FOLDER, "data");
+export const DATA_DIR = path.join(ROOT_FOLDER, ".opencode");
 
 /**
  * OpenCode folders containing skills and instructions

@@ -14,53 +14,20 @@ import fs from "fs";
 import path from "path";
 import readline from "readline";
 
-/**
- * Description placeholder
- *
- * @type {*}
- */
 const DAL_DIR = path.join(process.cwd(), "lib", "dal");
-/**
- * Description placeholder
- *
- * @type {*}
- */
 const SCHEMA_PATH = path.join(process.cwd(), "database", "schema.ts");
 
-/**
- * Description placeholder
- *
- * @type {*}
- */
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 });
 
-/**
- * Description placeholder
- *
- * @interface DALOptions
- * @typedef {DALOptions}
- */
 interface DALOptions {
-  /**
-   * Description placeholder
-   *
-   * @type {boolean}
-   */
   relations: boolean;
-  /**
-   * Description placeholder
-   *
-   * @type {boolean}
-   */
   timestamps: boolean;
 }
 
-/**
- * Description placeholder
- *
+/** Prompt user on stdin
  * @param {string} question
  * @returns {Promise<string>}
  */
@@ -70,11 +37,7 @@ function prompt(question: string): Promise<string> {
   });
 }
 
-/**
- * Description placeholder
- *
- * @returns {{ tableName: string; options: DALOptions }}
- */
+/** Parse CLI args and return tableName + options */
 function parseArgs(): { tableName: string; options: DALOptions } {
   const args = process.argv.slice(2);
   const options: DALOptions = {
@@ -87,12 +50,16 @@ function parseArgs(): { tableName: string; options: DALOptions } {
   return { options, tableName };
 }
 
-/**
- * Description placeholder
- *
- * @param {string} str
- * @returns {string}
- */
+import io from "../utils/io";
+
+// Use centralized IO helper which respects global dry-run flags
+function writeFile(filePath: string, content: string) {
+  // Keep legacy semantics: use global __SCRIPTS_DRY_RUN as fallback
+  const dryRun = (globalThis as any).__SCRIPTS_DRY_RUN ?? undefined;
+  return io.writeFile(filePath, content, { dryRun });
+}
+
+/** Convert string to PascalCase */
 function toPascalCase(str: string): string {
   return str
     .split(/[-_]/)
@@ -100,24 +67,13 @@ function toPascalCase(str: string): string {
     .join("");
 }
 
-/**
- * Description placeholder
- *
- * @param {string} str
- * @returns {string}
- */
+/** Convert string to camelCase based on PascalCase result */
 function toCamelCase(str: string): string {
   const pascal = toPascalCase(str);
   return pascal.charAt(0).toLowerCase() + pascal.slice(1);
 }
 
-/**
- * Description placeholder
- *
- * @param {string} tableName
- * @param {DALOptions} options
- * @returns {string}
- */
+/** Generate TypeScript DAL file content for a table */
 function generateDALContent(tableName: string, options: DALOptions): string {
   const pascalName = toPascalCase(tableName);
   const camelName = toCamelCase(tableName);
@@ -188,14 +144,7 @@ export const ${camelName}Dal = new ${pascalName}Dal();
   return content;
 }
 
-/**
- * Description placeholder
- *
- * @async
- * @param {string} tableName
- * @param {DALOptions} options
- * @returns {Promise<void>}
- */
+/** Generate DAL file and update index */
 async function generateDAL(
   tableName: string,
   options: DALOptions,
@@ -221,9 +170,18 @@ async function generateDAL(
 
   const content = generateDALContent(tableName, options);
 
-  fs.writeFileSync(filePath, content);
+  await writeFile(filePath, content);
 
-  console.warn(`✅ Generated DAL: ${filePath}`);
+  if (typeof (globalThis as any).__SCRIPTS_DRY_RUN !== "undefined") {
+    if (!(globalThis as any).__SCRIPTS_DRY_RUN) {
+      console.warn(`✅ Generated DAL: ${filePath}`);
+    } else {
+      console.warn(`[dry-run] Would generate DAL: ${filePath}`);
+    }
+  } else {
+    // Fallback behavior when global flag is not present
+    console.warn(`✅ Generated DAL: ${filePath}`);
+  }
 
   const indexPath = path.resolve(DAL_DIR, "index.ts");
   if (fs.existsSync(indexPath)) {
@@ -239,18 +197,20 @@ async function generateDAL(
         /export \{$/,
         `export {\n  ${toCamelCase(tableName)}Dal,`,
       );
-      fs.writeFileSync(indexPath, indexContent);
-      console.warn(`✅ Updated DAL index: ${indexPath}`);
+      // Use centralized IO helper
+      await io.writeFile(indexPath, indexContent, {
+        dryRun: (globalThis as any).__SCRIPTS_DRY_RUN ?? undefined,
+      });
+      if (!(globalThis as any).__SCRIPTS_DRY_RUN) {
+        console.warn(`✅ Updated DAL index: ${indexPath}`);
+      } else {
+        console.warn(`[dry-run] Would update DAL index: ${indexPath}`);
+      }
     }
   }
 }
 
-/**
- * Description placeholder
- *
- * @async
- * @returns {Promise<void>}
- */
+/** Main entrypoint for DAL generator CLI */
 async function main(): Promise<void> {
   try {
     console.warn("📦 DAL Generator\n");

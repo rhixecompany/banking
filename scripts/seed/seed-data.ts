@@ -1,11 +1,13 @@
 import bcrypt from "bcrypt";
 import "dotenv/config";
+import { sql } from "drizzle-orm";
 
 import { db } from "@/database/db";
 import {
   account,
   authenticator,
   errors,
+  plaid_items,
   recipients,
   session,
   transactions,
@@ -187,6 +189,30 @@ function buildWalletRow(
 
 /**
  * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} id
+ * @param {string} userId
+ * @param {string} accessToken
+ * @param {string} itemId
+ * @returns {{ accessTokenEncrypted: any; id: string; itemId: string; userId: string; }}
+ */
+function buildPlaidItemRow(
+  id: string,
+  userId: string,
+  accessToken: string,
+  itemId: string,
+) {
+  return {
+    accessTokenEncrypted: encrypt(accessToken),
+    id,
+    itemId,
+    userId,
+  };
+}
+
+/**
+ * Description placeholder
  *
  * @param {string} id
  * @param {string} userId
@@ -339,6 +365,41 @@ export async function seedAll(): Promise<void> {
       ),
     ]);
 
+  // Insert Plaid items and link wallets to them via plaid_item_id
+  // Create a Plaid item per seeded wallet for deterministic tests
+  const plaidItemCheckingId = `plaid-item-${SEED_IDS.wallets.checking}`;
+  const plaidItemSavingsId = `plaid-item-${SEED_IDS.wallets.savings}`;
+
+  await db
+    .insert(plaid_items)
+    .values([
+      buildPlaidItemRow(
+        plaidItemCheckingId,
+        SEED_IDS.users.user,
+        getSeedAccessToken(),
+        `item-seed-${SEED_IDS.wallets.checking}`,
+      ),
+      buildPlaidItemRow(
+        plaidItemSavingsId,
+        SEED_IDS.users.user,
+        getSeedAccessToken(),
+        `item-seed-${SEED_IDS.wallets.savings}`,
+      ),
+    ]);
+
+  // Backfill wallets.plaid_item_id
+  // Note: Drizzle column names are snake_case in the DB. Use the
+  // column key as defined on the `wallets` table variable. If the
+  // generated table type doesn't expose `plaidItemId`, use the raw
+  // SQL update as a safe path that avoids TypeScript type mismatches.
+  await db.execute(
+    sql`UPDATE wallets SET plaid_item_id = ${plaidItemCheckingId} WHERE id = ${SEED_IDS.wallets.checking}`,
+  );
+
+  await db.execute(
+    sql`UPDATE wallets SET plaid_item_id = ${plaidItemSavingsId} WHERE id = ${SEED_IDS.wallets.savings}`,
+  );
+
   await db
     .insert(transactions)
     .values([
@@ -374,4 +435,33 @@ export async function seedAll(): Promise<void> {
       buildErrorRow(SEED_IDS.errors.withUser, SEED_IDS.users.user),
       buildErrorRow(SEED_IDS.errors.anonymous, undefined),
     ]);
+}
+
+/**
+ * Provides a concise summary of the planned seed rows without executing DB writes.
+ * This is consumed by the seed runner for dry-run reporting.
+ */
+export function getPlannedSeedSummary() {
+  return {
+    accounts: {
+      admin: buildAccountRow(SEED_IDS.users.admin),
+    },
+    SEED_IDS,
+    wallets: [
+      buildWalletRow(
+        SEED_IDS.wallets.checking,
+        SEED_IDS.users.user,
+        "seed-share-checking-001",
+        "Seed Checking Wallet",
+        0,
+      ),
+      buildWalletRow(
+        SEED_IDS.wallets.savings,
+        SEED_IDS.users.user,
+        "seed-share-savings-002",
+        "Seed Savings Wallet",
+        1,
+      ),
+    ],
+  };
 }

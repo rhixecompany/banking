@@ -14,6 +14,8 @@ import fs from "fs";
 import path from "path";
 import readline from "readline";
 
+import io from "../utils/io";
+
 /**
  * Description placeholder
  *
@@ -194,7 +196,9 @@ async function generateComponent(
   const componentsDir = path.resolve(getComponentsDir(options));
 
   if (!fs.existsSync(componentsDir)) {
-    fs.mkdirSync(componentsDir, { recursive: true });
+    await io.mkdirp(componentsDir, {
+      dryRun: (globalThis as any).__SCRIPTS_DRY_RUN ?? undefined,
+    });
   }
 
   const fileName = `${componentName}.tsx`;
@@ -206,11 +210,10 @@ async function generateComponent(
   }
 
   const content = generateComponentContent(componentName, options);
-
-  fs.writeFileSync(filePath, content);
-
-  const relativePath = path.relative(process.cwd(), filePath);
-  console.warn(`✅ Generated Component: ${relativePath}`);
+  // Delegate to centralized IO helper (respects dry-run)
+  await io.writeFile(filePath, content, {
+    dryRun: (globalThis as any).__SCRIPTS_DRY_RUN ?? undefined,
+  });
 
   if (!options.client) {
     console.warn("   (Server Component - no 'use client' directive)");

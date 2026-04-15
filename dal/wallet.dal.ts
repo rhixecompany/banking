@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { and, eq, isNull } from "drizzle-orm";
 
 import type { Wallet } from "@/types/wallet";
 
@@ -6,6 +6,13 @@ import { db } from "@/database/db";
 import { wallets } from "@/database/schema";
 import { decrypt, encrypt } from "@/lib/encryption";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} value
+ * @returns {string}
+ */
 function safeDecrypt(value: string): string {
   try {
     return decrypt(value);
@@ -52,13 +59,14 @@ export class WalletDal {
     const walletRecords = await db
       .select()
       .from(wallets)
-      .where(eq(wallets.userId, userId));
-    return walletRecords
-      .filter((wallet) => wallet.deletedAt === null)
-      .map((wallet) => ({
-        ...wallet,
-        accessToken: safeDecrypt(wallet.accessToken),
-      }));
+      // Filter soft-deleted records at the DB level to avoid transferring
+      // unnecessary rows and to centralize the exclusion logic.
+      .where(and(eq(wallets.userId, userId), isNull(wallets.deletedAt)));
+
+    return walletRecords.map((wallet) => ({
+      ...wallet,
+      accessToken: safeDecrypt(wallet.accessToken),
+    }));
   }
 
   /**

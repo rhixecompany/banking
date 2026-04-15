@@ -16,6 +16,7 @@ import {
   verificationToken,
 } from "@/database/schema";
 import { env } from "@/lib/env";
+import { logger } from "@/lib/logger";
 
 /**
  * Description placeholder
@@ -117,14 +118,66 @@ export const authOptions: NextAuthOptions = {
     CredentialsProvider({
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null;
+
+        // Debug logging for E2E investigations: log lookup result and bcrypt outcome.
+        // Keep logs minimal and remove after debugging is complete.
         const user = await db
           .select()
           .from(users)
           .where(eq(users.email, credentials.email))
           .then((r) => r[0]);
-        if (!user?.isActive || !user.password) return null;
-        const valid = await bcrypt.compare(credentials.password, user.password);
-        if (!valid) return null;
+
+        try {
+          logger.info(
+            `[E2E-DEBUG] authorize: lookup email=${credentials.email} found=${!!user}`,
+          );
+        } catch {
+          // intentionally swallow logging errors in edge cases
+        }
+
+        if (!user?.isActive || !user.password) {
+          try {
+            logger.info(
+              `[E2E-DEBUG] authorize: rejecting - isActive=${!!user?.isActive} hasPassword=${!!user?.password}`,
+            );
+          } catch {
+            // intentionally swallow logging errors
+          }
+          return null;
+        }
+
+        // Compare password and log result; keep comparison result usage
+        // eslint-disable-next-line no-useless-assignment
+        let valid = false;
+        try {
+          valid = await bcrypt.compare(credentials.password, user.password);
+        } catch (e) {
+          logger.error("[E2E-DEBUG] authorize: bcrypt.compare threw", e);
+          return null;
+        }
+        // Log comparison result in a separate block to avoid unused-assignment warnings
+        try {
+          // Use ternary to produce a value used immediately to avoid unused-assignment lint
+          void (valid
+            ? logger.info("[E2E-DEBUG] authorize: bcrypt.compare result=true")
+            : logger.info(
+                "[E2E-DEBUG] authorize: bcrypt.compare result=false",
+              ));
+        } catch {
+          // intentionally swallow logging errors
+        }
+
+        if (!valid) {
+          try {
+            logger.info(
+              "[E2E-DEBUG] authorize: rejecting - invalid credentials",
+            );
+          } catch {
+            // intentionally swallow logging errors
+          }
+          return null;
+        }
+
         return {
           email: user.email,
           id: String(user.id),

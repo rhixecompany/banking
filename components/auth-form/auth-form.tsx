@@ -12,7 +12,8 @@ import { z } from "zod";
 
 import type { AuthFormProps } from "@/types";
 
-import { register } from "@/actions/register";
+// Accept register as a prop from the server wrapper to avoid importing
+// the server action directly in this client component.
 import MyLoader from "@/components/my-loader/my-loader";
 import { Button } from "@/components/ui/button";
 import {
@@ -81,7 +82,14 @@ function getDefaultValues(
  * @param props.type - Form mode: "sign-in" for login, "sign-up" for registration
  * @returns Rendered authentication form
  */
-const AuthForm = ({ type }: AuthFormProps): JSX.Element => {
+const AuthForm = ({
+  type,
+  register,
+}: AuthFormProps & {
+  register?: (
+    input: unknown,
+  ) => Promise<{ ok: boolean; user?: unknown; error?: string }>;
+}): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false);
   const isSignIn = type === "sign-in";
   const router = useRouter();
@@ -98,6 +106,10 @@ const AuthForm = ({ type }: AuthFormProps): JSX.Element => {
     setIsLoading(true);
     try {
       if (!isSignIn) {
+        if (!register) {
+          toast.error("Registration action not available");
+          return;
+        }
         const result = await register(formData as SignUpFormData);
         if (!result.ok) {
           toast.error(result.error ?? "Registration failed");

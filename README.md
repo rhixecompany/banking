@@ -1538,16 +1538,16 @@ await sendWelcomeEmail("user@example.com", "John");
 
 ## Agentic contributor notes
 
-This repository includes agentic documentation (AGENTS.md, .cursorrules, .cursor/rules, .opencode/skills, and .opencode/instructions) that governs automated agents and contributors. Follow these quick rules:
+This repo includes agentic docs that guide automated agents and contributors. Keep edits conservative and follow AGENTS.md as the canonical source-of-truth.
 
-- Read `AGENTS.md` first — it is the canonical source-of-truth for agentic patterns and commands.
-- If a change touches more than 3 files, create a plan in `.opencode/plans/` named `<task>_<8char-id>.plan.md` before implementing. See `.opencode/instructions/09-plan-file-standards.md` for the required sections.
+- Read `AGENTS.md` first — it is authoritative for agent commands, rules, and patterns.
+- If a change touches > 3 files, create a plan in `.opencode/plans/` named `<task>_<8char-id>.plan.md` before implementing. See `.opencode/instructions/09-plan-file-standards.md` for required sections.
 - Quick Validate (recommended before opening a PR):
-  - `npm run format` (applies Prettier)
-  - `npm run type-check` (tsc --noEmit)
-  - `npm run lint:strict` (ESLint zero-warnings)
-- Optional: run `npm run test` if your change affects runtime behavior or critical flows (Playwright E2E is slow).
-- NEVER commit secrets (.env, tokens). Use `app-config.ts` or `lib/env.ts` for env access (proxy.ts is the only exception that may read `process.env`).
+  - `npm run format`
+  - `npm run type-check`
+  - `npm run lint:strict`
+- Optional: run `npm run test` for behavior changes (Playwright E2E is slow).
+- NEVER commit secrets (.env, tokens). Use `app-config.ts` or `lib/env.ts` for env access (proxy.ts is the only exception allowed to read `process.env`).
 
 For full agentic guidance and examples, see `AGENTS.md` and `.opencode/instructions/`.
 

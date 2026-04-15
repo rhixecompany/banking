@@ -2,8 +2,6 @@
 
 import type { JSX } from "react";
 
-import Link from "next/link";
-
 import type { Account } from "@/types";
 import type { Transaction } from "@/types/transaction";
 import type { Wallet } from "@/types/wallet";
@@ -11,16 +9,9 @@ import type { Wallet } from "@/types/wallet";
 import { ChartAreaInteractive } from "@/components/chart-area-interactive/chart-area-interactive";
 import DoughnutChart from "@/components/doughnut-chart/doughnut-chart";
 import HeaderBox from "@/components/header-box/header-box";
-import { PlaidLinkButton } from "@/components/plaid-link-button/plaid-link-button";
 import { SectionCards } from "@/components/section-cards/section-cards";
 import OnboardingFeed from "@/components/shadcn-studio/blocks/onboarding-feed-01/onboarding-feed-01";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import WalletsOverview from "@/components/shared/wallets-overview";
 
 /** Route path to the My Wallets page. */
 const MY_WALLETS_PATH = "/my-wallets" as const;
@@ -124,117 +115,27 @@ export function DashboardClientWrapper({
 
       {/* Quick Actions + Linked Banks */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">Linked Wallets</CardTitle>
-            <CardDescription>
-              Your connected financial institutions
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            {wallets.length === 0 ? (
-              <div className="py-4 text-center">
-                <p className="mb-4 text-muted-foreground">
-                  No wallets linked yet
-                </p>
-                <PlaidLinkButton variant="outline">
-                  Link Your First Wallet
-                </PlaidLinkButton>
-              </div>
-            ) : (
-              <div className="space-y-3">
-                {wallets.slice(0, 3).map((wallet) => (
-                  <div
-                    key={wallet.id}
-                    className="flex items-center justify-between rounded-lg border p-3"
-                  >
-                    <div>
-                      <p className="font-medium">
-                        {wallet.institutionName ?? "Unknown Wallet"}
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        {wallet.accountType ?? "Account"} -{" "}
-                        {wallet.accountSubtype ?? "Standard"}
-                      </p>
-                    </div>
-                    <div className="text-right">
-                      <Link
-                        href={MY_WALLETS_PATH}
-                        className="text-sm text-primary hover:underline"
-                      >
-                        View details
-                      </Link>
-                    </div>
-                  </div>
-                ))}
-                {wallets.length > 3 && (
-                  <Link
-                    href={MY_WALLETS_PATH}
-                    className="block text-center text-sm text-primary hover:underline"
-                  >
-                    View all {wallets.length} wallets
-                  </Link>
-                )}
-              </div>
-            )}
-          </CardContent>
-        </Card>
+        <div className="md:col-span-1">
+          <WalletsOverview
+            walletsWithDetails={wallets.map((w) => ({
+              ...w,
+              balances: [],
+              transactions: [],
+            }))}
+            totalBalance={totalBalance}
+          />
+        </div>
 
-        <Card className="md:col-span-2">
-          <CardHeader>
-            <CardTitle className="text-lg">Linked Wallets</CardTitle>
-            <CardDescription>
-              Your connected financial institutions
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            {wallets.length === 0 ? (
-              <div className="py-4 text-center">
-                <p className="mb-4 text-muted-foreground">
-                  No wallets linked yet
-                </p>
-                <PlaidLinkButton variant="outline">
-                  Link Your First Wallet
-                </PlaidLinkButton>
-              </div>
-            ) : (
-              <div className="space-y-3">
-                {wallets.slice(0, 3).map((wallet) => (
-                  <div
-                    key={wallet.id}
-                    className="flex items-center justify-between rounded-lg border p-3"
-                  >
-                    <div>
-                      <p className="font-medium">
-                        {wallet.institutionName ?? "Unknown Wallet"}
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        {wallet.accountType ?? "Account"} -{" "}
-                        {wallet.accountSubtype ?? "Standard"}
-                      </p>
-                    </div>
-                    <div className="text-right">
-                      <Link
-                        href={MY_WALLETS_PATH}
-                        className="text-sm text-primary hover:underline"
-                      >
-                        View details
-                      </Link>
-                    </div>
-                  </div>
-                ))}
-                {wallets.length > 3 && (
-                  <Link
-                    href={MY_WALLETS_PATH}
-                    className="block text-center text-sm text-primary hover:underline"
-                  >
-                    View all {wallets.length} wallets
-                  </Link>
-                )}
-              </div>
-            )}
-          </CardContent>
-        </Card>
+        <div className="md:col-span-2">
+          <WalletsOverview
+            walletsWithDetails={wallets.map((w) => ({
+              ...w,
+              balances: [],
+              transactions: [],
+            }))}
+            totalBalance={totalBalance}
+          />
+        </div>
       </div>
     </section>
   );

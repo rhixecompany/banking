@@ -1,11 +1,17 @@
 "use server";
+
 import type { Transaction } from "@/types/transaction";
 
 import { transactionDal } from "@/dal";
 import { auth } from "@/lib/auth";
+import { logger } from "@/lib/logger";
 
 /**
  * Returns the most recent transactions for the authenticated user, up to the given limit.
+ *
+ * This action is defensive: it catches and logs unexpected errors and returns
+ * a stable error shape instead of letting exceptions propagate to the server
+ * rendering path. This prevents flakiness during Playwright E2E runs.
  *
  * @export
  * @async
@@ -15,14 +21,19 @@ import { auth } from "@/lib/auth";
 export async function getRecentTransactions(
   limit = 10,
 ): Promise<{ ok: boolean; transactions?: Transaction[]; error?: string }> {
-  const session = await auth();
-  if (!session?.user?.id) {
-    return { error: "Not authenticated", ok: false };
-  }
+  try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return { error: "Not authenticated", ok: false };
+    }
 
-  const userId = session.user.id;
-  const transactions = await transactionDal.findByUserId(userId, limit);
-  return { ok: true, transactions };
+    const userId = session.user.id;
+    const transactions = await transactionDal.findByUserId(userId, limit);
+    return { ok: true, transactions };
+  } catch (error) {
+    logger.error("getRecentTransactions error:", error);
+    return { error: "Failed to get recent transactions", ok: false };
+  }
 }
 
 /**
@@ -38,17 +49,22 @@ export async function getTransactionHistory(
   page = 1,
   pageSize = 20,
 ): Promise<{ ok: boolean; transactions?: Transaction[]; error?: string }> {
-  const session = await auth();
-  if (!session?.user?.id) {
-    return { error: "Not authenticated", ok: false };
-  }
+  try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return { error: "Not authenticated", ok: false };
+    }
 
-  const userId = session.user.id;
-  const offset = (page - 1) * pageSize;
-  const transactions = await transactionDal.findByUserId(
-    userId,
-    pageSize,
-    offset,
-  );
-  return { ok: true, transactions };
+    const userId = session.user.id;
+    const offset = (page - 1) * pageSize;
+    const transactions = await transactionDal.findByUserId(
+      userId,
+      pageSize,
+      offset,
+    );
+    return { ok: true, transactions };
+  } catch (error) {
+    logger.error("getTransactionHistory error:", error);
+    return { error: "Failed to get transaction history", ok: false };
+  }
 }

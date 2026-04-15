@@ -1,0 +1,67 @@
+name: Auto-add run-e2e Label
+
+on:
+  issue_comment:
+    types: [created]
+  pull_request_review:
+    types: [submitted]
+
+jobs:
+  add-run-e2e:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Determine actor and event
+        id: actor
+        run: |
+          echo "actor=${{ github.actor }}" >> $GITHUB_OUTPUT
+          echo "event_name=${{ github.event_name }}" >> $GITHUB_OUTPUT
+          if [ "${{ github.event_name }}" = "pull_request_review" ]; then
+            echo "payload_actor=${{ github.event.review.user.login }}" >> $GITHUB_OUTPUT
+          elif [ "${{ github.event_name }}" = "issue_comment" ]; then
+            echo "payload_actor=${{ github.event.comment.user.login }}" >> $GITHUB_OUTPUT
+          else
+            echo "payload_actor=${{ github.actor }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Add run-e2e label when authorized maintainer approves or comments
+        if: |
+          (github.event_name == 'pull_request_review' && github.event.review.state == 'approved') ||
+          (github.event_name == 'issue_comment' && contains(github.event.comment.body, '/run-e2e'))
+        env:
+          MAINTAINERS: "rhixecompany,adminbot"
+          PAYLOAD_ACTOR: ${{ steps.actor.outputs.payload_actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          # Check if the actor is an authorized maintainer (Option A)
+          ACTOR="$PAYLOAD_ACTOR"
+          IFS=',' read -ra M <<< "${MAINTAINERS}"
+          AUTH=false
+          for u in "${M[@]}"; do
+            if [ "$u" = "$ACTOR" ]; then
+              AUTH=true
+              break
+            fi
+          done
+
+          if [ "$AUTH" = "true" ]; then
+            echo "Actor $ACTOR is authorized; adding label run-e2e to PR #$PR_NUMBER"
+            api_url="https://api.github.com/repos/$REPO/issues/$PR_NUMBER/labels"
+            curl -s -X POST -H "Authorization: token $GITHUB_TOKEN" -H "Content-Type: application/json" --data '{"labels":["run-e2e"]}' "$api_url" >/dev/null
+          else
+            echo "Actor $ACTOR is NOT in MAINTAINERS; not adding label."
+          fi
+
+      - name: (Optional) Notify requester when unauthorized
+        if: |
+          (github.event_name == 'pull_request_review' && github.event.review.state == 'approved') ||
+          (github.event_name == 'issue_comment' && contains(github.event.comment.body, '/run-e2e'))
+        env:
+          PAYLOAD_ACTOR: ${{ steps.actor.outputs.payload_actor }}
+        run: |
+          # If the actor was not authorized, optionally post a comment to inform the requester. This step is a no-op in this initial implementation.
+          echo "Checked actor: $PAYLOAD_ACTOR"

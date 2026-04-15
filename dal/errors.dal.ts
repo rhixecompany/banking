@@ -1,3 +1,5 @@
+import { gte, lt } from "drizzle-orm";
+
 import { db } from "@/database/db";
 import { errors } from "@/database/schema";
 
@@ -28,6 +30,38 @@ export class ErrorsDal {
     const [row] = await db.insert(errors).values(insertData).returning();
     return row;
   }
+
+  /**
+   * Returns recent errors created within the last `hours` hours (inclusive)
+   */
+  async getRecentErrors(
+    hours = 24,
+    limit = 50,
+  ): Promise<(typeof errors.$inferSelect)[]> {
+    const since = new Date();
+    since.setHours(since.getHours() - hours);
+    return await db
+      .select()
+      .from(errors)
+      .where(gte(errors.createdAt, since))
+      .orderBy(errors.createdAt)
+      .limit(limit);
+  }
+
+  /**
+   * Deletes errors older than `days` days (strictly less than cutoff)
+   */
+  async clearOldErrors(days = 30): Promise<void> {
+    const cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() - days);
+    await db.delete(errors).where(lt(errors.createdAt, cutoff));
+  }
 }
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {ErrorsDal}
+ */
 
 export const errorsDal = new ErrorsDal();

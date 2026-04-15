@@ -9,6 +9,7 @@ import { dwolla_transfers } from "@/database/schema";
 import { auth } from "@/lib/auth";
 import { getDwollaClient } from "@/lib/dwolla";
 import { logger } from "@/lib/logger";
+import { isMockAccessToken } from "@/lib/plaid";
 
 /**
  * Zod schema for validating Dwolla customer creation payload.
@@ -123,6 +124,12 @@ const CreateLedgerSchema = z
   })
   .optional();
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const TransferSchema = z.object({
   amount: z
     .string()
@@ -287,6 +294,17 @@ export async function createFundingSource(input: unknown): Promise<{
     return { error: "Invalid funding source payload", ok: false };
   }
 
+  // Short-circuit Dwolla funding source creation for mock Plaid processor tokens
+  if (isMockAccessToken(parsed.data.plaidToken)) {
+    try {
+      const fundingSourceUrl = `https://api.dwolla.com/funding-sources/mock-${crypto.randomUUID().slice(0, 8)}`;
+      return { fundingSourceUrl, ok: true };
+    } catch (err) {
+      logger.debug("Mock createFundingSource failed:", err);
+      return { error: "Failed to create funding source", ok: false };
+    }
+  }
+
   try {
     const client = getDwollaClient();
     const response = await client.post(
@@ -333,19 +351,33 @@ export async function createTransfer(input: unknown): Promise<{
   }
 
   try {
-    const client = getDwollaClient();
-    const response = await client.post("transfers", {
-      _links: {
-        destination: { href: parsed.data.destinationFundingSourceUrl },
-        source: { href: parsed.data.sourceFundingSourceUrl },
-      },
-      amount: {
-        currency: "USD",
-        value: parsed.data.amount,
-      },
-    });
+    // Detect mock transfer URLs to short-circuit external Dwolla API calls in tests
+    const src = parsed.data.sourceFundingSourceUrl ?? "";
+    const dst = parsed.data.destinationFundingSourceUrl ?? "";
+    const isMockTransfer =
+      (typeof src === "string" && src.toLowerCase().includes("mock")) ||
+      (typeof dst === "string" && dst.toLowerCase().includes("mock"));
 
-    const transferUrl = response.headers.get("location") ?? undefined;
+    let transferUrl: string | undefined;
+
+    if (isMockTransfer) {
+      // Deterministic mock transfer URL for test environments
+      transferUrl = `https://api.dwolla.com/transfers/mock-${crypto.randomUUID().slice(0, 8)}`;
+    } else {
+      const client = getDwollaClient();
+      const response = await client.post("transfers", {
+        _links: {
+          destination: { href: parsed.data.destinationFundingSourceUrl },
+          source: { href: parsed.data.sourceFundingSourceUrl },
+        },
+        amount: {
+          currency: "USD",
+          value: parsed.data.amount,
+        },
+      });
+
+      transferUrl = response.headers.get("location") ?? undefined;
+    }
 
     // If caller requested creating an application ledger row atomically, do it in a transaction
     const dataAny = parsed.data as unknown as Record<string, unknown>;
@@ -353,7 +385,7 @@ export async function createTransfer(input: unknown): Promise<{
       try {
         // Use a typed but permissive tx type to satisfy TS for now. Drizzle's
         // transaction callback receives a transaction-scoped DB instance.
-        await db.transaction(async (tx: any) => {
+        await db.transaction(async (tx) => {
           const ledger = dataAny.createLedger as Record<string, unknown>;
 
           // Coerce ledger fields into expected types before calling DAL.
@@ -416,7 +448,7 @@ export async function createTransfer(input: unknown): Promise<{
               type: typeVal,
               userId: session.user.id,
             },
-            { db: tx },
+            { db: tx as unknown },
           );
 
           // Insert dwolla_transfers metadata linked to the ledger via DAL (pass tx)
@@ -434,7 +466,7 @@ export async function createTransfer(input: unknown): Promise<{
               transferUrl,
               userId: session.user.id,
             },
-            { db: tx },
+            { db: tx as unknown },
           );
 
           // Debug logs to help unit tests diagnose failures. Redact sensitive

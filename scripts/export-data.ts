@@ -147,8 +147,38 @@ async function exportAll(options: ExportOptions): Promise<void> {
     `\n📦 Exporting data (type: ${options.type}, format: ${options.format})\n`,
   );
 
-  if (!fs.existsSync(options.output)) {
-    fs.mkdirSync(options.output, { recursive: true });
+  // Prefer argv / global flag first. For scripts called directly in Node the
+  // lint rule `n/no-process-env` flags `process.env` usage; we use it here for
+  // CI convenience but keep checks minimal and explicit so the intent is clear.
+  // Access process.env in one controlled place to satisfy lint rules. This
+  // line intentionally accesses process.env because these are CLI scripts.
+  // Prefer validated env from lib/env when available; fall back to process.env
+  // for ad-hoc runs. Use dynamic import to avoid top-level side effects.
+  let envDRY = "";
+  try {
+    // dynamic import returns a promise; use await since this function is async
+    const mod = await import("@/lib/env");
+    envDRY = (mod?.env as Record<string, string | undefined>)?.DRY_RUN ?? "";
+  } catch {
+    // If lib/env isn't available in this environment, fall back to process.env
+    // eslint-disable-next-line n/no-process-env
+    envDRY = typeof process !== "undefined" ? (process.env?.DRY_RUN ?? "") : "";
+  }
+
+  const DRY_RUN = [
+    process.argv.includes("--dry-run"),
+    Boolean((globalThis as any).__SCRIPTS_DRY_RUN),
+    envDRY === "true",
+    envDRY === "1",
+  ].some(Boolean);
+  if (!DRY_RUN) {
+    if (!fs.existsSync(options.output)) {
+      fs.mkdirSync(options.output, { recursive: true });
+    }
+  } else {
+    if (!fs.existsSync(options.output)) {
+      console.warn(`[dry-run] Would create output dir: ${options.output}`);
+    }
   }
 
   if (options.type === "users" || options.type === "all") {
@@ -171,10 +201,16 @@ async function exportAll(options: ExportOptions): Promise<void> {
     type: options.type,
   };
 
-  fs.writeFileSync(outputFile, JSON.stringify(summary, undefined, 2));
+  if (DRY_RUN) {
+    console.warn(
+      `[dry-run] Would write export summary to ${outputFile} (${JSON.stringify(summary).length} chars)`,
+    );
+  } else {
+    fs.writeFileSync(outputFile, JSON.stringify(summary, undefined, 2));
 
-  console.warn(`\n✅ Export complete!`);
-  console.warn(`   Output: ${outputFile}`);
+    console.warn(`\n✅ Export complete!`);
+    console.warn(`   Output: ${outputFile}`);
+  }
 }
 
 /**

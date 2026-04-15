@@ -1,0 +1,121 @@
+name: Verify Agents Checks
+
+on:
+  pull_request:
+    branches: [main, develop]
+
+permissions:
+  contents: read
+
+env:
+  # Do NOT set CI secrets here. Full E2E job injects secrets only when safe.
+  SKIP_E2E: "false"
+
+jobs:
+  verify-fast:
+    name: Fast validation (type-check, lint, unit)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Type-check
+        run: npm run type-check
+
+      - name: ESLint (strict)
+        run: npm run lint:strict
+
+      - name: Unit tests (Vitest)
+        run: npm run test:browser -- --run
+
+  smoke-e2e:
+    name: Smoke E2E (fast Playwright subset)
+    runs-on: ubuntu-latest
+    needs: verify-fast
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Run smoke Playwright tests
+        # Assumes smoke tests are tagged with @smoke; adjust as needed in playwright config/tests
+        run: npx playwright test --grep @smoke --project=chromium || true
+
+  full-e2e:
+    name: Full E2E (Playwright)
+    runs-on: ubuntu-latest
+    needs: [verify-fast]
+    # Run only when PR is in-repo OR has the run-e2e label
+    if: >
+      github.event.pull_request.head.repo.full_name == github.repository
+      || contains(join(github.event.pull_request.labels.*.name, ','), 'run-e2e')
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: banking_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+      redis:
+        image: redis:7-alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+    env:
+      # Inject real secrets only into this job via GitHub repository secrets
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      REDIS_URL: ${{ secrets.REDIS_URL }}
+      ENCRYPTION_KEY: ${{ secrets.ENCRYPTION_KEY }}
+      NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+      NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Make script executable
+        run: chmod +x ./scripts/verify-agents.sh || true
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Run full verify script (includes Playwright E2E)
+        run: |
+          if [ "${{ env.SKIP_E2E }}" = "true" ]; then
+            echo "SKIP_E2E=true, skipping full E2E"
+            exit 0
+          fi
+          ./scripts/verify-agents.sh

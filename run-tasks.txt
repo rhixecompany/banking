@@ -1,0 +1,7 @@
+Read and Understand @docs/custom-components.md,@docs\test-context.md,@docs\app-pages.md,@.opencode\plans\pages_enhancement.plan.md @.opencode\plans\client-actions-refactor_9f4b8c2e.plan.md  files
+As Reviewer using @docs/custom-components.md,@docs\test-context.md,@docs\app-pages.md,@.opencode\plans\pages_enhancement.plan.md @.opencode\plans\client-actions-refactor_9f4b8c2e.plan.mdCreate an implementation plan to :
+1: List all Next.js pages in ./app a Next.js Page should look like  this @page.tsx.
+2: Start with the First Next.js page which should be the Home Page and locate all its custom components,dal,actions,tests.
+3: For All its components,dal,actions,tests enhance them to be fully functional.
+4: Work through all Next.js pages sequentially and repeat the process.
+5: Ensure to never run typecheck/lint/tests until all pages in the list are enhance.

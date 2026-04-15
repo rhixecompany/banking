@@ -1,6 +1,14 @@
-import { test as base, Page } from "@playwright/test";
+import {
+  test as base,
+  Page,
+  request as playwrightRequest,
+} from "@playwright/test";
 
 import { SEED_USER, signInWithSeedUser } from "../e2e/helpers/auth";
+import {
+  makeNextAuthJwtToken,
+  setAuthCookie,
+} from "../e2e/utils/auth-fixtures";
 import {
   DashboardPage,
   MyWalletsPage,
@@ -54,8 +62,46 @@ export interface AuthFixtures {
 export const test = base.extend<AuthFixtures>({
   // Page fixtures (in alphabetical order)
   authenticatedPage: async ({ page }, use) => {
-    await signInWithSeedUser(page);
-    await use(page);
+    // Prefer deterministic session via seeded JWT when NEXTAUTH_SECRET exists
+    // and the tests are running with a seeded DB. Fall back to UI sign-in.
+    // Prefer validated env access via lib/env.ts per project standards. Fallback
+    // to process.env for local runs.
+    // Resolve environment via lib/env if available to satisfy lint rules
+    // and ensure central validation; keep process.env fallback for local runs
+    let secret: string | undefined = undefined;
+    let baseUrl = "http://localhost:3000";
+    try {
+      const { env } = await import("@/lib/env");
+      if (env.NEXTAUTH_SECRET) secret = env.NEXTAUTH_SECRET as string;
+      if (env.PLAYWRIGHT_BASE_URL) baseUrl = env.PLAYWRIGHT_BASE_URL as string;
+    } catch {
+      // fallback to process.env for local setups
+      // eslint-disable-next-line n/no-process-env
+      secret = process.env.NEXTAUTH_SECRET;
+      // eslint-disable-next-line n/no-process-env
+      baseUrl = process.env.PLAYWRIGHT_BASE_URL ?? baseUrl;
+    }
+
+    if (secret) {
+      const token = makeNextAuthJwtToken({ id: "seed-user" }, secret);
+
+      // Use Playwright APIRequestContext to set cookie on the app domain
+      // newContext() returns a Promise — await it so TypeScript types align
+      const apiReq = await playwrightRequest.newContext();
+      try {
+        // This hits a small test-only endpoint we'll add to the app in dev mode
+        await setAuthCookie(apiReq, baseUrl, token);
+        // Load the page with the authenticated cookie set
+        await page.goto(`${baseUrl}/dashboard`);
+        await page.waitForLoadState("domcontentloaded");
+        await use(page);
+      } finally {
+        await apiReq.dispose();
+      }
+    } else {
+      await signInWithSeedUser(page);
+      await use(page);
+    }
   },
 
   dashboardPage: async ({ authenticatedPage }, use) => {

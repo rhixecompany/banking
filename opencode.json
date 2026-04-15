@@ -1,121 +1,9 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "agent": {
-    "build": {
-      "description": "Build and implement features for the Banking project",
-      "model": "github-copilot/gpt-5-mini",
-      "temperature": 0.1,
-      "permission": {
-        "bash": "allow",
-        "edit": "allow",
-        "glob": "allow",
-        "grep": "allow",
-        "list": "allow",
-        "lsp": "allow",
-        "MCP_DOCKER_*": "allow",
-        "question": "allow",
-        "read": "allow",
-        "shadcn_*": "allow",
-        "skill": "allow",
-        "todowrite": "allow",
-        "webfetch": "allow",
-        "websearch": "allow"
-      }
-    },
-    "plan": {
-      "description": "Review and plan changes for the Banking project",
-      "model": "github-copilot/gpt-5-mini",
-      "steps": 20,
-      "temperature": 0.2,
-      "permission": {
-        "bash": "allow",
-        "edit": "allow",
-        "glob": "allow",
-        "grep": "allow",
-        "list": "allow",
-        "lsp": "allow",
-        "MCP_DOCKER_*": "allow",
-        "question": "allow",
-        "read": "allow",
-        "shadcn_*": "allow",
-        "skill": "allow",
-        "todowrite": "allow",
-        "webfetch": "allow",
-        "websearch": "allow"
-      }
-    },
-    "quick-thinker": {
-      "description": "Fast reasoning with limited iterations",
-      "prompt": "You are a quick thinker. Solve problems with minimal steps.",
-      "steps": 20,
-      "temperature": 0.1,
-      "permission": {
-        "bash": "allow",
-        "edit": "allow",
-        "glob": "allow",
-        "grep": "allow",
-        "list": "allow",
-        "lsp": "allow",
-        "MCP_DOCKER_*": "allow",
-        "question": "allow",
-        "read": "allow",
-        "shadcn_*": "allow",
-        "skill": "allow",
-        "todowrite": "allow",
-        "webfetch": "allow",
-        "websearch": "allow"
-      }
-    },
-    "review": {
-      "description": "Review code changes and PRs for the Banking project",
-      "model": "github-copilot/gpt-5-mini",
-      "steps": 20,
-      "temperature": 0.2,
-      "permission": {
-        "bash": "allow",
-        "edit": "allow",
-        "glob": "allow",
-        "grep": "allow",
-        "list": "allow",
-        "lsp": "allow",
-        "MCP_DOCKER_*": "allow",
-        "question": "allow",
-        "read": "allow",
-        "shadcn_*": "allow",
-        "skill": "allow",
-        "todowrite": "allow",
-        "webfetch": "allow",
-        "websearch": "allow"
-      }
-    }
-  },
-  "autoupdate": "notify",
-  "command": {
-    "build": {
-      "agent": "build",
-      "description": "Build the project",
-      "template": "Run npm run build and verify the build succeeds. Report any errors."
-    },
-    "test": {
-      "agent": "build",
-      "description": "Run all tests",
-      "template": "Run npm run test and report results. Show test coverage and any failures."
-    },
-    "validate": {
-      "agent": "build",
-      "description": "Run all validation checks",
-      "template": "Run npm run validate and report results. Focus on Build errors, TypeScript errors, lint warnings, and test failures."
-    }
-  },
-  "compaction": {
-    "auto": true,
-    "reserved": 10000
-  },
-  "default_agent": "build",
   "instructions": [
     "AGENTS.md",
-    ".opencode/instructions/*.md",
-    ".github/instructions/documentation.instructions.md"
+    "docs/personas-list.md",
+    ".opencode/instructions/00-default-rules.md"
   ],
   "mcp": {
     "MCP_DOCKER": {
@@ -138,25 +26,5 @@
       "type": "local"
     }
   },
-
-  "model": "github-copilot/gpt-5-mini",
-  "permission": {
-    "bash": "allow",
-    "edit": "allow",
-    "glob": "allow",
-    "grep": "allow",
-    "list": "allow",
-    "lsp": "allow",
-    "MCP_DOCKER_*": "allow",
-    "question": "allow",
-    "read": "allow",
-    "shadcn_*": "allow",
-    "skill": "allow",
-    "todowrite": "allow",
-    "webfetch": "allow",
-    "websearch": "allow"
-  },
-  "watcher": {
-    "ignore": ["node_modules", ".next", "dist", ".git", "*.log"]
-  }
+  "model": "github-copilot/gpt-5-mini"
 }

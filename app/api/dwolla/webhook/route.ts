@@ -1,13 +1,20 @@
-import { eq } from "drizzle-orm";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
 import { dwollaDal } from "@/dal";
-import { db } from "@/database/db";
 import { getDwollaClient } from "@/lib/dwolla";
 import { env } from "@/lib/env";
 
 // Dwolla webhook receiver that verifies signature and updates dwolla_transfers status.
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @async
+ * @param {Request} req
+ * @returns {unknown}
+ */
 export async function POST(req: Request) {
   try {
     const rawBody = await req.text();
@@ -57,27 +64,14 @@ export async function POST(req: Request) {
       );
     }
 
-    const schema = await import("@/database/schema");
-    const rows = await db
-      .select()
-      .from(schema.dwolla_transfers)
-      .where(eq(schema.dwolla_transfers.dwollaTransferId, transferId));
-
+    // Use DAL helper to find matching transfers (exact or fallback)
+    const rows = await dwollaDal.findByDwollaTransferIdOrTransferUrl(
+      String(transferId),
+    );
     let updated = false;
-    if (rows.length === 0) {
-      // fallback: match by transferUrl containing the transferId
-      const all = await db.select().from(schema.dwolla_transfers);
-      for (const r of all) {
-        if (r.transferUrl?.includes(String(transferId))) {
-          await dwollaDal.updateTransferStatus(r.id, String(status));
-          updated = true;
-        }
-      }
-    } else {
-      for (const r of rows) {
-        await dwollaDal.updateTransferStatus(r.id, String(status));
-        updated = true;
-      }
+    for (const r of rows) {
+      await dwollaDal.updateTransferStatus(r.id, String(status));
+      updated = true;
     }
 
     return NextResponse.json({ ok: true, updated });
