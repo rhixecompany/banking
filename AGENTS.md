@@ -1,105 +1,111 @@
 <!--
-  AGENTS.md — Banking (compact)
-  Purpose: one-file, high-signal instructions an automated agent would otherwise miss.
-  Keep this short. If in doubt, omit.
+  AGENTS.md — Banking (merged from draft-agents.md)
+  Purpose: single-file, high-signal instructions an automated agent would otherwise miss.
+  This file merges rules from draft-agents.md into the canonical AGENTS.md.
 -->
 
-# AGENTS.md — Banking (compact)
+Read this first — it is authoritative for automated agents. If you are an agent, state who you act as (developer, reviewer, ops, CI) and whether you may modify files or only propose changes.
 
-Read this first. Only include details an automated agent would likely miss.
+## Quick Commands
 
-Core commands (exact script names)
+```
+npm run dev
+npm run type-check
+npm run lint:strict
+npm run format
+npm run format:markdown:check
+npm run test         # runs Playwright E2E then Vitest
+npm run test:ui      # Playwright E2E (prepares DB)
+npm run test:browser # Vitest (unit)
+npx vitest -c vitest.config.ts run path/to/test/file
+npm run db:generate
+npm run db:migrate
+npm run db:push      # local/dev/test only
+npm run db:seed
+npm run db:reset
+```
 
-- Start dev: npm run dev
-- Type check: npm run type-check
-- Lint (strict): npm run lint:strict
-- Format (all files): npm run format
-- Format/markdown check: npm run format:markdown:check
-- Run tests (unit + E2E): npm run test
-- Playwright E2E (prepare DB): npm run test:ui
-- Run unit tests (Vitest only): npm run test:browser
-- Run a single Vitest file: npx vitest -c vitest.config.ts run path/to/test/file
-- Drizzle SQL generate: npm run db:generate
-- Drizzle migrate apply: npm run db:migrate
-- Drizzle push (local/dev/test only): npm run db:push
-- Seed DB: npm run db:seed
+## Technology Versions (observed)
 
-High-signal rules (do not skip)
+- Next.js: 16.2.2
+- React: ^19
+- TypeScript: ^6.0.2
+- Drizzle ORM: drizzle-orm v0.45.2, drizzle-kit v0.31.10
+- Playwright: @playwright/test v1.59.1
+- Vitest: v4.1.2
+- Zod: v4.x
 
-- Env access: never read process.env directly in application code. Use app-config.ts (preferred) or lib/env.ts. Exception: proxy.ts.
-- Secrets: do not commit .env, .env.local, keys, or tokens. Provide CI secrets via secure channels.
-- Server Actions (mutations): follow the contract enforced in .cursor/rules/mutations-via-server-actions.mdc:
-  1. Zod-validate inputs.
-  2. Authenticate first (auth() or session helper).
-  3. Return { ok: boolean; error?: string } and include payloads on success.
-  4. Catch and log errors; do not throw during E2E.
-  5. Revalidate caches/tags after success.
-- DB access: always use dal/\* for queries. Avoid ad-hoc SQL in components or actions. Use joins in DAL to avoid N+1 and db.transaction for atomic multi-step operations.
+Note: Node is not pinned in package.json; rely on CI or project docs for exact runtime.
 
-- Home / root page rule: keep app/page.tsx and any Home server wrapper static and public. Do NOT add auth(), database queries, or DAL calls in app/page.tsx or HomeServerWrapper — the Home route is intentionally non-authenticated and presentational.
+## High-signal Rules (must obey)
 
-Testing / mocks (preserve these behaviors)
+- Env access: never read process.env directly in application code. Use app-config.ts (preferred) or lib/env.ts. Exceptions: seed runner and tiny bootstrap scripts that intentionally load env before imports.
+- Secrets: do not commit .env, .env.local, keys, or tokens. CI must provide ENCRYPTION_KEY and NEXTAUTH_SECRET.
+- Server Actions (mutations): live in actions/\* and MUST follow this contract:
+  1. Validate inputs with Zod (descriptive messages required).
+  2. Authenticate first: const session = await auth(); verify session?.user.
+  3. Return Promise<{ ok: boolean; error?: string; ...payload }>. Do not throw uncaught exceptions during E2E.
+  4. Revalidate caches/tags after success (revalidatePath / revalidateTag / updateTag).
+- DB access: always use dal/\* for database queries. Do not place ad-hoc DB queries in components or actions. Prevent N+1 by eager-loading (joins) in DAL. Use db.transaction(...) for atomic multi-step operations.
+- Home page constraint: keep app/page.tsx and Home server wrappers static and public. Do NOT add auth(), DAL, or DB queries there.
 
-- Plaid: lib/plaid.ts exports isMockAccessToken(token). Code/tests short-circuit for mock/seed tokens (start with seed- or mock-). Preserve this logic.
-- Playwright: tests that interact with Plaid expect tests/e2e/helpers/plaid.mock.ts — call addMockPlaidInitScript(page, "MOCK_PUBLIC_TOKEN") before navigation in those tests.
-- Dwolla: flows short-circuit when Dwolla IDs/URLs include "mock".
+## Seed & Migrations (critical)
 
-Seed runner (scripts/seed/run.ts)
+- scripts/seed/run.ts loads .env.local BEFORE importing app modules — run via the npm script to preserve env loading order.
+- Use npm run db:generate to produce SQL (inspect database/migrations) before running npm run db:migrate.
+- npm run db:push is local/dev/test only — do NOT use in production.
+- Seed flags: --dry-run shows planned operations; --reset is destructive and requires RUN_DESTRUCTIVE=true and --yes.
+- CI must supply DATABASE_URL and secrets for seeding. If NODE_ENV === "production", ALLOW_DB_SEED must be "true" to allow seeding.
 
-- Loads .env.local BEFORE importing app modules; must be run with tsx (script does this). Do not reorder imports.
-- --dry-run / -n: prints planned operations and writes a validation artifact; does not mutate DB.
-- --reset is destructive and requires RUN_DESTRUCTIVE=true in env AND --yes/-y flag.
-- If NODE_ENV === "production", ALLOW_DB_SEED must equal "true" to allow seeding.
+## Testing & Deterministic Mocks
 
-Note: always prefer --dry-run to preview seeding. The seed script relies on .env.local being present and must be executed via the provided npm script to ensure env loading order.
+- Test order: Playwright E2E runs first (stateful), then Vitest unit tests. Use npm run test to run both.
+- Playwright config runs single-worker tests (fullyParallel: false). Do not parallelize E2E without ensuring isolated DB state.
+- Plaid & Dwolla short-circuit for deterministic E2E:
+  - lib/plaid.ts exposes isMockAccessToken(token) (recognises prefixes like seed-/mock-).
+  - Use tests/e2e/helpers/plaid.mock.ts helper: await addMockPlaidInitScript(page, "MOCK_PUBLIC_TOKEN") before navigation.
+  - Dwolla flows detect "mock" in IDs/URLs to avoid network calls.
+- When running E2E manually, set ENABLE_TEST_ENDPOINTS=true to enable test-only helpers (e.g., /**playwright**/set-cookie).
 
-Migrations & schema
+## Lint / Type-check / CI
 
-- Always inspect SQL generated by npm run db:generate in database/migrations before applying npm run db:migrate.
-- Do not run npm run db:push against production — only for local/dev/test.
+- Pre-PR local quick-check: npm run format && npm run format:markdown:check && npm run type-check && npm run lint:strict
+- Full CI validation: npm run validate (slow — runs tests).
+- Do not silence ESLint rules; fix violations.
 
-Quick validations (recommended before opening a PR)
+## Scripts & Tooling
 
-1. npm run format
-2. npm run format:markdown:check
-3. npm run type-check
-4. npm run lint:strict
-5. (Optional, slow) npm run test
+- Inspect custom scripts before running: scripts/_.ts, scripts/_.sh, scripts/**/\*.ps1, scripts/**/\*.bat.
+- When referencing scripts in changes, list exact script paths you inspected.
 
-Testing notes
+## Commit / Change Rules for Agents
 
-- npm run test runs Playwright UI tests first (npm run test:ui) and then Vitest. Playwright tests require DB prep — use npm run test:ui when you intend to run E2E.
-- To iterate quickly on unit tests, use npm run test:browser (Vitest) or the single-file command above.
+1. Ask for permission before modifying files or making commits. If permitted, prefer small, focused commits.
+2. If a change touches > 7 files, create a plan at .opencode/commands/<short-kebab-task>.plan.md with Goals, Scope, Target Files, Risks, Validation.
+3. Recommended branch name for docs: chore/docs/agents-md. Do not push to main without explicit instruction.
+4. Never commit secrets or embed sensitive values in code.
 
-Agent contributor conventions
+## Where To Inspect First (authoritative)
 
-- Ask before pushing to remote. Recommended branch for this file: chore/docs/agents-md.
-- If a change touches >3 files, create a short plan at .opencode/plans/<task>\_<8char-id>.plan.md before implementing.
-- Prefer small, surgical edits that are easy to review.
+- package.json, tsconfig.json, next.config.ts
+- app-config.ts, lib/env.ts
+- database/schema.ts, dal/\*
+- actions/_, components/_-server-wrapper.tsx, components/\*-client-wrapper.tsx
+- scripts/seed/_, scripts/_, .opencode/\*
+- tests/e2e/helpers/plaid.mock.ts
 
-Commit & push policy:
+## Minimal Provenance Requirement
 
-- Do not push changes to main without asking. Prefer feature branches like chore/docs/agents-md for doc work.
-- Create small, focused PRs (one area per PR: UI refactor, type fixes, docs). If you must include multiple areas, add a short plan file before implementation.
+Whenever you make a change, include the list of files you read (paths + one-line rationale) that justify the change. This is required for review/audit.
 
-Where to look (authoritative)
+## Troubleshooting (high-signal)
 
-- opencode.json — lists agent-facing instruction files loaded by tools
-- .cursor/rules/\*.mdc — enforced project rules (env access, mutations, testing, etc.)
-- app-config.ts and lib/env.ts — canonical env validation/access
-- scripts/seed/run.ts — seed runner behavior & flags
-- lib/plaid.ts — Plaid mock detection
-- dal/_ and actions/_ — DAL and Server Action patterns
-- tests/e2e/helpers/plaid.mock.ts — Playwright Plaid stub helper
+- Playwright seed failures: ensure DATABASE_URL reachable and tsx available so scripts/seed/run.ts is imported safely (else destructive fallback may run).
+- DB migration errors: check drizzle.config.ts and run npm run db:check.
+- Missing secrets: add ENCRYPTION_KEY and NEXTAUTH_SECRET to CI via secure channels.
 
-If you want me to act next
+## If Uncertain
 
-1. I can commit documentation changes to branch chore/docs/agents-md and run local validations (prettier on AGENTS.md, markdownlint, npm run type-check). I will not push to remote without your explicit confirmation — reply with "push and open PR" to proceed.
+- Stop and ask one short question. Do not guess about secrets, destructive flags, or push permissions.
 
-Compact and intentionally minimal. Verify changes against executable sources (scripts, .cursor rules, or code) before updating guidance.
-
-Tools & Skills
-
-- MCP tools: Next.js runtime (MCP_DOCKER / nextjs_runtime) for runtime diagnostics, Playwright automation (MCP_DOCKER browser), and file/IO tools exposed via the MCP gateway.
-- shadcn: component registry/tooling used for UI components (see components.json when present).
-- Repo skills (high-signal): agent-governance, DBSkill (Drizzle patterns), TestingSkill (Vitest/Playwright), ServerActionSkill, ValidationSkill. See .opencode/skills/\* for details.
+End.

@@ -5,13 +5,13 @@ alwaysApply: true
 
 # Plan File Standards
 
-When a task is expected to change more than 3 files, create a plan before implementation.
+When a task is expected to change more than 7 files, create a plan before implementation.
 
 ## Location and Naming
 
-- Save every plan in `.opencode/plans/`.
-- Use markdown files with `.plan.md` suffix.
-- Use this filename format: `<short-kebab-task>_<8-char-id>.plan.md`.
+ - Save every plan in `.opencode/commands/`.
+ - Use markdown files with `.plan.md` suffix.
+ - Use this filename format: `<short-kebab-task>.plan.md`.
 
 ## Required Plan Sections
 

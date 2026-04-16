@@ -1305,7 +1305,7 @@
     "productId": "09PlanFileStandards",
     "repoUrl": ".opencode\\instructions/",
     "scope": ["project"],
-    "tagline": "When a task is expected to change more than 3 files, create a plan before implementation.",
+    "tagline": "When a task is expected to change more than 7 files, create a plan before implementation.",
     "tags": ["opencode", "instructions"],
     "type": "resources"
   },

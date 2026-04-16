@@ -154,7 +154,7 @@ import { auth, plaid, dwolla } from "@/app-config";
 5. **`.describe()` on every field** — ESLint-enforced
 6. **Use `z.coerce`** for form inputs (numbers, booleans)
 
-Note: For canonical agent rules and plan repository location, see `AGENTS.md` and create plans in `.opencode/plans/` when changes touch more than 3 files.
+Note: For canonical agent rules and plan repository location, see `AGENTS.md` and create plans in `.opencode/commands/` when changes touch more than 7 files.
 
 ## Validation
 

@@ -1,0 +1,11 @@
+{
+  "suites": [
+    {
+      "title": "suite1",
+      "tests": [
+        { "title": "t1", "ok": true },
+        { "title": "t2", "ok": false }
+      ]
+    }
+  ]
+}

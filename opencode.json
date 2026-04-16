@@ -11,10 +11,12 @@
     ".cursorrules",
     ".github/copilot-instructions.md",
     ".opencode/instructions/*.md",
-    ".opencode/skills/**/SKILL.md",
-    ".cursor/skills/**/SKILL.md",
     ".cursor/rules/*.mdc"
   ],
+  "autoupdate": "notify",
+  "compaction": {
+    "auto": true,
+  },
   "mcp": {
     "MCP_DOCKER": {
       "command": [
@@ -30,11 +32,7 @@
       "type": "local"
     },
     "shadcn": {
-      "command": [
-        "npx",
-        "shadcn@latest",
-        "mcp"
-      ],
+      "command": ["npx", "shadcn@latest", "mcp"],
       "enabled": true,
       "timeout": 900000,
       "type": "local"

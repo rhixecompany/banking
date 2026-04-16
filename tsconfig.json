@@ -25,7 +25,13 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "ES2017",
-    "types": ["node", "react", "react-dom"]
+    "types": [
+      "node",
+      "react",
+      "react-dom",
+      "vitest",
+      "vitest/globals"
+    ]
   },
   "exclude": ["node_modules"],
   "include": [
