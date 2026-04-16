@@ -1,4 +1,5 @@
 import { dwollaDal } from "@/dal";
+
 import { expect, test } from "../../fixtures/auth";
 import { completeDwollaTransfer } from "../helpers/dwolla";
 import { addMockPlaidInitScript } from "../helpers/plaid.mock";
@@ -28,7 +29,7 @@ test.describe("Integration: Plaid Link -> Mock Dwolla Transfer", () => {
     // triggers the server action that creates a mock wallet. Wait for the
     // expected institution name used by the mock flow to appear in the UI.
     const mockBankCard = myWalletsPage.getWalletCard("Mock Bank");
-    await expect(mockBankCard.first()).toBeVisible({ timeout: 15_000 });
+    await expect.soft(mockBankCard.first()).toBeVisible({ timeout: 15_000 });
 
     // Now perform a mocked Dwolla transfer using the UI helper. Use seeded
     // recipient details that are inserted by the global seed runner when
@@ -51,12 +52,12 @@ test.describe("Integration: Plaid Link -> Mock Dwolla Transfer", () => {
     const success = myWalletsPage.page.locator(
       '[data-testid="transfer-success"]',
     );
-    await expect(success).toBeVisible({ timeout: 15_000 });
+    await expect.soft(success).toBeVisible({ timeout: 15_000 });
 
     // Verify a dwolla_transfers row exists for the seeded user (best-effort).
     // The seeded test user id is deterministic in the seed runner.
     const seededUserId = "00000000-0000-4000-8000-000000000003";
     const transfers = await dwollaDal.findTransfersByUserId(seededUserId);
-    expect(transfers.length).toBeGreaterThanOrEqual(1);
+    expect.soft(transfers.length).toBeGreaterThanOrEqual(1);
   });
 });

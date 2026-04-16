@@ -19,7 +19,7 @@ Mirror of [Critical Rules in AGENTS.md](../../../AGENTS.md):
 
 - No `any` types — use `unknown` and type guards.
 - No N+1 queries — use eager loading for related data.
-- No raw `process.env` in app code — use `lib/env.ts` (Zod validated).
+- No raw `process.env` in app code — use `app-config.ts` (preferred) or `lib/env.ts` (backward compat).
 - All mutations via Server Actions — not API routes for writes.
 - Zero TypeScript errors — `npm run type-check`.
 - Zero ESLint warnings — `npm run lint:strict`.

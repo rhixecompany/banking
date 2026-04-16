@@ -12,9 +12,9 @@ vi.mock("sonner", () => ({
 
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { toast } from "sonner";
 
 import AuthForm from "@/components/auth-form/auth-form";
-import { toast } from "sonner";
 
 test("calls register prop when sign-up form submitted", async () => {
   const register = vi.fn(async () => ({ ok: true }));

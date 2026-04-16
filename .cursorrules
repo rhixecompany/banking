@@ -1,12 +1,14 @@
 # Cursor Rules — Agent Quick Summary
 
-These rules are a short, machine-friendly summary for Cursor agents. They reflect the PR-blocking rules in AGENTS.md and the repository's executable sources-of-truth.
+These rules are a short, machine-friendly summary for Cursor agents. They reflect the PR-blocking rules in `AGENTS.md` and the repository's executable sources-of-truth.
 
 - enforce: "no-any" — Do not introduce `any` types in TypeScript files.
+- enforce: "no-n-plus-one" — Avoid N+1 query patterns; prefer eager loading / joins in `dal/`.
 - enforce: "lint-zero-warnings" — All commits must pass `npm run lint:strict` (zero warnings) in CI.
 - enforce: "dal-only-db-access" — All database access must be routed through `dal/` helpers.
 - enforce: "server-actions-for-writes" — All stateful writes must be implemented as Server Actions under `actions/`.
-- enforce: "zod-metadata" — All Zod schemas used in public inputs must include `.describe()` metadata and explicit validator messages.
 - plan-needed-threshold: 3 — When a change touches more than 3 files create a plan in `.opencode/plans/` before applying edits.
+
+Note: This file is a short cursor-facing summary. See `AGENTS.md` for the canonical, detailed rules and `.opencode/plans/` for plan locations.
 
 Last Updated: 2026-04-14

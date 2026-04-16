@@ -10,7 +10,8 @@
 # Use build cache from buildkit for better layer reuse
 # syntax=docker/dockerfile:1.4
 
-# Alpine base for smaller images
+# Repo dependencies currently expect Node >= 22 (see npm EBADENGINE warnings).
+# Keep default at 22; still overrideable at build time if needed.
 ARG NODE_VERSION=22
 
 # Use bookworm slim for compatibility (Alpine breaks node-gyp builds)
@@ -33,22 +34,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # -----------------------------------------------------------------------------
 FROM base AS builder
 
-# Build arguments for environment-specific configuration
+# Build arguments for non-secret configuration only.
+# Runtime secrets MUST be provided at container runtime (env_file / environment),
+# not as build args (which can leak into image layers).
 ARG NEXT_PUBLIC_SITE_URL=https://localhost
-ARG ENCRYPTION_KEY=""
-ARG NEXTAUTH_SECRET=""
-ARG DWOLLA_BASE_URL=https://api-sandbox.dwolla.com
-ARG DWOLLA_ENV=sandbox
-ARG DATABASE_URL=""
 
-# Set build environment variables
+# Set build environment variables (non-secret only)
 ENV NODE_ENV=production \
-    NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL} \
-    ENCRYPTION_KEY=${ENCRYPTION_KEY} \
-    NEXTAUTH_SECRET=${NEXTAUTH_SECRET} \
-    DWOLLA_BASE_URL=${DWOLLA_BASE_URL} \
-    DWOLLA_ENV=${DWOLLA_ENV} \
-    DATABASE_URL=${DATABASE_URL}
+    NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL}
 
 # Copy dependency files from context root (better cache layer)
 COPY package.json package-lock.json ./
@@ -100,7 +93,7 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
     CMD curl -f http://localhost:3000/api/health || exit 1
 
 # Use dumb-init to handle signals properly (PID 1, reaping zombies)
-ENTRYPOINT ["/usr/sbin/dumb-init", "--"]
+ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 CMD ["node", "server.js"]
 
 # -----------------------------------------------------------------------------
@@ -135,5 +128,5 @@ ENV NODE_ENV=development \
 EXPOSE 3000
 
 # Use dumb-init in dev too for proper signal handling
-ENTRYPOINT ["/usr/sbin/dumb-init", "--"]
+ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 CMD ["npm", "run", "dev"]

@@ -1,22 +1,23 @@
-/// <reference types="vitest" />
-import WalletsOverview from "@/components/shared/wallets-overview";
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
+
+/// <reference types="vitest" />
+import WalletsOverview from "@/components/shared/wallets-overview";
 
 describe("WalletsOverview", () => {
   it("renders a list of wallets and total balance", () => {
     const wallets = [
       {
-        id: "w1",
-        institutionName: "Mock Bank",
-        accountType: "Checking",
         accountSubtype: "Standard",
+        accountType: "Checking",
         balances: [
           {
-            balances: { current: 1234, available: 1234, limit: null },
             accountId: "acc1",
+            balances: { available: 1234, current: 1234, limit: null },
           },
         ],
+        id: "w1",
+        institutionName: "Mock Bank",
         transactions: [],
       },
     ];

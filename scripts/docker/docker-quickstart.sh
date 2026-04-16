@@ -44,7 +44,7 @@ start_default() {
     fi
     
     cd "${PROJECT_ROOT}"
-    docker compose -f docker-compose.yml --env-file .envs/local/.env.local up -d
+    docker compose -f docker-compose.yml --profile traefik --env-file .envs/local/.env.local up -d
     echo -e "${GREEN}✓ Default environment started${NC}"
     echo "Application: http://localhost"
     echo "Traefik Dashboard: https://traefik.localhost"
@@ -75,7 +75,7 @@ start_monitoring() {
     fi
     
     cd "${PROJECT_ROOT}"
-    docker compose --profile monitoring --env-file .envs/local/.env.local up -d
+    docker compose --profile traefik --profile monitoring --env-file .envs/local/.env.local up -d
     echo -e "${GREEN}✓ Monitoring stack started${NC}"
     echo "Application: http://localhost"
     echo "Prometheus: http://prometheus.localhost:9090"

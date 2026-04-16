@@ -41,8 +41,8 @@ import {
  * @returns {JSX.Element}
  */
 export function NavUser({
-  user,
   logoutAccount,
+  user,
 }: {
   user: {
     name: string;

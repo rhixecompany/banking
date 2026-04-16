@@ -355,7 +355,7 @@ export async function getAccounts(input: unknown): Promise<{
     // call the external Plaid API. Return an empty accounts array so UI and
     // tests can continue without external dependencies.
     if (isMockAccessToken(wallet.accessToken)) {
-      return { ok: true, accounts: [] };
+      return { accounts: [], ok: true };
     }
 
     const response = await plaidClient.accountsGet({
@@ -426,7 +426,7 @@ export async function getTransactions(input: unknown): Promise<{
     // If this wallet is a mock token, return an empty result set to avoid
     // calling Plaid in test environments.
     if (isMockAccessToken(wallet.accessToken)) {
-      return { ok: true, transactions: [], totalTransactions: 0 };
+      return { ok: true, totalTransactions: 0, transactions: [] };
     }
 
     const request = {
@@ -494,7 +494,7 @@ export async function getBalance(input: unknown): Promise<{
     // If this wallet was created with a mock token, skip external calls and
     // return an empty balances array. Tests expect a stable return shape.
     if (isMockAccessToken(wallet.accessToken)) {
-      return { ok: true, balances: [] };
+      return { balances: [], ok: true };
     }
 
     const response = await plaidClient.accountsBalanceGet({

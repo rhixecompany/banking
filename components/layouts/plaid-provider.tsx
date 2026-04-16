@@ -63,10 +63,10 @@ interface PlaidProviderProps {
  */
 export function PlaidProvider({
   children,
-  onSuccess,
-  userId,
   createLinkToken,
   exchangePublicToken,
+  onSuccess,
+  userId,
 }: PlaidProviderProps) {
   const [linkToken, setLinkToken] = useState<string | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(true);

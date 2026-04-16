@@ -1,162 +1,139 @@
-# pages_enhancement.plan.md
+# Pages Enhancement Plan (Draft)
 
-## Goal
+Status: Implementation Approved - persisted plan. Implementation will proceed per approved workflow.
 
-Bring every Next.js page under ./app into full compliance with repo patterns and ensure each page is fully functional and tested (unit + E2E).
+Goal
 
-## Scope
+- Sequentially audit and enhance every Next.js page in ./app. Start with Home, then Wallets, Transfers, Account (Settings), Dashboard, then remaining pages. Preserve repo patterns: Server Actions with Zod + auth(), DAL usage via dal/\*, revalidate after mutations.
 
-- Pages: dashboard, my-wallets, transaction-history, settings, payment-transfer, sign-in, sign-up, admin, home
-- Server wrappers and client wrappers under components/\*
-- Actions under actions/\*
-- DAL under dal/\*
-- Tests: tests/unit/_ and tests/e2e/_
+Scope
 
-## Files Discovered (to be referenced in patches)
+- Pages: (see docs/app-pages.md)
+- Components: all custom components referenced by pages (excluding ./components/ui)
+- Actions: audit actions/\* for proper Zod validation, auth(), mocked short-circuits
+- DAL: ensure all DB access goes through dal/\* and avoid N+1 by moving joins into DAL
+- Tests: triage & harden related tests (unit & E2E) but do not run global typecheck/lint/tests until all pages are enhanced (per your constraint)
 
-- app/page.tsx
-- app/(root)/dashboard/page.tsx
-- app/(root)/my-wallets/page.tsx
-- app/(root)/transaction-history/page.tsx
-- app/(root)/settings/page.tsx
-- app/(root)/payment-transfer/page.tsx
-- app/(auth)/sign-in/page.tsx
-- app/(auth)/sign-up/page.tsx
-- app/(admin)/admin/page.tsx
+Constraints (from user / AGENTS.md)
 
-- components/\* (many, key files listed below)
-  - components/plaid-context/plaid-context.tsx
-  - components/plaid-link-button/plaid-link-button.tsx
-  - components/payment-transfer/payment-transfer-server-wrapper.tsx
-  - components/payment-transfer/payment-transfer-client-wrapper.tsx
-  - components/my-wallets/my-wallets-server-wrapper.tsx
-  - components/my-wallets/my-wallets-client-wrapper.tsx
-  - components/transaction-history/transaction-history-server-wrapper.tsx
-  - components/transaction-history/transaction-history-client-wrapper.tsx
-  - components/settings/settings-server-wrapper.tsx
-  - components/settings/settings-client-wrapper.tsx
-  - components/sign-in/sign-in-server-wrapper.tsx
-  - components/sign-up/sign-up-server-wrapper.tsx
-  - components/dashboard/dashboard-server-wrapper.tsx
-  - components/dashboard/dashboard-client-wrapper.tsx
+- Plan Mode: the plan has been persisted and implementation is approved. Follow the plan when making edits.
+- Per run-tasks.txt: do not run global typecheck/lint/tests until all pages in the list are enhanced.
+- Use seed runner (scripts/seed/run.ts) for E2E deterministic data (you confirmed yes).
+- Put extracted reusable components in ./components/layouts.
 
-- actions/\*
-  - actions/plaid.actions.ts
-  - actions/dwolla.actions.ts
-  - actions/wallet.actions.ts
-  - actions/transaction.actions.ts
-  - actions/recipient.actions.ts
-  - actions/user.actions.ts
-  - actions/admin-stats.actions.ts
-  - actions/register.ts
-  - actions/updateProfile.ts
+High-Level Timeline & Estimates (rough)
 
-- dal/\*
-  - dal/wallet.dal.ts
-  - dal/transaction.dal.ts
-  - dal/dwolla.dal.ts
-  - dal/recipient.dal.ts
-  - dal/user.dal.ts
-  - dal/admin.dal.ts
+- Discovery & plan creation: completed (this document). ~2-4 hours (already performed).
+- Per-page enhancement (audit -> implement -> unit test): ~1-6 hours per page depending on complexity.
+- Full test & lint run after all pages: 2-4 hours (depending on E2E flakiness & CI).
 
-- database/\*
-  - database/schema.ts
-  - scripts/seed/seed-data.ts
+Branch / Commit Strategy (awaiting confirm to run)
 
-- tests/\*
-  - tests/e2e/helpers/plaid.mock.ts
-  - tests/e2e/global-setup.ts
-  - tests/e2e/\*.spec.ts
-  - tests/unit/\*
+- You told me: if proceeding, prefer working on current branch; but we remain in Plan Mode now.
+- Recommendation: use feature branches per page or small grouped pages (e.g., `feat/page/home-refactor`) when switching to Implementation - this keeps PRs small.
 
-## Planned Work (high level)
+Priority order (as you requested)
 
-Work will be executed per-page in small patch sets. Each page patch will aim to touch <= 3 files where feasible. If a page change requires >3 files, this plan file will be updated and the larger patch will be created only after your approval.
+1. Home
+2. My Wallets (Wallets)
+3. Payment Transfer (Transfers)
+4. Settings (Account)
+5. Dashboard
+6. Transaction History
+7. Auth pages (Sign-in / Sign-up)
+8. Admin
+9. Any other pages discovered
 
-Per-Page Checklist (applied to each page)
+Per-Page Workflow (repeat for each page)
 
-- Enumerate server/client components + Server Actions + DAL methods used by the page
-- Ensure server wrappers use server-only imports and pass Server Actions to client wrappers (do not import server actions from client components)
-- Add Zod validation to any actions lacking descriptive schemas
-- Ensure actions call auth() and perform isAdmin checks if needed
-- Ensure DAL is used for all DB queries and multi-step DB operations are wrapped in db.transaction
-- Add/adjust unit tests for modified actions/DALs (Vitest)
-- Add/adjust Playwright E2E specs where UI behavior changed. Use plaids.mock.ts helper and seed runner
+1. Audit (read-only)
+   - Open page file and its server-wrapper and client-wrapper.
+   - List custom components used (exclude components/ui).
+   - Identify actions imported and DAL methods called.
+   - Identify Zod schemas referenced and their locations.
+   - Find tests referencing the page and any fixtures used.
+   - Produce a per-page audit entry (small Markdown snippet) and record files to change.
 
-Execution Order (recommended)
+2. Plan small changes (1-3 items) - keep minimal:
+   - Move any ad-hoc DB queries into dal/\* if found.
+   - Ensure server actions used by the page:
+     - Validate inputs with Zod and descriptive messages.
+     - authenticate via auth() at top of action.
+     - return stable shape: { ok: boolean; error?: string }.
+     - short-circuit Plaid/Dwolla with mock detection when appropriate.
+   - If a component mixes fetching + presentation, extract presentational part into components/layouts and keep fetching in server-wrapper.
+   - Add/adjust unit tests for new presentational components and server action behavior.
 
-1. Dashboard
-2. My Wallets
-3. Payment Transfer
-4. Settings
-5. Transaction History
-6. Auth: sign-in / sign-up
-7. Admin
-8. Home (landing)
+3. Implement & verify (once Implementation Mode enabled)
+   - Create minimal edits for the page's direct dependencies (aim < 10 files per PR).
+   - Run local unit tests for the modified units if you allow per-PR checks; otherwise defer local runs until all pages complete (you requested strict delay).
+   - Add tests where missing (unit tests for presentational pieces).
 
-## Verification
+4. Post-change housekeeping
+   - Add revalidatePath() or revalidateTag() calls after mutations in server actions where appropriate.
+   - Update docs/app-pages.md and docs/custom-components.md to reflect refactors.
 
-After all pages enhanced:
+5. Mark page complete and move to next page.
 
-- npm run format
-- npm run type-check
-- npm run lint:strict
-- npm run test (unit)
-- Run Playwright E2E with PLAYWRIGHT_PREPARE_DB=true
+Detailed Example - Home page (first-run template)
 
-## Notes and Rationale
+1. Audit:
+   - Files to open: app/page.tsx; components/home/home-server-wrapper.tsx; components/home/home-client-wrapper.tsx; components/shared/wallets-overview.tsx; components/total-balance-box/total-balance-box.tsx; tests referencing these files.
+   - Identify: any server actions called directly from client; any DAL access in components.
 
-- Changes will follow patterns described in AGENTS.md and repository coding standards.
-- Any patch that modifies >3 files will be accompanied by a new plan file in .opencode/plans/ and will wait for your approval before applying.
-- No commits will be created without explicit instruction.
+2. Plan:
+   - If found: extract Balance / Wallets presentational components into components/layouts (e.g., components/layouts/total-balance.tsx).
+   - Ensure server-wrapper uses dal/\* and server actions validate inputs with Zod + auth().
 
-## Next Step
+3. Implement:
+   - Make small, isolated edits: move presentational pieces; update imports; add unit tests for extracted components.
 
-I will start with step 1 (Dashboard). I will enumerate the exact files the Dashboard page imports and produce a small patch set proposal (<=3 files). Please approve to continue, or tell me to stop or change order.
+4. Verify:
+   - If you allow per-PR checks: run unit tests for the modified units only. Otherwise, defer full test runs.
 
-## Files scanned to build this plan (exact paths)
+Cross-cutting tasks (apply across pages)
 
-- app/page.tsx
-- app/(root)/dashboard/page.tsx
-- app/(root)/my-wallets/page.tsx
-- app/(root)/transaction-history/page.tsx
-- app/(root)/settings/page.tsx
-- app/(root)/payment-transfer/page.tsx
-- app/(auth)/sign-in/page.tsx
-- app/(auth)/sign-up/page.tsx
-- app/(admin)/admin/page.tsx
-- components/plaid-context/plaid-context.tsx
-- components/plaid-link-button/plaid-link-button.tsx
-- components/payment-transfer/payment-transfer-server-wrapper.tsx
-- components/payment-transfer/payment-transfer-client-wrapper.tsx
-- components/my-wallets/my-wallets-server-wrapper.tsx
-- components/my-wallets/my-wallets-client-wrapper.tsx
-- components/transaction-history/transaction-history-server-wrapper.tsx
-- components/transaction-history/transaction-history-client-wrapper.tsx
-- components/settings/settings-server-wrapper.tsx
-- components/settings/settings-client-wrapper.tsx
-- components/sign-in/sign-in-server-wrapper.tsx
-- components/sign-up/sign-up-server-wrapper.tsx
-- components/dashboard/dashboard-server-wrapper.tsx
-- components/dashboard/dashboard-client-wrapper.tsx
-- actions/plaid.actions.ts
-- actions/dwolla.actions.ts
-- actions/wallet.actions.ts
-- actions/transaction.actions.ts
-- actions/recipient.actions.ts
-- actions/user.actions.ts
-- actions/admin-stats.actions.ts
-- actions/register.ts
-- actions/updateProfile.ts
-- dal/wallet.dal.ts
-- dal/transaction.dal.ts
-- dal/dwolla.dal.ts
-- dal/recipient.dal.ts
-- dal/user.dal.ts
-- dal/admin.dal.ts
-- database/schema.ts
-- scripts/seed/seed-data.ts
-- tests/e2e/helpers/plaid.mock.ts
-- tests/e2e/global-setup.ts
-- tests/e2e/\*.spec.ts
-- tests/unit/\*
+- Zod normalisation:
+  - Convert meta({ description }) usage to z.describe(...) where lint rules require (there is already a codemod script: scripts/transform/zod-meta-to-describe.ts).
+- DAL N+1 prevention:
+  - In page-level audits, detect loops that call DAL per item; if found, move to a join query in dal/\* and add a targeted unit test.
+- Tests:
+  - Replace any live Plaid/Dwolla calls in tests with msw or existing E2E helpers and use tests/e2e/helpers/plaid.mock.ts.
+- Scripts:
+  - Ensure scripts in scripts/ (seed, validate, transform) support --dry-run where appropriate (many already do); add dry-run flags where missing (follow AST-safe modifications when implementing).
+
+Deliverables (what I will produce in Implementation Mode)
+
+- docs/app-pages.md (finalized)
+- docs/custom-components.md (finalized + triage)
+- docs/test-context.md (finalized + triage)
+- Per-page change lists and small PRs (one PR per page or small related group)
+- Change-log mapping pages -> files modified -> tests updated
+
+Acceptance criteria (for a page)
+
+- Server actions used by the page validate inputs via Zod, call auth() (if protected), and return the stable { ok, error? } shape.
+- DAL access occurs only through dal/\* with no new ad-hoc queries within components.
+- Component extraction: presentation separated from data fetching and moved under components/layouts for reuse.
+- Unit tests added/updated for presentational components and server actions where modifications occurred.
+- E2E readiness: page's E2E tests use seeded data or mocks; Plaid/Dwolla short-circuits preserved.
+
+Risks & mitigations
+
+- Large refactors cause CI pain: mitigate with small per-page PRs.
+- E2E flakiness due to external APIs: mitigate using Plaid/Dwolla helpers and seed runner.
+- Time: some pages may require non-trivial DAL work; flag those pages and schedule separately.
+
+Next actions (what I need from you)
+
+1. Plan approved and persisted. Implementation will begin.
+2. Implementation mode selected: I will create small focused commits per page as described in this plan.
+3. If you prefer a different branch strategy, tell me now. Otherwise I will continue on the current branch and create feature branches per page when appropriate.
+
+If you approve, I will:
+
+- Generate the three docs (docs/app-pages.md, docs/custom-components.md, docs/test-context.md) if not already present, then begin the first-page audit and minimal implementation (Payment Transfer) according to the per-page workflow, producing small commits and PRs for review.
+
+If you'd like edits to these drafts (more/less detail, different structure, additional per-page fields), tell me exactly what you'd change and I will revise the drafts before making code changes.
+
+(End of file)

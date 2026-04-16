@@ -5,13 +5,13 @@ import * as React from "react";
 // <SelectItem> usages found in the component tree. It intentionally
 // simplifies behavior for deterministic unit tests.
 
-type SelectProps = {
+interface SelectProps {
   value?: string;
   onValueChange?: (v: string) => void;
   children?: React.ReactNode;
   className?: string;
   id?: string;
-};
+}
 
 function isElement(x: any): x is React.ReactElement {
   return React.isValidElement(x);
@@ -23,7 +23,7 @@ function findItems(
   const out: { value: string; label: React.ReactNode }[] = [];
 
   function walk(n: React.ReactNode) {
-    if (n == null) return;
+    if (n == undefined) return;
     if (Array.isArray(n)) {
       n.forEach(walk);
       return;
@@ -31,8 +31,8 @@ function findItems(
     if (!isElement(n)) return;
     // Check if this element is the test-double's SelectItem
     if (n.type === SelectItem) {
-      const { value, children } = n.props as any;
-      out.push({ value: String(value), label: children });
+      const { children, value } = n.props as any;
+      out.push({ label: children, value: String(value) });
       return;
     }
     // Recurse into children
@@ -47,7 +47,7 @@ function findTriggerId(node: React.ReactNode): string | undefined {
   let found: string | undefined = undefined;
 
   function walk(n: React.ReactNode) {
-    if (n == null) return;
+    if (n == undefined) return;
     if (Array.isArray(n)) return n.forEach(walk);
     if (!isElement(n)) return;
     if (n.type === SelectTrigger) {
@@ -61,7 +61,7 @@ function findTriggerId(node: React.ReactNode): string | undefined {
   return found;
 }
 
-export function Select({ value, onValueChange, children }: SelectProps) {
+export function Select({ children, onValueChange, value }: SelectProps) {
   const items = findItems(children);
   const triggerId = findTriggerId(children);
 
@@ -92,8 +92,8 @@ export function SelectContent({ children }: { children?: React.ReactNode }) {
 SelectContent.displayName = "TestSelectContent";
 
 export function SelectItem({
-  value,
   children,
+  value,
 }: {
   value: string;
   children?: React.ReactNode;

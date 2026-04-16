@@ -9,7 +9,7 @@ When a task is expected to change more than 3 files, create a plan before implem
 
 ## Location and Naming
 
-- Save every plan in `.cursor/plans/`.
+- Save every plan in `.opencode/plans/`.
 - Use markdown files with `.plan.md` suffix.
 - Use this filename format: `<short-kebab-task>_<8-char-id>.plan.md`.
 

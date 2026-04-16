@@ -1,108 +1,21 @@
-# Custom Components Inventory — Phase 1 Audit
+# Custom Components — Inventory & Guidelines
 
 Purpose
 
-- Inventory of custom components located under `components/`, excluding the `components/ui` directory (shared UI primitives).
-- Each entry contains: file path, exported component(s), whether it's a Server or Client component (inferred), and initial compliance/triage notes.
+- Capture conventions for custom components that are referenced directly by pages (excluding the component library under ./components/ui).
 
-Notes
+Guidelines
 
-- This file was generated during Phase 1 (read-only). Use it to prioritize component refactors, splitting, and reuse extraction.
+- Structure: prefer presentational components to be pure (props-only) and free of fetching logic. If a component mixes fetching + rendering, extract the presentational part into components/layouts.
+- Tests: add unit tests for presentational components. Keep DOM interaction minimal and avoid heavy E2E testing for presentational-only pieces.
+- Naming: components under components/layouts should be kebab-cased folders with an index.tsx exporting the primary component.
 
-Inventory (selected entries)
+Example
 
-- components/plaid-context/plaid-context.tsx
-  - Exports: PlaidContextProvider (inferred)
-  - Type: Client (likely uses browser APIs / third-party script)
-  - Notes: Centralize Plaid initialization; consider moving to components/layouts/plaid-provider.tsx (already present) and standardize props.
+- components/layouts/total-balance/
+  - index.tsx
+  - total-balance.test.tsx
 
-- components/plaid-link-button/plaid-link-button.tsx
-  - Exports: PlaidLinkButton
-  - Type: Client
-  - Notes: Candidate to be refactored into a generic ExternalLinkButton + Plaid-specific wrapper.
+Inventory
 
-- components/layouts/plaid-provider.tsx
-  - Exports: PlaidProvider
-  - Type: Client
-  - Notes: Good reusable layout provider. Verify it is used consistently across pages that use Plaid.
-
-- components/site-header/site-header.tsx
-  - Exports: SiteHeader
-  - Type: Server (likely renders links and uses server data)
-  - Notes: Split into smaller pieces: Logo, Navigation, UserMenu. Consider making UserMenu a client component only.
-
-- components/data-table/data-table.tsx
-  - Exports: DataTable
-  - Type: Client/Server (depends on implementation)
-  - Notes: DataTable appears complex — consider splitting into TableSkeleton, TableRowRenderer, and TableControls (pagination, filters).
-
-- components/my-wallets/my-wallets-client-wrapper.tsx
-  - Exports: MyWalletsClientWrapper
-  - Type: Client
-  - Notes: Keep as a small client wrapper that wires interactivity to server components.
-
-- components/home/home-server-wrapper.tsx
-  - Exports: HomeServerWrapper
-  - Type: Server
-  - Notes: Ensure heavy data is loaded via DAL and wrapped in Suspense boundaries.
-
-- components/auth-form/auth-form.tsx
-  - Exports: AuthForm
-  - Type: Client
-  - Notes: Standardize validation wiring to use react-hook-form + zodResolver. Consider extracting FormField and SubmitButton primitives.
-
-- components/custom-input/custom-input.tsx
-  - Exports: CustomInput
-  - Type: Client
-  - Notes: Replace with a generic FormField component used across forms; ensure ARIA attributes and labels are present.
-
-- components/total-balance-box/total-balance-box.tsx
-  - Exports: TotalBalanceBox
-  - Type: Server/Client mix
-  - Notes: Consider splitting display vs interactive control (e.g., refresh button) into server/client parts.
-
-- components/nav-main/nav-main.tsx
-  - Exports: NavMain
-  - Type: Server
-  - Notes: Small, likely fine. Ensure links use next/link and prefetching is appropriate.
-
-- components/sidebar/sidebar.tsx
-  - Exports: Sidebar
-  - Type: Server
-  - Notes: Ensure responsive/mobile variants use a client toggle component.
-
-- components/animated-counter/animated-counter.tsx
-  - Exports: AnimatedCounter
-  - Type: Client
-  - Notes: Animation should be isolated in a client component and accept props for value and formatting.
-
-- components/transaction-history/transaction-history-server-wrapper.tsx
-  - Exports: TransactionHistoryServerWrapper
-  - Type: Server
-  - Notes: Ensure data fetching is paginated and uses DAL. Consider splitting list rendering to a client component for virtualization if needed.
-
-- components/transaction-history/transaction-history-client-wrapper.tsx
-  - Exports: TransactionHistoryClientWrapper
-  - Type: Client
-  - Notes: Handles user interactions (filters, pagination controls). Keep small and focused.
-
-Triage & Reuse Candidates
-
-- High priority (split or DRY): data-table, site-header, total-balance-box, auth-form, custom-input, plaid-link-button.
-- Medium priority: transaction history wrappers, dashboard wrappers, my-wallets wrappers.
-- Low priority: small wrapper components already following patterns.
-
-Recommended reusable components to add under `components/layouts/`:
-
-- FormField — generic label + input container with validation message support
-- GenericButton / ExternalLinkButton — standardize external integrations
-- DynamicList — generic list renderer, accepts item renderer and supports pagination/virtualization
-- Card / Panel — dynamic card with header/footer slots
-- AuthWrapper — authenticated server-side wrapper that enforces auth and exposes session to children
-
-Next steps
-
-- Implement the recommended reusable components in `components/layouts/` and incrementally refactor high-priority components to use them.
-- Add tests for each extracted component and update pages to import the new primitives.
-
-Generated by Phase 1 audit (read-only).
+- This document is a living inventory. Use the per-page audits (stored in the plan's artifacts) to update this file with discovered custom components and their intended reuse.

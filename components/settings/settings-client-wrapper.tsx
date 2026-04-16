@@ -136,8 +136,8 @@ interface SettingsClientWrapperProps {
  * @returns {JSX.Element}
  */
 export function SettingsClientWrapper({
-  userWithProfile,
   updateProfile,
+  userWithProfile,
 }: SettingsClientWrapperProps): JSX.Element {
   // -- Profile form ----------------------------------------------------------
   const profileForm = useForm<ProfileFormData>({
@@ -162,7 +162,7 @@ export function SettingsClientWrapper({
       return;
     }
 
-    const result = await updateProfile(data);
+    const result = await updateProfile(data as unknown);
     if (!result.ok) {
       profileForm.setError("root", {
         message: result.error ?? "Update failed",
@@ -186,7 +186,7 @@ export function SettingsClientWrapper({
       return;
     }
 
-    const result = await updateProfile(data);
+    const result = await updateProfile(data as unknown);
     if (!result.ok) {
       passwordForm.setError("root", {
         message: result.error ?? "Update failed",
@@ -207,160 +207,7 @@ export function SettingsClientWrapper({
         />
       </header>
 
-      {/* Profile card */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Profile Information</CardTitle>
-          <CardDescription>
-            Update your name, address, and contact details.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Form {...profileForm}>
-            <form
-              onSubmit={profileForm.handleSubmit(onProfileSubmit)}
-              className="space-y-4"
-            >
-              <div className="grid gap-4 sm:grid-cols-2">
-                <FormField
-                  control={profileForm.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Full Name</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Jane Doe" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={profileForm.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Email</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="email"
-                          placeholder="jane@example.com"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={profileForm.control}
-                  name="phone"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Phone</FormLabel>
-                      <FormControl>
-                        <Input placeholder="+1 555 000 0000" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={profileForm.control}
-                  name="image"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Avatar URL</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="url"
-                          placeholder="https://example.com/avatar.png"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={profileForm.control}
-                  name="address"
-                  render={({ field }) => (
-                    <FormItem className="sm:col-span-2">
-                      <FormLabel>Address</FormLabel>
-                      <FormControl>
-                        <Input placeholder="123 Main St" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={profileForm.control}
-                  name="city"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>City</FormLabel>
-                      <FormControl>
-                        <Input placeholder="New York" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={profileForm.control}
-                  name="state"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>State</FormLabel>
-                      <FormControl>
-                        <Input placeholder="NY" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={profileForm.control}
-                  name="postalCode"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Postal Code</FormLabel>
-                      <FormControl>
-                        <Input placeholder="10001" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              {profileForm.formState.errors.root && (
-                <p className="text-sm text-destructive">
-                  {profileForm.formState.errors.root.message}
-                </p>
-              )}
-
-              <Button
-                type="submit"
-                disabled={profileForm.formState.isSubmitting}
-              >
-                {profileForm.formState.isSubmitting
-                  ? "Saving..."
-                  : "Save Profile"}
-              </Button>
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
+      <SettingsProfileForm form={profileForm} onSubmit={onProfileSubmit} />
 
       <Separator />
 
@@ -437,3 +284,5 @@ export function SettingsClientWrapper({
     </section>
   );
 }
+
+import SettingsProfileForm from "@/components/layouts/settings-profile-form";

@@ -43,12 +43,12 @@ type PaginationLinkProps = {
   React.ComponentProps<"a">;
 
 function PaginationLink({
+  children,
   className,
   isActive,
   size = "icon",
-  children,
   ...props
-}: PaginationLinkProps & { children?: React.ReactNode }) {
+}: { children?: React.ReactNode } & PaginationLinkProps) {
   const ariaLabel = (props as any)["aria-label"] as string | undefined;
   const fallback = ariaLabel ?? (isActive ? "Current page" : "Page");
   return (

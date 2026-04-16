@@ -10,6 +10,7 @@
     "docs/test-context.md",
     ".cursorrules",
     ".github/copilot-instructions.md",
+    ".github/instructions/*.md",
     ".opencode/instructions/*.md",
     ".opencode/skills/**/SKILL.md",
     ".cursor/skills/**/SKILL.md",
