@@ -122,7 +122,7 @@ describe("TotalBalanceBox", () => {
       />,
     );
 
-    expect(screen.getByText(/Wallet Accounts: 2/i)).toBeInTheDocument();
-    expect(screen.getByText(/Total Current Balance/i)).toBeInTheDocument();
+    expect(screen.getByText(/Wallet Accounts: 2/i)).toBeTruthy();
+    expect(screen.getByText(/Total Current Balance/i)).toBeTruthy();
   });
 });
