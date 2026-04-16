@@ -1,8 +1,23 @@
-# Test Context
+# Test Context — Patterns and Helpers
 
-Guidance for running tests during the Pages Enhancement effort.
+Purpose
 
-- Unit tests: run targeted unit tests for modified units before committing PRs (recommended). Use `npm run test:browser` for local unit runs.
-- E2E tests: run Playwright with seeded DB using `PLAYWRIGHT_PREPARE_DB=true npm run test:ui` or `npm run test:ui` which already sets the env.
-- Seed runner: `scripts/seed/run.ts` is used by Playwright helpers to create deterministic test data.
-- Plaid/Dwolla: E2E helpers inject mock Plaid and short-circuit Dwolla when mock URLs are used. Do not change action mock-detection logic.
+- Document test setup, patterns, and helpers to ensure deterministic unit and E2E tests.
+
+Unit Tests
+
+- Use msw or local mocks for network interactions in unit tests.
+- Keep unit tests fast and focused on single components or utility functions.
+
+E2E Tests
+
+- Use scripts/seed/run.ts to prepare deterministic DB state for E2E tests. The seed runner supports --dry-run to validate planned operations.
+- For flows that interact with Plaid/Dwolla, use existing test helpers (tests/e2e/helpers/plaid.mock.ts) to stub the Plaid initialization and any network calls.
+
+Playwright
+
+- Before running Playwright E2E tests, ensure seeded data is present and any required mock scripts are injected.
+
+Notes
+
+- Do not let tests rely on undocumented external state. Prefer seeds + mocks.

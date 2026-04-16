@@ -81,3 +81,9 @@ If you want me to act next
 1. I can commit this change to branch chore/docs/agents-md and run local validations (prettier on AGENTS.md, markdownlint, npm run type-check). I will not push to remote without your explicit confirmation — reply with "push and open PR" to proceed.
 
 Compact and intentionally minimal. Verify changes against executable sources (scripts, .cursor rules, or code) before updating guidance.
+
+Tools & Skills
+
+- MCP tools: Next.js runtime (MCP_DOCKER / nextjs_runtime) for runtime diagnostics, Playwright automation (MCP_DOCKER browser), and file/IO tools exposed via the MCP gateway.
+- shadcn: component registry/tooling used for UI components (see components.json when present).
+- Repo skills (high-signal): agent-governance, DBSkill (Drizzle patterns), TestingSkill (Vitest/Playwright), ServerActionSkill, ValidationSkill. See .opencode/skills/\* for details.
