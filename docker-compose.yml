@@ -2,17 +2,17 @@
 # Supports local development, production, and monitoring profiles
 #
 # Profiles:
-#   default   - app + db + redis + Traefik (full stack with reverse proxy)
-#   local     - app + db + redis only (no Traefik, direct port access)
+#   traefik   - adds Traefik reverse proxy (recommended for full-stack local)
+#   local     - optional local tweaks (kept for backward-compat)
 #   monitoring - Prometheus + Grafana + exporters (adds to default)
 #   init      - Run database migrations (one-time)
 #
 # Usage:
-#   docker compose up -d                          # Default (with Traefik)
-#   docker compose --profile local up -d          # Local without Traefik
-#   docker compose --profile monitoring up -d     # With monitoring
+#   docker compose --profile traefik up -d        # With Traefik (recommended)
+#   docker compose up -d                          # App + db + redis only
+#   docker compose --profile traefik --profile monitoring up -d # With monitoring
 #   docker compose --profile init up              # Run migrations
-#   docker compose --profile monitoring up -d     # Full stack with monitoring
+#   docker compose --profile traefik --profile monitoring up -d # Full stack with monitoring
 
 services:
   # ===========================================
@@ -27,7 +27,8 @@ services:
       - "443:443"
       - "8080:8080"
     env_file:
-      - .envs/local/.env
+      - path: .envs/local/.env.local
+        required: false
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./compose/traefik/traefik.yml:/etc/traefik/traefik.yml:ro
@@ -48,22 +49,16 @@ services:
       - "traefik.http.routers.dashboard.middlewares=auth"
       - "traefik.http.middlewares.auth.basicauth.usersfile=/auth/htpasswd"
       - "traefik.docker.network=traefik-public"
+    # The official Traefik image is minimal and may not include wget/curl.
+    # Keep a lightweight check that doesn't depend on extra binaries.
     healthcheck:
-      test:
-        [
-          "CMD",
-          "wget",
-          "--no-verbose",
-          "--tries=1",
-          "--spider",
-          "http://localhost:8080/ping",
-        ]
+      test: ["CMD", "traefik", "version"]
       interval: 30s
       timeout: 5s
       retries: 3
       start_period: 10s
     profiles:
-      - default
+      - traefik
       - monitoring
 
   # ===========================================
@@ -76,15 +71,11 @@ services:
       target: development
       args:
         - NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
-        - ENCRYPTION_KEY=${ENCRYPTION_KEY}
-        - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
-        - DWOLLA_BASE_URL=${DWOLLA_BASE_URL:-https://api-sandbox.dwolla.com}
-        - DWOLLA_ENV=${DWOLLA_ENV:-sandbox}
-        - DATABASE_URL=${DATABASE_URL}
     container_name: banking-app
     restart: unless-stopped
     env_file:
-      - .envs/local/.env
+      - path: .envs/local/.env.local
+        required: false
     depends_on:
       db:
         condition: service_healthy
@@ -93,6 +84,8 @@ services:
     networks:
       - traefik-public
       - app-internal
+    ports:
+      - "3000:3000"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.banking.rule=Host(`localhost`)"
@@ -121,10 +114,6 @@ services:
       start_period: 30s
     security_opt:
       - no-new-privileges:true
-    profiles:
-      - default
-      - local
-      - monitoring
 
   # ===========================================
   # PostgreSQL Database
@@ -150,11 +139,6 @@ services:
       retries: 5
     security_opt:
       - no-new-privileges:true
-    profiles:
-      - default
-      - local
-      - monitoring
-      - init
 
   # ===========================================
   # Redis Cache
@@ -177,11 +161,6 @@ services:
       retries: 3
     security_opt:
       - no-new-privileges:true
-    profiles:
-      - default
-      - local
-      - monitoring
-      - init
 
   # ===========================================
   # Database Migration (run-once)
@@ -193,16 +172,16 @@ services:
       target: development
       args:
         - NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
-        - ENCRYPTION_KEY=${ENCRYPTION_KEY}
-        - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
-        - DWOLLA_BASE_URL=${DWOLLA_BASE_URL:-https://api-sandbox.dwolla.com}
-        - DWOLLA_ENV=${DWOLLA_ENV:-sandbox}
-        - DATABASE_URL=${DATABASE_URL}
     container_name: banking-init
+    env_file:
+      - path: .envs/local/.env.local
+        required: false
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-}
     depends_on:
       db:
         condition: service_healthy
-    command: sh -c "npm run db:push"
+    command: sh -c "npm run db:push -- --force"
     networks:
       - app-internal
     profiles:

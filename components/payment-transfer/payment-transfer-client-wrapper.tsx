@@ -256,14 +256,14 @@ export function PaymentTransferClientWrapper({
             <CardContent>
               <Form {...form}>
                 <form
-                  onSubmit={async (e) => {
+                  onSubmit={async (e: React.FormEvent<HTMLFormElement>) => {
                     try {
                       // Ensure validation runs right before submit
                       await form.trigger();
 
                       await form.handleSubmit(async (data) => {
                         await onSubmit(data);
-                      })(e as unknown as Event);
+                      })(e);
                     } catch {
                       // swallow errors during submit handling in tests
                     }

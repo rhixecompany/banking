@@ -80,7 +80,10 @@ export function getEnv(): Environment {
 }
 
 // Validate on module load in production
-if (process.env.NODE_ENV === "production") {
+const isNextProductionBuildPhase =
+  process.env.NEXT_PHASE === "phase-production-build";
+
+if (process.env.NODE_ENV === "production" && !isNextProductionBuildPhase) {
   try {
     validateRequiredConfig();
   } catch (error) {

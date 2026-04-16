@@ -10,7 +10,9 @@ For development without reverse proxy overhead:
 
 ```bash
 # Start base services only
-docker compose --profile local up -d
+docker compose --profile traefik --env-file .envs/local/.env.local up -d;
+docker compose --env-file .envs/local/.env.local up -d;
+docker compose --profile init --env-file .envs/local/.env.local up init --abort-on-container-exit;
 
 # Wait for db to be ready
 docker compose exec db pg_isready -U postgres

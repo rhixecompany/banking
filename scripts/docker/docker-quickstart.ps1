@@ -70,7 +70,7 @@ function Start-Default {
     
     Push-Location $ProjectRoot
     try {
-        docker compose -f docker-compose.yml --env-file .envs/local/.env.local up -d
+        docker compose -f docker-compose.yml --profile traefik --env-file .envs/local/.env.local up -d
         Write-ColorOutput "✓ Default environment started" "Green"
         Write-Host "Application: http://localhost"
         Write-Host "Traefik Dashboard: https://traefik.localhost"
@@ -99,7 +99,7 @@ function Start-Monitoring {
     
     Push-Location $ProjectRoot
     try {
-        docker compose --profile monitoring --env-file .envs/local/.env.local up -d
+        docker compose --profile traefik --profile monitoring --env-file .envs/local/.env.local up -d
         Write-ColorOutput "✓ Monitoring stack started" "Green"
         Write-Host "Application: http://localhost"
         Write-Host "Prometheus: http://prometheus.localhost:9090"
