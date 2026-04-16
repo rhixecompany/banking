@@ -58,6 +58,10 @@ Cross-cutting Rules
 - Use dal/\* for DB access and avoid N+1 by moving joins into DAL.
 - Use scripts/seed/run.ts for deterministic E2E data; prefer --dry-run when validating plans.
 
+Static Home Constraint (important):
+
+- The Home landing page (app/page.tsx and its wrappers) must remain static and publicly accessible. Do NOT add auth(), server actions that require authentication, or DAL/database queries to Home. If you need to show balance/account examples on Home, use presentational components with static/mock props only and move real user-data wiring to the Dashboard.
+
 Notes
 
 - This guide is intentionally concise. Follow .opencode/plans/pages_enhancement.plan.md for the persisted plan and more context.

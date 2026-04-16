@@ -45,3 +45,14 @@ Estimated Files Changed
 Notes
 
 - If dal changes appear large during the audit, add the page to docs/dal-schedule.md and skip heavy DAL work per your preference.
+
+Additional Notes / Constraints:
+
+- Home is a public, static landing page. Do NOT add auth() or any DAL/database calls to app/page.tsx, home-server-wrapper, or home-client-wrapper.
+- If the UI needs to demonstrate user-specific data (balances, wallets), render presentational components with static/mock props only and move real user-data wiring to Dashboard.
+
+TODOs (follow-up):
+
+- Explicitly document the static-home constraint in docs/app-pages.md.
+- Wire the presentational TotalBalance layout into the HomeServerWrapper with static props so the layout is exercised without introducing auth/DB.
+- Add or verify unit tests under tests/unit to cover the TotalBalanceBox and its layout wrapper.
