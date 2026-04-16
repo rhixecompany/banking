@@ -11,6 +11,11 @@ lastUpdated: "2026-03-31"
 
 Maintain comprehensive and accessible documentation throughout the Banking project.
 
+## Canonical agent guidance
+
+- For agentic/contributor rules (plans, validations, non-negotiables), `AGENTS.md` is canonical.
+- When documentation guidance in this file conflicts with `AGENTS.md`, follow `AGENTS.md`.
+
 ## Code Documentation Standards
 
 - **TSDoc Comments:** Use TSDoc syntax for function and class documentation

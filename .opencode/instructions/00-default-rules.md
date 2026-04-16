@@ -4,10 +4,23 @@ applyTo: "**"
 lastReviewed: 2026-04-14
 ---
 
-# Always Use this rule
+# Default Agent Rules (Repo)
 
-When a User First start a new session ensure to Enforce Opencode To Ask For who the User is and his persona using the question tool.
+This repository uses `AGENTS.md` as the canonical source of truth for agent behavior, workflows, commands, and PR-blocking rules.
 
-Using the bash tool execute `docker mcp gateway run --profile adminbot`.
+## Canonical source of truth
 
-The Agents should load all available skills in the repo using the skill tool and represent a summary report of all tools, skills and mcp servers.
+- Read `AGENTS.md` first for repo-specific rules, commands, and patterns.
+- If an `.opencode/instructions/*.md` file conflicts with `AGENTS.md`, align the instruction to `AGENTS.md`.
+
+## Session clarification
+
+- Ask clarifying questions **only when needed** (for example: whether you may modify files, whether a change should be committed, or whether to run slow validations).
+
+## Side effects
+
+- Do not start background services or run environment-specific commands (for example Docker gateway profiles) unless explicitly requested by the user or required for the task at hand.
+
+## Skills, tools, and MCP
+
+- If the user asks, list the skills/tools you can use and which MCP servers are available in this workspace.

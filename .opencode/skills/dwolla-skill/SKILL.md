@@ -49,11 +49,11 @@ export async function createDwollaCustomer(input: unknown) {
 
 Webhooks
 
-- Verify signatures using `lib/env.ts` secrets and the Dwolla SDK. Keep webhook routes minimal and idempotent.
+- Verify signatures using `app-config.ts` (preferred) or `lib/env.ts` secrets and the Dwolla SDK. Keep webhook routes minimal and idempotent.
 
 Environment
 
-- Add DWOLLA_KEY, DWOLLA_SECRET, DWOLLA_ENV, DWOLLA_BASE_URL to `lib/env.ts` or `app-config.ts`.
+- Add DWOLLA_KEY, DWOLLA_SECRET, DWOLLA_ENV, DWOLLA_BASE_URL to `app-config.ts` (preferred) or `lib/env.ts`.
 
 Validation
 

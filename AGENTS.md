@@ -8,6 +8,17 @@
 
 Read this first — it is authoritative for automated agents. If you are an agent, ask who you should act as (developer, reviewer, ops, CI) and whether you may modify files or must only propose changes.
 
+## Agentic documentation hierarchy (canonical)
+
+When agent-facing docs disagree, resolve conflicts using this priority order:
+
+1. `AGENTS.md` (this file) — canonical rules, commands, and patterns for this repo
+2. `.cursor/rules/*.mdc` — Cursor always-applied workflow/standards (should match `AGENTS.md`)
+3. `.cursorrules` and `.github/copilot-instructions.md` — thin, tool-specific summaries (should point back to `AGENTS.md`)
+4. `.opencode/instructions/*.md` and `*/SKILL.md` files — supplemental guidance; should not contradict `AGENTS.md`
+
+If you find drift, update the non-canonical file(s) to match `AGENTS.md` rather than duplicating rules in multiple places.
+
 ## Quick Commands
 
 ```
