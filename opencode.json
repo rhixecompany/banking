@@ -1,9 +1,19 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "instructions": [
+    ".opencode/agents_quickstart.md",
     "AGENTS.md",
     "docs/personas-list.md",
-    ".opencode/instructions/00-default-rules.md"
+    ".opencode/instructions/00-default-rules.md",
+    "docs/app-pages.md",
+    "docs/custom-components.md",
+    "docs/test-context.md",
+    ".cursorrules",
+    ".github/copilot-instructions.md",
+    ".opencode/instructions/*.md",
+    ".opencode/skills/**/SKILL.md",
+    ".cursor/skills/**/SKILL.md",
+    ".cursor/rules/*.mdc"
   ],
   "mcp": {
     "MCP_DOCKER": {
