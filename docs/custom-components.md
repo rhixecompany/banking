@@ -1,108 +1,76 @@
-# Custom Components Inventory — Phase 1 Audit
-
-Purpose
-
-- Inventory of custom components located under `components/`, excluding the `components/ui` directory (shared UI primitives).
-- Each entry contains: file path, exported component(s), whether it's a Server or Client component (inferred), and initial compliance/triage notes.
+# Custom Components Inventory (excluding ./components/ui)
 
 Notes
 
-- This file was generated during Phase 1 (read-only). Use it to prioritize component refactors, splitting, and reuse extraction.
+- This file enumerates non-ui library custom components that warrant audit/refactor.
+- Pattern observed: server-wrapper → client-wrapper is common (keep that pattern).
+- Target location for extracted reusable dynamic/generic components: `./components/layouts`.
 
-Inventory (selected entries)
+Inventory (selected, prioritized)
 
-- components/plaid-context/plaid-context.tsx
-  - Exports: PlaidContextProvider (inferred)
-  - Type: Client (likely uses browser APIs / third-party script)
-  - Notes: Centralize Plaid initialization; consider moving to components/layouts/plaid-provider.tsx (already present) and standardize props.
+1. components/home/home-server-wrapper.tsx
+   - Purpose: server fetch + pass server actions to home-client-wrapper
+   - Candidate: keep wrapper but ensure server actions use dal/\*, Zod validation for inputs, and return stable shapes.
 
-- components/plaid-link-button/plaid-link-button.tsx
-  - Exports: PlaidLinkButton
-  - Type: Client
-  - Notes: Candidate to be refactored into a generic ExternalLinkButton + Plaid-specific wrapper.
+2. components/home/home-client-wrapper.tsx
+   - Purpose: renders home UI using child components
+   - Candidate for split: extract header, balances, wallets-overview as isolated presentational components.
 
-- components/layouts/plaid-provider.tsx
-  - Exports: PlaidProvider
-  - Type: Client
-  - Notes: Good reusable layout provider. Verify it is used consistently across pages that use Plaid.
+3. components/my-wallets/my-wallets-server-wrapper.tsx
+   - Purpose: wallet list + plaids
+   - Important: interacts with actions/plaid.actions.ts — audit for mock short-circuits and DAL usage.
 
-- components/site-header/site-header.tsx
-  - Exports: SiteHeader
-  - Type: Server (likely renders links and uses server data)
-  - Notes: Split into smaller pieces: Logo, Navigation, UserMenu. Consider making UserMenu a client component only.
+4. components/payment-transfer/payment-transfer-server-wrapper.tsx
+   - Purpose: server prerequisites for transfer page
+   - Candidate: keep but validate all inputs with Zod and ensure createTransfer contract follows repo server-action shape.
 
-- components/data-table/data-table.tsx
-  - Exports: DataTable
-  - Type: Client/Server (depends on implementation)
-  - Notes: DataTable appears complex — consider splitting into TableSkeleton, TableRowRenderer, and TableControls (pagination, filters).
+5. components/payment-transfer/payment-transfer-client-wrapper.tsx
+   - Contains: Transfer form schema (z.object used inside client wrapper)
+   - Candidate: extract TransferForm (presentational) and TransferFormContainer (form wiring) into reusable parts in components/layouts.
 
-- components/my-wallets/my-wallets-client-wrapper.tsx
-  - Exports: MyWalletsClientWrapper
-  - Type: Client
-  - Notes: Keep as a small client wrapper that wires interactivity to server components.
+6. components/dashboard/dashboard-server-wrapper.tsx and dashboard-client-wrapper.tsx
+   - Purpose: aggregates accounts, recent transactions, wallets
+   - Candidate for split: break dashboard into multiple smaller widgets (statistics, transactions table, wallet overview) — already present as shadcn-studio blocks; formalize into reusable widgets under components/layouts.
 
-- components/home/home-server-wrapper.tsx
-  - Exports: HomeServerWrapper
-  - Type: Server
-  - Notes: Ensure heavy data is loaded via DAL and wrapped in Suspense boundaries.
+7. components/transaction-history/\*
+   - Candidate: data-table likely generic — ensure data-table is reusable and abstracted from server fetching.
 
-- components/auth-form/auth-form.tsx
-  - Exports: AuthForm
-  - Type: Client
-  - Notes: Standardize validation wiring to use react-hook-form + zodResolver. Consider extracting FormField and SubmitButton primitives.
+8. components/site-header/site-header.tsx
+   - Purpose: navigation + auth controls
+   - Candidate: split static layout vs auth state handling (auth calls should be in server wrapper or top-level).
 
-- components/custom-input/custom-input.tsx
-  - Exports: CustomInput
-  - Type: Client
-  - Notes: Replace with a generic FormField component used across forms; ensure ARIA attributes and labels are present.
+9. components/sidebar/sidebar.tsx and components/layouts/admin-sidebar.tsx
+   - Purpose: main navigation
+   - Candidate: keep as layout components in `components/layouts` (admin-sidebar already there).
 
-- components/total-balance-box/total-balance-box.tsx
-  - Exports: TotalBalanceBox
-  - Type: Server/Client mix
-  - Notes: Consider splitting display vs interactive control (e.g., refresh button) into server/client parts.
+10. components/data-table/data-table.tsx
+    - Purpose: generic table used across dashboards & transaction lists
+    - Candidate: ensure props are explicit and extract cell renderers; add tests for accessibility & columns API.
 
-- components/nav-main/nav-main.tsx
-  - Exports: NavMain
-  - Type: Server
-  - Notes: Small, likely fine. Ensure links use next/link and prefetching is appropriate.
+11. components/plaid-link-button/plaid-link-button.tsx
+    - Purpose: Plaid Link integration
+    - Candidate: ensure Plaid mock short-circuit detection is preserved, and the component is pure-presentational with server-action wiring done at wrapper-level.
 
-- components/sidebar/sidebar.tsx
-  - Exports: Sidebar
-  - Type: Server
-  - Notes: Ensure responsive/mobile variants use a client toggle component.
+12. components/shadcn-studio/blocks/\*
+    - Many presentational blocks. Candidate: move stable blocks used across pages into components/layouts or components/shared.
 
-- components/animated-counter/animated-counter.tsx
-  - Exports: AnimatedCounter
-  - Type: Client
-  - Notes: Animation should be isolated in a client component and accept props for value and formatting.
+Split candidates (high-level criteria)
 
-- components/transaction-history/transaction-history-server-wrapper.tsx
-  - Exports: TransactionHistoryServerWrapper
-  - Type: Server
-  - Notes: Ensure data fetching is paginated and uses DAL. Consider splitting list rendering to a client component for virtualization if needed.
+- Components > 300-400 lines or mixing data fetching + presentation.
+- Components that are used in multiple pages (e.g., data-table, wallets-overview, total-balance-box).
+- Components that include server actions or direct DAL calls — move those calls into server-wrapper or dal/\*.
 
-- components/transaction-history/transaction-history-client-wrapper.tsx
-  - Exports: TransactionHistoryClientWrapper
-  - Type: Client
-  - Notes: Handles user interactions (filters, pagination controls). Keep small and focused.
+Recommendations
 
-Triage & Reuse Candidates
+- For each candidate component:
+  1. Extract presentational pieces (stateless) into components/layouts (or components/shared when appropriate).
+  2. Move data fetching to server-wrapper or actions; use dal/\* for DB access.
+  3. Add unit tests for extracted presentational components.
+  4. Ensure typing (props) is explicit and small surface area to encourage reuse.
 
-- High priority (split or DRY): data-table, site-header, total-balance-box, auth-form, custom-input, plaid-link-button.
-- Medium priority: transaction history wrappers, dashboard wrappers, my-wallets wrappers.
-- Low priority: small wrapper components already following patterns.
+Proposed moves into ./components/layouts (examples)
 
-Recommended reusable components to add under `components/layouts/`:
-
-- FormField — generic label + input container with validation message support
-- GenericButton / ExternalLinkButton — standardize external integrations
-- DynamicList — generic list renderer, accepts item renderer and supports pagination/virtualization
-- Card / Panel — dynamic card with header/footer slots
-- AuthWrapper — authenticated server-side wrapper that enforces auth and exposes session to children
-
-Next steps
-
-- Implement the recommended reusable components in `components/layouts/` and incrementally refactor high-priority components to use them.
-- Add tests for each extracted component and update pages to import the new primitives.
-
-Generated by Phase 1 audit (read-only).
+- components/layouts/wallets-overview.tsx (extracted from shared wallet component)
+- components/layouts/transfer-form.tsx (presentational)
+- components/layouts/transactions-table.tsx (wrapper around data-table)
+- components/layouts/header.tsx / components/layouts/navigation.tsx
