@@ -19,6 +19,7 @@ vi.mock("@/components/doughnut-chart/doughnut-chart", () => ({
   ),
 }));
 
+import TotalBalanceLayout from "@/components/layouts/total-balance";
 import TotalBalanceBox from "@/components/total-balance-box/total-balance-box";
 
 // ---------------------------------------------------------------------------
@@ -110,5 +111,18 @@ describe("TotalBalanceBox", () => {
     render(<TotalBalanceBox totalWallets={0} totalCurrentBalance={0} />);
     expect(screen.getByText(/wallet accounts:\s*0/i)).toBeTruthy();
     expect(screen.getByText("0 accounts")).toBeTruthy();
+  });
+
+  it("layout wrapper renders total wallets and label", () => {
+    render(
+      <TotalBalanceLayout
+        accounts={[]}
+        totalWallets={2}
+        totalCurrentBalance={12345}
+      />,
+    );
+
+    expect(screen.getByText(/Wallet Accounts: 2/i)).toBeInTheDocument();
+    expect(screen.getByText(/Total Current Balance/i)).toBeInTheDocument();
   });
 });
