@@ -7,10 +7,9 @@
   "mouse": true,
   "plugin": [],
   "plugin_enabled": {},
-  "recent_files_limit": 100,
   "scroll_acceleration": {
     "enabled": true
   },
   "scroll_speed": 3,
-  "theme": "tokyonight"
+  "theme": "moonlight"
 }

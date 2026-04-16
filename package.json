@@ -15,6 +15,8 @@
     "build:standalone": "cross-env NEXT_OUTPUT_MODE=standalone next build",
     "check-updates": "npm-check-updates --deep -i",
     "ci:checks:run": "bash scripts/utils/run-ci-checks.sh",
+    "ci:helpers:parse": "tsx scripts/utils/ci-helpers/parse-reports.ts",
+    "ci:helpers:run": "tsx scripts/utils/ci-helpers/index.ts",
     "clean": "rimraf .next out dist build .turbo coverage .react-email playwright-report test-results nul",
     "clean:all": "npm run clean && rimraf node_modules package-lock.json playwright-report test-results nul",
     "clean:cache": "rimraf .next/cache playwright-report test-results nul",

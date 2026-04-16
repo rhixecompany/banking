@@ -5,7 +5,7 @@ import { expect, test, vi } from "vitest";
 import PaymentTransferForm from "@/components/layouts/payment-transfer-form";
 
 function Wrapper({
-  onSubmit = async () => {},
+  onSubmit = async () => undefined,
   recipients = [],
   wallets = [],
 }: {

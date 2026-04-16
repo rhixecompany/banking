@@ -5,7 +5,7 @@ import { expect, test, vi } from "vitest";
 import SettingsProfileForm from "@/components/layouts/settings-profile-form";
 
 function Wrapper({
-  onSubmit = async () => {},
+  onSubmit = async () => undefined,
 }: {
   onSubmit?: (d: any) => Promise<void>;
 }) {
@@ -25,7 +25,7 @@ function Wrapper({
 }
 
 test("renders profile form and submits", async () => {
-  const handler = vi.fn(async () => {});
+  const handler = vi.fn(async () => undefined);
   render(<Wrapper onSubmit={handler} />);
 
   const name = screen.getByPlaceholderText("Jane Doe");

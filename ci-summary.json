@@ -1,0 +1,50 @@
+{
+  "format-check-report.txt": {
+    "file": "format-check-report.txt",
+    "ok": false,
+    "error": "Error: ENOENT: no such file or directory, open 'C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\format-check-report.txt'",
+    "status": "missing"
+  },
+  "type-check-report.txt": {
+    "file": "type-check-report.txt",
+    "ok": false,
+    "error": "Error: ENOENT: no such file or directory, open 'C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\type-check-report.txt'",
+    "status": "missing"
+  },
+  "lint-fix-report.txt": {
+    "file": "lint-fix-report.txt",
+    "ok": false,
+    "error": "Error: ENOENT: no such file or directory, open 'C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\lint-fix-report.txt'",
+    "status": "missing"
+  },
+  "lint-strict-report.txt": {
+    "file": "lint-strict-report.txt",
+    "ok": false,
+    "error": "Error: ENOENT: no such file or directory, open 'C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\lint-strict-report.txt'",
+    "status": "missing"
+  },
+  "build-debug-report.txt": {
+    "file": "build-debug-report.txt",
+    "ok": false,
+    "error": "Error: ENOENT: no such file or directory, open 'C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\build-debug-report.txt'",
+    "status": "missing"
+  },
+  "test-browser-report.txt": {
+    "file": "test-browser-report.txt",
+    "ok": false,
+    "error": "Error: ENOENT: no such file or directory, open 'C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\test-browser-report.txt'",
+    "status": "missing"
+  },
+  "test-ui-report.txt": {
+    "file": "test-ui-report.txt",
+    "ok": false,
+    "error": "Error: ENOENT: no such file or directory, open 'C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\test-ui-report.txt'",
+    "status": "missing"
+  },
+  "build-report.txt": {
+    "file": "build-report.txt",
+    "ok": false,
+    "error": "Error: ENOENT: no such file or directory, open 'C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\build-report.txt'",
+    "status": "missing"
+  }
+}

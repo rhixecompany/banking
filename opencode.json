@@ -10,7 +10,6 @@
     "docs/test-context.md",
     ".cursorrules",
     ".github/copilot-instructions.md",
-    ".github/instructions/*.md",
     ".opencode/instructions/*.md",
     ".opencode/skills/**/SKILL.md",
     ".cursor/skills/**/SKILL.md",
@@ -31,7 +30,11 @@
       "type": "local"
     },
     "shadcn": {
-      "command": ["npx", "shadcn@latest", "mcp"],
+      "command": [
+        "npx",
+        "shadcn@latest",
+        "mcp"
+      ],
       "enabled": true,
       "timeout": 900000,
       "type": "local"
