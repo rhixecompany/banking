@@ -1205,7 +1205,7 @@
     "productId": "00DefaultRules",
     "repoUrl": ".opencode\\instructions/",
     "scope": ["project"],
-    "tagline": "When a User First start a new session ensure to Enforce Opencode To Ask For who the User is and his persona using the...",
+    "tagline": "This repository uses `AGENTS.md` as the canonical source of truth for agent behavior, workflows, commands, and PR-blo...",
     "tags": ["opencode", "instructions"],
     "type": "resources"
   },
@@ -1305,7 +1305,7 @@
     "productId": "09PlanFileStandards",
     "repoUrl": ".opencode\\instructions/",
     "scope": ["project"],
-    "tagline": "When a task is expected to change more than 6 files, create a command before implementation.",
+    "tagline": "When a task is expected to change more than 3 files, create a plan before implementation.",
     "tags": ["opencode", "instructions"],
     "type": "resources"
   },
