@@ -64,4 +64,6 @@ Static Home Constraint (important):
 
 Notes
 
-- This guide is intentionally concise. Follow .opencode/plans/pages_enhancement.plan.md for the persisted plan and more context.
+-- This guide is intentionally concise. Follow .opencode/commands/pages_enhancement.plan.md for the persisted plan and more context.
+
+Note: Historically some docs pointed to `.opencode/plans/` or `.cursor/plans/` for plan artifacts. The canonical location for user-facing plan files is now `.opencode/commands/`. Existing plan artifacts under `.opencode/plans/` and `.cursor/plans/` remain as historical artifacts and should not be moved or deleted; update references only in documentation when creating new plans.

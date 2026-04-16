@@ -1,5 +1,9 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "autoupdate": "notify",
+  "compaction": {
+    "auto": true
+  },
   "instructions": [
     ".opencode/agents_quickstart.md",
     "AGENTS.md",
@@ -13,10 +17,6 @@
     ".opencode/instructions/*.md",
     ".cursor/rules/*.mdc"
   ],
-  "autoupdate": "notify",
-  "compaction": {
-    "auto": true,
-  },
   "mcp": {
     "MCP_DOCKER": {
       "command": [

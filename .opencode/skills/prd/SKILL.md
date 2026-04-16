@@ -1,8 +1,9 @@
 ---
 name: prd
-description: "Generate high-quality Product Requirements Documents (PRDs) for software systems and AI-powered features. Includes executive summaries, user stories, technical specifications, and risk analysis."
+description: Generate high-quality Product Requirements Documents (PRDs) including user stories, technical specs, and risk analysis.
 license: MIT
 lastReviewed: 2026-04-13
+applyTo: "docs/**"
 ---
 
 # Product Requirements Document (PRD)

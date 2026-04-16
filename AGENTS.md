@@ -81,7 +81,7 @@ Note: Node is not pinned in package.json; rely on CI or project docs for exact r
 ## Commit / Change Rules for Agents
 
 1. Ask for permission before modifying files or making commits. If permitted, prefer small, focused commits.
-2. If a change touches > 7 files, create a plan at .opencode/commands/<short-kebab-task>.plan.md with Goals, Scope, Target Files, Risks, Validation.
+2. If a change touches > 7 files, create a plan at .opencode/commands/<short-kebab-task>.plan.md with Goals, Scope, Target Files, Risks, Validation. Save plans under the `.opencode/commands/` directory and follow the plan-file template in `.opencode/instructions/09-plan-file-standards.md`.
 3. Recommended branch name for docs: chore/docs/agents-md. Do not push to main without explicit instruction.
 4. Never commit secrets or embed sensitive values in code.
 

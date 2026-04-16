@@ -46,3 +46,32 @@ vi.mock("@/components/doughnut-chart/doughnut-chart", async () => {
     },
   };
 });
+
+// Mock ChartAreaInteractive globally to avoid Recharts requiring browser layout
+vi.mock(
+  "@/components/chart-area-interactive/chart-area-interactive",
+  async () => {
+    const React = await import("react");
+    return {
+      ChartAreaInteractive: (props: any) =>
+        React.createElement("div", { "data-testid": "mock-area" }, "Area"),
+    };
+  },
+);
+
+// Mock onboarding feed which uses next/router in the real app
+vi.mock(
+  "@/components/shadcn-studio/blocks/onboarding-feed-01/onboarding-feed-01",
+  async () => {
+    const React = await import("react");
+    return {
+      __esModule: true,
+      default: (props: any) =>
+        React.createElement(
+          "div",
+          { "data-testid": "mock-onboarding" },
+          "Onboarding",
+        ),
+    };
+  },
+);

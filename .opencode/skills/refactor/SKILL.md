@@ -1,8 +1,9 @@
 ---
 name: refactor
-description: "Surgical code refactoring to improve maintainability without changing behavior. Covers extracting functions, renaming variables, breaking down god functions, improving type safety, eliminating code smells, and applying design patterns. Less drastic than repo-rebuilder; use for gradual improvements."
+description: Surgical code refactoring guidance to improve maintainability without changing behavior.
 license: MIT
 lastReviewed: 2026-04-13
+applyTo: "src/**/*.{ts,tsx,js,jsx}"
 ---
 
 # Refactor

@@ -1541,7 +1541,7 @@ await sendWelcomeEmail("user@example.com", "John");
 This repo includes agentic docs that guide automated agents and contributors. Keep edits conservative and follow AGENTS.md as the canonical source-of-truth.
 
 - Read `AGENTS.md` first — it is authoritative for agent commands, rules, and patterns.
-- If a change touches > 3 files, create a plan in `.opencode/plans/` named `<task>_<8char-id>.plan.md` before implementing. See `.opencode/instructions/09-plan-file-standards.md` for required sections.
+- If a change touches > 7 files, create a plan in `.opencode/commands/` named `<short-kebab-task>.plan.md` before implementing. See `.opencode/instructions/09-plan-file-standards.md` for required sections and use `.opencode/commands/` as the canonical plan location.
 - Quick Validate (recommended before opening a PR):
   - `npm run format`
   - `npm run type-check`

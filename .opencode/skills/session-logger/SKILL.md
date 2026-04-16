@@ -1,7 +1,9 @@
 ---
-name: "Session Logger"
-description: "Logs all opencode coding agent session activity for audit and analysis"
+name: session-logger
+description: Logs all opencode coding agent session activity for audit and analysis.
 tags: ["logging", "audit", "analytics"]
+lastReviewed: 2026-04-17
+applyTo: ".opencode/skills/session-logger/**"
 ---
 
 # Session Logger Hook

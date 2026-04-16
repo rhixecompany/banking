@@ -90,10 +90,44 @@ export const test = base.extend<AuthFixtures>({
       const apiReq = await playwrightRequest.newContext();
       try {
         // This hits a small test-only endpoint we'll add to the app in dev mode
-        await setAuthCookie(apiReq, baseUrl, token);
-        // Load the page with the authenticated cookie set
+        const ok = await setAuthCookie(apiReq, baseUrl, token);
+
+        // Debug: if the endpoint responded OK but the browser gets closed or
+        // navigation fails, we want more context. Log current cookies in the
+        // browser context before navigation.
+        try {
+          const current = await page.context().cookies();
+          console.log(
+            `[authenticatedPage] pre-navigation cookies=${JSON.stringify(current)}`,
+          );
+        } catch (e) {
+          console.log(
+            `[authenticatedPage] failed to read cookies before navigation: ${String(e)}`,
+          );
+        }
+
+        // If the endpoint is unavailable or failed to set the cookie on the
+        // browser context (some environments/proxies can drop Set-Cookie),
+        // fall back to performing the UI sign-in flow so the test is
+        // deterministic and the session is created correctly by NextAuth.
+        if (!ok) {
+          await signInWithSeedUser(page);
+          await use(page);
+          return;
+        }
+
+        // Load the page with the authenticated cookie set and verify server
+        // accepted the session. If NextAuth redirected back to sign-in (e.g.,
+        // because token format was invalid), perform the UI sign-in as a
+        // fallback so the test remains deterministic.
         await page.goto(`${baseUrl}/dashboard`);
         await page.waitForLoadState("domcontentloaded");
+        const currentUrl = page.url();
+        if (currentUrl.includes("/sign-in")) {
+          // Token wasn't accepted server-side; do UI sign-in instead.
+          await signInWithSeedUser(page);
+        }
+
         await use(page);
       } finally {
         await apiReq.dispose();

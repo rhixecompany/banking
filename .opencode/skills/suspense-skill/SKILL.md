@@ -2,6 +2,7 @@
 name: suspense-skill
 description: Guidance for implementing Suspense boundaries in Next.js 16 to handle async auth APIs without blocking route rendering.
 lastReviewed: 2026-04-13
+applyTo: "app/**/*.{tsx,ts,md}"
 ---
 
 # suspense-skill

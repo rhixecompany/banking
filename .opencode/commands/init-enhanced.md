@@ -72,7 +72,7 @@ Checkpoint guidance:
 
 ```bash
 # Stage only the plan/docs checkpoint
-git add .opencode/commands/init-enhanced.md .cursor/plans/refactor-ui-audit_*.plan.md
+ git add .opencode/commands/init-enhanced.md .opencode/commands/refactor-ui-audit_*.plan.md
 git commit -m "chore(docs): checkpoint before documentation sync"
 ```
 
@@ -106,7 +106,7 @@ Rollback notes:
 Checklist (ready to run):
 
 - [ ] Create local branch feature/refactor-ui-audit-<date>-<id>
-- [ ] Add .cursor/plans/refactor-ui-audit\*.plan.md (this file accompanies the plan)
+- [ ] Add .opencode/commands/refactor-ui-audit\*.plan.md (this file accompanies the plan)
 - [ ] Commit the init-enhanced update
 - [ ] Run format/type-check/lint and capture outputs
 - [ ] Produce docs audits under docs/

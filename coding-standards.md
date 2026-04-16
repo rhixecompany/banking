@@ -88,7 +88,7 @@ Pull Requests & Validation
   2. `npm run type-check`
   3. `npm run lint:strict`
   4. `npm run test` (or run relevant test subsets)
-- If the change touches >3 files, create a plan file at `.opencode/plans/<task>_<8char-id>.plan.md` (follow `AGENTS.md` rules).
+- If the change touches >3 files, create a plan file at `.opencode/commands/<short-kebab-task>.plan.md` (follow `AGENTS.md` rules).
 - Branch name suggestion for docs: `docs/architecture-and-standards`
 
 Anti-patterns (things to avoid)
