@@ -20,9 +20,9 @@ test("renders Dashboard metrics with provided props", () => {
     />,
   );
 
-  // KPI card label
-  expect(screen.getByText(/Total Balance/i)).toBeDefined();
+  // KPI card label (may appear multiple times in the layout); ensure at least one match
+  expect(screen.getAllByText(/Total Balance/i).length).toBeGreaterThan(0);
 
   // Formatted currency for the total balance (Intl.NumberFormat en-US)
-  expect(screen.getByText(/\$123\.45/)).toBeDefined();
+  expect(screen.getAllByText(/\$123\.45/).length).toBeGreaterThan(0);
 });

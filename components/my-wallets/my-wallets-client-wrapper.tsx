@@ -4,6 +4,8 @@ import { Trash2 } from "lucide-react";
 import { useTransition } from "react";
 import { toast } from "sonner";
 
+import TransactionList from "@/components/layouts/transaction-list";
+import WalletCard from "@/components/layouts/wallet-card";
 import { PlaidLinkButton } from "@/components/plaid-link-button/plaid-link-button";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -106,11 +108,10 @@ function MyWalletsContent({
       ) : (
         <div className="grid gap-6">
           {walletsWithDetails.map((wallet) => (
-            <WalletCard
-              key={wallet.id}
-              wallet={wallet}
-              removeWallet={removeWallet}
-            />
+            <div key={wallet.id}>
+              <WalletCard wallet={wallet} removeWallet={removeWallet} />
+              <TransactionList transactions={wallet.transactions} />
+            </div>
           ))}
         </div>
       )}

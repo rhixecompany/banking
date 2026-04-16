@@ -1,6 +1,6 @@
 # Pages Enhancement Plan (Draft)
 
-Status: Plan Mode — READ-ONLY draft. Will not be written until you approve.
+Status: Implementation Approved - persisted plan. Implementation will proceed per approved workflow.
 
 Goal
 
@@ -16,21 +16,21 @@ Scope
 
 Constraints (from user / AGENTS.md)
 
-- Plan Mode: do not modify files yet. This plan is a read-only artifact.
+- Plan Mode: the plan has been persisted and implementation is approved. Follow the plan when making edits.
 - Per run-tasks.txt: do not run global typecheck/lint/tests until all pages in the list are enhanced.
 - Use seed runner (scripts/seed/run.ts) for E2E deterministic data (you confirmed yes).
 - Put extracted reusable components in ./components/layouts.
 
 High-Level Timeline & Estimates (rough)
 
-- Discovery & plan creation: completed (this document). ~2–4 hours (already performed).
-- Per-page enhancement (audit -> implement -> unit test): ~1–6 hours per page depending on complexity.
-- Full test & lint run after all pages: 2–4 hours (depending on E2E flakiness & CI).
+- Discovery & plan creation: completed (this document). ~2-4 hours (already performed).
+- Per-page enhancement (audit -> implement -> unit test): ~1-6 hours per page depending on complexity.
+- Full test & lint run after all pages: 2-4 hours (depending on E2E flakiness & CI).
 
 Branch / Commit Strategy (awaiting confirm to run)
 
 - You told me: if proceeding, prefer working on current branch; but we remain in Plan Mode now.
-- Recommendation: use feature branches per page or small grouped pages (e.g., `feat/page/home-refactor`) when switching to Implementation — this keeps PRs small.
+- Recommendation: use feature branches per page or small grouped pages (e.g., `feat/page/home-refactor`) when switching to Implementation - this keeps PRs small.
 
 Priority order (as you requested)
 
@@ -54,7 +54,7 @@ Per-Page Workflow (repeat for each page)
    - Find tests referencing the page and any fixtures used.
    - Produce a per-page audit entry (small Markdown snippet) and record files to change.
 
-2. Plan small changes (1–3 items) — keep minimal:
+2. Plan small changes (1-3 items) - keep minimal:
    - Move any ad-hoc DB queries into dal/\* if found.
    - Ensure server actions used by the page:
      - Validate inputs with Zod and descriptive messages.
@@ -75,7 +75,7 @@ Per-Page Workflow (repeat for each page)
 
 5. Mark page complete and move to next page.
 
-Detailed Example — Home page (first-run template)
+Detailed Example - Home page (first-run template)
 
 1. Audit:
    - Files to open: app/page.tsx; components/home/home-server-wrapper.tsx; components/home/home-client-wrapper.tsx; components/shared/wallets-overview.tsx; components/total-balance-box/total-balance-box.tsx; tests referencing these files.
@@ -108,7 +108,7 @@ Deliverables (what I will produce in Implementation Mode)
 - docs/custom-components.md (finalized + triage)
 - docs/test-context.md (finalized + triage)
 - Per-page change lists and small PRs (one PR per page or small related group)
-- Change-log mapping pages → files modified → tests updated
+- Change-log mapping pages -> files modified -> tests updated
 
 Acceptance criteria (for a page)
 
@@ -126,14 +126,14 @@ Risks & mitigations
 
 Next actions (what I need from you)
 
-1. Approve this plan (I’m in Plan Mode — no changes will be made until you explicitly permit Implementation).
-2. Confirm whether you want me to:
-   - (A) Create the plan file `.opencode/plans/pages_enhancement.plan.md` now (requires switching out of read-only Plan Mode), or
-   - (B) Keep Plan Mode and proceed when you give the explicit go-ahead to implement changes.
-3. If you approve Implementation later, confirm branch strategy (you earlier said “use current branch” when asked — I recommend feature branches).
+1. Plan approved and persisted. Implementation will begin.
+2. Implementation mode selected: I will create small focused commits per page as described in this plan.
+3. If you prefer a different branch strategy, tell me now. Otherwise I will continue on the current branch and create feature branches per page when appropriate.
 
 If you approve, I will:
 
-- Create the plan file and generate the three docs as actual files, then begin the first-page audit implementation (Home) according to the per-page workflow, producing small commits and PRs for review.
+- Generate the three docs (docs/app-pages.md, docs/custom-components.md, docs/test-context.md) if not already present, then begin the first-page audit and minimal implementation (Payment Transfer) according to the per-page workflow, producing small commits and PRs for review.
 
-If you'd like edits to these drafts (more/less detail, different structure, additional per-page fields), tell me exactly what you'd change and I will revise the drafts in Plan Mode before any writes.
+If you'd like edits to these drafts (more/less detail, different structure, additional per-page fields), tell me exactly what you'd change and I will revise the drafts before making code changes.
+
+(End of file)
