@@ -1,5 +1,6 @@
-import { Container } from "@/components/ui/container";
 import Image from "next/image";
+
+import { Container } from "@/components/ui/container";
 
 export default function FeaturesGrid(): JSX.Element {
   return (

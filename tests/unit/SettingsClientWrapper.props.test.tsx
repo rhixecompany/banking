@@ -1,13 +1,14 @@
-import { SettingsClientWrapper } from "@/components/settings/settings-client-wrapper";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { expect, test, vi } from "vitest";
 
+import { SettingsClientWrapper } from "@/components/settings/settings-client-wrapper";
+
 const mockUser = {
-  id: "u1",
   email: "jane@example.com",
-  name: "Jane Doe",
+  id: "u1",
   image: "",
+  name: "Jane Doe",
   profile: { address: "", city: "", phone: "", postalCode: "", state: "" },
 };
 

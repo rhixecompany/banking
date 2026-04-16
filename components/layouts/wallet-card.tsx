@@ -4,6 +4,8 @@ import { Trash2 } from "lucide-react";
 import { useTransition } from "react";
 import { toast } from "sonner";
 
+import type { WalletWithDetails } from "@/types/wallet";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -13,15 +15,16 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { formatAmount } from "@/lib/utils";
-import type { WalletWithDetails } from "@/types/wallet";
 
-export default function WalletCard({
-  wallet,
-  removeWallet,
-}: {
+interface WalletCardProps {
   wallet: WalletWithDetails;
   removeWallet: (input: unknown) => Promise<{ ok: boolean; error?: string }>;
-}): JSX.Element {
+}
+
+export default function WalletCard({
+  removeWallet,
+  wallet,
+}: WalletCardProps): JSX.Element {
   const [isPending, startTransition] = useTransition();
 
   function handleRemove(): void {
@@ -92,7 +95,7 @@ export default function WalletCard({
           </div>
         )}
 
-        {/* TransactionList is rendered by parent to keep separation of concerns */}
+        {/* TransactionList is rendered by the parent; keep layout consistent. */}
       </CardContent>
     </Card>
   );

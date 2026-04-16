@@ -1,24 +1,12 @@
 "use client";
 
-import { Trash2 } from "lucide-react";
-import { useTransition } from "react";
-import { toast } from "sonner";
+import type { WalletWithDetails } from "@/types/wallet";
 
 import TransactionList from "@/components/layouts/transaction-list";
 import WalletCard from "@/components/layouts/wallet-card";
 import { PlaidLinkButton } from "@/components/plaid-link-button/plaid-link-button";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { formatAmount, formatDate } from "@/lib/utils";
-import type { PlaidTransaction } from "@/types/plaid";
-import type { WalletWithDetails } from "@/types/wallet";
+import { Card, CardContent } from "@/components/ui/card";
+import { formatAmount } from "@/lib/utils";
 
 /**
  * Props for the My Wallets client wrapper.
@@ -43,10 +31,10 @@ interface MyWalletsClientWrapperProps {
  * @returns {JSX.Element}
  */
 export function MyWalletsClientWrapper({
+  removeWallet,
   totalBalance,
   userId,
   walletsWithDetails,
-  removeWallet,
 }: MyWalletsClientWrapperProps): JSX.Element {
   return (
     <MyWalletsContent
@@ -67,9 +55,9 @@ export function MyWalletsClientWrapper({
  * and the list of linked wallet cards.
  */
 function MyWalletsContent({
+  removeWallet,
   totalBalance,
   walletsWithDetails,
-  removeWallet,
 }: MyWalletsClientWrapperProps): JSX.Element {
   return (
     <section className="space-y-8">
@@ -119,144 +107,6 @@ function MyWalletsContent({
   );
 }
 
-/**
- * Renders a single wallet card with balance details, a delete button, and a
- * list of recent transactions. Each card has its own `useTransition` so that
- * only the button for the wallet being deleted is disabled — not all buttons
- * simultaneously.
- */
-function WalletCard({
-  wallet,
-  removeWallet,
-}: {
-  wallet: WalletWithDetails;
-  removeWallet: (input: unknown) => Promise<{ ok: boolean; error?: string }>;
-}): JSX.Element {
-  const [isPending, startTransition] = useTransition();
-
-  function handleRemove(): void {
-    startTransition(async () => {
-      const result = await removeWallet({ walletId: wallet.id });
-      if (!result.ok) {
-        toast.error(result.error ?? "Failed to remove wallet.");
-      }
-    });
-  }
-
-  return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between pb-2">
-        <div>
-          <CardTitle className="text-xl">
-            {wallet.institutionName ?? "Unknown Institution"}
-          </CardTitle>
-          <CardDescription>
-            {wallet.accountType} - {wallet.accountSubtype}
-          </CardDescription>
-        </div>
-        <div className="flex items-center gap-4">
-          <div className="text-right">
-            <div className="text-sm text-muted-foreground">Balance</div>
-            <div className="text-2xl font-bold">
-              {formatAmount(wallet.balances[0]?.balances?.current ?? 0)}
-            </div>
-          </div>
-          <div>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="text-destructive hover:text-destructive"
-              disabled={isPending}
-              type="button"
-              aria-label={`Remove ${wallet.institutionName ?? "wallet"}`}
-              onClick={handleRemove}
-            >
-              <Trash2 className="size-5" />
-            </Button>
-          </div>
-        </div>
-      </CardHeader>
-      <CardContent>
-        {wallet.balances.length > 0 && (
-          <div className="mb-6 grid gap-4 rounded-lg bg-muted p-4 sm:grid-cols-3">
-            <div>
-              <div className="text-sm text-muted-foreground">Available</div>
-              <div className="text-lg font-semibold">
-                {formatAmount(wallet.balances[0]?.balances?.available ?? 0)}
-              </div>
-            </div>
-            <div>
-              <div className="text-sm text-muted-foreground">Current</div>
-              <div className="text-lg font-semibold">
-                {formatAmount(wallet.balances[0]?.balances?.current ?? 0)}
-              </div>
-            </div>
-            <div>
-              <div className="text-sm text-muted-foreground">Limit</div>
-              <div className="text-lg font-semibold">
-                {wallet.balances[0]?.balances?.limit
-                  ? formatAmount(wallet.balances[0].balances.limit)
-                  : "N/A"}
-              </div>
-            </div>
-          </div>
-        )}
-
-        <TransactionList transactions={wallet.transactions} />
-      </CardContent>
-    </Card>
-  );
-}
-
-/**
- * Renders up to five recent transactions for a wallet card.
- */
-function TransactionList({
-  transactions,
-}: {
-  transactions: PlaidTransaction[];
-}): JSX.Element {
-  return (
-    <div>
-      <h4 className="mb-3 text-sm font-semibold">Recent Transactions</h4>
-      {transactions.length === 0 ? (
-        <p className="text-sm text-muted-foreground">No recent transactions</p>
-      ) : (
-        <div className="space-y-2">
-          {transactions.slice(0, 5).map((tx) => (
-            <div
-              key={tx.transactionId}
-              className="flex items-center justify-between rounded-lg border p-3"
-            >
-              <div className="flex items-center gap-3">
-                <div className="flex size-10 items-center justify-center rounded-full bg-muted">
-                  <span className="text-lg">
-                    {tx.name[0]?.toUpperCase() ?? "?"}
-                  </span>
-                </div>
-                <div>
-                  <div className="font-medium">{tx.name || "Unknown"}</div>
-                  <div className="text-xs text-muted-foreground">
-                    {formatDate(tx.date)}
-                  </div>
-                </div>
-              </div>
-              <div className="text-right">
-                <div
-                  className={`font-semibold ${
-                    tx.amount < 0 ? "text-green-600" : "text-destructive"
-                  }`}
-                >
-                  {formatAmount(Math.abs(tx.amount))}
-                </div>
-                <Badge variant="outline" className="text-xs">
-                  {tx.category?.[0] ?? "Other"}
-                </Badge>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
+// WalletCard and TransactionList are provided by the extracted layout
+// components imported at the top of this file. Do not redeclare them here
+// or they will shadow the imports.

@@ -1,3 +1,8 @@
+import React from "react";
+
+import type { Recipient } from "@/types/recipient";
+import type { Wallet } from "@/types/wallet";
+
 import HeaderBox from "@/components/header-box/header-box";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,24 +28,23 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { Recipient } from "@/types/recipient";
-import type { Wallet } from "@/types/wallet";
-import React from "react";
 
-type Props = {
+interface Props {
   form: any;
   wallets: Wallet[];
   recipients: Recipient[];
+  // Keep the presentational component flexible: accept unknown input
+  // and return Promise<void>. Callers may wrap strongly-typed handlers.
   onSubmit: (data: unknown) => Promise<void>;
   transferResult?: { ok: boolean; message?: string } | null;
-};
+}
 
 export default function PaymentTransferForm({
   form,
-  wallets,
-  recipients,
   onSubmit,
+  recipients,
   transferResult,
+  wallets,
 }: Props) {
   return (
     <section className="space-y-8">
@@ -142,14 +146,14 @@ export default function PaymentTransferForm({
                               data-testid="recipient-email"
                               id="recipient-email"
                               placeholder="Recipient email"
-                              className="w-full px-3 py-2 border rounded"
+                              className="w-full rounded-sm border px-3 py-2"
                               aria-label="Recipient email"
                             />
                             <input
                               data-testid="sharable-id"
                               id="sharable-id"
                               placeholder="Sharable ID"
-                              className="w-full px-3 py-2 border rounded"
+                              className="w-full rounded-sm border px-3 py-2"
                               aria-label="Sharable ID"
                             />
                           </div>
@@ -221,7 +225,7 @@ export default function PaymentTransferForm({
                     <div
                       data-testid="transfer-error"
                       role="alert"
-                      className="text-sm text-destructive mt-2"
+                      className="mt-2 text-sm text-destructive"
                     >
                       {transferResult.message ?? "Transfer failed"}
                     </div>

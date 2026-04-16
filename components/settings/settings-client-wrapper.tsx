@@ -136,8 +136,8 @@ interface SettingsClientWrapperProps {
  * @returns {JSX.Element}
  */
 export function SettingsClientWrapper({
-  userWithProfile,
   updateProfile,
+  userWithProfile,
 }: SettingsClientWrapperProps): JSX.Element {
   // -- Profile form ----------------------------------------------------------
   const profileForm = useForm<ProfileFormData>({
@@ -162,7 +162,7 @@ export function SettingsClientWrapper({
       return;
     }
 
-    const result = await updateProfile(data);
+    const result = await updateProfile(data as unknown);
     if (!result.ok) {
       profileForm.setError("root", {
         message: result.error ?? "Update failed",
@@ -186,7 +186,7 @@ export function SettingsClientWrapper({
       return;
     }
 
-    const result = await updateProfile(data);
+    const result = await updateProfile(data as unknown);
     if (!result.ok) {
       passwordForm.setError("root", {
         message: result.error ?? "Update failed",

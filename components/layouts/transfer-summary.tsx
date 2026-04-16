@@ -1,17 +1,18 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { Recipient } from "@/types/recipient";
 import type { Wallet } from "@/types/wallet";
 
-type Props = {
-  sourceWallet?: Wallet | null;
-  recipient?: Recipient | null;
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+interface Props {
+  sourceWallet?: null | Wallet;
+  recipient?: null | Recipient;
   amount?: number | string;
-};
+}
 
 export default function TransferSummary({
-  sourceWallet,
-  recipient,
   amount,
+  recipient,
+  sourceWallet,
 }: Props) {
   const amountNum = typeof amount === "string" ? Number(amount) : (amount ?? 0);
   return (

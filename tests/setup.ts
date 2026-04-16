@@ -22,5 +22,5 @@ vi.mock("@/components/ui/select", async () => {
 // initialization receive the mocked toast object (prevents race conditions
 // where a module imports sonner before a test-level mock is registered).
 vi.mock("sonner", () => ({
-  toast: { success: vi.fn(), error: vi.fn() },
+  toast: { error: vi.fn(), success: vi.fn() },
 }));

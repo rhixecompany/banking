@@ -17,10 +17,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-type Props = {
+interface Props {
   form: any;
-  onSubmit: (data: unknown) => Promise<void>;
-};
+  // Accept any payload shape for flexibility; callers can cast to concrete
+  // types. Tests and wrappers typically pass strongly-typed handlers.
+  onSubmit: (data: any) => Promise<void>;
+}
 
 export default function SettingsProfileForm({ form, onSubmit }: Props) {
   return (

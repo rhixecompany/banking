@@ -1,6 +1,7 @@
-import { Container } from "@/components/ui/container";
 import Image from "next/image";
 import Link from "next/link";
+
+import { Container } from "@/components/ui/container";
 
 export default function HomeFooter(): JSX.Element {
   return (

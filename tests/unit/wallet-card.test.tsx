@@ -5,10 +5,10 @@ import WalletCard from "@/components/layouts/wallet-card";
 
 vi.mock("@/components/ui/card", () => ({
   Card: ({ children }: any) => <div>{children}</div>,
-  CardHeader: ({ children }: any) => <div>{children}</div>,
   CardContent: ({ children }: any) => <div>{children}</div>,
-  CardTitle: ({ children }: any) => <h2>{children}</h2>,
   CardDescription: ({ children }: any) => <p>{children}</p>,
+  CardHeader: ({ children }: any) => <div>{children}</div>,
+  CardTitle: ({ children }: any) => <h2>{children}</h2>,
 }));
 
 vi.mock("@/components/ui/button", () => ({
@@ -18,18 +18,10 @@ vi.mock("@/components/ui/button", () => ({
 import type { WalletWithDetails } from "@/types/wallet";
 
 const mockWallet: WalletWithDetails = {
-  id: "w1",
-  userId: "u1",
   accessToken: "MOCK",
-  sharableId: "s1",
-  institutionName: "Test Bank",
-  institutionId: null,
   accountId: null,
-  accountType: "depository",
   accountSubtype: "checking",
-  fundingSourceUrl: null,
-  createdAt: new Date(),
-  updatedAt: new Date(),
+  accountType: "depository",
   balances: [
     {
       accountId: "a1",
@@ -41,8 +33,18 @@ const mockWallet: WalletWithDetails = {
       },
     },
   ],
+  createdAt: new Date(),
+  fundingSourceUrl: null,
+  id: "w1",
+  institutionId: null,
+  institutionName: "Test Bank",
+  sharableId: "s1",
   transactions: [],
-};
+  updatedAt: new Date(),
+  userId: "u1",
+  // The WalletWithDetails type includes some optional properties that
+  // our unit test does not rely on; cast to any when running in tests
+} as any;
 
 describe("WalletCard", () => {
   it("renders institution name and balance", () => {

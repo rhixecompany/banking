@@ -1,6 +1,7 @@
-import TransferSummary from "@/components/layouts/transfer-summary";
 import { render, screen } from "@testing-library/react";
 import { expect, test } from "vitest";
+
+import TransferSummary from "@/components/layouts/transfer-summary";
 
 test("renders transfer summary with placeholders when empty", () => {
   render(<TransferSummary />);
@@ -11,8 +12,8 @@ test("renders transfer summary with placeholders when empty", () => {
 });
 
 test("renders actual values", () => {
-  const wallet = { id: "w1", institutionName: "Bank A" };
-  const recipient = { id: "r1", name: "Bob", email: "bob@example.com" };
+  const wallet = { id: "w1", institutionName: "Bank A" } as any;
+  const recipient = { email: "bob@example.com", id: "r1", name: "Bob" } as any;
   render(
     <TransferSummary
       sourceWallet={wallet}

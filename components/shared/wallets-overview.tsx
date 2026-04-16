@@ -2,6 +2,8 @@
 
 import { Trash2 } from "lucide-react";
 
+import type { WalletWithDetails } from "@/types/wallet";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,22 +13,21 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { formatAmount } from "@/lib/utils";
-import type { WalletWithDetails } from "@/types/wallet";
 
-type WalletsOverviewProps = {
+interface WalletsOverviewProps {
   walletsWithDetails: WalletWithDetails[];
   totalBalance?: number;
   showActions?: boolean;
   onRemove?: (walletId: string) => Promise<void> | void;
   className?: string;
-};
+}
 
 export default function WalletsOverview({
-  walletsWithDetails,
-  totalBalance,
-  showActions = false,
-  onRemove,
   className,
+  onRemove,
+  showActions = false,
+  totalBalance,
+  walletsWithDetails,
 }: WalletsOverviewProps) {
   return (
     <div className={className}>

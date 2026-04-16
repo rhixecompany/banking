@@ -73,15 +73,15 @@ export interface PlaidLinkProps {
 export function PlaidLink({
   children,
   className,
+  createLinkToken,
   disabled,
+  exchangePublicToken,
   onExit,
   onLoad,
   onSuccess,
   size = "default",
   userId,
   variant = "default",
-  createLinkToken,
-  exchangePublicToken,
 }: PlaidLinkProps) {
   const [linkToken, setLinkToken] = useState<string | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(true);

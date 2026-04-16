@@ -7,30 +7,29 @@ vi.mock("next/navigation", () => ({
 
 // Mock sonner per-test so we can assert toast calls instead of fragile DOM
 vi.mock("sonner", () => ({
-  toast: { success: vi.fn(), error: vi.fn() },
+  toast: { error: vi.fn(), success: vi.fn() },
 }));
 
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-
 import { toast } from "sonner";
 
 import { PaymentTransferClientWrapper } from "@/components/payment-transfer/payment-transfer-client-wrapper";
 
 const wallets = [
   {
-    id: "w1",
-    institutionName: "Bank A",
     accountId: "1234",
     fundingSourceUrl: "https://mock",
+    id: "w1",
+    institutionName: "Bank A",
   },
 ];
 const recipients = [
   {
+    bankAccountId: "https://mock",
+    email: "bob@example.com",
     id: "r1",
     name: "Bob",
-    email: "bob@example.com",
-    bankAccountId: "https://mock",
   },
 ];
 

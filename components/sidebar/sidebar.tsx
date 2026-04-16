@@ -30,11 +30,11 @@ import { sidebarLinks } from "@/constants";
  * @returns Rendered sidebar navigation
  */
 const Sidebar = ({
-  user,
   logoutAccount,
-}: SidebarProps & {
+  user,
+}: {
   logoutAccount?: () => Promise<boolean>;
-}): JSX.Element => {
+} & SidebarProps): JSX.Element => {
   const pathname = usePathname();
   return (
     <section className="sidebar">

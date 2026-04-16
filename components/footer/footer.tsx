@@ -27,12 +27,12 @@ import type { FooterProps } from "@/types";
  * @returns Rendered footer with user info and logout button
  */
 const Footer = ({
+  logoutAccount,
   type = "desktop",
   user,
-  logoutAccount,
-}: FooterProps & {
+}: {
   logoutAccount?: () => Promise<boolean>;
-}): JSX.Element => {
+} & FooterProps): JSX.Element => {
   const handleLogOut = async (): Promise<void> => {
     if (logoutAccount) await logoutAccount();
     await signOut({ callbackUrl: "/sign-in" });

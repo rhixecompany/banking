@@ -1,6 +1,7 @@
-import { Badge } from "@/components/ui/badge";
-import { formatAmount, formatDate } from "@/lib/utils";
 import type { PlaidTransaction } from "@/types/plaid";
+
+import { Badge } from "@/components/ui/badge";
+import { formatDate } from "@/lib/utils";
 
 export default function TransactionList({
   transactions,
@@ -36,7 +37,10 @@ export default function TransactionList({
                 <div
                   className={`font-semibold ${tx.amount < 0 ? "text-green-600" : "text-destructive"}`}
                 >
-                  {formatAmount(Math.abs(tx.amount))}
+                  {Math.abs(tx.amount).toLocaleString(undefined, {
+                    currency: "USD",
+                    style: "currency",
+                  })}
                 </div>
                 <Badge variant="outline" className="text-xs">
                   {tx.category?.[0] ?? "Other"}

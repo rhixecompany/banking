@@ -39,11 +39,11 @@ import { sidebarLinks } from "@/constants";
  * @returns Rendered mobile navigation drawer
  */
 const MobileNav = ({
-  user,
   logoutAccount,
-}: MobileNavProps & {
+  user,
+}: {
   logoutAccount?: () => Promise<boolean>;
-}): JSX.Element => {
+} & MobileNavProps): JSX.Element => {
   const pathname = usePathname();
   return (
     <section className="w-full max-w-66">

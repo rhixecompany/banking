@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import type { Resolver } from "react-hook-form";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -13,7 +13,6 @@ import type { Wallet } from "@/types/wallet";
 
 // createTransfer is provided by the surrounding server wrapper via props to
 // avoid importing server actions directly into client components.
-
 import PaymentTransferForm from "@/components/layouts/payment-transfer-form";
 
 // ---------------------------------------------------------------------------
@@ -85,13 +84,13 @@ interface PaymentTransferClientWrapperProps {
  * @returns {JSX.Element}
  */
 export function PaymentTransferClientWrapper({
+  autoSubmit,
+  createTransfer,
+  initialAmount,
+  initialRecipientId,
+  initialSourceBankId,
   recipients,
   wallets,
-  createTransfer,
-  initialSourceBankId,
-  initialRecipientId,
-  initialAmount,
-  autoSubmit,
 }: PaymentTransferClientWrapperProps): JSX.Element {
   const form = useForm<TransferFormData>({
     defaultValues: { amount: 0, recipientId: "", sourceBankId: "" },
@@ -175,15 +174,15 @@ export function PaymentTransferClientWrapper({
     if (result.ok) {
       toast.success("Transfer initiated successfully!");
       setTransferResult({
-        ok: true,
         message: "Transfer initiated successfully",
+        ok: true,
       });
       form.reset();
     } else {
       toast.error(result.error ?? "Transfer failed. Please try again.");
       setTransferResult({
-        ok: false,
         message: result.error ?? "Transfer failed",
+        ok: false,
       });
     }
   }
@@ -229,7 +228,11 @@ export function PaymentTransferClientWrapper({
       form={form}
       wallets={wallets}
       recipients={recipients}
-      onSubmit={onSubmit}
+      // Wrap the strongly-typed onSubmit so it matches the presentational
+      // component's expected signature of (data: unknown) => Promise<void>.
+      onSubmit={async (d: unknown) => {
+        await onSubmit(d as TransferFormData);
+      }}
       transferResult={transferResult}
     />
   );

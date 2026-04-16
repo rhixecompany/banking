@@ -1,7 +1,8 @@
-/// <reference types="vitest" />
-import { MyWalletsClientWrapper } from "@/components/my-wallets/my-wallets-client-wrapper";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
+
+/// <reference types="vitest" />
+import { MyWalletsClientWrapper } from "@/components/my-wallets/my-wallets-client-wrapper";
 
 // Mock PlaidLinkButton to a simple component that renders its children so tests
 // don't depend on Plaid provider behavior.
@@ -19,16 +20,16 @@ describe("MyWalletsClientWrapper", () => {
 
     const wallets = [
       {
-        id: "w1",
-        institutionName: "Mock Bank",
-        accountType: "Checking",
         accountSubtype: "Standard",
+        accountType: "Checking",
         balances: [
           {
-            balances: { current: 100, available: 100, limit: null },
             accountId: "acc1",
+            balances: { available: 100, current: 100, limit: null },
           },
         ],
+        id: "w1",
+        institutionName: "Mock Bank",
         transactions: [],
       },
     ];
@@ -72,16 +73,16 @@ describe("MyWalletsClientWrapper", () => {
     const mockRemove = vi.fn();
     const wallets = [
       {
-        id: "w1",
-        institutionName: "Mock Bank",
-        accountType: "Checking",
         accountSubtype: "Standard",
+        accountType: "Checking",
         balances: [
           {
-            balances: { current: 100, available: 100, limit: null },
             accountId: "acc1",
+            balances: { available: 100, current: 100, limit: null },
           },
         ],
+        id: "w1",
+        institutionName: "Mock Bank",
         transactions: [],
       },
     ];
@@ -99,20 +100,20 @@ describe("MyWalletsClientWrapper", () => {
   });
 
   it("shows toast error when removeWallet fails", async () => {
-    const mockRemove = vi.fn().mockResolvedValue({ ok: false, error: "Boom" });
+    const mockRemove = vi.fn().mockResolvedValue({ error: "Boom", ok: false });
 
     const wallets = [
       {
-        id: "w1",
-        institutionName: "Mock Bank",
-        accountType: "Checking",
         accountSubtype: "Standard",
+        accountType: "Checking",
         balances: [
           {
-            balances: { current: 100, available: 100, limit: null },
             accountId: "acc1",
+            balances: { available: 100, current: 100, limit: null },
           },
         ],
+        id: "w1",
+        institutionName: "Mock Bank",
         transactions: [],
       },
     ];

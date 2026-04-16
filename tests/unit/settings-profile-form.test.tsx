@@ -1,7 +1,8 @@
-import SettingsProfileForm from "@/components/layouts/settings-profile-form";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { useForm } from "react-hook-form";
 import { expect, test, vi } from "vitest";
+
+import SettingsProfileForm from "@/components/layouts/settings-profile-form";
 
 function Wrapper({
   onSubmit = async () => {},
@@ -10,14 +11,14 @@ function Wrapper({
 }) {
   const form = useForm({
     defaultValues: {
-      name: "",
-      email: "",
-      phone: "",
-      image: "",
       address: "",
       city: "",
-      state: "",
+      email: "",
+      image: "",
+      name: "",
+      phone: "",
       postalCode: "",
+      state: "",
     },
   });
   return <SettingsProfileForm form={form} onSubmit={onSubmit} />;

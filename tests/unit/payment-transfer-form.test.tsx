@@ -1,12 +1,13 @@
-import PaymentTransferForm from "@/components/layouts/payment-transfer-form";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { useForm } from "react-hook-form";
 import { expect, test, vi } from "vitest";
 
+import PaymentTransferForm from "@/components/layouts/payment-transfer-form";
+
 function Wrapper({
-  wallets = [],
-  recipients = [],
   onSubmit = async () => {},
+  recipients = [],
+  wallets = [],
 }: {
   wallets?: any[];
   recipients?: any[];
@@ -26,9 +27,13 @@ function Wrapper({
 }
 
 test("renders form fields and submits", async () => {
-  const wallet = { id: "w1", institutionName: "Bank A", accountId: "1234" };
-  const recipient = { id: "r1", name: "Alice", email: "alice@example.com" };
-  const handler = vi.fn(async () => ({ ok: true }));
+  const wallet = { accountId: "1234", id: "w1", institutionName: "Bank A" };
+  const recipient = { email: "alice@example.com", id: "r1", name: "Alice" };
+  const handler = vi.fn(async () => {
+    // match the expected signature of onSubmit used by the presentational
+    // PaymentTransferForm which expects Promise<void>.
+    return undefined;
+  });
 
   render(
     <Wrapper wallets={[wallet]} recipients={[recipient]} onSubmit={handler} />,

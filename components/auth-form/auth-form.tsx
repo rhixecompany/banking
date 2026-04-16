@@ -83,13 +83,13 @@ function getDefaultValues(
  * @returns Rendered authentication form
  */
 const AuthForm = ({
-  type,
   register,
-}: AuthFormProps & {
+  type,
+}: {
   register?: (
     input: unknown,
   ) => Promise<{ ok: boolean; user?: unknown; error?: string }>;
-}): JSX.Element => {
+} & AuthFormProps): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false);
   const isSignIn = type === "sign-in";
   const router = useRouter();

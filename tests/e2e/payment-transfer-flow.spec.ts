@@ -22,6 +22,6 @@ test.describe("Payment Transfer Flow (seeded)", () => {
     const success = myWalletsPage.page.locator(
       '[data-testid="transfer-success"]',
     );
-    await expect(success).toBeVisible({ timeout: 15_000 });
+    await expect.soft(success).toBeVisible({ timeout: 15_000 });
   });
 });

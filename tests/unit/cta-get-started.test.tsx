@@ -1,6 +1,7 @@
-import CtaGetStarted from "@/components/layouts/cta-get-started";
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
+
+import CtaGetStarted from "@/components/layouts/cta-get-started";
 
 describe("CtaGetStarted", () => {
   it("renders heading and button", () => {

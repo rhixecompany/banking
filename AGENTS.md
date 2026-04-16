@@ -17,6 +17,8 @@ Core commands (exact script names)
 - Format/markdown check: npm run format:markdown:check
 - Run tests (unit + E2E): npm run test
 - Playwright E2E (prepare DB): npm run test:ui
+- Run unit tests (Vitest only): npm run test:browser
+- Run a single Vitest file: npx vitest -c vitest.config.ts run path/to/test/file
 - Drizzle SQL generate: npm run db:generate
 - Drizzle migrate apply: npm run db:migrate
 - Drizzle push (local/dev/test only): npm run db:push
@@ -34,6 +36,8 @@ High-signal rules (do not skip)
   5. Revalidate caches/tags after success.
 - DB access: always use dal/\* for queries. Avoid ad-hoc SQL in components or actions. Use joins in DAL to avoid N+1 and db.transaction for atomic multi-step operations.
 
+- Home / root page rule: keep app/page.tsx and any Home server wrapper static and public. Do NOT add auth(), database queries, or DAL calls in app/page.tsx or HomeServerWrapper — the Home route is intentionally non-authenticated and presentational.
+
 Testing / mocks (preserve these behaviors)
 
 - Plaid: lib/plaid.ts exports isMockAccessToken(token). Code/tests short-circuit for mock/seed tokens (start with seed- or mock-). Preserve this logic.
@@ -46,6 +50,8 @@ Seed runner (scripts/seed/run.ts)
 - --dry-run / -n: prints planned operations and writes a validation artifact; does not mutate DB.
 - --reset is destructive and requires RUN_DESTRUCTIVE=true in env AND --yes/-y flag.
 - If NODE_ENV === "production", ALLOW_DB_SEED must equal "true" to allow seeding.
+
+Note: always prefer --dry-run to preview seeding. The seed script relies on .env.local being present and must be executed via the provided npm script to ensure env loading order.
 
 Migrations & schema
 
@@ -60,11 +66,21 @@ Quick validations (recommended before opening a PR)
 4. npm run lint:strict
 5. (Optional, slow) npm run test
 
+Testing notes
+
+- npm run test runs Playwright UI tests first (npm run test:ui) and then Vitest. Playwright tests require DB prep — use npm run test:ui when you intend to run E2E.
+- To iterate quickly on unit tests, use npm run test:browser (Vitest) or the single-file command above.
+
 Agent contributor conventions
 
 - Ask before pushing to remote. Recommended branch for this file: chore/docs/agents-md.
 - If a change touches >3 files, create a short plan at .opencode/plans/<task>\_<8char-id>.plan.md before implementing.
 - Prefer small, surgical edits that are easy to review.
+
+Commit & push policy:
+
+- Do not push changes to main without asking. Prefer feature branches like chore/docs/agents-md for doc work.
+- Create small, focused PRs (one area per PR: UI refactor, type fixes, docs). If you must include multiple areas, add a short plan file before implementation.
 
 Where to look (authoritative)
 
@@ -78,7 +94,7 @@ Where to look (authoritative)
 
 If you want me to act next
 
-1. I can commit this change to branch chore/docs/agents-md and run local validations (prettier on AGENTS.md, markdownlint, npm run type-check). I will not push to remote without your explicit confirmation — reply with "push and open PR" to proceed.
+1. I can commit documentation changes to branch chore/docs/agents-md and run local validations (prettier on AGENTS.md, markdownlint, npm run type-check). I will not push to remote without your explicit confirmation — reply with "push and open PR" to proceed.
 
 Compact and intentionally minimal. Verify changes against executable sources (scripts, .cursor rules, or code) before updating guidance.
 

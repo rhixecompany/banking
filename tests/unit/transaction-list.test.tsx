@@ -4,11 +4,11 @@ import { describe, expect, it } from "vitest";
 import TransactionList from "@/components/layouts/transaction-list";
 
 const mockTx = {
-  transactionId: "t1",
-  name: "Coffee",
-  date: new Date().toISOString().split("T")[0],
   amount: -4.5,
   category: ["Food and Drink"],
+  date: new Date().toISOString().split("T")[0],
+  name: "Coffee",
+  transactionId: "t1",
 };
 
 describe("TransactionList", () => {

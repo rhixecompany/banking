@@ -1,7 +1,7 @@
 ---
 name: update-agentic-documentation
 overview: Rewrite and reconcile all agent-facing documentation so AGENTS.md is canonical, all other agent instruction surfaces cross-reference it, and plan location is standardized on `.opencode/plans/`.
-todos:
+  todos:
   - id: inventory-and-conflict-map
     content: "Build a conflict map: plan location/threshold, validation commands, and rule duplication across AGENTS.md / .cursorrules / .cursor/rules / .github/copilot-instructions.md / .opencode/instructions."
     status: completed
@@ -20,6 +20,12 @@ todos:
   - id: validation-pass
     content: Run markdown lint checks and verify all referenced npm scripts exist; produce a file-by-file changelog.
     status: completed
+  - id: implement-pointers
+    content: "Rewrite selected instruction surfaces into thin pointers that reference AGENTS.md (create small, reviewable commits grouped by surface)."
+    status: pending
+  - id: repo-validation
+    content: "Run repository validations: markdown format checks, type-check, and lint (report results and fix trivial issues)."
+    status: pending
 isProject: false
 ---
 
