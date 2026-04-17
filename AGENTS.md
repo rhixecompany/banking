@@ -101,6 +101,23 @@ Note: Node is not pinned in package.json; respect CI/runtime constraints when pr
 - scripts/seed/_, scripts/_
 - .opencode/instructions/\* and tests/e2e/helpers/plaid.mock.ts
 
+## Tools, Skills, and MCP Manifest
+
+This manifest lists concrete tools, scripts, and agent skills that exist in the repository (evidence-backed). Agents may use these tools when performing tasks, subject to the repository rules above.
+
+- Node / JS Tooling (package.json): next@16.2.2, react@^19, typescript@^6.0.2, tsx, prettier, eslint, vitest, playwright.
+- DAL & DB: drizzle-orm, drizzle-kit, pg/postgres drivers, database/db.ts and drizzle.config.ts.
+- Test & Mocks: Playwright (@playwright/test v1.59.1), Vitest, MSW (msw), tests/e2e/helpers/plaid.mock.ts.
+- External API clients: plaid (plaid), dwolla-v2 (dwolla-v2) with short-circuit logic in lib/plaid.ts and actions/dwolla.actions.ts.
+- Scripts & Runners: scripts/ (seed/run.ts, mcp-runner.ts, verify-rules.ts, generate/docs-gen.ts, etc.). Always inspect scripts/\* before running.
+- DevOps helpers: many shell/PowerShell/BAT scripts under scripts/server, scripts/docker, scripts/deploy and scripts/cleanup for environment setup and deployment tasks.
+
+## MCP Servers
+
+The repository includes an mcp runner script and tooling to interact with Next.js MCP when the dev server is running. Evidence: scripts/mcp-runner.ts, scripts/server/\* and next.config.ts.
+
+If agents need runtime diagnostics for a running Next.js server, prefer using the Next.js MCP endpoint (tools/nextjs_runtime) and scripts/mcp-runner.ts.
+
 ## Rules & Enforcement (automated)
 
 - A verification script `scripts/verify-rules.ts` enforces additional repository rules (process.env usage, no `any`, DAL-only DB access heuristics, Server Action contract heuristics, Home page static checks). The script produces a JSON report at `.opencode/reports/rules-report.json` and a console summary.
