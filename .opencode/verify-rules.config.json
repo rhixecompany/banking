@@ -3,7 +3,10 @@
     "next-sitemap.config.ts",
     "playwright.config.ts",
     "drizzle.config.ts",
-    "app-config.ts"
+    "app-config.ts",
+    "actions/register.ts",
+    "actions/login.ts",
+    "actions/health.ts"
   ],
   "fileJustifications": {
     "actions/register.ts": "Public registration endpoint - intentionally does not call auth() (public). Allowed by plan .opencode/commands/triage-warnings.plan.md",
