@@ -17,6 +17,7 @@ param(
     [string]$ReportDir,
     [string]$File,
     [switch]$ContinueOnFail,
+    [switch]$DryRun,
     [switch]$Help
 )
 
@@ -125,6 +126,8 @@ if (-not $ReportDir) {
 New-Item -ItemType Directory -Path $ReportDir -Force | Out-Null
 
 $Results = @{}
+ $ExitCodes = @{}
+ $Fallbacks = @{}
 
 function Run-Step($step) {
     $cmd = $COMMANDS[$step]
@@ -161,18 +164,22 @@ function Run-Step($step) {
             'type-check' {'tsc'}
             default { $null }
         }
-        if ($tool) {
-            $found = Get-Command $tool -ErrorAction SilentlyContinue
-            if (-not $found) {
+    if ($tool) {
+        $found = Get-Command $tool -ErrorAction SilentlyContinue
+        if (-not $found) {
                 "Tool $tool not found on PATH; falling back to 'npm run $step'" | Out-File -FilePath $reportFile -Encoding utf8
                 $cmd = $COMMANDS[$step]
-            }
+                $Fallbacks[$step] = $true
         }
+    }
     }
 
     # Prefer bash if available (for parity with the Bash script); otherwise fall back to npm or cmd
     $bashCmd = Get-Command bash -ErrorAction SilentlyContinue
-    if ($bashCmd) {
+    if ($DryRun) {
+        "[DRY-RUN] $cmd" | Out-File -FilePath $reportFile -Encoding utf8
+        $exit = 0
+    } elseif ($bashCmd) {
         & bash -lc "$cmd" 2>&1 | Tee-Object -FilePath $reportFile
         $exit = $LASTEXITCODE
     } else {
@@ -201,6 +208,11 @@ function Run-Step($step) {
     } else {
         $Results[$step] = 'FAIL'
     }
+    $ExitCodes[$step] = $exit
+    if (-not $Fallbacks.ContainsKey($step)) { $Fallbacks[$step] = $false }
+
+    # write incremental summary
+    Write-Summary
 
     # If this was test-ui and File provided, attempt seed prep
     if ($step -eq 'test-ui' -and $File) {
@@ -217,6 +229,32 @@ function Run-Step($step) {
 foreach ($step in $STEPS) {
     Run-Step $step
 }
+
+# Write machine-readable summary incrementally
+function Write-Summary {
+    $summary = [ordered]@{
+        timestamp = (Get-Date -Format "yyyyMMdd-HHmmss")
+        report_dir = (Resolve-Path -Path $ReportDir).Path
+        steps = @()
+    }
+
+    foreach ($s in $STEPS) {
+        $entry = [ordered]@{
+            name = $s
+            status = $Results[$s]
+            report = (Join-Path $ReportDir $REPORTS[$s])
+            exit_code = ($ExitCodes[$s] -as [int])
+            fallback = ($Fallbacks[$s] -eq $true)
+        }
+        $summary.steps += $entry
+    }
+
+    $summary_json = $summary | ConvertTo-Json -Depth 4
+    $summary_file = Join-Path $ReportDir 'ci-summary.json'
+    $summary_json | Out-File -FilePath $summary_file -Encoding utf8
+}
+
+Write-Summary
 
 Write-Host "Reports saved to: $ReportDir"
 
@@ -241,3 +279,26 @@ if ($failed.Count -gt 0) {
 
 Write-Host "All steps passed."
 exit 0
+
+# Write machine-readable summary
+$summary = [ordered]@{
+    timestamp = (Get-Date -Format "yyyyMMdd-HHmmss")
+    report_dir = (Resolve-Path -Path $ReportDir).Path
+    steps = @()
+}
+
+foreach ($step in $STEPS) {
+    $s = [ordered]@{
+        name = $step
+        status = $Results[$step]
+        report = (Join-Path $ReportDir $REPORTS[$step])
+        exit_code = ($ExitCodes[$step] -as [int])
+        fallback = ($Fallbacks[$step] -eq $true)
+    }
+    $summary.steps += $s
+}
+
+$summary_json = $summary | ConvertTo-Json -Depth 4
+$summary_file = Join-Path $ReportDir 'ci-summary.json'
+$summary_json | Out-File -FilePath $summary_file -Encoding utf8
+Write-Host "Wrote CI summary: $summary_file"

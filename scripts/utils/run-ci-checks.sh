@@ -22,6 +22,36 @@ Examples:
 EOF
 }
 
+# Write the ci-summary.json incrementally so partial results are available
+write_summary() {
+  local summary_file="$REPORT_DIR/ci-summary.json"
+  {
+    echo "{"
+    echo "  \"timestamp\": \"$ts\","
+    echo "  \"report_dir\": \"$REPORT_DIR\","
+    echo "  \"steps\": ["
+    local first=true
+    for step in "${STEPS[@]}"; do
+      if [[ "$first" == true ]]; then
+        first=false
+      else
+        echo ","
+      fi
+      local status="${RESULTS[$step]:-PENDING}"
+      local report_path="$REPORT_DIR/${REPORTS[$step]}"
+      local code="${EXIT_CODES[$step]:-null}"
+      local fb="${FALLBACKS[$step]:-false}"
+      local rep_escaped
+      rep_escaped=$(printf '%s' "$report_path" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g')
+      printf '    {"name":"%s","status":"%s","report":"%s","exit_code":%s,"fallback":%s}' "$step" "$status" "$rep_escaped" "$code" "$fb"
+    done
+    echo ""
+    echo "  ]"
+    echo "}"
+  } > "$summary_file.tmp"
+  mv "$summary_file.tmp" "$summary_file"
+}
+
 # Default CLI-controlled variables
 REPORT_DIR=""
 declare -a ONLY_STEPS
@@ -29,6 +59,7 @@ declare -a SKIP_STEPS
 CONTINUE_ON_FAIL=false
 # target file(s) (comma-separated or glob)
 FILE_ARG=""
+DRY_RUN=false
 
 # Helper: trim whitespace (portable using awk)
 trim() {
@@ -111,6 +142,10 @@ while [[ $# -gt 0 ]]; do
       FILE_ARG="$1"
       shift
       ;;
+    --dry-run)
+      DRY_RUN=true
+      shift
+      ;;
     --continue-on-fail)
       CONTINUE_ON_FAIL=true
       shift
@@ -131,6 +166,8 @@ declare -a STEPS
 declare -A COMMANDS
 declare -A REPORTS
 declare -A RESULTS
+declare -A EXIT_CODES
+declare -A FALLBACKS
 
 STEPS=(
   "format-check"
@@ -195,6 +232,9 @@ fi
 if [[ -z "$REPORT_DIR" ]]; then
   ts=$(date +"%Y%m%d-%H%M%S")
   REPORT_DIR="./ci-reports/$ts"
+else
+  # ensure we still have a timestamp for the run
+  ts=$(date +"%Y%m%d-%H%M%S")
 fi
 mkdir -p "$REPORT_DIR"
 
@@ -242,23 +282,24 @@ run_step() {
   if [[ -n "$FILE_ARG" && -n "${TARGETED[$step]:-}" ]]; then
     # Prepare files array (split on comma) to pass to tool
     IFS=',' read -ra FILES <<< "$FILE_ARG"
-    # join files with space, but preserve quoting by building an array for exec
     local file_args=()
     for f in "${FILES[@]}"; do
       file_args+=("$f")
     done
 
-    # substitute placeholder
+    # substitute placeholder using a NUL-separated temp file and xargs -0
     local tpl="${TARGETED[$step]}"
-    # replace {path} with quoted list
-    local joined=""
+    # Remove the {path} placeholder to build the command that xargs will invoke
+    local cmd_no_path
+    cmd_no_path="${tpl//\{path\}/}"
+    # create a temp file with NUL-separated entries for robust argument passing
+    local tmpfile
+    tmpfile=$(mktemp -t ci-files.XXXXXX) || tmpfile="/tmp/ci-files.$$"
     for fa in "${file_args[@]}"; do
-      # escape double quotes
-      joined+="\"$fa\" ">
+      printf '%s\0' "$fa" >> "$tmpfile"
     done
-    # trim trailing space
-    joined="${joined% }"
-    run_cmd="${tpl//\{path\}/$joined}"
+    # Build run_cmd to use xargs -0 to invoke the tool safely; ensure temp file is removed after
+    run_cmd="xargs -0 < \"$tmpfile\" -- $cmd_no_path; rv=$?; rm -f \"$tmpfile\"; exit $rv"
   else
     # no file arg or no targeted template: run normal command
     run_cmd="$command"
@@ -276,7 +317,7 @@ run_step() {
   TOOL["type-check"]="tsc"
 
   # If targeted command requested, detect tool availability; else fallback to npm script
-  local attempted_fallback=0
+    local attempted_fallback=0
   if [[ -n "$FILE_ARG" && -n "${TARGETED[$step]:-}" ]]; then
     local toolname="${TOOL[$step]:-}"
     if ! command -v "$toolname" >/dev/null 2>&1; then
@@ -287,11 +328,34 @@ run_step() {
     fi
   fi
 
-  if bash -lc "$run_cmd" >> "$report_path" 2>&1; then
-    RESULTS[$step]="PASS"
-  else
-    RESULTS[$step]="FAIL"
-  fi
+   # Run the command and capture exit code so we can produce a machine-readable summary
+   if [[ "${DRY_RUN}" == "true" ]]; then
+     echo "[DRY-RUN] $run_cmd" > "$report_path"
+     EXIT_CODES[$step]="null"
+     RESULTS[$step]="DRY-RUN"
+     if [[ $attempted_fallback -eq 1 ]]; then
+       FALLBACKS[$step]="true"
+     else
+       FALLBACKS[$step]="false"
+     fi
+     # write incremental summary and return early
+     write_summary
+     return
+   fi
+
+   bash -lc "$run_cmd" >> "$report_path" 2>&1
+   local exit_code=$?
+   EXIT_CODES[$step]="$exit_code"
+   if [[ $exit_code -eq 0 ]]; then
+     RESULTS[$step]="PASS"
+   else
+     RESULTS[$step]="FAIL"
+   fi
+   if [[ $attempted_fallback -eq 1 ]]; then
+     FALLBACKS[$step]="true"
+   else
+     FALLBACKS[$step]="false"
+   fi
 
   # Special handling: if this was test-ui and FILE_ARG provided, try seed prep
   if [[ "$step" == "test-ui" && -n "$FILE_ARG" ]]; then
@@ -314,6 +378,9 @@ main() {
   for step in "${STEPS[@]}"; do
     run_step "$step"
   done
+
+  # Ensure final summary is written
+  write_summary
 
   echo "Reports saved to: $REPORT_DIR"
 

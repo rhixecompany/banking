@@ -23,7 +23,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ci-reports-linux
-          path: ci-reports/**
+          path: ci-reports/linux/**
 
   targeted-run:
     runs-on: ${{ matrix.os }}
@@ -50,7 +50,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ci-reports-targeted-${{ matrix.os }}
-          path: ci-reports/**
+          path: ci-reports/targeted/**
 
   run-windows:
     runs-on: windows-latest
@@ -68,4 +68,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ci-reports-windows
-          path: ci-reports/**
+          path: ci-reports/windows/**
