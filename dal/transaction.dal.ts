@@ -3,7 +3,8 @@ import { and, desc, eq, isNull, sql } from "drizzle-orm";
 import type { Transaction, TransactionStats } from "@/types/transaction";
 
 import { db } from "@/database/db";
-import { transactions } from "@/database/schema";
+import { transactions, wallets } from "@/database/schema";
+import type { Wallet } from "@/types/wallet";
 
 /**
  * Data access layer for the `transactions` table.
@@ -137,6 +138,53 @@ export class TransactionDal {
       .groupBy(transactions.type);
 
     return result;
+  }
+
+  /**
+   * Finds transactions for a user and eagerly loads related wallet metadata
+   * for sender and receiver wallets to avoid N+1 queries in UI code.
+   * Returns transactions with optional senderWallet and receiverWallet fields.
+   */
+  async findByUserIdWithWallets(
+    userId: string,
+    limitVal = 50,
+    offsetVal = 0,
+  ): Promise<
+    (Transaction & {
+      senderWallet?: Wallet | null;
+      receiverWallet?: Wallet | null;
+    })[]
+  > {
+    // Perform a left join to wallets for sender and receiver to include
+    // basic wallet metadata (id, institutionName, fundingSourceUrl).
+    const rows = await db
+      .select({
+        txn: transactions,
+        sender: wallets,
+        receiver: wallets,
+      })
+      .from(transactions)
+      .leftJoin(wallets, eq(wallets.id, transactions.senderWalletId))
+      .leftJoin(
+        wallets as any,
+        eq((wallets as any).id, transactions.receiverWalletId),
+      )
+      .where(
+        and(eq(transactions.userId, userId), isNull(transactions.deletedAt)),
+      )
+      .orderBy(desc(transactions.createdAt))
+      .limit(limitVal)
+      .offset(offsetVal);
+
+    // Map result to merge transaction fields with optional wallet metadata.
+    return rows.map((r: any) => {
+      const txn: Transaction = r.txn as Transaction;
+      return {
+        ...txn,
+        senderWallet: r.sender ? (r.sender as Wallet) : null,
+        receiverWallet: r.receiver ? (r.receiver as Wallet) : null,
+      };
+    });
   }
 }
 
