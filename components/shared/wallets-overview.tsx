@@ -1,10 +1,8 @@
 "use client";
 
-import { Trash2 } from "lucide-react";
-
 import type { WalletWithDetails } from "@/types/wallet";
 
-import { Button } from "@/components/ui/button";
+import WalletCard from "@/components/layouts/wallet-card";
 import {
   Card,
   CardContent,
@@ -48,38 +46,12 @@ export default function WalletsOverview({
           ) : (
             <div className="space-y-3">
               {walletsWithDetails.map((wallet) => (
-                <div
+                <WalletCard
                   key={wallet.id}
-                  className="flex items-center justify-between rounded-lg border p-3"
-                >
-                  <div>
-                    <p className="font-medium">
-                      {wallet.institutionName ?? "Unknown Wallet"}
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      {wallet.accountType ?? "Account"} -{" "}
-                      {wallet.accountSubtype ?? "Standard"}
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-sm text-muted-foreground">Balance</div>
-                    <div className="text-base font-semibold">
-                      {formatAmount(wallet.balances[0]?.balances?.current ?? 0)}
-                    </div>
-                    {showActions && (
-                      <div className="mt-2">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          aria-label={`Remove ${wallet.institutionName ?? "wallet"}`}
-                          onClick={() => onRemove?.(wallet.id)}
-                        >
-                          <Trash2 className="size-5" />
-                        </Button>
-                      </div>
-                    )}
-                  </div>
-                </div>
+                  wallet={wallet}
+                  showActions={showActions}
+                  onRemove={onRemove}
+                />
               ))}
             </div>
           )}

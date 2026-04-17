@@ -2,11 +2,14 @@
 
 import type { Resolver } from "react-hook-form";
 
+import {
+  TransferSchema,
+  type TransferFormData,
+} from "@/lib/schemas/transfer.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
 
 import type { Recipient } from "@/types/recipient";
 import type { Wallet } from "@/types/wallet";
@@ -14,28 +17,6 @@ import type { Wallet } from "@/types/wallet";
 // createTransfer is provided by the surrounding server wrapper via props to
 // avoid importing server actions directly into client components.
 import PaymentTransferForm from "@/components/layouts/payment-transfer-form";
-
-// ---------------------------------------------------------------------------
-// Schema
-// ---------------------------------------------------------------------------
-
-/**
- * Zod schema for transfer form validation.
- * Validates amount as positive decimal, recipient and source as non-empty strings.
- */
-const TransferSchema = z.object({
-  amount: z.coerce
-    .number()
-    .positive("Amount must be greater than zero")
-    .multipleOf(0.01, "Amount may have at most 2 decimal places"),
-  recipientId: z.string().trim().min(1, "Please select a recipient"),
-  sourceBankId: z.string().trim().min(1, "Please select a source bank"),
-});
-
-/**
- * Type inferred from the TransferSchema for form data.
- */
-type TransferFormData = z.infer<typeof TransferSchema>;
 
 // ---------------------------------------------------------------------------
 // Props

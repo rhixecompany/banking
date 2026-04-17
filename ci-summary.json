@@ -1,0 +1,42 @@
+{
+  "build-debug-report.txt": {
+    "file": "build-debug-report.txt",
+    "ok": false,
+    "status": "missing"
+  },
+  "build-report.txt": {
+    "file": "build-report.txt",
+    "ok": false,
+    "status": "missing"
+  },
+  "format-check-report.txt": {
+    "file": "format-check-report.txt",
+    "ok": false,
+    "status": "missing"
+  },
+  "lint-fix-report.txt": {
+    "file": "lint-fix-report.txt",
+    "ok": false,
+    "status": "missing"
+  },
+  "lint-strict-report.txt": {
+    "file": "lint-strict-report.txt",
+    "ok": false,
+    "status": "missing"
+  },
+  "test-browser-report.txt": {
+    "file": "test-browser-report.txt",
+    "ok": false,
+    "status": "missing"
+  },
+  "test-ui-report.txt": {
+    "file": "test-ui-report.txt",
+    "ok": false,
+    "status": "missing"
+  },
+  "type-check-report.txt": {
+    "file": "type-check-report.txt",
+    "ok": false,
+    "status": "missing"
+  }
+}

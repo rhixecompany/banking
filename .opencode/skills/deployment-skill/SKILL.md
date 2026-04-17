@@ -1,7 +1,8 @@
 ---
-name: DeploymentSkill
+name: deployment-skill
 description: Deployment patterns for Vercel, Railway, and Docker for the Banking app.
 lastReviewed: 2026-04-13
+applyTo: "deploy/**"
 ---
 
 # DeploymentSkill — Deployment Patterns

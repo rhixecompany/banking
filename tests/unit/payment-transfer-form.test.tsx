@@ -5,7 +5,7 @@ import { expect, test, vi } from "vitest";
 import PaymentTransferForm from "@/components/layouts/payment-transfer-form";
 
 function Wrapper({
-  onSubmit = async () => {},
+  onSubmit = async () => undefined,
   recipients = [],
   wallets = [],
 }: {
@@ -39,7 +39,10 @@ test("renders form fields and submits", async () => {
     <Wrapper wallets={[wallet]} recipients={[recipient]} onSubmit={handler} />,
   );
 
-  // Selects are rendered by test-double as native selects with ids
+  // Selects are rendered by the test-double as native <select> elements.
+  // The test-double uses the SelectTrigger id as `select-<id>` so we target
+  // `select-source-bank` and `select-recipient` which are set in the
+  // PaymentTransferForm via SelectTrigger id attributes.
   const source = screen.getByTestId("select-source-bank");
   fireEvent.change(source, { target: { value: "w1" } });
 
@@ -49,13 +52,13 @@ test("renders form fields and submits", async () => {
   const amount = screen.getByPlaceholderText("0.00");
   fireEvent.change(amount, { target: { value: "12.34" } });
 
-  const btn = screen.getByRole("button", { name: /send transfer/i });
+  const btn = screen.getByTestId("transfer-submit");
+
+  // Click the submit button which triggers the form's onSubmit handler.
   fireEvent.click(btn);
 
-  // Fallback: submit native form if present
-  const formEl = document.querySelector("form");
-  if (formEl) fireEvent.submit(formEl as HTMLFormElement);
-
-  // handler should be called via form submit (wait for async handlers)
+  // Wait for the provided onSubmit handler to be invoked. The component
+  // performs form.trigger + handleSubmit internally so the handler should
+  // be called asynchronously.
   await waitFor(() => expect(handler).toHaveBeenCalled());
 });

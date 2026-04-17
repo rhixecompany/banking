@@ -31,7 +31,6 @@
     "opine-mcp-server",
     "openmesh",
     "pluggedin-mcp-proxy",
-    "playwrighт-mcp-server",
     "proxmox",
     "razorpay",
     "remote-mcp",
@@ -41,12 +40,10 @@
     "sequentialthinking",
     "smartbear",
     "vectra-ai-rux-mcp-server",
-    "neon",
     "apify-mcp-server",
     "apify",
     "elevenlabs",
     "neo4j-memory",
-    "singlestore",
-    "pluggedin-mcp-proxy"
+    "singlestore"
   ]
 }

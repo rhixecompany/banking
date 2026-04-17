@@ -3,7 +3,8 @@ import { and, desc, eq, isNull, sql } from "drizzle-orm";
 import type { Transaction, TransactionStats } from "@/types/transaction";
 
 import { db } from "@/database/db";
-import { transactions } from "@/database/schema";
+import { transactions, wallets } from "@/database/schema";
+import type { Wallet } from "@/types/wallet";
 
 /**
  * Data access layer for the `transactions` table.
@@ -137,6 +138,86 @@ export class TransactionDal {
       .groupBy(transactions.type);
 
     return result;
+  }
+
+  /**
+   * Finds transactions for a user and eagerly loads related wallet metadata
+   * for sender and receiver wallets to avoid N+1 queries in UI code.
+   * Returns transactions with optional senderWallet and receiverWallet fields.
+   */
+  async findByUserIdWithWallets(
+    userId: string,
+    limitVal = 50,
+    offsetVal = 0,
+  ): Promise<
+    (Transaction & {
+      senderWallet?: Pick<
+        Wallet,
+        "id" | "institutionName" | "fundingSourceUrl"
+      > | null;
+      receiverWallet?: Pick<
+        Wallet,
+        "id" | "institutionName" | "fundingSourceUrl"
+      > | null;
+    })[]
+  > {
+    // Perform a left join to wallets for sender and receiver to include
+    // basic wallet metadata (id, institutionName, fundingSourceUrl).
+    // Drizzle doesn't allow joining the same table twice without aliasing.
+    // Build explicit selects for sender and receiver wallet fields to avoid aliasing issues.
+    const rows = await db
+      .select({
+        txn: transactions,
+        sender_id: wallets.id,
+        sender_institutionName: wallets.institutionName,
+        sender_fundingSourceUrl: wallets.fundingSourceUrl,
+        receiver_id: wallets.id,
+        receiver_institutionName: wallets.institutionName,
+        receiver_fundingSourceUrl: wallets.fundingSourceUrl,
+      })
+      .from(transactions)
+      // join sender wallet
+      .leftJoin(wallets, eq(wallets.id, transactions.senderWalletId))
+      // join receiver wallet (will override selected column names from previous join; we'll reconstruct below)
+      .leftJoin(wallets, eq(wallets.id, transactions.receiverWalletId))
+      .where(
+        and(eq(transactions.userId, userId), isNull(transactions.deletedAt)),
+      )
+      .orderBy(desc(transactions.createdAt))
+      .limit(limitVal)
+      .offset(offsetVal);
+
+    // Map result to merge transaction fields with optional wallet metadata.
+    return rows.map((r: any) => {
+      const txn: Transaction = r.txn as Transaction;
+      // Reconstruct sender/receiver wallets from explicit fields
+      const senderWallet: Pick<
+        Wallet,
+        "id" | "institutionName" | "fundingSourceUrl"
+      > | null = r.sender_id
+        ? {
+            id: r.sender_id,
+            institutionName: r.sender_institutionName,
+            fundingSourceUrl: r.sender_fundingSourceUrl,
+          }
+        : null;
+      const receiverWallet: Pick<
+        Wallet,
+        "id" | "institutionName" | "fundingSourceUrl"
+      > | null = r.receiver_id
+        ? {
+            id: r.receiver_id,
+            institutionName: r.receiver_institutionName,
+            fundingSourceUrl: r.receiver_fundingSourceUrl,
+          }
+        : null;
+
+      return {
+        ...txn,
+        senderWallet,
+        receiverWallet,
+      };
+    });
   }
 }
 

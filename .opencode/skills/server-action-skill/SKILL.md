@@ -1,7 +1,8 @@
 ---
-name: ServerActionSkill
+name: server-action-skill
 description: Patterns and examples for Next.js Server Actions in the Banking app.
 lastReviewed: 2026-04-13
+applyTo: "app/**/*.{ts,tsx}"
 ---
 
 # ServerActionSkill — Server Actions

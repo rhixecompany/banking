@@ -214,7 +214,7 @@ export function PlaidProvider({
         setError(result.error ?? "Failed to link bank account");
       }
     },
-    [userId],
+    [userId, exchangePublicToken],
   );
 
   const { open, ready } = usePlaidLink({

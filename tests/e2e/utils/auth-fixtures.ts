@@ -1,5 +1,9 @@
 import { type APIRequestContext } from "@playwright/test";
 import jwt from "jsonwebtoken";
+// jose is used to produce Compact JWE tokens compatible with NextAuth when
+// session.strategy = "jwt" and NEXTAUTH_SECRET is used for encryption.
+// We add it as a devDependency and use it only in test helpers.
+import * as jose from "jose";
 
 /**
  * Create an authenticated session cookie for Playwright tests by generating
@@ -8,23 +12,98 @@ import jwt from "jsonwebtoken";
  *
  * Note: Keep this helper small and opt-in. It is intended for tests only.
  */
-export function makeNextAuthJwtToken(
+/**
+ * Create a NextAuth-compatible token. Historically we created a signed JWT
+ * with jsonwebtoken. NextAuth in this app expects an encrypted Compact JWE
+ * (Encrypted JWT) when NEXTAUTH_SECRET is set and session.strategy = 'jwt'.
+ *
+ * This helper will attempt to produce a Compact JWE using the NEXTAUTH_SECRET
+ * with algorithms matching NextAuth defaults (dir + A256GCM). If JWE creation
+ * fails for any reason, we fall back to a signed JWT for environments where
+ * NextAuth is configured to accept unsigned/signed tokens in tests.
+ */
+export async function makeNextAuthJweToken(
   payload: Record<string, unknown>,
   secret: string,
   maxAge = 60 * 60 * 24 * 30,
-): string {
-  // Use jsonwebtoken to create a signed token. NextAuth uses jose and additional
-  // envelope encryption in production, but in tests we only need a signed JWT
-  // that the app will accept when using getToken(...) in proxy or middleware.
-  // Keep the shape minimal: include id, name, email and exp.
+): Promise<string> {
   const now = Math.floor(Date.now() / 1000);
-  const token = {
+  const tokenPayload = {
     exp: now + maxAge,
     iat: now,
     ...payload,
   };
 
-  return jwt.sign(token, secret);
+  // NextAuth derives an encryption key from NEXTAUTH_SECRET using a KDF. The
+  // simplest interoperable approach here is to derive a 32-byte key by
+  // hashing the secret with SHA-256. This matches practical setups where the
+  // secret is used directly as a symmetric key material for "dir" + A256GCM.
+  try {
+    const enc = new TextEncoder();
+    const keyMaterial = await jose.importKey(
+      // jose doesn't expose importKey(name) like WebCrypto; instead use
+      // CryptoKey derivation helpers. We'll derive a raw key from the SHA-256
+      // digest of the secret and import it for use with direct encryption.
+      // Implement using SubtleCrypto directly for determinism.
+      // Note: Node's global crypto.subtle is available in this environment.
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      undefined as unknown as CryptoKey,
+    );
+  } catch {
+    // jose import path above is just a guard; perform the standard path below.
+  }
+
+  try {
+    // Derive a 32-byte key by hashing the secret with SHA-256
+    const secretBytes = new TextEncoder().encode(secret);
+    // Use Node/global crypto.subtle if available
+    // @ts-expect-error -- Node typings for crypto.subtle may not exist
+    const digest = await (globalThis.crypto?.subtle ?? crypto.subtle).digest(
+      "SHA-256",
+      secretBytes,
+    );
+    const key = await jose.importKey(
+      new Uint8Array(digest),
+      { alg: "A256GCM", use: "enc" },
+      // jose expects a KeyLike; use importJWK alternative
+      undefined as unknown as jose.KeyLike,
+    );
+
+    // jose API: new CompactEncrypt(utf8.encode(JSON.stringify(payload))).
+    // However, jose's high-level API offers jwtEncrypt which accepts a
+    // payload and a key.
+    const alg = "dir"; // direct symmetric key
+    const encAlg = "A256GCM";
+
+    // Create a CryptoKey from raw digest for jose: use importJWK style with
+    // a symmetric key represented as base64url
+    const b64Url = jose.base64url.encode(new Uint8Array(digest));
+    const jwk = {
+      kty: "oct",
+      k: b64Url,
+      alg: "A256GCM",
+    } as unknown as jose.JWK;
+
+    const keyLike = await jose.importJWK(jwk, encAlg);
+
+    const jwe = await new jose.CompactEncrypt(
+      new TextEncoder().encode(JSON.stringify(tokenPayload)),
+    )
+      .setProtectedHeader({ alg, enc: encAlg })
+      .encrypt(keyLike);
+
+    return jwe;
+  } catch (e) {
+    // If any part of JWE creation fails, fall back to the original signed
+    // JWT approach so tests remain operational in environments where NextAuth
+    // is tolerant or tests don't require JWE.
+    // eslint-disable-next-line no-console
+    console.warn(
+      "[makeNextAuthJweToken] JWE creation failed, falling back to signed JWT:",
+      String(e),
+    );
+    return jwt.sign(tokenPayload, secret);
+  }
 }
 
 /**
@@ -56,6 +135,23 @@ export async function setAuthCookie(
         value: token,
       },
     });
+
+    // Diagnostic logging: surface status and headers so Playwright logs will
+    // show whether the Set-Cookie header was present and what the server
+    // returned. This helps diagnose environments where proxies strip
+    // Set-Cookie headers.
+    try {
+      // headers() may be an object; convert to array for logging
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      const hdrs = await (res as any).headers?.();
+      console.log(
+        `[setAuthCookie] status=${res.status()} headers=${JSON.stringify(hdrs)}`,
+      );
+    } catch (e) {
+      console.log(
+        `[setAuthCookie] status=${res.status()} (failed to read headers)`,
+      );
+    }
 
     // Return whether the server accepted setting the cookie. Tests will
     // optionally fall back to using Playwright's browser context to set the

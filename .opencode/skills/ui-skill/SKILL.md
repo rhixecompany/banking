@@ -1,7 +1,8 @@
 ---
-name: UISkill
+name: ui-skill
 description: shadcn/ui component patterns and Tailwind CSS styling for the Banking app. Use when building forms, tables, dialogs, or UI components.
 lastReviewed: 2026-04-13
+applyTo: "app/**/*.{tsx,ts}"
 ---
 
 # UISkill - Banking UI Components

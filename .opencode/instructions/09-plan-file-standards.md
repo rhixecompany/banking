@@ -6,15 +6,17 @@ lastReviewed: 2026-04-13
 
 # Plan File Standards
 
-When a task is expected to change more than 3 files, create a plan before implementation.
+When a task is expected to change more than 7 files, create a plan before implementation.
 
 Agentic note: For this repository, treat `AGENTS.md` as the canonical source of truth for plan thresholds, locations, and required sections. If any instruction in `.opencode/` conflicts with `AGENTS.md`, update the instruction to match `AGENTS.md`.
 
 ## Location and Naming
 
-- Save every plan in `.opencode/plans/`.
+- Save every plan in `.opencode/commands/`.
 - Use markdown files with `.plan.md` suffix.
-- Use this filename format: `<short-kebab-task>_<8-char-id>.plan.md`.
+- Use this filename format: `<short-kebab-task>.plan.md`.
+
+Note: Legacy plan artifacts may exist under `.opencode/plans/` or `.cursor/plans/`. Preserve those files for historical provenance — do not move or delete them. Use `.opencode/commands/` for all new user-facing plan files.
 
 ## Required Plan Sections
 

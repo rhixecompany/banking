@@ -9,6 +9,7 @@ description: |
   - Adding iterative improvement to agent outputs (code, reports, analysis)
   - Measuring and improving agent response quality
 lastReviewed: 2026-04-13
+applyTo: "**/*"
 ---
 
 # Agentic Evaluation Patterns

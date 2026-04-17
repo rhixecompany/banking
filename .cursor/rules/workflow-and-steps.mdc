@@ -9,8 +9,8 @@ Follow this sequence for every task:
 
 1. Understand the request and define the expected outcome.
 2. Inspect relevant files and existing patterns before editing.
-3. If the change is likely to touch more than 3 files, propose a plan first.
-4. Save that plan as a markdown file in `.opencode/plans/` before implementation.
+3. If the change is likely to touch more than 7 files, propose a plan first.
+4. Save that plan as a markdown file in `.opencode/commands/` before implementation.
 5. Plan minimal, safe changes aligned with project standards.
 6. Implement changes in small, focused edits.
 7. Verify behavior with targeted checks or tests.

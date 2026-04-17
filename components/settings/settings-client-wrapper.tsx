@@ -1,5 +1,6 @@
 "use client";
 
+import { PasswordSchema, ProfileSchema } from "@/lib/schemas/profile.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -30,55 +31,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 
-// ---------------------------------------------------------------------------
-// Schemas — derived from UpdateProfileSchema in lib/actions/updateProfile.ts
-// rather than re-defining them locally.
-// ---------------------------------------------------------------------------
-
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @type {*}
- */
-const ProfileSchema = z.object({
-  address: z.string().trim().optional(),
-  city: z.string().trim().optional(),
-  email: z.string().trim().email("Invalid email address").optional(),
-  image: z
-    .string()
-    .trim()
-    .url("Invalid image URL")
-    .optional()
-    .or(z.literal("")),
-  name: z
-    .string()
-    .trim()
-    .min(2, "Name must be at least 2 characters")
-    .optional(),
-  phone: z.string().trim().optional(),
-  postalCode: z.string().trim().optional(),
-  state: z.string().trim().optional(),
-});
-
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @type {*}
- */
-const PasswordSchema = z
-  .object({
-    newPassword: z
-      .string()
-      .trim()
-      .min(8, "New password must be at least 8 characters"),
-    password: z.string().trim().min(8, "Current password is required"),
-  })
-  .refine((d) => d.newPassword !== d.password, {
-    error: "New password must differ from current password",
-    path: ["newPassword"],
-  });
+// Schemas are centralized in lib/schemas/profile.schema.ts and imported above
 
 /**
  * Description placeholder

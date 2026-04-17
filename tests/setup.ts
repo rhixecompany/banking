@@ -1,7 +1,17 @@
+import "@testing-library/jest-dom";
 import { cleanup } from "@testing-library/react";
 import { config } from "dotenv";
+import { setupServer } from "msw/node";
 import { resolve } from "path";
 import { afterEach, vi } from "vitest";
+import { handlers } from "./mocks/handlers";
+
+// Start MSW server for unit tests to intercept network requests and provide deterministic responses
+const server = setupServer(...handlers);
+
+beforeAll(() => server.listen({ onUnhandledRequest: "warn" }));
+afterAll(() => server.close());
+afterEach(() => server.resetHandlers());
 
 config({ path: resolve(process.cwd(), ".env.local") });
 
@@ -24,3 +34,53 @@ vi.mock("@/components/ui/select", async () => {
 vi.mock("sonner", () => ({
   toast: { error: vi.fn(), success: vi.fn() },
 }));
+
+// Mock Chart/Doughnut used by TotalBalanceBox to avoid canvas/context issues in JSDOM/happy-dom
+vi.mock("@/components/doughnut-chart/doughnut-chart", async () => {
+  const React = await import("react");
+  return {
+    default: (props: any) => {
+      const accounts = props?.accounts ?? [];
+      return React.createElement(
+        "div",
+        { "data-testid": "mock-doughnut" },
+        accounts.map((a: any) =>
+          React.createElement(
+            "span",
+            { key: a.id },
+            a.name || a.officialName || "",
+          ),
+        ),
+      );
+    },
+  };
+});
+
+// Mock ChartAreaInteractive globally to avoid Recharts requiring browser layout
+vi.mock(
+  "@/components/chart-area-interactive/chart-area-interactive",
+  async () => {
+    const React = await import("react");
+    return {
+      ChartAreaInteractive: (props: any) =>
+        React.createElement("div", { "data-testid": "mock-area" }, "Area"),
+    };
+  },
+);
+
+// Mock onboarding feed which uses next/router in the real app
+vi.mock(
+  "@/components/shadcn-studio/blocks/onboarding-feed-01/onboarding-feed-01",
+  async () => {
+    const React = await import("react");
+    return {
+      __esModule: true,
+      default: (props: any) =>
+        React.createElement(
+          "div",
+          { "data-testid": "mock-onboarding" },
+          "Onboarding",
+        ),
+    };
+  },
+);
