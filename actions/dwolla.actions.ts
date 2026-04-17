@@ -130,24 +130,8 @@ const CreateLedgerSchema = z
  *
  * @type {*}
  */
-const TransferSchema = z.object({
-  amount: z
-    .string()
-    .trim()
-    .min(1, "Amount is required")
-    .meta({ description: "Transfer amount in USD" }),
-  createLedger: CreateLedgerSchema,
-  destinationFundingSourceUrl: z
-    .string()
-    .trim()
-    .min(1, "Destination URL is required")
-    .meta({ description: "Destination funding source URL" }),
-  sourceFundingSourceUrl: z
-    .string()
-    .trim()
-    .min(1, "Source URL is required")
-    .meta({ description: "Source funding source URL" }),
-});
+// Use the centralized TransferSchema shared between client and server to avoid drift
+import { TransferSchema } from "@/lib/schemas/transfer.schema";
 
 /**
  * Zod schema for validating a Dwolla funding source creation payload.

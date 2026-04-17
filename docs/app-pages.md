@@ -30,6 +30,7 @@ The audits are ordered by priority and intended to drive small, focused implemen
 - Suggested patches:
   - Ensure HomeServerWrapper contains no auth() or DAL calls. If present, move to DashboardServerWrapper.
   - Extract UI-only presentational components to components/layouts/ (e.g., components/layouts/total-balance) and add unit tests.
+  - NOTE: `components/layouts/total-balance` and `components/layouts/wallet-card` were added and have unit tests under components/layouts/\*.
 
 2. Dashboard — app/(root)/dashboard/page.tsx -> DashboardServerWrapper
 

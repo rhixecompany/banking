@@ -13,6 +13,8 @@ Global helpers and patterns
 - Seed runner: scripts/seed/run.ts
   - Use this script to prepare DB state for Playwright. It must be invoked via `npm run db:seed` (it loads .env.local before importing app modules).
   - Always validate with `--dry-run` first to inspect planned operations.
+  - For deterministic authenticated tests the seed runner will create a seeded test user with credentials stored in `tests/fixtures/seed-user.json`.
+  - Default seeded user for test runs: `seed.user@example.com / P@ssw0rd`.
 
 - Plaid & Dwolla short-circuits
   - tests/e2e/helpers/plaid.mock.ts provides helpers to inject a mock Plaid init script into the page. Use `addMockPlaidInitScript(page, "MOCK_PUBLIC_TOKEN")` prior to navigation.
@@ -24,7 +26,7 @@ Global helpers and patterns
 Unit Tests
 
 - Keep unit tests deterministic and fast.
-- Use msw or centralized mocks located under tests/mocks for network interactions.
+- Use msw or centralized mocks located under tests/mocks for network interactions. Add fixtures under `tests/fixtures/` and reference them from unit and E2E setups to ensure deterministic data.
 - Prefer testing presentational components in isolation; extract large pieces into components/layouts so they can be tested without app wiring.
 
 Playwright E2E

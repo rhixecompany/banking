@@ -23,6 +23,12 @@ Inventory
 Current components (non-ui library) referenced directly by pages
 
 - components/total-balance-box/total-balance-box.tsx — Presentational card showing total balance and chart. Candidate to extract into components/layouts/total-balance with a small unit test.
+  - Note: `components/layouts/total-balance` has been added and includes `index.tsx` and `total-balance.test.tsx`.
+
+Helpers & Test notes:
+
+- Added `tests/fixtures/seed-user.json` as the canonical seeded test user.
+- Added `tests/mocks/handlers.ts` with a minimal MSW handler and updated `tests/setup.ts` to start an MSW server for unit tests.
 - components/shared/wallets-overview.tsx — Presentational list of linked wallets with optional actions. Candidate to split into a pure WalletCard under components/layouts/wallet-card and a wrapper that handles onRemove.
 - components/payment-transfer/payment-transfer-client-wrapper.tsx — Client wrapper that contains TransferSchema and form wiring; TransferSchema should be moved to lib/schemas/transfer.schema.ts and the presentational PaymentTransferForm (already under components/layouts) kept schema-agnostic.
 - components/payment-transfer/payment-transfer-server-wrapper.tsx — Server wrapper (auth + parallel fetch) that correctly passes createTransfer server action into the client wrapper (pattern is correct).
