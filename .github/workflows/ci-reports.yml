@@ -1,0 +1,44 @@
+name: CI Reports
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  run-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Run CI checks (bash)
+        run: |
+          chmod +x scripts/utils/run-ci-checks.sh
+          ./scripts/utils/run-ci-checks.sh --report-dir ./ci-reports/linux || true
+      - name: Upload reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-reports-linux
+          path: ci-reports/**
+
+  run-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Run CI checks (PowerShell)
+        shell: pwsh
+        run: |
+          pwsh -File .\scripts\utils\run-ci-checks.ps1 -ReportDir .\ci-reports\windows
+      - name: Upload reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-reports-windows
+          path: ci-reports/**

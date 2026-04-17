@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+# shellcheck disable=SC2155,SC2034,SC2086
 set -euo pipefail
 
 usage() {

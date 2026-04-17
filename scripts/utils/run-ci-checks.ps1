@@ -135,11 +135,22 @@ function Run-Step($step) {
         & bash -lc "$cmd" 2>&1 | Tee-Object -FilePath $reportFile
         $exit = $LASTEXITCODE
     } else {
+        # If command is "npm run <script>" or starts with "npx" or "npm", prefer invoking node tooling directly
         if ($cmd -match '^npm run\s+(.+)$') {
             $scriptName = $Matches[1]
+            # Use npm command directly and pass through script name
             & npm run $scriptName 2>&1 | Tee-Object -FilePath $reportFile
             $exit = $LASTEXITCODE
+        } elseif ($cmd -match '^npx\s+(.+)$') {
+            $tool = $Matches[1]
+            & npx $tool 2>&1 | Tee-Object -FilePath $reportFile
+            $exit = $LASTEXITCODE
+        } elseif ($cmd -match '^npm\s+(.+)$') {
+            $args = $Matches[1]
+            & npm $args 2>&1 | Tee-Object -FilePath $reportFile
+            $exit = $LASTEXITCODE
         } else {
+            # Last resort: run via cmd.exe
             cmd.exe /c $cmd 2>&1 | Tee-Object -FilePath $reportFile
             $exit = $LASTEXITCODE
         }
