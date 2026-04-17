@@ -17,6 +17,7 @@ param(
     [string]$ReportDir,
     [string]$File,
     [switch]$ContinueOnFail,
+    [int]$Parallel = 3,
     [switch]$DryRun,
     [switch]$Help
 )
