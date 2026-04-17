@@ -1215,7 +1215,7 @@
     "productId": "00QuickstartRules",
     "repoUrl": ".opencode\\instructions/",
     "scope": ["project"],
-    "tagline": "Using the question tool ask the user for his desired persona for the session if the agent is in a running in a subage...",
+    "tagline": "- Using the question tool ask the user for his persona,shell,os,git config, and any clarify or needed question. then ...",
     "tags": ["opencode", "instructions"],
     "type": "resources"
   },
@@ -1356,6 +1356,16 @@
     "repoUrl": ".opencode\\instructions/",
     "scope": ["project"],
     "tagline": "- Scripts that modify infrastructure must accept `--dry-run` and be gated behind RUN_DESTRUCTIVE=true plus `--yes`.",
+    "tags": ["opencode", "instructions"],
+    "type": "resources"
+  },
+  {
+    "description": "Background process manager",
+    "displayName": "13BackgroundRules",
+    "productId": "13BackgroundRules",
+    "repoUrl": ".opencode\\instructions/",
+    "scope": ["project"],
+    "tagline": "I need to run and monitor multiple background processes for a build pipeline:",
     "tags": ["opencode", "instructions"],
     "type": "resources"
   },
@@ -1537,6 +1547,16 @@
     "scope": ["project"],
     "tagline": "This Skill produces high-quality, consistent meeting minutes for internal meetings that are 60 minutes or shorter. Ou...",
     "tags": ["opencode", "skills"],
+    "type": "resources"
+  },
+  {
+    "description": "This file is the canonical always-on routing policy for `morph_edit`. Keep it in the `instructions` array, not in a skill, so agents do not need an extra load step before choosing the right editing tool. Use the right editing tool for the job. `morph_edit` is not the default for all edits, but it SHOULD be preferred for edits where partial-snippet merging is faster or more reliable than exact-string replacement. | Editing task | First tool | Why | | --- | --- | --- |",
+    "displayName": "MorphTools",
+    "productId": "MorphTools",
+    "repoUrl": ".opencode\\instructions/",
+    "scope": ["project"],
+    "tagline": "This instruction is designed to be always loaded by OpenCode so agents reliably choose `morph_edit` when it is the be...",
+    "tags": ["opencode", "instructions"],
     "type": "resources"
   },
   {

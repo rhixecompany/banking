@@ -206,8 +206,19 @@ export class TransactionDal {
       // rows shape: { fundingSourceUrl, id, institutionName }
       walletsMap = rows.reduce(
         (
-          acc: Record<string, { fundingSourceUrl: string | null; id: string; institutionName: string | null }>,
-          w: { fundingSourceUrl?: string | null; id: string; institutionName?: string | null },
+          acc: Record<
+            string,
+            {
+              fundingSourceUrl: string | null;
+              id: string;
+              institutionName: string | null;
+            }
+          >,
+          w: {
+            fundingSourceUrl?: string | null;
+            id: string;
+            institutionName?: string | null;
+          },
         ) => {
           const id = String(w.id);
           acc[id] = {
@@ -217,7 +228,14 @@ export class TransactionDal {
           };
           return acc;
         },
-        {} as Record<string, { fundingSourceUrl: string | null; id: string; institutionName: string | null }>,
+        {} as Record<
+          string,
+          {
+            fundingSourceUrl: string | null;
+            id: string;
+            institutionName: string | null;
+          }
+        >,
       );
     }
 

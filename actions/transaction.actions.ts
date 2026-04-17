@@ -2,10 +2,10 @@
 
 import type { Transaction } from "@/types/transaction";
 
-import { z } from "zod";
 import { transactionDal } from "@/dal";
 import { auth } from "@/lib/auth";
 import { logger } from "@/lib/logger";
+import { z } from "zod";
 
 /**
  * Returns the most recent transactions for the authenticated user, up to the given limit.

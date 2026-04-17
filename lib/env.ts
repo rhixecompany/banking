@@ -16,7 +16,7 @@ import {
   plaid,
   redis,
   validateRequiredConfig,
-} from "@/app-config";
+} from "../app-config";
 
 /**
  * Re-export all configuration from app-config.ts

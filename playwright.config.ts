@@ -151,7 +151,7 @@ export default defineConfig({
       // Playwright starts the application. We avoid forwarding the whole
       // process.env to limit leakage of unrelated variables.
       env: webEnv,
-    reuseExistingServer: !env.CI,
+      reuseExistingServer: !env.CI,
       stderr: "pipe",
       stdout: "pipe",
       timeout: TIMEOUTS.WEB_SERVER,
