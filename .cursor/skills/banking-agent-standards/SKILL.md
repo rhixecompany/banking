@@ -1,6 +1,8 @@
 ---
 name: banking-agent-standards
 description: Aligns agents with the Banking app codebase using Next.js 16 App Router, TypeScript (strict), Drizzle ORM, PostgreSQL, NextAuth v4, shadcn/ui, Tailwind CSS v4, Zod, Vitest, and Playwright. Enforces PR-blocking rules (no any, no N+1 queries, environment via lib/env.ts, mutations only through Server Actions). Use when working in this repository, changing files under app/, lib/, database/, or tests, or when the user asks to follow Banking standards or AGENTS.md.
+lastReviewed: 2026-04-17
+applyTo: "**/*"
 ---
 
 # Banking agent standards
