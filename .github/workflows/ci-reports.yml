@@ -25,6 +25,33 @@ jobs:
           name: ci-reports-linux
           path: ci-reports/**
 
+  targeted-run:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Run targeted checks (example)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          chmod +x scripts/utils/run-ci-checks.sh
+          ./scripts/utils/run-ci-checks.sh --only=format-check,lint-fix --file README.md --report-dir ./ci-reports/targeted || true
+      - name: Run targeted checks (windows)
+        if: matrix.os == 'windows-latest'
+        shell: pwsh
+        run: |
+          pwsh -File .\scripts\utils\run-ci-checks.ps1 -Only "format-check,lint-fix" -File README.md -ReportDir .\ci-reports\targeted
+      - name: Upload targeted reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-reports-targeted-${{ matrix.os }}
+          path: ci-reports/**
+
   run-windows:
     runs-on: windows-latest
     steps:

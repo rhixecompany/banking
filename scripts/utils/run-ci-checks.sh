@@ -27,6 +27,8 @@ REPORT_DIR=""
 declare -a ONLY_STEPS
 declare -a SKIP_STEPS
 CONTINUE_ON_FAIL=false
+# target file(s) (comma-separated or glob)
+FILE_ARG=""
 
 # Helper: trim whitespace (portable using awk)
 trim() {
@@ -93,6 +95,20 @@ while [[ $# -gt 0 ]]; do
     --report-dir)
       shift
       REPORT_DIR="$1"
+      shift
+      ;;
+    --file=*)
+      FILE_ARG="${1#--file=}"
+      shift
+      ;;
+    --file)
+      shift
+      FILE_ARG="$1"
+      shift
+      ;;
+    -f)
+      shift
+      FILE_ARG="$1"
       shift
       ;;
     --continue-on-fail)
@@ -209,10 +225,86 @@ run_step() {
   report_path="$REPORT_DIR/$report"
 
   echo "==> Running: $command"
-  if bash -lc "$command" > "$report_path" 2>&1; then
+  # If FILE_ARG is provided and we have a targeted command for this step, prefer the targeted invocation
+  # Targeted commands (use {path} placeholder)
+  declare -A TARGETED
+  TARGETED["format-check"]="prettier --config .prettierrc.ts --check {path}"
+  TARGETED["format"]="prettier --config .prettierrc.ts --write {path}"
+  TARGETED["format:markdown"]="npx markdownlint-cli2 -c .markdownlintrc.json {path}"
+  TARGETED["lint-fix"]="eslint --config eslint.config.mts --fix {path}"
+  TARGETED["lint-strict"]="eslint --config eslint.config.mts --max-warnings=0 {path}"
+  TARGETED["test-browser"]="vitest --config=vitest.config.ts run {path}"
+  TARGETED["test-ui"]="cross-env PLAYWRIGHT_PREPARE_DB=true playwright test {path} --project=chromium"
+  TARGETED["type-check"]="tsc --noEmit --pretty {path}"
+
+  # Determine command to run
+  local run_cmd="$command"
+  if [[ -n "$FILE_ARG" && -n "${TARGETED[$step]:-}" ]]; then
+    # Prepare files array (split on comma) to pass to tool
+    IFS=',' read -ra FILES <<< "$FILE_ARG"
+    # join files with space, but preserve quoting by building an array for exec
+    local file_args=()
+    for f in "${FILES[@]}"; do
+      file_args+=("$f")
+    done
+
+    # substitute placeholder
+    local tpl="${TARGETED[$step]}"
+    # replace {path} with quoted list
+    local joined=""
+    for fa in "${file_args[@]}"; do
+      # escape double quotes
+      joined+="\"$fa\" ">
+    done
+    # trim trailing space
+    joined="${joined% }"
+    run_cmd="${tpl//\{path\}/$joined}"
+  else
+    # no file arg or no targeted template: run normal command
+    run_cmd="$command"
+  fi
+
+  # Helper: map step to primary tool name for detection
+  declare -A TOOL
+  TOOL["format-check"]="prettier"
+  TOOL["format"]="prettier"
+  TOOL["format:markdown"]="markdownlint-cli2"
+  TOOL["lint-fix"]="eslint"
+  TOOL["lint-strict"]="eslint"
+  TOOL["test-browser"]="vitest"
+  TOOL["test-ui"]="playwright"
+  TOOL["type-check"]="tsc"
+
+  # If targeted command requested, detect tool availability; else fallback to npm script
+  local attempted_fallback=0
+  if [[ -n "$FILE_ARG" && -n "${TARGETED[$step]:-}" ]]; then
+    local toolname="${TOOL[$step]:-}"
+    if ! command -v "$toolname" >/dev/null 2>&1; then
+      # write fallback note to report and switch to npm run <script>
+      echo "Tool $toolname not found on PATH; falling back to '${COMMANDS[$step]}'" > "$report_path"
+      run_cmd="${COMMANDS[$step]}"
+      attempted_fallback=1
+    fi
+  fi
+
+  if bash -lc "$run_cmd" >> "$report_path" 2>&1; then
     RESULTS[$step]="PASS"
   else
     RESULTS[$step]="FAIL"
+  fi
+
+  # Special handling: if this was test-ui and FILE_ARG provided, try seed prep
+  if [[ "$step" == "test-ui" && -n "$FILE_ARG" ]]; then
+    if [[ -f "scripts/utils/ci-helpers/seed-prep.ts" || -f "scripts/utils/ci-helpers/seed-prep.js" ]]; then
+      echo "\n==> Running seed prep for targeted Playwright run" >> "$report_path"
+      if npm run ci:helpers:seed-prep >> "$report_path" 2>&1; then
+        echo "Seed prep completed" >> "$report_path"
+      else
+        echo "Seed prep failed or was skipped" >> "$report_path"
+      fi
+    else
+      echo "Seed prep helper not found; skipping DB prep" >> "$report_path"
+    fi
   fi
 }
 

@@ -15,6 +15,7 @@ param(
     [string]$Only,
     [string]$Skip,
     [string]$ReportDir,
+    [string]$File,
     [switch]$ContinueOnFail,
     [switch]$Help
 )
@@ -129,6 +130,46 @@ function Run-Step($step) {
     $cmd = $COMMANDS[$step]
     $reportFile = Join-Path $ReportDir $REPORTS[$step]
     Write-Host "==> Running: $cmd"
+
+    # Targeted commands for file-level runs
+    $TARGETED = @{
+        'format-check' = 'prettier --config .prettierrc.ts --check {path}'
+        'format' = 'prettier --config .prettierrc.ts --write {path}'
+        'format:markdown' = 'npx markdownlint-cli2 -c .markdownlintrc.json {path}'
+        'lint-fix' = 'eslint --config eslint.config.mts --fix {path}'
+        'lint-strict' = 'eslint --config eslint.config.mts --max-warnings=0 {path}'
+        'test-browser' = 'vitest --config=vitest.config.ts run {path}'
+        'test-ui' = 'cross-env PLAYWRIGHT_PREPARE_DB=true playwright test {path} --project=chromium'
+        'type-check' = 'tsc --noEmit --pretty {path}'
+    }
+
+    # If File parameter provided and targeted mapping exists, substitute
+    if ($File -and $TARGETED.ContainsKey($step)) {
+        $paths = $File -split ',' | ForEach-Object { $_.Trim() } | Where-Object { $_ -ne '' }
+        $joined = $paths -join ' '
+        $cmd = $TARGETED[$step].Replace('{path}',$joined)
+
+        # detect tool availability
+        $tool = switch ($step) {
+            'format-check' {'prettier'}
+            'format' {'prettier'}
+            'format:markdown' {'markdownlint-cli2'}
+            'lint-fix' {'eslint'}
+            'lint-strict' {'eslint'}
+            'test-browser' {'vitest'}
+            'test-ui' {'playwright'}
+            'type-check' {'tsc'}
+            default { $null }
+        }
+        if ($tool) {
+            $found = Get-Command $tool -ErrorAction SilentlyContinue
+            if (-not $found) {
+                "Tool $tool not found on PATH; falling back to 'npm run $step'" | Out-File -FilePath $reportFile -Encoding utf8
+                $cmd = $COMMANDS[$step]
+            }
+        }
+    }
+
     # Prefer bash if available (for parity with the Bash script); otherwise fall back to npm or cmd
     $bashCmd = Get-Command bash -ErrorAction SilentlyContinue
     if ($bashCmd) {
@@ -159,6 +200,17 @@ function Run-Step($step) {
         $Results[$step] = 'PASS'
     } else {
         $Results[$step] = 'FAIL'
+    }
+
+    # If this was test-ui and File provided, attempt seed prep
+    if ($step -eq 'test-ui' -and $File) {
+        if (Test-Path 'scripts/utils/ci-helpers/seed-prep.ts' -PathType Leaf -ErrorAction SilentlyContinue) {
+            "`n==> Running seed prep for targeted Playwright run" | Out-File -FilePath $reportFile -Append -Encoding utf8
+            # attempt to run npm helper
+            & npm run ci:helpers:seed-prep 2>&1 | Tee-Object -FilePath $reportFile -Append
+        } else {
+            "Seed prep helper not found; skipping DB prep" | Out-File -FilePath $reportFile -Append -Encoding utf8
+        }
     }
 }
 
