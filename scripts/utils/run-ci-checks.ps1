@@ -149,29 +149,36 @@ function Run-Step($step) {
     # If File parameter provided and targeted mapping exists, substitute
     if ($File -and $TARGETED.ContainsKey($step)) {
         $paths = $File -split ',' | ForEach-Object { $_.Trim() } | Where-Object { $_ -ne '' }
-        $joined = $paths -join ' '
-        $cmd = $TARGETED[$step].Replace('{path}',$joined)
+        # Create a tmp file with NUL-separated paths
+        $tmp = [IO.Path]::GetTempFileName()
+        try {
+            $bytes = [System.Text.Encoding]::UTF8.GetBytes(($paths -join "`0") + "`0")
+            [IO.File]::WriteAllBytes($tmp, $bytes)
+        } catch {
+            Write-Error "Failed to write tmp file for targeted run"
+            exit 2
+        }
 
-        # detect tool availability
-        $tool = switch ($step) {
-            'format-check' {'prettier'}
-            'format' {'prettier'}
-            'format:markdown' {'markdownlint-cli2'}
-            'lint-fix' {'eslint'}
-            'lint-strict' {'eslint'}
-            'test-browser' {'vitest'}
-            'test-ui' {'playwright'}
-            'type-check' {'tsc'}
-            default { $null }
+        $tpl = $TARGETED[$step]
+        # Prefer using tsx helper if available
+        if (Get-Command npx -ErrorAction SilentlyContinue -OutVariable npxCmd) {
+            $helper = Join-Path 'scripts/utils/ci-helpers' 'run-with-args.ts'
+            if (Test-Path $helper) {
+                $cmd = "npx tsx $helper --template \"$tpl\" --tmpfile \"$tmp\""
+            } else {
+                $jshelper = Join-Path 'scripts/utils/ci-helpers' 'run-with-args.js'
+                if (Test-Path $jshelper) {
+                    $cmd = "node $jshelper --template \"$tpl\" --tmpfile \"$tmp\""
+                } else {
+                    # fallback: expand paths into template
+                    $joined = $paths -join ' '
+                    $cmd = $TARGETED[$step].Replace('{path}',$joined)
+                }
+            }
+        } else {
+            $joined = $paths -join ' '
+            $cmd = $TARGETED[$step].Replace('{path}',$joined)
         }
-    if ($tool) {
-        $found = Get-Command $tool -ErrorAction SilentlyContinue
-        if (-not $found) {
-                "Tool $tool not found on PATH; falling back to 'npm run $step'" | Out-File -FilePath $reportFile -Encoding utf8
-                $cmd = $COMMANDS[$step]
-                $Fallbacks[$step] = $true
-        }
-    }
     }
 
     # Prefer bash if available (for parity with the Bash script); otherwise fall back to npm or cmd
