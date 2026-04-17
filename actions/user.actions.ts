@@ -1,10 +1,11 @@
 "use server";
 
+import { z } from "zod";
+
 import type { UserWithProfile } from "@/types/user";
 
 import { errorsDal, userDal } from "@/dal";
 import { auth } from "@/lib/auth";
-import { z } from "zod";
 
 /**
  * Returns the name and email of the currently authenticated user from the session.

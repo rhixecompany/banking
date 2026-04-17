@@ -9,8 +9,8 @@ import { getDatabaseUrl } from "./app-config";
 // drizzle-kit) won't fail when TypeScript modules aren't available at
 // runtime.
 const env = {
-  VERBOSE_DRIZZLE: process.env.VERBOSE_DRIZZLE ?? undefined,
   NODE_ENV: process.env.NODE_ENV ?? undefined,
+  VERBOSE_DRIZZLE: process.env.VERBOSE_DRIZZLE ?? undefined,
 };
 
 // Resolve DB URL with multiple fallbacks and helpful error message

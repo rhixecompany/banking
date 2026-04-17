@@ -4,8 +4,19 @@
 
 
 C:\Users\Alexa\Desktop\SandBox\Banking\.lintstagedrc.ts
-  2:1  warning  Invalid JSDoc tag name "filename:"                              jsdoc/check-tag-names
-  5:1  warning  Assign object to a variable before exporting as module default  import/no-anonymous-default-export
+  2:1  warning  Invalid JSDoc tag name "filename:"  jsdoc/check-tag-names
+
+C:\Users\Alexa\Desktop\SandBox\Banking\actions\transaction.actions.ts
+   8:1   warning  Expected "zod" (value-external) to come before "@/lib/logger" (value-internal)  perfectionist/sort-imports
+  30:25  warning  Expected "error" to come before "ok"                                            perfectionist/sort-objects
+  32:3   warning  Assignment to function parameter 'limit'                                        no-param-reassign
+  72:39  warning  Expected "error" to come before "ok"                                            perfectionist/sort-objects
+  73:40  warning  Expected "error" to come before "ok"                                            perfectionist/sort-objects
+  74:3   warning  Assignment to function parameter 'page'                                         no-param-reassign
+  75:3   warning  Assignment to function parameter 'pageSize'                                     no-param-reassign
+
+C:\Users\Alexa\Desktop\SandBox\Banking\actions\user.actions.ts
+  7:1  warning  Expected "zod" (value-external) to come before "@/lib/auth" (value-internal)  perfectionist/sort-imports
 
 C:\Users\Alexa\Desktop\SandBox\Banking\components\auth-form\auth-form.tsx
   81:1  warning  Missing @param "props.register"  jsdoc/check-param-names
@@ -35,9 +46,9 @@ C:\Users\Alexa\Desktop\SandBox\Banking\components\mobile-nav\mobile-nav.tsx
   37:1  warning  Missing @param "props.logoutAccount"  jsdoc/check-param-names
 
 C:\Users\Alexa\Desktop\SandBox\Banking\components\payment-transfer\payment-transfer-client-wrapper.tsx
-  109:49  warning  Async arrow function has no 'await' expression                                                                                                                      require-await
-  165:13  warning  Use `undefined` instead of `null`                                                                                                                                   unicorn/no-null
-  230:5   warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  114:7   warning  Async arrow function has no 'await' expression                                                                                                                      require-await
+  170:13  warning  Use `undefined` instead of `null`                                                                                                                                   unicorn/no-null
+  235:5   warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
 
 C:\Users\Alexa\Desktop\SandBox\Banking\components\plaid-context\plaid-context.tsx
   217:6  warning  React Hook useEffect has a missing dependency: 'createLinkToken'. Either include it or remove the dependency array. If 'createLinkToken' changes too often, find the parent component that defines it and wrap that definition in useCallback  react-hooks/exhaustive-deps
@@ -52,18 +63,28 @@ C:\Users\Alexa\Desktop\SandBox\Banking\components\ui\multi-select.tsx
   522:15  warning  Expected '===' and instead saw '=='  eqeqeq
 
 C:\Users\Alexa\Desktop\SandBox\Banking\dal\transaction.dal.ts
-  220:48  warning  Use `undefined` instead of `null`  unicorn/no-null
-  221:11  warning  Use `undefined` instead of `null`  unicorn/no-null
-  223:46  warning  Use `undefined` instead of `null`  unicorn/no-null
-  224:11  warning  Use `undefined` instead of `null`  unicorn/no-null
+  212:42  warning  Expected "null" to come before "string"  perfectionist/sort-union-types
+  214:41  warning  Expected "null" to come before "string"  perfectionist/sort-union-types
+  218:41  warning  Expected "null" to come before "string"  perfectionist/sort-union-types
+  220:40  warning  Expected "null" to come before "string"  perfectionist/sort-union-types
+  225:53  warning  Use `undefined` instead of `null`        unicorn/no-null
+  227:51  warning  Use `undefined` instead of `null`        unicorn/no-null
+  234:40  warning  Expected "null" to come before "string"  perfectionist/sort-union-types
+  236:39  warning  Expected "null" to come before "string"  perfectionist/sort-union-types
+  246:48  warning  Use `undefined` instead of `null`        unicorn/no-null
+  247:11  warning  Use `undefined` instead of `null`        unicorn/no-null
+  249:46  warning  Use `undefined` instead of `null`        unicorn/no-null
+  250:11  warning  Use `undefined` instead of `null`        unicorn/no-null
+
+C:\Users\Alexa\Desktop\SandBox\Banking\drizzle.config.ts
+  13:3  warning  Expected "NODE_ENV" to come before "VERBOSE_DRIZZLE"  perfectionist/sort-objects
+
+C:\Users\Alexa\Desktop\SandBox\Banking\playwright.config.ts
+  38:3  warning  Expected "ENABLE_TEST_ENDPOINTS" to come before "PLAYWRIGHT_PREPARE_DB"  perfectionist/sort-objects
 
 C:\Users\Alexa\Desktop\SandBox\Banking\scripts\mcp-runner-lib.ts
   19:25  warning  Prefer `String#at(…)` over `String#charAt(….length - index)`                                                unicorn/prefer-at
   72:32  warning  Any attack string /\s+/ plus some rejecting suffix will cause quadratic runtime because of this quantifier  regexp/no-super-linear-move
-  72:36  warning  Unexpected character class ranges '[A-Za-z0-9_]'. Use '\w' instead                                          regexp/prefer-w
-  72:49  error    Unnecessary escape character: \/                                                                            no-useless-escape
-  72:49  warning  Unnecessary escape character: \/                                                                            regexp/no-useless-escape
-  72:55  warning  The character class(es) '[A-Za-z0-9._:\/-]' can be simplified using the `i` flag                            regexp/use-ignore-case
 
 C:\Users\Alexa\Desktop\SandBox\Banking\scripts\mcp-runner.ts
    51:31  warning  Unexpected console statement. Only these console methods are allowed: warn, error  no-console
@@ -107,9 +128,6 @@ C:\Users\Alexa\Desktop\SandBox\Banking\scripts\tools\discover-app-pages.js
   0:0  error  Parsing error: C:\Users\Alexa\Desktop\SandBox\Banking\scripts\tools\discover-app-pages.js was not found by the project service. Consider either including it in the tsconfig.json or including it in allowDefaultProject.
 allowDefaultProject is set to [".prettierrc.ts","postcss.config.mjs",".lintstagedrc.ts"], which does not match 'scripts\tools\discover-app-pages.js'
 
-C:\Users\Alexa\Desktop\SandBox\Banking\scripts\utils\ast\ts-morph-utils.ts
-  16:34  warning  Use `for…of` instead of `.forEach(…)`  unicorn/no-array-for-each
-
 C:\Users\Alexa\Desktop\SandBox\Banking\scripts\utils\ci-helpers\fast-check.ts
   49:5   warning  Unexpected console statement. Only these console methods are allowed: warn, error  no-console
   52:3   warning  Unexpected console statement. Only these console methods are allowed: warn, error  no-console
@@ -148,14 +166,15 @@ C:\Users\Alexa\Desktop\SandBox\Banking\scripts\utils\ci-helpers\report-parser.ts
   139:3  warning  Unexpected console statement. Only these console methods are allowed: warn, error  no-console
 
 C:\Users\Alexa\Desktop\SandBox\Banking\scripts\utils\ci-helpers\run-with-args.js
-  31:1   warning  Async function 'main' has no 'await' expression                                                                                                                     @typescript-eslint/require-await
-  31:1   warning  Async function 'main' has no 'await' expression                                                                                                                     require-await
-  34:5   warning  Unexpected console statement                                                                                                                                        no-console
-  44:5   warning  Unexpected console statement                                                                                                                                        no-console
-  61:5   warning  Unexpected console statement                                                                                                                                        no-console
-  75:18  warning  Prefer using nullish coalescing operator (`??`) instead of a ternary expression, as it is simpler to read                                                           @typescript-eslint/prefer-nullish-coalescing
-  78:5   warning  Unexpected console statement                                                                                                                                        no-console
-  86:1   warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  0:0  error  Parsing error: C:\Users\Alexa\Desktop\SandBox\Banking\scripts\utils\ci-helpers\run-with-args.js was not found by the project service. Consider either including it in the tsconfig.json or including it in allowDefaultProject.
+allowDefaultProject is set to [".prettierrc.ts","postcss.config.mjs",".lintstagedrc.ts"], which does not match 'scripts\utils\ci-helpers\run-with-args.js'
+
+C:\Users\Alexa\Desktop\SandBox\Banking\scripts\utils\ci-helpers\run-with-args.ts
+   2:1   warning  Unused eslint-disable directive (no problems were reported from 'security/detect-non-literal-fs-filename')
+  23:28  warning  Expected "null" to come before "RegExpExecArray"                                                            perfectionist/sort-union-types
+  70:14  warning  Remove unused catch binding `e`                                                                             unicorn/prefer-optional-catch-binding
+  74:18  warning  Prefer using nullish coalescing operator (`??`) instead of a ternary expression, as it is simpler to read   @typescript-eslint/prefer-nullish-coalescing
+  80:14  warning  Remove unused catch binding `e`                                                                             unicorn/prefer-optional-catch-binding
 
 C:\Users\Alexa\Desktop\SandBox\Banking\scripts\utils\ci-helpers\seed-prep.ts
   31:3   warning  Unexpected console statement. Only these console methods are allowed: warn, error                          no-console
@@ -209,11 +228,8 @@ C:\Users\Alexa\Desktop\SandBox\Banking\tests\mocks\ui\select.tsx
   239:10  warning  A form label must be associated with a control  jsx-a11y/label-has-associated-control
 
 C:\Users\Alexa\Desktop\SandBox\Banking\tests\setup.ts
-   58:20  warning  Prefer using nullish coalescing operator (`??`) instead of a logical or (`||`), as it is a safer operator  @typescript-eslint/prefer-nullish-coalescing
-   58:38  warning  Prefer using nullish coalescing operator (`??`) instead of a logical or (`||`), as it is a safer operator  @typescript-eslint/prefer-nullish-coalescing
-  102:5   warning  Expected "refresh" to come before "replace"                                                                perfectionist/sort-objects
-  103:5   warning  Expected "back" to come before "refresh"                                                                   perfectionist/sort-objects
-  105:3   warning  Expected "usePathname" to come before "useRouter"                                                          perfectionist/sort-objects
+  58:20  warning  Prefer using nullish coalescing operator (`??`) instead of a logical or (`||`), as it is a safer operator  @typescript-eslint/prefer-nullish-coalescing
+  58:38  warning  Prefer using nullish coalescing operator (`??`) instead of a logical or (`||`), as it is a safer operator  @typescript-eslint/prefer-nullish-coalescing
 
 C:\Users\Alexa\Desktop\SandBox\Banking\tests\unit\AuthForm.props.test.tsx
   20:35  warning  Async arrow function has no 'await' expression  @typescript-eslint/require-await
@@ -236,10 +252,6 @@ C:\Users\Alexa\Desktop\SandBox\Banking\tests\unit\auth-form.layout.test.tsx
 
 C:\Users\Alexa\Desktop\SandBox\Banking\tests\unit\dashboard-client-wrapper.test.tsx
   63:24  warning  Use `undefined` instead of `null`  unicorn/no-null
-
-C:\Users\Alexa\Desktop\SandBox\Banking\tests\unit\mcp-runner.verify.test.ts
-  21:5  warning  Unused eslint-disable directive (no problems were reported from 'security/detect-non-literal-fs-filename')
-  32:5  warning  Unused eslint-disable directive (no problems were reported from 'security/detect-non-literal-fs-filename')
 
 C:\Users\Alexa\Desktop\SandBox\Banking\tests\unit\my-wallets-client-wrapper.test.tsx
    28:62  warning  Use `undefined` instead of `null`  unicorn/no-null
@@ -288,6 +300,6 @@ C:\Users\Alexa\Desktop\SandBox\Banking\tests\unit\wallet-card.test.tsx
 C:\Users\Alexa\Desktop\SandBox\Banking\tests\unit\wallets-overview.test.tsx
   16:64  warning  Use `undefined` instead of `null`  unicorn/no-null
 
-✖ 180 problems (2 errors, 178 warnings)
-  0 errors and 9 warnings potentially fixable with the `--fix` option.
+✖ 185 problems (2 errors, 183 warnings)
+  0 errors and 17 warnings potentially fixable with the `--fix` option.
 

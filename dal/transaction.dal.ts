@@ -209,15 +209,15 @@ export class TransactionDal {
           acc: Record<
             string,
             {
-              fundingSourceUrl: string | null;
+              fundingSourceUrl: null | string;
               id: string;
-              institutionName: string | null;
+              institutionName: null | string;
             }
           >,
           w: {
-            fundingSourceUrl?: string | null;
+            fundingSourceUrl?: null | string;
             id: string;
-            institutionName?: string | null;
+            institutionName?: null | string;
           },
         ) => {
           const id = String(w.id);
@@ -231,9 +231,9 @@ export class TransactionDal {
         {} as Record<
           string,
           {
-            fundingSourceUrl: string | null;
+            fundingSourceUrl: null | string;
             id: string;
-            institutionName: string | null;
+            institutionName: null | string;
           }
         >,
       );
