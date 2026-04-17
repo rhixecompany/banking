@@ -3,7 +3,15 @@ import type { Config } from "drizzle-kit";
 import { defineConfig } from "drizzle-kit";
 
 import { getDatabaseUrl } from "./app-config";
-import { env } from "./lib/env";
+
+// Avoid importing lib/env at module load time; read only the minimal
+// environment variables we need here so tools that load this config (like
+// drizzle-kit) won't fail when TypeScript modules aren't available at
+// runtime.
+const env = {
+  VERBOSE_DRIZZLE: process.env.VERBOSE_DRIZZLE ?? undefined,
+  NODE_ENV: process.env.NODE_ENV ?? undefined,
+};
 
 // Resolve DB URL with multiple fallbacks and helpful error message
 /**

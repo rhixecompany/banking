@@ -28,7 +28,15 @@ const TIMEOUTS = {
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
-import { env } from "./lib/env";
+// Do not import lib/env here: Playwright may run this file in environments
+// where TypeScript modules can't be imported at runtime. Read only the
+// environment variables needed for configuration with safe fallbacks.
+const env = {
+  CI: process.env.CI ?? undefined,
+  PLAYWRIGHT_BASE_URL: process.env.PLAYWRIGHT_BASE_URL ?? undefined,
+  PLAYWRIGHT_PREPARE_DB: process.env.PLAYWRIGHT_PREPARE_DB ?? undefined,
+  ENABLE_TEST_ENDPOINTS: process.env.ENABLE_TEST_ENDPOINTS ?? undefined,
+};
 
 export default defineConfig({
   /* Assertion timeout - increased for slower pages */
@@ -143,7 +151,7 @@ export default defineConfig({
       // Playwright starts the application. We avoid forwarding the whole
       // process.env to limit leakage of unrelated variables.
       env: webEnv,
-      reuseExistingServer: !env.CI,
+    reuseExistingServer: !env.CI,
       stderr: "pipe",
       stdout: "pipe",
       timeout: TIMEOUTS.WEB_SERVER,
