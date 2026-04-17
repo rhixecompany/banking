@@ -25,9 +25,9 @@ IGNORE_PATTERNS=()
 if [ -f "$IGNORE_FILE" ]; then
   while IFS= read -r line || [ -n "$line" ]; do
     # skip empty lines and comments
-    case "$line" in
-      ''|#*) continue;;
-    esac
+    if [ -z "$line" ] || [[ "$line" == \#* ]]; then
+      continue
+    fi
     IGNORE_PATTERNS+=("$line")
   done < "$IGNORE_FILE"
 fi
