@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-17T07:25:04.826Z",
+  "generatedAt": "2026-04-17T14:29:55.460Z",
   "results": [
     {
       "check": "process.env-usage",
@@ -181,16 +181,16 @@
     },
     {
       "check": "no-any",
-      "file": "components/dashboard/dashboard-server-wrapper.tsx",
-      "line": 54,
-      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
+      "file": "components/data-table/data-table.tsx",
+      "line": 331,
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
       "severity": "warn"
     },
     {
       "check": "no-any",
-      "file": "components/data-table/data-table.tsx",
-      "line": 331,
-      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
+      "file": "components/dashboard/dashboard-server-wrapper.tsx",
+      "line": 54,
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
       "severity": "warn"
     },
     {
@@ -464,6 +464,20 @@
       "file": "components/ui/tooltip.tsx",
       "line": 13,
       "message": "Found 'any' type usage (8 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "components/layouts/datatable/index.tsx",
+      "line": 3,
+      "message": "Found 'any' type usage (4 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "components/layouts/row/index.tsx",
+      "line": 2,
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
       "severity": "warn"
     },
     {

@@ -9,3 +9,13 @@ As Reviewer persona using the read tool Read and Understand @docs/custom-compone
 
 
 modify @scripts\mcp-runner.ts to be a custom handler for installing mcp servers in Opencode/Copilot/Cursor. using the bash tool run `docker mcp gateway run --profile adminbot` to get a list of docker mcp servers the conferences it with @.opencode\mcp_servers.json if an mcp server is found at @.opencode\mcp_servers.json Catalog it then create all helpers for enhanced this file then update @opencode.json with all mcp servers in the Catalog using the @scripts\mcp-runner.ts file then delete all mcp servers in the Catalog from docker leave any mcp server not found ensure all mcp servers are load via @scripts\mcp-runner.ts
+
+create custom typecheck functions that extend and enhance docker mcp tool  `mcp-find`, `mcp-add` ,`mcp-remove` , `mcp-exec` , `mcp-config-set` , `mcp-create-profile` , `mcp-activate-profile` , `code-mode` , `mcp-discover` then using the custom typecheck function for `mcp-create-profile` , `mcp-activate-profile`  create profiles for adminbot then using custom typecheck function for `mcp-remove` remove  `mcp/context7`           | `sha256:1174e6...` |
+| `mcp/fetch`              | `sha256:302c62...` |
+| `mcp/filesystem`         | `sha256:35fcf0...` |
+| `mcp/memory`             | `sha256:db0c2d...` |
+| `mcp/next-devtools-mcp`  | `sha256:3064e3...` |
+| `mcp/playwright`         | `sha256:64d024...` |
+| `mcp/sequentialthinking` | `sha256:cd3174...` |
+| `mcp/time`               | `sha256:9c46a9...` |
+| `mcp/youtube-transcript` | `sha256:b70b13...` | servers and install the remote npx versions using @scripts\mcp-runner.ts then update @opencode.json with all mcp_servers

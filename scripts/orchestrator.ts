@@ -100,13 +100,13 @@ function main() {
   const base = baseIdx >= 0 ? args[baseIdx + 1] : "origin/main";
 
   const changed = gitDiffFiles(base);
-  console.log("Changed files:", changed);
+  console.warn("Changed files:", changed);
 
   const expanded = expandOneLevel(changed);
-  console.log("One-level dependents:", expanded);
+  console.warn("One-level dependents:", expanded);
 
   const pages = mapFilesToPages([...changed, ...expanded]);
-  console.log("Affected pages:", pages);
+  console.warn("Affected pages:", pages);
 
   if (dryRun) {
     console.log(

@@ -1215,7 +1215,7 @@
     "productId": "00QuickstartRules",
     "repoUrl": ".opencode\\instructions/",
     "scope": ["project"],
-    "tagline": "list and summarize the available skills/tools you the agent can use and which MCP servers are available in this codeb...",
+    "tagline": "Using the question tool ask the user for his desired persona for the session if the agent is in a running in a subage...",
     "tags": ["opencode", "instructions"],
     "type": "resources"
   },

@@ -5,7 +5,9 @@
  * @since 2026-02-01
  */
 
-const siteUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3000";
+import { env } from "./lib/env";
+
+const siteUrl = env.NEXT_PUBLIC_API_URL ?? "http://localhost:3000";
 
 /**
  * Description placeholder

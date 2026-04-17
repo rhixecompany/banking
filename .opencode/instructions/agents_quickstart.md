@@ -25,3 +25,5 @@ This repository uses `AGENTS.md` as the canonical source of truth for agent beha
 
 - Always, list the skills/tools you can use and which MCP servers are available in this workspace.
 - using the read tool read and summarize all this files "AGENTS.md","docs/personas-list.md",".opencode/instructions/00-default-rules.md","docs/app-pages.md","docs/custom-components.md","docs/test-context.md",".cursorrules",".github/copilot-instructions.md",".opencode/instructions/_.md",".github/instructions/_.md",".cursor/rules/\*.mdc"
+
+-- Canonicalized from docs/AGENTS-CANONICAL.md on 2026-04-17 as part of unify-agent-docs operation.

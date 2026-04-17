@@ -37,6 +37,8 @@ export const env = {
   AUTH_GITHUB_SECRET: auth.AUTH_GITHUB_SECRET,
   AUTH_GOOGLE_ID: auth.AUTH_GOOGLE_ID,
   AUTH_GOOGLE_SECRET: auth.AUTH_GOOGLE_SECRET,
+  // CI flag from environment (common in CI providers)
+  CI: process.env.CI ?? undefined,
   DATABASE_URL: database.DATABASE_URL,
   DWOLLA_BASE_URL: dwolla.DWOLLA_BASE_URL,
   DWOLLA_ENV: dwolla.DWOLLA_ENV,
@@ -46,6 +48,8 @@ export const env = {
   // Test / local runner variables used by scripts and tests
   ENABLE_TEST_ENDPOINTS: process.env.ENABLE_TEST_ENDPOINTS ?? undefined,
   ENCRYPTION_KEY: encryption.ENCRYPTION_KEY,
+  // Public-facing URL for sitemaps and robots generation
+  NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL ?? undefined,
   NEXTAUTH_SECRET: auth.NEXTAUTH_SECRET,
   NEXTAUTH_URL: auth.NEXTAUTH_URL,
   NODE_ENV: process.env.NODE_ENV ?? undefined,
@@ -62,6 +66,8 @@ export const env = {
   SMTP_PASS: email.SMTP_PASS,
   SMTP_PORT: email.SMTP_PORT,
   SMTP_USER: email.SMTP_USER,
+  // Optional verbose flag used by some tooling
+  VERBOSE_DRIZZLE: process.env.VERBOSE_DRIZZLE ?? undefined,
 } as const;
 
 /**

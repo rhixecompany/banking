@@ -171,3 +171,5 @@ lib/
 See: .opencode/skills/server-action-skill/SKILL.md
 
 // Shortened and clarified for consistency with regenerated instruction templates.
+
+-- Canonicalized from docs/AGENTS-CANONICAL.md on 2026-04-17 as part of unify-agent-docs operation.

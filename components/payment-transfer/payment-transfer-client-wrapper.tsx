@@ -102,9 +102,25 @@ export function PaymentTransferClientWrapper({
     // server TransferSchema expects Dwolla funding URLs. We still validate
     // amount using the shared TransferSchema via the resolver, but cast the
     // resolver to the UI form type to satisfy TypeScript for this wrapper.
-    resolver: zodResolver(
-      TransferSchema,
-    ) as unknown as Resolver<TransferFormData>,
+    // Wrap the zod resolver so that numeric amounts (used by the UI) are
+    // coerced to strings before running the server-side TransferSchema
+    // validation. This keeps the UI typed as number while satisfying the
+    // server schema which expects a decimal string (e.g. "25.00").
+    resolver: (async (values, context, options) => {
+      const adjusted = {
+        ...values,
+        amount:
+          typeof (values as any).amount === "number"
+            ? String((values as any).amount)
+            : (values as any).amount,
+      } as unknown as Record<string, unknown>;
+      const base = zodResolver(TransferSchema) as unknown as (
+        v: unknown,
+        c?: unknown,
+        o?: unknown,
+      ) => Promise<any>;
+      return base(adjusted, context, options);
+    }) as unknown as Resolver<TransferFormData>,
   });
 
   // Apply optional initial values after mount to pre-fill the form (test helper)

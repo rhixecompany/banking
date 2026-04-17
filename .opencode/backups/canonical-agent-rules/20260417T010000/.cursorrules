@@ -1,9 +1,0 @@
-# Cursor/Automation Rules (summary)
-
-- Use AGENTS.md as the single source of truth.
-- Do not edit code or run commits without user approval.
-- If a change touches >7 files, open a plan under .opencode/commands/.
-- Always include provenance lines in commits/PRs.
-- For environment access: prefer app-config.ts / lib/env.ts over process.env.
-
-(backup)

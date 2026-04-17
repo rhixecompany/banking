@@ -2,27 +2,29 @@
 
 Read this first. This file is the single canonical reference for automated agents working in this repository.
 
-Purpose
+## Purpose
 
 - Provide a single authoritative policy for agent contributors (Copilot, Cursor, OpenCode and other automation).
 - Be conservative: prefer small, auditable, reversible changes.
 - Every change must include provenance: files read + one-line reason.
 
-Quick Commands (exact)
+## Quick Commands (exact)
 
 - Dev: npm run dev
 - Typecheck: npm run type-check
 - Lint (strict): npm run lint:strict
 - Format: npm run format
 - Verify rules: npm run verify:rules
-- Tests (E2E then unit): npm run test
+- Full Tests (E2E then unit): npm run test
 - Unit only (Vitest): npm run test:browser
+- E2e only (Playwright): npm run test:ui
 - DB seed (loads .env.local): npm run db:seed
   - Dry-run: npm run db:seed -- --dry-run
   - Reset: npm run db:seed -- --reset (requires RUN_DESTRUCTIVE=true and --yes)
 - Plan scaffold: npm run plan:ensure
+- Read package.json and 'scripts/\*\*' for all scripts
 
-Core Rules (must follow)
+## Core Rules (must follow)
 
 1. Environment
    - Never read process.env in application code. Use app-config.ts or lib/env.ts instead.
@@ -46,28 +48,31 @@ Core Rules (must follow)
    - Run npm run verify:rules before PRs. It enforces process.env usage, zod rules, direct-db-imports, Server Action heuristics, and Home constraints.
    - verify:rules writes .opencode/reports/rules-report.json used by CI.
 
-Change & Commit Rules
+## Change & Commit Rules
 
 - Ask for permission BEFORE editing files or committing.
-- If a change touches more than seven files, create a plan under .opencode/commands using a short kebab name. Use npm run plan:ensure.
+- When a task is expected to change more than 5 files, create a plan and a command to help guide the agent before implementation.
+
+- Agentic note: For this repository, treat `@.opencode\instructions\09-command-plan-steps-rules.md` `AGENTS.md` and the codebase as the canonical source of truth for command todos, steps, phases, tasks, subtasks, actions, checklist, plan thresholds, locations, required sections,context,code samples and file reference.
 - Make small, focused commits when possible.
 - NEVER commit secrets or run destructive scripts without explicit approval and required env flags.
 - Include a one-line provenance block in every commit/PR (files read + why).
 
-Where to Inspect First
+## Where to Inspect First
 
 1. package.json (scripts)
 2. next.config.ts (experimental flags)
 3. app-config.ts and lib/env.ts (canonical env)
 4. scripts/seed/run.ts (env loading order)
 5. scripts/verify-rules.ts (what is enforced)
-6. actions/_ and dal/_ (Server Actions and DAL helpers)
+6. actions/_and dal/_ (Server Actions and DAL helpers)
 7. tests/e2e/helpers/plaid.mock.ts (E2E mocking)
+8. 'scripts/\*\*' (custom typescripts/bash/powershell/bat scripts)
 
 Skills & MCP servers (short)
 
 - Skills live under .opencode/skills (each has a SKILL.md). Examples: agent-governance, server-action-skill, validation-skill, dal-skill, db-skill, testing-skill, ui-skill, dwolla-skill, plaid-skill.
-- MCP servers are listed in .opencode/mcp_servers.json. Notable entries: next-devtools-mcp, playwright, playwright-mcp-server, neon, apify, elevenlabs, singlestore.
+- MCP servers are listed in .opencode.
 
 ESLint & formatting
 
@@ -76,10 +81,8 @@ ESLint & formatting
 
 Provenance requirement (repeat)
 
-- Every change must include a provenance list of files read and why in the PR/commit body.
+- Every change must include a provenance list of files read and why in the PR/commit body. If uncertain
 
-If uncertain
+- Stop and ask all clarifying question. Do not guess about secrets or destructive flags.
 
-- Stop and ask one short question. Do not guess about secrets or destructive flags.
-
-End of AGENTS.md
+-- Canonicalized from docs/AGENTS-CANONICAL.md on 2026-04-17 as part of unify-agent-docs operation.

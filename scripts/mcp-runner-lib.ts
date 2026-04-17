@@ -2,19 +2,47 @@ import { execSync } from "child_process";
 import fs from "fs";
 import path from "path";
 
-export type DiscoveryRecord = {
+export interface DiscoveryRecord {
   name: string;
-  discoveredVia: "gateway" | "docker";
+  discoveredVia: "docker" | "gateway";
   raw?: string;
   timestamp: string;
-};
+}
 
-const TOKEN_REGEX = /^[a-z0-9._:-]+(?:[-_][a-z0-9._:-]+)*$/i;
+// Validate tokens using an iterative check to avoid complex regexes that can
+// be vulnerable to super-linear backtracking. This is intentionally simple
+// and avoids nested quantifiers.
+function isAsciiTokenString(s: string) {
+  if (!s || s.length === 0) return false;
+  // must not start or end with separator
+  const first = s.charAt(0);
+  const last = s.charAt(s.length - 1);
+  if (first === "-" || first === "_") return false;
+  if (last === "-" || last === "_") return false;
+
+  let prevWasSep = false;
+  for (let i = 0; i < s.length; i++) {
+    const ch = s.charAt(i);
+    const code = ch.charCodeAt(0);
+    // allow a-z, A-Z, 0-9
+    const isAlphaNum =
+      (code >= 48 && code <= 57) ||
+      (code >= 65 && code <= 90) ||
+      (code >= 97 && code <= 122);
+    const isAllowedPunct =
+      ch === "." || ch === ":" || ch === "-" || ch === "_" || ch === "/";
+    if (!isAlphaNum && !isAllowedPunct) return false;
+    const isSep = ch === "-" || ch === "_";
+    if (isSep && prevWasSep) return false; // no consecutive separators
+    prevWasSep = isSep;
+  }
+  return true;
+}
 
 const DEFAULT_DENYLIST = ["adding", "configuration", "start", "total", "those"];
 
 export function normalizeToken(t: string): string {
-  return t.trim().toLowerCase().replace(/\s+/g, "-");
+  return t.trim().toLowerCase().replaceAll(/\s+/g, "-");
 }
 
 export function isValidToken(
@@ -22,7 +50,7 @@ export function isValidToken(
   denylist: string[] = DEFAULT_DENYLIST,
 ): boolean {
   const n = normalizeToken(t);
-  if (!TOKEN_REGEX.test(n)) return false;
+  if (!isAsciiTokenString(n)) return false;
   for (const d of denylist) {
     if (n.toLowerCase() === d.toLowerCase()) return false;
   }
@@ -39,13 +67,15 @@ export function parseGatewayOutput(output: string): DiscoveryRecord[] {
     if (!line) continue;
 
     // Common adminbot table row might be like: " - next-devtools-mcp"
-    const m = line.match(/^[\-\*\s]*([A-Za-z0-9_.:\- ]+)$/);
+    // Use a simpler, safer regex that avoids overlapping quantifiers.
+    // Match a contiguous token of allowed characters, trimming common leading markers
+    const m = line.match(/[-*]?\s*([A-Za-z0-9._:\/-]+)/);
     if (!m) continue;
     const token = normalizeToken(m[1]);
     if (!isValidToken(token)) continue;
     records.push({
-      name: token,
       discoveredVia: "gateway",
+      name: token,
       raw: rawLine,
       timestamp: new Date().toISOString(),
     });
@@ -62,12 +92,12 @@ export function parseDockerPsOutput(output: string): DiscoveryRecord[] {
     if (!name) continue;
     // Docker container names often have slashes or suffixes; normalize
     const token = normalizeToken(
-      name.replace(/^\/+/, "").replace(/[:\/]+/g, "-"),
+      name.replace(/^\/+/, "").replaceAll(/[:/]+/g, "-"),
     );
     if (!isValidToken(token)) continue;
     records.push({
-      name: token,
       discoveredVia: "docker",
+      name: token,
       raw: rawLine,
       timestamp: new Date().toISOString(),
     });
@@ -118,7 +148,7 @@ export function runValidations(
   commands: { name: string; cmd: string }[],
   opts?: { timeout?: number },
 ) {
-  const results: Array<{ name: string; ok: boolean; output: string }> = [];
+  const results: { name: string; ok: boolean; output: string }[] = [];
   for (const c of commands) {
     try {
       const out = execSync(c.cmd, {
@@ -164,7 +194,7 @@ export function pruneBackups(dir: string, olderThanDays: number) {
           fs.unlinkSync(full);
           deleted.push(full);
         }
-      } catch (e) {
+      } catch {
         // ignore
       }
     }
@@ -179,10 +209,10 @@ export function generateHelper(serverName: string, helpersDir: string) {
   if (!fs.existsSync(helpersDir)) fs.mkdirSync(helpersDir, { recursive: true });
   if (fs.existsSync(fileName)) {
     const existing = fs.readFileSync(fileName, "utf8");
-    if (existing === content) return { written: false, path: fileName };
+    if (existing === content) return { path: fileName, written: false };
   }
   fs.writeFileSync(fileName, content, "utf8");
-  return { written: true, path: fileName };
+  return { path: fileName, written: true };
 }
 
 export function diffLists(oldList: string[], newList: string[]) {

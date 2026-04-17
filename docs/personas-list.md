@@ -11,3 +11,5 @@ These short personas guide tone and actions in plans and PRs.
 - Product Owner — provides acceptance criteria and approves large changes.
 
 Use these personas when writing plans, PR descriptions, or task assignments.
+
+-- Canonicalized from docs/AGENTS-CANONICAL.md on 2026-04-17 as part of unify-agent-docs operation.

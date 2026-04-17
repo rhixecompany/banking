@@ -1,12 +1,9 @@
 import type { Config } from "drizzle-kit";
 
-import * as dotenv from "dotenv";
 import { defineConfig } from "drizzle-kit";
-import path from "node:path";
 
-// Load .env files for local dev/migration runs. Non-destructive.
-dotenv.config({ path: path.resolve(process.cwd(), ".env.local") });
-dotenv.config();
+import { getDatabaseUrl } from "./app-config";
+import { env } from "./lib/env";
 
 // Resolve DB URL with multiple fallbacks and helpful error message
 /**
@@ -15,16 +12,13 @@ dotenv.config();
  * @returns {string}
  */
 const resolveDatabaseUrl = (): string => {
-  const envUrl =
-    process.env["DATABASE_URL"] ?? process.env["NEON_DATABASE_URL"];
-
-  if (!envUrl) {
+  const url = getDatabaseUrl();
+  if (!url) {
     throw new Error(
-      "DATABASE_URL or NEON_DATABASE_URL must be defined in environment variables (set in .env or environment).",
+      "DATABASE_URL or NEON_DATABASE_URL must be defined in app-config or environment.",
     );
   }
-
-  return envUrl;
+  return url;
 };
 
 // Drizzle config with connection pooling hints for production
@@ -44,9 +38,7 @@ const cfg: Config = {
   schema: "database/schema.ts",
   strict: true,
   // Verbose migration output for CI and local runs
-  verbose:
-    process.env["VERBOSE_DRIZZLE"] === "true" ||
-    process.env.NODE_ENV !== "production",
+  verbose: env.VERBOSE_DRIZZLE === "true" || env.NODE_ENV !== "production",
 } as Config;
 
 export default defineConfig(cfg);

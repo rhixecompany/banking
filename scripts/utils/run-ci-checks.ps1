@@ -203,12 +203,18 @@ function Run-Step($step) {
             $exit = $LASTEXITCODE
         }
     }
-    if ($exit -eq 0) {
-        $Results[$step] = 'PASS'
+    if (-not $DryRun) {
+        if ($exit -eq 0) {
+            $Results[$step] = 'PASS'
+        } else {
+            $Results[$step] = 'FAIL'
+        }
+        $ExitCodes[$step] = $exit
     } else {
-        $Results[$step] = 'FAIL'
+        # In dry-run mode, mark steps explicitly as DRY-RUN so consumers (tests) can detect it
+        $Results[$step] = 'DRY-RUN'
+        $ExitCodes[$step] = $null
     }
-    $ExitCodes[$step] = $exit
     if (-not $Fallbacks.ContainsKey($step)) { $Fallbacks[$step] = $false }
 
     # write incremental summary

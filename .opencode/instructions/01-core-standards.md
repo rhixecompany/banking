@@ -11,3 +11,5 @@ lastReviewed: 2026-04-14
 - Lint strictly: `npm run lint:strict` — zero warnings allowed for PRs.
 - Avoid `any`; prefer `unknown` with guards.
 - Zod schemas must include `.describe()` for each field and explicit error messages.
+
+-- Canonicalized from docs/AGENTS-CANONICAL.md on 2026-04-17 as part of unify-agent-docs operation.

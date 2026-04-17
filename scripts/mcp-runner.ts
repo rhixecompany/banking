@@ -5,12 +5,14 @@ import path from "path";
 import readline from "readline";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
+
 import {
   diffLists,
   generateHelper,
   mergeCatalog,
   parseDockerPsOutput,
   parseGatewayOutput,
+  pruneBackups,
   readCatalog,
   rollbackRestore,
   runValidations,
@@ -19,20 +21,20 @@ import {
 
 async function main() {
   const argv = await yargs(hideBin(process.argv))
-    .option("dry-run", { type: "boolean", default: true })
-    .option("apply", { type: "boolean", default: false })
-    .option("prune", { type: "boolean", default: false })
-    .option("force", { type: "boolean", default: false })
-    .option("rollback", { type: "boolean", default: false })
-    .option("backup", { type: "string", default: "" })
-    .option("helpers-dir", { type: "string", default: ".opencode/mcp-helpers" })
+    .option("dry-run", { default: true, type: "boolean" })
+    .option("apply", { default: false, type: "boolean" })
+    .option("prune", { default: false, type: "boolean" })
+    .option("force", { default: false, type: "boolean" })
+    .option("rollback", { default: false, type: "boolean" })
+    .option("backup", { default: "", type: "string" })
+    .option("helpers-dir", { default: ".opencode/mcp-helpers", type: "string" })
     .option("catalog-path", {
-      type: "string",
       default: ".opencode/mcp_servers.json",
+      type: "string",
     })
-    .option("verbose", { type: "boolean", default: false })
-    .option("list", { type: "boolean", default: false })
-    .option("verify-only", { type: "boolean", default: false }).argv;
+    .option("verbose", { default: false, type: "boolean" })
+    .option("list", { default: false, type: "boolean" })
+    .option("verify-only", { default: false, type: "boolean" }).argv;
 
   const catalogPath = path.resolve(argv["catalog-path"] as string);
   const helpersDir = path.resolve(argv["helpers-dir"] as string);
@@ -65,7 +67,7 @@ async function main() {
       const r = parseGatewayOutput(gatewayOut);
       discoveryRecords.push(...r);
     }
-  } catch (e: any) {
+  } catch {
     if (argv.verbose)
       console.warn("gateway discovery failed, falling back to docker ps");
   }
@@ -95,8 +97,8 @@ async function main() {
     process.exit(diff.added.length || diff.removed.length ? 2 : 0);
   }
 
-  console.log("Dry-run: proposed changes:");
-  console.log(JSON.stringify(d, null, 2));
+  console.warn("Dry-run: proposed changes:");
+  console.warn(JSON.stringify(d, null, 2));
 
   if (!argv.apply) {
     console.log("Run with --apply to make changes (default is dry-run)");
@@ -115,11 +117,11 @@ async function main() {
       console.log("Restored backup:", backupPath, "->", catalogPath);
       // run validations after restore
       const validationCommands = [
-        { name: "format", cmd: "npm run format" },
-        { name: "type-check", cmd: "npm run type-check" },
-        { name: "lint-strict", cmd: "npm run lint:strict" },
-        { name: "verify-rules", cmd: "npm run verify:rules" },
-        { name: "test-browser", cmd: "npm run test:browser" },
+        { cmd: "npm run format", name: "format" },
+        { cmd: "npm run type-check", name: "type-check" },
+        { cmd: "npm run lint:strict", name: "lint-strict" },
+        { cmd: "npm run verify:rules", name: "verify-rules" },
+        { cmd: "npm run test:browser", name: "test-browser" },
       ];
       const valResults = runValidations(validationCommands, {
         timeout: 10 * 60 * 1000,
@@ -161,17 +163,17 @@ async function main() {
     }
   }
 
-  console.log("Applying changes...");
+  console.warn("Applying changes...");
 
   // Prepare audit artifact
   const audit: any = {
-    timestamp: new Date().toISOString().replace(/[:.]/g, ""),
     commands: {
-      gateway: gatewayOut ? gatewayOut.slice(0, 20000) : null,
       dockerPs: dockerPsOut ? dockerPsOut.slice(0, 20000) : null,
+      gateway: gatewayOut ? gatewayOut.slice(0, 20000) : null,
     },
+    files: { backups: [], written: [] },
     flags: argv,
-    files: { written: [], backups: [] },
+    timestamp: new Date().toISOString().replaceAll(/[:.]/g, ""),
     validations: [],
   };
 
@@ -187,11 +189,11 @@ async function main() {
 
   // Run post-apply validations using helper
   const validationCommands = [
-    { name: "format", cmd: "npm run format" },
-    { name: "type-check", cmd: "npm run type-check" },
-    { name: "lint-strict", cmd: "npm run lint:strict" },
-    { name: "verify-rules", cmd: "npm run verify:rules" },
-    { name: "test-browser", cmd: "npm run test:browser" },
+    { cmd: "npm run format", name: "format" },
+    { cmd: "npm run type-check", name: "type-check" },
+    { cmd: "npm run lint:strict", name: "lint-strict" },
+    { cmd: "npm run verify:rules", name: "verify-rules" },
+    { cmd: "npm run test:browser", name: "test-browser" },
   ];
 
   const valResults = runValidations(validationCommands, {
@@ -218,7 +220,8 @@ async function main() {
     const pruned = pruneBackups(path.dirname(catalogPath), 365);
     if (pruned.length && argv.verbose) console.log("Pruned backups:", pruned);
   } catch (e) {
-    if (argv.verbose) console.warn("Prune backups failed:", e?.message ?? e);
+    if (argv.verbose)
+      console.warn("Prune backups failed:", (e as any)?.message ?? e);
   }
 }
 

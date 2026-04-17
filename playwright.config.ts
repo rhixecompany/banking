@@ -28,11 +28,13 @@ const TIMEOUTS = {
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
+import { env } from "./lib/env";
+
 export default defineConfig({
   /* Assertion timeout - increased for slower pages */
   expect: { timeout: TIMEOUTS.ASSERTION },
   /* Fail the build on CI if you accidentally left test.only in the source code. */
-  forbidOnly: !!process.env["CI"],
+  forbidOnly: !!env.CI,
   /* Run tests sequentially — app state is shared (auth, DB). */
   fullyParallel: false,
   globalSetup: "./tests/e2e/global-setup.ts",
@@ -77,7 +79,7 @@ export default defineConfig({
   ],
 
   /* Reporter configuration with better error reporting */
-  reporter: process.env["CI"]
+  reporter: env.CI
     ? [
         ["github"],
         ["html", { open: "never", outputFolder: "playwright-report" }],
@@ -89,7 +91,7 @@ export default defineConfig({
       ],
 
   /* Retry on CI only — no retries locally to surface real failures immediately */
-  retries: process.env["CI"] ? 2 : 0,
+  retries: env.CI ? 2 : 0,
   testDir: "./tests/e2e",
 
   /* Per-test timeout - increased for dev server cold start */
@@ -104,7 +106,7 @@ export default defineConfig({
     actionTimeout: TIMEOUTS.ACTION,
 
     /* Base URL to use in actions like `await page.goto('')`. */
-    baseURL: process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3000",
+    baseURL: env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3000",
 
     headless: true,
 
@@ -141,7 +143,7 @@ export default defineConfig({
       // Playwright starts the application. We avoid forwarding the whole
       // process.env to limit leakage of unrelated variables.
       env: webEnv,
-      reuseExistingServer: !process.env["CI"],
+      reuseExistingServer: !env.CI,
       stderr: "pipe",
       stdout: "pipe",
       timeout: TIMEOUTS.WEB_SERVER,

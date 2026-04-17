@@ -91,3 +91,17 @@ vi.mock(
     };
   },
 );
+
+// Provide a lightweight mock for next/navigation used by many components.
+// Some tests mock this per-file; providing a global fallback prevents
+// brittle failures when a test forgets to mock the router.
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({
+    push: vi.fn(),
+    replace: vi.fn(),
+    refresh: vi.fn(),
+    back: vi.fn(),
+  }),
+  usePathname: () => "/",
+  useSearchParams: () => new URLSearchParams(),
+}));

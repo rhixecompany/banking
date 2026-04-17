@@ -1,24 +1,27 @@
 ---
-agent: "agent"
+agent: "Plan"
 description: "Create a new implementation plan file for new features, refactoring existing code or upgrading packages, design, architecture or infrastructure."
 tools:
   [
-    "changes",
-    "search/codebase",
-    "edit/editFiles",
-    "extensions",
-    "web/fetch",
-    "githubRepo",
-    "openSimpleBrowser",
-    "problems",
-    "runTasks",
-    "search",
-    "search/searchResults",
-    "runCommands/terminalLastCommand",
-    "runCommands/terminalSelection",
-    "testFailure",
-    "usages",
-    "vscodeAPI"
+    vscode/vscodeAPI,
+    vscode/extensions,
+    execute/testFailure,
+    execute/runTask,
+    execute/createAndRunTask,
+    read/problems,
+    read/readFile,
+    read/terminalSelection,
+    read/terminalLastCommand,
+    read/getTaskOutput,
+    agent,
+    edit/editFiles,
+    search,
+    web,
+    "github/*",
+    browser,
+    vscode.mermaid-chat-features/renderMermaidDiagram,
+    ms-azuretools.vscode-containers/containerToolsConfig,
+    todo
   ]
 ---
 
