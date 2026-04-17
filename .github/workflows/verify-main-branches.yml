@@ -1,0 +1,19 @@
+name: Verify Main Contains Branch Files
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  verify-branches:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run branch compare script
+        run: |
+          chmod +x scripts/branch-compare.sh
+          bash scripts/branch-compare.sh
