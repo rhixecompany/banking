@@ -1,0 +1,13 @@
+{
+  "report_dir": "tmp/reports-parallel-single",
+  "steps": [
+    {
+      "name": "format-check",
+      "status": "DRY-RUN",
+      "report": "tmp/reports-parallel-single/format-check-report.txt",
+      "exit_code": null,
+      "fallback": false
+    }
+  ],
+  "timestamp": "20260417-190701"
+}

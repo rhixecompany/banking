@@ -1,88 +1,80 @@
-# AGENTS — Canonical Agent Guidance
+# AGENTS — Minimal, High-Signal Guidance for Automated Contributors
 
-Read this first. This file is the single canonical reference for automated agents working in this repository.
+Short, actionable items an agent would likely miss. Read this first.
 
-## Purpose
+## 0. Exact commands to use (copy/paste)
 
-- Provide a single authoritative policy for agent contributors (Copilot, Cursor, OpenCode and other automation).
-- Be conservative: prefer small, auditable, reversible changes.
-- Every change must include provenance: files read + one-line reason.
-
-## Quick Commands (exact)
-
-- Dev: npm run dev
+- Dev server: npm run dev
 - Typecheck: npm run type-check
-- Lint (strict): npm run lint:strict
-- Format: npm run format
-- Verify rules: npm run verify:rules
-- Full Tests (E2E then unit): npm run test
-- Unit only (Vitest): npm run test:browser
-- E2e only (Playwright): npm run test:ui
-- DB seed (loads .env.local): npm run db:seed
-  - Dry-run: npm run db:seed -- --dry-run
-  - Reset: npm run db:seed -- --reset (requires RUN_DESTRUCTIVE=true and --yes)
-- Plan scaffold: npm run plan:ensure
-- Read package.json and 'scripts/\*\*' for all scripts
+- Strict lint: npm run lint:strict
+- Format (auto-fix): npm run format
+- Verify repository rules (required before PR): npm run verify:rules
+- Run both E2E and unit tests (slow): npm run test
+- Run Playwright E2E only: npm run test:ui
+- Run Vitest only: npm run test:browser
+- DB seed (reads .env.local): npm run db:seed
+- Dry-run DB seed: npm run db:seed -- --dry-run
+- DB seed reset (destructive): npm run db:seed -- --reset (requires RUN_DESTRUCTIVE=true AND explicit approval)
 
-## Core Rules (must follow)
+## 1. Environment & secrets (strict)
 
-1. Environment
-   - Never read process.env in application code. Use app-config.ts or lib/env.ts instead.
-   - Exceptions: scripts that intentionally load env before imports (example scripts/seed/run.ts). Small CLI helpers in scripts/ may use process.env but must be documented.
-   - Never commit .env, .env.local, keys, or tokens.
+- Never read process.env directly inside application runtime code. Use app-config.ts or lib/env.ts. (scripts/ may use process.env; check scripts/seed/run.ts for examples.)
+- Never commit .env, .env.local, or secrets. If you see secrets in committed files, stop and ask.
 
-2. Database (DAL)
-   - All DB access goes through dal/\* helpers.
-   - Do not import the DB client from app/, components, pages, or server wrappers.
-   - Prevent N+1: prefer eager-loading DAL helpers for nested data.
+## 2. Database & DAL
 
-3. Server Actions (mutations)
-   - Server Actions live in actions/\*.
-   - Contract: a) Validate inputs with Zod and provide descriptive messages. b) Authenticate early: call auth() and check session?.user when required. c) Use dal/\* for DB access. Avoid direct db client imports. d) Return Promise<{ ok: boolean; error?: string; ... }> and avoid uncaught throws. e) Revalidate caches/tags after success (revalidatePath / revalidateTag / updateTag).
-   - Do not place stateful mutation logic in API routes.
+- All DB access must go through dal/\*. Do NOT import the DB client in app/, components, pages, or server wrappers.
+- Prevent N+1 by using DAL helpers that eager-load related data.
 
-4. App Router / Home
-   - app/page.tsx must remain public/static. Do not add auth(), DAL, or DB queries there.
+## 3. Server Actions & mutations
 
-5. Static checks & CI
-   - Run npm run verify:rules before PRs. It enforces process.env usage, zod rules, direct-db-imports, Server Action heuristics, and Home constraints.
-   - verify:rules writes .opencode/reports/rules-report.json used by CI.
+- Server Actions live under actions/\*. Follow the contract: validate with Zod, authenticate early (auth()/session?.user), use dal/\_ for DB access, return { ok: boolean; error?: string } and avoid uncaught throws, revalidate caches/tags after success.
+- Avoid putting stateful mutation logic in API routes — use Server Actions instead.
 
-## Change & Commit Rules
+## 4. App Router entrypoints
 
-- Ask for permission BEFORE editing files or committing.
-- When a task is expected to change more than 5 files, create a plan and a command to help guide the agent before implementation.
+- app/page.tsx must remain static/public. Do not add auth(), DB queries, or DAL imports there.
 
-- Agentic note: For this repository, treat `@.opencode\instructions\09-command-plan-steps-rules.md` `AGENTS.md` and the codebase as the canonical source of truth for command todos, steps, phases, tasks, subtasks, actions, checklist, plan thresholds, locations, required sections,context,code samples and file reference.
-- Make small, focused commits when possible.
-- NEVER commit secrets or run destructive scripts without explicit approval and required env flags.
-- Include a one-line provenance block in every commit/PR (files read + why).
+## 5. Static checks and CI
 
-## Where to Inspect First
+- Always run npm run verify:rules before creating a PR. CI depends on .opencode/reports/rules-report.json (verify:rules:ci writes it).
+- Typical local pre-PR checklist: npm run format && npm run type-check && npm run lint:strict (optionally npm run test for behavior changes).
 
-1. package.json (scripts)
-2. next.config.ts (experimental flags)
-3. app-config.ts and lib/env.ts (canonical env)
-4. scripts/seed/run.ts (env loading order)
-5. scripts/verify-rules.ts (what is enforced)
-6. actions/_and dal/_ (Server Actions and DAL helpers)
-7. tests/e2e/helpers/plaid.mock.ts (E2E mocking)
-8. 'scripts/\*\*' (custom typescripts/bash/powershell/bat scripts)
+## 6. Tests and Playwright quirks
 
-Skills & MCP servers (short)
+- Playwright E2E is slow and may prepare a DB. Use test:ui only when necessary. The test command sets PLAYWRIGHT_PREPARE_DB=true for local runs.
+- If you modify E2E fixtures or Playwright setup, run the playwright report: npm run test:ui:report
+- Always free port 3000 by killing any process currently using it before Ever running any Playwright E2E test
 
-- Skills live under .opencode/skills (each has a SKILL.md). Examples: agent-governance, server-action-skill, validation-skill, dal-skill, db-skill, testing-skill, ui-skill, dwolla-skill, plaid-skill.
-- MCP servers are listed in .opencode.
+## 7. Dangerous or destructive actions (do not run without approval)
 
-ESLint & formatting
+- npm run db:drop, npm run db:reset, npm run db:push (writes DB), and db:seed --reset are destructive. Require explicit human approval and RUN_DESTRUCTIVE env flags as called out in scripts.
+- Clean scripts remove many directories: npm run clean (safe), npm run clean:all (removes node_modules + lockfile) — avoid unless instructed.
 
-- ESLint config: eslint.config.mts (canonical). See zod/\* rules and no- secrets plugin.
-- Prettier configured via .prettierrc.ts.
+## 9. Change, commit, and planning rules (must follow)
 
-Provenance requirement (repeat)
+- Ask the human: do not modify files or create commits without explicit permission.
+- If a change will touch >5 files, create a short plan before editing (.opencode/commands/\*.plan.md). Follow .opencode/instructions/09-plan-file-standards.md.
+- NEVER commit secrets or run destructive scripts without explicit approval.
+- Every commit/PR MUST include a one-line provenance note listing files read and why (one-line). Example: "Provenance: read package.json, app-config.ts — verify commands and env rules." Put this in the commit/PR body.
 
-- Every change must include a provenance list of files read and why in the PR/commit body. If uncertain
+## 10. Where to inspect first (highest signal files)
 
-- Stop and ask all clarifying question. Do not guess about secrets or destructive flags.
+- package.json (scripts): exact commands and side-effect notes.
+- app-config.ts and lib/env.ts: canonical env access (do NOT use process.env elsewhere).
+- scripts/verify-rules.ts: repository checks enforced by verify:rules.
+- scripts/seed/run.ts: db seed behavior and .env.local usage.
+- actions/\* and dal/\*: mutation and DB patterns.
+- next.config.ts and eslint.config.mts: framework flags and lint rules.
 
--- Canonicalized from docs/AGENTS-CANONICAL.md on 2026-04-17 as part of unify-agent-docs operation.
+## 11. Useful repo facts an agent would miss
+
+- Next.js version: 16.x (App Router, Server Actions, RSC) — watch for Next.js/React-specific patterns.
+- This repo uses Drizzle ORM + dal/\* patterns; drizzle CLI scripts exist (db:generate, db:migrate, db:push).
+- verify:rules enforces custom rules (no direct process.env in app code, Zod schemas, Server Action heuristics) and writes .opencode/reports/rules-report.json for CI.
+
+## 12. If you need to run commands or edit files
+
+- Ask 1 question first: "May I make edits and commit?" If answer is yes, proceed with small focused commits and include provenance.
+
+Provenance: edits to this file read: package.json, README.md, .opencode/instructions/\* to extract exact scripts, verify:rules, env and DAL guidance.

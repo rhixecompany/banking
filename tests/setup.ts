@@ -96,12 +96,12 @@ vi.mock(
 // Some tests mock this per-file; providing a global fallback prevents
 // brittle failures when a test forgets to mock the router.
 vi.mock("next/navigation", () => ({
-  useRouter: () => ({
-    push: vi.fn(),
-    replace: vi.fn(),
-    refresh: vi.fn(),
-    back: vi.fn(),
-  }),
   usePathname: () => "/",
+  useRouter: () => ({
+    back: vi.fn(),
+    push: vi.fn(),
+    refresh: vi.fn(),
+    replace: vi.fn(),
+  }),
   useSearchParams: () => new URLSearchParams(),
 }));

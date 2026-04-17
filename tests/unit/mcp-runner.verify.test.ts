@@ -18,7 +18,7 @@ describe("mcp-runner verify and rollback helpers", () => {
     fs.writeFileSync(tmp, JSON.stringify({ mcpServers: ["test"] }));
     if (fs.existsSync(final)) fs.unlinkSync(final);
     const backup = atomicWriteCatalog(tmp, final);
-    // eslint-disable-next-line security/detect-non-literal-fs-filename
+
     expect(fs.existsSync(final)).toBe(true);
     expect(backup.startsWith(backupPattern)).toBe(true);
   });
@@ -29,7 +29,7 @@ describe("mcp-runner verify and rollback helpers", () => {
     fs.writeFileSync(final, JSON.stringify({ mcpServers: ["orig"] }));
     fs.writeFileSync(backup, JSON.stringify({ mcpServers: ["restored"] }));
     const res = rollbackRestore(backup, final);
-    // eslint-disable-next-line security/detect-non-literal-fs-filename
+
     expect(fs.existsSync(final)).toBe(true);
     const content = JSON.parse(fs.readFileSync(final, "utf8"));
     expect(content.mcpServers[0]).toBe("restored");

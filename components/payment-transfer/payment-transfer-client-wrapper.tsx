@@ -106,9 +106,14 @@ export function PaymentTransferClientWrapper({
     // coerced to strings before running the server-side TransferSchema
     // validation. This keeps the UI typed as number while satisfying the
     // server schema which expects a decimal string (e.g. "25.00").
-    resolver: (async (values, context, options) => {
+    // Explicitly type parameters to avoid implicit 'any' TypeScript errors.
+    resolver: (async (
+      values: unknown,
+      context?: unknown,
+      options?: unknown,
+    ) => {
       const adjusted = {
-        ...values,
+        ...(values as Record<string, unknown>),
         amount:
           typeof (values as any).amount === "number"
             ? String((values as any).amount)

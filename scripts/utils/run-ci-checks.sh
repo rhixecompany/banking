@@ -25,10 +25,18 @@ EOF
 # Write the ci-summary.json incrementally so partial results are available
 write_summary() {
   local summary_file="$REPORT_DIR/ci-summary.json"
+  # Use a unique temporary file per invocation to avoid races when multiple
+  # background steps attempt to write the summary concurrently.
+  local tmpfile
+  if tmpfile=$(mktemp "$summary_file.tmp.XXXXXX" 2>/dev/null); then
+    :
+  else
+    tmpfile="$summary_file.tmp.$$"
+  fi
   {
     echo "{"
-    echo "  \"timestamp\": \"$ts\","
-    echo "  \"report_dir\": \"$REPORT_DIR\","
+    echo "  \"timestamp\": \"$ts\"," 
+    echo "  \"report_dir\": \"$REPORT_DIR\"," 
     echo "  \"steps\": ["
     local first=true
     for step in "${STEPS[@]}"; do
@@ -48,8 +56,8 @@ write_summary() {
     echo ""
     echo "  ]"
     echo "}"
-  } > "$summary_file.tmp"
-  mv "$summary_file.tmp" "$summary_file"
+  } > "$tmpfile"
+  mv "$tmpfile" "$summary_file"
 }
 
 # Default CLI-controlled variables
@@ -421,36 +429,77 @@ main() {
   if [[ -n "$PARALLEL_JOBS" && "$PARALLEL_JOBS" -gt 1 ]]; then
     # Parallel execution mode
     echo "Running up to $PARALLEL_JOBS steps in parallel"
-    declare -a PIDS=()
-    declare -a STEP_FOR_PID=()
+    # We will track launched steps and wait for their .exit files instead of relying
+    # on PID ordering. This is more reliable across platforms and avoids race
+    # conditions when aggregating results.
+    declare -a LAUNCHED_STEPS=()
+    declare -a RUNNING_PIDS=()
     local running=0
     for step in "${STEPS[@]}"; do
       run_step "$step" &
       pid=$!
-      PIDS+=("$pid")
-      STEP_FOR_PID+=("$step")
+      RUNNING_PIDS+=("$pid")
+      LAUNCHED_STEPS+=("$step")
       running=$((running+1))
-      # If we've reached concurrency limit, wait for any to finish
+
+      # If we've reached concurrency limit, wait for at least one step to produce its exit file
       if [[ $running -ge $PARALLEL_JOBS ]]; then
-        if wait -n 2>/dev/null; then
-          # wait -n succeeded; decrement running
-          running=$((running-1))
-        else
-          # fallback: wait for first PID
-          wait "${PIDS[0]}" 2>/dev/null || true
-          # remove first PID
-          PIDS=(${PIDS[@]:1})
-          STEP_FOR_PID=(${STEP_FOR_PID[@]:1})
-          running=$((running-1))
-        fi
+        wait_start_time=$(date +%s)
+        while true; do
+          found_any=false
+          for s in "${LAUNCHED_STEPS[@]}"; do
+            rpt="$REPORT_DIR/${REPORTS[$s]}"
+            if [[ -f "$rpt.exit" ]]; then
+              found_any=true
+              break
+            fi
+          done
+          if [[ "$found_any" == true ]]; then
+            break
+          fi
+          sleep 0.1
+          now=$(date +%s)
+          if [[ $((now - wait_start_time)) -gt 600 ]]; then
+            echo "Timed out waiting for step exit files; proceeding to check running pids" >&2
+            break
+          fi
+        done
+
+        # prune finished steps from the running lists
+        new_running=()
+        new_launched=()
+        for idx in "${!RUNNING_PIDS[@]}"; do
+          p=${RUNNING_PIDS[$idx]}
+          s=${LAUNCHED_STEPS[$idx]}
+          rpt="$REPORT_DIR/${REPORTS[$s]}"
+          if [[ -f "$rpt.exit" ]]; then
+            wait "$p" 2>/dev/null || true
+            running=$((running-1))
+          else
+            new_running+=("$p")
+            new_launched+=("$s")
+          fi
+        done
+        RUNNING_PIDS=("${new_running[@]}")
+        LAUNCHED_STEPS=("${new_launched[@]}")
       fi
     done
-    # wait for remaining
-    for p in "${PIDS[@]}"; do
-      wait "$p" 2>/dev/null || true
+
+    # After launching all, wait for remaining exit files to appear
+    for s in "${LAUNCHED_STEPS[@]}"; do
+      rpt="$REPORT_DIR/${REPORTS[$s]}"
+      wait_start_time=$(date +%s)
+      while [[ ! -f "$rpt.exit" ]]; do
+        sleep 0.1
+        now=$(date +%s)
+        if [[ $((now - wait_start_time)) -gt 600 ]]; then
+          echo "Timed out waiting for $s to produce exit file" >&2
+          break
+        fi
+      done
     done
 
-    # After all steps complete, populate RESULTS and EXIT_CODES by reading per-step exit files
+    # Populate RESULTS and EXIT_CODES by reading per-step exit files
     for step in "${STEPS[@]}"; do
       local report_path="$REPORT_DIR/${REPORTS[$step]}"
       local exit_file="$report_path.exit"

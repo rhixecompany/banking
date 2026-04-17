@@ -85,6 +85,9 @@ async function main() {
 }
 
 main().catch((err) => {
-  console.error('Unhandled error in run-with-args:', err?.message ?? String(err));
+  console.error(
+    "Unhandled error in run-with-args:",
+    err?.message ?? String(err),
+  );
   process.exit(2);
 });

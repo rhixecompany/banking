@@ -69,7 +69,7 @@ export function parseGatewayOutput(output: string): DiscoveryRecord[] {
     // Common adminbot table row might be like: " - next-devtools-mcp"
     // Use a simpler, safer regex that avoids overlapping quantifiers.
     // Match a contiguous token of allowed characters, trimming common leading markers
-    const m = line.match(/[-*]?\s*([A-Za-z0-9._:\/-]+)/);
+    const m = line.match(/[-*]?\s*([\w.:/-]+)/);
     if (!m) continue;
     const token = normalizeToken(m[1]);
     if (!isValidToken(token)) continue;

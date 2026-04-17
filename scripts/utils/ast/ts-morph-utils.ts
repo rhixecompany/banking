@@ -13,11 +13,11 @@ export function replaceImportPath(
   const project = new Project({ tsConfigFilePath: "tsconfig.json" });
   const source = project.addSourceFileAtPathIfExists(filePath);
   if (!source) throw new Error(`file not found: ${filePath}`);
-  source.getImportDeclarations().forEach((imp) => {
+  for (const imp of source.getImportDeclarations()) {
     if (imp.getModuleSpecifierValue() === fromModule) {
       imp.setModuleSpecifier(toModule);
     }
-  });
+  }
   if (!dryRun) source.saveSync();
   return source.getFullText();
 }
