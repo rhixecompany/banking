@@ -9,46 +9,7 @@ import { auth } from "@/lib/auth";
  * Input schema for updating a user profile.
  * `userId` is intentionally omitted — it is resolved from the session.
  */
-const UpdateProfileSchema = z.object({
-  address: z.string().trim().optional().meta({ description: "Street address" }),
-  city: z.string().trim().optional().meta({ description: "City" }),
-  email: z
-    .string()
-    .trim()
-    .email("Invalid email address")
-    .optional()
-    .meta({ description: "Email address" }),
-  image: z
-    .string()
-    .trim()
-    .optional()
-    .meta({ description: "Profile image URL" }),
-  name: z
-    .string()
-    .trim()
-    .min(2, "Name must be at least 2 characters")
-    .optional()
-    .meta({ description: "Full name" }),
-  newPassword: z
-    .string()
-    .trim()
-    .min(8, "New password must be at least 8 characters")
-    .optional()
-    .meta({ description: "New password" }),
-  password: z
-    .string()
-    .trim()
-    .min(8, "Current password must be at least 8 characters")
-    .optional()
-    .meta({ description: "Current password" }),
-  phone: z.string().trim().optional().meta({ description: "Phone number" }),
-  postalCode: z
-    .string()
-    .trim()
-    .optional()
-    .meta({ description: "Postal/ZIP code" }),
-  state: z.string().trim().optional().meta({ description: "State" }),
-});
+import { UpdateProfileSchema } from "@/lib/schemas/profile.schema";
 
 /**
  * Inferred type for profile update input (excludes userId — resolved from session).
