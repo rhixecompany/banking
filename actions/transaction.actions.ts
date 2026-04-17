@@ -2,6 +2,7 @@
 
 import type { Transaction } from "@/types/transaction";
 
+import { z } from "zod";
 import { transactionDal } from "@/dal";
 import { auth } from "@/lib/auth";
 import { logger } from "@/lib/logger";
@@ -21,6 +22,14 @@ import { logger } from "@/lib/logger";
 export async function getRecentTransactions(
   limit = 10,
 ): Promise<{ ok: boolean; transactions?: Transaction[]; error?: string }> {
+  // Validate inputs to satisfy server-action-zod rule and provide useful
+  // error messages instead of throwing. Keep defaults and coercion minimal.
+  const LimitSchema = z.number().int().positive().max(100).default(10);
+  const parsedLimit = LimitSchema.safeParse(limit);
+  if (!parsedLimit.success) {
+    return { ok: false, error: parsedLimit.error.issues[0].message };
+  }
+  limit = parsedLimit.data;
   try {
     const session = await auth();
     if (!session?.user?.id) {
@@ -55,6 +64,15 @@ export async function getTransactionHistory(
   page = 1,
   pageSize = 20,
 ): Promise<{ ok: boolean; transactions?: Transaction[]; error?: string }> {
+  // Validate pagination inputs
+  const PageSchema = z.number().int().min(1).default(1);
+  const PageSizeSchema = z.number().int().min(1).max(200).default(20);
+  const p = PageSchema.safeParse(page);
+  const ps = PageSizeSchema.safeParse(pageSize);
+  if (!p.success) return { ok: false, error: p.error.issues[0].message };
+  if (!ps.success) return { ok: false, error: ps.error.issues[0].message };
+  page = p.data;
+  pageSize = ps.data;
   try {
     const session = await auth();
     if (!session?.user?.id) {
