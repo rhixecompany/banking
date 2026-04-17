@@ -203,14 +203,22 @@ export class TransactionDal {
         .where(conditions.length === 1 ? conditions[0] : or(...conditions));
 
       // Build map for quick lookup
-      walletsMap = rows.reduce((acc: any, w: any) => {
-        acc[w.id] = {
-          fundingSourceUrl: w.fundingSourceUrl,
-          id: w.id,
-          institutionName: w.institutionName,
-        };
-        return acc;
-      }, {});
+      // rows shape: { fundingSourceUrl, id, institutionName }
+      walletsMap = rows.reduce(
+        (
+          acc: Record<string, { fundingSourceUrl: string | null; id: string; institutionName: string | null }>,
+          w: { fundingSourceUrl?: string | null; id: string; institutionName?: string | null },
+        ) => {
+          const id = String(w.id);
+          acc[id] = {
+            fundingSourceUrl: w.fundingSourceUrl ?? null,
+            id,
+            institutionName: w.institutionName ?? null,
+          };
+          return acc;
+        },
+        {} as Record<string, { fundingSourceUrl: string | null; id: string; institutionName: string | null }>,
+      );
     }
 
     // Attach optional wallet metadata to each transaction
