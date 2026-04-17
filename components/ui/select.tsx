@@ -6,24 +6,61 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof SelectPrimitive.Root>} param0
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function Select({
   ...props
 }: React.ComponentProps<typeof SelectPrimitive.Root>) {
   return <SelectPrimitive.Root data-slot="select" {...props} />;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof SelectPrimitive.Group>} param0
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function SelectGroup({
   ...props
 }: React.ComponentProps<typeof SelectPrimitive.Group>) {
   return <SelectPrimitive.Group data-slot="select-group" {...props} />;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof SelectPrimitive.Value>} param0
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function SelectValue({
   ...props
 }: React.ComponentProps<typeof SelectPrimitive.Value>) {
   return <SelectPrimitive.Value data-slot="select-value" {...props} />;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {({
+ *   size?: "default" | "sm";
+ * } & React.ComponentProps<typeof SelectPrimitive.Trigger>)} param0
+ * @param {*} param0.children
+ * @param {*} param0.className
+ * @param {*} [param0.size="default"]
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function SelectTrigger({
   children,
   className,
@@ -50,6 +87,18 @@ function SelectTrigger({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof SelectPrimitive.Content>} param0
+ * @param {React.ComponentProps<any>} [param0.align="center"]
+ * @param {React.ComponentProps<any>} param0.children
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} [param0.position="item-aligned"]
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function SelectContent({
   align = "center",
   children,
@@ -87,6 +136,15 @@ function SelectContent({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof SelectPrimitive.Label>} param0
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function SelectLabel({
   className,
   ...props
@@ -100,6 +158,16 @@ function SelectLabel({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof SelectPrimitive.Item>} param0
+ * @param {React.ComponentProps<any>} param0.children
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function SelectItem({
   children,
   className,
@@ -130,6 +198,15 @@ function SelectItem({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof SelectPrimitive.Separator>} param0
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function SelectSeparator({
   className,
   ...props
@@ -143,6 +220,15 @@ function SelectSeparator({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof SelectPrimitive.ScrollUpButton>} param0
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function SelectScrollUpButton({
   className,
   ...props
@@ -161,6 +247,15 @@ function SelectScrollUpButton({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof SelectPrimitive.ScrollDownButton>} param0
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function SelectScrollDownButton({
   className,
   ...props

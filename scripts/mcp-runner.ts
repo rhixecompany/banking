@@ -1,172 +1,231 @@
 #!/usr/bin/env node
-/* eslint-disable n/no-process-env */
-// Small helper to run an MCP package using bun if available, otherwise npx.
-// Usage: npx tsx .scripts/mcp-runner.ts <package> [args...]
+import { execSync } from "child_process";
+import fs from "fs";
+import path from "path";
+import readline from "readline";
+import yargs from "yargs";
+import { hideBin } from "yargs/helpers";
 
-import { spawn, spawnSync, type ChildProcess } from "child_process";
+import {
+  diffLists,
+  generateHelper,
+  mergeCatalog,
+  parseDockerPsOutput,
+  parseGatewayOutput,
+  pruneBackups,
+  readCatalog,
+  rollbackRestore,
+  runValidations,
+  writeCatalog,
+} from "./mcp-runner-lib";
 
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @type {string[]}
- */
-const args: string[] = process.argv.slice(2);
-if (args.length === 0) {
-  console.error("Usage: npx tsx .scripts/mcp-runner.ts <package> [args...]");
-  process.exit(2);
-}
+async function main() {
+  const argv = await yargs(hideBin(process.argv))
+    .option("dry-run", { default: true, type: "boolean" })
+    .option("apply", { default: false, type: "boolean" })
+    .option("prune", { default: false, type: "boolean" })
+    .option("force", { default: false, type: "boolean" })
+    .option("rollback", { default: false, type: "boolean" })
+    .option("backup", { default: "", type: "string" })
+    .option("helpers-dir", { default: ".opencode/mcp-helpers", type: "string" })
+    .option("catalog-path", {
+      default: ".opencode/mcp_servers.json",
+      type: "string",
+    })
+    .option("verbose", { default: false, type: "boolean" })
+    .option("list", { default: false, type: "boolean" })
+    .option("verify-only", { default: false, type: "boolean" }).argv;
 
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @type {string}
- */
-const pkg: string = args[0];
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @type {string[]}
- */
-const extra: string[] = args.slice(1);
+  const catalogPath = path.resolve(argv["catalog-path"] as string);
+  const helpersDir = path.resolve(argv["helpers-dir"] as string);
 
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @param {string} name
- * @returns {boolean}
- */
-function hasCommand(name: string): boolean {
-  try {
-    const r = spawnSync(name, ["--version"], { stdio: "ignore" });
-    return r.status === 0;
-  } catch {
-    return false;
+  if (!fs.existsSync(catalogPath)) {
+    console.error("Catalog not found:", catalogPath);
+    process.exit(2);
   }
-}
 
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @type {boolean}
- */
-let useBun: boolean = hasCommand("bun");
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @type {(string | null)}
- */
-let bunPath: null | string = null;
+  const existing = readCatalog(catalogPath);
 
-// If bun isn't on PATH, check the default Windows install location.
-if (!useBun) {
+  if (argv["list"]) {
+    // Print newline-separated server names
+    for (const s of existing) console.log(s);
+    process.exit(0);
+  }
+
+  // --verify-only handled after discoveryRecords are collected
+
+  // Attempt gateway discovery first, capture outputs for audit
+  let gatewayOut = "";
+  let dockerPsOut = "";
+  const discoveryRecords = [] as any[];
   try {
-    const candidate: string =
-      "C:\\Users\\" +
-      (process.env["USERNAME"] ?? process.env["USER"] ?? "") +
-      "\\.bun\\bin\\bun.exe";
-    const r = spawnSync(candidate, ["--version"], { stdio: "ignore" });
-    if (r.status === 0) {
-      useBun = true;
-      bunPath = candidate;
+    gatewayOut = execSync("docker mcp gateway run --profile adminbot", {
+      encoding: "utf8",
+      stdio: ["pipe", "pipe", "pipe"],
+    });
+    if (gatewayOut) {
+      const r = parseGatewayOutput(gatewayOut);
+      discoveryRecords.push(...r);
     }
   } catch {
-    // bun not found at default Windows path — fall through to npx
+    if (argv.verbose)
+      console.warn("gateway discovery failed, falling back to docker ps");
+  }
+
+  if (discoveryRecords.length === 0) {
+    try {
+      dockerPsOut = execSync("docker ps --format '{{.Names}}'", {
+        encoding: "utf8",
+        stdio: ["pipe", "pipe", "pipe"],
+      });
+      if (dockerPsOut) {
+        const r = parseDockerPsOutput(dockerPsOut);
+        discoveryRecords.push(...r);
+      }
+    } catch (e: any) {
+      if (argv.verbose) console.warn("docker ps failed: ", e?.message ?? e);
+    }
+  }
+
+  const merged = mergeCatalog(existing, discoveryRecords);
+  const d = diffLists(existing, merged);
+
+  if (argv["verify-only"]) {
+    const discoveredOnly = discoveryRecords.map((r) => r.name);
+    const diff = diffLists(existing, discoveredOnly);
+    console.log(JSON.stringify(diff, null, 2));
+    process.exit(diff.added.length || diff.removed.length ? 2 : 0);
+  }
+
+  console.warn("Dry-run: proposed changes:");
+  console.warn(JSON.stringify(d, null, 2));
+
+  if (!argv.apply) {
+    console.log("Run with --apply to make changes (default is dry-run)");
+    return;
+  }
+
+  // Rollback path (if requested)
+  if (argv["rollback"]) {
+    const backupPath = argv["backup"] as string;
+    if (!backupPath) {
+      console.error("--rollback requires --backup <path>");
+      process.exit(2);
+    }
+    try {
+      const res = rollbackRestore(backupPath, catalogPath);
+      console.log("Restored backup:", backupPath, "->", catalogPath);
+      // run validations after restore
+      const validationCommands = [
+        { cmd: "npm run format", name: "format" },
+        { cmd: "npm run type-check", name: "type-check" },
+        { cmd: "npm run lint:strict", name: "lint-strict" },
+        { cmd: "npm run verify:rules", name: "verify-rules" },
+        { cmd: "npm run test:browser", name: "test-browser" },
+      ];
+      const valResults = runValidations(validationCommands, {
+        timeout: 10 * 60 * 1000,
+      });
+      console.log(
+        "Post-restore validations:",
+        JSON.stringify(valResults, null, 2),
+      );
+      process.exit(0);
+    } catch (err: any) {
+      console.error("Rollback failed:", err?.message ?? String(err));
+      process.exit(1);
+    }
+  }
+
+  // Interactive confirmation unless --force
+  if (!argv.force) {
+    const rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout,
+    });
+    const answer = await new Promise<string>((res) =>
+      rl.question("Type APPLY to confirm writing changes: ", (ans: string) => {
+        rl.close();
+        res(ans);
+      }),
+    );
+    if (answer.trim() !== "APPLY") {
+      console.log("Aborted by user");
+      return;
+    }
+  } else {
+    // If running non-interactive force, require RUN_MCP_FORCE env flag
+    if (!process.env.RUN_MCP_FORCE || process.env.RUN_MCP_FORCE !== "true") {
+      console.error(
+        "Non-interactive --force requires environment variable RUN_MCP_FORCE=true",
+      );
+      process.exit(3);
+    }
+  }
+
+  console.warn("Applying changes...");
+
+  // Prepare audit artifact
+  const audit: any = {
+    commands: {
+      dockerPs: dockerPsOut ? dockerPsOut.slice(0, 20000) : null,
+      gateway: gatewayOut ? gatewayOut.slice(0, 20000) : null,
+    },
+    files: { backups: [], written: [] },
+    flags: argv,
+    timestamp: new Date().toISOString().replaceAll(/[:.]/g, ""),
+    validations: [],
+  };
+
+  // Write catalog (backup created by writeCatalog)
+  const backup = writeCatalog(catalogPath, merged);
+  audit.files.backups.push(backup);
+
+  // Generate helpers
+  for (const s of merged) {
+    const out = generateHelper(s, helpersDir);
+    if (out.written) audit.files.written.push(out.path);
+  }
+
+  // Run post-apply validations using helper
+  const validationCommands = [
+    { cmd: "npm run format", name: "format" },
+    { cmd: "npm run type-check", name: "type-check" },
+    { cmd: "npm run lint:strict", name: "lint-strict" },
+    { cmd: "npm run verify:rules", name: "verify-rules" },
+    { cmd: "npm run test:browser", name: "test-browser" },
+  ];
+
+  const valResults = runValidations(validationCommands, {
+    timeout: 10 * 60 * 1000,
+  });
+  audit.validations.push(...valResults);
+  for (const v of valResults) {
+    if (argv.verbose) console.log(`${v.name} ${v.ok ? "passed" : "failed"}`);
+    if (!v.ok) console.error(`${v.name} failed (see audit)`);
+  }
+
+  // Save audit file
+  const auditDir = path.resolve(".opencode/mcp-audit");
+  if (!fs.existsSync(auditDir)) fs.mkdirSync(auditDir, { recursive: true });
+  const auditPath = path.join(
+    auditDir,
+    `mcp-runner-apply-${audit.timestamp}.json`,
+  );
+  fs.writeFileSync(auditPath, JSON.stringify(audit, null, 2), "utf8");
+  console.log("Wrote audit artifact:", auditPath);
+
+  // Prune backups older than 365 days by default (no-op if none)
+  try {
+    const pruned = pruneBackups(path.dirname(catalogPath), 365);
+    if (pruned.length && argv.verbose) console.log("Pruned backups:", pruned);
+  } catch (e) {
+    if (argv.verbose)
+      console.warn("Prune backups failed:", (e as any)?.message ?? e);
   }
 }
 
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @type {boolean}
- */
-const useNpx: boolean = hasCommand("npx");
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @type {boolean}
- */
-const useNpm: boolean = hasCommand("npm");
-
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @type {string}
- */
-let cmd: string;
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @type {string[]}
- */
-let cmdArgs: string[];
-
-if (useBun) {
-  cmd = bunPath ?? "bun";
-  cmdArgs = ["x", pkg, ...extra];
-} else if (useNpx) {
-  cmd = "npx";
-  cmdArgs = ["--yes", pkg, ...extra];
-} else if (useNpm) {
-  cmd = "npm";
-  cmdArgs = ["exec", "--yes", pkg, "--", ...extra];
-} else {
-  console.error(
-    "Neither bun, npx, nor npm is available in PATH. Install Node.js (which provides npm) or Bun.",
-  );
-  console.error(
-    "Windows: install Node.js from https://nodejs.org/ or install Bun from https://bun.sh/",
-  );
-  console.error("After installing, re-run the scripts command.");
-  process.exit(2);
-}
-
-// Spawn the MCP server process and forward stdio so OpenCode can communicate with it.
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @type {ChildProcess}
- */
-const child: ChildProcess = spawn(cmd, cmdArgs, {
-  env: process.env,
-  stdio: "inherit",
-});
-
-// Forward termination signals to the child so it can shut down cleanly.
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @param {NodeJS.Signals} signal
- */
-function forwardSignal(signal: NodeJS.Signals): void {
-  if (!child.killed) {
-    child.kill(signal);
-  }
-}
-
-process.on("SIGINT", () => forwardSignal("SIGINT"));
-process.on("SIGTERM", () => forwardSignal("SIGTERM"));
-
-child.on("error", (err: Error) => {
-  console.error("Failed to start MCP process:", err.message);
+main().catch((err) => {
+  console.error(err);
   process.exit(1);
-});
-
-child.on("exit", (code: null | number, signal: NodeJS.Signals | null) => {
-  if (signal !== null) {
-    console.error(`MCP process terminated with signal ${signal}`);
-    process.exit(1);
-  }
-  process.exit(code ?? 0);
 });

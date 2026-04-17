@@ -15,6 +15,23 @@ import {
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {({
+ *   buttonVariant?: React.ComponentProps<typeof Button>["variant"];
+ * } & React.ComponentProps<typeof DayPicker>)} param0
+ * @param {*} [param0.buttonVariant="ghost"]
+ * @param {*} [param0.captionLayout="label"]
+ * @param {*} param0.className
+ * @param {*} param0.classNames
+ * @param {*} param0.components
+ * @param {*} param0.formatters
+ * @param {*} [param0.showOutsideDays=true]
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function Calendar({
   buttonVariant = "ghost",
   captionLayout = "label",
@@ -179,6 +196,17 @@ function Calendar({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof DayButton>} param0
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} param0.day
+ * @param {React.ComponentProps<any>} param0.modifiers
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function CalendarDayButton({
   className,
   day,

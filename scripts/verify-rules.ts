@@ -6,17 +6,84 @@ import path from "path";
 import process from "process";
 import { Project, SyntaxKind } from "ts-morph";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @typedef {Severity}
+ */
 type Severity = "critical" | "info" | "warn";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @interface Issue
+ * @typedef {Issue}
+ */
 interface Issue {
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {string}
+   */
   file: string;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {number}
+   */
   line: number;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {string}
+   */
   check: string;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {Severity}
+   */
   severity: Severity;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {string}
+   */
   message: string;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?string}
+   */
   snippet?: string;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @async
+ * @param {{
+ *     patterns?: string[];
+ *     allowlist?: string[];
+ *     out?: string;
+ *     ci?: boolean;
+ *     // When true, require a plan file to be present for large changes (>7 files)
+ *     requirePlanForLargeChanges?: boolean;
+ *     // Base ref used to compute changed files (git diff base...HEAD)
+ *     planBase?: string;
+ *   }} [opts={}]
+ * @returns {unknown}
+ */
 export async function runChecks(
   opts: {
     patterns?: string[];
@@ -74,9 +141,9 @@ export async function runChecks(
     // Skip allowlisted files using glob-like prefix matching
     if (
       allowlist.some((g: string) => {
-        const normalized = g.replaceAll('\\', "/");
-        const pattern = normalized.replaceAll('**', "");
-        return f.replaceAll('\\', "/").startsWith(pattern);
+        const normalized = g.replaceAll("\\", "/");
+        const pattern = normalized.replaceAll("**", "");
+        return f.replaceAll("\\", "/").startsWith(pattern);
       })
     ) {
       continue;
@@ -96,7 +163,7 @@ export async function runChecks(
         if (expression.getText() === "process" && name === "env") {
           // Determine severity from config if present
           const sev =
-            (config.severities?.["process.env-usage"]) ||
+            config.severities?.["process.env-usage"] ||
             (f.startsWith("app/") || f.startsWith("lib/")
               ? "critical"
               : "warn");
@@ -122,7 +189,7 @@ export async function runChecks(
       const { line } = n.getStartLineNumber
         ? { line: n.getStartLineNumber() }
         : { line: 0 };
-      const sev = (config.severities?.["no-any"]) || "warn";
+      const sev = config.severities?.["no-any"] || "warn";
       issues.push({
         check: "no-any",
         file: f,
@@ -147,9 +214,7 @@ export async function runChecks(
           f.startsWith("components/") ||
           f.startsWith("pages/")
         ) {
-          const sev =
-            (config.severities?.["direct-db-import"]) ||
-            "warn";
+          const sev = config.severities?.["direct-db-import"] || "warn";
           issues.push({
             check: "direct-db-import",
             file: f,
@@ -167,8 +232,8 @@ export async function runChecks(
       if (
         allowlist.some((g: string) =>
           f
-            .replaceAll('\\', "/")
-            .startsWith(g.replaceAll('\\', "/").replace("**", "")),
+            .replaceAll("\\", "/")
+            .startsWith(g.replaceAll("\\", "/").replace("**", "")),
         )
       ) {
         continue;
@@ -179,9 +244,7 @@ export async function runChecks(
         if (
           !/await\s+auth\(|\bconst\s+session\s*=\s*await\s*auth\(/.test(text)
         ) {
-          const sev =
-            (config.severities?.["server-action-auth"]) ||
-            "critical";
+          const sev = config.severities?.["server-action-auth"] || "critical";
           issues.push({
             check: "server-action-auth",
             file: f,
@@ -197,9 +260,7 @@ export async function runChecks(
             text,
           )
         ) {
-          const sev =
-            (config.severities?.["server-action-zod"]) ||
-            "warn";
+          const sev = config.severities?.["server-action-zod"] || "warn";
           issues.push({
             check: "server-action-zod",
             file: f,
@@ -216,8 +277,7 @@ export async function runChecks(
           )
         ) {
           const sev =
-            (config.severities?.["server-action-return-shape"]) ||
-            "warn";
+            config.severities?.["server-action-return-shape"] || "warn";
           issues.push({
             check: "server-action-return-shape",
             file: f,
@@ -333,6 +393,16 @@ export async function runChecks(
   return report;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @param {string} base
+ * @param {(boolean | undefined)} ci
+ * @param {Issue[]} issues
+ * @returns {Promise<boolean>}
+ */
 async function ensurePlanForLargeChanges(
   base: string,
   ci: boolean | undefined,
@@ -401,6 +471,12 @@ async function ensurePlanForLargeChanges(
   return true;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const isMain = process.argv.some(
   (a) =>
     (typeof a === "string" && a.endsWith("verify-rules.ts")) ||

@@ -28,8 +28,29 @@ import {
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const PasswordInputContext = createContext<{ password: string } | null>(null);
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {({
+ *   children?: ReactNode;
+ * } & Omit<ComponentProps<typeof Input>, "type">)} param0
+ * @param {*} param0.children
+ * @param {*} param0.defaultValue
+ * @param {*} param0.onChange
+ * @param {*} param0.value
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 export function PasswordInput({
   children,
   defaultValue,
@@ -79,6 +100,13 @@ export function PasswordInput({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @returns {*}
+ */
 export function PasswordInputStrengthChecker() {
   const [optionsLoaded, setOptionsLoaded] = useState(false);
   const [errorLoadingOptions, setErrorLoadingOptions] = useState(false);
@@ -182,6 +210,12 @@ export function PasswordInputStrengthChecker() {
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @returns {*}
+ */
 const usePasswordInput = () => {
   const context = useContext(PasswordInputContext);
   if (context === null) {

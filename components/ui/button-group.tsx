@@ -4,6 +4,12 @@ import { Slot } from "radix-ui";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const buttonGroupVariants = cva(
   "flex w-fit items-stretch has-[>[data-slot=button-group]]:gap-2 [&>*]:focus-visible:relative [&>*]:focus-visible:z-10 has-[select[aria-hidden=true]:last-child]:[&>[data-slot=select-trigger]:last-of-type]:rounded-e-md [&>[data-slot=select-trigger]:not([class*='w-'])]:w-fit [&>input]:flex-1",
   {
@@ -21,6 +27,16 @@ const buttonGroupVariants = cva(
   },
 );
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {(React.ComponentProps<"div"> & VariantProps<typeof buttonGroupVariants>)} param0
+ * @param {*} param0.className
+ * @param {*} param0.orientation
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function ButtonGroup({
   className,
   orientation,
@@ -37,6 +53,18 @@ function ButtonGroup({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {({
+ *   asChild?: boolean;
+ * } & React.ComponentProps<"div">)} param0
+ * @param {*} [param0.asChild=false]
+ * @param {*} param0.className
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function ButtonGroupText({
   asChild = false,
   className,
@@ -57,6 +85,16 @@ function ButtonGroupText({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof Separator>} param0
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} [param0.orientation="vertical"]
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function ButtonGroupSeparator({
   className,
   orientation = "vertical",

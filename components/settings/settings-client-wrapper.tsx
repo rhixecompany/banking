@@ -1,6 +1,5 @@
 "use client";
 
-import { PasswordSchema, ProfileSchema } from "@/lib/schemas/profile.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -30,6 +29,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import {
+  PasswordSchema,
+  UpdateProfileSchema,
+} from "@/lib/schemas/profile.schema";
 
 // Schemas are centralized in lib/schemas/profile.schema.ts and imported above
 
@@ -39,7 +42,7 @@ import { Separator } from "@/components/ui/separator";
  *
  * @typedef {ProfileFormData}
  */
-type ProfileFormData = z.infer<typeof ProfileSchema>;
+type ProfileFormData = z.infer<typeof UpdateProfileSchema>;
 /**
  * Description placeholder
  * @author [object Object]
@@ -104,7 +107,7 @@ export function SettingsClientWrapper({
       postalCode: userWithProfile.profile?.postalCode ?? "",
       state: userWithProfile.profile?.state ?? "",
     },
-    resolver: zodResolver(ProfileSchema),
+    resolver: zodResolver(UpdateProfileSchema),
   });
 
   async function onProfileSubmit(data: ProfileFormData): Promise<void> {

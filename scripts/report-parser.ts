@@ -3,14 +3,28 @@ import { XMLParser } from "fast-xml-parser";
 import fs from "fs";
 import path from "path";
 
-export type NormalizedReport = {
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @typedef {NormalizedReport}
+ */
+export interface NormalizedReport {
   framework: string;
   total: number;
   passed: number;
   failed: number;
   durationMs?: number;
-};
+}
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} filePath
+ * @returns {(NormalizedReport | null)}
+ */
 function parseVitestJson(filePath: string): NormalizedReport | null {
   const raw = fs.readFileSync(filePath, "utf-8");
   const data = JSON.parse(raw);
@@ -24,14 +38,21 @@ function parseVitestJson(filePath: string): NormalizedReport | null {
       : undefined;
 
   return {
-    framework: "vitest",
-    total,
-    passed,
-    failed,
     durationMs,
+    failed,
+    framework: "vitest",
+    passed,
+    total,
   };
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} filePath
+ * @returns {(NormalizedReport | null)}
+ */
 function parsePlaywrightJson(filePath: string): NormalizedReport | null {
   const raw = fs.readFileSync(filePath, "utf-8");
   const data = JSON.parse(raw);
@@ -47,15 +68,22 @@ function parsePlaywrightJson(filePath: string): NormalizedReport | null {
       0,
     ) ?? 0;
   const failed = total - passed;
-  return { framework: "playwright-json", total, passed, failed };
+  return { failed, framework: "playwright-json", passed, total };
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} filePath
+ * @returns {(NormalizedReport | null)}
+ */
 function parseJunitXml(filePath: string): NormalizedReport | null {
   const raw = fs.readFileSync(filePath, "utf-8");
   // Enable attribute parsing so numeric attributes like tests/failures are available
   const parser = new XMLParser({
-    ignoreAttributes: false,
     attributeNamePrefix: "@_",
+    ignoreAttributes: false,
   });
   const data = parser.parse(raw);
   // Expecting testsuites/testsuite structure
@@ -76,9 +104,16 @@ function parseJunitXml(filePath: string): NormalizedReport | null {
     failures += Number(failuresAttr ?? 0) + Number(errorsAttr ?? 0);
   }
   const passed = total - failures;
-  return { framework: "junit", total, passed, failed: failures };
+  return { failed: failures, framework: "junit", passed, total };
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} filePath
+ * @returns {(NormalizedReport | null)}
+ */
 function detectAndParse(filePath: string): NormalizedReport | null {
   const ext = path.extname(filePath).toLowerCase();
   try {
@@ -97,6 +132,10 @@ function detectAndParse(filePath: string): NormalizedReport | null {
 }
 export { detectAndParse, parseJunitXml, parsePlaywrightJson, parseVitestJson };
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ */
 function main() {
   const args = process.argv.slice(2);
   const dryRun = args.includes("--dry-run");
@@ -126,7 +165,7 @@ function main() {
 
   if (dryRun) {
     console.log(
-      JSON.stringify({ ok: true, files: files.length, results }, null, 2),
+      JSON.stringify({ files: files.length, ok: true, results }, null, 2),
     );
     return;
   }

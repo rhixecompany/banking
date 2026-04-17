@@ -3,6 +3,13 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @returns {JSX.Element}
+ */
 export default function CtaGetStarted(): JSX.Element {
   return (
     <section className="bg-gradient-to-br from-blue-600 to-blue-700 py-20 text-white">

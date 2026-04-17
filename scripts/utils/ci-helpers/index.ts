@@ -4,11 +4,27 @@ import { existsSync, promises as fs } from "fs";
 import os from "os";
 import path from "path";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @param {string} cmd
+ * @param {string[]} [args=[]]
+ * @returns {*}
+ */
 async function runCmd(cmd: string, args: string[] = []) {
   const p = execa(cmd, args, { shell: true, stdio: "inherit" });
   await p;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @returns {*}
+ */
 async function main() {
   const argv = process.argv.slice(2);
   const apply = argv.includes("--apply");
@@ -32,7 +48,7 @@ async function main() {
     console.log(
       "/bin/bash not available or running on Windows — running npm scripts sequentially (conservative)",
     );
-    const seq: Array<[string, string[]]> = [
+    const seq: [string, string[]][] = [
       ["npm", ["run", "format:markdown:check"]],
       ["npm", ["run", "format:check"]],
       ["npm", ["run", "type-check"]],

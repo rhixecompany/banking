@@ -22,13 +22,54 @@ Examples:
 EOF
 }
 
+# Write the ci-summary.json incrementally so partial results are available
+write_summary() {
+  local summary_file="$REPORT_DIR/ci-summary.json"
+  # Use a unique temporary file per invocation to avoid races when multiple
+  # background steps attempt to write the summary concurrently.
+  local tmpfile
+  if tmpfile=$(mktemp "$summary_file.tmp.XXXXXX" 2>/dev/null); then
+    :
+  else
+    tmpfile="$summary_file.tmp.$$"
+  fi
+  {
+    echo "{"
+    echo "  \"timestamp\": \"$ts\"," 
+    echo "  \"report_dir\": \"$REPORT_DIR\"," 
+    echo "  \"steps\": ["
+    local first=true
+    for step in "${STEPS[@]}"; do
+      if [[ "$first" == true ]]; then
+        first=false
+      else
+        echo ","
+      fi
+      local status="${RESULTS[$step]:-PENDING}"
+      local report_path="$REPORT_DIR/${REPORTS[$step]}"
+      local code="${EXIT_CODES[$step]:-null}"
+      local fb="${FALLBACKS[$step]:-false}"
+      local rep_escaped
+      rep_escaped=$(printf '%s' "$report_path" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g')
+      printf '    {"name":"%s","status":"%s","report":"%s","exit_code":%s,"fallback":%s}' "$step" "$status" "$rep_escaped" "$code" "$fb"
+    done
+    echo ""
+    echo "  ]"
+    echo "}"
+  } > "$tmpfile"
+  mv "$tmpfile" "$summary_file"
+}
+
 # Default CLI-controlled variables
 REPORT_DIR=""
 declare -a ONLY_STEPS
 declare -a SKIP_STEPS
 CONTINUE_ON_FAIL=false
+# Number of parallel jobs to run; default 3 (parallel-by-default). Set to 0 or 1 for sequential.
+PARALLEL_JOBS=3
 # target file(s) (comma-separated or glob)
 FILE_ARG=""
+DRY_RUN=false
 
 # Helper: trim whitespace (portable using awk)
 trim() {
@@ -111,8 +152,21 @@ while [[ $# -gt 0 ]]; do
       FILE_ARG="$1"
       shift
       ;;
+    --dry-run)
+      DRY_RUN=true
+      shift
+      ;;
     --continue-on-fail)
       CONTINUE_ON_FAIL=true
+      shift
+      ;;
+    --parallel=*)
+      PARALLEL_JOBS="${1#--parallel=}"
+      shift
+      ;;
+    --parallel)
+      shift
+      PARALLEL_JOBS="$1"
       shift
       ;;
     -h|--help)
@@ -131,6 +185,8 @@ declare -a STEPS
 declare -A COMMANDS
 declare -A REPORTS
 declare -A RESULTS
+declare -A EXIT_CODES
+declare -A FALLBACKS
 
 STEPS=(
   "format-check"
@@ -195,6 +251,9 @@ fi
 if [[ -z "$REPORT_DIR" ]]; then
   ts=$(date +"%Y%m%d-%H%M%S")
   REPORT_DIR="./ci-reports/$ts"
+else
+  # ensure we still have a timestamp for the run
+  ts=$(date +"%Y%m%d-%H%M%S")
 fi
 mkdir -p "$REPORT_DIR"
 
@@ -237,33 +296,6 @@ run_step() {
   TARGETED["test-ui"]="cross-env PLAYWRIGHT_PREPARE_DB=true playwright test {path} --project=chromium"
   TARGETED["type-check"]="tsc --noEmit --pretty {path}"
 
-  # Determine command to run
-  local run_cmd="$command"
-  if [[ -n "$FILE_ARG" && -n "${TARGETED[$step]:-}" ]]; then
-    # Prepare files array (split on comma) to pass to tool
-    IFS=',' read -ra FILES <<< "$FILE_ARG"
-    # join files with space, but preserve quoting by building an array for exec
-    local file_args=()
-    for f in "${FILES[@]}"; do
-      file_args+=("$f")
-    done
-
-    # substitute placeholder
-    local tpl="${TARGETED[$step]}"
-    # replace {path} with quoted list
-    local joined=""
-    for fa in "${file_args[@]}"; do
-      # escape double quotes
-      joined+="\"$fa\" ">
-    done
-    # trim trailing space
-    joined="${joined% }"
-    run_cmd="${tpl//\{path\}/$joined}"
-  else
-    # no file arg or no targeted template: run normal command
-    run_cmd="$command"
-  fi
-
   # Helper: map step to primary tool name for detection
   declare -A TOOL
   TOOL["format-check"]="prettier"
@@ -275,23 +307,99 @@ run_step() {
   TOOL["test-ui"]="playwright"
   TOOL["type-check"]="tsc"
 
-  # If targeted command requested, detect tool availability; else fallback to npm script
+  # Determine command to run
+  local run_cmd="$command"
   local attempted_fallback=0
-  if [[ -n "$FILE_ARG" && -n "${TARGETED[$step]:-}" ]]; then
-    local toolname="${TOOL[$step]:-}"
-    if ! command -v "$toolname" >/dev/null 2>&1; then
-      # write fallback note to report and switch to npm run <script>
-      echo "Tool $toolname not found on PATH; falling back to '${COMMANDS[$step]}'" > "$report_path"
-      run_cmd="${COMMANDS[$step]}"
-      attempted_fallback=1
-    fi
-  fi
+   if [[ -n "$FILE_ARG" && -n "${TARGETED[$step]:-}" ]]; then
+     # Prepare files array (split on comma) to pass to tool
+     IFS=',' read -ra FILES <<< "$FILE_ARG"
+     local file_args=()
+     for f in "${FILES[@]}"; do
+       file_args+=("$f")
+     done
 
-  if bash -lc "$run_cmd" >> "$report_path" 2>&1; then
-    RESULTS[$step]="PASS"
-  else
-    RESULTS[$step]="FAIL"
-  fi
+    # If the underlying tool isn't on PATH, fall back to npm script
+    local toolname="${TOOL[$step]:-}"
+    if [[ -n "$toolname" ]]; then
+      if ! command -v "$toolname" >/dev/null 2>&1; then
+        echo "Tool $toolname not found on PATH; falling back to '${COMMANDS[$step]}'" > "$report_path"
+        run_cmd="${COMMANDS[$step]}"
+        attempted_fallback=1
+      else
+        # substitute placeholder using a NUL-separated temp file and xargs -0
+        local tpl="${TARGETED[$step]}"
+        # Remove the {path} placeholder to build the command that xargs will invoke
+        local cmd_no_path
+        cmd_no_path="${tpl//\{path\}/}"
+        # create a temp file with NUL-separated entries for robust argument passing
+        local tmpfile
+        tmpfile=$(mktemp -t ci-files.XXXXXX) || tmpfile="/tmp/ci-files.$$"
+        for fa in "${file_args[@]}"; do
+          printf '%s\0' "$fa" >> "$tmpfile"
+        done
+        # Prefer tsx helper for robust argument passing if available, else fallback to node helper or xargs
+        if command -v npx >/dev/null 2>&1 && [[ -f "scripts/utils/ci-helpers/run-with-args.ts" ]]; then
+          run_cmd="npx tsx \"scripts/utils/ci-helpers/run-with-args.ts\" --template \"$tpl\" --tmpfile \"$tmpfile\""
+        elif [[ -f "scripts/utils/ci-helpers/run-with-args.js" ]]; then
+          run_cmd="node \"scripts/utils/ci-helpers/run-with-args.js\" --template \"$tpl\" --tmpfile \"$tmpfile\""
+        else
+          # Build run_cmd to use xargs -0 to invoke the tool safely; ensure temp file is removed after
+          run_cmd="xargs -0 < \"$tmpfile\" -- $cmd_no_path; rv=\$?; rm -f \"$tmpfile\"; exit \$rv"
+        fi
+      fi
+    else
+      # If no toolname mapping, behave like before and build tmpfile + helper
+      local tpl="${TARGETED[$step]}"
+      local cmd_no_path
+      cmd_no_path="${tpl//\{path\}/}"
+      local tmpfile
+      tmpfile=$(mktemp -t ci-files.XXXXXX) || tmpfile="/tmp/ci-files.$$"
+      for fa in "${file_args[@]}"; do
+        printf '%s\0' "$fa" >> "$tmpfile"
+      done
+      if command -v npx >/dev/null 2>&1 && [[ -f "scripts/utils/ci-helpers/run-with-args.ts" ]]; then
+        run_cmd="npx tsx \"scripts/utils/ci-helpers/run-with-args.ts\" --template \"$tpl\" --tmpfile \"$tmpfile\""
+      elif [[ -f "scripts/utils/ci-helpers/run-with-args.js" ]]; then
+        run_cmd="node \"scripts/utils/ci-helpers/run-with-args.js\" --template \"$tpl\" --tmpfile \"$tmpfile\""
+      else
+        run_cmd="xargs -0 < \"$tmpfile\" -- $cmd_no_path; rv=\$?; rm -f \"$tmpfile\"; exit \$rv"
+      fi
+    fi
+   else
+     # no file arg or no targeted template: run normal command
+     run_cmd="$command"
+   fi
+
+
+
+   # Run the command and capture exit code so we can produce a machine-readable summary
+   if [[ "${DRY_RUN}" == "true" ]]; then
+     echo "[DRY-RUN] $run_cmd" > "$report_path"
+     EXIT_CODES[$step]="null"
+     RESULTS[$step]="DRY-RUN"
+     if [[ $attempted_fallback -eq 1 ]]; then
+       FALLBACKS[$step]="true"
+     else
+       FALLBACKS[$step]="false"
+     fi
+     # write incremental summary and return early
+     write_summary
+     return
+   fi
+
+    bash -lc "$run_cmd" >> "$report_path" 2>&1
+    local exit_code=$?
+    EXIT_CODES[$step]="$exit_code"
+    if [[ $exit_code -eq 0 ]]; then
+      RESULTS[$step]="PASS"
+    else
+      RESULTS[$step]="FAIL"
+    fi
+   if [[ $attempted_fallback -eq 1 ]]; then
+     FALLBACKS[$step]="true"
+   else
+     FALLBACKS[$step]="false"
+   fi
 
   # Special handling: if this was test-ui and FILE_ARG provided, try seed prep
   if [[ "$step" == "test-ui" && -n "$FILE_ARG" ]]; then
@@ -302,18 +410,123 @@ run_step() {
       else
         echo "Seed prep failed or was skipped" >> "$report_path"
       fi
-    else
-      echo "Seed prep helper not found; skipping DB prep" >> "$report_path"
+      else
+        echo "Seed prep helper not found; skipping DB prep" >> "$report_path"
+      fi
     fi
-  fi
+  # Write per-step exit file so concurrent orchestrator can aggregate results
+  # Use atomic write via temp file
+  local exit_file="$report_path.exit"
+  local tmp_exit
+  tmp_exit="$report_path.exit.tmp"
+  printf '%s\n' "$exit_code" > "$tmp_exit"
+  mv "$tmp_exit" "$exit_file"
 }
 
 main() {
   local failed_steps=()
 
-  for step in "${STEPS[@]}"; do
-    run_step "$step"
-  done
+  if [[ -n "$PARALLEL_JOBS" && "$PARALLEL_JOBS" -gt 1 ]]; then
+    # Parallel execution mode
+    echo "Running up to $PARALLEL_JOBS steps in parallel"
+    # We will track launched steps and wait for their .exit files instead of relying
+    # on PID ordering. This is more reliable across platforms and avoids race
+    # conditions when aggregating results.
+    declare -a LAUNCHED_STEPS=()
+    declare -a RUNNING_PIDS=()
+    local running=0
+    for step in "${STEPS[@]}"; do
+      run_step "$step" &
+      pid=$!
+      RUNNING_PIDS+=("$pid")
+      LAUNCHED_STEPS+=("$step")
+      running=$((running+1))
+
+      # If we've reached concurrency limit, wait for at least one step to produce its exit file
+      if [[ $running -ge $PARALLEL_JOBS ]]; then
+        wait_start_time=$(date +%s)
+        while true; do
+          found_any=false
+          for s in "${LAUNCHED_STEPS[@]}"; do
+            rpt="$REPORT_DIR/${REPORTS[$s]}"
+            if [[ -f "$rpt.exit" ]]; then
+              found_any=true
+              break
+            fi
+          done
+          if [[ "$found_any" == true ]]; then
+            break
+          fi
+          sleep 0.1
+          now=$(date +%s)
+          if [[ $((now - wait_start_time)) -gt 600 ]]; then
+            echo "Timed out waiting for step exit files; proceeding to check running pids" >&2
+            break
+          fi
+        done
+
+        # prune finished steps from the running lists
+        new_running=()
+        new_launched=()
+        for idx in "${!RUNNING_PIDS[@]}"; do
+          p=${RUNNING_PIDS[$idx]}
+          s=${LAUNCHED_STEPS[$idx]}
+          rpt="$REPORT_DIR/${REPORTS[$s]}"
+          if [[ -f "$rpt.exit" ]]; then
+            wait "$p" 2>/dev/null || true
+            running=$((running-1))
+          else
+            new_running+=("$p")
+            new_launched+=("$s")
+          fi
+        done
+        RUNNING_PIDS=("${new_running[@]}")
+        LAUNCHED_STEPS=("${new_launched[@]}")
+      fi
+    done
+
+    # After launching all, wait for remaining exit files to appear
+    for s in "${LAUNCHED_STEPS[@]}"; do
+      rpt="$REPORT_DIR/${REPORTS[$s]}"
+      wait_start_time=$(date +%s)
+      while [[ ! -f "$rpt.exit" ]]; do
+        sleep 0.1
+        now=$(date +%s)
+        if [[ $((now - wait_start_time)) -gt 600 ]]; then
+          echo "Timed out waiting for $s to produce exit file" >&2
+          break
+        fi
+      done
+    done
+
+    # Populate RESULTS and EXIT_CODES by reading per-step exit files
+    for step in "${STEPS[@]}"; do
+      local report_path="$REPORT_DIR/${REPORTS[$step]}"
+      local exit_file="$report_path.exit"
+      if [[ -f "$exit_file" ]]; then
+        local ec
+        ec=$(cat "$exit_file")
+        EXIT_CODES[$step]="$ec"
+        if [[ "$ec" -eq 0 ]]; then
+          RESULTS[$step]="PASS"
+        else
+          RESULTS[$step]="FAIL"
+        fi
+      else
+        # Fallback if no exit file: mark as PENDING
+        EXIT_CODES[$step]="null"
+        RESULTS[$step]="PENDING"
+      fi
+    done
+  else
+    # Sequential execution (default)
+    for step in "${STEPS[@]}"; do
+      run_step "$step"
+    done
+  fi
+
+  # Ensure final summary is written
+  write_summary
 
   echo "Reports saved to: $REPORT_DIR"
 

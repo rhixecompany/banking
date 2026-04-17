@@ -18,7 +18,7 @@ describe("TotalBalanceLayout (presentational)", () => {
   it("renders provided wallet counts and total balance", () => {
     render(
       <TotalBalanceLayout
-        accounts={[{ id: "a1", currentBalance: 100 }] as any}
+        accounts={[{ currentBalance: 100, id: "a1" }] as any}
         totalWallets={1}
         totalCurrentBalance={100}
       />,

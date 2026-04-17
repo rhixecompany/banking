@@ -1,260 +1,512 @@
 {
-  "generatedAt": "2026-04-17T04:10:02.070Z",
+  "generatedAt": "2026-04-17T14:29:55.460Z",
   "results": [
     {
+      "check": "process.env-usage",
       "file": "drizzle.config.ts",
       "line": 19,
-      "check": "process.env-usage",
-      "severity": "critical",
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "critical",
       "snippet": "process.env"
     },
     {
+      "check": "process.env-usage",
       "file": "drizzle.config.ts",
       "line": 19,
-      "check": "process.env-usage",
-      "severity": "critical",
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "critical",
       "snippet": "process.env"
     },
     {
+      "check": "process.env-usage",
       "file": "drizzle.config.ts",
       "line": 48,
-      "check": "process.env-usage",
-      "severity": "critical",
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "critical",
       "snippet": "process.env"
     },
     {
+      "check": "process.env-usage",
       "file": "drizzle.config.ts",
       "line": 49,
-      "check": "process.env-usage",
-      "severity": "critical",
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "critical",
       "snippet": "process.env"
     },
     {
+      "check": "process.env-usage",
       "file": "next-sitemap.config.ts",
       "line": 8,
-      "check": "process.env-usage",
-      "severity": "critical",
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "critical",
       "snippet": "process.env"
     },
     {
+      "check": "process.env-usage",
       "file": "playwright.config.ts",
       "line": 35,
-      "check": "process.env-usage",
-      "severity": "critical",
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "critical",
       "snippet": "process.env"
     },
     {
+      "check": "process.env-usage",
       "file": "playwright.config.ts",
       "line": 80,
-      "check": "process.env-usage",
-      "severity": "critical",
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "critical",
       "snippet": "process.env"
     },
     {
+      "check": "process.env-usage",
       "file": "playwright.config.ts",
       "line": 92,
-      "check": "process.env-usage",
-      "severity": "critical",
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "critical",
       "snippet": "process.env"
     },
     {
+      "check": "process.env-usage",
       "file": "playwright.config.ts",
       "line": 107,
-      "check": "process.env-usage",
-      "severity": "critical",
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "critical",
       "snippet": "process.env"
     },
     {
+      "check": "process.env-usage",
       "file": "playwright.config.ts",
       "line": 130,
-      "check": "process.env-usage",
-      "severity": "critical",
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "critical",
       "snippet": "process.env"
     },
     {
+      "check": "process.env-usage",
       "file": "playwright.config.ts",
       "line": 131,
-      "check": "process.env-usage",
-      "severity": "critical",
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "critical",
       "snippet": "process.env"
     },
     {
+      "check": "process.env-usage",
       "file": "playwright.config.ts",
       "line": 133,
-      "check": "process.env-usage",
-      "severity": "critical",
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "critical",
       "snippet": "process.env"
     },
     {
+      "check": "process.env-usage",
       "file": "playwright.config.ts",
       "line": 134,
-      "check": "process.env-usage",
-      "severity": "critical",
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "critical",
       "snippet": "process.env"
     },
     {
+      "check": "process.env-usage",
       "file": "playwright.config.ts",
       "line": 144,
-      "check": "process.env-usage",
-      "severity": "critical",
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "critical",
       "snippet": "process.env"
     },
     {
+      "check": "process.env-usage",
       "file": "proxy.ts",
       "line": 17,
-      "check": "process.env-usage",
-      "severity": "critical",
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "critical",
       "snippet": "process.env"
     },
     {
+      "check": "process.env-usage",
       "file": "proxy.ts",
       "line": 18,
-      "check": "process.env-usage",
-      "severity": "critical",
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "critical",
       "snippet": "process.env"
     },
     {
+      "check": "no-any",
       "file": "actions/dwolla.actions.ts",
       "line": 546,
-      "check": "no-any",
-      "severity": "warn",
-      "message": "Found 'any' type usage (8 occurrences). Avoid using any."
+      "message": "Found 'any' type usage (8 occurrences). Avoid using any.",
+      "severity": "warn"
     },
     {
+      "check": "server-action-auth",
       "file": "actions/register.ts",
       "line": 1,
-      "check": "server-action-auth",
-      "severity": "critical",
-      "message": "Server Action does not appear to call auth() early. Server Actions must authenticate first."
+      "message": "Server Action does not appear to call auth() early. Server Actions must authenticate first.",
+      "severity": "critical"
     },
     {
+      "check": "server-action-zod",
       "file": "actions/transaction.actions.ts",
       "line": 1,
-      "check": "server-action-zod",
-      "severity": "critical",
-      "message": "Server Action does not appear to validate inputs with Zod or use a shared schema."
+      "message": "Server Action does not appear to validate inputs with Zod or use a shared schema.",
+      "severity": "critical"
     },
     {
+      "check": "server-action-zod",
       "file": "actions/user.actions.ts",
       "line": 1,
-      "check": "server-action-zod",
-      "severity": "critical",
-      "message": "Server Action does not appear to validate inputs with Zod or use a shared schema."
+      "message": "Server Action does not appear to validate inputs with Zod or use a shared schema.",
+      "severity": "critical"
     },
     {
+      "check": "no-any",
       "file": "dal/transaction.dal.ts",
       "line": 206,
-      "check": "no-any",
-      "severity": "warn",
-      "message": "Found 'any' type usage (2 occurrences). Avoid using any."
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
+      "severity": "warn"
     },
     {
+      "check": "process.env-usage",
       "file": "database/db.ts",
       "line": 13,
-      "check": "process.env-usage",
-      "severity": "critical",
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "critical",
       "snippet": "process.env"
     },
     {
+      "check": "no-any",
       "file": "components/app-sidebar/app-sidebar.tsx",
       "line": 173,
-      "check": "no-any",
-      "severity": "warn",
-      "message": "Found 'any' type usage (1 occurrences). Avoid using any."
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
+      "severity": "warn"
     },
     {
-      "file": "components/dashboard/dashboard-server-wrapper.tsx",
-      "line": 54,
       "check": "no-any",
-      "severity": "warn",
-      "message": "Found 'any' type usage (1 occurrences). Avoid using any."
-    },
-    {
       "file": "components/data-table/data-table.tsx",
       "line": 331,
-      "check": "no-any",
-      "severity": "warn",
-      "message": "Found 'any' type usage (2 occurrences). Avoid using any."
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
+      "severity": "warn"
     },
     {
+      "check": "no-any",
+      "file": "components/dashboard/dashboard-server-wrapper.tsx",
+      "line": 54,
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
       "file": "components/layouts/payment-transfer-form.tsx",
-      "line": 31,
-      "check": "no-any",
-      "severity": "warn",
-      "message": "Found 'any' type usage (1 occurrences). Avoid using any."
+      "line": 44,
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
+      "severity": "warn"
     },
     {
+      "check": "no-any",
       "file": "components/layouts/plaid-provider.tsx",
       "line": 136,
-      "check": "no-any",
-      "severity": "warn",
-      "message": "Found 'any' type usage (1 occurrences). Avoid using any."
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
+      "severity": "warn"
     },
     {
+      "check": "no-any",
       "file": "components/layouts/settings-profile-form.tsx",
-      "line": 21,
-      "check": "no-any",
-      "severity": "warn",
-      "message": "Found 'any' type usage (2 occurrences). Avoid using any."
+      "line": 34,
+      "message": "Found 'any' type usage (4 occurrences). Avoid using any.",
+      "severity": "warn"
     },
     {
+      "check": "no-any",
       "file": "components/plaid-link/plaid-link.tsx",
       "line": 126,
-      "check": "no-any",
-      "severity": "warn",
-      "message": "Found 'any' type usage (1 occurrences). Avoid using any."
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
+      "severity": "warn"
     },
     {
+      "check": "no-any",
+      "file": "components/shared/wallets-overview.tsx",
+      "line": 67,
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "components/ui/accordion.tsx",
+      "line": 14,
+      "message": "Found 'any' type usage (9 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "components/ui/alert-dialog.tsx",
+      "line": 14,
+      "message": "Found 'any' type usage (9 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "components/ui/aspect-ratio.tsx",
+      "line": 10,
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "components/ui/avatar.tsx",
+      "line": 45,
+      "message": "Found 'any' type usage (4 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "components/ui/button-group.tsx",
+      "line": 93,
+      "message": "Found 'any' type usage (3 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "components/ui/calendar.tsx",
+      "line": 204,
+      "message": "Found 'any' type usage (4 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "components/ui/carousel.tsx",
+      "line": 284,
+      "message": "Found 'any' type usage (8 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "components/ui/checkbox.tsx",
+      "line": 14,
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "components/ui/collapsible.tsx",
+      "line": 10,
+      "message": "Found 'any' type usage (3 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "components/ui/command.tsx",
+      "line": 21,
+      "message": "Found 'any' type usage (13 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "components/ui/context-menu.tsx",
+      "line": 14,
+      "message": "Found 'any' type usage (19 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "components/ui/dialog.tsx",
+      "line": 15,
+      "message": "Found 'any' type usage (10 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "components/ui/drawer.tsx",
+      "line": 13,
+      "message": "Found 'any' type usage (13 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "components/ui/dropdown-menu.tsx",
+      "line": 14,
+      "message": "Found 'any' type usage (20 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "components/ui/field.tsx",
+      "line": 168,
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "components/ui/form.tsx",
+      "line": 167,
+      "message": "Found 'any' type usage (3 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "components/ui/hover-card.tsx",
+      "line": 13,
+      "message": "Found 'any' type usage (6 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "components/ui/item.tsx",
+      "line": 33,
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "components/ui/label.tsx",
+      "line": 13,
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "components/ui/menubar.tsx",
+      "line": 14,
+      "message": "Found 'any' type usage (25 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "components/ui/navigation-menu.tsx",
+      "line": 50,
+      "message": "Found 'any' type usage (15 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "components/ui/number-input.tsx",
+      "line": 47,
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
       "file": "components/ui/pagination.tsx",
-      "line": 52,
-      "check": "no-any",
-      "severity": "warn",
-      "message": "Found 'any' type usage (1 occurrences). Avoid using any."
+      "line": 96,
+      "message": "Found 'any' type usage (5 occurrences). Avoid using any.",
+      "severity": "warn"
     },
     {
+      "check": "no-any",
+      "file": "components/ui/popover.tsx",
+      "line": 13,
+      "message": "Found 'any' type usage (7 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "components/ui/progress.tsx",
+      "line": 13,
+      "message": "Found 'any' type usage (3 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "components/ui/radio-group.tsx",
+      "line": 14,
+      "message": "Found 'any' type usage (4 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "components/ui/scroll-area.tsx",
+      "line": 13,
+      "message": "Found 'any' type usage (6 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
       "file": "components/ui/select.tsx",
-      "line": 113,
-      "check": "no-any",
-      "severity": "warn",
-      "message": "Found 'any' type usage (1 occurrences). Avoid using any."
+      "line": 14,
+      "message": "Found 'any' type usage (20 occurrences). Avoid using any.",
+      "severity": "warn"
     },
     {
+      "check": "no-any",
+      "file": "components/ui/separator.tsx",
+      "line": 13,
+      "message": "Found 'any' type usage (4 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "components/ui/sheet.tsx",
+      "line": 14,
+      "message": "Found 'any' type usage (10 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "components/ui/sidebar.tsx",
+      "line": 393,
+      "message": "Found 'any' type usage (7 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "components/ui/slider.tsx",
+      "line": 13,
+      "message": "Found 'any' type usage (6 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "components/ui/tabs.tsx",
+      "line": 14,
+      "message": "Found 'any' type usage (7 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "components/ui/tooltip.tsx",
+      "line": 13,
+      "message": "Found 'any' type usage (8 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "components/layouts/datatable/index.tsx",
+      "line": 3,
+      "message": "Found 'any' type usage (4 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "components/layouts/row/index.tsx",
+      "line": 2,
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
       "file": "components/layouts/total-balance/total-balance.test.tsx",
       "line": 21,
-      "check": "no-any",
-      "severity": "warn",
-      "message": "Found 'any' type usage (1 occurrences). Avoid using any."
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
+      "severity": "warn"
     },
     {
+      "check": "no-any",
+      "file": "components/layouts/wallet-card/index.tsx",
+      "line": 48,
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
       "file": "components/layouts/wallet-card/wallet-card.test.tsx",
       "line": 14,
-      "check": "no-any",
-      "severity": "warn",
-      "message": "Found 'any' type usage (1 occurrences). Avoid using any."
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
+      "severity": "warn"
     },
     {
+      "check": "no-any",
       "file": "app/api/dwolla/webhook/route.ts",
       "line": 27,
-      "check": "no-any",
-      "severity": "warn",
-      "message": "Found 'any' type usage (2 occurrences). Avoid using any."
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
+      "severity": "warn"
     }
   ]
 }

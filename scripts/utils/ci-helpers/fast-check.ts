@@ -4,11 +4,27 @@ import { execa } from "execa";
 // Runs checks (eslint, type-check, prettier) only on changed files (git diff).
 // Dry-run by default; pass --apply to execute formatting/fixes.
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @param {string} cmd
+ * @param {string[]} args
+ * @returns {*}
+ */
 async function run(cmd: string, args: string[]) {
   const p = execa(cmd, args, { shell: true, stdio: "inherit" });
   await p;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @returns {unknown}
+ */
 async function getChangedFiles() {
   // Use async call to avoid sync-only types and to match execa ESM default export
   const p = await execa("git", ["diff", "--name-only", "HEAD"], {
@@ -18,6 +34,13 @@ async function getChangedFiles() {
   return out.split(/\r?\n/).filter(Boolean);
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @returns {*}
+ */
 async function main() {
   const argv = process.argv.slice(2);
   const apply = argv.includes("--apply");

@@ -4,6 +4,16 @@ import { expect, test, vi } from "vitest";
 
 import SettingsProfileForm from "@/components/layouts/settings-profile-form";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {{
+ *   onSubmit?: (d: any) => Promise<void>;
+ * }} param0
+ * @param {(d: any) => Promise<void>} [param0.onSubmit=async () => undefined]
+ * @returns {Promise<void>; }) => ReactJSX.Element}
+ */
 function Wrapper({
   onSubmit = async () => undefined,
 }: {

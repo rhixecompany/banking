@@ -5,6 +5,18 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {({
+ *   size?: "default" | "lg" | "sm";
+ * } & React.ComponentProps<typeof AvatarPrimitive.Root>)} param0
+ * @param {*} param0.className
+ * @param {*} [param0.size="default"]
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function Avatar({
   className,
   size = "default",
@@ -25,6 +37,15 @@ function Avatar({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof AvatarPrimitive.Image>} param0
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function AvatarImage({
   className,
   ...props
@@ -38,6 +59,15 @@ function AvatarImage({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof AvatarPrimitive.Fallback>} param0
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function AvatarFallback({
   className,
   ...props
@@ -54,6 +84,15 @@ function AvatarFallback({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"span">} param0
+ * @param {React.ComponentProps<"span">} param0.className
+ * @param {React.ComponentProps<"span">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function AvatarBadge({ className, ...props }: React.ComponentProps<"span">) {
   return (
     <span
@@ -70,6 +109,15 @@ function AvatarBadge({ className, ...props }: React.ComponentProps<"span">) {
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"div">} param0
+ * @param {React.ComponentProps<"div">} param0.className
+ * @param {React.ComponentProps<"div">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function AvatarGroup({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -83,6 +131,15 @@ function AvatarGroup({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"div">} param0
+ * @param {React.ComponentProps<"div">} param0.className
+ * @param {React.ComponentProps<"div">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function AvatarGroupCount({
   className,
   ...props

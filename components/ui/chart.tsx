@@ -8,11 +8,36 @@ import * as RechartsPrimitive from "recharts";
 import { cn } from "@/lib/utils";
 
 // Format: { THEME_NAME: CSS_SELECTOR }
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {{ readonly dark: ".dark"; readonly light: ""; }}
+ */
 const THEMES = { dark: ".dark", light: "" } as const;
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {{ readonly height: 200; readonly width: 320; }}
+ */
 const INITIAL_DIMENSION = { height: 200, width: 320 } as const;
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @typedef {TooltipNameType}
+ */
 type TooltipNameType = number | string;
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @typedef {ChartConfig}
+ */
 export type ChartConfig = Record<
   string,
   (
@@ -24,12 +49,37 @@ export type ChartConfig = Record<
   }
 >;
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @interface ChartContextProps
+ * @typedef {ChartContextProps}
+ */
 interface ChartContextProps {
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {ChartConfig}
+   */
   config: ChartConfig;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const ChartContext = React.createContext<ChartContextProps | null>(null);
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @returns {*}
+ */
 function useChart() {
   const context = React.useContext(ChartContext);
 
@@ -40,6 +90,28 @@ function useChart() {
   return context;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {{
+ *   config: ChartConfig;
+ *   children: React.ComponentProps<
+ *     typeof RechartsPrimitive.ResponsiveContainer
+ *   >["children"];
+ *   initialDimension?: {
+ *     width: number;
+ *     height: number;
+ *   };
+ * } & React.ComponentProps<"div">} param0
+ * @param {*} param0.children
+ * @param {*} param0.className
+ * @param {*} param0.config
+ * @param {*} param0.id
+ * @param {*} [param0.initialDimension=INITIAL_DIMENSION]
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function ChartContainer({
   children,
   className,
@@ -82,6 +154,15 @@ function ChartContainer({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {{ id: string; config: ChartConfig }} param0
+ * @param {(Record<string, ({ color?: never; theme: Record<"dark" | "light", string>; } | { color?: string; theme?: never; }) & { label?: React.ReactNode; icon?: React.ComponentType; }>)} param0.config
+ * @param {string} param0.id
+ * @returns {*}
+ */
 const ChartStyle = ({ config, id }: { id: string; config: ChartConfig }) => {
   const colorConfig = Object.entries(config).filter(
     ([, config]) => config.theme ?? config.color,
@@ -115,8 +196,48 @@ ${colorConfig
   );
 };
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const ChartTooltip = RechartsPrimitive.Tooltip;
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {{
+ *   hideLabel?: boolean;
+ *   hideIndicator?: boolean;
+ *   indicator?: "dashed" | "dot" | "line";
+ *   nameKey?: string;
+ *   labelKey?: string;
+ * } & Omit<
+ *   RechartsPrimitive.DefaultTooltipContentProps<
+ *     TooltipValueType,
+ *     TooltipNameType
+ *   >,
+ *   "accessibilityLayer"
+ * > &
+ *   React.ComponentProps<"div"> &
+ *   React.ComponentProps<typeof RechartsPrimitive.Tooltip>} param0
+ * @param {*} param0.active
+ * @param {*} param0.className
+ * @param {*} param0.color
+ * @param {*} param0.formatter
+ * @param {*} [param0.hideIndicator=false]
+ * @param {*} [param0.hideLabel=false]
+ * @param {*} [param0.indicator="dot"]
+ * @param {*} param0.label
+ * @param {*} param0.labelClassName
+ * @param {*} param0.labelFormatter
+ * @param {*} param0.labelKey
+ * @param {*} param0.nameKey
+ * @param {*} param0.payload
+ * @returns {*}
+ */
 function ChartTooltipContent({
   active,
   className,
@@ -272,8 +393,30 @@ function ChartTooltipContent({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const ChartLegend = RechartsPrimitive.Legend;
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {{
+ *   hideIcon?: boolean;
+ *   nameKey?: string;
+ * } & React.ComponentProps<"div"> &
+ *   RechartsPrimitive.DefaultLegendContentProps} param0
+ * @param {*} param0.className
+ * @param {*} [param0.hideIcon=false]
+ * @param {*} param0.nameKey
+ * @param {*} param0.payload
+ * @param {*} [param0.verticalAlign="bottom"]
+ * @returns {*}
+ */
 function ChartLegendContent({
   className,
   hideIcon = false,
@@ -331,6 +474,15 @@ function ChartLegendContent({
 }
 
 // Helper to extract item config from a payload.
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {ChartConfig} config
+ * @param {unknown} payload
+ * @param {string} key
+ * @returns {*}
+ */
 function getPayloadConfigFromPayload(
   config: ChartConfig,
   payload: unknown,

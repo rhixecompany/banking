@@ -1,0 +1,3 @@
+// Generated helper for neon
+// GeneratedAt: 2026-04-17T11:53:49.608Z
+export const name = "neon";

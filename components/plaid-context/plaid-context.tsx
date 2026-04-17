@@ -123,11 +123,31 @@ interface PlaidProviderProps {
    * @type {?(wallet: Wallet) => void}
    */
   onSuccess?: (wallet: Wallet) => void;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?(input: unknown) => Promise<{
+   *     ok: boolean;
+   *     linkToken?: string;
+   *     error?: string;
+   *   }>}
+   */
   createLinkToken?: (input: unknown) => Promise<{
     ok: boolean;
     linkToken?: string;
     error?: string;
   }>;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?(input: unknown) => Promise<{
+   *     ok: boolean;
+   *     wallet?: Wallet;
+   *     error?: string;
+   *   }>}
+   */
   exchangePublicToken?: (input: unknown) => Promise<{
     ok: boolean;
     wallet?: Wallet;

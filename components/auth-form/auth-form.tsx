@@ -103,6 +103,11 @@ const AuthForm = ({
   const onSubmit = async (
     formData: SignInFormData | SignUpFormData,
   ): Promise<void> => {
+    // Validate runtime shape for register prop when in sign-up mode
+    if (!isSignIn && register && typeof register !== "function") {
+      toast.error("Registration action is invalid");
+      return;
+    }
     setIsLoading(true);
     try {
       if (!isSignIn) {

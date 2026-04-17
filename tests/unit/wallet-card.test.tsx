@@ -17,6 +17,12 @@ vi.mock("@/components/ui/button", () => ({
 
 import type { WalletWithDetails } from "@/types/wallet";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {WalletWithDetails}
+ */
 const mockWallet: WalletWithDetails = {
   accessToken: "MOCK",
   accountId: null,

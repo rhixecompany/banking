@@ -3,6 +3,17 @@ import type { PlaidTransaction } from "@/types/plaid";
 import { Badge } from "@/components/ui/badge";
 import { formatDate } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {{
+ *   transactions: PlaidTransaction[];
+ * }} param0
+ * @param {{}} param0.transactions
+ * @returns {JSX.Element}
+ */
 export default function TransactionList({
   transactions,
 }: {

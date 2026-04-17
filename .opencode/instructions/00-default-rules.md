@@ -1,26 +1,35 @@
 ---
-description: Always Enforces this rules
+description: Always enforce these repository rules
 applyTo: "**"
-lastReviewed: 2026-04-14
+lastReviewed: 2026-04-17
 ---
 
-# Default Agent Rules (Repo)
+# Quick Start — Commands You Will Actually Run
 
-This repository uses `AGENTS.md` as the canonical source of truth for agent behavior, workflows, commands, and PR-blocking rules.
+1. Start dev server
+   - npm run dev
 
-## Canonical source of truth
+2. Typecheck and lint (pre-PR)
+   - npm run type-check
+   - npm run lint:strict
 
-- Read `AGENTS.md` first for repo-specific rules, commands, and patterns.
-- If an `.opencode/instructions/*.md` file conflicts with `AGENTS.md`, align the instruction to `AGENTS.md`.
+3. Format
+   - npm run format
 
-## Session clarification
+4. Run tests
+   - Fast unit tests: npm run test:browser
+   - Full (Playwright E2E then Vitest): npm run test
 
-- Ask clarifying questions **only when needed** (for example: whether you may modify files, whether a change should be committed, or whether to run slow validations).
+5. Seed DB (careful)
+   - npm run db:seed
+   - Dry-run: npm run db:seed -- --dry-run
 
-## Side effects
+- Reset (destructive): npm run db:seed -- --reset (must set RUN_DESTRUCTIVE=true and --yes)
 
-- Do not start background services or run environment-specific commands (for example Docker gateway profiles) unless explicitly requested by the user or required for the task at hand.
+Quick safety
 
-## Skills, tools, and MCP
+- Home page must remain static/public — no auth()/DAL/DB in app/page.tsx.
+- Use app-config.ts or lib/env.ts for env access; seed runner is an exception.
+- Run npm run verify:rules before PRs.
 
-- If the user asks, list the skills/tools you can use and which MCP servers are available in this workspace.
+-- Canonicalized from docs/AGENTS-CANONICAL.md on 2026-04-17 as part of unify-agent-docs operation.

@@ -1,5 +1,6 @@
-import TotalBalanceLayout from "@/components/layouts/total-balance";
 import { render, screen } from "@testing-library/react";
+
+import TotalBalanceLayout from "@/components/layouts/total-balance";
 
 describe("TotalBalanceLayout", () => {
   it("renders total balances and wallets count", () => {
@@ -7,10 +8,10 @@ describe("TotalBalanceLayout", () => {
       <TotalBalanceLayout
         accounts={[
           {
-            id: "a1",
-            name: "Checking",
             availableBalance: 1000,
             currentBalance: 1200,
+            id: "a1",
+            name: "Checking",
           },
         ]}
         totalWallets={1}

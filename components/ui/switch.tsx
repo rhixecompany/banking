@@ -5,6 +5,18 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {({
+ *   size?: "default" | "sm";
+ * } & React.ComponentProps<typeof SwitchPrimitive.Root>)} param0
+ * @param {*} param0.className
+ * @param {*} [param0.size="default"]
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function Switch({
   className,
   size = "default",

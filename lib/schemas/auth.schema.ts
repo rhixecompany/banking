@@ -23,9 +23,21 @@ export const signUpSchema = z
   .object({
     address1: z.string().trim().optional().meta({ description: "Address" }),
     city: z.string().trim().optional().meta({ description: "City" }),
-    confirmPassword: z.string().trim().optional().meta({ description: "Confirm password" }),
-    dateOfBirth: z.string().trim().optional().meta({ description: "Date of birth" }),
-    email: z.string().trim().email("Invalid email address").meta({ description: "Email" }),
+    confirmPassword: z
+      .string()
+      .trim()
+      .optional()
+      .meta({ description: "Confirm password" }),
+    dateOfBirth: z
+      .string()
+      .trim()
+      .optional()
+      .meta({ description: "Date of birth" }),
+    email: z
+      .string()
+      .trim()
+      .email("Invalid email address")
+      .meta({ description: "Email" }),
     firstName: z
       .string()
       .trim()
@@ -41,7 +53,11 @@ export const signUpSchema = z
       .trim()
       .min(8, "Password must be at least 8 characters")
       .meta({ description: "Password" }),
-    postalCode: z.string().trim().optional().meta({ description: "Postal code" }),
+    postalCode: z
+      .string()
+      .trim()
+      .optional()
+      .meta({ description: "Postal code" }),
     ssn: z.string().trim().optional().meta({ description: "SSN" }),
     state: z.string().trim().optional().meta({ description: "State" }),
   })
@@ -53,5 +69,19 @@ export const signUpSchema = z
     },
   );
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @typedef {SignInForm}
+ */
 export type SignInForm = z.infer<typeof signInSchema>;
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @typedef {SignUpForm}
+ */
 export type SignUpForm = z.infer<typeof signUpSchema>;

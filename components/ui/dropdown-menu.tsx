@@ -6,12 +6,28 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof DropdownMenuPrimitive.Root>} param0
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function DropdownMenu({
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.Root>) {
   return <DropdownMenuPrimitive.Root data-slot="dropdown-menu" {...props} />;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof DropdownMenuPrimitive.Portal>} param0
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function DropdownMenuPortal({
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.Portal>) {
@@ -20,6 +36,14 @@ function DropdownMenuPortal({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof DropdownMenuPrimitive.Trigger>} param0
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function DropdownMenuTrigger({
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.Trigger>) {
@@ -31,6 +55,16 @@ function DropdownMenuTrigger({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof DropdownMenuPrimitive.Content>} param0
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} [param0.sideOffset=4]
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function DropdownMenuContent({
   className,
   sideOffset = 4,
@@ -51,6 +85,14 @@ function DropdownMenuContent({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof DropdownMenuPrimitive.Group>} param0
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function DropdownMenuGroup({
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.Group>) {
@@ -59,6 +101,20 @@ function DropdownMenuGroup({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {({
+ *   inset?: boolean;
+ *   variant?: "default" | "destructive";
+ * } & React.ComponentProps<typeof DropdownMenuPrimitive.Item>)} param0
+ * @param {*} param0.className
+ * @param {*} param0.inset
+ * @param {*} [param0.variant="default"]
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function DropdownMenuItem({
   className,
   inset,
@@ -82,6 +138,17 @@ function DropdownMenuItem({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof DropdownMenuPrimitive.CheckboxItem>} param0
+ * @param {React.ComponentProps<any>} param0.checked
+ * @param {React.ComponentProps<any>} param0.children
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function DropdownMenuCheckboxItem({
   checked,
   children,
@@ -108,6 +175,14 @@ function DropdownMenuCheckboxItem({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof DropdownMenuPrimitive.RadioGroup>} param0
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function DropdownMenuRadioGroup({
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.RadioGroup>) {
@@ -119,6 +194,16 @@ function DropdownMenuRadioGroup({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof DropdownMenuPrimitive.RadioItem>} param0
+ * @param {React.ComponentProps<any>} param0.children
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function DropdownMenuRadioItem({
   children,
   className,
@@ -143,6 +228,18 @@ function DropdownMenuRadioItem({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {({
+ *   inset?: boolean;
+ * } & React.ComponentProps<typeof DropdownMenuPrimitive.Label>)} param0
+ * @param {*} param0.className
+ * @param {*} param0.inset
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function DropdownMenuLabel({
   className,
   inset,
@@ -163,6 +260,15 @@ function DropdownMenuLabel({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof DropdownMenuPrimitive.Separator>} param0
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function DropdownMenuSeparator({
   className,
   ...props
@@ -176,6 +282,15 @@ function DropdownMenuSeparator({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"span">} param0
+ * @param {React.ComponentProps<"span">} param0.className
+ * @param {React.ComponentProps<"span">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function DropdownMenuShortcut({
   className,
   ...props
@@ -192,12 +307,33 @@ function DropdownMenuShortcut({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof DropdownMenuPrimitive.Sub>} param0
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function DropdownMenuSub({
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.Sub>) {
   return <DropdownMenuPrimitive.Sub data-slot="dropdown-menu-sub" {...props} />;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {({
+ *   inset?: boolean;
+ * } & React.ComponentProps<typeof DropdownMenuPrimitive.SubTrigger>)} param0
+ * @param {*} param0.children
+ * @param {*} param0.className
+ * @param {*} param0.inset
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function DropdownMenuSubTrigger({
   children,
   className,
@@ -222,6 +358,15 @@ function DropdownMenuSubTrigger({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof DropdownMenuPrimitive.SubContent>} param0
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function DropdownMenuSubContent({
   className,
   ...props

@@ -7,6 +7,7 @@ echo === Run CI Checks ===
 echo This script requires PowerShell.
 echo.
 echo Starting PowerShell version...
-powershell.exe -ExecutionPolicy Bypass -File "%SCRIPT_DIR%run-ci-checks.ps1"
+REM Forward default parallel=3 if not provided
+powershell.exe -ExecutionPolicy Bypass -File "%SCRIPT_DIR%run-ci-checks.ps1" -Parallel 3 %*
 
 endlocal

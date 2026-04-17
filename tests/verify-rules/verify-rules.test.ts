@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+
 import { runChecks } from "../../scripts/verify-rules";
 
 describe("verify-rules basic checks", () => {
@@ -9,9 +10,9 @@ describe("verify-rules basic checks", () => {
       ".opencode/reports/test-rules-report.json",
     );
     const report = await runChecks({
+      allowlist: ["scripts/**"],
       out,
       patterns: ["scripts/**/*.ts"],
-      allowlist: ["scripts/**"],
     });
     expect(report).toBeDefined();
     expect(fs.existsSync(out)).toBe(true);

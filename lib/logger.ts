@@ -11,6 +11,12 @@ import { appConfig } from "@/app-config";
 
 // Derive development mode from the absence of production configuration.
 // Avoid referencing environment variables here directly — use appConfig as the canonical source.
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {boolean}
+ */
 const isDev = (() => {
   try {
     // appConfig is a typed, centralized config exported from app-config.ts and

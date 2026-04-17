@@ -6,12 +6,28 @@ import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof AlertDialogPrimitive.Root>} param0
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function AlertDialog({
   ...props
 }: React.ComponentProps<typeof AlertDialogPrimitive.Root>) {
   return <AlertDialogPrimitive.Root data-slot="alert-dialog" {...props} />;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof AlertDialogPrimitive.Trigger>} param0
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function AlertDialogTrigger({
   ...props
 }: React.ComponentProps<typeof AlertDialogPrimitive.Trigger>) {
@@ -20,6 +36,14 @@ function AlertDialogTrigger({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof AlertDialogPrimitive.Portal>} param0
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function AlertDialogPortal({
   ...props
 }: React.ComponentProps<typeof AlertDialogPrimitive.Portal>) {
@@ -28,6 +52,15 @@ function AlertDialogPortal({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof AlertDialogPrimitive.Overlay>} param0
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function AlertDialogOverlay({
   className,
   ...props
@@ -44,6 +77,18 @@ function AlertDialogOverlay({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {({
+ *   size?: "default" | "sm";
+ * } & React.ComponentProps<typeof AlertDialogPrimitive.Content>)} param0
+ * @param {*} param0.className
+ * @param {*} [param0.size="default"]
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function AlertDialogContent({
   className,
   size = "default",
@@ -67,6 +112,15 @@ function AlertDialogContent({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"div">} param0
+ * @param {React.ComponentProps<"div">} param0.className
+ * @param {React.ComponentProps<"div">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function AlertDialogHeader({
   className,
   ...props
@@ -83,6 +137,15 @@ function AlertDialogHeader({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"div">} param0
+ * @param {React.ComponentProps<"div">} param0.className
+ * @param {React.ComponentProps<"div">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function AlertDialogFooter({
   className,
   ...props
@@ -99,6 +162,15 @@ function AlertDialogFooter({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof AlertDialogPrimitive.Title>} param0
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function AlertDialogTitle({
   className,
   ...props
@@ -115,6 +187,15 @@ function AlertDialogTitle({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof AlertDialogPrimitive.Description>} param0
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function AlertDialogDescription({
   className,
   ...props
@@ -128,6 +209,15 @@ function AlertDialogDescription({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"div">} param0
+ * @param {React.ComponentProps<"div">} param0.className
+ * @param {React.ComponentProps<"div">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function AlertDialogMedia({
   className,
   ...props
@@ -144,6 +234,18 @@ function AlertDialogMedia({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {Pick<React.ComponentProps<typeof Button>, "size" | "variant"> &
+ *   React.ComponentProps<typeof AlertDialogPrimitive.Action>} param0
+ * @param {*} param0.className
+ * @param {*} [param0.size="default"]
+ * @param {*} [param0.variant="default"]
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function AlertDialogAction({
   className,
   size = "default",
@@ -162,6 +264,18 @@ function AlertDialogAction({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {Pick<React.ComponentProps<typeof Button>, "size" | "variant"> &
+ *   React.ComponentProps<typeof AlertDialogPrimitive.Cancel>} param0
+ * @param {*} param0.className
+ * @param {*} [param0.size="default"]
+ * @param {*} [param0.variant="outline"]
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function AlertDialogCancel({
   className,
   size = "default",

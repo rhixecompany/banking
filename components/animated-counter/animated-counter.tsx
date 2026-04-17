@@ -1,8 +1,9 @@
 "use client";
 
-import { env } from "@/lib/env";
 import { JSX } from "react";
 import CountUp from "react-countup";
+
+import { env } from "@/lib/env";
 
 /**
  * AnimatedCounter displays a numeric value with a smooth counting animation.
@@ -25,7 +26,7 @@ import CountUp from "react-countup";
  */
 const AnimatedCounter = ({ amount }: { amount: number }): JSX.Element => {
   const format = (n: number) =>
-    `$${n.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }).replace(".", ",")}`;
+    `$${n.toLocaleString(undefined, { maximumFractionDigits: 2, minimumFractionDigits: 2 }).replace(".", ",")}`;
 
   // In test environment, avoid running CountUp animation — render the final formatted value synchronously.
   if (env.NODE_ENV === "test") {

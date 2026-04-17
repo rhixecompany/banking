@@ -5,18 +5,69 @@ import * as React from "react";
 // <SelectItem> usages found in the component tree. It intentionally
 // simplifies behavior for deterministic unit tests.
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @interface SelectProps
+ * @typedef {SelectProps}
+ */
 interface SelectProps {
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?string}
+   */
   value?: string;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?(v: string) => void}
+   */
   onValueChange?: (v: string) => void;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?React.ReactNode}
+   */
   children?: React.ReactNode;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?string}
+   */
   className?: string;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?string}
+   */
   id?: string;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {*} x
+ * @returns {x is React.ReactElement}
+ */
 function isElement(x: any): x is React.ReactElement {
   return React.isValidElement(x);
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ReactNode} node
+ * @returns {{ value: string; label: React.ReactNode }[]}
+ */
 function findItems(
   node: React.ReactNode,
 ): { value: string; label: React.ReactNode }[] {
@@ -43,6 +94,13 @@ function findItems(
   return out;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ReactNode} node
+ * @returns {(string | undefined)}
+ */
 function findTriggerId(node: React.ReactNode): string | undefined {
   let found: string | undefined = undefined;
 
@@ -61,6 +119,17 @@ function findTriggerId(node: React.ReactNode): string | undefined {
   return found;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {SelectProps} param0
+ * @param {React.ReactNode} param0.children
+ * @param {(v: string) => void} param0.onValueChange
+ * @param {string} param0.value
+ * @returns {ReactJSX.Element}
+ */
 export function Select({ children, onValueChange, value }: SelectProps) {
   const items = findItems(children);
   const triggerId = findTriggerId(children);
@@ -81,16 +150,46 @@ export function Select({ children, onValueChange, value }: SelectProps) {
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {*} props
+ * @returns {ReactJSX.Element}
+ */
 export function SelectTrigger(props: any) {
   // Render nothing; Select test-double uses the trigger's id when present.
   return <span data-test-select-trigger id={props.id} />;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {{ children?: React.ReactNode }} param0
+ * @param {React.ReactNode} param0.children
+ * @returns
+ */
 export function SelectContent({ children }: { children?: React.ReactNode }) {
   return <div data-test-select-content>{children}</div>;
 }
 SelectContent.displayName = "TestSelectContent";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {{
+ *   value: string;
+ *   children?: React.ReactNode;
+ * }} param0
+ * @param {React.ReactNode} param0.children
+ * @param {string} param0.value
+ * @returns {*}
+ */
 export function SelectItem({
   children,
   value,
@@ -104,26 +203,74 @@ export function SelectItem({
   return null as any;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {*} _props
+ * @returns {*}
+ */
 export function SelectValue(_props: any) {
   return null as any;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {*} props
+ * @returns {ReactJSX.Element}
+ */
 export function SelectGroup(props: any) {
   return <div {...props} />;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {*} props
+ * @returns {ReactJSX.Element}
+ */
 export function SelectLabel(props: any) {
   return <label {...props} />;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {*} props
+ * @returns {ReactJSX.Element}
+ */
 export function SelectSeparator(props: any) {
   return <span {...props} />;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {*} props
+ * @returns {ReactJSX.Element}
+ */
 export function SelectScrollUpButton(props: any) {
   return <button type="button" {...props} />;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {*} props
+ * @returns {ReactJSX.Element}
+ */
 export function SelectScrollDownButton(props: any) {
   return <button type="button" {...props} />;
 }

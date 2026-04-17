@@ -25,25 +25,122 @@ import {
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {"sidebar_state"}
+ */
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {number}
+ */
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {"16rem"}
+ */
 const SIDEBAR_WIDTH = "16rem";
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {"18rem"}
+ */
 const SIDEBAR_WIDTH_MOBILE = "18rem";
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {"3rem"}
+ */
 const SIDEBAR_WIDTH_ICON = "3rem";
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {"b"}
+ */
 const SIDEBAR_KEYBOARD_SHORTCUT = "b";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @interface SidebarContextProps
+ * @typedef {SidebarContextProps}
+ */
 interface SidebarContextProps {
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {("collapsed" | "expanded")}
+   */
   state: "collapsed" | "expanded";
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {boolean}
+   */
   open: boolean;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {(open: boolean) => void}
+   */
   setOpen: (open: boolean) => void;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {boolean}
+   */
   openMobile: boolean;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {(open: boolean) => void}
+   */
   setOpenMobile: (open: boolean) => void;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {boolean}
+   */
   isMobile: boolean;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {() => void}
+   */
   toggleSidebar: () => void;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const SidebarContext = React.createContext<null | SidebarContextProps>(null);
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @returns {*}
+ */
 function useSidebar() {
   const context = React.useContext(SidebarContext);
   if (!context) {
@@ -53,6 +150,24 @@ function useSidebar() {
   return context;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {({
+ *   defaultOpen?: boolean;
+ *   open?: boolean;
+ *   onOpenChange?: (open: boolean) => void;
+ * } & React.ComponentProps<"div">)} param0
+ * @param {*} param0.children
+ * @param {*} param0.className
+ * @param {*} [param0.defaultOpen=true]
+ * @param {*} param0.onOpenChange: setOpenProp
+ * @param {*} param0.open: openProp
+ * @param {*} param0.style
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function SidebarProvider({
   children,
   className,
@@ -151,6 +266,23 @@ function SidebarProvider({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {({
+ *   side?: "left" | "right";
+ *   variant?: "floating" | "inset" | "sidebar";
+ *   collapsible?: "icon" | "none" | "offcanvas";
+ * } & React.ComponentProps<"div">)} param0
+ * @param {*} param0.children
+ * @param {*} param0.className
+ * @param {*} [param0.collapsible="offcanvas"]
+ * @param {*} [param0.side="left"]
+ * @param {*} [param0.variant="sidebar"]
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function Sidebar({
   children,
   className,
@@ -253,6 +385,16 @@ function Sidebar({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof Button>} param0
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} param0.onClick
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function SidebarTrigger({
   className,
   onClick,
@@ -279,6 +421,15 @@ function SidebarTrigger({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"button">} param0
+ * @param {React.ComponentProps<"button">} param0.className
+ * @param {React.ComponentProps<"button">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function SidebarRail({ className, ...props }: React.ComponentProps<"button">) {
   const { toggleSidebar } = useSidebar();
 
@@ -304,6 +455,15 @@ function SidebarRail({ className, ...props }: React.ComponentProps<"button">) {
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"main">} param0
+ * @param {React.ComponentProps<"main">} param0.className
+ * @param {React.ComponentProps<"main">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function SidebarInset({ className, ...props }: React.ComponentProps<"main">) {
   return (
     <main
@@ -318,6 +478,15 @@ function SidebarInset({ className, ...props }: React.ComponentProps<"main">) {
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof Input>} param0
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function SidebarInput({
   className,
   ...props
@@ -332,6 +501,15 @@ function SidebarInput({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"div">} param0
+ * @param {React.ComponentProps<"div">} param0.className
+ * @param {React.ComponentProps<"div">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function SidebarHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -343,6 +521,15 @@ function SidebarHeader({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"div">} param0
+ * @param {React.ComponentProps<"div">} param0.className
+ * @param {React.ComponentProps<"div">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function SidebarFooter({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -354,6 +541,15 @@ function SidebarFooter({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof Separator>} param0
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function SidebarSeparator({
   className,
   ...props
@@ -368,6 +564,15 @@ function SidebarSeparator({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"div">} param0
+ * @param {React.ComponentProps<"div">} param0.className
+ * @param {React.ComponentProps<"div">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function SidebarContent({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -382,6 +587,15 @@ function SidebarContent({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"div">} param0
+ * @param {React.ComponentProps<"div">} param0.className
+ * @param {React.ComponentProps<"div">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function SidebarGroup({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -393,6 +607,16 @@ function SidebarGroup({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {({ asChild?: boolean } & React.ComponentProps<"div">)} param0
+ * @param {*} [param0.asChild=false]
+ * @param {*} param0.className
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function SidebarGroupLabel({
   asChild = false,
   className,
@@ -414,6 +638,16 @@ function SidebarGroupLabel({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {({ asChild?: boolean } & React.ComponentProps<"button">)} param0
+ * @param {*} [param0.asChild=false]
+ * @param {*} param0.className
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function SidebarGroupAction({
   asChild = false,
   className,
@@ -437,6 +671,15 @@ function SidebarGroupAction({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"div">} param0
+ * @param {React.ComponentProps<"div">} param0.className
+ * @param {React.ComponentProps<"div">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function SidebarGroupContent({
   className,
   ...props
@@ -451,6 +694,15 @@ function SidebarGroupContent({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"ul">} param0
+ * @param {React.ComponentProps<"ul">} param0.className
+ * @param {React.ComponentProps<"ul">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function SidebarMenu({ className, ...props }: React.ComponentProps<"ul">) {
   return (
     <ul
@@ -462,6 +714,15 @@ function SidebarMenu({ className, ...props }: React.ComponentProps<"ul">) {
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"li">} param0
+ * @param {React.ComponentProps<"li">} param0.className
+ * @param {React.ComponentProps<"li">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function SidebarMenuItem({ className, ...props }: React.ComponentProps<"li">) {
   return (
     <li
@@ -473,6 +734,12 @@ function SidebarMenuItem({ className, ...props }: React.ComponentProps<"li">) {
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const sidebarMenuButtonVariants = cva(
   "peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-start text-sm ring-sidebar-ring outline-hidden transition-[width,height,padding] group-has-data-[sidebar=menu-action]/menu-item:pe-8 group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
   {
@@ -495,6 +762,25 @@ const sidebarMenuButtonVariants = cva(
   },
 );
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {{
+ *   asChild?: boolean;
+ *   isActive?: boolean;
+ *   tooltip?: React.ComponentProps<typeof TooltipContent> | string;
+ * } & React.ComponentProps<"button"> &
+ *   VariantProps<typeof sidebarMenuButtonVariants>} param0
+ * @param {*} [param0.asChild=false]
+ * @param {*} param0.className
+ * @param {*} [param0.isActive=false]
+ * @param {*} [param0.size="default"]
+ * @param {*} param0.tooltip
+ * @param {*} [param0.variant="default"]
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function SidebarMenuButton({
   asChild = false,
   className,
@@ -546,6 +832,20 @@ function SidebarMenuButton({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {({
+ *   asChild?: boolean;
+ *   showOnHover?: boolean;
+ * } & React.ComponentProps<"button">)} param0
+ * @param {*} [param0.asChild=false]
+ * @param {*} param0.className
+ * @param {*} [param0.showOnHover=false]
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function SidebarMenuAction({
   asChild = false,
   className,
@@ -578,6 +878,15 @@ function SidebarMenuAction({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"div">} param0
+ * @param {React.ComponentProps<"div">} param0.className
+ * @param {React.ComponentProps<"div">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function SidebarMenuBadge({
   className,
   ...props
@@ -600,6 +909,18 @@ function SidebarMenuBadge({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {({
+ *   showIcon?: boolean;
+ * } & React.ComponentProps<"div">)} param0
+ * @param {*} param0.className
+ * @param {*} [param0.showIcon=false]
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function SidebarMenuSkeleton({
   className,
   showIcon = false,
@@ -638,6 +959,15 @@ function SidebarMenuSkeleton({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"ul">} param0
+ * @param {React.ComponentProps<"ul">} param0.className
+ * @param {React.ComponentProps<"ul">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function SidebarMenuSub({ className, ...props }: React.ComponentProps<"ul">) {
   return (
     <ul
@@ -653,6 +983,15 @@ function SidebarMenuSub({ className, ...props }: React.ComponentProps<"ul">) {
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"li">} param0
+ * @param {React.ComponentProps<"li">} param0.className
+ * @param {React.ComponentProps<"li">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function SidebarMenuSubItem({
   className,
   ...props
@@ -667,6 +1006,22 @@ function SidebarMenuSubItem({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {({
+ *   asChild?: boolean;
+ *   size?: "md" | "sm";
+ *   isActive?: boolean;
+ * } & React.ComponentProps<"a">)} param0
+ * @param {*} [param0.asChild=false]
+ * @param {*} param0.className
+ * @param {*} [param0.isActive=false]
+ * @param {*} [param0.size="md"]
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function SidebarMenuSubButton({
   asChild = false,
   className,

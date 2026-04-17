@@ -49,23 +49,23 @@ describe("DashboardClientWrapper", () => {
       <DashboardClientWrapper
         accounts={[
           {
-            id: "a1",
-            currentBalance: 100,
             availableBalance: 100,
+            currentBalance: 100,
+            id: "a1",
             name: "Chk",
             type: "depository",
           },
         ]}
         wallets={[
           {
-            id: "w1",
-            userId: "u1",
             accessToken: "t",
-            sharableId: "s",
-            createdAt: new Date(),
-            updatedAt: new Date(),
             accessTokenEncrypted: "",
             accountId: null,
+            createdAt: new Date(),
+            id: "w1",
+            sharableId: "s",
+            updatedAt: new Date(),
+            userId: "u1",
           } as any,
         ]}
         transactions={[]}

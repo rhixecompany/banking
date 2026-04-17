@@ -4,6 +4,21 @@ import { Loader2Icon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {{
+ *   isLoading: boolean;
+ *   children: ReactNode;
+ *   className?: string;
+ * }} param0
+ * @param {ReactNode} param0.children
+ * @param {string} param0.className
+ * @param {boolean} param0.isLoading
+ * @returns {ReactJSX.Element}
+ */
 export function LoadingSwap({
   children,
   className,

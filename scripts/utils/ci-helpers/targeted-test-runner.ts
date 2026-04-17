@@ -6,15 +6,35 @@ import path from "path";
 // Heuristic runner: parse test-browser-report.txt for failing test file paths
 // and re-run them with vitest. Dry-run by default; pass --apply to execute.
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {"test-browser-report.txt"}
+ */
 const REPORT = "test-browser-report.txt";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} content
+ * @returns {string[]}
+ */
 function extractFilesFromReport(content: string): string[] {
   const files = new Set<string>();
   const lines = content.split(/\r?\n/);
   for (const l of lines) {
     // common vitest/jest style: "FAIL path/to/file.test.ts" or "at path/to/file.test.ts"
-    const m = l.match(/FAIL\s+(.+\.(test|spec)\.(ts|tsx|js|jsx))/i);
-    if (m) files.add(m[1]);
+    // Use explicit space class to avoid super-linear backtracking in regex
+    // Avoid complex quantified whitespace patterns; split by whitespace and
+    // check the typical vitest fail line format: "FAIL <path>"
+    const parts = l.trim().split(/\s+/);
+    if (parts.length > 1 && parts[0].toUpperCase() === "FAIL") {
+      const candidate = parts[1];
+      if (/(.+\.(test|spec)\.(ts|tsx|js|jsx))$/i.test(candidate))
+        files.add(candidate);
+    }
     // fallback: lines that look like file path with .test.
     const m2 = l.match(/(tests?\/.*\.(test|spec)\.(ts|tsx|js|jsx))/i);
     if (m2) files.add(m2[1]);
@@ -22,6 +42,15 @@ function extractFilesFromReport(content: string): string[] {
   return Array.from(files);
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @param {string[]} files
+ * @param {boolean} apply
+ * @returns {*}
+ */
 async function runVitestOnFiles(files: string[], apply: boolean) {
   if (files.length === 0) {
     console.log("No failing test files detected in report.");
@@ -39,6 +68,13 @@ async function runVitestOnFiles(files: string[], apply: boolean) {
   await p;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @returns {*}
+ */
 async function main() {
   const argv = process.argv.slice(2);
   const apply = argv.includes("--apply");

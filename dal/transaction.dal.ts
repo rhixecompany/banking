@@ -1,10 +1,10 @@
 import { and, desc, eq, isNull, or, sql } from "drizzle-orm";
 
 import type { Transaction, TransactionStats } from "@/types/transaction";
+import type { Wallet } from "@/types/wallet";
 
 import { db } from "@/database/db";
 import { transactions, wallets } from "@/database/schema";
-import type { Wallet } from "@/types/wallet";
 
 /**
  * Data access layer for the `transactions` table.
@@ -150,16 +150,16 @@ export class TransactionDal {
     limitVal = 50,
     offsetVal = 0,
   ): Promise<
-    (Transaction & {
-      senderWallet?: Pick<
+    ({
+      senderWallet?: null | Pick<
         Wallet,
-        "id" | "institutionName" | "fundingSourceUrl"
-      > | null;
-      receiverWallet?: Pick<
+        "fundingSourceUrl" | "id" | "institutionName"
+      >;
+      receiverWallet?: null | Pick<
         Wallet,
-        "id" | "institutionName" | "fundingSourceUrl"
-      > | null;
-    })[]
+        "fundingSourceUrl" | "id" | "institutionName"
+      >;
+    } & Transaction)[]
   > {
     // Previous implementation attempted to join the wallets table twice which
     // can cause alias collisions depending on the Drizzle version. To avoid
@@ -187,7 +187,7 @@ export class TransactionDal {
 
     let walletsMap: Record<
       string,
-      Pick<Wallet, "id" | "institutionName" | "fundingSourceUrl">
+      Pick<Wallet, "fundingSourceUrl" | "id" | "institutionName">
     > = {};
     if (walletIds.size > 0) {
       const ids = Array.from(walletIds);
@@ -195,9 +195,9 @@ export class TransactionDal {
       const conditions = ids.map((id) => eq(wallets.id, id));
       const rows = await db
         .select({
+          fundingSourceUrl: wallets.fundingSourceUrl,
           id: wallets.id,
           institutionName: wallets.institutionName,
-          fundingSourceUrl: wallets.fundingSourceUrl,
         })
         .from(wallets)
         .where(conditions.length === 1 ? conditions[0] : or(...conditions));
@@ -205,9 +205,9 @@ export class TransactionDal {
       // Build map for quick lookup
       walletsMap = rows.reduce((acc: any, w: any) => {
         acc[w.id] = {
+          fundingSourceUrl: w.fundingSourceUrl,
           id: w.id,
           institutionName: w.institutionName,
-          fundingSourceUrl: w.fundingSourceUrl,
         };
         return acc;
       }, {});
@@ -216,11 +216,11 @@ export class TransactionDal {
     // Attach optional wallet metadata to each transaction
     return txns.map((txn) => ({
       ...txn,
-      senderWallet: txn.senderWalletId
-        ? (walletsMap[txn.senderWalletId] ?? null)
-        : null,
       receiverWallet: txn.receiverWalletId
         ? (walletsMap[txn.receiverWalletId] ?? null)
+        : null,
+      senderWallet: txn.senderWalletId
+        ? (walletsMap[txn.senderWalletId] ?? null)
         : null,
     }));
   }

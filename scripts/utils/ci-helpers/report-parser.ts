@@ -2,6 +2,12 @@
 import { promises as fs } from "fs";
 import path from "path";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {{}}
+ */
 const REPORTS = [
   "format-check-report.txt",
   "type-check-report.txt",
@@ -13,14 +19,59 @@ const REPORTS = [
   "build-report.txt",
 ];
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @interface ReportSummary
+ * @typedef {ReportSummary}
+ */
 interface ReportSummary {
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {string}
+   */
   file: string;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {boolean}
+   */
   ok: boolean;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {("failed" | "missing" | "passed")}
+   */
   status: "failed" | "missing" | "passed";
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?number}
+   */
   size?: number;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?string[]}
+   */
   errors?: string[];
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @param {string} file
+ * @returns {unknown}
+ */
 async function readReport(file: string) {
   try {
     const p = path.resolve(process.cwd(), file);
@@ -31,6 +82,13 @@ async function readReport(file: string) {
   }
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} content
+ * @returns {{}}
+ */
 function analyzeContent(content: string) {
   const lower = content.toLowerCase();
   const errors: string[] = [];
@@ -54,6 +112,13 @@ function analyzeContent(content: string) {
   return errors;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @returns {*}
+ */
 async function main() {
   const results: Record<string, ReportSummary> = {};
   for (const r of REPORTS) {

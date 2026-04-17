@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 import { getAllAccounts } from "@/actions/plaid.actions";
 import { getRecentTransactions } from "@/actions/transaction.actions";
 import { getUserWallets } from "@/actions/wallet.actions";
-import { DashboardClientWrapper } from "@/components/dashboard/dashboard-client-wrapper";
+import DashboardClientWrapper from "@/components/layouts/dashboard-client";
 import { auth } from "@/lib/auth";
 
 /**

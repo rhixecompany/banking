@@ -14,19 +14,26 @@ test("findByUserIdWithWallets maps sender/receiver wallets correctly", async () 
   const userId = "seed-user";
   const rows = await transactionDal.findByUserIdWithWallets(userId, 5, 0);
 
-  // Ensure we receive an array and each item includes optional senderWallet/receiverWallet
+  // Ensure we receive an array
   expect(Array.isArray(rows)).toBe(true);
-  if (rows.length > 0) {
-    const item = rows[0] as any;
-    expect(typeof item.id).toBe("string");
-    // senderWallet/receiverWallet may be null or an object with id/institutionName
-    if (item.senderWallet) {
-      expect(typeof item.senderWallet.id).toBe("string");
-      expect(typeof item.senderWallet.institutionName).toBe("string");
-    }
-    if (item.receiverWallet) {
-      expect(typeof item.receiverWallet.id).toBe("string");
-      expect(typeof item.receiverWallet.institutionName).toBe("string");
-    }
-  }
+  // If there are no rows, the shape assertions below are not applicable.
+  if (rows.length === 0) return;
+
+  const item = rows[0] as any;
+  expect(typeof item.id).toBe("string");
+
+  // For optional senderWallet/receiverWallet, assert that either the value is
+  // null/undefined, or it has the expected shape. Keep the expect calls
+  // outside conditional blocks to satisfy lint rules.
+  expect(
+    item.senderWallet == null ||
+      (typeof item.senderWallet.id === "string" &&
+        typeof item.senderWallet.institutionName === "string"),
+  ).toBe(true);
+
+  expect(
+    item.receiverWallet == null ||
+      (typeof item.receiverWallet.id === "string" &&
+        typeof item.receiverWallet.institutionName === "string"),
+  ).toBe(true);
 });

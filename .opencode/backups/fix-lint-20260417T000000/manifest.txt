@@ -1,0 +1,15 @@
+files:
+  - drizzle.config.ts
+  - next-sitemap.config.ts
+  - playwright.config.ts
+  - scripts/mcp-runner-lib.ts
+  - scripts/mcp-runner.ts
+  - scripts/orchestrator.ts
+  - scripts/plan-ensure.ts
+  - scripts/verify-rules.ts
+  - components/plaid-context/plaid-context.tsx
+  - components/plaid-link/plaid-link.tsx
+  - components/payment-transfer/payment-transfer-client-wrapper.tsx
+  - components/ui/multi-select.tsx
+  - dal/transaction.dal.ts
+  - tests/unit/mcp-runner.verify.test.ts

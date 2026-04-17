@@ -5,17 +5,10 @@
     "auto": true
   },
   "instructions": [
-    ".opencode/agents_quickstart.md",
+    ".opencode/instructions/00-quickstart-rules.md",
+    ".opencode/instructions/09-command-plan-steps-rules.md",
     "AGENTS.md",
-    "docs/personas-list.md",
-    ".opencode/instructions/00-default-rules.md",
-    "docs/app-pages.md",
-    "docs/custom-components.md",
-    "docs/test-context.md",
-    ".cursorrules",
-    ".github/copilot-instructions.md",
-    ".opencode/instructions/*.md",
-    ".cursor/rules/*.mdc"
+    "docs/personas-list.md"
   ],
   "mcp": {
     "MCP_DOCKER": {

@@ -17,6 +17,8 @@ param(
     [string]$ReportDir,
     [string]$File,
     [switch]$ContinueOnFail,
+    [int]$Parallel = 3,
+    [switch]$DryRun,
     [switch]$Help
 )
 
@@ -125,6 +127,8 @@ if (-not $ReportDir) {
 New-Item -ItemType Directory -Path $ReportDir -Force | Out-Null
 
 $Results = @{}
+ $ExitCodes = @{}
+ $Fallbacks = @{}
 
 function Run-Step($step) {
     $cmd = $COMMANDS[$step]
@@ -146,33 +150,44 @@ function Run-Step($step) {
     # If File parameter provided and targeted mapping exists, substitute
     if ($File -and $TARGETED.ContainsKey($step)) {
         $paths = $File -split ',' | ForEach-Object { $_.Trim() } | Where-Object { $_ -ne '' }
-        $joined = $paths -join ' '
-        $cmd = $TARGETED[$step].Replace('{path}',$joined)
-
-        # detect tool availability
-        $tool = switch ($step) {
-            'format-check' {'prettier'}
-            'format' {'prettier'}
-            'format:markdown' {'markdownlint-cli2'}
-            'lint-fix' {'eslint'}
-            'lint-strict' {'eslint'}
-            'test-browser' {'vitest'}
-            'test-ui' {'playwright'}
-            'type-check' {'tsc'}
-            default { $null }
+        # Create a tmp file with NUL-separated paths
+        $tmp = [IO.Path]::GetTempFileName()
+        try {
+            $bytes = [System.Text.Encoding]::UTF8.GetBytes(($paths -join "`0") + "`0")
+            [IO.File]::WriteAllBytes($tmp, $bytes)
+        } catch {
+            Write-Error "Failed to write tmp file for targeted run"
+            exit 2
         }
-        if ($tool) {
-            $found = Get-Command $tool -ErrorAction SilentlyContinue
-            if (-not $found) {
-                "Tool $tool not found on PATH; falling back to 'npm run $step'" | Out-File -FilePath $reportFile -Encoding utf8
-                $cmd = $COMMANDS[$step]
+
+        $tpl = $TARGETED[$step]
+        # Prefer using tsx helper if available
+        if (Get-Command npx -ErrorAction SilentlyContinue -OutVariable npxCmd) {
+            $helper = Join-Path 'scripts/utils/ci-helpers' 'run-with-args.ts'
+            if (Test-Path $helper) {
+                $cmd = "npx tsx $helper --template \"$tpl\" --tmpfile \"$tmp\""
+            } else {
+                $jshelper = Join-Path 'scripts/utils/ci-helpers' 'run-with-args.js'
+                if (Test-Path $jshelper) {
+                    $cmd = "node $jshelper --template \"$tpl\" --tmpfile \"$tmp\""
+                } else {
+                    # fallback: expand paths into template
+                    $joined = $paths -join ' '
+                    $cmd = $TARGETED[$step].Replace('{path}',$joined)
+                }
             }
+        } else {
+            $joined = $paths -join ' '
+            $cmd = $TARGETED[$step].Replace('{path}',$joined)
         }
     }
 
     # Prefer bash if available (for parity with the Bash script); otherwise fall back to npm or cmd
     $bashCmd = Get-Command bash -ErrorAction SilentlyContinue
-    if ($bashCmd) {
+    if ($DryRun) {
+        "[DRY-RUN] $cmd" | Out-File -FilePath $reportFile -Encoding utf8
+        $exit = 0
+    } elseif ($bashCmd) {
         & bash -lc "$cmd" 2>&1 | Tee-Object -FilePath $reportFile
         $exit = $LASTEXITCODE
     } else {
@@ -196,11 +211,22 @@ function Run-Step($step) {
             $exit = $LASTEXITCODE
         }
     }
-    if ($exit -eq 0) {
-        $Results[$step] = 'PASS'
+    if (-not $DryRun) {
+        if ($exit -eq 0) {
+            $Results[$step] = 'PASS'
+        } else {
+            $Results[$step] = 'FAIL'
+        }
+        $ExitCodes[$step] = $exit
     } else {
-        $Results[$step] = 'FAIL'
+        # In dry-run mode, mark steps explicitly as DRY-RUN so consumers (tests) can detect it
+        $Results[$step] = 'DRY-RUN'
+        $ExitCodes[$step] = $null
     }
+    if (-not $Fallbacks.ContainsKey($step)) { $Fallbacks[$step] = $false }
+
+    # write incremental summary
+    Write-Summary
 
     # If this was test-ui and File provided, attempt seed prep
     if ($step -eq 'test-ui' -and $File) {
@@ -217,6 +243,32 @@ function Run-Step($step) {
 foreach ($step in $STEPS) {
     Run-Step $step
 }
+
+# Write machine-readable summary incrementally
+function Write-Summary {
+    $summary = [ordered]@{
+        timestamp = (Get-Date -Format "yyyyMMdd-HHmmss")
+        report_dir = (Resolve-Path -Path $ReportDir).Path
+        steps = @()
+    }
+
+    foreach ($s in $STEPS) {
+        $entry = [ordered]@{
+            name = $s
+            status = $Results[$s]
+            report = (Join-Path $ReportDir $REPORTS[$s])
+            exit_code = ($ExitCodes[$s] -as [int])
+            fallback = ($Fallbacks[$s] -eq $true)
+        }
+        $summary.steps += $entry
+    }
+
+    $summary_json = $summary | ConvertTo-Json -Depth 4
+    $summary_file = Join-Path $ReportDir 'ci-summary.json'
+    $summary_json | Out-File -FilePath $summary_file -Encoding utf8
+}
+
+Write-Summary
 
 Write-Host "Reports saved to: $ReportDir"
 
@@ -241,3 +293,26 @@ if ($failed.Count -gt 0) {
 
 Write-Host "All steps passed."
 exit 0
+
+# Write machine-readable summary
+$summary = [ordered]@{
+    timestamp = (Get-Date -Format "yyyyMMdd-HHmmss")
+    report_dir = (Resolve-Path -Path $ReportDir).Path
+    steps = @()
+}
+
+foreach ($step in $STEPS) {
+    $s = [ordered]@{
+        name = $step
+        status = $Results[$step]
+        report = (Join-Path $ReportDir $REPORTS[$step])
+        exit_code = ($ExitCodes[$step] -as [int])
+        fallback = ($Fallbacks[$step] -eq $true)
+    }
+    $summary.steps += $s
+}
+
+$summary_json = $summary | ConvertTo-Json -Depth 4
+$summary_file = Join-Path $ReportDir 'ci-summary.json'
+$summary_json | Out-File -FilePath $summary_file -Encoding utf8
+Write-Host "Wrote CI summary: $summary_file"

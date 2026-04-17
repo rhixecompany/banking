@@ -3,11 +3,25 @@ import { execSync } from "child_process";
 import fs from "fs";
 import path from "path";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} [base="origin/main"]
+ * @returns {*}
+ */
 function gitDiffFiles(base = "origin/main") {
   const out = execSync(`git diff --name-only ${base} --`).toString();
   return out.split(/\r?\n/).filter(Boolean);
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string[]} files
+ * @returns {*}
+ */
 function expandOneLevel(files: string[]) {
   // Simple heuristic: find files that reference these files by scanning for literal strings
   const allFiles = execSync("git ls-files")
@@ -20,7 +34,7 @@ function expandOneLevel(files: string[]) {
       const content = fs.readFileSync(f, "utf-8");
       for (const changed of files) {
         // Normalize changed path to posix form for matching
-        const changedPosix = changed.replace(/\\/g, "/");
+        const changedPosix = changed.replaceAll("\\", "/");
         const withoutExt = changedPosix.replace(/\.(tsx?|jsx?|json|xml)$/, "");
         const variants = [
           changedPosix,
@@ -34,7 +48,7 @@ function expandOneLevel(files: string[]) {
         let matched = false;
         for (const v of variants) {
           if (
-            content.includes(`from \"${v}\"`) ||
+            content.includes(`from "${v}"`) ||
             content.includes(`from '${v}'`) ||
             content.includes(v)
           ) {
@@ -52,6 +66,13 @@ function expandOneLevel(files: string[]) {
   return Array.from(dependents);
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string[]} changed
+ * @returns {*}
+ */
 function mapFilesToPages(changed: string[]) {
   const pages = new Set<string>();
   for (const f of changed) {
@@ -68,6 +89,10 @@ function mapFilesToPages(changed: string[]) {
   return Array.from(pages);
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ */
 function main() {
   const args = process.argv.slice(2);
   const dryRun = args.includes("--dry-run");
@@ -75,17 +100,17 @@ function main() {
   const base = baseIdx >= 0 ? args[baseIdx + 1] : "origin/main";
 
   const changed = gitDiffFiles(base);
-  console.log("Changed files:", changed);
+  console.warn("Changed files:", changed);
 
   const expanded = expandOneLevel(changed);
-  console.log("One-level dependents:", expanded);
+  console.warn("One-level dependents:", expanded);
 
   const pages = mapFilesToPages([...changed, ...expanded]);
-  console.log("Affected pages:", pages);
+  console.warn("Affected pages:", pages);
 
   if (dryRun) {
     console.log(
-      JSON.stringify({ ok: true, changed: changed.length, pages }, null, 2),
+      JSON.stringify({ changed: changed.length, ok: true, pages }, null, 2),
     );
     return;
   }

@@ -90,7 +90,11 @@ export default defineConfig([
         },
         ecmaVersion: 2022,
         projectService: {
-          allowDefaultProject: [".prettierrc.ts", "postcss.config.mjs"],
+          allowDefaultProject: [
+            ".prettierrc.ts",
+            "postcss.config.mjs",
+            ".lintstagedrc.ts",
+          ],
         },
         sourceType: "module",
       },

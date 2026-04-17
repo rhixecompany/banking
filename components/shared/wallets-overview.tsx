@@ -12,14 +12,64 @@ import {
 } from "@/components/ui/card";
 import { formatAmount } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @interface WalletsOverviewProps
+ * @typedef {WalletsOverviewProps}
+ */
 interface WalletsOverviewProps {
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {WalletWithDetails[]}
+   */
   walletsWithDetails: WalletWithDetails[];
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?number}
+   */
   totalBalance?: number;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?boolean}
+   */
   showActions?: boolean;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?(walletId: string) => Promise<void> | void}
+   */
   onRemove?: (walletId: string) => Promise<void> | void;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?string}
+   */
   className?: string;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {WalletsOverviewProps} param0
+ * @param {string} param0.className
+ * @param {(walletId: string) => any} param0.onRemove
+ * @param {boolean} [param0.showActions=false]
+ * @param {number} param0.totalBalance
+ * @param {{}} param0.walletsWithDetails
+ * @returns {ReactJSX.Element}
+ */
 export default function WalletsOverview({
   className,
   onRemove,
@@ -68,7 +118,7 @@ export default function WalletsOverview({
                       await onRemove(walletId ?? wallet.id);
                       return { ok: true };
                     } catch (err) {
-                      return { ok: false, error: String(err) };
+                      return { error: String(err), ok: false };
                     }
                   }}
                 />

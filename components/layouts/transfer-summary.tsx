@@ -3,12 +3,48 @@ import type { Wallet } from "@/types/wallet";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @interface Props
+ * @typedef {Props}
+ */
 interface Props {
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?(null | Wallet)}
+   */
   sourceWallet?: null | Wallet;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?(null | Recipient)}
+   */
   recipient?: null | Recipient;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?(number | string)}
+   */
   amount?: number | string;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {Props} param0
+ * @param {(string | number)} param0.amount
+ * @param {*} param0.recipient
+ * @param {*} param0.sourceWallet
+ * @returns {ReactJSX.Element}
+ */
 export default function TransferSummary({
   amount,
   recipient,

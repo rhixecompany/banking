@@ -4,9 +4,16 @@ import { config } from "dotenv";
 import { setupServer } from "msw/node";
 import { resolve } from "path";
 import { afterEach, vi } from "vitest";
+
 import { handlers } from "./mocks/handlers";
 
 // Start MSW server for unit tests to intercept network requests and provide deterministic responses
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const server = setupServer(...handlers);
 
 beforeAll(() => server.listen({ onUnhandledRequest: "warn" }));
@@ -84,3 +91,17 @@ vi.mock(
     };
   },
 );
+
+// Provide a lightweight mock for next/navigation used by many components.
+// Some tests mock this per-file; providing a global fallback prevents
+// brittle failures when a test forgets to mock the router.
+vi.mock("next/navigation", () => ({
+  usePathname: () => "/",
+  useRouter: () => ({
+    back: vi.fn(),
+    push: vi.fn(),
+    refresh: vi.fn(),
+    replace: vi.fn(),
+  }),
+  useSearchParams: () => new URLSearchParams(),
+}));

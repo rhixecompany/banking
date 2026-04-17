@@ -30,17 +30,91 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @interface MultiSelectContextType
+ * @typedef {MultiSelectContextType}
+ */
 interface MultiSelectContextType {
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {boolean}
+   */
   open: boolean;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {(open: boolean) => void}
+   */
   setOpen: (open: boolean) => void;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {Set<string>}
+   */
   selectedValues: Set<string>;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {(value: string) => void}
+   */
   toggleValue: (value: string) => void;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {Map<string, ReactNode>}
+   */
   items: Map<string, ReactNode>;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {boolean}
+   */
   single: boolean;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {(value: string, label: ReactNode) => void}
+   */
   onItemAdded: (value: string, label: ReactNode) => void;
 }
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const MultiSelectContext = createContext<MultiSelectContextType | null>(null);
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {{
+ *   children: ReactNode;
+ *   values?: string[];
+ *   defaultValues?: string[];
+ *   onValuesChange?: (values: string[]) => void;
+ *   single?: boolean;
+ * }} param0
+ * @param {ReactNode} param0.children
+ * @param {{}} param0.defaultValues
+ * @param {(values: {}) => void} param0.onValuesChange
+ * @param {boolean} [param0.single=false]
+ * @param {{}} param0.values
+ * @returns {void; single?: boolean; }) => ReactJSX.Element}
+ */
 export function MultiSelect({
   children,
   defaultValues,
@@ -105,6 +179,20 @@ export function MultiSelect({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {({
+ *   className?: string;
+ *   children?: ReactNode;
+ * } & ComponentPropsWithoutRef<typeof Button>)} param0
+ * @param {*} param0.children
+ * @param {*} param0.className
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 export function MultiSelectTrigger({
   children,
   className,
@@ -134,6 +222,23 @@ export function MultiSelectTrigger({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {({
+ *   placeholder?: string;
+ *   clickToRemove?: boolean;
+ *   overflowBehavior?: "cutoff" | "wrap-when-open" | "wrap";
+ * } & Omit<ComponentPropsWithoutRef<"div">, "children">)} param0
+ * @param {*} param0.className
+ * @param {*} [param0.clickToRemove=true]
+ * @param {*} [param0.overflowBehavior="wrap-when-open"]
+ * @param {*} param0.placeholder
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 export function MultiSelectValue({
   className,
   clickToRemove = true,
@@ -266,6 +371,20 @@ export function MultiSelectValue({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {({
+ *   search?: { placeholder?: string; emptyMessage?: string } | boolean;
+ *   children: ReactNode;
+ * } & Omit<ComponentPropsWithoutRef<typeof Command>, "children">)} param0
+ * @param {*} param0.children
+ * @param {*} [param0.search=true]
+ * @param {*} param0....props
+ * @returns {*}
+ */
 export function MultiSelectContent({
   children,
   search = true,
@@ -315,6 +434,22 @@ export function MultiSelectContent({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {({
+ *   badgeLabel?: ReactNode;
+ *   value: string;
+ * } & Omit<ComponentPropsWithoutRef<typeof CommandItem>, "value">)} param0
+ * @param {*} param0.badgeLabel
+ * @param {*} param0.children
+ * @param {*} param0.onSelect
+ * @param {*} param0.value
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 export function MultiSelectItem({
   badgeLabel,
   children,
@@ -348,18 +483,40 @@ export function MultiSelectItem({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {ComponentPropsWithoutRef<typeof CommandGroup>} props
+ * @returns {ReactJSX.Element}
+ */
 export function MultiSelectGroup(
   props: ComponentPropsWithoutRef<typeof CommandGroup>,
 ) {
   return <CommandGroup {...props} />;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {ComponentPropsWithoutRef<typeof CommandSeparator>} props
+ * @returns {ReactJSX.Element}
+ */
 export function MultiSelectSeparator(
   props: ComponentPropsWithoutRef<typeof CommandSeparator>,
 ) {
   return <CommandSeparator {...props} />;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @returns {*}
+ */
 function useMultiSelectContext() {
   const context = useContext(MultiSelectContext);
   if (context == null) {
@@ -370,6 +527,15 @@ function useMultiSelectContext() {
   return context;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @template {(...args: never[]) => void} T
+ * @param {T} func
+ * @param {number} wait
+ * @returns {(...args: Parameters<T>) => void}
+ */
 function debounce<T extends (...args: never[]) => void>(
   func: T,
   wait: number,

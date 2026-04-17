@@ -2,10 +2,6 @@
 
 import type { Resolver } from "react-hook-form";
 
-import {
-  TransferSchema,
-  type TransferFormData,
-} from "@/lib/schemas/transfer.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -17,6 +13,15 @@ import type { Wallet } from "@/types/wallet";
 // createTransfer is provided by the surrounding server wrapper via props to
 // avoid importing server actions directly into client components.
 import PaymentTransferForm from "@/components/layouts/payment-transfer-form";
+import { TransferSchema } from "@/lib/schemas/transfer.schema";
+// Form-level data used by the UI. This differs from the server TransferSchema
+// which accepts Dwolla funding source URLs. The client form selects recipient
+// and source wallet IDs and the server wrapper maps those to funding URLs.
+interface TransferFormData {
+  sourceBankId: string;
+  recipientId: string;
+  amount: number;
+}
 
 // ---------------------------------------------------------------------------
 // Props
@@ -39,8 +44,26 @@ interface PaymentTransferClientWrapperProps {
     error?: string;
   }>;
   // Optional initial values to simplify testing and pre-fill the form
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?string}
+   */
   initialSourceBankId?: string;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?string}
+   */
   initialRecipientId?: string;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?number}
+   */
   initialAmount?: number;
   /**
    * Test-only: if true and initial* props are provided, the form will be
@@ -75,7 +98,34 @@ export function PaymentTransferClientWrapper({
 }: PaymentTransferClientWrapperProps): JSX.Element {
   const form = useForm<TransferFormData>({
     defaultValues: { amount: 0, recipientId: "", sourceBankId: "" },
-    resolver: zodResolver(TransferSchema) as Resolver<TransferFormData>,
+    // The UI form uses id references (sourceBankId/recipientId) while the
+    // server TransferSchema expects Dwolla funding URLs. We still validate
+    // amount using the shared TransferSchema via the resolver, but cast the
+    // resolver to the UI form type to satisfy TypeScript for this wrapper.
+    // Wrap the zod resolver so that numeric amounts (used by the UI) are
+    // coerced to strings before running the server-side TransferSchema
+    // validation. This keeps the UI typed as number while satisfying the
+    // server schema which expects a decimal string (e.g. "25.00").
+    // Explicitly type parameters to avoid implicit 'any' TypeScript errors.
+    resolver: (async (
+      values: unknown,
+      context?: unknown,
+      options?: unknown,
+    ) => {
+      const adjusted = {
+        ...(values as Record<string, unknown>),
+        amount:
+          typeof (values as any).amount === "number"
+            ? String((values as any).amount)
+            : (values as any).amount,
+      } as unknown as Record<string, unknown>;
+      const base = zodResolver(TransferSchema) as unknown as (
+        v: unknown,
+        c?: unknown,
+        o?: unknown,
+      ) => Promise<any>;
+      return base(adjusted, context, options);
+    }) as unknown as Resolver<TransferFormData>,
   });
 
   // Apply optional initial values after mount to pre-fill the form (test helper)

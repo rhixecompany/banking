@@ -17,13 +17,42 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @interface Props
+ * @typedef {Props}
+ */
 interface Props {
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {*}
+   */
   form: any;
   // Accept any payload shape for flexibility; callers can cast to concrete
   // types. Tests and wrappers typically pass strongly-typed handlers.
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {(data: any) => Promise<void>}
+   */
   onSubmit: (data: any) => Promise<void>;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {Props} param0
+ * @param {*} param0.form
+ * @param {(data: any) => Promise<void>} param0.onSubmit
+ * @returns {ReactJSX.Element}
+ */
 export default function SettingsProfileForm({ form, onSubmit }: Props) {
   return (
     <Card>
