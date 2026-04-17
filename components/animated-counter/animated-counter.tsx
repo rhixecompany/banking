@@ -1,5 +1,6 @@
 "use client";
 
+import { env } from "@/lib/env";
 import { JSX } from "react";
 import CountUp from "react-countup";
 
@@ -27,7 +28,7 @@ const AnimatedCounter = ({ amount }: { amount: number }): JSX.Element => {
     `$${n.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }).replace(".", ",")}`;
 
   // In test environment, avoid running CountUp animation — render the final formatted value synchronously.
-  if (process.env.NODE_ENV === "test") {
+  if (env.NODE_ENV === "test") {
     // Render a simple unformatted numeric string in tests to keep assertions stable.
     return (
       <div className="w-full">

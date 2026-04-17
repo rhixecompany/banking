@@ -5,61 +5,7 @@ import { z } from "zod";
 import type { UserWithProfile } from "@/types/user";
 
 import { userDal } from "@/dal";
-
-/**
- * Zod schema for validating new user registration input.
- *
- * @type {*}
- */
-const RegisterSchema = z.object({
-  address1: z
-    .string()
-    .trim()
-    .optional()
-    .meta({ description: "Street address" }),
-  city: z.string().trim().optional().meta({ description: "City" }),
-  confirmPassword: z
-    .string()
-    .trim()
-    .optional()
-    .meta({ description: "Password confirmation" }),
-  dateOfBirth: z
-    .string()
-    .trim()
-    .optional()
-    .meta({ description: "Date of birth (ISO string)" }),
-  email: z
-    .string()
-    .trim()
-    .email("Invalid email address")
-    .meta({ description: "Email address" }),
-  firstName: z
-    .string()
-    .trim()
-    .min(2, "First name must be at least 2 characters")
-    .meta({ description: "First name" }),
-  lastName: z
-    .string()
-    .trim()
-    .min(2, "Last name must be at least 2 characters")
-    .meta({ description: "Last name" }),
-  password: z
-    .string()
-    .trim()
-    .min(8, "Password must be at least 8 characters")
-    .meta({ description: "Password" }),
-  postalCode: z
-    .string()
-    .trim()
-    .optional()
-    .meta({ description: "Postal/ZIP code" }),
-  ssn: z
-    .string()
-    .trim()
-    .optional()
-    .meta({ description: "Social Security Number" }),
-  state: z.string().trim().optional().meta({ description: "State" }),
-});
+import { signUpSchema } from "@/lib/schemas/auth.schema";
 
 /**
  * Inferred TypeScript type from RegisterSchema.
@@ -67,7 +13,7 @@ const RegisterSchema = z.object({
  * @export
  * @typedef {RegisterInput}
  */
-export type RegisterInput = z.infer<typeof RegisterSchema>;
+export type RegisterInput = z.infer<typeof signUpSchema>;
 
 /**
  * Registers a new user account, hashing the password and creating a profile row.
@@ -83,7 +29,7 @@ export async function registerUser(input: unknown): Promise<{
   user?: undefined | UserWithProfile;
   error?: string;
 }> {
-  const parsed = RegisterSchema.safeParse(input);
+  const parsed = signUpSchema.safeParse(input);
   if (!parsed.success) {
     const allErrors = parsed.error.issues
       .slice(0, 3)

@@ -10,7 +10,7 @@ const siteUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3000";
 /**
  * Description placeholder
  *
- * @type {{ siteUrl: any; generateRobotsTxt: boolean; generateIndexSitemap: boolean; exclude: {}; priority: number; changefreq: string; transform: (_config: unknown, path: string) => unknown; robotsTxtOptions: { policies: {}; additionalSitemaps: {}; }; }}
+ * @type {{ siteUrl: string; generateRobotsTxt: boolean; generateIndexSitemap: boolean; exclude: string[]; priority: number; changefreq: string; transform: (_config: unknown, path: string) => { changefreq: string; lastmod: string; loc: string; priority: number }; robotsTxtOptions: { policies: Array<{ allow?: string; disallow?: string[]; userAgent: string }>; additionalSitemaps: string[]; }; }}
  */
 const config = {
   changefreq: "weekly",

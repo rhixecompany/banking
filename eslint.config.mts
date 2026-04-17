@@ -506,6 +506,35 @@ export default defineConfig([
   },
 
   // =====================================================
+  // APP SOURCE - Disallow direct process.env and direct DB client imports
+  // Files under app/ should read env via app-config.ts or lib/env.ts and
+  // must not import the DB client directly. Use dal/ helpers instead.
+  // =====================================================
+  {
+    files: ["app/**/*.{ts,tsx}", "components/**/*.{ts,tsx}"],
+    rules: {
+      "n/no-process-env": [
+        "error",
+        {
+          allowedVariables: ["app-config.ts", "lib/env.ts"],
+        },
+      ],
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: ["**/database", "**/db", "**/database/*", "@/database/*"],
+              message:
+                "Direct DB imports are forbidden in app/components. Use dal/* helpers instead.",
+            },
+          ],
+        },
+      ],
+    },
+  },
+
+  // =====================================================
   // PROXY (EDGE MIDDLEWARE) - Allow process.env
   // Cannot import lib/env.ts in edge middleware context
   // =====================================================

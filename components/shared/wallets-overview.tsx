@@ -50,7 +50,27 @@ export default function WalletsOverview({
                   key={wallet.id}
                   wallet={wallet}
                   showActions={showActions}
-                  onRemove={onRemove}
+                  // Adapt the optional onRemove handler to WalletCard's removeWallet signature
+                  removeWallet={async (input: unknown) => {
+                    // Support callers that pass a simple walletId string via onRemove
+                    const walletId =
+                      typeof input === "string"
+                        ? input
+                        : (input as { walletId?: string } | undefined)
+                            ?.walletId;
+
+                    if (!onRemove) {
+                      return { ok: true };
+                    }
+
+                    try {
+                      // If walletId cannot be determined, try passing the wallet.id from closure
+                      await onRemove(walletId ?? wallet.id);
+                      return { ok: true };
+                    } catch (err) {
+                      return { ok: false, error: String(err) };
+                    }
+                  }}
                 />
               ))}
             </div>

@@ -23,6 +23,7 @@ When updating this file, verify alignment with:
 
 - `AGENTS.md` — commands, rules, project structure
 - `.cursorrules` — overlapping content should match
+- `.cursor/rules/*` — project-specific workflow rules and coding conventions
 - package.json — scripts must match actual commands
 
 ---

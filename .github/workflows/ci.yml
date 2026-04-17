@@ -54,6 +54,18 @@ jobs:
       - name: Lint (strict)
         run: npm run lint:strict
 
+      - name: Rules verification (warn-first)
+        run: |
+          npm run verify:rules -- --output .opencode/reports/rules-report.json || true
+        continue-on-error: true
+      - name: Upload rules report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rules-report
+          path: .opencode/reports/rules-report.json
+          retention-days: 30
+
       - name: Unit tests
         run: npm run test:browser
         env:

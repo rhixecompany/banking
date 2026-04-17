@@ -1,14 +1,7 @@
-# Cursor Rules — Agent Quick Summary
+# See AGENTS.md for the canonical repository rules and plan thresholds.
 
-These rules are a short, machine-friendly summary for Cursor agents. They mirror the authoritative guidance in `AGENTS.md`.
+This file intentionally points to AGENTS.md as the single source of truth for human-readable rules and enforcement guidance. Use `.opencode/verify-rules.config.json` and `scripts/verify-rules.ts` for machine-enforced checks and allowlists.
 
-- enforce: "no-any" — Do not introduce `any` types in TypeScript files.
-- enforce: "no-n-plus-one" — Avoid N+1 query patterns; prefer eager loading / joins in `dal/`.
-- enforce: "lint-zero-warnings" — All commits must pass `npm run lint:strict` (zero warnings) in CI.
-- enforce: "dal-only-db-access" — All database access must be routed through `dal/` helpers.
-- enforce: "server-actions-for-writes" — All stateful writes must be implemented as Server Actions under `actions/`.
-- plan-needed-threshold: 7 — When a change touches more than 7 files, create a plan and save it under `.opencode/commands/` before applying edits.
+Plan file location: `.opencode/commands/` (see AGENTS.md for details)
 
-Note: This file is a concise machine-oriented summary. `AGENTS.md` is the canonical human-readable source of truth. For plan location and plan file format, consult `.opencode/commands/` and `.opencode/instructions/09-plan-file-standards.md`.
-
-Last Reviewed: 2026-04-14
+Last Reviewed: 2026-04-17

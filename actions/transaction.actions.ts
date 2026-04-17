@@ -28,7 +28,13 @@ export async function getRecentTransactions(
     }
 
     const userId = session.user.id;
-    const transactions = await transactionDal.findByUserId(userId, limit);
+    // Use eager-loaded helper to include basic wallet metadata (sender/receiver)
+    // to avoid N+1 queries in UI code. The DAL returns Transaction rows with
+    // optional senderWallet/receiverWallet fields.
+    const transactions = await transactionDal.findByUserIdWithWallets(
+      userId,
+      limit,
+    );
     return { ok: true, transactions };
   } catch (error) {
     logger.error("getRecentTransactions error:", error);
@@ -57,7 +63,9 @@ export async function getTransactionHistory(
 
     const userId = session.user.id;
     const offset = (page - 1) * pageSize;
-    const transactions = await transactionDal.findByUserId(
+    // Use the eager-loaded variant to include wallet metadata for each
+    // transaction so client-side components don't need additional DAL calls.
+    const transactions = await transactionDal.findByUserIdWithWallets(
       userId,
       pageSize,
       offset,

@@ -42,3 +42,8 @@ Every plan must include these sections:
 
 - Run markdown lint for every plan file.
 - Fix markdown lint violations before starting implementation.
+
+## Tooling and CI
+
+- Use `npm run plan:ensure` to scaffold or merge plan context when your change touches more than 7 files. It will search for candidate plans under `.opencode/commands/` and `.cursor/plans/`, offer an interactive merge locally, or scaffold a draft plan for you to edit.
+- CI will run a non-blocking `plan-check` workflow (pilot) that executes `npm run plan:ensure -- --ci` and `npm run verify:rules:ci -- --require-plan`. In pilot mode the job reports a warning but does not fail the run. Maintainers may opt to make this blocking after the pilot.

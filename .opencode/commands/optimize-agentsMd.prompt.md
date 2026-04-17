@@ -30,9 +30,6 @@ When generating code for this repository:
 3. **Codebase Patterns**: When context files don't provide specific guidance, scan the codebase for established patterns
 4. **Architectural Consistency**: Maintain our ${ARCHITECTURE_STYLE} architectural style and established boundaries
 5. **Code Quality**: Prioritize ${CODE_QUALITY_FOCUS == "All" ? "maintainability, performance, security, accessibility, and testability" : CODE_QUALITY_FOCUS} in all generated code
-6. Include all skills and tools you can use
-7. Include all relevant context from existing codebase
-8. Include all custom typescripts, bash scripts, powershell scripts, bat scripts in the codebase
 
 ## Technology Version Detection
 
@@ -54,7 +51,7 @@ Before generating code, scan the codebase to identify:
 
 ## Context Files
 
-Prioritize the following files in root directory (if they exist else create them):
+Prioritize the following files in root directory (if they exist update them else create them):
 
 - **architecture.md**: System architecture guidelines
 - **tech-stack.md**: Technology versions and framework details
@@ -299,6 +296,9 @@ The final AGENTS.md should:
 - Avoid prescribing any practices not evident in the code
 - Provide concrete examples from the codebase
 - Be comprehensive yet concise enough for Opencode to effectively use
+- Include all skills, tools, plugins and mcp servers you can use
+- Include all relevant context from existing codebase
+- Include all custom typescripts, bash scripts, powershell scripts, bat scripts in the codebase
 
 Important: Only include guidance based on patterns actually observed in the codebase. Explicitly instruct Opencode to prioritize consistency with existing code over external best practices or newer language features. "
 
