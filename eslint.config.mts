@@ -173,6 +173,16 @@ export default defineConfig([
             "data-\\[side=",
             // Sonner toast component class
             "toaster",
+            // Project design-system classes (whitelist)
+            "card",
+            "card-header",
+            "card-body",
+            "card-footer",
+            "datatable",
+            "simple-form",
+            "form-errors",
+            "row-item",
+            "field",
           ],
         },
       ], // Tailwind v4 animation classes
@@ -400,6 +410,18 @@ export default defineConfig([
           "slide-out",
         ],
         tags: ["myTag"],
+        // Add known project-specific utility classes so the plugin doesn't flag them
+        knownClasses: [
+          "card",
+          "card-header",
+          "card-body",
+          "card-footer",
+          "datatable",
+          "simple-form",
+          "form-errors",
+          "row-item",
+          "field",
+        ],
         tailwindConfig: "",
         variables: ["className", "classNames", "classes", "style", "styles"],
       },
