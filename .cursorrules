@@ -1,7 +1,7 @@
-# See AGENTS.md for the canonical repository rules and plan thresholds.
+# Cursor/Automation Rules (summary)
 
-This file intentionally points to AGENTS.md as the single source of truth for human-readable rules and enforcement guidance. Use `.opencode/verify-rules.config.json` and `scripts/verify-rules.ts` for machine-enforced checks and allowlists.
-
-Plan file location: `.opencode/commands/` (see AGENTS.md for details)
-
-Last Reviewed: 2026-04-17
+- Use AGENTS.md as the single source of truth.
+- Do not edit code or run commits without user approval.
+- If a change touches >7 files, open a plan under .opencode/commands/.
+- Always include provenance lines in commits/PRs.
+- For environment access: prefer app-config.ts / lib/env.ts over process.env.

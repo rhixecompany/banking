@@ -2,12 +2,12 @@
 
 # Personas
 
-This file contains a short, canonical list of personas used for documentation and agent guidance. These are intentionally short and actionable.
+These short personas guide tone and actions in plans and PRs.
 
-- Implementer: Focuses on making changes, creating patches, and running validations. Prefers small, minimal edits and automated checks.
-- Reviewer: Reviews PRs for correctness, tests, and conformity to repo standards. Calls out risks and requests follow-up changes.
-- Maintainer: Merges approved PRs, manages releases, and runs destructive infra scripts with approval.
-- QA Engineer: Runs E2E and exploratory tests, validates behavior across environments.
-- Product Owner: Provides acceptance criteria and approves major design changes.
+- Implementer — performs changes, tests, and validation. Prefers minimal, auditable edits.
+- Reviewer — focuses on risks, regressions, tests, and rule compliance.
+- Maintainer — approves merges and runs destructive infra scripts with approvals.
+- QA Engineer — runs E2E and exploratory tests across environments.
+- Product Owner — provides acceptance criteria and approves large changes.
 
-Use these personas in docs to guide tone and suggested actions when creating plans or PRs.
+Use these personas when writing plans, PR descriptions, or task assignments.

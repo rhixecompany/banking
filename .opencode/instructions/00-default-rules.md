@@ -1,41 +1,33 @@
 ---
-description: Always Enforces this rules
+description: Always enforce these repository rules
 applyTo: "**"
-lastReviewed: 2026-04-14
+lastReviewed: 2026-04-17
 ---
 
-# Quick Start — Banking (commands you will actually run)
+# Quick Start — Commands You Will Actually Run
 
 1. Start dev server
+   - npm run dev
 
-- npm run dev
+2. Typecheck and lint (pre-PR)
+   - npm run type-check
+   - npm run lint:strict
 
-1. Typecheck and lint (recommended pre-PR)
+3. Format
+   - npm run format
 
-- npm run type-check
-- npm run lint:strict
+4. Run tests
+   - Fast unit tests: npm run test:browser
+   - Full (Playwright E2E then Vitest): npm run test
 
-1. Run unit tests quickly
+5. Seed DB (careful)
+   - npm run db:seed
+   - Dry-run: npm run db:seed -- --dry-run
 
-- All unit tests (Vitest): npm run test:browser
-- Single file: npx vitest -c vitest.config.ts run path/to/test/file
+- Reset (destructive): npm run db:seed -- --reset (must set RUN_DESTRUCTIVE=true and --yes)
 
-1. Run full test (includes Playwright E2E) — expensive
+Quick safety
 
-- npm run test # runs test:ui (Playwright) then test:browser (Vitest)
-
-1. Seed DB (careful)
-
-- npm run db:seed # this script loads .env.local first and must be executed via the npm script
-- Preview: npm run db:seed -- --dry-run
-
-1. Drizzle migrations
-
-- Generate SQL: npm run db:generate (inspect database/migrations before applying)
-- Apply: npm run db:migrate
-
-Quick safety & gotchas
-
-- Home is intentionally static/public — do not add auth() or DAL/db queries to app/page.tsx or Home server wrappers.
-- The seed runner loads .env.local before importing app modules; do NOT run seed by directly invoking tsx on the script unless you replicate the env loading sequence.
-- npm run test runs Playwright UI tests first; only use it when you have a DB prepared for E2E.
+- Home page must remain static/public — no auth()/DAL/DB in app/page.tsx.
+- Use app-config.ts or lib/env.ts for env access; seed runner is an exception.
+- Run npm run verify:rules before PRs.
