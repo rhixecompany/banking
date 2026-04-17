@@ -5,9 +5,11 @@
  * @since 2026-02-01
  */
 
-import { env } from "./lib/env";
-
-const siteUrl = env.NEXT_PUBLIC_API_URL ?? "http://localhost:3000";
+// next-sitemap runs in Node during the build step and importing TypeScript
+// modules (like lib/env.ts) can fail because Node doesn't natively load
+// .ts files. Use the environment variable directly here with a safe
+// fallback. This file is a build-time config, not runtime app code.
+const siteUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3000";
 
 /**
  * Description placeholder
