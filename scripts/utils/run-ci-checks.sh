@@ -10,12 +10,14 @@ Options:
   --only=STEP1,STEP2     Run only the listed steps (comma-separated)
   --skip=STEP1,STEP2     Skip the listed steps (comma-separated)
   --report-dir=PATH      Write per-step reports to PATH (default: ./ci-reports/<timestamp>)
+  --continue-on-fail     Continue running remaining steps and exit 0 at the end even if some steps fail
   -h, --help             Show this help message
 
 Examples:
   $0
   $0 --only=format-check,type-check
   $0 --skip=test-ui,build --report-dir ./tmp/reports
+  $0 --continue-on-fail
 EOF
 }
 
