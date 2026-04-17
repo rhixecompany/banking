@@ -14,6 +14,8 @@
 
 .opencode/commands/update-agentic-docs.plan.md (this file)
 
+Note: Legacy plan artifacts may exist under `.opencode/plans/` or `.cursor/plans/`. Preserve those files for historical provenance — do not move or delete them. Use `.opencode/commands/` for all new user-facing plan files.
+
 ## Assumptions
 
 - Follow the repository canonical tone: AGENTS.md is authoritative. Use the AGENTS.md tone for edits.

@@ -128,3 +128,5 @@ For detailed examples and up-to-date structure, follow `AGENTS.md` (canonical):
 **End of copilot-instructions.md** — See [AGENTS.md](./AGENTS.md) for full documentation.
 
 Note: This file was reviewed and synchronized as part of the agentic docs standardization. See `AGENTS.md` for the canonical agent rules. Plans related to documentation changes should be saved under `.opencode/commands/` per repository guidance (for example: `.opencode/commands/<short-kebab-task>.plan.md`).
+
+Deprecation note: Historical plan artifacts exist under `.opencode/plans/` and `.cursor/plans/`. These are preserved for provenance; do not move or delete them. Use `.opencode/commands/` for new user-facing plan files.

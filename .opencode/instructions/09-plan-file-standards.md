@@ -16,6 +16,8 @@ Agentic note: For this repository, treat `AGENTS.md` as the canonical source of 
 - Use markdown files with `.plan.md` suffix.
 - Use this filename format: `<short-kebab-task>.plan.md`.
 
+Note: Legacy plan artifacts may exist under `.opencode/plans/` or `.cursor/plans/`. Preserve those files for historical provenance — do not move or delete them. Use `.opencode/commands/` for all new user-facing plan files.
+
 ## Required Plan Sections
 
 Every plan must include these sections:
