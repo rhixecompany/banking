@@ -1,6 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { z } from "zod";
+
+import { signInSchema, signUpSchema } from "@/lib/schemas/auth.schema";
 
 /**
  * Description placeholder
@@ -51,18 +52,7 @@ export function formatDate(dateStr: string): string {
  *
  * @type {*}
  */
-export const signInSchema = z.object({
-  email: z
-    .string()
-    .trim()
-    .email("Invalid email address")
-    .meta({ description: "User email" }),
-  password: z
-    .string()
-    .trim()
-    .min(8, "Password must be at least 8 characters")
-    .meta({ description: "User password" }),
-});
+export { signInSchema };
 
 /**
  * Description placeholder
@@ -70,55 +60,7 @@ export const signInSchema = z.object({
  *
  * @type {*}
  */
-export const signUpSchema = z
-  .object({
-    address1: z.string().trim().optional().meta({ description: "Address" }),
-    city: z.string().trim().optional().meta({ description: "City" }),
-    confirmPassword: z
-      .string()
-      .trim()
-      .optional()
-      .meta({ description: "Confirm password" }),
-    dateOfBirth: z
-      .string()
-      .trim()
-      .optional()
-      .meta({ description: "Date of birth" }),
-    email: z
-      .string()
-      .trim()
-      .email("Invalid email address")
-      .meta({ description: "Email" }),
-    firstName: z
-      .string()
-      .trim()
-      .min(2, "First name must be at least 2 characters")
-      .meta({ description: "First name" }),
-    lastName: z
-      .string()
-      .trim()
-      .min(2, "Last name must be at least 2 characters")
-      .meta({ description: "Last name" }),
-    password: z
-      .string()
-      .trim()
-      .min(8, "Password must be at least 8 characters")
-      .meta({ description: "Password" }),
-    postalCode: z
-      .string()
-      .trim()
-      .optional()
-      .meta({ description: "Postal code" }),
-    ssn: z.string().trim().optional().meta({ description: "SSN" }),
-    state: z.string().trim().optional().meta({ description: "State" }),
-  })
-  .refine(
-    (data) => !data.confirmPassword || data.confirmPassword === data.password,
-    {
-      error: "Passwords do not match",
-      path: ["confirmPassword"],
-    },
-  );
+export { signUpSchema };
 
 /**
  * Description placeholder
