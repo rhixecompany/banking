@@ -169,7 +169,7 @@ export function PaymentTransferClientWrapper({
     message?: string;
   } | null>(null);
 
-  function onSubmit(data: TransferFormData): Promise<void> {
+  async function onSubmit(data: TransferFormData): Promise<void> {
     // No debug logging in production; tests should rely on mocks and
     // deterministic props instead.
     // Use the submitted data to derive the wallet and recipient so the
