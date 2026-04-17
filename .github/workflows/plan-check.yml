@@ -1,0 +1,56 @@
+name: Plan Check
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  plan-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run verify rules with plan check
+        run: npm run verify:rules:ci -- --require-plan
+        env:
+          CI: true
+
+      - name: Run plan ensure (CI mode)
+        id: plan-ensure
+        run: |
+          mkdir -p .opencode/artifacts
+          npm run plan:ensure -- --ci --base origin/main > .opencode/artifacts/plan-ensure.txt || true
+
+      - name: Comment plan-ensure output on PR
+        uses: actions/github-script@v7
+        if: github.event_name == 'pull_request'
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const outPath = '.opencode/artifacts/plan-ensure.txt';
+            let body = '### plan-ensure output\n';
+            if (fs.existsSync(outPath)) {
+              const txt = fs.readFileSync(outPath, 'utf8').slice(0, 65500);
+              body += '```
+            } else {
+              body += '_No plan-ensure output produced._';
+            }
+            const issue_number = context.payload.pull_request.number;
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number,
+              body,
+            });

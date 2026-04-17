@@ -89,6 +89,8 @@ Note: Node is not pinned in package.json; respect CI/runtime constraints when pr
 
 1. Ask for permission before modifying files or making commits. If permitted, prefer small, focused commits.
 2. If a change touches > 7 files, create a plan at .opencode/commands/<short-kebab-task>.plan.md with Goals, Scope, Target Files, Risks, Validation. Save plans under the `.opencode/commands/` directory and follow the plan-file template in `.opencode/instructions/09-plan-file-standards.md`.
+   - Use `npm run plan:ensure` locally to help scaffold or merge context into an existing plan. In CI a pilot `plan-check` job will run and warn if no plan is detected for large changes. The CLI and CI jobs are intentionally non-blocking in pilot mode; maintainers can opt to make it blocking later.
+
 3. Recommended branch name for docs: chore/docs/agents-md. Do not push to main without explicit instruction.
 4. Never commit secrets or embed sensitive values in code.
 

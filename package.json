@@ -65,6 +65,7 @@
     "lint:fix:all": "cross-env NODE_OPTIONS='--max-old-space-size=4096' eslint --config eslint.config.mts . --fix --fix-type directive --fix-type problem --fix-type suggestion --fix-type layout --format=compact",
     "lint:strict": "cross-env NODE_OPTIONS='--max-old-space-size=4096' eslint --config eslint.config.mts . --max-warnings=0",
     "lint-staged": "lint-staged",
+    "plan:ensure": "tsx scripts/plan-ensure.ts",
     "prepare": "husky",
     "registry:build": "npm run registry:generate && npm run registry:export",
     "registry:export": "tsx scripts/export-json.ts --pretty --output .opencode/registry.json",
