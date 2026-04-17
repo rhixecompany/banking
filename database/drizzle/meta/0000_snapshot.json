@@ -407,6 +407,21 @@
           "concurrently": false,
           "method": "btree",
           "with": {}
+        },
+        "banks_dwolla_customer_idx": {
+          "name": "banks_dwolla_customer_idx",
+          "columns": [
+            {
+              "expression": "dwolla_customer_url",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         }
       },
       "foreignKeys": {
@@ -557,8 +572,8 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.recipients": {
-      "name": "recipients",
+    "public.errors": {
+      "name": "errors",
       "schema": "",
       "columns": {
         "bank_account_id": {
@@ -965,10 +980,10 @@
         "transactions_user_id_users_id_fk": {
           "name": "transactions_user_id_users_id_fk",
           "tableFrom": "transactions",
-          "tableTo": "users",
-          "columnsFrom": ["user_id"],
+          "tableTo": "banks",
+          "columnsFrom": ["receiver_bank_id"],
           "columnsTo": ["id"],
-          "onDelete": "cascade",
+          "onDelete": "no action",
           "onUpdate": "no action"
         }
       },
