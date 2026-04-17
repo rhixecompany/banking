@@ -298,8 +298,14 @@ run_step() {
     for fa in "${file_args[@]}"; do
       printf '%s\0' "$fa" >> "$tmpfile"
     done
-    # Build run_cmd to use xargs -0 to invoke the tool safely; ensure temp file is removed after
-    run_cmd="xargs -0 < \"$tmpfile\" -- $cmd_no_path; rv=$?; rm -f \"$tmpfile\"; exit $rv"
+    # Prefer Node helper for robust argument passing if available
+    if [[ -f "scripts/utils/ci-helpers/run-with-args.js" ]]; then
+      # Use Node helper. It will read the NUL-separated tmpfile and replace {path} in the template.
+      run_cmd="node \"scripts/utils/ci-helpers/run-with-args.js\" --template \"$tpl\" --tmpfile \"$tmpfile\""
+    else
+      # Build run_cmd to use xargs -0 to invoke the tool safely; ensure temp file is removed after
+      run_cmd="xargs -0 < \"$tmpfile\" -- $cmd_no_path; rv=$?; rm -f \"$tmpfile\"; exit $rv"
+    fi
   else
     # no file arg or no targeted template: run normal command
     run_cmd="$command"
