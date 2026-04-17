@@ -74,7 +74,7 @@ vi.mock("@/components/ui/button", () => ({
 
 import React from "react";
 
-import AuthForm from "@/components/auth-form/auth-form";
+import AuthForm from "@/components/layouts/auth-form";
 
 // ---------------------------------------------------------------------------
 // Tests

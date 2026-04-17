@@ -8,7 +8,7 @@ import {
   getTransactionStatusStats,
   getTransactionTypeStats,
 } from "@/actions/admin-stats.actions";
-import AdminDashboardContent from "@/components/admin/admin-dashboard-content";
+import AdminDashboardContent from "@/components/layouts/admin-dashboard";
 import { auth } from "@/lib/auth";
 
 /**

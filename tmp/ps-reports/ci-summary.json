@@ -1,0 +1,62 @@
+{
+  "report_dir": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\tmp\\ps-reports",
+  "steps": [
+    {
+      "name": "format-check",
+      "status": "PASS",
+      "report": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\tmp\\ps-reports\\format-check-report.txt",
+      "exit_code": 0,
+      "fallback": false
+    },
+    {
+      "name": "type-check",
+      "status": "PASS",
+      "report": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\tmp\\ps-reports\\type-check-report.txt",
+      "exit_code": 0,
+      "fallback": false
+    },
+    {
+      "name": "lint-fix",
+      "status": "PASS",
+      "report": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\tmp\\ps-reports\\lint-fix-report.txt",
+      "exit_code": 0,
+      "fallback": false
+    },
+    {
+      "name": "lint-strict",
+      "status": "PASS",
+      "report": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\tmp\\ps-reports\\lint-strict-report.txt",
+      "exit_code": 0,
+      "fallback": false
+    },
+    {
+      "name": "build-debug",
+      "status": "PASS",
+      "report": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\tmp\\ps-reports\\build-debug-report.txt",
+      "exit_code": 0,
+      "fallback": false
+    },
+    {
+      "name": "test-browser",
+      "status": "PASS",
+      "report": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\tmp\\ps-reports\\test-browser-report.txt",
+      "exit_code": 0,
+      "fallback": false
+    },
+    {
+      "name": "test-ui",
+      "status": "PASS",
+      "report": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\tmp\\ps-reports\\test-ui-report.txt",
+      "exit_code": 0,
+      "fallback": false
+    },
+    {
+      "name": "build",
+      "status": "PASS",
+      "report": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\tmp\\ps-reports\\build-report.txt",
+      "exit_code": 0,
+      "fallback": false
+    }
+  ],
+  "timestamp": "20260417-123604"
+}

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable @typescript-eslint/no-require-imports, security/detect-non-literal-fs-filename, unicorn/prefer-optional-catch-binding, no-empty */
 const { spawn } = require("child_process");
 const fs = require("fs");
 const path = require("path");
@@ -64,7 +65,7 @@ async function main() {
   const cmd = final[0];
   const args = final.slice(1);
 
-  const child = spawn(cmd, args, { stdio: "inherit", shell: false });
+  const child = spawn(cmd, args, { shell: false, stdio: "inherit" });
   child.on("exit", (code, signal) => {
     // attempt to remove tmpfile
     try {

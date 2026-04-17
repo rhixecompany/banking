@@ -42,7 +42,8 @@ export default async function AdminLayout({
   }
 
   if (!session.user.isAdmin) {
-    redirect("/dashboard");
+    // Non-admin users should be redirected to the site's root per repo policy
+    redirect("/");
   }
 
   const user = {

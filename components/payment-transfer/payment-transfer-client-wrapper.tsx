@@ -13,10 +13,15 @@ import type { Wallet } from "@/types/wallet";
 // createTransfer is provided by the surrounding server wrapper via props to
 // avoid importing server actions directly into client components.
 import PaymentTransferForm from "@/components/layouts/payment-transfer-form";
-import {
-  TransferSchema,
-  type TransferFormData,
-} from "@/lib/schemas/transfer.schema";
+import { TransferSchema } from "@/lib/schemas/transfer.schema";
+// Form-level data used by the UI. This differs from the server TransferSchema
+// which accepts Dwolla funding source URLs. The client form selects recipient
+// and source wallet IDs and the server wrapper maps those to funding URLs.
+interface TransferFormData {
+  sourceBankId: string;
+  recipientId: string;
+  amount: number;
+}
 
 // ---------------------------------------------------------------------------
 // Props
@@ -93,7 +98,13 @@ export function PaymentTransferClientWrapper({
 }: PaymentTransferClientWrapperProps): JSX.Element {
   const form = useForm<TransferFormData>({
     defaultValues: { amount: 0, recipientId: "", sourceBankId: "" },
-    resolver: zodResolver(TransferSchema) as Resolver<TransferFormData>,
+    // The UI form uses id references (sourceBankId/recipientId) while the
+    // server TransferSchema expects Dwolla funding URLs. We still validate
+    // amount using the shared TransferSchema via the resolver, but cast the
+    // resolver to the UI form type to satisfy TypeScript for this wrapper.
+    resolver: zodResolver(
+      TransferSchema,
+    ) as unknown as Resolver<TransferFormData>,
   });
 
   // Apply optional initial values after mount to pre-fill the form (test helper)

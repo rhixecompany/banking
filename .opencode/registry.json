@@ -1200,12 +1200,22 @@
     "type": "projects"
   },
   {
-    "description": "Always Enforces this rules",
+    "description": "Always enforce these repository rules",
     "displayName": "00DefaultRules",
     "productId": "00DefaultRules",
     "repoUrl": ".opencode\\instructions/",
     "scope": ["project"],
-    "tagline": "This repository uses `AGENTS.md` as the canonical source of truth for agent behavior, workflows, commands, and PR-blo...",
+    "tagline": "1. Start dev server",
+    "tags": ["opencode", "instructions"],
+    "type": "resources"
+  },
+  {
+    "description": "Always Enforces this rules",
+    "displayName": "00QuickstartRules",
+    "productId": "00QuickstartRules",
+    "repoUrl": ".opencode\\instructions/",
+    "scope": ["project"],
+    "tagline": "list and summarize the available skills/tools you the agent can use and which MCP servers are available in this codeb...",
     "tags": ["opencode", "instructions"],
     "type": "resources"
   },
@@ -1301,6 +1311,16 @@
   },
   {
     "description": "Standardize plan creation, naming, and plan quality checks",
+    "displayName": "09CommandPlanStepsRules",
+    "productId": "09CommandPlanStepsRules",
+    "repoUrl": ".opencode\\instructions/",
+    "scope": ["project"],
+    "tagline": "When a task is expected to change more than 5 files, create a plan and a command to help guide the agent before imple...",
+    "tags": ["opencode", "instructions"],
+    "type": "resources"
+  },
+  {
+    "description": "Standardize plan creation, naming, and plan quality checks",
     "displayName": "09PlanFileStandards",
     "productId": "09PlanFileStandards",
     "repoUrl": ".opencode\\instructions/",
@@ -1357,6 +1377,16 @@
     "scope": ["project"],
     "tagline": "Patterns for self-improvement through iterative evaluation and refinement.",
     "tags": ["opencode", "skills"],
+    "type": "resources"
+  },
+  {
+    "description": "Always Enforces this rules",
+    "displayName": "Agents_quickstart",
+    "productId": "Agents_quickstart",
+    "repoUrl": ".opencode\\instructions/",
+    "scope": ["project"],
+    "tagline": "This repository uses `AGENTS.md` as the canonical source of truth for agent behavior, workflows, commands, and PR-blo...",
+    "tags": ["opencode", "instructions"],
     "type": "resources"
   },
   {

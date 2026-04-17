@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { createTransfer } from "@/actions/dwolla.actions";
 import { getRecipients } from "@/actions/recipient.actions";
 import { getUserWallets } from "@/actions/wallet.actions";
-import { PaymentTransferClientWrapper } from "@/components/payment-transfer/payment-transfer-client-wrapper";
+import PaymentTransferClientWrapper from "@/components/layouts/payment-transfer-client";
 import { auth } from "@/lib/auth";
 
 /**

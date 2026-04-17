@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 
 import { updateProfile } from "@/actions/updateProfile";
 import { getUserWithProfile } from "@/actions/user.actions";
-import { SettingsClientWrapper } from "@/components/settings/settings-client-wrapper";
+import SettingsClientWrapper from "@/components/layouts/settings-client";
 import ConnectedAccount from "@/components/shadcn-studio/blocks/account-settings-01/content/connect-account";
 import DangerZone from "@/components/shadcn-studio/blocks/account-settings-01/content/danger-zone";
 import SocialUrl from "@/components/shadcn-studio/blocks/account-settings-01/content/social-url";

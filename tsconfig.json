@@ -41,6 +41,9 @@
     "hooks/**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
-    "eslint.config.mts"
+    "eslint.config.mts",
+    "dal/health.d.ts",
+    "scripts/utils/ci-helpers/run-with-args.js",
+    "**/*.d.ts"
   ]
 }

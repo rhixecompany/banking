@@ -13,9 +13,8 @@ describe("WalletCard", () => {
       institutionName: "Test Bank",
     } as any;
 
-    render(
-      <WalletCard wallet={wallet} showActions={true} onRemove={() => {}} />,
-    );
+    const noop = () => undefined;
+    render(<WalletCard wallet={wallet} showActions={true} onRemove={noop} />);
 
     expect(screen.getByText(/Test Bank/i)).toBeTruthy();
     expect(screen.getByText(/Checking/i)).toBeTruthy();

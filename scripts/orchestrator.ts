@@ -48,7 +48,7 @@ function expandOneLevel(files: string[]) {
         let matched = false;
         for (const v of variants) {
           if (
-            content.includes(`from \"${v}\"`) ||
+            content.includes(`from "${v}"`) ||
             content.includes(`from '${v}'`) ||
             content.includes(v)
           ) {

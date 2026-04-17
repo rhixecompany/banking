@@ -26,8 +26,15 @@ function extractFilesFromReport(content: string): string[] {
   const lines = content.split(/\r?\n/);
   for (const l of lines) {
     // common vitest/jest style: "FAIL path/to/file.test.ts" or "at path/to/file.test.ts"
-    const m = l.match(/FAIL\s+(.+\.(test|spec)\.(ts|tsx|js|jsx))/i);
-    if (m) files.add(m[1]);
+    // Use explicit space class to avoid super-linear backtracking in regex
+    // Avoid complex quantified whitespace patterns; split by whitespace and
+    // check the typical vitest fail line format: "FAIL <path>"
+    const parts = l.trim().split(/\s+/);
+    if (parts.length > 1 && parts[0].toUpperCase() === "FAIL") {
+      const candidate = parts[1];
+      if (/(.+\.(test|spec)\.(ts|tsx|js|jsx))$/i.test(candidate))
+        files.add(candidate);
+    }
     // fallback: lines that look like file path with .test.
     const m2 = l.match(/(tests?\/.*\.(test|spec)\.(ts|tsx|js|jsx))/i);
     if (m2) files.add(m2[1]);

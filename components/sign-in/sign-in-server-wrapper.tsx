@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 
-import AuthForm from "@/components/auth-form/auth-form";
+import AuthForm from "@/components/layouts/auth-form";
 import { auth } from "@/lib/auth";
 
 /**

@@ -1,0 +1,6 @@
+{
+  "email": "seed.admin@example.com",
+  "isAdmin": true,
+  "name": "Admin User",
+  "password": "P@ssw0rd"
+}

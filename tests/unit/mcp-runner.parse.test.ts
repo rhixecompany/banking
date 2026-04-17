@@ -1,34 +1,36 @@
 import { describe, expect, it } from "vitest";
-
 import {
-  checksum,
-  generateHelperContent,
-  parseDockerOutput,
+  isValidToken,
+  normalizeToken,
+  parseDockerPsOutput,
+  parseGatewayOutput,
 } from "../../scripts/mcp-runner-lib";
 
-describe("mcp-runner parser", () => {
-  it("parses simple docker mcp output", () => {
-    const sample = `next-devtools-mcp\nplaywright\nplaywright-mcp-server`;
-    const parsed = parseDockerOutput(sample);
-    expect(parsed).toEqual(
-      ["next-devtools-mcp", "playwright", "playwright-mcp-server"].sort(),
-    );
+describe("mcp-runner parsing", () => {
+  it("normalizes tokens", () => {
+    expect(normalizeToken("  Next DevTools MCP ")).toBe("next-devtools-mcp");
   });
 
-  it("parses docker ps-like output", () => {
-    const sample = `my-server\timage:latest\nanother-server\timage2:tag`;
-    const parsed = parseDockerOutput(sample);
-    expect(parsed).toEqual(["my-server", "another-server"].sort());
+  it("validates tokens and denylist", () => {
+    expect(isValidToken("adding")).toBe(false);
+    expect(isValidToken("next-devtools-mcp")).toBe(true);
+    expect(isValidToken("Invalid Token!@#")).toBe(false);
   });
 
-  it("generates helper content and checksum changes", () => {
-    const c = generateHelperContent(
-      "test-server",
-      ".opencode/mcp_servers.json",
-    );
-    expect(c).toContain("test-server");
-    const sum = checksum(c);
-    expect(typeof sum).toBe("string");
-    expect(sum.length).toBeGreaterThan(0);
+  it("parses gateway output with table-like lines", () => {
+    const sample = `Enabled MCP Servers:\n - next-devtools-mcp\n - playwright\n`;
+    const records = parseGatewayOutput(sample);
+    const names = records.map((r) => r.name);
+    expect(names).toContain("next-devtools-mcp");
+    expect(names).toContain("playwright");
+  });
+
+  it("parses docker ps output", () => {
+    const sample = "my_app\nnext-devtools-mcp\nplaywright";
+    const records = parseDockerPsOutput(sample);
+    const names = records.map((r) => r.name);
+    expect(names).toContain("my_app");
+    expect(names).toContain("next-devtools-mcp");
+    expect(names).toContain("playwright");
   });
 });

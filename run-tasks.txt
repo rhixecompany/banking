@@ -6,3 +6,6 @@ As Reviewer persona using the read tool Read and Understand @docs/custom-compone
 4: Work through all Next.js pages sequentially and repeat the process.
 5: Ensure to never run typecheck/lint/tests until all pages in the list are enhanced.
 6: using the question tool ask all clarifying or needed questions then keep asking until you dont have further question then show me the plan with all new and old data .
+
+
+modify @scripts\mcp-runner.ts to be a custom handler for installing mcp servers in Opencode/Copilot/Cursor. using the bash tool run `docker mcp gateway run --profile adminbot` to get a list of docker mcp servers the conferences it with @.opencode\mcp_servers.json if an mcp server is found at @.opencode\mcp_servers.json Catalog it then create all helpers for enhanced this file then update @opencode.json with all mcp servers in the Catalog using the @scripts\mcp-runner.ts file then delete all mcp servers in the Catalog from docker leave any mcp server not found ensure all mcp servers are load via @scripts\mcp-runner.ts
