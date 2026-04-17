@@ -1,5 +1,4 @@
 {
-  "timestamp": "20260417-174423",
   "report_dir": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\tmp\\ps-reports",
   "steps": [
     {
@@ -58,5 +57,6 @@
       "exit_code": 0,
       "fallback": false
     }
-  ]
+  ],
+  "timestamp": "20260417-174423"
 }
