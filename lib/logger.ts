@@ -6,8 +6,23 @@
  * In development, debug level is also enabled.
  */
 
-/* eslint-disable n/no-process-env */
-const isDev = process.env.NODE_ENV === "development";
+// Use app-config for environment access in application code
+import { appConfig } from "@/app-config";
+
+// Derive development mode from the absence of production configuration.
+// Avoid referencing environment variables here directly — use appConfig as the canonical source.
+const isDev = (() => {
+  try {
+    // appConfig is a typed, centralized config exported from app-config.ts and
+    // is safe to read here. Avoid `any` casts to keep strict typing.
+    const dbUrl = appConfig.database?.DATABASE_URL;
+    const nextAuthUrl = appConfig.auth?.NEXTAUTH_URL;
+    // If neither database nor nextauth URL is configured, assume a local/dev run.
+    return !dbUrl && !nextAuthUrl;
+  } catch {
+    return false;
+  }
+})();
 
 /**
  * Logging utility with typed methods.

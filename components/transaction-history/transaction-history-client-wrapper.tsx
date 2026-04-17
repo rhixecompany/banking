@@ -2,6 +2,7 @@
 
 import type { Item } from "@/components/shadcn-studio/blocks/datatable-transaction";
 import type { Transaction } from "@/types/transaction";
+import type { Wallet } from "@/types/wallet";
 
 import HeaderBox from "@/components/header-box/header-box";
 import TransactionDatatable from "@/components/shadcn-studio/blocks/datatable-transaction";
@@ -13,7 +14,18 @@ import TransactionDatatable from "@/components/shadcn-studio/blocks/datatable-tr
  * - channel === "in store" → "mastercard"
  * - everything else (online, null, unknown) → "visa"
  */
-function toItem(tx: Transaction): Item {
+function toItem(
+  tx: Transaction & {
+    senderWallet?: Pick<
+      Wallet,
+      "id" | "institutionName" | "fundingSourceUrl"
+    > | null;
+    receiverWallet?: Pick<
+      Wallet,
+      "id" | "institutionName" | "fundingSourceUrl"
+    > | null;
+  },
+): Item {
   const validStatuses = new Set<Item["status"]>([
     "failed",
     "paid",
@@ -34,15 +46,17 @@ function toItem(tx: Transaction): Item {
       ? `${parts[0]?.[0] ?? ""}${parts[1]?.[0] ?? ""}`.toUpperCase()
       : displayName.slice(0, 2).toUpperCase();
 
-  // Derive paidBy from channel — "in store" maps to mastercard, all others to visa
+  // Derive paidBy from channel — "in_store" maps to mastercard, all others to visa
   const paidBy: Item["paidBy"] =
     tx.channel === "in_store" ? "mastercard" : "visa";
 
   return {
     amount: Number(tx.amount),
-    avatar: "",
+    // Prefer using the wallet institution name for avatar and email where
+    // available to give the table more useful context without extra queries.
+    avatar: tx.senderWallet?.institutionName ?? "",
     avatarFallback,
-    email: tx.email ?? "",
+    email: tx.email ?? tx.senderWallet?.institutionName ?? "",
     id: tx.id,
     name: displayName,
     paidBy,
@@ -57,7 +71,16 @@ function toItem(tx: Transaction): Item {
  */
 interface TransactionHistoryClientWrapperProps {
   /** List of transactions fetched server-side. */
-  transactions: Transaction[];
+  transactions: (Transaction & {
+    senderWallet?: Pick<
+      Wallet,
+      "id" | "institutionName" | "fundingSourceUrl"
+    > | null;
+    receiverWallet?: Pick<
+      Wallet,
+      "id" | "institutionName" | "fundingSourceUrl"
+    > | null;
+  })[];
 }
 
 /**

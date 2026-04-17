@@ -1,0 +1,392 @@
+{
+  "generatedAt": "2026-04-17T01:54:44.969Z",
+  "results": [
+    {
+      "file": "components/animated-counter/animated-counter.tsx",
+      "line": 30,
+      "check": "process.env-usage",
+      "severity": "warn",
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "snippet": "if (process.env.NODE_ENV === \"test\") {"
+    },
+    {
+      "file": "components/layouts/total-balance/index.tsx",
+      "line": 39,
+      "check": "process.env-usage",
+      "severity": "warn",
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "snippet": "if (process.env.NODE_ENV === \"test\") {"
+    },
+    {
+      "file": "next-sitemap.config.ts",
+      "line": 13,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any."
+    },
+    {
+      "file": "actions/dwolla.actions.ts",
+      "line": 460,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (6 occurrences). Avoid using any."
+    },
+    {
+      "file": "actions/transaction.actions.ts",
+      "line": 1,
+      "check": "server-action-zod",
+      "severity": "warn",
+      "message": "Server Action does not appear to validate inputs with Zod."
+    },
+    {
+      "file": "actions/user.actions.ts",
+      "line": 1,
+      "check": "server-action-zod",
+      "severity": "warn",
+      "message": "Server Action does not appear to validate inputs with Zod."
+    },
+    {
+      "file": "dal/transaction.dal.ts",
+      "line": 191,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any."
+    },
+    {
+      "file": "scripts/export-data.ts",
+      "line": 170,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any."
+    },
+    {
+      "file": "scripts/report-parser.ts",
+      "line": 40,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (6 occurrences). Avoid using any."
+    },
+    {
+      "file": "scripts/verify-rules.ts",
+      "line": 29,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (3 occurrences). Avoid using any."
+    },
+    {
+      "file": "tests/setup.ts",
+      "line": 42,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (4 occurrences). Avoid using any."
+    },
+    {
+      "file": "components/app-sidebar/app-sidebar.tsx",
+      "line": 173,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any."
+    },
+    {
+      "file": "components/dashboard/dashboard-server-wrapper.tsx",
+      "line": 54,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any."
+    },
+    {
+      "file": "components/data-table/data-table.tsx",
+      "line": 331,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any."
+    },
+    {
+      "file": "components/layouts/payment-transfer-form.tsx",
+      "line": 33,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any."
+    },
+    {
+      "file": "components/layouts/plaid-provider.tsx",
+      "line": 136,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any."
+    },
+    {
+      "file": "components/layouts/settings-profile-form.tsx",
+      "line": 21,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any."
+    },
+    {
+      "file": "components/plaid-link/plaid-link.tsx",
+      "line": 126,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any."
+    },
+    {
+      "file": "components/ui/pagination.tsx",
+      "line": 52,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any."
+    },
+    {
+      "file": "components/ui/select.tsx",
+      "line": 113,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any."
+    },
+    {
+      "file": "scripts/generate/action.ts",
+      "line": 295,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any."
+    },
+    {
+      "file": "scripts/generate/component.ts",
+      "line": 200,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any."
+    },
+    {
+      "file": "scripts/generate/dal.ts",
+      "line": 58,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (5 occurrences). Avoid using any."
+    },
+    {
+      "file": "scripts/generate/feature.ts",
+      "line": 130,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any."
+    },
+    {
+      "file": "scripts/seed/run.ts",
+      "line": 207,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any."
+    },
+    {
+      "file": "scripts/seed/seed-data.ts",
+      "line": 198,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any."
+    },
+    {
+      "file": "scripts/transform/zod-meta-to-describe.ts",
+      "line": 58,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (4 occurrences). Avoid using any."
+    },
+    {
+      "file": "scripts/utils/get-connection-string.ts",
+      "line": 9,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any."
+    },
+    {
+      "file": "scripts/utils/io.ts",
+      "line": 54,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any."
+    },
+    {
+      "file": "tests/unit/dashboard-client-wrapper.test.tsx",
+      "line": 7,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (4 occurrences). Avoid using any."
+    },
+    {
+      "file": "tests/unit/dashboard-server-wrapper.test.ts",
+      "line": 28,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any."
+    },
+    {
+      "file": "tests/unit/DashboardClientWrapper.props.test.tsx",
+      "line": 7,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (3 occurrences). Avoid using any."
+    },
+    {
+      "file": "tests/unit/error-tracking.test.ts",
+      "line": 37,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any."
+    },
+    {
+      "file": "tests/unit/my-wallets-client-wrapper.test.tsx",
+      "line": 39,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (4 occurrences). Avoid using any."
+    },
+    {
+      "file": "tests/unit/payment-transfer-form.test.tsx",
+      "line": 12,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (3 occurrences). Avoid using any."
+    },
+    {
+      "file": "tests/unit/PaymentTransferClientWrapper.props.test.tsx",
+      "line": 44,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any."
+    },
+    {
+      "file": "tests/unit/settings-profile-form.test.tsx",
+      "line": 10,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any."
+    },
+    {
+      "file": "tests/unit/SettingsClientWrapper.props.test.tsx",
+      "line": 19,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any."
+    },
+    {
+      "file": "tests/unit/transaction-list.test.tsx",
+      "line": 16,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any."
+    },
+    {
+      "file": "tests/unit/transaction-mapping.test.ts",
+      "line": 20,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any."
+    },
+    {
+      "file": "tests/unit/transfer-summary.test.tsx",
+      "line": 15,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any."
+    },
+    {
+      "file": "tests/unit/wallet-card.test.tsx",
+      "line": 7,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (7 occurrences). Avoid using any."
+    },
+    {
+      "file": "tests/unit/wallets-overview.test.tsx",
+      "line": 27,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any."
+    },
+    {
+      "file": "components/layouts/total-balance/index.tsx",
+      "line": 55,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any."
+    },
+    {
+      "file": "components/layouts/total-balance/total-balance.test.tsx",
+      "line": 21,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any."
+    },
+    {
+      "file": "components/layouts/wallet-card/wallet-card.test.tsx",
+      "line": 14,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any."
+    },
+    {
+      "file": "scripts/utils/ci-helpers/parse-reports.ts",
+      "line": 21,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any."
+    },
+    {
+      "file": "scripts/utils/ci-helpers/report-parser.ts",
+      "line": 28,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (4 occurrences). Avoid using any."
+    },
+    {
+      "file": "scripts/utils/ci-helpers/seed-prep.ts",
+      "line": 28,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any."
+    },
+    {
+      "file": "scripts/utils/ci-helpers/targeted-test-runner.ts",
+      "line": 53,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any."
+    },
+    {
+      "file": "tests/e2e/utils/auth-fixtures.ts",
+      "line": 146,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any."
+    },
+    {
+      "file": "tests/fixtures/pages/base.page.ts",
+      "line": 77,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any."
+    },
+    {
+      "file": "tests/fixtures/pages/payment-transfer.page.ts",
+      "line": 138,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any."
+    },
+    {
+      "file": "tests/mocks/ui/select.tsx",
+      "line": 16,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (14 occurrences). Avoid using any."
+    },
+    {
+      "file": "app/api/dwolla/webhook/route.ts",
+      "line": 27,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any."
+    }
+  ]
+}

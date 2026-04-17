@@ -1,0 +1,260 @@
+{
+  "generatedAt": "2026-04-17T02:10:08.483Z",
+  "results": [
+    {
+      "file": "drizzle.config.ts",
+      "line": 19,
+      "check": "process.env-usage",
+      "severity": "critical",
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "snippet": "process.env"
+    },
+    {
+      "file": "drizzle.config.ts",
+      "line": 19,
+      "check": "process.env-usage",
+      "severity": "critical",
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "snippet": "process.env"
+    },
+    {
+      "file": "drizzle.config.ts",
+      "line": 48,
+      "check": "process.env-usage",
+      "severity": "critical",
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "snippet": "process.env"
+    },
+    {
+      "file": "drizzle.config.ts",
+      "line": 49,
+      "check": "process.env-usage",
+      "severity": "critical",
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "snippet": "process.env"
+    },
+    {
+      "file": "next-sitemap.config.ts",
+      "line": 8,
+      "check": "process.env-usage",
+      "severity": "critical",
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "snippet": "process.env"
+    },
+    {
+      "file": "playwright.config.ts",
+      "line": 35,
+      "check": "process.env-usage",
+      "severity": "critical",
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "snippet": "process.env"
+    },
+    {
+      "file": "playwright.config.ts",
+      "line": 80,
+      "check": "process.env-usage",
+      "severity": "critical",
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "snippet": "process.env"
+    },
+    {
+      "file": "playwright.config.ts",
+      "line": 92,
+      "check": "process.env-usage",
+      "severity": "critical",
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "snippet": "process.env"
+    },
+    {
+      "file": "playwright.config.ts",
+      "line": 107,
+      "check": "process.env-usage",
+      "severity": "critical",
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "snippet": "process.env"
+    },
+    {
+      "file": "playwright.config.ts",
+      "line": 130,
+      "check": "process.env-usage",
+      "severity": "critical",
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "snippet": "process.env"
+    },
+    {
+      "file": "playwright.config.ts",
+      "line": 131,
+      "check": "process.env-usage",
+      "severity": "critical",
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "snippet": "process.env"
+    },
+    {
+      "file": "playwright.config.ts",
+      "line": 133,
+      "check": "process.env-usage",
+      "severity": "critical",
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "snippet": "process.env"
+    },
+    {
+      "file": "playwright.config.ts",
+      "line": 134,
+      "check": "process.env-usage",
+      "severity": "critical",
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "snippet": "process.env"
+    },
+    {
+      "file": "playwright.config.ts",
+      "line": 144,
+      "check": "process.env-usage",
+      "severity": "critical",
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "snippet": "process.env"
+    },
+    {
+      "file": "proxy.ts",
+      "line": 17,
+      "check": "process.env-usage",
+      "severity": "critical",
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "snippet": "process.env"
+    },
+    {
+      "file": "proxy.ts",
+      "line": 18,
+      "check": "process.env-usage",
+      "severity": "critical",
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "snippet": "process.env"
+    },
+    {
+      "file": "actions/dwolla.actions.ts",
+      "line": 467,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (8 occurrences). Avoid using any."
+    },
+    {
+      "file": "actions/register.ts",
+      "line": 1,
+      "check": "server-action-auth",
+      "severity": "critical",
+      "message": "Server Action does not appear to call auth() early. Server Actions must authenticate first."
+    },
+    {
+      "file": "actions/transaction.actions.ts",
+      "line": 1,
+      "check": "server-action-zod",
+      "severity": "critical",
+      "message": "Server Action does not appear to validate inputs with Zod or use a shared schema."
+    },
+    {
+      "file": "actions/user.actions.ts",
+      "line": 1,
+      "check": "server-action-zod",
+      "severity": "critical",
+      "message": "Server Action does not appear to validate inputs with Zod or use a shared schema."
+    },
+    {
+      "file": "database/db.ts",
+      "line": 13,
+      "check": "process.env-usage",
+      "severity": "critical",
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "snippet": "process.env"
+    },
+    {
+      "file": "dal/transaction.dal.ts",
+      "line": 191,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any."
+    },
+    {
+      "file": "components/app-sidebar/app-sidebar.tsx",
+      "line": 173,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any."
+    },
+    {
+      "file": "components/dashboard/dashboard-server-wrapper.tsx",
+      "line": 54,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any."
+    },
+    {
+      "file": "components/data-table/data-table.tsx",
+      "line": 331,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any."
+    },
+    {
+      "file": "components/layouts/payment-transfer-form.tsx",
+      "line": 33,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any."
+    },
+    {
+      "file": "components/layouts/plaid-provider.tsx",
+      "line": 136,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any."
+    },
+    {
+      "file": "components/layouts/settings-profile-form.tsx",
+      "line": 21,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any."
+    },
+    {
+      "file": "components/plaid-link/plaid-link.tsx",
+      "line": 126,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any."
+    },
+    {
+      "file": "components/ui/pagination.tsx",
+      "line": 52,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any."
+    },
+    {
+      "file": "components/ui/select.tsx",
+      "line": 113,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any."
+    },
+    {
+      "file": "components/layouts/total-balance/total-balance.test.tsx",
+      "line": 21,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any."
+    },
+    {
+      "file": "components/layouts/wallet-card/wallet-card.test.tsx",
+      "line": 14,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any."
+    },
+    {
+      "file": "app/api/dwolla/webhook/route.ts",
+      "line": 27,
+      "check": "no-any",
+      "severity": "warn",
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any."
+    }
+  ]
+}

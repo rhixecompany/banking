@@ -2,6 +2,7 @@ import type { Account } from "@/types";
 import type { ReactNode } from "react";
 
 import TotalBalanceBox from "@/components/total-balance-box/total-balance-box";
+import { env } from "@/lib/env";
 
 // Keep types narrow for now; avoid any in public components.
 interface AccountView {
@@ -36,7 +37,7 @@ export default function TotalBalanceLayout({
 }: TotalBalanceLayoutProps): JSX.Element {
   // Debug: print props during unit tests to diagnose render failures
   // REMOVE or guard this log before committing if noisy in CI.
-  if (process.env.NODE_ENV === "test") {
+  if (env.NODE_ENV === "test") {
     // eslint-disable-next-line no-console
     console.log("TotalBalanceLayout props:", {
       totalCurrentBalance,
@@ -52,7 +53,8 @@ export default function TotalBalanceLayout({
     officialName: a.officialName ?? a.name ?? "",
     mask: a.mask ?? "",
     institutionId: a.institutionId ?? "",
-    sharableId: (a as any).sharableId ?? undefined,
+    // Narrow optional sharableId from incoming prop if present
+    sharableId: (a as { sharableId?: string }).sharableId ?? undefined,
     name: a.name ?? a.officialName ?? "",
     type: a.type ?? "depository",
     subtype: a.subtype ?? undefined,

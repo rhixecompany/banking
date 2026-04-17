@@ -38,6 +38,7 @@ Playwright E2E
 Flaky areas & mitigation
 
 - Form select interactions (Payment Transfer) can be flaky in headless browsers. Use the `autoSubmit` + `initial*` pattern in client wrappers to make tests deterministic where appropriate.
+- The TransferSchema is centralized under `lib/schemas/transfer.schema.ts` and client wrappers import it to avoid schema drift.
 - Tests that rely on external API responses must be switched to mocks (msw) or the provided Plaid/Dwolla helpers.
 
 Recommendations

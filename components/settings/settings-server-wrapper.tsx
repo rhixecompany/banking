@@ -16,7 +16,15 @@ import SocialUrl from "@/components/shadcn-studio/blocks/account-settings-01/con
  * @async
  * @returns {Promise<JSX.Element>}
  */
+import { auth } from "@/lib/auth";
+
 export async function SettingsServerWrapper(): Promise<JSX.Element> {
+  // Authenticate up-front to follow repository conventions for server wrappers
+  const session = await auth();
+  if (!session?.user?.id) {
+    redirect("/sign-in");
+  }
+
   const result = await getUserWithProfile();
   if (!result.ok || !result.user) {
     redirect("/sign-in");

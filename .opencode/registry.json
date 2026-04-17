@@ -1315,7 +1315,7 @@
     "productId": "10ApplyPatchVerificationFix",
     "repoUrl": ".opencode\\instructions/",
     "scope": ["project"],
-    "tagline": "- Use the `apply_patch` tool for text edits; avoid ad-hoc sed/awk commands for safety.",
+    "tagline": "- Use the `apply_patch` tool for text edits always read the file with the `read` tool before using the `apply_patch` ...",
     "tags": ["opencode", "instructions"],
     "type": "resources"
   },
@@ -1380,7 +1380,7 @@
     "type": "resources"
   },
   {
-    "description": "Drizzle ORM and Data Access Layer (DAL) patterns for efficient, type-safe DB access.",
+    "description": "Drizzle ORM and Data Access Layer patterns for efficient, type-safe database access.",
     "displayName": "dal-skill",
     "productId": "DalSkill",
     "repoUrl": ".opencode\\skills\\dal-skill/",
@@ -1390,8 +1390,8 @@
     "type": "resources"
   },
   {
-    "description": "Drizzle ORM patterns for the Banking app - schema definition, migrations, queries, and N+1 prevention. Use when working with database, schema, or data access layer.",
-    "displayName": "DBSkill",
+    "description": "Drizzle ORM patterns - schema, migrations, queries, and N+1 prevention for the Banking app.",
+    "displayName": "db-skill",
     "productId": "DbSkill",
     "repoUrl": ".opencode\\skills\\db-skill/",
     "scope": ["project"],
@@ -1411,7 +1411,7 @@
   },
   {
     "description": "Deployment patterns for Vercel, Railway, and Docker for the Banking app.",
-    "displayName": "DeploymentSkill",
+    "displayName": "deployment-skill",
     "productId": "DeploymentSkill",
     "repoUrl": ".opencode\\skills\\deployment-skill/",
     "scope": ["project"],
@@ -1421,7 +1421,7 @@
   },
   {
     "description": "Dwolla API integration for ACH transfers, payment processing, and bank account verification in the Banking app.",
-    "displayName": "DwollaSkill",
+    "displayName": "dwolla-skill",
     "productId": "DwollaSkill",
     "repoUrl": ".opencode\\skills\\dwolla-skill/",
     "scope": ["project"],
@@ -1430,7 +1430,7 @@
     "type": "resources"
   },
   {
-    "description": "Create Agent Users in Microsoft Entra ID from Agent Identities, enabling AI agents to act as digital workers with user identity capabilities in Microsoft 365 and Azure environments.",
+    "description": "Create Agent Users in Microsoft Entra ID from Agent Identities to enable agent-as-user scenarios.",
     "displayName": "entra-agent-user",
     "productId": "EntraAgentUser",
     "repoUrl": ".opencode\\skills\\entra-agent-user/",
@@ -1440,7 +1440,7 @@
     "type": "resources"
   },
   {
-    "description": "GitHub CLI (gh) comprehensive reference for repositories, issues, pull requests, Actions, projects, releases, gists, codespaces, organizations, extensions, and all GitHub operations from the command line.",
+    "description": "Comprehensive GitHub CLI (gh) reference for repositories, issues, PRs, Actions, and other GitHub operations.",
     "displayName": "gh-cli",
     "productId": "GhCli",
     "repoUrl": ".opencode\\skills\\gh-cli/",
@@ -1450,7 +1450,7 @@
     "type": "resources"
   },
   {
-    "description": "Execute git commit with conventional commit message analysis, intelligent staging, and message generation. Use when user asks to commit changes, create a git commit, or mentions \"/commit\". Supports: (1) Auto-detecting type and scope from changes, (2) Generating conventional commit messages from diff, (3) Interactive commit with optional type/scope/description overrides, (4) Intelligent file staging for logical grouping",
+    "description": "Create conventional git commits with intelligent staging and message generation.",
     "displayName": "git-commit",
     "productId": "GitCommit",
     "repoUrl": ".opencode\\skills\\git-commit/",
@@ -1460,7 +1460,7 @@
     "type": "resources"
   },
   {
-    "description": "Create, update, and manage GitHub issues using MCP tools. Use this skill when users want to create bug reports, feature requests, or task issues, update existing issues, add labels/assignees/milestones, or manage issue workflows. Triggers on requests like \"create an issue\", \"file a bug\", \"request a feature\", \"update issue X\", or any GitHub issue management task.",
+    "description": "Create and manage GitHub issues via MCP tools (create, update, label, assign, and search issues).",
     "displayName": "github-issues",
     "productId": "GithubIssues",
     "repoUrl": ".opencode\\skills\\github-issues/",
@@ -1490,7 +1490,7 @@
     "type": "resources"
   },
   {
-    "description": "Interface for MCP (Model Context Protocol) servers via CLI. Use when you need to interact with external tools, APIs, or data sources through MCP servers, list available MCP servers/tools, or call MCP tools from command line.",
+    "description": "CLI interface for interacting with MCP (Model Context Protocol) servers and their tools.",
     "displayName": "mcp-cli",
     "productId": "McpCli",
     "repoUrl": ".opencode\\skills\\mcp-cli/",
@@ -1500,7 +1500,7 @@
     "type": "resources"
   },
   {
-    "description": "Generate concise, actionable meeting minutes for internal meetings. Includes metadata, attendees, agenda, decisions, action items (owner + due date), and follow-up steps.",
+    "description": "Generate concise, actionable meeting minutes with decisions and action items for internal meetings.",
     "displayName": "meeting-minutes",
     "productId": "MeetingMinutes",
     "repoUrl": ".opencode\\skills\\meeting-minutes/",
@@ -1510,7 +1510,7 @@
     "type": "resources"
   },
   {
-    "description": "Manage NuGet packages in .NET projects/solutions. Use this skill when adding, removing, or updating NuGet package versions. It enforces using `dotnet` CLI for package management and provides strict procedures for direct file edits only when updating versions.",
+    "description": "Manage NuGet packages safely using the `dotnet` CLI and prescribed update workflows.",
     "displayName": "nuget-manager",
     "productId": "NugetManager",
     "repoUrl": ".opencode\\skills\\nuget-manager/",
@@ -1590,8 +1590,8 @@
     "type": "resources"
   },
   {
-    "description": "Plaid API integration for bank account linking, transaction retrieval, and balance fetching in the Banking app.",
-    "displayName": "PlaidSkill",
+    "description": "Plaid API integration for bank account linking, transaction retrieval, and balance fetching.",
+    "displayName": "plaid-skill",
     "productId": "PlaidSkill",
     "repoUrl": ".opencode\\skills\\plaid-skill/",
     "scope": ["project"],
@@ -1600,7 +1600,7 @@
     "type": "resources"
   },
   {
-    "description": "Generate high-quality Product Requirements Documents (PRDs) for software systems and AI-powered features. Includes executive summaries, user stories, technical specifications, and risk analysis.",
+    "description": "Generate high-quality Product Requirements Documents (PRDs) including user stories, technical specs, and risk analysis.",
     "displayName": "prd",
     "productId": "Prd",
     "repoUrl": ".opencode\\skills\\prd/",
@@ -1610,7 +1610,7 @@
     "type": "resources"
   },
   {
-    "description": "Surgical code refactoring to improve maintainability without changing behavior. Covers extracting functions, renaming variables, breaking down god functions, improving type safety, eliminating code smells, and applying design patterns. Less drastic than repo-rebuilder; use for gradual improvements.",
+    "description": "Surgical code refactoring guidance to improve maintainability without changing behavior.",
     "displayName": "refactor",
     "productId": "Refactor",
     "repoUrl": ".opencode\\skills\\refactor/",
@@ -1620,7 +1620,7 @@
     "type": "resources"
   },
   {
-    "description": "This skill should be used when the user asks to \"test this website\", \"run exploratory testing\", \"check for accessibility issues\", \"verify the login flow works\", \"find bugs on this page\", or requests automated QA testing. Triggers on web application testing scenarios including smoke tests, accessibility audits, e-commerce flows, and user flow validation using ScoutQA CLI. IMPORTANT: Use this skill proactively after implementing web application features to verify they work correctly - don't wait f",
+    "description": "Automated exploratory and accessibility testing for web apps using the ScoutQA CLI.",
     "displayName": "scoutqa-test",
     "productId": "ScoutqaTest",
     "repoUrl": ".opencode\\skills\\scoutqa-test/",
@@ -1630,8 +1630,8 @@
     "type": "resources"
   },
   {
-    "description": "Security patterns — encryption, env handling, and secret management.",
-    "displayName": "SecuritySkill",
+    "description": "Security patterns for encryption, environment handling, and secret management.",
+    "displayName": "security-skill",
     "productId": "SecuritySkill",
     "repoUrl": ".opencode\\skills\\security-skill/",
     "scope": ["project"],
@@ -1641,7 +1641,7 @@
   },
   {
     "description": "Patterns and examples for Next.js Server Actions in the Banking app.",
-    "displayName": "ServerActionSkill",
+    "displayName": "server-action-skill",
     "productId": "ServerActionSkill",
     "repoUrl": ".opencode\\skills\\server-action-skill/",
     "scope": ["project"],
@@ -1650,8 +1650,8 @@
     "type": "resources"
   },
   {
-    "description": "Logs all opencode coding agent session activity for audit and analysis",
-    "displayName": "Session Logger",
+    "description": "Logs all opencode coding agent session activity for audit and analysis.",
+    "displayName": "session-logger",
     "productId": "SessionLogger",
     "repoUrl": ".opencode\\skills\\session-logger/",
     "scope": ["project"],
@@ -1671,7 +1671,7 @@
   },
   {
     "description": "Testing patterns for Vitest (unit) and Playwright (E2E) used by the Banking app.",
-    "displayName": "TestingSkill",
+    "displayName": "testing-skill",
     "productId": "TestingSkill",
     "repoUrl": ".opencode\\skills\\testing-skill/",
     "scope": ["project"],
@@ -1681,7 +1681,7 @@
   },
   {
     "description": "shadcn/ui component patterns and Tailwind CSS styling for the Banking app. Use when building forms, tables, dialogs, or UI components.",
-    "displayName": "UISkill",
+    "displayName": "ui-skill",
     "productId": "UiSkill",
     "repoUrl": ".opencode\\skills\\ui-skill/",
     "scope": ["project"],
@@ -1691,7 +1691,7 @@
   },
   {
     "description": "Zod schema validation patterns for forms, API inputs, and type-safe data in the Banking app. Use when creating schemas, validating user input, or implementing form validation.",
-    "displayName": "ValidationSkill",
+    "displayName": "validation-skill",
     "productId": "ValidationSkill",
     "repoUrl": ".opencode\\skills\\validation-skill/",
     "scope": ["project"],
@@ -1700,7 +1700,7 @@
     "type": "resources"
   },
   {
-    "description": "Guidelines for contributing commands in VS Code extensions. Indicates naming convention, visibility, localization and other relevant attributes, following VS Code extension development guidelines, libraries and good practices",
+    "description": "Guidelines for contributing commands in VS Code extensions (naming, visibility, localization, and conventions).",
     "displayName": "vscode-ext-commands",
     "productId": "VscodeExtCommands",
     "repoUrl": ".opencode\\skills\\vscode-ext-commands/",
@@ -1710,7 +1710,7 @@
     "type": "resources"
   },
   {
-    "description": "Guidelines for proper localization of VS Code extensions, following VS Code extension development guidelines, libraries and good practices",
+    "description": "Guidelines for proper localization of VS Code extensions following VS Code extension development guidelines and best practices.",
     "displayName": "vscode-ext-localization",
     "productId": "VscodeExtLocalization",
     "repoUrl": ".opencode\\skills\\vscode-ext-localization/",

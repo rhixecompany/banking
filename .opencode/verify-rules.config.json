@@ -1,0 +1,27 @@
+{
+  "allowlist": [
+    "app-config.ts",
+    "app-config.*",
+    "lib/env.ts",
+    "scripts/**",
+    "tests/**",
+    "scripts/seed/**",
+    "tests/e2e/helpers/**",
+    ".opencode/**",
+    ".cursorrules",
+    ".cursor/**",
+    ".github/**"
+  ],
+  "severities": {
+    "process.env-usage": "critical",
+    "server-action-auth": "critical",
+    "home-auth": "critical",
+    "home-process-env": "critical",
+    "home-db": "critical",
+    "no-any": "warn",
+    "direct-db-import": "critical",
+    "server-action-zod": "critical",
+    "server-action-return-shape": "critical",
+    "n-plus-one-heuristic": "warn"
+  }
+}

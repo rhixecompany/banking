@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
 /// <reference types="vitest" />
@@ -31,8 +31,13 @@ describe("WalletsOverview", () => {
     );
 
     expect(screen.getByText("Mock Bank")).toBeTruthy();
-    expect(screen.getByText("Total Balance:", { exact: false })).toBeTruthy();
-    // formatted amount
-    expect(screen.getByText("$1,234.00")).toBeTruthy();
+    const totalEl = screen.getByText("Total Balance:", { exact: false });
+    expect(totalEl).toBeTruthy();
+    // formatted amount should appear in the same container as the Total Balance label
+    const container = totalEl.closest("div");
+    expect(container).toBeTruthy();
+    expect(
+      within(container as HTMLElement).getByText(/\$1,234\.00/),
+    ).toBeTruthy();
   });
 });

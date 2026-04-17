@@ -10,10 +10,9 @@
  * to verify the application is functioning correctly.
  */
 
-import { sql } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
-import { db } from "@/database/db";
+import { checkDatabase, checkRedis } from "@/dal";
 import { env } from "@/lib/env";
 
 /**
@@ -62,35 +61,12 @@ interface HealthStatus {
  * Check database connectivity by executing a simple query.
  * @returns True if database is reachable and responsive.
  */
-async function checkDatabase(): Promise<boolean> {
-  try {
-    await db.execute(sql.raw("SELECT 1"));
-    return true;
-  } catch {
-    return false;
-  }
-}
-
 /**
  * Check Redis connectivity if configured.
  * Returns null if Redis URL is not set (optional dependency).
  * @returns True if Redis is reachable, false if configured but unreachable, null if not configured.
  */
-async function checkRedis(): Promise<boolean | undefined> {
-  if (!env.REDIS_URL) {
-    return undefined;
-  }
-
-  try {
-    const response = await fetch(`${env.REDIS_URL}/health`, {
-      method: "GET",
-      signal: AbortSignal.timeout(3000),
-    });
-    return response.ok;
-  } catch {
-    return false;
-  }
-}
+// Delegates to dal/health.ts which encapsulates DB and Redis checks.
 
 /**
  * GET handler for health check endpoint.

@@ -31,6 +31,7 @@ Helpers & Test notes:
 - Added `tests/mocks/handlers.ts` with a minimal MSW handler and updated `tests/setup.ts` to start an MSW server for unit tests.
 - components/shared/wallets-overview.tsx — Presentational list of linked wallets with optional actions. Candidate to split into a pure WalletCard under components/layouts/wallet-card and a wrapper that handles onRemove.
 - components/payment-transfer/payment-transfer-client-wrapper.tsx — Client wrapper that contains TransferSchema and form wiring; TransferSchema should be moved to lib/schemas/transfer.schema.ts and the presentational PaymentTransferForm (already under components/layouts) kept schema-agnostic.
+  - Note: TransferSchema has been centralized to `lib/schemas/transfer.schema.ts` and `components/layouts/payment-transfer-form.tsx` is presentational and schema-agnostic.
 - components/payment-transfer/payment-transfer-server-wrapper.tsx — Server wrapper (auth + parallel fetch) that correctly passes createTransfer server action into the client wrapper (pattern is correct).
 - components/transaction-history/\* — Client mapping and datatable pieces. Transaction rows should be rendered by a presentational component under components/layouts/transaction-row and DAL should provide eager-loaded wallet metadata to avoid N+1 queries.
 - components/settings/\* — Client/server wrappers currently duplicate ProfileSchema and PasswordSchema. Move schemas to lib/schemas/profile.schema.ts and import both server- and client-side where needed.

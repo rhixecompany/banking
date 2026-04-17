@@ -1,5 +1,3 @@
-import React from "react";
-
 import type { Recipient } from "@/types/recipient";
 import type { Wallet } from "@/types/wallet";
 

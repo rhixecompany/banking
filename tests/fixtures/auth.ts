@@ -6,7 +6,7 @@ import {
 
 import { SEED_USER, signInWithSeedUser } from "../e2e/helpers/auth";
 import {
-  makeNextAuthJwtToken,
+  makeNextAuthJweToken as makeNextAuthJwtToken,
   setAuthCookie,
 } from "../e2e/utils/auth-fixtures";
 import {
@@ -83,7 +83,7 @@ export const test = base.extend<AuthFixtures>({
     }
 
     if (secret) {
-      const token = makeNextAuthJwtToken({ id: "seed-user" }, secret);
+      const token = await makeNextAuthJwtToken({ id: "seed-user" }, secret);
 
       // Use Playwright APIRequestContext to set cookie on the app domain
       // newContext() returns a Promise — await it so TypeScript types align

@@ -1,4 +1,4 @@
-import { and, desc, eq, isNull, sql } from "drizzle-orm";
+import { and, desc, eq, isNull, or, sql } from "drizzle-orm";
 
 import type { Transaction, TransactionStats } from "@/types/transaction";
 
@@ -161,25 +161,16 @@ export class TransactionDal {
       > | null;
     })[]
   > {
-    // Perform a left join to wallets for sender and receiver to include
-    // basic wallet metadata (id, institutionName, fundingSourceUrl).
-    // Drizzle doesn't allow joining the same table twice without aliasing.
-    // Build explicit selects for sender and receiver wallet fields to avoid aliasing issues.
-    const rows = await db
-      .select({
-        txn: transactions,
-        sender_id: wallets.id,
-        sender_institutionName: wallets.institutionName,
-        sender_fundingSourceUrl: wallets.fundingSourceUrl,
-        receiver_id: wallets.id,
-        receiver_institutionName: wallets.institutionName,
-        receiver_fundingSourceUrl: wallets.fundingSourceUrl,
-      })
+    // Previous implementation attempted to join the wallets table twice which
+    // can cause alias collisions depending on the Drizzle version. To avoid
+    // that complexity and reliably prevent N+1 queries, fetch transactions
+    // first, collect unique sender/receiver wallet IDs, load those wallets in
+    // one batch, then map them back onto the transactions. This keeps the
+    // DAL implementation portable and easy to reason about.
+
+    const txns = await db
+      .select()
       .from(transactions)
-      // join sender wallet
-      .leftJoin(wallets, eq(wallets.id, transactions.senderWalletId))
-      // join receiver wallet (will override selected column names from previous join; we'll reconstruct below)
-      .leftJoin(wallets, eq(wallets.id, transactions.receiverWalletId))
       .where(
         and(eq(transactions.userId, userId), isNull(transactions.deletedAt)),
       )
@@ -187,37 +178,51 @@ export class TransactionDal {
       .limit(limitVal)
       .offset(offsetVal);
 
-    // Map result to merge transaction fields with optional wallet metadata.
-    return rows.map((r: any) => {
-      const txn: Transaction = r.txn as Transaction;
-      // Reconstruct sender/receiver wallets from explicit fields
-      const senderWallet: Pick<
-        Wallet,
-        "id" | "institutionName" | "fundingSourceUrl"
-      > | null = r.sender_id
-        ? {
-            id: r.sender_id,
-            institutionName: r.sender_institutionName,
-            fundingSourceUrl: r.sender_fundingSourceUrl,
-          }
-        : null;
-      const receiverWallet: Pick<
-        Wallet,
-        "id" | "institutionName" | "fundingSourceUrl"
-      > | null = r.receiver_id
-        ? {
-            id: r.receiver_id,
-            institutionName: r.receiver_institutionName,
-            fundingSourceUrl: r.receiver_fundingSourceUrl,
-          }
-        : null;
+    // Collect unique wallet ids referenced by these transactions
+    const walletIds = new Set<string>();
+    for (const t of txns) {
+      if (t.senderWalletId) walletIds.add(t.senderWalletId);
+      if (t.receiverWalletId) walletIds.add(t.receiverWalletId);
+    }
 
-      return {
-        ...txn,
-        senderWallet,
-        receiverWallet,
-      };
-    });
+    let walletsMap: Record<
+      string,
+      Pick<Wallet, "id" | "institutionName" | "fundingSourceUrl">
+    > = {};
+    if (walletIds.size > 0) {
+      const ids = Array.from(walletIds);
+      // Build OR conditions for each id: (wallets.id = id1 OR wallets.id = id2 ...)
+      const conditions = ids.map((id) => eq(wallets.id, id));
+      const rows = await db
+        .select({
+          id: wallets.id,
+          institutionName: wallets.institutionName,
+          fundingSourceUrl: wallets.fundingSourceUrl,
+        })
+        .from(wallets)
+        .where(conditions.length === 1 ? conditions[0] : or(...conditions));
+
+      // Build map for quick lookup
+      walletsMap = rows.reduce((acc: any, w: any) => {
+        acc[w.id] = {
+          id: w.id,
+          institutionName: w.institutionName,
+          fundingSourceUrl: w.fundingSourceUrl,
+        };
+        return acc;
+      }, {});
+    }
+
+    // Attach optional wallet metadata to each transaction
+    return txns.map((txn) => ({
+      ...txn,
+      senderWallet: txn.senderWalletId
+        ? (walletsMap[txn.senderWalletId] ?? null)
+        : null,
+      receiverWallet: txn.receiverWalletId
+        ? (walletsMap[txn.receiverWalletId] ?? null)
+        : null,
+    }));
   }
 }
 

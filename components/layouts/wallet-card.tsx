@@ -19,11 +19,14 @@ import { formatAmount } from "@/lib/utils";
 interface WalletCardProps {
   wallet: WalletWithDetails;
   removeWallet: (input: unknown) => Promise<{ ok: boolean; error?: string }>;
+  // Optional flag to show or hide inline actions (used by some callers)
+  showActions?: boolean;
 }
 
 export default function WalletCard({
   removeWallet,
   wallet,
+  showActions,
 }: WalletCardProps): JSX.Element {
   const [isPending, startTransition] = useTransition();
 
@@ -54,19 +57,21 @@ export default function WalletCard({
               {formatAmount(wallet.balances[0]?.balances?.current ?? 0)}
             </div>
           </div>
-          <div>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="text-destructive hover:text-destructive"
-              disabled={isPending}
-              type="button"
-              aria-label={`Remove ${wallet.institutionName ?? "wallet"}`}
-              onClick={handleRemove}
-            >
-              <Trash2 className="size-5" />
-            </Button>
-          </div>
+          {showActions !== false && (
+            <div>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="text-destructive hover:text-destructive"
+                disabled={isPending}
+                type="button"
+                aria-label={`Remove ${wallet.institutionName ?? "wallet"}`}
+                onClick={handleRemove}
+              >
+                <Trash2 className="size-5" />
+              </Button>
+            </div>
+          )}
         </div>
       </CardHeader>
       <CardContent>

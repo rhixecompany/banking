@@ -79,7 +79,7 @@ The audits are ordered by priority and intended to drive small, focused implemen
 
 - Observations:
   - Server wrapper correctly calls auth(), fetches wallets & recipients in parallel, and passes createTransfer server action into client wrapper (correct pattern).
-  - Client wrapper defines TransferSchema locally; consider centralizing.
+  - Client wrapper uses TransferSchema imported from `lib/schemas/transfer.schema.ts` (centralized). Presentational form lives at `components/layouts/payment-transfer-form.tsx`.
 
 - Tests: tests/unit/payment-transfer-form.test.tsx, tests/e2e/payment-transfer.spec.ts.
 
@@ -117,7 +117,7 @@ The audits are ordered by priority and intended to drive small, focused implemen
 
 - Observations:
   - Server wrapper calls getTransactionHistory and passes transactions to client wrapper.
-  - DAL currently returns transactions without joining wallet metadata; if datatable requires metadata, add an eager-load helper.
+  - DAL now provides an eager-load helper: transactionDal.findByUserIdWithWallets. The server action `getTransactionHistory` uses this helper so the client receives sender/receiver wallet metadata and avoids N+1 queries.
 
 - Tests: tests/e2e/transaction-history.spec.ts, tests/unit/transaction-history-client-wrapper.test.tsx.
 
