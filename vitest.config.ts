@@ -7,8 +7,8 @@ export default defineConfig({
     tsconfigPaths: true,
   },
   test: {
-    globals: true,
     environment: "happy-dom",
+    globals: true,
     hookTimeout: 15000,
 
     include: ["tests/unit/**/*.test.{ts,tsx,js,jsx}"],

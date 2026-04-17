@@ -1,11 +1,6 @@
 #!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
-
 # Run staged eslint --fix then quick verify for staged files
 echo "Running staged ESLint fixes..."
 npx lint-staged
-
-echo "Running quick verify for staged files..."
-npx tsx scripts/verify-rules.ts --output .opencode/reports/rules-precommit.json || true
 
 exit 0

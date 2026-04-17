@@ -6,7 +6,6 @@ import { SettingsClientWrapper } from "@/components/settings/settings-client-wra
 import ConnectedAccount from "@/components/shadcn-studio/blocks/account-settings-01/content/connect-account";
 import DangerZone from "@/components/shadcn-studio/blocks/account-settings-01/content/danger-zone";
 import SocialUrl from "@/components/shadcn-studio/blocks/account-settings-01/content/social-url";
-
 /**
  * Server wrapper for the Settings page.
  * Handles auth and fetches the user's profile, then delegates to the client wrapper.
@@ -18,6 +17,14 @@ import SocialUrl from "@/components/shadcn-studio/blocks/account-settings-01/con
  */
 import { auth } from "@/lib/auth";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @async
+ * @returns {Promise<JSX.Element>}
+ */
 export async function SettingsServerWrapper(): Promise<JSX.Element> {
   // Authenticate up-front to follow repository conventions for server wrappers
   const session = await auth();

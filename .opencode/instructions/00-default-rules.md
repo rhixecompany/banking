@@ -4,23 +4,38 @@ applyTo: "**"
 lastReviewed: 2026-04-14
 ---
 
-# Default Agent Rules (Repo)
+# Quick Start — Banking (commands you will actually run)
 
-This repository uses `AGENTS.md` as the canonical source of truth for agent behavior, workflows, commands, and PR-blocking rules.
+1. Start dev server
 
-## Canonical source of truth
+- npm run dev
 
-- Read `AGENTS.md` first for repo-specific rules, commands, and patterns.
-- If an `.opencode/instructions/*.md` file conflicts with `AGENTS.md`, align the instruction to `AGENTS.md`.
+1. Typecheck and lint (recommended pre-PR)
 
-## Session clarification
+- npm run type-check
+- npm run lint:strict
 
-- Ask clarifying questions **only when needed** (for example: whether you may modify files, whether a change should be committed, or whether to run slow validations).
+1. Run unit tests quickly
 
-## Side effects
+- All unit tests (Vitest): npm run test:browser
+- Single file: npx vitest -c vitest.config.ts run path/to/test/file
 
-- Do not start background services or run environment-specific commands (for example Docker gateway profiles) unless explicitly requested by the user or required for the task at hand.
+1. Run full test (includes Playwright E2E) — expensive
 
-## Skills, tools, and MCP
+- npm run test # runs test:ui (Playwright) then test:browser (Vitest)
 
-- If the user asks, list the skills/tools you can use and which MCP servers are available in this workspace.
+1. Seed DB (careful)
+
+- npm run db:seed # this script loads .env.local first and must be executed via the npm script
+- Preview: npm run db:seed -- --dry-run
+
+1. Drizzle migrations
+
+- Generate SQL: npm run db:generate (inspect database/migrations before applying)
+- Apply: npm run db:migrate
+
+Quick safety & gotchas
+
+- Home is intentionally static/public — do not add auth() or DAL/db queries to app/page.tsx or Home server wrappers.
+- The seed runner loads .env.local before importing app modules; do NOT run seed by directly invoking tsx on the script unless you replicate the env loading sequence.
+- npm run test runs Playwright UI tests first; only use it when you have a DB prepared for E2E.

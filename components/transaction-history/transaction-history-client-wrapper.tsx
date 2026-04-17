@@ -15,16 +15,16 @@ import TransactionDatatable from "@/components/shadcn-studio/blocks/datatable-tr
  * - everything else (online, null, unknown) → "visa"
  */
 function toItem(
-  tx: Transaction & {
-    senderWallet?: Pick<
+  tx: {
+    senderWallet?: null | Pick<
       Wallet,
-      "id" | "institutionName" | "fundingSourceUrl"
-    > | null;
-    receiverWallet?: Pick<
+      "fundingSourceUrl" | "id" | "institutionName"
+    >;
+    receiverWallet?: null | Pick<
       Wallet,
-      "id" | "institutionName" | "fundingSourceUrl"
-    > | null;
-  },
+      "fundingSourceUrl" | "id" | "institutionName"
+    >;
+  } & Transaction,
 ): Item {
   const validStatuses = new Set<Item["status"]>([
     "failed",
@@ -71,16 +71,16 @@ function toItem(
  */
 interface TransactionHistoryClientWrapperProps {
   /** List of transactions fetched server-side. */
-  transactions: (Transaction & {
-    senderWallet?: Pick<
+  transactions: ({
+    senderWallet?: null | Pick<
       Wallet,
-      "id" | "institutionName" | "fundingSourceUrl"
-    > | null;
-    receiverWallet?: Pick<
+      "fundingSourceUrl" | "id" | "institutionName"
+    >;
+    receiverWallet?: null | Pick<
       Wallet,
-      "id" | "institutionName" | "fundingSourceUrl"
-    > | null;
-  })[];
+      "fundingSourceUrl" | "id" | "institutionName"
+    >;
+  } & Transaction)[];
 }
 
 /**

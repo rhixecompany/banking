@@ -9,18 +9,79 @@ import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @typedef {CarouselApi}
+ */
 type CarouselApi = UseEmblaCarouselType[1];
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @typedef {UseCarouselParameters}
+ */
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @typedef {CarouselOptions}
+ */
 type CarouselOptions = UseCarouselParameters[0];
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @typedef {CarouselPlugin}
+ */
 type CarouselPlugin = UseCarouselParameters[1];
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @interface CarouselProps
+ * @typedef {CarouselProps}
+ */
 interface CarouselProps {
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?CarouselOptions}
+   */
   opts?: CarouselOptions;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?CarouselPlugin}
+   */
   plugins?: CarouselPlugin;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?("horizontal" | "vertical")}
+   */
   orientation?: "horizontal" | "vertical";
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?(api: CarouselApi) => void}
+   */
   setApi?: (api: CarouselApi) => void;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @typedef {CarouselContextProps}
+ */
 type CarouselContextProps = {
   carouselRef: ReturnType<typeof useEmblaCarousel>[0];
   api: ReturnType<typeof useEmblaCarousel>[1];
@@ -30,8 +91,20 @@ type CarouselContextProps = {
   canScrollNext: boolean;
 } & CarouselProps;
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const CarouselContext = React.createContext<CarouselContextProps | null>(null);
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @returns {*}
+ */
 function useCarousel() {
   const context = React.useContext(CarouselContext);
 
@@ -42,6 +115,20 @@ function useCarousel() {
   return context;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {(CarouselProps & React.ComponentProps<"div">)} param0
+ * @param {*} param0.children
+ * @param {*} param0.className
+ * @param {*} param0.opts
+ * @param {*} [param0.orientation="horizontal"]
+ * @param {*} param0.plugins
+ * @param {*} param0.setApi
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function Carousel({
   children,
   className,
@@ -132,6 +219,15 @@ function Carousel({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"div">} param0
+ * @param {React.ComponentProps<"div">} param0.className
+ * @param {React.ComponentProps<"div">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function CarouselContent({ className, ...props }: React.ComponentProps<"div">) {
   const { carouselRef, orientation } = useCarousel();
 
@@ -153,6 +249,15 @@ function CarouselContent({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"div">} param0
+ * @param {React.ComponentProps<"div">} param0.className
+ * @param {React.ComponentProps<"div">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function CarouselItem({ className, ...props }: React.ComponentProps<"div">) {
   const { orientation } = useCarousel();
 
@@ -171,6 +276,17 @@ function CarouselItem({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof Button>} param0
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} [param0.size="icon"]
+ * @param {React.ComponentProps<any>} [param0.variant="outline"]
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function CarouselPrevious({
   className,
   size = "icon",
@@ -201,6 +317,17 @@ function CarouselPrevious({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof Button>} param0
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} [param0.size="icon"]
+ * @param {React.ComponentProps<any>} [param0.variant="outline"]
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function CarouselNext({
   className,
   size = "icon",

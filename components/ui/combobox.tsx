@@ -13,12 +13,36 @@ import {
 } from "@/components/ui/input-group";
 import { cn } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const Combobox = ComboboxPrimitive.Root;
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {ComboboxPrimitive.Value.Props} param0
+ * @param {ComboboxPrimitive.Value.Props} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function ComboboxValue({ ...props }: ComboboxPrimitive.Value.Props) {
   return <ComboboxPrimitive.Value data-slot="combobox-value" {...props} />;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {ComboboxPrimitive.Trigger.Props} param0
+ * @param {ComboboxPrimitive.Trigger.Props} param0.children
+ * @param {ComboboxPrimitive.Trigger.Props} param0.className
+ * @param {ComboboxPrimitive.Trigger.Props} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function ComboboxTrigger({
   children,
   className,
@@ -39,6 +63,15 @@ function ComboboxTrigger({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {ComboboxPrimitive.Clear.Props} param0
+ * @param {ComboboxPrimitive.Clear.Props} param0.className
+ * @param {ComboboxPrimitive.Clear.Props} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function ComboboxClear({ className, ...props }: ComboboxPrimitive.Clear.Props) {
   return (
     <ComboboxPrimitive.Clear
@@ -52,6 +85,22 @@ function ComboboxClear({ className, ...props }: ComboboxPrimitive.Clear.Props) {
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {({
+ *   showTrigger?: boolean;
+ *   showClear?: boolean;
+ * } & ComboboxPrimitive.Input.Props)} param0
+ * @param {*} param0.children
+ * @param {*} param0.className
+ * @param {*} [param0.disabled=false]
+ * @param {*} [param0.showClear=false]
+ * @param {*} [param0.showTrigger=true]
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function ComboboxInput({
   children,
   className,
@@ -89,6 +138,24 @@ function ComboboxInput({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {ComboboxPrimitive.Popup.Props &
+ *   Pick<
+ *     ComboboxPrimitive.Positioner.Props,
+ *     "align" | "alignOffset" | "anchor" | "side" | "sideOffset"
+ *   >} param0
+ * @param {*} [param0.align="start"]
+ * @param {*} [param0.alignOffset=0]
+ * @param {*} param0.anchor
+ * @param {*} param0.className
+ * @param {*} [param0.side="bottom"]
+ * @param {*} [param0.sideOffset=6]
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function ComboboxContent({
   align = "start",
   alignOffset = 0,
@@ -126,6 +193,15 @@ function ComboboxContent({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {ComboboxPrimitive.List.Props} param0
+ * @param {ComboboxPrimitive.List.Props} param0.className
+ * @param {ComboboxPrimitive.List.Props} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function ComboboxList({ className, ...props }: ComboboxPrimitive.List.Props) {
   return (
     <ComboboxPrimitive.List
@@ -139,6 +215,16 @@ function ComboboxList({ className, ...props }: ComboboxPrimitive.List.Props) {
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {ComboboxPrimitive.Item.Props} param0
+ * @param {ComboboxPrimitive.Item.Props} param0.children
+ * @param {ComboboxPrimitive.Item.Props} param0.className
+ * @param {ComboboxPrimitive.Item.Props} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function ComboboxItem({
   children,
   className,
@@ -166,6 +252,15 @@ function ComboboxItem({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {ComboboxPrimitive.Group.Props} param0
+ * @param {ComboboxPrimitive.Group.Props} param0.className
+ * @param {ComboboxPrimitive.Group.Props} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function ComboboxGroup({ className, ...props }: ComboboxPrimitive.Group.Props) {
   return (
     <ComboboxPrimitive.Group
@@ -176,6 +271,15 @@ function ComboboxGroup({ className, ...props }: ComboboxPrimitive.Group.Props) {
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {ComboboxPrimitive.GroupLabel.Props} param0
+ * @param {ComboboxPrimitive.GroupLabel.Props} param0.className
+ * @param {ComboboxPrimitive.GroupLabel.Props} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function ComboboxLabel({
   className,
   ...props
@@ -192,12 +296,29 @@ function ComboboxLabel({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {ComboboxPrimitive.Collection.Props} param0
+ * @param {ComboboxPrimitive.Collection.Props} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function ComboboxCollection({ ...props }: ComboboxPrimitive.Collection.Props) {
   return (
     <ComboboxPrimitive.Collection data-slot="combobox-collection" {...props} />
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {ComboboxPrimitive.Empty.Props} param0
+ * @param {ComboboxPrimitive.Empty.Props} param0.className
+ * @param {ComboboxPrimitive.Empty.Props} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function ComboboxEmpty({ className, ...props }: ComboboxPrimitive.Empty.Props) {
   return (
     <ComboboxPrimitive.Empty
@@ -211,6 +332,15 @@ function ComboboxEmpty({ className, ...props }: ComboboxPrimitive.Empty.Props) {
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {ComboboxPrimitive.Separator.Props} param0
+ * @param {ComboboxPrimitive.Separator.Props} param0.className
+ * @param {ComboboxPrimitive.Separator.Props} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function ComboboxSeparator({
   className,
   ...props
@@ -224,6 +354,16 @@ function ComboboxSeparator({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {ComboboxPrimitive.Chips.Props &
+ *   React.ComponentPropsWithRef<typeof ComboboxPrimitive.Chips>} param0
+ * @param {*} param0.className
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function ComboboxChips({
   className,
   ...props
@@ -241,6 +381,19 @@ function ComboboxChips({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {({
+ *   showRemove?: boolean;
+ * } & ComboboxPrimitive.Chip.Props)} param0
+ * @param {*} param0.children
+ * @param {*} param0.className
+ * @param {*} [param0.showRemove=true]
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function ComboboxChip({
   children,
   className,
@@ -272,6 +425,16 @@ function ComboboxChip({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {ComboboxPrimitive.Input.Props} param0
+ * @param {ComboboxPrimitive.Input.Props} param0.children
+ * @param {ComboboxPrimitive.Input.Props} param0.className
+ * @param {ComboboxPrimitive.Input.Props} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function ComboboxChipsInput({
   children,
   className,
@@ -286,6 +449,12 @@ function ComboboxChipsInput({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @returns {*}
+ */
 function useComboboxAnchor() {
   return React.useRef<HTMLDivElement | null>(null);
 }

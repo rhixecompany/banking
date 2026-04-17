@@ -6,8 +6,21 @@ import path from "path";
 // Heuristic runner: parse test-browser-report.txt for failing test file paths
 // and re-run them with vitest. Dry-run by default; pass --apply to execute.
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {"test-browser-report.txt"}
+ */
 const REPORT = "test-browser-report.txt";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} content
+ * @returns {string[]}
+ */
 function extractFilesFromReport(content: string): string[] {
   const files = new Set<string>();
   const lines = content.split(/\r?\n/);
@@ -22,6 +35,15 @@ function extractFilesFromReport(content: string): string[] {
   return Array.from(files);
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @param {string[]} files
+ * @param {boolean} apply
+ * @returns {*}
+ */
 async function runVitestOnFiles(files: string[], apply: boolean) {
   if (files.length === 0) {
     console.log("No failing test files detected in report.");
@@ -39,6 +61,13 @@ async function runVitestOnFiles(files: string[], apply: boolean) {
   await p;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @returns {*}
+ */
 async function main() {
   const argv = process.argv.slice(2);
   const apply = argv.includes("--apply");

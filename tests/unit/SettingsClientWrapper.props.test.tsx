@@ -4,6 +4,12 @@ import { expect, test, vi } from "vitest";
 
 import { SettingsClientWrapper } from "@/components/settings/settings-client-wrapper";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {{ email: string; id: string; image: string; name: string; profile: { address: string; city: string; phone: string; postalCode: string; state: string; }; }}
+ */
 const mockUser = {
   email: "jane@example.com",
   id: "u1",

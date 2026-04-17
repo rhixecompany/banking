@@ -1,9 +1,9 @@
 import { type APIRequestContext } from "@playwright/test";
-import jwt from "jsonwebtoken";
 // jose is used to produce Compact JWE tokens compatible with NextAuth when
 // session.strategy = "jwt" and NEXTAUTH_SECRET is used for encryption.
 // We add it as a devDependency and use it only in test helpers.
 import * as jose from "jose";
+import jwt from "jsonwebtoken";
 
 /**
  * Create an authenticated session cookie for Playwright tests by generating
@@ -60,9 +60,9 @@ export async function makeNextAuthJweToken(
     // a symmetric key represented as base64url
     const b64Url = jose.base64url.encode(new Uint8Array(digest));
     const jwk = {
-      kty: "oct",
-      k: b64Url,
       alg: "A256GCM",
+      k: b64Url,
+      kty: "oct",
     };
 
     // jose provides a jwtEncrypt helper we can use by importing the raw JWK
@@ -79,7 +79,7 @@ export async function makeNextAuthJweToken(
     // If any part of JWE creation fails, fall back to the original signed
     // JWT approach so tests remain operational in environments where NextAuth
     // is tolerant or tests don't require JWE.
-    // eslint-disable-next-line no-console
+
     console.warn(
       "[makeNextAuthJweToken] JWE creation failed, falling back to signed JWT:",
       String(e),
@@ -124,12 +124,12 @@ export async function setAuthCookie(
     // Set-Cookie headers.
     try {
       // headers() may be an object; convert to array for logging
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+
       const hdrs = await (res as any).headers?.();
       console.log(
         `[setAuthCookie] status=${res.status()} headers=${JSON.stringify(hdrs)}`,
       );
-    } catch (e) {
+    } catch {
       console.log(
         `[setAuthCookie] status=${res.status()} (failed to read headers)`,
       );

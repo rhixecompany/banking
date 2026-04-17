@@ -1,6 +1,5 @@
 "use client";
 
-import { PasswordSchema, ProfileSchema } from "@/lib/schemas/profile.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -30,6 +29,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { PasswordSchema, ProfileSchema } from "@/lib/schemas/profile.schema";
 
 // Schemas are centralized in lib/schemas/profile.schema.ts and imported above
 

@@ -4,6 +4,20 @@ import { expect, test, vi } from "vitest";
 
 import PaymentTransferForm from "@/components/layouts/payment-transfer-form";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {{
+ *   wallets?: any[];
+ *   recipients?: any[];
+ *   onSubmit?: (d: any) => Promise<void>;
+ * }} param0
+ * @param {(d: any) => Promise<void>} [param0.onSubmit=async () => undefined]
+ * @param {{}} [param0.recipients=[]]
+ * @param {{}} [param0.wallets=[]]
+ * @returns {Promise<void>; }) => ReactJSX.Element}
+ */
 function Wrapper({
   onSubmit = async () => undefined,
   recipients = [],

@@ -1,0 +1,62 @@
+{
+  "report_dir": "./tmp/reports",
+  "steps": [
+    {
+      "name": "format-check",
+      "status": "DRY-RUN",
+      "report": "./tmp/reports/format-check-report.txt",
+      "exit_code": null,
+      "fallback": false
+    },
+    {
+      "name": "type-check",
+      "status": "DRY-RUN",
+      "report": "./tmp/reports/type-check-report.txt",
+      "exit_code": null,
+      "fallback": false
+    },
+    {
+      "name": "lint-fix",
+      "status": "DRY-RUN",
+      "report": "./tmp/reports/lint-fix-report.txt",
+      "exit_code": null,
+      "fallback": false
+    },
+    {
+      "name": "lint-strict",
+      "status": "DRY-RUN",
+      "report": "./tmp/reports/lint-strict-report.txt",
+      "exit_code": null,
+      "fallback": false
+    },
+    {
+      "name": "build-debug",
+      "status": "DRY-RUN",
+      "report": "./tmp/reports/build-debug-report.txt",
+      "exit_code": null,
+      "fallback": false
+    },
+    {
+      "name": "test-browser",
+      "status": "DRY-RUN",
+      "report": "./tmp/reports/test-browser-report.txt",
+      "exit_code": null,
+      "fallback": false
+    },
+    {
+      "name": "test-ui",
+      "status": "DRY-RUN",
+      "report": "./tmp/reports/test-ui-report.txt",
+      "exit_code": null,
+      "fallback": false
+    },
+    {
+      "name": "build",
+      "status": "DRY-RUN",
+      "report": "./tmp/reports/build-report.txt",
+      "exit_code": null,
+      "fallback": false
+    }
+  ],
+  "timestamp": "20260417-075204"
+}

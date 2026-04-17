@@ -5,6 +5,15 @@ import * as ResizablePrimitive from "react-resizable-panels";
 
 import { cn } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {ResizablePrimitive.GroupProps} param0
+ * @param {ResizablePrimitive.GroupProps} param0.className
+ * @param {ResizablePrimitive.GroupProps} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function ResizablePanelGroup({
   className,
   ...props
@@ -21,10 +30,30 @@ function ResizablePanelGroup({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {ResizablePrimitive.PanelProps} param0
+ * @param {ResizablePrimitive.PanelProps} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function ResizablePanel({ ...props }: ResizablePrimitive.PanelProps) {
   return <ResizablePrimitive.Panel data-slot="resizable-panel" {...props} />;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {({
+ *   withHandle?: boolean;
+ * } & ResizablePrimitive.SeparatorProps)} param0
+ * @param {*} param0.className
+ * @param {*} param0.withHandle
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function ResizableHandle({
   className,
   withHandle,

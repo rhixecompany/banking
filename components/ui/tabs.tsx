@@ -6,6 +6,16 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof TabsPrimitive.Root>} param0
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} [param0.orientation="horizontal"]
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function Tabs({
   className,
   orientation = "horizontal",
@@ -25,6 +35,12 @@ function Tabs({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const tabsListVariants = cva(
   "group/tabs-list inline-flex w-fit items-center justify-center rounded-lg p-[3px] text-muted-foreground group-data-[orientation=horizontal]/tabs:h-9 group-data-[orientation=vertical]/tabs:h-fit group-data-[orientation=vertical]/tabs:flex-col data-[variant=line]:rounded-none",
   {
@@ -40,6 +56,17 @@ const tabsListVariants = cva(
   },
 );
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof TabsPrimitive.List> &
+ *   VariantProps<typeof tabsListVariants>} param0
+ * @param {*} param0.className
+ * @param {*} [param0.variant="default"]
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function TabsList({
   className,
   variant = "default",
@@ -56,6 +83,15 @@ function TabsList({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof TabsPrimitive.Trigger>} param0
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function TabsTrigger({
   className,
   ...props
@@ -75,6 +111,15 @@ function TabsTrigger({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof TabsPrimitive.Content>} param0
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function TabsContent({
   className,
   ...props

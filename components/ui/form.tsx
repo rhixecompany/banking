@@ -17,19 +17,56 @@ import {
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const Form = FormProvider;
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @interface FormFieldContextValue
+ * @typedef {FormFieldContextValue}
+ * @template {FieldValues} [TFieldValues=FieldValues]
+ * @template {FieldPath<TFieldValues>} [TName=FieldPath<TFieldValues>]
+ */
 interface FormFieldContextValue<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 > {
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {TName}
+   */
   name: TName;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const FormFieldContext = React.createContext<FormFieldContextValue>(
   {} as FormFieldContextValue,
 );
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @template {FieldValues} [TFieldValues=FieldValues]
+ * @template {FieldPath<TFieldValues>} [TName=FieldPath<TFieldValues>]
+ * @param {ControllerProps<TFieldValues, TName>} param0
+ * @param {ControllerProps<TFieldValues, TName>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 const FormField = <
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
@@ -43,6 +80,12 @@ const FormField = <
   );
 };
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @returns {*}
+ */
 const useFormField = () => {
   const fieldContext = React.useContext(FormFieldContext);
   const itemContext = React.useContext(FormItemContext);
@@ -66,14 +109,42 @@ const useFormField = () => {
   };
 };
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @interface FormItemContextValue
+ * @typedef {FormItemContextValue}
+ */
 interface FormItemContextValue {
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {string}
+   */
   id: string;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const FormItemContext = React.createContext<FormItemContextValue>(
   {} as FormItemContextValue,
 );
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"div">} param0
+ * @param {React.ComponentProps<"div">} param0.className
+ * @param {React.ComponentProps<"div">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function FormItem({ className, ...props }: React.ComponentProps<"div">) {
   const id = React.useId();
 
@@ -88,6 +159,15 @@ function FormItem({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof LabelPrimitive.Root>} param0
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function FormLabel({
   className,
   ...props
@@ -105,6 +185,14 @@ function FormLabel({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof Slot.Root>} param0
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function FormControl({ ...props }: React.ComponentProps<typeof Slot.Root>) {
   const { error, formDescriptionId, formItemId, formMessageId } =
     useFormField();
@@ -124,6 +212,15 @@ function FormControl({ ...props }: React.ComponentProps<typeof Slot.Root>) {
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"p">} param0
+ * @param {React.ComponentProps<"p">} param0.className
+ * @param {React.ComponentProps<"p">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function FormDescription({ className, ...props }: React.ComponentProps<"p">) {
   const { formDescriptionId } = useFormField();
 
@@ -137,6 +234,15 @@ function FormDescription({ className, ...props }: React.ComponentProps<"p">) {
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"p">} param0
+ * @param {React.ComponentProps<"p">} param0.className
+ * @param {React.ComponentProps<"p">} param0....props
+ * @returns {*}
+ */
 function FormMessage({ className, ...props }: React.ComponentProps<"p">) {
   const { error, formMessageId } = useFormField();
   const body = error ? String(error?.message ?? "") : props.children;

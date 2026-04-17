@@ -3,6 +3,13 @@ import Link from "next/link";
 
 import { Container } from "@/components/ui/container";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @returns {JSX.Element}
+ */
 export default function HomeFooter(): JSX.Element {
   return (
     <footer className="border-t border-gray-200 bg-white py-12">

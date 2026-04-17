@@ -17,6 +17,22 @@ import {
 import { Button } from "@/components/ui/button";
 import { LoadingSwap } from "@/components/ui/loading-swap";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {({
+ *   action: () => Promise<{ error: boolean; message?: string }>;
+ *   requireAreYouSure?: boolean;
+ *   areYouSureDescription?: ReactNode;
+ * } & ComponentProps<typeof Button>)} param0
+ * @param {*} param0.action
+ * @param {*} [param0.areYouSureDescription="This action cannot be undone."]
+ * @param {*} [param0.requireAreYouSure=false]
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 export function ActionButton({
   action,
   areYouSureDescription = "This action cannot be undone.",

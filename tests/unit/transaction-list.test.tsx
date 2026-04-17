@@ -3,6 +3,12 @@ import { describe, expect, it } from "vitest";
 
 import TransactionList from "@/components/layouts/transaction-list";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {{ amount: number; category: {}; date: any; name: string; transactionId: string; }}
+ */
 const mockTx = {
   amount: -4.5,
   category: ["Food and Drink"],

@@ -4,9 +4,16 @@ import { config } from "dotenv";
 import { setupServer } from "msw/node";
 import { resolve } from "path";
 import { afterEach, vi } from "vitest";
+
 import { handlers } from "./mocks/handlers";
 
 // Start MSW server for unit tests to intercept network requests and provide deterministic responses
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const server = setupServer(...handlers);
 
 beforeAll(() => server.listen({ onUnhandledRequest: "warn" }));

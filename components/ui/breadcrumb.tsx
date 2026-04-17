@@ -4,10 +4,27 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"nav">} param0
+ * @param {React.ComponentProps<"nav">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function Breadcrumb({ ...props }: React.ComponentProps<"nav">) {
   return <nav aria-label="breadcrumb" data-slot="breadcrumb" {...props} />;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"ol">} param0
+ * @param {React.ComponentProps<"ol">} param0.className
+ * @param {React.ComponentProps<"ol">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function BreadcrumbList({ className, ...props }: React.ComponentProps<"ol">) {
   return (
     <ol
@@ -21,6 +38,15 @@ function BreadcrumbList({ className, ...props }: React.ComponentProps<"ol">) {
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"li">} param0
+ * @param {React.ComponentProps<"li">} param0.className
+ * @param {React.ComponentProps<"li">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function BreadcrumbItem({ className, ...props }: React.ComponentProps<"li">) {
   return (
     <li
@@ -31,6 +57,18 @@ function BreadcrumbItem({ className, ...props }: React.ComponentProps<"li">) {
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {({
+ *   asChild?: boolean;
+ * } & React.ComponentProps<"a">)} param0
+ * @param {*} param0.asChild
+ * @param {*} param0.className
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function BreadcrumbLink({
   asChild,
   className,
@@ -49,6 +87,15 @@ function BreadcrumbLink({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"span">} param0
+ * @param {React.ComponentProps<"span">} param0.className
+ * @param {React.ComponentProps<"span">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function BreadcrumbPage({ className, ...props }: React.ComponentProps<"span">) {
   return (
     <span
@@ -62,6 +109,16 @@ function BreadcrumbPage({ className, ...props }: React.ComponentProps<"span">) {
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"li">} param0
+ * @param {React.ComponentProps<"li">} param0.children
+ * @param {React.ComponentProps<"li">} param0.className
+ * @param {React.ComponentProps<"li">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function BreadcrumbSeparator({
   children,
   className,
@@ -80,6 +137,15 @@ function BreadcrumbSeparator({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"span">} param0
+ * @param {React.ComponentProps<"span">} param0.className
+ * @param {React.ComponentProps<"span">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function BreadcrumbEllipsis({
   className,
   ...props

@@ -14,16 +14,53 @@ import fs from "fs";
 import path from "path";
 import readline from "readline";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const DAL_DIR = path.join(process.cwd(), "lib", "dal");
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const SCHEMA_PATH = path.join(process.cwd(), "database", "schema.ts");
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 });
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @interface DALOptions
+ * @typedef {DALOptions}
+ */
 interface DALOptions {
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {boolean}
+   */
   relations: boolean;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {boolean}
+   */
   timestamps: boolean;
 }
 
@@ -53,6 +90,14 @@ function parseArgs(): { tableName: string; options: DALOptions } {
 import io from "../utils/io";
 
 // Use centralized IO helper which respects global dry-run flags
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} filePath
+ * @param {string} content
+ * @returns {*}
+ */
 function writeFile(filePath: string, content: string) {
   // Keep legacy semantics: use global __SCRIPTS_DRY_RUN as fallback
   const dryRun = (globalThis as any).__SCRIPTS_DRY_RUN ?? undefined;

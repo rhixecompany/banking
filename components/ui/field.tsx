@@ -7,6 +7,15 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"fieldset">} param0
+ * @param {React.ComponentProps<"fieldset">} param0.className
+ * @param {React.ComponentProps<"fieldset">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function FieldSet({ className, ...props }: React.ComponentProps<"fieldset">) {
   return (
     <fieldset
@@ -21,6 +30,16 @@ function FieldSet({ className, ...props }: React.ComponentProps<"fieldset">) {
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {({ variant?: "label" | "legend" } & React.ComponentProps<"legend">)} param0
+ * @param {*} param0.className
+ * @param {*} [param0.variant="legend"]
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function FieldLegend({
   className,
   variant = "legend",
@@ -41,6 +60,15 @@ function FieldLegend({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"div">} param0
+ * @param {React.ComponentProps<"div">} param0.className
+ * @param {React.ComponentProps<"div">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function FieldGroup({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -54,6 +82,12 @@ function FieldGroup({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const fieldVariants = cva(
   "group/field flex w-full gap-3 data-[invalid=true]:text-destructive",
   {
@@ -78,6 +112,16 @@ const fieldVariants = cva(
   },
 );
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {(React.ComponentProps<"div"> & VariantProps<typeof fieldVariants>)} param0
+ * @param {*} param0.className
+ * @param {*} [param0.orientation="vertical"]
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function Field({
   className,
   orientation = "vertical",
@@ -94,6 +138,15 @@ function Field({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"div">} param0
+ * @param {React.ComponentProps<"div">} param0.className
+ * @param {React.ComponentProps<"div">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function FieldContent({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -107,6 +160,15 @@ function FieldContent({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof Label>} param0
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function FieldLabel({
   className,
   ...props
@@ -125,6 +187,15 @@ function FieldLabel({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"div">} param0
+ * @param {React.ComponentProps<"div">} param0.className
+ * @param {React.ComponentProps<"div">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function FieldTitle({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -138,6 +209,15 @@ function FieldTitle({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"p">} param0
+ * @param {React.ComponentProps<"p">} param0.className
+ * @param {React.ComponentProps<"p">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function FieldDescription({ className, ...props }: React.ComponentProps<"p">) {
   return (
     <p
@@ -153,6 +233,18 @@ function FieldDescription({ className, ...props }: React.ComponentProps<"p">) {
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {({
+ *   children?: React.ReactNode;
+ * } & React.ComponentProps<"div">)} param0
+ * @param {*} param0.children
+ * @param {*} param0.className
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function FieldSeparator({
   children,
   className,
@@ -183,6 +275,19 @@ function FieldSeparator({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {({
+ *   errors?: ({ message?: string } | undefined)[];
+ * } & React.ComponentProps<"div">)} param0
+ * @param {*} param0.children
+ * @param {*} param0.className
+ * @param {*} param0.errors
+ * @param {*} param0....props
+ * @returns {*}
+ */
 function FieldError({
   children,
   className,

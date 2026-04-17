@@ -141,6 +141,11 @@ Whenever you make a change, include the list of files you read (paths + one-line
 
 - Stop and ask one short question. Do not guess about secrets, destructive flags, or push permissions.
 
+## Agent Iteration Limit
+
+- This repository enforces an agent iteration limit to keep automated agentic loops bounded. The setting lives in `./opencode.json` as `agentIterationLimit` and defaults to `3`.
+- A lightweight verifier is provided at `scripts/verify-agent-iterations.ts` which CI or contributors can run to validate the configuration. The verifier ensures the value is an integer between 1 and 10.
+
 ## Files I Read To Generate This Document (provenance for this update)
 
 - package.json — detect dependencies, scripts, and exact versions used (Next.js, React, TypeScript, Drizzle, Playwright, Vitest).

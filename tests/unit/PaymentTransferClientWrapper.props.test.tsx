@@ -16,6 +16,12 @@ import { toast } from "sonner";
 
 import { PaymentTransferClientWrapper } from "@/components/payment-transfer/payment-transfer-client-wrapper";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {{}}
+ */
 const wallets = [
   {
     accountId: "1234",
@@ -24,6 +30,12 @@ const wallets = [
     institutionName: "Bank A",
   },
 ];
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {{}}
+ */
 const recipients = [
   {
     bankAccountId: "https://mock",

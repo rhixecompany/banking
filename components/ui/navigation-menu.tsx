@@ -5,6 +5,19 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {({
+ *   viewport?: boolean;
+ * } & React.ComponentProps<typeof NavigationMenuPrimitive.Root>)} param0
+ * @param {*} param0.children
+ * @param {*} param0.className
+ * @param {*} [param0.viewport=true]
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function NavigationMenu({
   children,
   className,
@@ -29,6 +42,15 @@ function NavigationMenu({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof NavigationMenuPrimitive.List>} param0
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function NavigationMenuList({
   className,
   ...props
@@ -45,6 +67,15 @@ function NavigationMenuList({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof NavigationMenuPrimitive.Item>} param0
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function NavigationMenuItem({
   className,
   ...props
@@ -58,10 +89,26 @@ function NavigationMenuItem({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const navigationMenuTriggerStyle = cva(
   "group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-[color,box-shadow] outline-none hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1 disabled:pointer-events-none disabled:opacity-50 data-[state=open]:bg-accent/50 data-[state=open]:text-accent-foreground data-[state=open]:hover:bg-accent data-[state=open]:focus:bg-accent",
 );
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof NavigationMenuPrimitive.Trigger>} param0
+ * @param {React.ComponentProps<any>} param0.children
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function NavigationMenuTrigger({
   children,
   className,
@@ -82,6 +129,15 @@ function NavigationMenuTrigger({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof NavigationMenuPrimitive.Content>} param0
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function NavigationMenuContent({
   className,
   ...props
@@ -99,6 +155,15 @@ function NavigationMenuContent({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof NavigationMenuPrimitive.Viewport>} param0
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function NavigationMenuViewport({
   className,
   ...props
@@ -121,6 +186,15 @@ function NavigationMenuViewport({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof NavigationMenuPrimitive.Link>} param0
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function NavigationMenuLink({
   className,
   ...props
@@ -137,6 +211,15 @@ function NavigationMenuLink({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof NavigationMenuPrimitive.Indicator>} param0
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function NavigationMenuIndicator({
   className,
   ...props

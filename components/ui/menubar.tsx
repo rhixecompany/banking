@@ -6,6 +6,15 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof MenubarPrimitive.Root>} param0
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function Menubar({
   className,
   ...props
@@ -22,24 +31,56 @@ function Menubar({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof MenubarPrimitive.Menu>} param0
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function MenubarMenu({
   ...props
 }: React.ComponentProps<typeof MenubarPrimitive.Menu>) {
   return <MenubarPrimitive.Menu data-slot="menubar-menu" {...props} />;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof MenubarPrimitive.Group>} param0
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function MenubarGroup({
   ...props
 }: React.ComponentProps<typeof MenubarPrimitive.Group>) {
   return <MenubarPrimitive.Group data-slot="menubar-group" {...props} />;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof MenubarPrimitive.Portal>} param0
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function MenubarPortal({
   ...props
 }: React.ComponentProps<typeof MenubarPrimitive.Portal>) {
   return <MenubarPrimitive.Portal data-slot="menubar-portal" {...props} />;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof MenubarPrimitive.RadioGroup>} param0
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function MenubarRadioGroup({
   ...props
 }: React.ComponentProps<typeof MenubarPrimitive.RadioGroup>) {
@@ -48,6 +89,15 @@ function MenubarRadioGroup({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof MenubarPrimitive.Trigger>} param0
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function MenubarTrigger({
   className,
   ...props
@@ -64,6 +114,18 @@ function MenubarTrigger({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof MenubarPrimitive.Content>} param0
+ * @param {React.ComponentProps<any>} [param0.align="start"]
+ * @param {React.ComponentProps<any>} [param0.alignOffset=-4]
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} [param0.sideOffset=8]
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function MenubarContent({
   align = "start",
   alignOffset = -4,
@@ -88,6 +150,20 @@ function MenubarContent({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {({
+ *   inset?: boolean;
+ *   variant?: "default" | "destructive";
+ * } & React.ComponentProps<typeof MenubarPrimitive.Item>)} param0
+ * @param {*} param0.className
+ * @param {*} param0.inset
+ * @param {*} [param0.variant="default"]
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function MenubarItem({
   className,
   inset,
@@ -111,6 +187,17 @@ function MenubarItem({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof MenubarPrimitive.CheckboxItem>} param0
+ * @param {React.ComponentProps<any>} param0.checked
+ * @param {React.ComponentProps<any>} param0.children
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function MenubarCheckboxItem({
   checked,
   children,
@@ -137,6 +224,16 @@ function MenubarCheckboxItem({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof MenubarPrimitive.RadioItem>} param0
+ * @param {React.ComponentProps<any>} param0.children
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function MenubarRadioItem({
   children,
   className,
@@ -161,6 +258,18 @@ function MenubarRadioItem({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {({
+ *   inset?: boolean;
+ * } & React.ComponentProps<typeof MenubarPrimitive.Label>)} param0
+ * @param {*} param0.className
+ * @param {*} param0.inset
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function MenubarLabel({
   className,
   inset,
@@ -181,6 +290,15 @@ function MenubarLabel({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof MenubarPrimitive.Separator>} param0
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function MenubarSeparator({
   className,
   ...props
@@ -194,6 +312,15 @@ function MenubarSeparator({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"span">} param0
+ * @param {React.ComponentProps<"span">} param0.className
+ * @param {React.ComponentProps<"span">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function MenubarShortcut({
   className,
   ...props
@@ -210,12 +337,33 @@ function MenubarShortcut({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof MenubarPrimitive.Sub>} param0
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function MenubarSub({
   ...props
 }: React.ComponentProps<typeof MenubarPrimitive.Sub>) {
   return <MenubarPrimitive.Sub data-slot="menubar-sub" {...props} />;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {({
+ *   inset?: boolean;
+ * } & React.ComponentProps<typeof MenubarPrimitive.SubTrigger>)} param0
+ * @param {*} param0.children
+ * @param {*} param0.className
+ * @param {*} param0.inset
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function MenubarSubTrigger({
   children,
   className,
@@ -240,6 +388,15 @@ function MenubarSubTrigger({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof MenubarPrimitive.SubContent>} param0
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function MenubarSubContent({
   className,
   ...props

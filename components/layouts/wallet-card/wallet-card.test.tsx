@@ -6,11 +6,11 @@ import WalletCard from "./index";
 describe("WalletCard", () => {
   it("renders wallet details and optional actions", () => {
     const wallet = {
+      accountSubtype: "Standard",
+      accountType: "Checking",
+      balances: [{ balances: { current: 100 } }],
       id: "w1",
       institutionName: "Test Bank",
-      accountType: "Checking",
-      accountSubtype: "Standard",
-      balances: [{ balances: { current: 100 } }],
     } as any;
 
     render(

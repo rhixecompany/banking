@@ -73,9 +73,9 @@ export function HomeServerWrapper(): JSX.Element {
                 <TotalBalanceLayout
                   accounts={[
                     {
-                      id: "acc-1",
                       availableBalance: 1000,
                       currentBalance: 1200,
+                      id: "acc-1",
                       institutionId: "ins-1",
                       mask: "1234",
                       name: "Checking",
@@ -84,9 +84,9 @@ export function HomeServerWrapper(): JSX.Element {
                       type: "depository",
                     },
                     {
-                      id: "acc-2",
                       availableBalance: 5000,
                       currentBalance: 5200,
+                      id: "acc-2",
                       institutionId: "ins-2",
                       mask: "5678",
                       name: "Savings",

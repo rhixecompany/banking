@@ -6,16 +6,52 @@ import type { WalletWithDetails } from "@/types/wallet";
 
 import { Button } from "@/components/ui/button";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @interface WalletCardProps
+ * @typedef {WalletCardProps}
+ */
 interface WalletCardProps {
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {WalletWithDetails}
+   */
   wallet: WalletWithDetails;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?boolean}
+   */
   showActions?: boolean;
-  onRemove?: (walletId: string) => void | Promise<void>;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?(walletId: string) => void | Promise<void>}
+   */
+  onRemove?: (walletId: string) => Promise<void> | void;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {WalletCardProps} param0
+ * @param {WalletWithDetails} param0.wallet
+ * @param {boolean} [param0.showActions=false]
+ * @param {(walletId: string) => any} param0.onRemove
+ * @returns {ReactJSX.Element}
+ */
 export default function WalletCard({
-  wallet,
-  showActions = false,
   onRemove,
+  showActions = false,
+  wallet,
 }: WalletCardProps) {
   return (
     <div className="flex items-center justify-between rounded-lg border p-3">

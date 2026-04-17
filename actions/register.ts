@@ -5,7 +5,7 @@ import { z } from "zod";
 import type { UserWithProfile } from "@/types/user";
 
 import { userDal } from "@/dal";
-import { signUpSchema } from "@/lib/schemas/auth.schema";
+import { signUpSchema } from "@/lib/validations/auth";
 
 /**
  * Inferred TypeScript type from RegisterSchema.

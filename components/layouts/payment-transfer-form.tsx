@@ -27,16 +27,66 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @interface Props
+ * @typedef {Props}
+ */
 interface Props {
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {*}
+   */
   form: any;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {Wallet[]}
+   */
   wallets: Wallet[];
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {Recipient[]}
+   */
   recipients: Recipient[];
   // Keep the presentational component flexible: accept unknown input
   // and return Promise<void>. Callers may wrap strongly-typed handlers.
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {(data: unknown) => Promise<void>}
+   */
   onSubmit: (data: unknown) => Promise<void>;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?({ ok: boolean; message?: string } | null)}
+   */
   transferResult?: { ok: boolean; message?: string } | null;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {Props} param0
+ * @param {*} param0.form
+ * @param {(data: unknown) => Promise<void>} param0.onSubmit
+ * @param {{}} param0.recipients
+ * @param {{ ok: boolean; message?: string; }} param0.transferResult
+ * @param {{}} param0.wallets
+ * @returns {ReactJSX.Element}
+ */
 export default function PaymentTransferForm({
   form,
   onSubmit,

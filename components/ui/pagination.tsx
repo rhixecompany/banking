@@ -8,6 +8,15 @@ import * as React from "react";
 import { buttonVariants, type Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"nav">} param0
+ * @param {React.ComponentProps<"nav">} param0.className
+ * @param {React.ComponentProps<"nav">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
   return (
     <nav
@@ -20,6 +29,15 @@ function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"ul">} param0
+ * @param {React.ComponentProps<"ul">} param0.className
+ * @param {React.ComponentProps<"ul">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function PaginationContent({
   className,
   ...props
@@ -33,15 +51,41 @@ function PaginationContent({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"li">} param0
+ * @param {React.ComponentProps<"li">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function PaginationItem({ ...props }: React.ComponentProps<"li">) {
   return <li data-slot="pagination-item" {...props} />;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @typedef {PaginationLinkProps}
+ */
 type PaginationLinkProps = {
   isActive?: boolean;
 } & Pick<React.ComponentProps<typeof Button>, "size"> &
   React.ComponentProps<"a">;
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {({ children?: React.ReactNode } & PaginationLinkProps)} param0
+ * @param {*} param0.children
+ * @param {*} param0.className
+ * @param {*} param0.isActive
+ * @param {*} [param0.size="icon"]
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function PaginationLink({
   children,
   className,
@@ -70,6 +114,15 @@ function PaginationLink({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof PaginationLink>} param0
+ * @param {React.ComponentProps<({ children, className, isActive, size, ...props }: any) => ReactJSX.Element>} param0.className
+ * @param {React.ComponentProps<({ children, className, isActive, size, ...props }: any) => ReactJSX.Element>} param0....props
+ * @returns {ReactJSX.Element>) => ReactJSX.Element}
+ */
 function PaginationPrevious({
   className,
   ...props
@@ -87,6 +140,15 @@ function PaginationPrevious({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof PaginationLink>} param0
+ * @param {React.ComponentProps<({ children, className, isActive, size, ...props }: any) => ReactJSX.Element>} param0.className
+ * @param {React.ComponentProps<({ children, className, isActive, size, ...props }: any) => ReactJSX.Element>} param0....props
+ * @returns {ReactJSX.Element>) => ReactJSX.Element}
+ */
 function PaginationNext({
   className,
   ...props
@@ -104,6 +166,15 @@ function PaginationNext({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"span">} param0
+ * @param {React.ComponentProps<"span">} param0.className
+ * @param {React.ComponentProps<"span">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function PaginationEllipsis({
   className,
   ...props

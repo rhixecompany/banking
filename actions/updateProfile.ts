@@ -4,7 +4,6 @@ import { z } from "zod";
 
 import { userDal } from "@/dal";
 import { auth } from "@/lib/auth";
-
 /**
  * Input schema for updating a user profile.
  * `userId` is intentionally omitted — it is resolved from the session.

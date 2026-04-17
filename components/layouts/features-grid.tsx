@@ -2,6 +2,13 @@ import Image from "next/image";
 
 import { Container } from "@/components/ui/container";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @returns {JSX.Element}
+ */
 export default function FeaturesGrid(): JSX.Element {
   return (
     <section className="bg-white py-20">

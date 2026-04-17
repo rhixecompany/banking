@@ -19,8 +19,20 @@ vi.mock("@/actions/transaction.actions", () => ({
   ),
 }));
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const { DashboardServerWrapper } =
   await import("@/components/dashboard/dashboard-server-wrapper");
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const { auth } = await import("@/lib/auth");
 
 describe("DashboardServerWrapper", () => {
@@ -35,9 +47,9 @@ describe("DashboardServerWrapper", () => {
     try {
       // Call and await; in the test environment redirect may throw, so
       // we guard against unhandled promise rejections.
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
       const res = await DashboardServerWrapper();
-    } catch (err) {
+    } catch {
       threw = true;
     }
     expect(threw).toBe(true);

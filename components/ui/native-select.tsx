@@ -3,6 +3,16 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {({ size?: "default" | "sm" } & Omit<React.ComponentProps<"select">, "size">)} param0
+ * @param {*} param0.className
+ * @param {*} [param0.size="default"]
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function NativeSelect({
   className,
   size = "default",
@@ -33,6 +43,15 @@ function NativeSelect({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"option">} param0
+ * @param {React.ComponentProps<"option">} param0.className
+ * @param {React.ComponentProps<"option">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function NativeSelectOption({
   className,
   ...props
@@ -46,6 +65,15 @@ function NativeSelectOption({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"optgroup">} param0
+ * @param {React.ComponentProps<"optgroup">} param0.className
+ * @param {React.ComponentProps<"optgroup">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function NativeSelectOptGroup({
   className,
   ...props

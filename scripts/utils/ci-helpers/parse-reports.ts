@@ -2,6 +2,12 @@
 import { promises as fs } from "fs";
 import path from "path";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {{}}
+ */
 const REPORTS = [
   "format-check-report.txt",
   "type-check-report.txt",
@@ -13,6 +19,14 @@ const REPORTS = [
   "build-report.txt",
 ];
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @param {string} file
+ * @returns {unknown}
+ */
 async function readReport(file: string) {
   try {
     const p = path.resolve(process.cwd(), file);
@@ -23,6 +37,13 @@ async function readReport(file: string) {
   }
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @returns {*}
+ */
 async function main() {
   const results: Record<string, any> = {};
   for (const r of REPORTS) {

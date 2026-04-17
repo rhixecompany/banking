@@ -6,6 +6,18 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {({
+ *   containerClassName?: string;
+ * } & React.ComponentProps<typeof OTPInput>)} param0
+ * @param {*} param0.className
+ * @param {*} param0.containerClassName
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function InputOTP({
   className,
   containerClassName,
@@ -26,6 +38,15 @@ function InputOTP({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"div">} param0
+ * @param {React.ComponentProps<"div">} param0.className
+ * @param {React.ComponentProps<"div">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function InputOTPGroup({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -36,6 +57,18 @@ function InputOTPGroup({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {({
+ *   index: number;
+ * } & React.ComponentProps<"div">)} param0
+ * @param {*} param0.className
+ * @param {*} param0.index
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function InputOTPSlot({
   className,
   index,
@@ -66,6 +99,14 @@ function InputOTPSlot({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"div">} param0
+ * @param {React.ComponentProps<"div">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function InputOTPSeparator({ ...props }: React.ComponentProps<"div">) {
   return (
     <div data-slot="input-otp-separator" role="separator" {...props}>

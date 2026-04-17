@@ -5,16 +5,71 @@ import { globby } from "globby";
 import inquirer from "inquirer";
 import path from "path";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const CMD = process.argv[1];
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @interface PlanCandidate
+ * @typedef {PlanCandidate}
+ */
 interface PlanCandidate {
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {string}
+   */
   file: string;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?string}
+   */
   title?: string;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?string}
+   */
   goals?: string;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?string[]}
+   */
   targetFiles?: string[];
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?number}
+   */
   score?: number;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {string} p
+ * @returns {{
+ *   title?: string;
+ *   goals?: string;
+ *   targetFiles?: string[];
+ * }}
+ */
 export function readPlanFile(p: string): {
   title?: string;
   goals?: string;
@@ -47,12 +102,21 @@ export function readPlanFile(p: string): {
   return { goals: goals.trim(), targetFiles, title };
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {string[]} changed
+ * @param {PlanCandidate} cand
+ * @returns {number}
+ */
 export function scoreCandidate(changed: string[], cand: PlanCandidate): number {
   let score = 0;
   // path prefix boost
   for (const cf of cand.targetFiles ?? []) {
     for (const ch of changed) {
-      if (ch.startsWith(cf) || ch.startsWith(cf.replaceAll('\\', "/"))) {
+      if (ch.startsWith(cf) || ch.startsWith(cf.replaceAll("\\", "/"))) {
         score += 0.35;
         break;
       }
@@ -78,6 +142,13 @@ export function scoreCandidate(changed: string[], cand: PlanCandidate): number {
   return score;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @returns {Promise<string[]>}
+ */
 async function getChangedFilesFromGit(): Promise<string[]> {
   try {
     const out = execSync("git diff --name-only --staged", {
@@ -93,6 +164,14 @@ async function getChangedFilesFromGit(): Promise<string[]> {
   }
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @param {string} [base="origin/main"]
+ * @returns {unknown}
+ */
 async function getChangedFilesFromRange(base = "origin/main") {
   try {
     const out = execSync(`git diff --name-only ${base}...HEAD`, {
@@ -108,6 +187,13 @@ async function getChangedFilesFromRange(base = "origin/main") {
   }
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @returns {*}
+ */
 async function main() {
   const args = process.argv.slice(2);
   const ci = args.includes("--ci");
@@ -227,6 +313,13 @@ async function main() {
   }
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string[]} changed
+ * @returns {string}
+ */
 function scaffoldNewPlan(changed: string[]): string {
   const title = `Plan for changes: ${changed.slice(0, 3).join(", ")}${changed.length > 3 ? ` and ${changed.length - 3} more` : ""}`;
   const filename = `.${path.sep}opencode${path.sep}commands${path.sep}${slugify(title)}.merged.${new Date().toISOString()}.plan.md`;
@@ -236,6 +329,17 @@ function scaffoldNewPlan(changed: string[]): string {
   return filename;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {{
+ *   title: string;
+ *   changedFiles: string[];
+ *   sourcePlan?: string;
+ * }} opts
+ * @returns {string}
+ */
 function buildPlanTemplate(opts: {
   title: string;
   changedFiles: string[];
@@ -245,6 +349,13 @@ function buildPlanTemplate(opts: {
   return `# ${opts.title}\n\n${meta}\n## Goals\n- TODO: describe goals\n\n## Scope\n- Files changed:\n\n${opts.changedFiles.map((f) => `- ${f}`).join("\n")}\n\n## Target Files:\n- ${opts.changedFiles.slice(0, 5).join(", ")}\n\n## Risks\n- TODO\n\n## Planned Changes\n- TODO\n\n## Validation\n- TODO\n\n## Rollback or Mitigation\n- TODO\n`;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} s
+ * @returns {*}
+ */
 function slugify(s: string) {
   return s
     .toLowerCase()
@@ -253,6 +364,12 @@ function slugify(s: string) {
     .slice(0, 80);
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @returns {string}
+ */
 function getGitUser() {
   try {
     const name = execSync("git config user.name", { encoding: "utf8" }).trim();
@@ -265,6 +382,14 @@ function getGitUser() {
   }
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} planFile
+ * @param {string[]} changed
+ * @returns {string}
+ */
 function mergeIntoPlan(planFile: string, changed: string[]): string {
   const parsed = fs.readFileSync(planFile, "utf8");
   const mergedName = `${planFile.replace(/\.plan\.md$/, "")}.merged.${new Date().toISOString()}.plan.md`;
@@ -274,6 +399,14 @@ function mergeIntoPlan(planFile: string, changed: string[]): string {
   return mergedName;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @param {string} filename
+ * @returns {*}
+ */
 async function openEditorAndSave(filename: string) {
   const editor = process.env.EDITOR;
   if (editor) {
@@ -310,6 +443,12 @@ async function openEditorAndSave(filename: string) {
   }
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const isMain = process.argv.some(
   (a) =>
     (typeof a === "string" && a.endsWith("plan-ensure.ts")) ||

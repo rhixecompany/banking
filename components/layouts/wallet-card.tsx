@@ -16,17 +16,53 @@ import {
 } from "@/components/ui/card";
 import { formatAmount } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @interface WalletCardProps
+ * @typedef {WalletCardProps}
+ */
 interface WalletCardProps {
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {WalletWithDetails}
+   */
   wallet: WalletWithDetails;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {(input: unknown) => Promise<{ ok: boolean; error?: string }>}
+   */
   removeWallet: (input: unknown) => Promise<{ ok: boolean; error?: string }>;
   // Optional flag to show or hide inline actions (used by some callers)
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?boolean}
+   */
   showActions?: boolean;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {WalletCardProps} param0
+ * @param {(input: unknown) => Promise<{ ok: boolean; error?: string; }>} param0.removeWallet
+ * @param {WalletWithDetails} param0.wallet
+ * @param {boolean} param0.showActions
+ * @returns {JSX.Element}
+ */
 export default function WalletCard({
   removeWallet,
-  wallet,
   showActions,
+  wallet,
 }: WalletCardProps): JSX.Element {
   const [isPending, startTransition] = useTransition();
 

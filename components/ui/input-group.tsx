@@ -8,6 +8,15 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"div">} param0
+ * @param {React.ComponentProps<"div">} param0.className
+ * @param {React.ComponentProps<"div">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function InputGroup({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -36,6 +45,12 @@ function InputGroup({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const inputGroupAddonVariants = cva(
   "flex h-auto cursor-text items-center justify-center gap-2 py-1.5 text-sm font-medium text-muted-foreground select-none group-data-[disabled=true]/input-group:opacity-50 [&>kbd]:rounded-[calc(var(--radius)-5px)] [&>svg:not([class*='size-'])]:size-4",
   {
@@ -57,6 +72,16 @@ const inputGroupAddonVariants = cva(
   },
 );
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {(React.ComponentProps<"div"> & VariantProps<typeof inputGroupAddonVariants>)} param0
+ * @param {*} [param0.align="inline-start"]
+ * @param {*} param0.className
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function InputGroupAddon({
   align = "inline-start",
   className,
@@ -98,6 +123,12 @@ function InputGroupAddon({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const inputGroupButtonVariants = cva(
   "flex items-center gap-2 text-sm shadow-none",
   {
@@ -116,6 +147,19 @@ const inputGroupButtonVariants = cva(
   },
 );
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {Omit<React.ComponentProps<typeof Button>, "size"> &
+ *   VariantProps<typeof inputGroupButtonVariants>} param0
+ * @param {*} param0.className
+ * @param {*} [param0.size="xs"]
+ * @param {*} [param0.type="button"]
+ * @param {*} [param0.variant="ghost"]
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function InputGroupButton({
   className,
   size = "xs",
@@ -135,6 +179,15 @@ function InputGroupButton({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"span">} param0
+ * @param {React.ComponentProps<"span">} param0.className
+ * @param {React.ComponentProps<"span">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function InputGroupText({ className, ...props }: React.ComponentProps<"span">) {
   return (
     <span
@@ -147,6 +200,15 @@ function InputGroupText({ className, ...props }: React.ComponentProps<"span">) {
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"input">} param0
+ * @param {React.ComponentProps<"input">} param0.className
+ * @param {React.ComponentProps<"input">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function InputGroupInput({
   className,
   ...props
@@ -163,6 +225,15 @@ function InputGroupInput({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"textarea">} param0
+ * @param {React.ComponentProps<"textarea">} param0.className
+ * @param {React.ComponentProps<"textarea">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function InputGroupTextarea({
   className,
   ...props

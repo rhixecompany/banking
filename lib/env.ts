@@ -80,6 +80,12 @@ export function getEnv(): Environment {
 }
 
 // Validate on module load in production
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {boolean}
+ */
 const isNextProductionBuildPhase =
   process.env.NEXT_PHASE === "phase-production-build";
 

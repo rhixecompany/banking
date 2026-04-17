@@ -2,10 +2,6 @@
 
 import type { Resolver } from "react-hook-form";
 
-import {
-  TransferSchema,
-  type TransferFormData,
-} from "@/lib/schemas/transfer.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -17,6 +13,10 @@ import type { Wallet } from "@/types/wallet";
 // createTransfer is provided by the surrounding server wrapper via props to
 // avoid importing server actions directly into client components.
 import PaymentTransferForm from "@/components/layouts/payment-transfer-form";
+import {
+  TransferSchema,
+  type TransferFormData,
+} from "@/lib/schemas/transfer.schema";
 
 // ---------------------------------------------------------------------------
 // Props
@@ -39,8 +39,26 @@ interface PaymentTransferClientWrapperProps {
     error?: string;
   }>;
   // Optional initial values to simplify testing and pre-fill the form
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?string}
+   */
   initialSourceBankId?: string;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?string}
+   */
   initialRecipientId?: string;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?number}
+   */
   initialAmount?: number;
   /**
    * Test-only: if true and initial* props are provided, the form will be

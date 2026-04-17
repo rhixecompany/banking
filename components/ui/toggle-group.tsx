@@ -7,6 +7,12 @@ import * as React from "react";
 import { toggleVariants } from "@/components/ui/toggle";
 import { cn } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const ToggleGroupContext = React.createContext<
   {
     spacing?: number;
@@ -17,6 +23,22 @@ const ToggleGroupContext = React.createContext<
   variant: "default",
 });
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {{
+ *   spacing?: number;
+ * } & React.ComponentProps<typeof ToggleGroupPrimitive.Root> &
+ *   VariantProps<typeof toggleVariants>} param0
+ * @param {*} param0.children
+ * @param {*} param0.className
+ * @param {*} param0.size
+ * @param {*} [param0.spacing=0]
+ * @param {*} param0.variant
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function ToggleGroup({
   children,
   className,
@@ -48,6 +70,19 @@ function ToggleGroup({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof ToggleGroupPrimitive.Item> &
+ *   VariantProps<typeof toggleVariants>} param0
+ * @param {*} param0.children
+ * @param {*} param0.className
+ * @param {*} param0.size
+ * @param {*} param0.variant
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function ToggleGroupItem({
   children,
   className,

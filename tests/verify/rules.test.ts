@@ -1,4 +1,5 @@
 import fs from "fs";
+
 import { runChecks } from "../../scripts/verify-rules";
 
 test("verify-rules runs and emits report", async () => {

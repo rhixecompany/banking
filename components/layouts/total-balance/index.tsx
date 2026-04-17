@@ -1,27 +1,126 @@
-import type { Account } from "@/types";
 import type { ReactNode } from "react";
+
+import type { Account } from "@/types";
 
 import TotalBalanceBox from "@/components/total-balance-box/total-balance-box";
 import { env } from "@/lib/env";
 
 // Keep types narrow for now; avoid any in public components.
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @interface AccountView
+ * @typedef {AccountView}
+ */
 interface AccountView {
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {string}
+   */
   id: string;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?string}
+   */
   institutionId?: string;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?string}
+   */
   mask?: string;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?string}
+   */
   name?: string;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?string}
+   */
   officialName?: string;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?string}
+   */
   subtype?: string;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?string}
+   */
   type?: string;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?number}
+   */
   availableBalance?: number;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?number}
+   */
   currentBalance?: number;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @interface TotalBalanceLayoutProps
+ * @typedef {TotalBalanceLayoutProps}
+ */
 interface TotalBalanceLayoutProps {
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?AccountView[]}
+   */
   accounts?: AccountView[];
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?number}
+   */
   totalWallets?: number;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?number}
+   */
   totalCurrentBalance?: number;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?string}
+   */
   className?: string;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?ReactNode}
+   */
   children?: ReactNode;
 }
 
@@ -40,24 +139,24 @@ export default function TotalBalanceLayout({
   if (env.NODE_ENV === "test") {
     // eslint-disable-next-line no-console
     console.log("TotalBalanceLayout props:", {
+      accounts,
       totalCurrentBalance,
       totalWallets,
-      accounts,
     });
   }
   // Normalize accounts to match the app's Account shape expected by TotalBalanceBox
   const normalizedAccounts = (accounts || []).map((a) => ({
-    id: a.id,
     availableBalance: a.availableBalance ?? 0,
     currentBalance: a.currentBalance ?? 0,
-    officialName: a.officialName ?? a.name ?? "",
-    mask: a.mask ?? "",
+    id: a.id,
     institutionId: a.institutionId ?? "",
+    mask: a.mask ?? "",
+    name: a.name ?? a.officialName ?? "",
+    officialName: a.officialName ?? a.name ?? "",
     // Narrow optional sharableId from incoming prop if present
     sharableId: (a as { sharableId?: string }).sharableId ?? undefined,
-    name: a.name ?? a.officialName ?? "",
-    type: a.type ?? "depository",
     subtype: a.subtype ?? undefined,
+    type: a.type ?? "depository",
   })) as unknown as Account[];
 
   return (

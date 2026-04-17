@@ -6,12 +6,28 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof ContextMenuPrimitive.Root>} param0
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function ContextMenu({
   ...props
 }: React.ComponentProps<typeof ContextMenuPrimitive.Root>) {
   return <ContextMenuPrimitive.Root data-slot="context-menu" {...props} />;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof ContextMenuPrimitive.Trigger>} param0
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function ContextMenuTrigger({
   ...props
 }: React.ComponentProps<typeof ContextMenuPrimitive.Trigger>) {
@@ -20,6 +36,14 @@ function ContextMenuTrigger({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof ContextMenuPrimitive.Group>} param0
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function ContextMenuGroup({
   ...props
 }: React.ComponentProps<typeof ContextMenuPrimitive.Group>) {
@@ -28,6 +52,14 @@ function ContextMenuGroup({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof ContextMenuPrimitive.Portal>} param0
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function ContextMenuPortal({
   ...props
 }: React.ComponentProps<typeof ContextMenuPrimitive.Portal>) {
@@ -36,12 +68,28 @@ function ContextMenuPortal({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof ContextMenuPrimitive.Sub>} param0
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function ContextMenuSub({
   ...props
 }: React.ComponentProps<typeof ContextMenuPrimitive.Sub>) {
   return <ContextMenuPrimitive.Sub data-slot="context-menu-sub" {...props} />;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof ContextMenuPrimitive.RadioGroup>} param0
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function ContextMenuRadioGroup({
   ...props
 }: React.ComponentProps<typeof ContextMenuPrimitive.RadioGroup>) {
@@ -53,6 +101,19 @@ function ContextMenuRadioGroup({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {({
+ *   inset?: boolean;
+ * } & React.ComponentProps<typeof ContextMenuPrimitive.SubTrigger>)} param0
+ * @param {*} param0.children
+ * @param {*} param0.className
+ * @param {*} param0.inset
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function ContextMenuSubTrigger({
   children,
   className,
@@ -77,6 +138,15 @@ function ContextMenuSubTrigger({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof ContextMenuPrimitive.SubContent>} param0
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function ContextMenuSubContent({
   className,
   ...props
@@ -93,6 +163,15 @@ function ContextMenuSubContent({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof ContextMenuPrimitive.Content>} param0
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function ContextMenuContent({
   className,
   ...props
@@ -111,6 +190,20 @@ function ContextMenuContent({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {({
+ *   inset?: boolean;
+ *   variant?: "default" | "destructive";
+ * } & React.ComponentProps<typeof ContextMenuPrimitive.Item>)} param0
+ * @param {*} param0.className
+ * @param {*} param0.inset
+ * @param {*} [param0.variant="default"]
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function ContextMenuItem({
   className,
   inset,
@@ -134,6 +227,17 @@ function ContextMenuItem({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof ContextMenuPrimitive.CheckboxItem>} param0
+ * @param {React.ComponentProps<any>} param0.checked
+ * @param {React.ComponentProps<any>} param0.children
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function ContextMenuCheckboxItem({
   checked,
   children,
@@ -160,6 +264,16 @@ function ContextMenuCheckboxItem({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof ContextMenuPrimitive.RadioItem>} param0
+ * @param {React.ComponentProps<any>} param0.children
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function ContextMenuRadioItem({
   children,
   className,
@@ -184,6 +298,18 @@ function ContextMenuRadioItem({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {({
+ *   inset?: boolean;
+ * } & React.ComponentProps<typeof ContextMenuPrimitive.Label>)} param0
+ * @param {*} param0.className
+ * @param {*} param0.inset
+ * @param {*} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function ContextMenuLabel({
   className,
   inset,
@@ -204,6 +330,15 @@ function ContextMenuLabel({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<typeof ContextMenuPrimitive.Separator>} param0
+ * @param {React.ComponentProps<any>} param0.className
+ * @param {React.ComponentProps<any>} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function ContextMenuSeparator({
   className,
   ...props
@@ -217,6 +352,15 @@ function ContextMenuSeparator({
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {React.ComponentProps<"span">} param0
+ * @param {React.ComponentProps<"span">} param0.className
+ * @param {React.ComponentProps<"span">} param0....props
+ * @returns {ReactJSX.Element}
+ */
 function ContextMenuShortcut({
   className,
   ...props

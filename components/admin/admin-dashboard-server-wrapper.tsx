@@ -1,5 +1,7 @@
 "use server";
 
+import { redirect } from "next/navigation";
+
 import {
   getAdminStats,
   getRecentTransactions,
@@ -8,7 +10,6 @@ import {
 } from "@/actions/admin-stats.actions";
 import AdminDashboardContent from "@/components/admin/admin-dashboard-content";
 import { auth } from "@/lib/auth";
-import { redirect } from "next/navigation";
 
 /**
  * Server wrapper for the admin dashboard.
