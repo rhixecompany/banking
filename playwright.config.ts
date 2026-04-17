@@ -33,9 +33,9 @@ const TIMEOUTS = {
 // environment variables needed for configuration with safe fallbacks.
 const env = {
   CI: process.env.CI ?? undefined,
+  ENABLE_TEST_ENDPOINTS: process.env.ENABLE_TEST_ENDPOINTS ?? undefined,
   PLAYWRIGHT_BASE_URL: process.env.PLAYWRIGHT_BASE_URL ?? undefined,
   PLAYWRIGHT_PREPARE_DB: process.env.PLAYWRIGHT_PREPARE_DB ?? undefined,
-  ENABLE_TEST_ENDPOINTS: process.env.ENABLE_TEST_ENDPOINTS ?? undefined,
 };
 
 export default defineConfig({

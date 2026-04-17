@@ -1,5 +1,5 @@
 #!/usr/bin/env -S node
-/* eslint-disable security/detect-non-literal-fs-filename */
+
 import { spawn } from "child_process";
 import fs from "fs";
 
@@ -20,7 +20,7 @@ function parseArgs() {
 function splitShellWords(s: string) {
   const re = /"([^"]*)"|'([^']*)'|([^\s"']+)/g;
   const parts: string[] = [];
-  let m: RegExpExecArray | null;
+  let m: null | RegExpExecArray;
   while ((m = re.exec(s)) !== null) {
     parts.push(m[1] || m[2] || m[3]);
   }
@@ -67,7 +67,7 @@ async function main() {
   child.on("exit", (code, signal) => {
     try {
       if (opts.tmpfile) fs.unlinkSync(opts.tmpfile);
-    } catch (e) {
+    } catch {
       // ignore
     }
     if (signal) process.exit(1);
@@ -77,7 +77,7 @@ async function main() {
     console.error("Failed to spawn command:", err?.message ?? String(err));
     try {
       if (opts.tmpfile) fs.unlinkSync(opts.tmpfile);
-    } catch (e) {
+    } catch {
       // ignore
     }
     process.exit(2);
