@@ -1,0 +1,28 @@
+# Patterns to ignore when comparing branch file lists to main
+# Lines are shell globs (bash) matched with case statement. Comments start with '#'
+
+# Env files / secrets
+.env*
+
+# Playwright artifacts and temporary test outputs
+playwright-artifacts/*
+tmp/
+tmp/*
+tmp-*
+
+# CI reports and temporary reports
+ci-reports/*
+tmp/reports-*
+tmp/reports*/**
+
+# opencode backups and prompts
+.opencode/backups/**
+.github/prompts/**
+
+# node_modules and locks (if present in branches)
+node_modules/**
+pnpm-lock.yaml
+
+# Editor / OS files
+.DS_Store
+*.log
