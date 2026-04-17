@@ -372,7 +372,7 @@ export async function createTransfer(input: unknown): Promise<{
         // Instead perform the DAL calls directly. For real transfers use a
         // transaction to ensure atomicity.
         if (isMockTransfer) {
-          const ledger = dataAny.createLedger as Record<string, unknown>;
+           const ledger = dataAny.createLedger as Record<string, unknown>;
 
           const amountVal =
             typeof ledger.amount === "string"
@@ -418,7 +418,7 @@ export async function createTransfer(input: unknown): Promise<{
               ? (ledger.type as "credit" | "debit")
               : undefined;
 
-          const insertedTxn = await transactionDal.createTransaction({
+           const insertedTxn = await transactionDal.createTransaction({
             amount: amountVal,
             category: categoryVal,
             channel: channelVal,
@@ -432,7 +432,7 @@ export async function createTransfer(input: unknown): Promise<{
             userId: session.user.id,
           });
 
-          const insertedDwolla = await dwollaDal.createDwollaTransfer({
+           const insertedDwolla = await dwollaDal.createDwollaTransfer({
             amount: parsed.data.amount,
             currency: "USD",
             destinationFundingSourceUrl:
@@ -449,7 +449,7 @@ export async function createTransfer(input: unknown): Promise<{
           // Use a typed but permissive tx type to satisfy TS for now. Drizzle's
           // transaction callback receives a transaction-scoped DB instance.
           await db.transaction(async (tx) => {
-            const ledger = dataAny.createLedger as Record<string, unknown>;
+           const ledger = dataAny.createLedger as Record<string, unknown>;
 
             // Coerce ledger fields into expected types before calling DAL.
             const amountVal =
@@ -542,19 +542,16 @@ export async function createTransfer(input: unknown): Promise<{
               try {
                 // Guard access with unknown->narrowing to avoid `any` casts
                 const insertedTxnId =
-                  (insertedTxn as unknown) &&
-                  typeof (insertedTxn as any) === "object"
-                    ? (insertedTxn as any).id
+                  insertedTxn && typeof insertedTxn === "object" && "id" in (insertedTxn as object)
+                    ? String((insertedTxn as { id?: unknown }).id ?? "(unknown)")
                     : "(unknown)";
                 const insertedDwollaId =
-                  (insertedDwolla as unknown) &&
-                  typeof (insertedDwolla as any) === "object"
-                    ? (insertedDwolla as any).id
+                  insertedDwolla && typeof insertedDwolla === "object" && "id" in (insertedDwolla as object)
+                    ? String((insertedDwolla as { id?: unknown }).id ?? "(unknown)")
                     : "(unknown)";
                 const insertedDwollaStatus =
-                  (insertedDwolla as unknown) &&
-                  typeof (insertedDwolla as any) === "object"
-                    ? (insertedDwolla as any).status
+                  insertedDwolla && typeof insertedDwolla === "object" && "status" in (insertedDwolla as object)
+                    ? String((insertedDwolla as { status?: unknown }).status ?? "(unknown)")
                     : "(unknown)";
                 logger.warn("Inserted transaction id:", insertedTxnId);
                 logger.warn(
@@ -611,12 +608,16 @@ export async function createTransfer(input: unknown): Promise<{
           "Transactional creation of ledger + dwolla_transfer failed:",
           err,
         );
-        if ((globalThis as any).VITEST_DEBUG) {
+        if ((globalThis as unknown as { VITEST_DEBUG?: boolean }).VITEST_DEBUG) {
           try {
-            logger.debug(
-              "TRANSACTION ERROR (message only):",
-              (err as any)?.message ?? String(err),
-            );
+            let errMessage: string;
+            if (err && typeof err === "object" && "message" in (err as object)) {
+              const m = (err as { message?: unknown }).message;
+              errMessage = typeof m === "string" ? m : String(m);
+            } else {
+              errMessage = String(err);
+            }
+            logger.debug("TRANSACTION ERROR (message only):", errMessage);
           } catch {
             // ignore logging errors
           }
