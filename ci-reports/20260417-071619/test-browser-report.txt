@@ -1,0 +1,617 @@
+
+> banking@0.1.0 test:browser
+> vitest --config=vitest.config.ts run .
+
+
+[1m[46m RUN [49m[22m [36mv4.1.2 [39m[90mC:/Users/Alexa/Desktop/SandBox/Banking[39m
+
+[90mstdout[2m | tests/unit/AuthForm.props.test.tsx
+[22m[39m◇ injecting env (110) from .env.local // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+
+[90mstdout[2m | tests/unit/dwolla.test.ts
+[22m[39m◇ injecting env (110) from .env.local // tip: ⌘ enable debugging { debug: true }
+
+[90mstdout[2m | tests/unit/actions/dwolla.actions.test.ts
+[22m[39m◇ injecting env (110) from .env.local // tip: ◈ secrets for agents [www.dotenvx.com]
+
+[90mstdout[2m | tests/unit/recipient.dal.test.ts
+[22m[39m◇ injecting env (110) from .env.local // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+
+[90mstdout[2m | tests/unit/dwolla.dal.test.ts
+[22m[39m◇ injecting env (110) from .env.local // tip: ⌘ enable debugging { debug: true }
+
+[90mstdout[2m | tests/unit/transaction.dal.test.ts
+[22m[39m◇ injecting env (110) from .env.local // tip: ⌁ auth for agents [www.vestauth.com]
+
+[90mstdout[2m | tests/unit/payment-transfer-form.test.tsx
+[22m[39m◇ injecting env (110) from .env.local // tip: ⌘ suppress logs { quiet: true }
+
+ [32m✓[39m tests/unit/dwolla.test.ts [2m([22m[2m12 tests[22m[2m)[22m[33m 3527[2mms[22m[39m
+       [33m[2m✓[22m[39m should validate correct input [33m 614[2mms[22m[39m
+     [33m[2m✓[22m[39m should export dwollaDal [33m 2868[2mms[22m[39m
+ [32m✓[39m tests/unit/recipient.dal.test.ts [2m([22m[2m12 tests[22m[2m)[22m[33m 3418[2mms[22m[39m
+       [33m[2m✓[22m[39m should be a function [33m 3388[2mms[22m[39m
+ [32m✓[39m tests/unit/transaction.dal.test.ts [2m([22m[2m12 tests[22m[2m)[22m[33m 3297[2mms[22m[39m
+       [33m[2m✓[22m[39m should be a function [33m 3258[2mms[22m[39m
+ [32m✓[39m tests/unit/dwolla.dal.test.ts [2m([22m[2m25 tests[22m[2m)[22m[33m 3335[2mms[22m[39m
+       [33m[2m✓[22m[39m returns decrypted bank when a matching row exists [33m 3273[2mms[22m[39m
+ [31m❯[39m tests/unit/payment-transfer-form.test.tsx [2m([22m[2m1 test[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 1568[2mms[22m[39m
+[31m   [31m×[31m renders form fields and submits[39m[33m 1555[2mms[22m[39m
+ [31m❯[39m tests/unit/actions/dwolla.actions.test.ts [2m([22m[2m2 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 4320[2mms[22m[39m
+     [33m[2m✓[22m[39m createFundingSource should short-circuit for mock Plaid token [33m 4296[2mms[22m[39m
+[31m     [31m×[31m createTransfer should short-circuit for mock funding source urls and persist metadata via DAL[39m[32m 9[2mms[22m[39m
+ [32m✓[39m tests/unit/AuthForm.props.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[33m 4024[2mms[22m[39m
+   [33m[2m✓[22m[39m calls register prop when sign-up form submitted [33m 2125[2mms[22m[39m
+   [33m[2m✓[22m[39m shows error when register prop is missing [33m 1885[2mms[22m[39m
+[90mstdout[2m | tests/unit/plaid.test.ts
+[22m[39m◇ injecting env (110) from .env.local // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+
+[90mstdout[2m | tests/unit/PaymentTransferClientWrapper.props.test.tsx
+[22m[39m◇ injecting env (110) from .env.local // tip: ⌘ suppress logs { quiet: true }
+
+[90mstdout[2m | tests/unit/wallet.dal.test.ts
+[22m[39m◇ injecting env (110) from .env.local // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+
+[90mstdout[2m | tests/unit/SettingsClientWrapper.props.test.tsx
+[22m[39m◇ injecting env (110) from .env.local // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+
+[90mstderr[2m | tests/unit/plaid.test.ts[2m > [22m[2mPlaid Actions[2m > [22m[2mexchangePublicToken[2m > [22m[2mshould return error for missing userId
+[22m[39mPlaid exchangePublicToken error: Error: Plaid API error
+    at C:/Users/Alexa/Desktop/SandBox/Banking/tests/unit/plaid.test.ts:10:26
+    at ManualMockedModule.factory [90m(file:///C:/Users/Alexa/Desktop/SandBox/Banking/[39mnode_modules/[4mvitest[24m/dist/chunks/test.p_J6dB8a.js:3898:78[90m)[39m
+    at ManualMockedModule.resolve [90m(file:///C:/Users/Alexa/Desktop/SandBox/Banking/[39mnode_modules/[4m@vitest/mocker[24m/dist/chunk-registry.js:161:21[90m)[39m
+    at VitestMocker.callFunctionMock [90m(file:///C:/Users/Alexa/Desktop/SandBox/Banking/[39mnode_modules/[4mvitest[24m/dist/chunks/startVitestModuleRunner.bRl2_oI_.js:316:32[90m)[39m
+    at [90mfile:///C:/Users/Alexa/Desktop/SandBox/Banking/[39mnode_modules/[4mvitest[24m/dist/chunks/startVitestModuleRunner.bRl2_oI_.js:399:23
+    at Traces.$ [90m(file:///C:/Users/Alexa/Desktop/SandBox/Banking/[39mnode_modules/[4mvitest[24m/dist/chunks/traces.DT5aQ62U.js:142:27[90m)[39m
+    at VitestMocker.requestWithMockedModule [90m(file:///C:/Users/Alexa/Desktop/SandBox/Banking/[39mnode_modules/[4mvitest[24m/dist/chunks/startVitestModuleRunner.bRl2_oI_.js:364:21[90m)[39m
+    at VitestModuleRunner.cachedRequest [90m(file:///C:/Users/Alexa/Desktop/SandBox/Banking/[39mnode_modules/[4mvitest[24m/dist/chunks/startVitestModuleRunner.bRl2_oI_.js:565:31[90m)[39m
+    at request [90m(file:///C:/Users/Alexa/Desktop/SandBox/Banking/[39mnode_modules/[4mvite[24m/dist/node/module-runner.js:1205:76[90m)[39m
+[90m    at processTicksAndRejections (node:internal/process/task_queues:104:5)[39m
+
+ [32m✓[39m tests/unit/plaid.test.ts [2m([22m[2m17 tests[22m[2m)[22m[33m 739[2mms[22m[39m
+       [33m[2m✓[22m[39m should be a function [33m 664[2mms[22m[39m
+[90mstdout[2m | tests/unit/dal/dwolla-dal.test.ts
+[22m[39m◇ injecting env (110) from .env.local // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+
+[90mstdout[2m | tests/unit/settings-profile-form.test.tsx
+[22m[39m◇ injecting env (110) from .env.local // tip: ◈ secrets for agents [www.dotenvx.com]
+
+ [32m✓[39m tests/unit/wallet.dal.test.ts [2m([22m[2m13 tests[22m[2m)[22m[33m 2061[2mms[22m[39m
+       [33m[2m✓[22m[39m should be a function [33m 2030[2mms[22m[39m
+ [32m✓[39m tests/unit/PaymentTransferClientWrapper.props.test.tsx [2m([22m[2m1 test[22m[2m)[22m[33m 637[2mms[22m[39m
+   [33m[2m✓[22m[39m calls createTransfer and shows success toast when transfer is submitted [33m 624[2mms[22m[39m
+[90mstdout[2m | tests/unit/AuthForm.test.tsx
+[22m[39m◇ injecting env (110) from .env.local // tip: ◈ secrets for agents [www.dotenvx.com]
+
+ [32m✓[39m tests/unit/settings-profile-form.test.tsx [2m([22m[2m1 test[22m[2m)[22m[33m 850[2mms[22m[39m
+   [33m[2m✓[22m[39m renders profile form and submits [33m 838[2mms[22m[39m
+ [32m✓[39m tests/unit/dal/dwolla-dal.test.ts [2m([22m[2m3 tests[22m[2m)[22m[33m 509[2mms[22m[39m
+     [33m[2m✓[22m[39m creates a dwolla transfer [33m 460[2mms[22m[39m
+ [32m✓[39m tests/unit/SettingsClientWrapper.props.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[33m 1829[2mms[22m[39m
+   [33m[2m✓[22m[39m calls provided updateProfile when submitting profile form [33m 1313[2mms[22m[39m
+   [33m[2m✓[22m[39m shows error when updateProfile not provided [33m 499[2mms[22m[39m
+[90mstderr[2m | tests/unit/AuthForm.test.tsx[2m > [22m[2mAuthForm[2m > [22m[2msign-in mode[2m > [22m[2mrenders the Sign In heading
+[22m[39mYou provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+
+[90mstderr[2m | tests/unit/AuthForm.test.tsx[2m > [22m[2mAuthForm[2m > [22m[2msign-in mode[2m > [22m[2mrenders only Email and Password inputs
+[22m[39mYou provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+
+[90mstderr[2m | tests/unit/AuthForm.test.tsx[2m > [22m[2mAuthForm[2m > [22m[2msign-in mode[2m > [22m[2mrenders the Sign In submit button
+[22m[39mYou provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+
+[90mstderr[2m | tests/unit/AuthForm.test.tsx[2m > [22m[2mAuthForm[2m > [22m[2msign-in mode[2m > [22m[2mshows a link to the sign-up page
+[22m[39mYou provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+
+[90mstderr[2m | tests/unit/AuthForm.test.tsx[2m > [22m[2mAuthForm[2m > [22m[2msign-in mode[2m > [22m[2mshows the details subtext
+[22m[39mYou provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+
+[90mstderr[2m | tests/unit/AuthForm.test.tsx[2m > [22m[2mAuthForm[2m > [22m[2msign-up mode[2m > [22m[2mrenders the Sign Up heading
+[22m[39mYou provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+
+[90mstderr[2m | tests/unit/AuthForm.test.tsx[2m > [22m[2mAuthForm[2m > [22m[2msign-up mode[2m > [22m[2mrenders all sign-up specific inputs
+[22m[39mYou provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+
+[90mstderr[2m | tests/unit/AuthForm.test.tsx[2m > [22m[2mAuthForm[2m > [22m[2msign-up mode[2m > [22m[2mrenders the Sign Up submit button
+[22m[39mYou provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+
+[90mstderr[2m | tests/unit/AuthForm.test.tsx[2m > [22m[2mAuthForm[2m > [22m[2msign-up mode[2m > [22m[2mshows a link to the sign-in page
+[22m[39mYou provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+
+ [32m✓[39m tests/unit/AuthForm.test.tsx [2m([22m[2m9 tests[22m[2m)[22m[33m 1034[2mms[22m[39m
+       [33m[2m✓[22m[39m renders the Sign In heading [33m 398[2mms[22m[39m
+[90mstdout[2m | tests/unit/my-wallets-client-wrapper.test.tsx
+[22m[39m◇ injecting env (110) from .env.local // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+
+[90mstdout[2m | tests/unit/MobileNav.test.tsx
+[22m[39m◇ injecting env (110) from .env.local // tip: ⌘ enable debugging { debug: true }
+
+[90mstdout[2m | tests/unit/Sidebar.test.tsx
+[22m[39m◇ injecting env (110) from .env.local // tip: ⌘ suppress logs { quiet: true }
+
+ [32m✓[39m tests/unit/MobileNav.test.tsx [2m([22m[2m6 tests[22m[2m)[22m[33m 499[2mms[22m[39m
+ [32m✓[39m tests/unit/Sidebar.test.tsx [2m([22m[2m5 tests[22m[2m)[22m[33m 644[2mms[22m[39m
+[90mstdout[2m | tests/unit/wallets-overview.test.tsx
+[22m[39m◇ injecting env (110) from .env.local // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+
+[90mstdout[2m | tests/unit/transaction-history-client-wrapper.test.tsx
+[22m[39m◇ injecting env (110) from .env.local // tip: ⌘ override existing { override: true }
+
+[90mstdout[2m | tests/unit/dashboard-client-wrapper.test.tsx
+[22m[39m◇ injecting env (110) from .env.local // tip: ⌘ enable debugging { debug: true }
+
+ [32m✓[39m tests/unit/my-wallets-client-wrapper.test.tsx [2m([22m[2m4 tests[22m[2m)[22m[33m 624[2mms[22m[39m
+     [33m[2m✓[22m[39m calls removeWallet server action when remove button is clicked [33m 426[2mms[22m[39m
+ [32m✓[39m tests/unit/transaction-history-client-wrapper.test.tsx [2m([22m[2m17 tests[22m[2m)[22m[33m 365[2mms[22m[39m
+[90mstdout[2m | tests/unit/TotalBalanceBox.test.tsx
+[22m[39m◇ injecting env (110) from .env.local // tip: ⌁ auth for agents [www.vestauth.com]
+
+ [32m✓[39m tests/unit/wallets-overview.test.tsx [2m([22m[2m1 test[22m[2m)[22m[32m 282[2mms[22m[39m
+[90mstdout[2m | tests/unit/TotalBalanceBox.test.tsx[2m > [22m[2mTotalBalanceBox[2m > [22m[2mlayout wrapper renders total wallets and label
+[22m[39mTotalBalanceLayout props: { accounts: [], totalCurrentBalance: [33m12345[39m, totalWallets: [33m2[39m }
+
+ [32m✓[39m tests/unit/TotalBalanceBox.test.tsx [2m([22m[2m6 tests[22m[2m)[22m[32m 236[2mms[22m[39m
+ [32m✓[39m tests/unit/dashboard-client-wrapper.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[33m 450[2mms[22m[39m
+     [33m[2m✓[22m[39m renders charts and wallets when data present [33m 359[2mms[22m[39m
+[90mstdout[2m | tests/unit/transaction-list.test.tsx
+[22m[39m◇ injecting env (110) from .env.local // tip: ⌁ auth for agents [www.vestauth.com]
+
+[90mstdout[2m | tests/unit/transaction-mapping.test.ts
+[22m[39m◇ injecting env (110) from .env.local // tip: ⌘ enable debugging { debug: true }
+
+[90mstdout[2m | tests/unit/DashboardClientWrapper.props.test.tsx
+[22m[39m◇ injecting env (110) from .env.local // tip: ◈ encrypted .env [www.dotenvx.com]
+
+ [32m✓[39m tests/unit/transaction-list.test.tsx [2m([22m[2m1 test[22m[2m)[22m[33m 330[2mms[22m[39m
+     [33m[2m✓[22m[39m renders transactions and formatted amount [33m 316[2mms[22m[39m
+[90mstdout[2m | tests/unit/cta-get-started.test.tsx
+[22m[39m◇ injecting env (110) from .env.local // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+
+[90mstdout[2m | tests/unit/total-balance.test.tsx
+[22m[39m◇ injecting env (110) from .env.local // tip: ⌘ override existing { override: true }
+
+ [32m✓[39m tests/unit/transaction-mapping.test.ts [2m([22m[2m1 test[22m[2m)[22m[33m 486[2mms[22m[39m
+   [33m[2m✓[22m[39m findByUserIdWithWallets maps sender/receiver wallets correctly [33m 473[2mms[22m[39m
+[90mstdout[2m | tests/unit/total-balance.test.tsx[2m > [22m[2mTotalBalanceLayout[2m > [22m[2mrenders total balances and wallets count
+[22m[39mTotalBalanceLayout props: {
+  accounts: [
+    {
+      availableBalance: [33m1000[39m,
+      currentBalance: [33m1200[39m,
+      id: [32m'a1'[39m,
+      name: [32m'Checking'[39m
+    }
+  ],
+  totalCurrentBalance: [33m1200[39m,
+  totalWallets: [33m1[39m
+}
+
+ [32m✓[39m tests/unit/total-balance.test.tsx [2m([22m[2m1 test[22m[2m)[22m[32m 280[2mms[22m[39m
+[90mstdout[2m | tests/unit/features-grid.test.tsx
+[22m[39m◇ injecting env (110) from .env.local // tip: ⌘ override existing { override: true }
+
+[90mstderr[2m | tests/unit/DashboardClientWrapper.props.test.tsx[2m > [22m[2mrenders Dashboard metrics with provided props
+[22m[39mEach child in a list should have a unique "key" prop.
+
+Check the render method of `default`. See https://react.dev/link/warning-keys for more information.
+
+ [32m✓[39m tests/unit/DashboardClientWrapper.props.test.tsx [2m([22m[2m1 test[22m[2m)[22m[33m 404[2mms[22m[39m
+   [33m[2m✓[22m[39m renders Dashboard metrics with provided props [33m 391[2mms[22m[39m
+ [32m✓[39m tests/unit/cta-get-started.test.tsx [2m([22m[2m1 test[22m[2m)[22m[33m 354[2mms[22m[39m
+     [33m[2m✓[22m[39m renders heading and button [33m 322[2mms[22m[39m
+[90mstdout[2m | tests/unit/transfer-summary.test.tsx
+[22m[39m◇ injecting env (110) from .env.local // tip: ◈ encrypted .env [www.dotenvx.com]
+
+ [32m✓[39m tests/unit/features-grid.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[33m 338[2mms[22m[39m
+ [32m✓[39m tests/unit/transfer-summary.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[32m 184[2mms[22m[39m
+[90mstdout[2m | tests/unit/wallet-card.test.tsx
+[22m[39m◇ injecting env (110) from .env.local // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+
+ [32m✓[39m tests/unit/wallet-card.test.tsx [2m([22m[2m1 test[22m[2m)[22m[32m 237[2mms[22m[39m
+[90mstdout[2m | tests/unit/stores/filter-store.test.ts
+[22m[39m◇ injecting env (110) from .env.local // tip: ⌁ auth for agents [www.vestauth.com]
+
+ [32m✓[39m tests/unit/stores/filter-store.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 35[2mms[22m[39m
+[90mstdout[2m | tests/unit/stores/toast-store.test.ts
+[22m[39m◇ injecting env (110) from .env.local // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+
+ [32m✓[39m tests/unit/stores/toast-store.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 35[2mms[22m[39m
+[90mstdout[2m | tests/unit/stores/transfer-store.test.ts
+[22m[39m◇ injecting env (110) from .env.local // tip: ⌘ suppress logs { quiet: true }
+
+ [32m✓[39m tests/unit/stores/transfer-store.test.ts [2m([22m[2m14 tests[22m[2m)[22m[32m 36[2mms[22m[39m
+[90mstdout[2m | tests/unit/error-tracking.test.ts
+[22m[39m◇ injecting env (110) from .env.local // tip: ⌘ suppress logs { quiet: true }
+
+[90mstdout[2m | tests/unit/report-parser.test.ts
+[22m[39m◇ injecting env (110) from .env.local // tip: ⌘ enable debugging { debug: true }
+
+ [32m✓[39m tests/unit/report-parser.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 34[2mms[22m[39m
+[90mstdout[2m | tests/unit/wallet.actions.test.ts
+[22m[39m◇ injecting env (110) from .env.local // tip: ⌘ override existing { override: true }
+
+ [32m✓[39m tests/unit/error-tracking.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 35[2mms[22m[39m
+[90mstdout[2m | tests/unit/transaction.actions.db-error.test.ts
+[22m[39m◇ injecting env (110) from .env.local // tip: ⌘ override existing { override: true }
+
+ [32m✓[39m tests/unit/wallet.actions.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 67[2mms[22m[39m
+[90mstdout[2m | tests/unit/stores/ui-store.test.ts
+[22m[39m◇ injecting env (110) from .env.local // tip: ◈ secrets for agents [www.dotenvx.com]
+
+ [32m✓[39m tests/unit/stores/ui-store.test.ts [2m([22m[2m13 tests[22m[2m)[22m[32m 30[2mms[22m[39m
+[90mstdout[2m | tests/unit/transaction.actions.test.ts
+[22m[39m◇ injecting env (110) from .env.local // tip: ⌘ suppress logs { quiet: true }
+
+[90mstdout[2m | tests/unit/dal/errors.dal.test.ts
+[22m[39m◇ injecting env (110) from .env.local // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+
+[90mstdout[2m | tests/unit/dashboard-server-wrapper.test.ts
+[22m[39m◇ injecting env (110) from .env.local // tip: ⌁ auth for agents [www.vestauth.com]
+
+ [32m✓[39m tests/unit/dal/errors.dal.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 27[2mms[22m[39m
+[90mstderr[2m | tests/unit/transaction.actions.db-error.test.ts[2m > [22m[2mtransaction actions - DAL error handling[2m > [22m[2mgetRecentTransactions returns stable error when DAL throws
+[22m[39mgetRecentTransactions error: TypeError: __vite_ssr_import_0__.transactionDal.findByUserIdWithWallets is not a function
+    at Module.getRecentTransactions (C:/Users/Alexa/Desktop/SandBox/Banking/actions/transaction.actions.ts:34:47)
+[90m    at processTicksAndRejections (node:internal/process/task_queues:104:5)[39m
+    at C:/Users/Alexa/Desktop/SandBox/Banking/tests/unit/transaction.actions.db-error.test.ts:29:17
+
+[90mstderr[2m | tests/unit/transaction.actions.db-error.test.ts[2m > [22m[2mtransaction actions - DAL error handling[2m > [22m[2mgetTransactionHistory returns stable error when DAL throws
+[22m[39mgetTransactionHistory error: TypeError: __vite_ssr_import_0__.transactionDal.findByUserIdWithWallets is not a function
+    at Module.getTransactionHistory (C:/Users/Alexa/Desktop/SandBox/Banking/actions/transaction.actions.ts:68:47)
+[90m    at processTicksAndRejections (node:internal/process/task_queues:104:5)[39m
+    at C:/Users/Alexa/Desktop/SandBox/Banking/tests/unit/transaction.actions.db-error.test.ts:35:17
+
+ [32m✓[39m tests/unit/transaction.actions.db-error.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 34[2mms[22m[39m
+ [32m✓[39m tests/unit/transaction.actions.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 24[2mms[22m[39m
+ [32m✓[39m tests/unit/dashboard-server-wrapper.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 22[2mms[22m[39m
+[90mstdout[2m | tests/unit/recipient.actions.test.ts
+[22m[39m◇ injecting env (110) from .env.local // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+
+[90mstdout[2m | tests/unit/user.actions.test.ts
+[22m[39m◇ injecting env (110) from .env.local // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+
+[90mstdout[2m | tests/unit/register.test.ts
+[22m[39m◇ injecting env (110) from .env.local // tip: ⌁ auth for agents [www.vestauth.com]
+
+ [32m✓[39m tests/unit/recipient.actions.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 30[2mms[22m[39m
+[90mstdout[2m | tests/unit/admin.actions.test.ts
+[22m[39m◇ injecting env (110) from .env.local // tip: ⌘ enable debugging { debug: true }
+
+ [32m✓[39m tests/unit/user.actions.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 22[2mms[22m[39m
+[90mstdout[2m | tests/unit/plan-ensure.scoring.test.ts
+[22m[39m◇ injecting env (110) from .env.local // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+
+[90mstdout[2m | tests/unit/plan-ensure.match.test.ts
+[22m[39m◇ injecting env (110) from .env.local // tip: ⌘ override existing { override: true }
+
+ [32m✓[39m tests/unit/plan-ensure.match.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 20[2mms[22m[39m
+[90mstdout[2m | tests/unit/updateProfile.test.ts
+[22m[39m◇ injecting env (110) from .env.local // tip: ⌘ enable debugging { debug: true }
+
+ [32m✓[39m tests/unit/register.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 33[2mms[22m[39m
+ [32m✓[39m tests/unit/plan-ensure.scoring.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 23[2mms[22m[39m
+ [32m✓[39m tests/unit/admin.actions.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 20[2mms[22m[39m
+ [32m✓[39m tests/unit/updateProfile.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 10[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 2 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m tests/unit/payment-transfer-form.test.tsx[2m > [22mrenders form fields and submits
+[31m[1mAssertionError[22m[39m: expected "vi.fn()" to be called at least once
+
+Ignored nodes: comments, script, style
+[36m<html>[39m
+  [36m<head />[39m
+  [36m<body>[39m
+    [36m<div>[39m
+      [36m<section[39m
+        [33mclass[39m=[32m"space-y-8"[39m
+      [36m>[39m
+        [36m<header>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"flex flex-col gap-6 rounded-xl border py-6 text-card-foreground header-box border-none bg-transparent shadow-none"[39m
+            [33mdata-slot[39m=[32m"card"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"header-box-row flex flex-row items-center justify-between p-0"[39m
+              [33mdata-slot[39m=[32m"card-content"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"flex flex-col gap-1"[39m
+              [36m>[39m
+                [36m<h1[39m
+                  [33mclass[39m=[32m"header-box-title"[39m
+                [36m>[39m
+                  [0mPayment Transfer[0m
+                [36m</h1>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"header-box-subtext"[39m
+                [36m>[39m
+                  [0mSend money securely to your recipients via ACH transfer.[0m
+                [36m</p>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</header>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"grid gap-6 md:grid-cols-3"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"md:col-span-2"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm"[39m
+              [33mdata-slot[39m=[32m"card"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6"[39m
+                [33mdata-slot[39m=[32m"card-header"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"leading-none font-semibold"[39m
+                  [33mdata-slot[39m=[32m"card-title"[39m
+                [36m>[39m
+                  [0mNew Transfer[0m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"text-sm text-muted-foreground"[39m
+                  [33mdata-slot[39m=[32m"card-description"[39m
+                [36m>[39m
+                  [0mFill in the details below to initiate a bank transfer.[0m
+                [36m</div>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"px-6"[39m
+                [33mdata-slot[39m=[32m"card-content"[39m
+              [36m>[39m
+                [36m<form[39m
+                  [33mclass[39m=[32m"space-y-5"[39m
+                [36m>[39m
+                  [36m<div[39m
+                    [33mclass[39m=[32m"grid gap-2"[39m
+                    [33mdata-slot[39m=[32m"form-item"[39m
+                  [36m>[39m
+                    [36m<label[39m
+                      [33mclass[39m=[32m"flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"[39m
+                      [33mdata-error[39m=[32m"false"[39m
+                      [33mdata-slot[39m=[32m"form-label"[39m
+                      [33mfor[39m=[32m"_r_0_-form-item"[39m
+                    [36m>[39m
+                      [0mFrom Bank Account[0m
+                    [36m</label>[39m
+                    [36m<select[39m
+                      [33mdata-testid[39m=[32m"select-source-bank"[39m
+                      [33mid[39m=[32m"source-bank"[39m
+                    [36m>[39m
+                      [36m<option[39m
+                        [33mdata-value[39m=[32m"w1"[39m
+                        [33mvalue[39m=[32m"w1"[39m
+                      [36m>[39m
+                        [0mBank A[0m
+                        [0m [0m
+                        [0m(••••1234)[0m
+                      [36m</option>[39m
+                    [36m</select>[39m
+                  [36m</div>[39m
+                  [36m<div[39m
+                    [33mclass[39m=[32m"grid gap-2"[39m
+                    [33mdata-slot[39m=[32m"form-item"[39m
+                  [36m>[39m
+                    [36m<label[39m
+                      [33mclass[39m=[32m"flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"[39m
+                      [33mdata-error[39m=[32m"false"[39m
+                      [33mdata-slot[39m=[32m"form-label"[39m
+                      [33mfor[39m=[32m"_r_1_-form-item"[39m
+                    [36m>[39m
+                      [0mTo Recipient[0m
+                    [36m</label>[39m
+                    [36m<select[39m
+                      [33mdata-testid[39m=[32m"select-recipient"[39m
+                      [33mid[39m=[32m"recipient"[39m
+                    [36m>[39m
+                      [36m<option[39m
+                        [33mdata-value[39m=[32m"r1"[39m
+                        [33mvalue[39m=[32m"r1"[39m
+                      [36m>[39m
+                        [0mAlice[0m
+                      [36m</option>[39m
+                    [36m</select>[39m
+                  [36m</div>[39m
+                  [36m<div[39m
+                    [33mclass[39m=[32m"grid gap-2"[39m
+                    [33mdata-slot[39m=[32m"form-item"[39m
+                  [36m>[39m
+                    [36m<label[39m
+                      [33mclass[39m=[32m"flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-[error=true]:text-destructive"[39m
+                      [33mdata-error[39m=[32m"false"[39m
+                      [33mdata-slot[39m=[32m"form-label"[39m
+                      [33mfor[39m=[32m"_r_2_-form-item"[39m
+                    [36m>[39m
+                      [0mAmount (USD)[0m
+                    [36m</label>[39m
+                    [36m<div[39m
+                      [33maria-describedby[39m=[32m"_r_2_-form-item-description"[39m
+                      [33maria-invalid[39m=[32m"false"[39m
+                      [33mclass[39m=[32m"relative"[39m
+                      [33mdata-slot[39m=[32m"form-control"[39m
+                      [33mid[39m=[32m"_r_2_-form-item"[39m
+                    [36m>[39m
+                      [36m<span[39m
+                        [33mclass[39m=[32m"absolute top-1/2 left-3 -translate-y-1/2 text-muted-foreground"[39m
+                      [36m>[39m
+                        [0m$[0m
+                      [36m</span>[39m
+                      [36m<input[39m
+                        [33mclass[39m=[32m"h-9 w-full min-w-0 rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none selection:bg-primary selection:text-primary-foreground file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm dark:bg-input/30 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 pl-7"[39m
+                        [33mdata-slot[39m=[32m"input"[39m
+                        [33mdata-testid[39m=[32m"transfer-amount"[39m
+                        [33mid[39m=[32m"amount"[39m
+                        [33mmin[39m=[32m"0.01"[39m
+                        [33mname[39m=[32m"amount"[39m
+                        [33mplaceholder[39m=[32m"0.00"[39m
+                        [33mstep[39m=[32m"0.01"[39m
+                        [33mtype[39m=[32m"number"[39m
+                        [33mvalue[39m=[32m"12.34"[39m
+                      [36m/>[39m
+                    [36m</div>[39m
+                  [36m</div>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 h-9 px-4 py-2 has-[>svg]:px-3 bg-primary text-primary-foreground hover:bg-primary/90 w-full"[39m
+                    [33mdata-size[39m=[32m"default"[39m
+                    [33mdata-slot[39m=[32m"button"[39m
+                    [33mdata-testid[39m=[32m"transfer-submit"[39m
+                    [33mdata-variant[39m=[32m"default"[39m
+                    [33mtype[39m=[32m"submit"[39m
+                  [36m>[39m
+                    [0mSend Transfer[0m
+                  [36m</button>[39m
+                [36m</form>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"space-y-4"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm"[39m
+              [33mdata-slot[39m=[32m"card"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6"[39m
+                [33mdata-slot[39m=[32m"card-header"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"font-semibold text-base"[39m
+                  [33mdata-slot[39m=[32m"card-title"[39m
+                [36m>[39m
+                  [0mTransfer Summary[0m
+                [36m</div>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"px-6 space-y-3 text-sm"[39m
+                [33mdata-slot[39m=[32m"card-content"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"flex justify-between"[39m
+                [36m>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"text-muted-foreground"[39m
+                  [36m>[39m
+                    [0mFrom[0m
+                  [36m</span>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"font-medium"[39m
+                  [36m>[39m
+                    [0m—[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"flex justify-between"[39m
+                [36m>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"text-muted-foreground"[39m
+                  [36m>[39m
+                    [0mTo[0m
+                  [36m</span>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"font-medium"[39m
+                  [36m>[39m
+                    [0m—[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"flex justify-between"[39m
+                [36m>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"text-muted-foreground"[39m
+                  [36m>[39m
+                    [0mAmount[0m
+                  [36m</span>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"font-medium"[39m
+                  [36m>[39m
+                    [0m—[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</section>[39m
+    [36m</div>[39m
+  [36m</body>[39m
+[36m</html>[39m
+[36m [2m❯[22m tests/unit/payment-transfer-form.test.tsx:[2m77:39[22m[39m
+    [90m 75|[39m   // performs form.trigger + handleSubmit internally so the handler sh…
+    [90m 76|[39m   [90m// be called asynchronously.[39m
+    [90m 77|[39m   [35mawait[39m [34mwaitFor[39m(() [33m=>[39m [34mexpect[39m(handler)[33m.[39m[34mtoHaveBeenCalled[39m())[33m;[39m
+    [90m   |[39m                                       [31m^[39m
+    [90m 78|[39m })[33m;[39m
+    [90m 79|[39m
+[90m [2m❯[22m runWithExpensiveErrorDiagnosticsDisabled node_modules/@testing-library/dom/dist/config.js:[2m47:12[22m[39m
+[90m [2m❯[22m checkCallback node_modules/@testing-library/dom/dist/wait-for.js:[2m124:77[22m[39m
+[90m [2m❯[22m Timeout.checkRealTimersCallback node_modules/@testing-library/dom/dist/wait-for.js:[2m118:16[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/unit/actions/dwolla.actions.test.ts[2m > [22mDwolla Actions (mock short-circuit)[2m > [22mcreateTransfer should short-circuit for mock funding source urls and persist metadata via DAL
+[31m[1mAssertionError[22m: expected "vi.fn()" to be called at least once[39m
+[36m [2m❯[22m tests/unit/actions/dwolla.actions.test.ts:[2m57:46[22m[39m
+    [90m 55|[39m     [90m// Ensure DAL was invoked to persist metadata[39m
+    [90m 56|[39m     [34mexpect[39m(dwollaDal[33m.[39mcreateDwollaTransfer)[33m.[39m[34mtoHaveBeenCalled[39m()[33m;[39m
+    [90m 57|[39m     [34mexpect[39m(transactionDal[33m.[39mcreateTransaction)[33m.[39m[34mtoHaveBeenCalled[39m()[33m;[39m
+    [90m   |[39m                                              [31m^[39m
+    [90m 58|[39m   })[33m;[39m
+    [90m 59|[39m })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m45 passed[39m[22m[90m (47)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m251 passed[39m[22m[90m (253)[39m
+[2m   Start at [22m 07:21:40
+[2m   Duration [22m 53.68s[2m (transform 7.33s, setup 86.27s, import 71.76s, tests 37.40s, environment 99.20s)[22m
+
