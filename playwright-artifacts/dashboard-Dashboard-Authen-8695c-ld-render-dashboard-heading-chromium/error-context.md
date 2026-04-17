@@ -23,7 +23,7 @@ Error: page.goto: Target page, context or browser has been closed
   3   |   Page,
   4   |   request as playwrightRequest,
   5   | } from "@playwright/test";
-  6   | 
+  6   |
   7   | import { SEED_USER, signInWithSeedUser } from "../e2e/helpers/auth";
   8   | import {
   9   |   makeNextAuthJwtToken,
@@ -37,7 +37,7 @@ Error: page.goto: Target page, context or browser has been closed
   17  |   SignUpPage,
   18  |   TransactionHistoryPage,
   19  | } from "./pages";
-  20  | 
+  20  |
   21  | /**
   22  |  * Test user credentials for E2E — must match [scripts/seed/seed-data.ts](scripts/seed/seed-data.ts).
   23  |  * Ensure DB is seeded before running E2E (`npm run db:push && npm run db:seed -- --reset`).
@@ -48,7 +48,7 @@ Error: page.goto: Target page, context or browser has been closed
   28  |   lastName: "User",
   29  |   password: SEED_USER.password,
   30  | };
-  31  | 
+  31  |
   32  | /**
   33  |  * Extended test type with custom fixtures for authentication and POM
   34  |  */
@@ -72,7 +72,7 @@ Error: page.goto: Target page, context or browser has been closed
   52  |   /** Raw Playwright page for unauthenticated access */
   53  |   unauthenticatedPage: Page;
   54  | }
-  55  | 
+  55  |
   56  | /**
   57  |  * Custom Playwright test with authentication and POM fixtures
   58  |  * Usage:
@@ -101,10 +101,10 @@ Error: page.goto: Target page, context or browser has been closed
   81  |       // eslint-disable-next-line n/no-process-env
   82  |       baseUrl = process.env.PLAYWRIGHT_BASE_URL ?? baseUrl;
   83  |     }
-  84  | 
+  84  |
   85  |     if (secret) {
   86  |       const token = makeNextAuthJwtToken({ id: "seed-user" }, secret);
-  87  | 
+  87  |
   88  |       // Use Playwright APIRequestContext to set cookie on the app domain
   89  |       // newContext() returns a Promise — await it so TypeScript types align
   90  |       const apiReq = await playwrightRequest.newContext();
@@ -124,48 +124,48 @@ Error: page.goto: Target page, context or browser has been closed
   103 |       await use(page);
   104 |     }
   105 |   },
-  106 | 
+  106 |
   107 |   dashboardPage: async ({ authenticatedPage }, use) => {
   108 |     const dashboard = new DashboardPage(authenticatedPage);
   109 |     await use(dashboard);
   110 |   },
-  111 | 
+  111 |
   112 |   myWalletsPage: async ({ authenticatedPage }, use) => {
   113 |     const myWallets = new MyWalletsPage(authenticatedPage);
   114 |     await use(myWallets);
   115 |   },
-  116 | 
+  116 |
   117 |   page: async ({ page }, use) => {
   118 |     await use(page);
   119 |   },
-  120 | 
+  120 |
   121 |   paymentTransferPage: async ({ authenticatedPage }, use) => {
   122 |     const transfer = new PaymentTransferPage(authenticatedPage);
   123 |     await use(transfer);
   124 |   },
-  125 | 
+  125 |
   126 |   // Sign in/up pages use raw page - they're public pages that don't require auth
   127 |   signInPage: async ({ page }, use) => {
   128 |     const signIn = new SignInPage(page);
   129 |     await use(signIn);
   130 |   },
-  131 | 
+  131 |
   132 |   signUpPage: async ({ page }, use) => {
   133 |     const signUp = new SignUpPage(page);
   134 |     await use(signUp);
   135 |   },
-  136 | 
+  136 |
   137 |   transactionHistoryPage: async ({ authenticatedPage }, use) => {
   138 |     const history = new TransactionHistoryPage(authenticatedPage);
   139 |     await use(history);
   140 |   },
-  141 | 
+  141 |
   142 |   unauthenticatedPage: async ({ page }, use) => {
   143 |     await page.context().clearCookies();
   144 |     await use(page);
   145 |   },
   146 | });
-  147 | 
+  147 |
   148 | export { expect } from "@playwright/test";
-  149 | 
+  149 |
 ```

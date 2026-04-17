@@ -19,7 +19,7 @@ Error: page.goto: Target page, context or browser has been closed
 
 ```ts
   1  | import { expect, test } from "../../tests/fixtures/auth";
-  2  | 
+  2  |
   3  | test.describe("Dashboard", () => {
   4  |   test.describe("Unauthenticated Access", () => {
   5  |     test("should redirect to sign-in when accessing /dashboard", async ({
@@ -30,7 +30,7 @@ Error: page.goto: Target page, context or browser has been closed
   9  |       await expect.soft(page).toHaveURL(/\/sign-in/, { timeout: 20_000 });
   10 |     });
   11 |   });
-  12 | 
+  12 |
   13 |   test.describe("Authenticated Access", () => {
   14 |     test("should render dashboard heading", async ({ dashboardPage }) => {
   15 |       await dashboardPage.navigate();
@@ -38,7 +38,7 @@ Error: page.goto: Target page, context or browser has been closed
   17 |         .soft(dashboardPage.welcomeHeading.first())
   18 |         .toBeVisible({ timeout: 15_000 });
   19 |     });
-  20 | 
+  20 |
   21 |     test("should show mobile navigation on small viewport", async ({
   22 |       authenticatedPage: page,
   23 |     }) => {
@@ -51,5 +51,5 @@ Error: page.goto: Target page, context or browser has been closed
   30 |     });
   31 |   });
   32 | });
-  33 | 
+  33 |
 ```
