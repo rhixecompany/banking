@@ -40,9 +40,9 @@ services:
       - TZ=UTC
     networks:
       - traefik-public
-    labels:
+      labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.dashboard.rule=Host(`traefik.localhost`)"
+      - "traefik.http.routers.dashboard.rule=Host(`traefik.${DOMAIN}`)"
       - "traefik.http.routers.dashboard.entrypoints=websecure"
       - "traefik.http.routers.dashboard.tls=true"
       - "traefik.http.routers.dashboard.service=api@internal"
@@ -88,7 +88,7 @@ services:
       - "3000:3000"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.banking.rule=Host(`localhost`)"
+      - "traefik.http.routers.banking.rule=Host(`${DOMAIN}`)"
       - "traefik.http.routers.banking.entrypoints=web,websecure"
       - "traefik.http.routers.banking.tls=true"
       - "traefik.http.routers.banking.tls.certresolver=letsencrypt"
@@ -212,7 +212,7 @@ services:
       - app-internal
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.prometheus.rule=Host(`prometheus.localhost`)"
+      - "traefik.http.routers.prometheus.rule=Host(`prometheus.${DOMAIN}`)"
       - "traefik.http.routers.prometheus.entrypoints=web,websecure"
       - "traefik.http.routers.prometheus.tls=true"
       - "traefik.http.services.prometheus.loadbalancer.server.port=9090"
@@ -231,7 +231,7 @@ services:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-admin}
       - GF_USERS_ALLOW_SIGN_UP=false
-      - GF_SERVER_ROOT_URL=https://grafana.localhost
+      - GF_SERVER_ROOT_URL=https://grafana.${DOMAIN}
       - GF_SERVER_SERVE_FROM_SUB_PATH=true
       - GF_INSTALL_PLUGINS=grafana-piechart-panel
     volumes:
@@ -241,7 +241,7 @@ services:
       - app-internal
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.grafana.rule=Host(`grafana.localhost`)"
+      - "traefik.http.routers.grafana.rule=Host(`grafana.${DOMAIN}`)"
       - "traefik.http.routers.grafana.entrypoints=web,websecure"
       - "traefik.http.routers.grafana.tls=true"
       - "traefik.http.services.grafana.loadbalancer.server.port=3000"
