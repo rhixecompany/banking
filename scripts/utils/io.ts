@@ -52,7 +52,7 @@ function isDryRunFlagSet(argv = process.argv): boolean {
   // Prefer lib/env when available to centralize configuration, fall back to process.env
   try {
     // Use require to avoid import-time validation side-effects in scripts
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
+
     const { env } = require("@/lib/env") as any;
     if (env && (env.DRY_RUN === "true" || env.DRY_RUN === "1")) return true;
   } catch {

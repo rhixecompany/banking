@@ -313,7 +313,7 @@ export default async function globalSetup(): Promise<void> {
   // Resolve runtime environment flags via lib/env when available, fall back to process.env
   try {
     // Dynamic require avoids module load-order and validation side-effects
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
+
     const { env } = require("@/lib/env") as any;
     if (env.PLAYWRIGHT_BASE_URL) BASE_URL = env.PLAYWRIGHT_BASE_URL as string;
     const prepare = env.PLAYWRIGHT_PREPARE_DB as string | undefined;
@@ -327,7 +327,7 @@ export default async function globalSetup(): Promise<void> {
     }
   } catch {
     // Fallback to direct process.env for CI or simple local runs
-    // eslint-disable-next-line n/no-process-env
+
     if (process.env.PLAYWRIGHT_PREPARE_DB !== "true") {
       console.info("  SKIP: PLAYWRIGHT_PREPARE_DB is not set to 'true'");
       console.info(
@@ -336,7 +336,7 @@ export default async function globalSetup(): Promise<void> {
       printSection("SETUP COMPLETE (SKIPPED)");
       return;
     }
-    // eslint-disable-next-line n/no-process-env
+
     BASE_URL = process.env.PLAYWRIGHT_BASE_URL ?? BASE_URL;
   }
 

@@ -94,7 +94,7 @@ export function getDatabaseUrl(): string | undefined {
     // Prefer validated env via lib/env to satisfy project standards
     // Import dynamically to avoid module load ordering issues in scripts
     // that may run before app-config validation.
-    // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-explicit-any
+
     const { env } = require("@/lib/env") as any;
     return (
       (env.DATABASE_URL as string | undefined)?.trim() ??
@@ -103,7 +103,7 @@ export function getDatabaseUrl(): string | undefined {
     );
   } catch {
     // Fallback to direct process.env for one-off local runs
-    // eslint-disable-next-line n/no-process-env
+
     return (
       process.env.DATABASE_URL?.trim() ??
       process.env.LOCAL_DATABASE_URL?.trim() ??
