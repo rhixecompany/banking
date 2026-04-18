@@ -75,7 +75,7 @@ if (-not (Test-Path $envFile)) {
     Write-Host "    1) Copy from .env.production.example"
     Write-Host "    2) Copy from .env.example"
     $choice = Read-Host "  Enter choice (1-2)"
-    
+
     switch ($choice) {
         "1" {
             $src = Join-Path $ProjectRoot ".env.production.example"

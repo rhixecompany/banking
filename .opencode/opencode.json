@@ -1,6 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "autoupdate": "notify",
+  "autoupdate": true,
   "compaction": {
     "auto": true
   },
@@ -18,14 +18,41 @@
     "instructions/09-command-plan-steps-rules.md"
   ],
   "mcp": {
-    "MCP_DOCKER": {
+    "filesystem": {
       "command": [
-        "docker",
-        "mcp",
-        "gateway",
-        "run",
-        "--profile",
-        "adminbot"
+        "npx",
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "./",
+        "~/"
+      ],
+      "enabled": true,
+      "timeout": 900000,
+      "type": "local"
+    },
+    "memory": {
+      "command": ["npx", "-y", "@modelcontextprotocol/server-memory"],
+      "enabled": true,
+      "timeout": 900000,
+      "type": "local"
+    },
+    "next-devtools": {
+      "command": ["npx", "-y", "next-devtools-mcp@latest"],
+      "enabled": true,
+      "timeout": 900000,
+      "type": "local"
+    },
+    "playwright": {
+      "command": ["npx", "-y", "@playwright/mcp@latest"],
+      "enabled": true,
+      "timeout": 900000,
+      "type": "local"
+    },
+    "sequential-thinking": {
+      "command": [
+        "npx",
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
       ],
       "enabled": true,
       "timeout": 900000,
@@ -33,6 +60,16 @@
     },
     "shadcn": {
       "command": ["npx", "shadcn@latest", "mcp"],
+      "enabled": true,
+      "timeout": 900000,
+      "type": "local"
+    },
+    "youtube-transcript": {
+      "command": [
+        "npx",
+        "-y",
+        "@kimtaeyoon83/mcp-server-youtube-transcript"
+      ],
       "enabled": true,
       "timeout": 900000,
       "type": "local"
@@ -47,7 +84,6 @@
     "@zenobius/opencode-background",
     "open-plan-annotator",
     "opencode-handoff",
-    "oh-my-opencode-slim",
     "opencode-mem",
     "@slkiser/opencode-quota",
     "@howaboua/opencode-planning-toolkit",

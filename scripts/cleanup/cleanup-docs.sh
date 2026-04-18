@@ -34,20 +34,20 @@ echo ""
 
 # Find all .md files excluding node_modules, .cursor, .github, .opencode
 while IFS= read -r file; do
-    rel_path="${file#$PROJECT_ROOT/}"
-    
+    rel_path="${file#"$PROJECT_ROOT"/}"
+
     # Core files to keep
     if [[ "$rel_path" == "README.md" ]] || [[ "$rel_path" == "AGENTS.md" ]]; then
         CORE_KEEP+=("$rel_path")
         continue
     fi
-    
+
     # Docker docs to keep
     if [[ "$rel_path" == docs/docker/* ]]; then
         DOCKER_KEEP+=("$rel_path")
         continue
     fi
-    
+
     # Integration docs to keep (linked in docs/README.md)
     if [[ "$rel_path" == docs/plaid/* ]] || \
        [[ "$rel_path" == docs/services/plaid-api.md ]] || \
@@ -69,14 +69,14 @@ while IFS= read -r file; do
         INTEGRATION_KEEP+=("$rel_path")
         continue
     fi
-    
+
     # Docker Swarm files to delete
     if [[ "$rel_path" == "docs/docker/swarm-overview.md" ]] || \
        [[ "$rel_path" == "docs/traefik/docker-swarm.md" ]]; then
         SWARM_DELETE+=("$rel_path")
         continue
     fi
-    
+
     # Legacy deployment docs (superseded by docs/docker/)
     if [[ "$rel_path" == "00-DOCKER-START-HERE.md" ]] || \
        [[ "$rel_path" == "00-START-HERE.md" ]] || \
@@ -96,7 +96,7 @@ while IFS= read -r file; do
         LEGACY_DELETE+=("$rel_path")
         continue
     fi
-    
+
     # Root-level redundant docs
     if [[ "$rel_path" == "INDEX.md" ]] || \
        [[ "$rel_path" == "QUICK-REFERENCE.md" ]] || \
@@ -112,19 +112,19 @@ while IFS= read -r file; do
         OTHER_DELETE+=("$rel_path")
         continue
     fi
-    
+
     # Legacy traefik docs (superseded by compose/traefik/)
     if [[ "$rel_path" == docs/traefik/* ]]; then
         LEGACY_DELETE+=("$rel_path")
         continue
     fi
-    
+
     # Reports to delete (old)
     if [[ "$rel_path" == docs/reports/* ]]; then
         OTHER_DELETE+=("$rel_path")
         continue
     fi
-    
+
     # docs/ root level - check if linked
     if [[ "$rel_path" == docs/* ]] && [[ ! "$rel_path" == docs/README.md ]]; then
         # ESLint plugin docs - might be useful but redundant
@@ -136,7 +136,7 @@ while IFS= read -r file; do
         OTHER_DELETE+=("$rel_path")
         continue
     fi
-    
+
 done < <(find "$PROJECT_ROOT" -name "*.md" -not -path "*/node_modules/*" -not -path "*/.cursor/*" -not -path "*/.github/*" -not -path "*/.opencode/node_modules/*" -not -path "*/.opencode/*" -not -path "*/data/*" -type f 2>/dev/null)
 
 # Display categorized files
@@ -161,6 +161,10 @@ echo ""
 
 echo -e "${RED}Category E - Other Root Docs (Review): ${#OTHER_DELETE[@]} files${NC}"
 for f in "${OTHER_DELETE[@]}"; do echo "  ? $f"; done
+echo ""
+
+echo -e "${RED}Category F - Orphaned Docs (Review): ${#ORPHANED_DELETE[@]} files${NC}"
+for f in "${ORPHANED_DELETE[@]}"; do echo "  ? $f"; done
 echo ""
 
 # Summary
@@ -217,6 +221,28 @@ case $action in
         echo "  b) Legacy Docker docs"
         echo "  c) Other root docs"
         read -p "Enter letters (e.g., ab, ac): " categories
+        # Delete selected categories
+        if [[ "$categories" == *"a"* ]]; then
+            echo -e "${YELLOW}Deleting Docker Swarm files...${NC}"
+            for f in "${SWARM_DELETE[@]}"; do
+                rm -f "$PROJECT_ROOT/$f"
+                echo "  Deleted: $f"
+            done
+        fi
+        if [[ "$categories" == *"b"* ]]; then
+            echo -e "${YELLOW}Deleting legacy Docker docs...${NC}"
+            for f in "${LEGACY_DELETE[@]}"; do
+                rm -f "$PROJECT_ROOT/$f"
+                echo "  Deleted: $f"
+            done
+        fi
+        if [[ "$categories" == *"c"* ]]; then
+            echo -e "${YELLOW}Deleting other root docs...${NC}"
+            for f in "${OTHER_DELETE[@]}"; do
+                rm -f "$PROJECT_ROOT/$f"
+                echo "  Deleted: $f"
+            done
+        fi
         ;;
     5)
         echo "Exiting without changes."

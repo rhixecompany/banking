@@ -78,7 +78,7 @@ if [ ! -f "${ENV_FILE}" ]; then
     echo "    1) Copy from .env.production.example"
     echo "    2) Copy from .env.example"
     read -p "  Enter choice (1-2): " choice
-    
+
     case $choice in
         1)
             if [ -f "${PROJECT_ROOT}/.env.production.example" ]; then
@@ -174,22 +174,22 @@ UNHEALTHY=true
 
 while [ $ATTEMPT -lt $MAX_ATTEMPTS ] && [ "$UNHEALTHY" = true ]; do
     ATTEMPT=$((ATTEMPT + 1))
-    
+
     # Check if all services are at least "Up"
     STATUS=$(docker compose ps --format json 2>/dev/null)
-    
+
     # Simple check: see if any service is in an error state
     if echo "$STATUS" | grep -q '"State":"exited"'; then
         sleep 2
         continue
     fi
-    
+
     # Try health check
     if curl -s http://localhost:3000/api/health > /dev/null 2>&1; then
         UNHEALTHY=false
         break
     fi
-    
+
     if [ $((ATTEMPT % 10)) -eq 0 ]; then
         echo "    Attempt $ATTEMPT/$MAX_ATTEMPTS..."
     fi
