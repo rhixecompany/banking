@@ -40,7 +40,7 @@ services:
       - TZ=UTC
     networks:
       - traefik-public
-      labels:
+    labels:
       - "traefik.enable=true"
       - "traefik.http.routers.dashboard.rule=Host(`traefik.${DOMAIN}`)"
       - "traefik.http.routers.dashboard.entrypoints=websecure"
