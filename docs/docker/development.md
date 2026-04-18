@@ -10,9 +10,10 @@ For development without reverse proxy overhead:
 
 ```bash
 # Start base services only
-docker compose --profile traefik --env-file .envs/local/.env.local up -d;
-docker compose --env-file .envs/local/.env.local up -d;
-docker compose --profile init --env-file .envs/local/.env.local up init --abort-on-container-exit;
+docker compose --env-file .envs/production/.env.production build;
+docker compose --profile traefik --env-file .envs/production/.env.production up -d;
+docker compose --env-file .envs/production/.env.production up -d;
+docker compose --profile init --env-file .envs/production/.env.production up init --abort-on-container-exit;
 
 # Wait for db to be ready
 docker compose exec db pg_isready -U postgres
@@ -28,11 +29,11 @@ bash scripts/generate-htpasswd.sh
 
 ### 3. Access Services
 
-| Service    | URL                   | Notes           |
-| ---------- | --------------------- | --------------- |
-| App        | http://localhost:3000 | Direct access   |
-| PostgreSQL | localhost:5432        | User: postgres  |
-| Redis      | localhost:6379        | Password: redis |
+| Service    | URL                     | Notes           |
+| ---------- | ----------------------- | --------------- |
+| App        | <http://localhost:3000> | Direct access   |
+| PostgreSQL | localhost:5432          | User: postgres  |
+| Redis      | localhost:6379          | Password: redis |
 
 ## Hot Reload
 
