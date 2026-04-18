@@ -1,0 +1,26 @@
+{
+  "$schema": "https://opencode.ai/tui.json",
+  "diff_style": "auto",
+  "keybinds": {
+    "leader": "ctrl+x"
+  },
+  "mouse": true,
+  "plugin": [
+    "@gotgenes/opencode-agent-identity",
+    "opencode-agent-memory",
+    "opencode-agent-skills",
+    "opencode-devcontainers",
+    "@zenobius/opencode-background",
+    "open-plan-annotator",
+    "opencode-handoff",
+    "oh-my-opencode-slim",
+    "opencode-mem",
+    "@slkiser/opencode-quota"
+  ],
+  "plugin_enabled": {},
+  "scroll_acceleration": {
+    "enabled": true
+  },
+  "scroll_speed": 3,
+  "theme": "moonlight"
+}

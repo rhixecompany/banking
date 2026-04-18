@@ -1,10 +1,58 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "autoupdate": "notify",
+  "compaction": {
+    "auto": true
+  },
+  "experimental": {
+    "quotaToast": {
+      "enabledProviders": "auto",
+      "enableToast": true,
+      "formatStyle": "classic",
+      "showSessionTokens": true
+    }
+  },
+  "instructions": [
+    "instructions/personas-list.md",
+    "instructions/00-quickstart-rules.md",
+    "instructions/09-command-plan-steps-rules.md",
+    "instructions/morph-tools.md"
+  ],
+  "mcp": {
+    "MCP_DOCKER": {
+      "command": [
+        "docker",
+        "mcp",
+        "gateway",
+        "run",
+        "--profile",
+        "adminbot"
+      ],
+      "enabled": true,
+      "timeout": 900000,
+      "type": "local"
+    },
+    "shadcn": {
+      "command": ["npx", "shadcn@latest", "mcp"],
+      "enabled": true,
+      "timeout": 900000,
+      "type": "local"
+    }
+  },
+  "model": "github-copilot/gpt-5-mini",
   "plugin": [
     "@gotgenes/opencode-agent-identity",
     "opencode-agent-memory",
     "opencode-agent-skills",
     "opencode-devcontainers",
-    "@zenobius/opencode-background"
+    "@zenobius/opencode-background",
+    "open-plan-annotator",
+    "opencode-handoff",
+    "oh-my-opencode-slim",
+    "opencode-mem",
+    "@slkiser/opencode-quota",
+    "github:JRedeker/opencode-morph-fast-apply",
+    "@howaboua/opencode-planning-toolkit",
+    "opencode-sessions"
   ]
 }
