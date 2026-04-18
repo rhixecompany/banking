@@ -47,8 +47,10 @@ ENV NODE_ENV=production \
 COPY package.json package-lock.json ./
 
 # Install dependencies with cache optimization
+# Ensure devDependencies needed for build-time scripts (husky, type-check tools)
+# are installed by disabling npm's production-only mode for this step.
 RUN --mount=type=cache,target=/root/.npm \
-    npm ci --legacy-peer-deps
+    npm_config_production=false npm ci --legacy-peer-deps
 
 # Copy application code from context root
 COPY . .

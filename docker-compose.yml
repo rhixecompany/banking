@@ -68,12 +68,17 @@ services:
     build:
       context: .
       dockerfile: compose/dev/node/Dockerfile
-      target: development
+      # Use the production build target for the app image so Next is built and run
+      # as a standalone production server instead of the development server.
+      target: production
       args:
         - NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
     container_name: banking-app
     restart: unless-stopped
+    # Load environment from production env when present. Keep local optional file for dev overrides.
     env_file:
+      - path: .envs/production/.env.production
+        required: false
       - path: .envs/local/.env.local
         required: false
     depends_on:
@@ -88,7 +93,7 @@ services:
       - "3000:3000"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.banking.rule=Host(`${DOMAIN}`)"
+      - "traefik.http.routers.banking.rule=Host(`${DOMAIN:-rhixecompany.online}`)"
       - "traefik.http.routers.banking.entrypoints=web,websecure"
       - "traefik.http.routers.banking.tls=true"
       - "traefik.http.routers.banking.tls.certresolver=letsencrypt"
@@ -98,16 +103,9 @@ services:
       - "traefik.http.services.banking.loadbalancer.healthcheck.interval=10s"
       - "traefik.http.services.banking.loadbalancer.healthcheck.timeout=3s"
       - "traefik.docker.network=traefik-public"
+    # Use curl for healthchecks in the production image (curl is installed there)
     healthcheck:
-      test:
-        [
-          "CMD",
-          "wget",
-          "--no-verbose",
-          "--tries=1",
-          "--spider",
-          "http://localhost:3000/api/health",
-        ]
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
       interval: 30s
       timeout: 5s
       retries: 3
@@ -173,7 +171,10 @@ services:
       args:
         - NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
     container_name: banking-init
+    # Ensure migrations run with production environment when available
     env_file:
+      - path: .envs/production/.env.production
+        required: false
       - path: .envs/local/.env.local
         required: false
     environment:

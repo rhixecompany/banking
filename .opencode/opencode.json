@@ -4,6 +4,7 @@
     "@gotgenes/opencode-agent-identity",
     "opencode-agent-memory",
     "opencode-agent-skills",
-    "opencode-devcontainers"
+    "opencode-devcontainers",
+    "@zenobius/opencode-background"
   ]
 }
