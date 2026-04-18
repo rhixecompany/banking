@@ -1,12 +1,10 @@
+# syntax=docker/dockerfile:1.4
 # =============================================================================
 # Banking Application - Multi-stage Dockerfile (Optimized)
 #
 # Goal: reduce image size and layer count while preserving build correctness
 # for native modules (bcrypt) and keeping the Next standalone build output.
 # =============================================================================
-
-# Use BuildKit syntax for cache mounts
-syntax=docker/dockerfile:1.4
 
 ARG NODE_VERSION=22
 
@@ -15,19 +13,24 @@ ARG NODE_VERSION=22
 # =============================================================================
 FROM node:${NODE_VERSION}-slim AS builder
 
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
+ENV NODE_ENV=development
 
 WORKDIR /app
 
 # Copy dependency manifests and install all deps (dev + prod) for build
 COPY package.json package-lock.json ./
 RUN --mount=type=cache,target=/root/.npm \
-    npm ci --legacy-peer-deps --no-audit --progress=false && \
+    npm ci --legacy-peer-deps --no-audit --progress=false --ignore-scripts && \
     npm cache clean --force
 
 # Copy source and build the standalone Next output
 COPY . .
+# Run safe, non-interactive repo scripts (if present) before building.
+# Only executes scripts/utils/fix-line-endings.sh which is safe to run in-build.
+RUN if [ -f ./scripts/utils/fix-line-endings.sh ]; then \
+      chmod +x ./scripts/utils/fix-line-endings.sh && \
+      ./scripts/utils/fix-line-endings.sh; \
+    fi
 RUN npm run build:standalone
 
 # Remove dev dependencies to shrink what we copy to the runtime image
@@ -80,9 +83,10 @@ ENV NODE_ENV=${NODE_ENV}
 WORKDIR /app
 
 # Install dev dependencies in the image for a complete dev experience
+# Copy dependency manifests and install all dev deps for development image
 COPY package.json package-lock.json ./
 RUN --mount=type=cache,target=/root/.npm \
-    npm ci --legacy-peer-deps --no-audit --progress=false && \
+    npm ci --legacy-peer-deps --no-audit --progress=false --ignore-scripts && \
     npm cache clean --force
 
 # Copy source code for hot-reload/dev
