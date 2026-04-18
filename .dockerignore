@@ -1,40 +1,39 @@
 # Dependencies
-node_modules/
+node_modules
 npm-debug.log
 yarn.lock
 yarn-error.log
 pnpm-lock.yaml
 
-# Next.js
-.next/
-.turbo/
-dist/
-build/
-out/
+# Next.js / build outputs
+.next
+dist
+build
+out
 
-# Environment files (never include in build)
+# Turbo / cache
+.turbo
+
+# Environment files (never include secrets in build)
 .env
 .env.*
 !.env.example
 !.env.production.example
 
 # Docker (compose files are mounted, not copied)
-# Keep compose directory available in build context for multi-stage builds
+# Keep compose files out of the build context unless intentionally included
 docker-compose*.yml
-Dockerfile
-# include compose/ in context
-# compose/
 
-# Testing
-coverage/
-.nyc_output/
-test-results/
+# Testing artifacts
+coverage
+.nyc_output
+test-results
 test-ui-report.txt
 dev-report.txt
 
-# IDE/Editor
-.vscode/
-.idea/
+# IDE / editor
+.vscode
+.idea
 *.swp
 *.swo
 *~
@@ -42,12 +41,12 @@ dev-report.txt
 Thumbs.db
 
 # Git
-.git/
+.git
 .gitignore
 
 # CI/CD (not needed in container)
-.github/
-.github/workflows/
+.github
+.github/workflows
 vercel.json
 railway.json
 *.toml
@@ -56,10 +55,10 @@ railway.json
 README.md
 LICENSE
 AGENTS.md
-docs/
+docs
 
 # Scripts (mounted at runtime)
-scripts/
+scripts
 
 # Config files (mounted or generated at runtime)
 .prettierrc.ts
@@ -71,10 +70,9 @@ eslint.config.mts
 !drizzle.config.ts
 tsconfig.json
 
-# CI config
-.husky/
-.turbo/
+# CI hooks / caches
+.husky
 
-# Misc
+# Misc logs and dev vars
 *.log
 .dev.vars
