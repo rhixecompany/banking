@@ -15,8 +15,7 @@
   "instructions": [
     "instructions/personas-list.md",
     "instructions/00-quickstart-rules.md",
-    "instructions/09-command-plan-steps-rules.md",
-    "instructions/morph-tools.md"
+    "instructions/09-command-plan-steps-rules.md"
   ],
   "mcp": {
     "MCP_DOCKER": {
@@ -51,7 +50,6 @@
     "oh-my-opencode-slim",
     "opencode-mem",
     "@slkiser/opencode-quota",
-    "github:JRedeker/opencode-morph-fast-apply",
     "@howaboua/opencode-planning-toolkit",
     "opencode-sessions"
   ]
