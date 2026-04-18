@@ -11,7 +11,6 @@
     "build:analyze": "cross-env ANALYZE=true cross-env NODE_OPTIONS='--max-old-space-size=4096' ./node_modules/next/dist/bin/next build",
     "prebuild:debug": "npm run clean && npm run type-check",
     "build:debug": "cross-env NODE_OPTIONS='--max-old-space-size=4096' ./node_modules/next/dist/bin/next build --debug-prerender",
-    "prebuild:standalone": "npm run clean && npm run type-check",
     "build:standalone": "cross-env NODE_OPTIONS='--max-old-space-size=4096' ./node_modules/next/dist/bin/next build",
     "check-updates": "npm-check-updates --deep -i",
     "ci:checks:run": "bash scripts/utils/run-ci-checks.sh --parallel=3",

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 # Run staged eslint --fix then quick verify for staged files
 echo "Running staged ESLint fixes..."
 npx lint-staged --config .lintstagedrc.ts
