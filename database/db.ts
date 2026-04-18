@@ -10,6 +10,7 @@ import * as schema from "./schema";
  * The pg library has issues parsing URLs with Node.js 24's stricter URL parsing.
  */
 const getDbConfig = (): string => {
+  // Prefer the centralized app-config/database helper; fall back to legacy NEON env var.
   const envUrl = env.DATABASE_URL ?? process.env["NEON_DATABASE_URL"];
 
   if (!envUrl) {
