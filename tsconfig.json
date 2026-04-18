@@ -16,6 +16,7 @@
       "@/*": ["./*"],
       "@/lib/*": ["./lib/*"]
     },
+    "baseUrl": ".",
     "plugins": [
       {
         "name": "next"

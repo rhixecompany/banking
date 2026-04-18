@@ -19,9 +19,11 @@ out/
 !.env.production.example
 
 # Docker (compose files are mounted, not copied)
+# Keep compose directory available in build context for multi-stage builds
 docker-compose*.yml
 Dockerfile
-compose/
+# include compose/ in context
+# compose/
 
 # Testing
 coverage/
