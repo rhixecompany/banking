@@ -13,7 +13,6 @@
     "@zenobius/opencode-background",
     "open-plan-annotator",
     "opencode-handoff",
-    "opencode-mem",
     "@slkiser/opencode-quota",
     "@howaboua/opencode-planning-toolkit",
     "opencode-sessions"
@@ -28,7 +27,6 @@
     "opencode-agent-skills": true,
     "opencode-devcontainers": true,
     "opencode-handoff": true,
-    "opencode-mem": true,
     "opencode-sessions": true
   },
   "scroll_acceleration": {
