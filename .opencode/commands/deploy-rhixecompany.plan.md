@@ -3,14 +3,16 @@
 This plan was generated and verified by the implementer agent.
 
 Summary
+
 - Domain: rhixecompany.online
 - Deploy method: docker-compose (manual) with Traefik (ACME staging)
 - DB/Redis: run inside Docker on VPS
 - Monitoring: skipped for initial run
 
-Files read while preparing this plan: docs/docker/production.md, package.json, docker-compose.yml, compose/traefik/traefik.yml, compose/traefik/dynamic/*.yml, .envs/production/.env.production.example, scripts/deploy/generate-htpasswd.sh
+Files read while preparing this plan: docs/docker/production.md, package.json, docker-compose.yml, compose/traefik/traefik.yml, compose/traefik/dynamic/\*.yml, .envs/production/.env.production.example, scripts/deploy/generate-htpasswd.sh
 
 Generated secrets (included here per user approval)
+
 - ENCRYPTION_KEY: 9f7a3b2c1d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0
 - NEXTAUTH_SECRET: c2b4a6d8f0e1c3b5a7d9e0c1f2b3a4c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2
 - POSTGRES_PASSWORD: 4b6f2d9e1a7c3f0b5e8d4c1a9f2b6d7c
@@ -18,6 +20,7 @@ Generated secrets (included here per user approval)
 - TRAEFIK_DASHBOARD_PASSWORD: Tr@efikP@ssw0rd2026!
 
 Proposed minimal compose edits (do not apply until approved)
+
 - Replace hard-coded Host(`localhost`) labels with Host(`${DOMAIN}`) variants for Traefik routing:
   - traefik.http.routers.dashboard.rule -> Host(`traefik.${DOMAIN}`)
   - traefik.http.routers.banking.rule -> Host(`${DOMAIN}`)
@@ -25,6 +28,7 @@ Proposed minimal compose edits (do not apply until approved)
   - traefik.http.routers.grafana.rule -> Host(`grafana.${DOMAIN}`)
 
 Production env file (create at .envs/production/.env.production, do NOT commit)
+
 ```
 NEXT_PUBLIC_SITE_URL=https://rhixecompany.online
 DOMAIN=rhixecompany.online
@@ -69,6 +73,7 @@ ENVIRONMENT=production
 ```
 
 Commands to run (exact, in this order)
+
 1. Prechecks:
    - dig +short rhixecompany.online
    - sudo ss -ltnp | rg ':(80|443)'
@@ -98,6 +103,7 @@ Commands to run (exact, in this order)
 Troubleshooting notes included in the full plan file in the repository.
 
 Next actions taken by implementer agent (after you confirm):
+
 - Apply the label edits to docker-compose.yml
 - Create .envs/production/.env.production locally
 - Generate htpasswd at compose/traefik/auth/htpasswd
