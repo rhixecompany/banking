@@ -30,3 +30,6 @@ export async function signInWithSeedUser(page: Page): Promise<void> {
     page.getByRole("navigation").first().waitFor({ timeout }),
   ]);
 }
+
+// NOTE: This helper deliberately keeps hard-coded seed credentials for E2E
+// tests. They are non-sensitive test fixtures and mirrored in scripts/seed.

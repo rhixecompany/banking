@@ -23,9 +23,9 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SEED_USER_EMAIL = "seed-user@example.com";
 
 /**
- * Base URL for the dev server
+ * Base URL for the dev server - will be resolved at runtime via lib/env with fallback
  */
-const BASE_URL = process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3000";
+let BASE_URL = "http://localhost:3000";
 
 /**
  * Timeout configurations
@@ -310,14 +310,34 @@ async function ensureSeededData(databaseUrl: string): Promise<void> {
 export default async function globalSetup(): Promise<void> {
   printSection("PLAYWRIGHT E2E GLOBAL SETUP");
 
-  // Skip if not enabled
-  if (process.env.PLAYWRIGHT_PREPARE_DB !== "true") {
-    console.info("  SKIP: PLAYWRIGHT_PREPARE_DB is not set to 'true'");
-    console.info(
-      "  Run tests with: PLAYWRIGHT_PREPARE_DB=true npx playwright test",
-    );
-    printSection("SETUP COMPLETE (SKIPPED)");
-    return;
+  // Resolve runtime environment flags via lib/env when available, fall back to process.env
+  try {
+    // Dynamic require avoids module load-order and validation side-effects
+
+    const { env } = require("@/lib/env") as any;
+    if (env.PLAYWRIGHT_BASE_URL) BASE_URL = env.PLAYWRIGHT_BASE_URL as string;
+    const prepare = env.PLAYWRIGHT_PREPARE_DB as string | undefined;
+    if (prepare !== "true") {
+      console.info("  SKIP: PLAYWRIGHT_PREPARE_DB is not set to 'true'");
+      console.info(
+        "  Run tests with: PLAYWRIGHT_PREPARE_DB=true npx playwright test",
+      );
+      printSection("SETUP COMPLETE (SKIPPED)");
+      return;
+    }
+  } catch {
+    // Fallback to direct process.env for CI or simple local runs
+
+    if (process.env.PLAYWRIGHT_PREPARE_DB !== "true") {
+      console.info("  SKIP: PLAYWRIGHT_PREPARE_DB is not set to 'true'");
+      console.info(
+        "  Run tests with: PLAYWRIGHT_PREPARE_DB=true npx playwright test",
+      );
+      printSection("SETUP COMPLETE (SKIPPED)");
+      return;
+    }
+
+    BASE_URL = process.env.PLAYWRIGHT_BASE_URL ?? BASE_URL;
   }
 
   // Step 1: Load environment variables

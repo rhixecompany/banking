@@ -3,10 +3,17 @@
  * Prefer validated config via lib/env, but fall back to process.env for
  * ad-hoc local runs. Centralizing this logic keeps eslint disables in one place.
  */
+import type { Environment } from "@/lib/env";
+
 export async function getConnectionString(): Promise<string> {
   try {
-    const { env } = await import("@/lib/env");
-    const conn = (env as any).DATABASE_URL ?? (env as any).NEON_DATABASE_URL;
+    // Dynamic import avoids app-config validation side-effects at module load time
+    const imported = (await import("@/lib/env")) as { env: Environment };
+    const env = imported.env as Partial<Environment> & Record<string, unknown>;
+    const conn =
+      (env.DATABASE_URL as string | undefined) ??
+      // Some environments expose NEON_DATABASE_URL as an alternate name
+      (process.env.NEON_DATABASE_URL as string | undefined);
     if (conn) return conn as string;
   } catch {
     // lib/env may intentionally throw in some ad-hoc environments; fall back.

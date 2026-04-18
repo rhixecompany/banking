@@ -23,7 +23,6 @@
         "npx",
         "-y",
         "@modelcontextprotocol/server-filesystem",
-        "./",
         "~/"
       ],
       "enabled": true,

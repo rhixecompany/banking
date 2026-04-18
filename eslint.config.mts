@@ -409,7 +409,6 @@ export default defineConfig([
           "slide-in",
           "slide-out",
         ],
-        tags: ["myTag"],
         // Add known project-specific utility classes so the plugin doesn't flag them
         knownClasses: [
           "card",
@@ -422,6 +421,7 @@ export default defineConfig([
           "row-item",
           "field",
         ],
+        tags: ["myTag"],
         tailwindConfig: "",
         variables: ["className", "classNames", "classes", "style", "styles"],
       },
