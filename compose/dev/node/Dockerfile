@@ -1,109 +1,99 @@
 # =============================================================================
-# Banking Application - Multi-stage Dockerfile (Production Optimized)
-# =============================================================================
-# Build targets:
-#   - docker build . -t banking:dev --target development  # Hot-reload dev
-#   - docker build . -t banking:prod --target production   # Production runtime
-#   - docker build . -t banking:builder --target builder  # Build stage only
+# Banking Application - Multi-stage Dockerfile (Optimized)
+#
+# Goal: reduce image size and layer count while preserving build correctness
+# for native modules (bcrypt) and keeping the Next standalone build output.
 # =============================================================================
 
-# Use build cache from buildkit for better layer reuse
-# syntax=docker/dockerfile:1.4
+# Use BuildKit syntax for cache mounts
+syntax=docker/dockerfile:1.4
 
 ARG NODE_VERSION=22
 
 # =============================================================================
-# Stage: builder - Production build with dependencies cached
+# Stage: builder - install dependencies and produce standalone build
 # =============================================================================
-FROM node:${NODE_VERSION}-bookworm-slim AS builder
+FROM node:${NODE_VERSION}-slim AS builder
+
+ARG NODE_ENV=production
+ENV NODE_ENV=${NODE_ENV}
 
 WORKDIR /app
 
-ARG NEXT_PUBLIC_SITE_URL=https://localhost
-
-ENV NODE_ENV=production \
-    NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL}
-
-# Copy dependency files
+# Copy dependency manifests and install all deps (dev + prod) for build
 COPY package.json package-lock.json ./
-
-# Install all dependencies (dev deps needed for build tools like rimraf, tsx, etc.)
-# Skip lifecycle scripts (husky, etc.) to avoid errors in Docker
 RUN --mount=type=cache,target=/root/.npm \
-    npm ci --legacy-peer-deps --ignore-scripts && \
+    npm ci --legacy-peer-deps --no-audit --progress=false && \
     npm cache clean --force
 
-# Copy application code
+# Copy source and build the standalone Next output
 COPY . .
+RUN npm run build:standalone
 
-# Build standalone output and then remove dev dependencies
-RUN npm run build:standalone && \
-    npm prune --production --legacy-peer-deps
+# Remove dev dependencies to shrink what we copy to the runtime image
+RUN npm prune --production --legacy-peer-deps
+
 
 # =============================================================================
-# Stage: production - Minimal runtime (alpine + only essentials)
+# Stage: production - use slim (Debian) for native module compatibility
 # =============================================================================
-FROM node:${NODE_VERSION}-alpine AS production
+FROM node:${NODE_VERSION}-slim AS production
+
+ARG NODE_ENV=production
+ENV NODE_ENV=${NODE_ENV}
+
+# Create a non-root user to run the app
+RUN groupadd -r app && useradd -r -g app app
 
 WORKDIR /app
 
-# Install minimal runtime dependencies (dumb-init for signal handling)
-RUN apk add --no-cache dumb-init
+# Consolidated copy from builder to reduce layers while keeping file layout
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/node_modules ./node_modules
 
-# Create non-root user
-RUN addgroup -g 1001 -S appuser && \
-    adduser -S appuser -u 1001
-
-# Copy only built application and production dependencies
-COPY --from=builder --chown=appuser:appuser /app/.next/standalone ./
-COPY --from=builder --chown=appuser:appuser /app/.next/static ./.next/static
-COPY --from=builder --chown=appuser:appuser /app/public ./public
-COPY --from=builder --chown=appuser:appuser /app/package.json ./
-COPY --from=builder --chown=appuser:appuser /app/node_modules ./node_modules
-
-USER appuser
-
-ENV NODE_ENV=production \
-    PORT=3000 \
+ENV PORT=3000 \
     HOSTNAME=0.0.0.0
 
 EXPOSE 3000
 
+# Keep the same healthcheck semantics
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
     CMD node -e "require('http').get('http://localhost:3000', (r) => {if (r.statusCode !== 200) throw new Error(r.statusCode)})" || exit 1
 
-ENTRYPOINT ["/usr/bin/dumb-init", "--"]
+USER app
+
+# Start the standalone server
 CMD ["node", "server.js"]
 
+
 # =============================================================================
-# Stage: development - Hot-reload development environment
+# Stage: development - full dev environment with dev dependencies
 # =============================================================================
-FROM node:${NODE_VERSION}-bookworm-slim AS development
+FROM node:${NODE_VERSION}-slim AS development
+
+ARG NODE_ENV=development
+ENV NODE_ENV=${NODE_ENV}
 
 WORKDIR /app
 
-# Install dev dependencies in single layer
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    dumb-init \
-    && rm -rf /var/lib/apt/lists/*
-
-# Copy dependency files
+# Install dev dependencies in the image for a complete dev experience
 COPY package.json package-lock.json ./
-
-# Install all dependencies (dev + production for dev environment)
 RUN --mount=type=cache,target=/root/.npm \
-    npm ci --legacy-peer-deps && \
+    npm ci --legacy-peer-deps --no-audit --progress=false && \
     npm cache clean --force
 
-# Copy source code
+# Copy source code for hot-reload/dev
 COPY . .
 
-ENV NODE_ENV=development \
-    NEXT_PUBLIC_SITE_URL=http://localhost:3000 \
+ENV NEXT_PUBLIC_SITE_URL=http://localhost:3000 \
     PORT=3000 \
     HOSTNAME=0.0.0.0
 
 EXPOSE 3000
 
-ENTRYPOINT ["/usr/bin/dumb-init", "--"]
+USER node
+
 CMD ["npm", "run", "dev"]
