@@ -1,0 +1,86 @@
+#!/usr/bin/env node
+/**
+ * gen-certs.ts - Generate self-signed TLS certificates for Traefik
+ * TODO: Consider node-forge fallback for environments without openssl
+ */
+import { spawnSync } from "child_process";
+import fs from "fs";
+import path from "path";
+
+const SCRIPT_DIR = path.dirname(new URL(import.meta.url).pathname);
+const CERT_DIR = path.join(
+  SCRIPT_DIR,
+  "..",
+  "compose",
+  "production",
+  "traefik",
+  "certs",
+);
+fs.mkdirSync(CERT_DIR, { recursive: true });
+
+function run(cmd: string, args: string[]) {
+  const res = spawnSync(cmd, args, { stdio: "inherit" });
+  if (res.error) throw res.error;
+  if (res.status && res.status !== 0) process.exit(res.status);
+}
+
+console.log("Generating CA...");
+run("openssl", ["genrsa", "-out", path.join(CERT_DIR, "ca.key"), "2048"]);
+run("openssl", [
+  "req",
+  "-new",
+  "-x509",
+  "-days",
+  "365",
+  "-key",
+  path.join(CERT_DIR, "ca.key"),
+  "-out",
+  path.join(CERT_DIR, "ca.crt"),
+  "-subj",
+  "/CN=Banking CA",
+]);
+
+console.log("Generating server key...");
+run("openssl", ["genrsa", "-out", path.join(CERT_DIR, "server.key"), "2048"]);
+
+console.log("Generating server certificate...");
+run("openssl", [
+  "req",
+  "-new",
+  "-key",
+  path.join(CERT_DIR, "server.key"),
+  "-out",
+  path.join(CERT_DIR, "server.csr"),
+  "-subj",
+  "/CN=banking.example.com",
+]);
+run("openssl", [
+  "x509",
+  "-req",
+  "-days",
+  "365",
+  "-in",
+  path.join(CERT_DIR, "server.csr"),
+  "-CA",
+  path.join(CERT_DIR, "ca.crt"),
+  "-CAkey",
+  path.join(CERT_DIR, "ca.key"),
+  "-CAcreateserial",
+  "-out",
+  path.join(CERT_DIR, "server.crt"),
+]);
+
+try {
+  fs.unlinkSync(path.join(CERT_DIR, "server.csr"));
+} catch {}
+try {
+  fs.unlinkSync(path.join(CERT_DIR, "ca.key"));
+} catch {}
+try {
+  fs.unlinkSync(path.join(CERT_DIR, "ca.srl"));
+} catch {}
+
+console.log(`Certificates generated in ${CERT_DIR}:`);
+console.log(fs.readdirSync(CERT_DIR).join("\n"));
+
+process.exit(0);
