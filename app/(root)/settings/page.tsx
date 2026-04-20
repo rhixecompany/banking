@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import RootLayoutWrapper from "@/components/layouts/RootLayoutWrapper";
 import { SettingsServerWrapper } from "@/components/settings/settings-server-wrapper";
 
 /**
@@ -21,5 +22,9 @@ export const metadata: Metadata = {
  * @returns {JSX.Element}
  */
 export default function SettingsPage(): JSX.Element {
-  return <SettingsServerWrapper />;
+  return (
+    <RootLayoutWrapper>
+      <SettingsServerWrapper />
+    </RootLayoutWrapper>
+  );
 }

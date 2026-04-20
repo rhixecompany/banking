@@ -1,6 +1,6 @@
-import type { Metadata } from "next";
-
 import { AdminDashboardServerWrapper } from "@/components/admin/admin-dashboard-server-wrapper";
+import AdminLayoutWrapper from "@/components/layouts/AdminLayoutWrapper";
+import type { Metadata } from "next";
 
 /**
  * Description placeholder
@@ -21,5 +21,9 @@ export const metadata: Metadata = {
  * @returns {JSX.Element}
  */
 export default function AdminPage(): JSX.Element {
-  return <AdminDashboardServerWrapper />;
+  return (
+    <AdminLayoutWrapper>
+      <AdminDashboardServerWrapper />
+    </AdminLayoutWrapper>
+  );
 }

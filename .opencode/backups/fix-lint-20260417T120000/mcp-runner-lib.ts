@@ -2,21 +2,82 @@
 import fs from "fs";
 import path from "path";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @interface DiscoveryRecord
+ * @typedef {DiscoveryRecord}
+ */
 export interface DiscoveryRecord {
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {string}
+   */
   name: string;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {("docker" | "gateway")}
+   */
   discoveredVia: "docker" | "gateway";
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?string}
+   */
   raw?: string;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {string}
+   */
   timestamp: string;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {{}}
+ */
 const TOKEN_REGEX = /^[\w.:-]+(?:[-_][\w.:-]+)*$/;
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {{}}
+ */
 const DEFAULT_DENYLIST = ["adding", "configuration", "start", "total", "those"];
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {string} t
+ * @returns {string}
+ */
 export function normalizeToken(t: string): string {
   return t.trim().toLowerCase().replaceAll(/\s+/g, "-");
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {string} t
+ * @param {string[]} [denylist=DEFAULT_DENYLIST]
+ * @returns {boolean}
+ */
 export function isValidToken(
   t: string,
   denylist: string[] = DEFAULT_DENYLIST,
@@ -29,6 +90,14 @@ export function isValidToken(
   return true;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {string} output
+ * @returns {DiscoveryRecord[]}
+ */
 export function parseGatewayOutput(output: string): DiscoveryRecord[] {
   // Heuristic: extract lines under an "Enabled MCP Servers" table or after a header
   const lines = output.split(/\r?\n/);
@@ -54,6 +123,14 @@ export function parseGatewayOutput(output: string): DiscoveryRecord[] {
   return records;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {string} output
+ * @returns {DiscoveryRecord[]}
+ */
 export function parseDockerPsOutput(output: string): DiscoveryRecord[] {
   const lines = output.split(/\r?\n/);
   const records: DiscoveryRecord[] = [];
@@ -75,6 +152,15 @@ export function parseDockerPsOutput(output: string): DiscoveryRecord[] {
   return records;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {string[]} existing
+ * @param {DiscoveryRecord[]} discovered
+ * @returns {*}
+ */
 export function mergeCatalog(
   existing: string[],
   discovered: DiscoveryRecord[],
@@ -90,12 +176,29 @@ export function mergeCatalog(
   return merged;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {string} catalogPath
+ * @returns {string[]}
+ */
 export function readCatalog(catalogPath: string) {
   const txt = fs.readFileSync(catalogPath, "utf8");
   const obj = JSON.parse(txt);
   return obj.mcpServers as string[];
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {string} catalogPath
+ * @param {string[]} servers
+ * @returns {string}
+ */
 export function writeCatalog(catalogPath: string, servers: string[]) {
   // Compatibility shim: use atomicWriteCatalog when available
   const tmpPath = `${catalogPath}.tmp.${Date.now()}`;
@@ -105,6 +208,15 @@ export function writeCatalog(catalogPath: string, servers: string[]) {
   return backup;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {string} tmpPath
+ * @param {string} finalPath
+ * @returns {string}
+ */
 export function atomicWriteCatalog(tmpPath: string, finalPath: string) {
   // Backup existing
   const backup = `${finalPath}.bak.${Date.now()}`;
@@ -114,6 +226,15 @@ export function atomicWriteCatalog(tmpPath: string, finalPath: string) {
   return backup;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {{ name: string; cmd: string }[]} commands
+ * @param {?{ timeout?: number }} [opts]
+ * @returns {{}}
+ */
 export function runValidations(
   commands: { name: string; cmd: string }[],
   opts?: { timeout?: number },
@@ -139,6 +260,15 @@ export function runValidations(
   return results;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {string} backupPath
+ * @param {string} finalPath
+ * @returns {{ restored: string; safetyCopy: string; }}
+ */
 export function rollbackRestore(backupPath: string, finalPath: string) {
   if (!fs.existsSync(backupPath))
     throw new Error(`Backup not found: ${backupPath}`);
@@ -149,6 +279,15 @@ export function rollbackRestore(backupPath: string, finalPath: string) {
   return { restored: finalPath, safetyCopy: safety };
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {string} dir
+ * @param {number} olderThanDays
+ * @returns {{}}
+ */
 export function pruneBackups(dir: string, olderThanDays: number) {
   const deleted: string[] = [];
   if (!fs.existsSync(dir)) return deleted;
@@ -173,6 +312,15 @@ export function pruneBackups(dir: string, olderThanDays: number) {
 }
 
 // Minimal helper template generator
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {string} serverName
+ * @param {string} helpersDir
+ * @returns {{ path: any; written: boolean; }}
+ */
 export function generateHelper(serverName: string, helpersDir: string) {
   const fileName = path.join(helpersDir, `${serverName}.ts`);
   const content = `// Generated helper for ${serverName}\n// GeneratedAt: ${new Date().toISOString()}\nexport const name = '${serverName}';\n`;
@@ -185,6 +333,15 @@ export function generateHelper(serverName: string, helpersDir: string) {
   return { path: fileName, written: true };
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {string[]} oldList
+ * @param {string[]} newList
+ * @returns {{ added: any; removed: any; }}
+ */
 export function diffLists(oldList: string[], newList: string[]) {
   const oldSet = new Set(oldList);
   const newSet = new Set(newList);

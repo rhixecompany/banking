@@ -8,9 +8,28 @@ import fs from "fs";
 import path from "path";
 import readline from "readline";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const SCRIPT_DIR = path.dirname(process.argv[1]);
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const PROJECT_ROOT = path.resolve(SCRIPT_DIR, "../..");
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} q
+ * @returns {*}
+ */
 function prompt(q: string) {
   const rl = readline.createInterface({
     input: process.stdin,
@@ -24,6 +43,13 @@ function prompt(q: string) {
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {number} len
+ * @returns {*}
+ */
 function randHex(len: number) {
   // fallback JS generator
   const bytes = len / 2;
@@ -32,12 +58,26 @@ function randHex(len: number) {
     .join("");
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {number} n
+ * @returns {*}
+ */
 function cryptoRandom(n: number) {
   const arr = new Uint8Array(n);
   for (let i = 0; i < n; i++) arr[i] = Math.floor(Math.random() * 256);
   return arr;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @returns {*}
+ */
 async function main() {
   console.log("=== Production Environment Generator ===\n");
   const envFile = path.join(PROJECT_ROOT, ".envs/production/.env.production");

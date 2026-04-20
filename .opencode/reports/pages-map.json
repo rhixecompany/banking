@@ -1,0 +1,14 @@
+{
+  "generatedAt": "2026-04-20T22:xx:xxZ",
+  "pages": [
+    "app/page.tsx",
+    "app/(root)/dashboard/page.tsx",
+    "app/(root)/my-wallets/page.tsx",
+    "app/(root)/payment-transfer/page.tsx",
+    "app/(root)/settings/page.tsx",
+    "app/(root)/transaction-history/page.tsx",
+    "app/(auth)/sign-in/page.tsx",
+    "app/(auth)/sign-up/page.tsx",
+    "app/(admin)/admin/page.tsx"
+  ]
+}

@@ -6,7 +6,19 @@
  */
 import { spawnSync } from "child_process";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {"scripts/utils/run-ci-checks.sh"}
+ */
 const cmdSh = "scripts/utils/run-ci-checks.sh";
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {"scripts/utils/run-ci-checks.ps1"}
+ */
 const cmdPs1 = "scripts/utils/run-ci-checks.ps1";
 
 if (process.platform === "win32") {

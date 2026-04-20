@@ -6,6 +6,14 @@
  */
 import fs from "fs";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {string} filePath
+ * @returns {*}
+ */
 export function readEnvFile(filePath: string) {
   if (!fs.existsSync(filePath)) return {};
   const content = fs.readFileSync(filePath, "utf8");

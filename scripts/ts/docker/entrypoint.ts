@@ -6,6 +6,13 @@
  */
 import { spawnSync } from "child_process";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} cmd
+ * @param {string[]} args
+ */
 function run(cmd: string, args: string[]) {
   const res = spawnSync(cmd, args, { stdio: "inherit" });
   if (res.error) throw res.error;

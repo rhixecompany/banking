@@ -3,16 +3,43 @@
 import fs from "fs";
 import path from "path";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @typedef {Categories}
+ */
 type Categories = Record<string, string[]>;
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} p
+ * @param {string} root
+ * @returns {*}
+ */
 function rel(p: string, root: string) {
   return path.relative(root, p).split(path.sep).join("/");
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @returns {*}
+ */
 function isoTs() {
   return new Date().toISOString().replaceAll(":", "");
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} p
+ * @returns {*}
+ */
 function isExcluded(p: string) {
   return (
     p.includes("/node_modules/") ||
@@ -23,6 +50,15 @@ function isExcluded(p: string) {
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @param {string} dir
+ * @param {(fp: string) => Promise<void>} cb
+ * @returns {Promise<void>) => any}
+ */
 async function walk(dir: string, cb: (fp: string) => Promise<void>) {
   const entries = await fs.promises.readdir(dir, { withFileTypes: true });
   for (const e of entries) {
@@ -33,6 +69,13 @@ async function walk(dir: string, cb: (fp: string) => Promise<void>) {
   }
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} relPath
+ * @returns {("CORE_KEEP" | "DOCKER_KEEP" | "INTEGRATION_KEEP" | "SWARM_DELETE" | "LEGACY_DELETE" | "OTHER_DELETE" | "ORPHANED_DELETE")}
+ */
 function categorize(relPath: string) {
   if (relPath === "README.md" || relPath === "AGENTS.md") return "CORE_KEEP";
   if (relPath.startsWith("docs/docker/")) return "DOCKER_KEEP";
@@ -110,6 +153,13 @@ function categorize(relPath: string) {
   return "ORPHANED_DELETE";
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @returns {*}
+ */
 async function main() {
   try {
     const argv = process.argv.slice(2);

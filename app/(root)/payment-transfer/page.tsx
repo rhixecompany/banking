@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import RootLayoutWrapper from "@/components/layouts/RootLayoutWrapper";
 import { PaymentTransferServerWrapper } from "@/components/payment-transfer/payment-transfer-server-wrapper";
 
 /**
@@ -20,5 +21,9 @@ export const metadata: Metadata = {
  * @returns {JSX.Element}
  */
 export default function PaymentTransferPage(): JSX.Element {
-  return <PaymentTransferServerWrapper />;
+  return (
+    <RootLayoutWrapper>
+      <PaymentTransferServerWrapper />
+    </RootLayoutWrapper>
+  );
 }

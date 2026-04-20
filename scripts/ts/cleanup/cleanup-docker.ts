@@ -6,13 +6,32 @@
 import { spawnSync } from "child_process";
 import path from "path";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} cmd
+ * @param {string[]} args
+ */
 function run(cmd: string, args: string[]) {
   const res = spawnSync(cmd, args, { stdio: "inherit" });
   if (res.error) throw res.error;
   if (res.status && res.status !== 0) process.exit(res.status);
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const SCRIPT_DIR = path.dirname(new URL(import.meta.url).pathname);
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const PROJECT_ROOT = path.resolve(SCRIPT_DIR, "..", "..");
 
 // Check docker available
@@ -33,6 +52,12 @@ run("bash", ["-c", "docker ps -a -f status=exited -q | wc -l || true"]);
 run("bash", ["-c", "docker network ls -f dangling=true -q | wc -l || true"]);
 
 console.log("Proceed with aggressive Docker cleanup? Type 'yes' to continue");
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const input = require("fs").readFileSync(0, "utf8");
 if (input.trim() !== "yes") {
   console.log("Cancelled.");

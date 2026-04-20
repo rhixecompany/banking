@@ -6,7 +6,19 @@
  */
 import { spawnSync } from "child_process";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {"scripts/utils/disable-extensions.sh"}
+ */
 const sh = "scripts/utils/disable-extensions.sh";
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {"scripts/utils/disable-extensions.ps1"}
+ */
 const ps1 = "scripts/utils/disable-extensions.ps1";
 
 if (process.platform === "win32") {

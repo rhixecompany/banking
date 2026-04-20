@@ -9,9 +9,28 @@ import fs from "fs";
 import path from "path";
 import readline from "readline";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const SCRIPT_DIR = path.dirname(process.argv[1]);
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const PROJECT_ROOT = path.resolve(SCRIPT_DIR, "../..");
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} q
+ * @returns {*}
+ */
 function prompt(q: string) {
   const rl = readline.createInterface({
     input: process.stdin,
@@ -25,6 +44,13 @@ function prompt(q: string) {
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {number} len
+ * @returns {*}
+ */
 function randHex(len: number) {
   const r = spawnSync("openssl", ["rand", "-hex", String(len / 2)], {
     encoding: "utf8",
@@ -33,6 +59,13 @@ function randHex(len: number) {
   return r.stdout.trim();
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {number} bytes
+ * @returns {*}
+ */
 function randBase64(bytes: number) {
   const r = spawnSync("openssl", ["rand", "-base64", String(bytes)], {
     encoding: "utf8",
@@ -41,6 +74,13 @@ function randBase64(bytes: number) {
   return r.stdout.trim();
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @returns {*}
+ */
 async function main() {
   console.log("=== Production Environment Generator ===\n");
   const envFile = path.join(PROJECT_ROOT, ".envs/production/.env.production");

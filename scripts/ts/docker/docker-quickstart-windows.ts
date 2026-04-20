@@ -9,9 +9,29 @@ import fs from "fs";
 import path from "path";
 import readline from "readline";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const SCRIPT_DIR = path.dirname(process.argv[1]);
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const PROJECT_ROOT = path.resolve(SCRIPT_DIR, "../..");
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} cmd
+ * @param {string[]} args
+ * @returns {*}
+ */
 function run(cmd: string, args: string[]) {
   const res = spawnSync(cmd, args, { stdio: "inherit", shell: true });
   if (res.error) throw res.error;
@@ -19,10 +39,24 @@ function run(cmd: string, args: string[]) {
   return 0;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} p
+ * @returns {*}
+ */
 function fileExists(p: string) {
   return fs.existsSync(p);
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} q
+ * @returns {*}
+ */
 function prompt(q: string) {
   const rl = readline.createInterface({
     input: process.stdin,
@@ -36,6 +70,13 @@ function prompt(q: string) {
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @returns {*}
+ */
 async function main() {
   if (!fileExists(path.join(PROJECT_ROOT, ".envs/local/.env.local"))) {
     // ok - we'll surface errors later

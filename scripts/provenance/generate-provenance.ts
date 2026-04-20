@@ -2,6 +2,12 @@
 import { execSync } from "child_process";
 import fs from "fs";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @returns {{ branch: any; commit: any; }}
+ */
 function getGitInfo() {
   try {
     const branch = execSync("git rev-parse --abbrev-ref HEAD", {
@@ -20,6 +26,12 @@ function getGitInfo() {
   }
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @returns {string}
+ */
 function readFilesArg(): string {
   const args = process.argv.slice(2);
   if (args.length > 0) return args.join(",");
@@ -37,6 +49,10 @@ function readFilesArg(): string {
   return "<files-not-provided>";
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ */
 function main() {
   const git = getGitInfo();
   const files = readFilesArg();

@@ -7,8 +7,22 @@
 import fs from "fs";
 import path from "path";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const ROOT = process.cwd();
 // Walk scripts directory and find .sh/.ps1 files without a corresponding scripts/ts wrapper
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} dir
+ * @param {string[]} [files=[]]
+ * @returns {{}}
+ */
 function walk(dir: string, files: string[] = []) {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
   for (const e of entries) {
@@ -19,11 +33,24 @@ function walk(dir: string, files: string[] = []) {
   return files;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} filePath
+ */
 function ensureDir(filePath: string) {
   const d = path.dirname(filePath);
   if (!fs.existsSync(d)) fs.mkdirSync(d, { recursive: true });
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} original
+ * @returns {*}
+ */
 function makeWrapper(original: string) {
   const rel = path.relative(ROOT, original).replace(/\\/g, "/");
   const tsPath = path
@@ -37,6 +64,10 @@ function makeWrapper(original: string) {
   return path.relative(ROOT, tsPath);
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ */
 function main() {
   const all = walk(path.join(ROOT, "scripts"));
   const shps = all.filter((p) => p.endsWith(".sh") || p.endsWith(".ps1"));

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { DashboardServerWrapper } from "@/components/dashboard/dashboard-server-wrapper";
+import RootLayoutWrapper from "@/components/layouts/RootLayoutWrapper";
 
 /**
  * Description placeholder
@@ -21,5 +22,9 @@ export const metadata: Metadata = {
  * @returns {JSX.Element}
  */
 export default function DashboardPage(): JSX.Element {
-  return <DashboardServerWrapper />;
+  return (
+    <RootLayoutWrapper>
+      <DashboardServerWrapper />
+    </RootLayoutWrapper>
+  );
 }

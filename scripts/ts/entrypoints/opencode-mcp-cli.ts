@@ -2,6 +2,13 @@
 import { main as mcpMain } from "../../mcp-runner";
 import { parseCli, printDryRunResult } from "../utils/cli";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @returns {*}
+ */
 async function run() {
   const cli = parseCli();
   // mcp-runner is usually interactive or list-only; support dry-run

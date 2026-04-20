@@ -8,11 +8,27 @@ import { spawnSync } from "child_process";
 import fs from "fs";
 import readline from "readline";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} cmd
+ * @param {string[]} args
+ * @returns {*}
+ */
 function run(cmd: string, args: string[]) {
   const r = spawnSync(cmd, args, { stdio: "inherit" });
   return r.status ?? 0;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} cmd
+ * @param {string[]} args
+ * @returns {{ code: any; stdout: any; stderr: any; }}
+ */
 function capture(cmd: string, args: string[]) {
   const r = spawnSync(cmd, args, { encoding: "utf8" });
   return {
@@ -22,6 +38,14 @@ function capture(cmd: string, args: string[]) {
   };
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @param {string} question
+ * @returns {unknown}
+ */
 async function promptYesNo(question: string) {
   const rl = readline.createInterface({
     input: process.stdin,
@@ -35,6 +59,13 @@ async function promptYesNo(question: string) {
   });
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @returns {*}
+ */
 async function main() {
   // Check git availability
   const which = capture(process.platform === "win32" ? "where" : "which", [

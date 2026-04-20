@@ -3,6 +3,12 @@
 import { promises as fs } from "fs";
 import path from "path";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {{}}
+ */
 const DISABLED_EXTENSIONS = [
   "github.copilot-chat",
   "eamodio.gitlens",
@@ -15,6 +21,12 @@ const DISABLED_EXTENSIONS = [
   "gruntfuggly.todo-tree",
 ];
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @returns {string}
+ */
 function getSettingsPath(): string {
   const platform = process.platform;
   if (platform === "win32") {
@@ -45,11 +57,26 @@ function getSettingsPath(): string {
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {Date} d
+ * @returns {string}
+ */
 function isoTimestampForFilename(d: Date): string {
   // ISO-ish without characters invalid in filenames (remove colons)
   return d.toISOString().replace(/:/g, "").slice(0, 19);
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @param {string} filePath
+ * @returns {Promise<any>}
+ */
 async function readJsonFile(filePath: string): Promise<any> {
   try {
     const raw = await fs.readFile(filePath, { encoding: "utf8" });
@@ -68,6 +95,16 @@ async function readJsonFile(filePath: string): Promise<any> {
   }
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @param {string} filePath
+ * @param {*} obj
+ * @param {boolean} makeBackup
+ * @returns {Promise<void>}
+ */
 async function writeJsonFile(
   filePath: string,
   obj: any,
@@ -99,6 +136,13 @@ async function writeJsonFile(
   await fs.writeFile(filePath, content, { encoding: "utf8" });
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @returns {Promise<number>}
+ */
 async function main(): Promise<number> {
   const args = process.argv.slice(2);
   const hasApply = args.includes("--apply");

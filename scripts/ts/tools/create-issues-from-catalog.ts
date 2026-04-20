@@ -2,6 +2,13 @@
 import { execSync } from "child_process";
 import fs from "fs/promises";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @returns {*}
+ */
 async function main() {
   const path =
     process.argv[2] || ".opencode/reports/init-enhanced-issue-catalog.json";
@@ -20,6 +27,13 @@ async function main() {
   }
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} s
+ * @returns {*}
+ */
 function escape(s: string) {
   return s.replace(/"/g, '\\"');
 }

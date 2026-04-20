@@ -26,7 +26,7 @@ vi.mock("next/navigation", () => ({
 }));
 
 vi.mock("next-auth/react", () => ({
-  signIn: vi.fn(),
+  signIn: vi.fn(async () => ({ ok: true })),
 }));
 
 vi.mock("sonner", () => ({

@@ -2,6 +2,13 @@
 import { main as deployMain } from "../deploy/deploy";
 import { ensureApplyOrDryRun, parseCli, printDryRunResult } from "../utils/cli";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @returns {*}
+ */
 async function run() {
   const cli = parseCli();
   ensureApplyOrDryRun({ dryRun: cli.dryRun, apply: cli.apply });

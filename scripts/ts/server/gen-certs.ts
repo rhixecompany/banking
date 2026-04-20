@@ -7,7 +7,19 @@ import { spawnSync } from "child_process";
 import fs from "fs";
 import path from "path";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const SCRIPT_DIR = path.dirname(new URL(import.meta.url).pathname);
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const CERT_DIR = path.join(
   SCRIPT_DIR,
   "..",
@@ -18,6 +30,13 @@ const CERT_DIR = path.join(
 );
 fs.mkdirSync(CERT_DIR, { recursive: true });
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} cmd
+ * @param {string[]} args
+ */
 function run(cmd: string, args: string[]) {
   const res = spawnSync(cmd, args, { stdio: "inherit" });
   if (res.error) throw res.error;

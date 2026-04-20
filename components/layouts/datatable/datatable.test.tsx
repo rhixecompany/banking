@@ -2,11 +2,23 @@ import { render, screen } from "@testing-library/react";
 
 import Datatable from "./index";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {{}}
+ */
 const columns = [
   { header: "ID", key: "id" },
   { header: "Name", key: "name" },
 ];
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {{}}
+ */
 const rows = [
   { id: "1", name: "Alice" },
   { id: "2", name: "Bob" },

@@ -4,6 +4,12 @@ import { spawnSync } from "child_process";
 
 import { parseCli, printDryRunResult } from "./ts/utils/cli";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {{}}
+ */
 const steps = [
   { args: ["run", "format"], cmd: "npm" },
   { args: ["run", "type-check"], cmd: "npm" },
@@ -11,6 +17,10 @@ const steps = [
   { args: ["run", "verify:rules"], cmd: "npm" },
 ];
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ */
 function runSteps() {
   for (const s of steps) {
     console.log(`\n=== Running: ${s.cmd} ${s.args.join(" ")} ===`);
@@ -25,6 +35,15 @@ function runSteps() {
   console.log("All verification steps completed successfully.");
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @async
+ * @param {string[]} [argv=[]]
+ * @returns {unknown}
+ */
 export async function main(argv: string[] = []) {
   const cli = parseCli(argv);
   if (cli.dryRun) {

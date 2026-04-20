@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import RootLayoutWrapper from "@/components/layouts/RootLayoutWrapper";
 import { MyWalletsServerWrapper } from "@/components/my-wallets/my-wallets-server-wrapper";
 
 /**
@@ -21,5 +22,9 @@ export const metadata: Metadata = {
  * @returns {JSX.Element}
  */
 export default function MyWalletsPage(): JSX.Element {
-  return <MyWalletsServerWrapper />;
+  return (
+    <RootLayoutWrapper>
+      <MyWalletsServerWrapper />
+    </RootLayoutWrapper>
+  );
 }

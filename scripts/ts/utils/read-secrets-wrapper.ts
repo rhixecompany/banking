@@ -6,7 +6,19 @@
  */
 import { spawnSync } from "child_process";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {"scripts/utils/read-secrets.sh"}
+ */
 const sh = "scripts/utils/read-secrets.sh";
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {"scripts/utils/read-secrets.ps1"}
+ */
 const ps1 = "scripts/utils/read-secrets.ps1";
 
 if (process.platform === "win32") {

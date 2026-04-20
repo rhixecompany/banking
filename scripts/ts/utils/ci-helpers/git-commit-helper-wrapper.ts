@@ -6,6 +6,12 @@
  */
 import { spawnSync } from "child_process";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {"scripts/utils/ci-helpers/git-commit-helper.sh"}
+ */
 const sh = "scripts/utils/ci-helpers/git-commit-helper.sh";
 if (process.platform === "win32") {
   console.warn(

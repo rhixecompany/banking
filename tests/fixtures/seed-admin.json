@@ -1,6 +1,11 @@
 {
-  "email": "seed.admin@example.com",
-  "isAdmin": true,
-  "name": "Admin User",
-  "password": "P@ssw0rd"
+  "users": [
+    {
+      "email": "seed-admin@example.com",
+      "password": "Password1!",
+      "isAdmin": true,
+      "isActive": true,
+      "name": "Seed Admin"
+    }
+  ]
 }

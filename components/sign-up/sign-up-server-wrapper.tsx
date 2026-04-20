@@ -17,6 +17,8 @@ export async function SignUpServerWrapper(): Promise<JSX.Element> {
   const session = await auth();
   if (session?.user) redirect("/dashboard");
 
+  // Pass registerUser server action into the client AuthForm via props
+  // to avoid importing DB or DAL into the client component.
   return (
     <section className="flex-center size-full max-sm:px-6">
       <AuthForm type="sign-up" register={registerUser} />

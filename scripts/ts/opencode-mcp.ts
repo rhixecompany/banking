@@ -7,10 +7,34 @@
 import { spawnSync } from "child_process";
 import path from "path";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const ROOT = process.cwd();
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const ps1 = path.join(ROOT, "scripts", "opencode-mcp.ps1");
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const sh = path.join(ROOT, "scripts", "opencode-mcp.sh");
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} cmd
+ */
 function run(cmd: string) {
   const res = spawnSync(cmd, { stdio: "inherit", shell: true });
   process.exitCode = res.status ?? 0;

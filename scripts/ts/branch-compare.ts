@@ -6,14 +6,34 @@
  */
 import { spawnSync } from "child_process";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const args = process.argv.slice(2);
 if (args.length < 2) {
   console.error("Usage: branch-compare <base> <head>");
   process.exit(2);
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const [base, head] = args;
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} cmd
+ * @param {string[]} args
+ * @returns {*}
+ */
 function run(cmd: string, args: string[]) {
   const res = spawnSync(cmd, args, { stdio: "inherit" });
   return res.status ?? 0;
@@ -21,6 +41,12 @@ function run(cmd: string, args: string[]) {
 
 // Show commits in head not in base
 console.log(`Comparing ${base}..${head}`);
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 let status = run("git", [
   "rev-list",
   "--left-right",

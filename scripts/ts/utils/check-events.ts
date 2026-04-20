@@ -6,7 +6,19 @@
  */
 import { spawnSync } from "child_process";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {"scripts/utils/check-events.sh"}
+ */
 const scriptSh = "scripts/utils/check-events.sh";
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {"scripts/utils/check-events.ps1"}
+ */
 const scriptPs1 = "scripts/utils/check-events.ps1";
 
 if (process.platform === "win32") {

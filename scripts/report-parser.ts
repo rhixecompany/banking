@@ -11,10 +11,40 @@ import path from "path";
  * @typedef {NormalizedReport}
  */
 export interface NormalizedReport {
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {string}
+   */
   framework: string;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {number}
+   */
   total: number;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {number}
+   */
   passed: number;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {number}
+   */
   failed: number;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?number}
+   */
   durationMs?: number;
 }
 

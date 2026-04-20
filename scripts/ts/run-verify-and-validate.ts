@@ -6,6 +6,12 @@
  */
 import { spawnSync } from "child_process";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {{}}
+ */
 const steps = [
   { cmd: "npm", args: ["run", "format"] },
   { cmd: "npm", args: ["run", "type-check"] },

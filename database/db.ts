@@ -31,6 +31,12 @@ const getDbConfig = (): string | undefined => {
  * Database connection pool configured for Next.js and Neon PostgreSQL.
  */
 const dbUrl = getDbConfig();
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const pool = dbUrl ? new Pool({ connectionString: dbUrl }) : new Pool();
 
 /**

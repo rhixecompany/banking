@@ -19,6 +19,13 @@ import {
   writeCatalog,
 } from "./mcp-runner-lib";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @returns {*}
+ */
 async function main() {
   const argv = await yargs(hideBin(process.argv))
     .option("dry-run", { default: true, type: "boolean" })

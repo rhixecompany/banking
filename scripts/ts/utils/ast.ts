@@ -2,6 +2,13 @@
 import path from "path";
 import { Project, SourceFile, ts } from "ts-morph";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @returns {*}
+ */
 export function createProject() {
   // Use repo tsconfig if available
   const tsconfigPath = path.join(process.cwd(), "tsconfig.json");
@@ -13,6 +20,16 @@ export function createProject() {
   return project;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @async
+ * @param {SourceFile} source
+ * @param {?string} [timestamp]
+ * @returns {*}
+ */
 export async function saveWithBackups(source: SourceFile, timestamp?: string) {
   timestamp = timestamp ?? new Date().toISOString().replace(/[:.]/g, "-");
   const filePath = source.getFilePath();

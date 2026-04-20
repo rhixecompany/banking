@@ -1,5 +1,11 @@
 import type { Plugin } from "@opencode-ai/plugin";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @typedef {ToolExecuteBeforeEvent}
+ */
 type ToolExecuteBeforeEvent = {
   tool: string;
   sessionID: string;
@@ -10,6 +16,14 @@ type ToolExecuteBeforeEvent = {
   };
 };
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @param {{}} param0
+ * @returns {unknown}
+ */
 export const BashSecurityPlugin: Plugin = async ({}) => {
   return {
     "tool.execute.before": async (event: ToolExecuteBeforeEvent) => {

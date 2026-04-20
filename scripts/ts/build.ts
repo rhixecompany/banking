@@ -8,14 +8,34 @@ import { spawnSync } from "child_process";
 import fs from "fs";
 import path from "path";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const SCRIPT_DIR = path.dirname(process.argv[1]);
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const PROJECT_ROOT = path.resolve(SCRIPT_DIR, "..", "..");
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} cmd
+ * @param {string[]} [args=[]]
+ * @returns {*}
+ */
 function run(cmd: string, args: string[] = []) {
   const parts = cmd.split(" ");
   const proc = spawnSync(parts[0], parts.slice(1).concat(args), {
-    stdio: "inherit",
     shell: false,
+    stdio: "inherit",
   });
   if (proc.error) {
     console.error(proc.error);
@@ -24,10 +44,28 @@ function run(cmd: string, args: string[] = []) {
   return proc.status ?? 0;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const envFileArg = process.argv.find((a) => a.startsWith("--env-file="));
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const envFile = envFileArg
   ? envFileArg.split("=")[1]
   : path.join(PROJECT_ROOT, ".envs/production/.env.production");
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const skipMigrations = process.argv.includes("--skip-migrations");
 
 console.log("");
@@ -36,7 +74,7 @@ console.log("Banking App - Docker Build (Node shim)");
 // Check docker
 try {
   run("docker --version");
-} catch (e) {
+} catch {
   console.error("Docker not found. Please install Docker.");
   process.exit(1);
 }
@@ -44,7 +82,7 @@ try {
 // Check docker compose
 try {
   run("docker compose version");
-} catch (e) {
+} catch {
   console.error("Docker Compose not found. Please install Docker Compose.");
   process.exit(1);
 }
@@ -66,10 +104,10 @@ if (!fs.existsSync(envFile)) {
 if (fs.existsSync(envFile)) {
   const content = fs.readFileSync(envFile, "utf8");
   for (const line of content.split(/\r?\n/)) {
-    const m = line.match(/^\s*([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*)$/);
+    const m = line.match(/^\s*([A-Z_]\w*)\s*=\s*(.*)$/i);
     if (!m) continue;
     const key = m[1];
-    const val = m[2].replace(/^['\"]?(.*)['\"]?$/, "$1");
+    const val = m[2].replace(/^['"]?(.*)['"]?$/, "$1");
     process.env[key] = val;
   }
 }
@@ -106,7 +144,19 @@ if (
 }
 
 console.log("Building Docker image...");
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {"docker-compose.yml"}
+ */
 const composeFile = "docker-compose.yml";
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {{}}
+ */
 const buildArgs = [
   "-f",
   composeFile,
@@ -116,6 +166,12 @@ const buildArgs = [
   "--no-cache",
 ];
 // append build-args
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {string[]}
+ */
 const extra: string[] = [];
 if (process.env.NEXT_PUBLIC_SITE_URL)
   extra.push(

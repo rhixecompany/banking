@@ -3,6 +3,12 @@ import { z } from "zod";
 // Transfer schema used by server-side Dwolla actions. Matches the shape
 // expected when creating a Dwolla transfer: funding source URLs and an
 // amount string (e.g. "25.00"). Keep currency optional with default "USD".
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 export const TransferSchema = z.object({
   amount: z
     .string()
@@ -33,4 +39,11 @@ export const TransferSchema = z.object({
     .meta({ description: "Source funding source URL" }),
 });
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @typedef {Transfer}
+ */
 export type Transfer = z.infer<typeof TransferSchema>;

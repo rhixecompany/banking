@@ -17,9 +17,34 @@ import { TransferSchema } from "@/lib/schemas/transfer.schema";
 // Form-level data used by the UI. This differs from the server TransferSchema
 // which accepts Dwolla funding source URLs. The client form selects recipient
 // and source wallet IDs and the server wrapper maps those to funding URLs.
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @interface TransferFormData
+ * @typedef {TransferFormData}
+ */
 interface TransferFormData {
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {string}
+   */
   sourceBankId: string;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {string}
+   */
   recipientId: string;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {number}
+   */
   amount: number;
 }
 

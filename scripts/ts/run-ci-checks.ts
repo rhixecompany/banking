@@ -6,8 +6,22 @@
  */
 import { spawnSync } from "child_process";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const argv = process.argv.slice(2);
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} cmd
+ * @param {string[]} [args=[]]
+ * @returns {*}
+ */
 function run(cmd: string, args: string[] = []) {
   const parts = cmd.split(" ");
   const proc = spawnSync(parts[0], parts.slice(1).concat(args), {
@@ -22,6 +36,12 @@ function run(cmd: string, args: string[] = []) {
 }
 
 // Minimal mapping: run canonical npm scripts in order, honour --only/--skip by simple CSV parsing
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {{}}
+ */
 const STEPS = [
   "format-check",
   "type-check",
@@ -33,6 +53,12 @@ const STEPS = [
   "build",
 ];
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {Record<string, string>}
+ */
 const COMMANDS: Record<string, string> = {
   "format-check": "npm run format:check",
   "type-check": "npm run type-check",
@@ -44,6 +70,13 @@ const COMMANDS: Record<string, string> = {
   build: "npm run build",
 };
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {?string} [s]
+ * @returns {*}
+ */
 function splitCsv(s?: string) {
   if (!s) return [];
   return s
@@ -52,6 +85,12 @@ function splitCsv(s?: string) {
     .filter(Boolean);
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const only = (() => {
   const m = argv.find((a) => a.startsWith("--only="));
   if (m) return splitCsv(m.split("=")[1]);
@@ -59,6 +98,12 @@ const only = (() => {
   if (idx >= 0) return splitCsv(argv[idx + 1]);
   return [] as string[];
 })();
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const skip = (() => {
   const m = argv.find((a) => a.startsWith("--skip="));
   if (m) return splitCsv(m.split("=")[1]);
@@ -72,6 +117,12 @@ if (only.length && skip.length) {
   process.exit(1);
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 let steps = STEPS.slice();
 if (only.length) {
   for (const name of only)

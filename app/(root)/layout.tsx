@@ -1,13 +1,13 @@
-import Image from "next/image";
-import { redirect } from "next/navigation";
-import { ReactNode, Suspense } from "react";
-
 import { createLinkToken, exchangePublicToken } from "@/actions/plaid.actions";
 import { getUserWithProfile, logoutAccount } from "@/actions/user.actions";
+import RootLayoutWrapper from "@/components/layouts/RootLayoutWrapper";
 import MobileNav from "@/components/mobile-nav/mobile-nav";
 import { PlaidProvider } from "@/components/plaid-context/plaid-context";
 import Sidebar from "@/components/sidebar/sidebar";
 import { LoadingSpinner } from "@/components/ui/spinner";
+import Image from "next/image";
+import { redirect } from "next/navigation";
+import { ReactNode, Suspense } from "react";
 
 /**
  * Protected banking layout content component.
@@ -57,18 +57,18 @@ async function ProtectedLayoutContent({
  */
 export default function BankingLayout({
   children,
-}: Readonly<{
-  children: ReactNode;
-}>): JSX.Element {
+}: Readonly<{ children: ReactNode }>): JSX.Element {
   return (
-    <Suspense
-      fallback={
-        <div className="flex-center min-h-screen">
-          <LoadingSpinner className="size-12" />
-        </div>
-      }
-    >
-      <ProtectedLayoutContent>{children}</ProtectedLayoutContent>
-    </Suspense>
+    <RootLayoutWrapper>
+      <Suspense
+        fallback={
+          <div className="flex-center min-h-screen">
+            <LoadingSpinner className="size-12" />
+          </div>
+        }
+      >
+        <ProtectedLayoutContent>{children}</ProtectedLayoutContent>
+      </Suspense>
+    </RootLayoutWrapper>
   );
 }

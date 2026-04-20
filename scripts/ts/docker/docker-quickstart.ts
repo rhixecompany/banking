@@ -9,9 +9,30 @@ import fs from "fs";
 import path from "path";
 import readline from "readline";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const SCRIPT_DIR = path.dirname(process.argv[1]);
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const PROJECT_ROOT = path.resolve(SCRIPT_DIR, "../..");
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} cmd
+ * @param {string[]} args
+ * @param {*} [opts={}]
+ * @returns {*}
+ */
 function run(cmd: string, args: string[], opts: any = {}) {
   const res = spawnSync(cmd, args, { stdio: opts.stdio ?? "inherit" });
   if (res.error) throw res.error;
@@ -19,10 +40,25 @@ function run(cmd: string, args: string[], opts: any = {}) {
   return 0;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} p
+ * @returns {*}
+ */
 function fileExists(p: string) {
   return fs.existsSync(p);
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @param {string} q
+ * @returns {unknown}
+ */
 async function prompt(q: string) {
   const rl = readline.createInterface({
     input: process.stdin,
@@ -36,6 +72,12 @@ async function prompt(q: string) {
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @returns {*}
+ */
 function startDefault() {
   console.log("Starting default environment (with Traefik)...");
   const envFile = path.join(PROJECT_ROOT, ".envs/local/.env.local");
@@ -62,6 +104,12 @@ function startDefault() {
   );
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @returns {*}
+ */
 function startLocal() {
   console.log("Starting local environment (no Traefik)...");
   const envFile = path.join(PROJECT_ROOT, ".envs/local/.env.local");
@@ -80,6 +128,12 @@ function startLocal() {
   ]);
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @returns {*}
+ */
 function startMonitoring() {
   console.log("Starting with monitoring stack...");
   const envFile = path.join(PROJECT_ROOT, ".envs/local/.env.local");
@@ -100,17 +154,41 @@ function startMonitoring() {
   ]);
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @returns {*}
+ */
 function stopAll() {
   console.log("Stopping all containers...");
   return run("docker", ["compose", "down"]);
 }
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @returns {*}
+ */
 function viewLogs() {
   return run("docker", ["compose", "logs", "-f"], { stdio: "inherit" });
 }
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @returns {*}
+ */
 function buildImages() {
   console.log("Building Docker images...");
   return run("docker", ["compose", "build"]);
 }
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @returns {*}
+ */
 function migrateDb() {
   console.log("Running database migrations...");
   run("docker", [
@@ -124,6 +202,13 @@ function migrateDb() {
   return run("docker", ["compose", "--profile", "init", "down"]);
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @returns {unknown}
+ */
 async function cleanup() {
   const confirm = await prompt(
     "This will remove all containers and volumes. Continue? (yes/no): ",
@@ -135,6 +220,10 @@ async function cleanup() {
   return run("docker", ["compose", "down", "-v"]);
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ */
 function showStatus() {
   console.log("\nDocker Containers:");
   run("docker", ["compose", "ps"]);
@@ -145,6 +234,13 @@ function showStatus() {
   ]); // shell for grep
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @returns {*}
+ */
 async function main() {
   // simple check
   if (!run("sh", ["-c", "command -v docker >/dev/null 2>&1 || echo missing"])) {

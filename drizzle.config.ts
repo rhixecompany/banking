@@ -12,6 +12,12 @@ dotenv.config({ path: path.resolve(__dirname, ".env.local") });
 // environment variables we need here so tools that load this config (like
 // drizzle-kit) won't fail when TypeScript modules aren't available at
 // runtime.
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {{ NODE_ENV: any; VERBOSE_DRIZZLE: any; }}
+ */
 const env = {
   NODE_ENV: process.env.NODE_ENV ?? undefined,
   VERBOSE_DRIZZLE: process.env.VERBOSE_DRIZZLE ?? undefined,

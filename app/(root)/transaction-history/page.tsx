@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import RootLayoutWrapper from "@/components/layouts/RootLayoutWrapper";
 import { TransactionHistoryServerWrapper } from "@/components/transaction-history/transaction-history-server-wrapper";
 
 /**
@@ -21,5 +22,9 @@ export const metadata: Metadata = {
  * @returns {JSX.Element}
  */
 export default function TransactionHistoryPage(): JSX.Element {
-  return <TransactionHistoryServerWrapper />;
+  return (
+    <RootLayoutWrapper>
+      <TransactionHistoryServerWrapper />
+    </RootLayoutWrapper>
+  );
 }

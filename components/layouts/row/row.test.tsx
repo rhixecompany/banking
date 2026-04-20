@@ -2,6 +2,12 @@ import { render, screen } from "@testing-library/react";
 
 import Row from "./index";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {{ id: string; name: string; }}
+ */
 const row = { id: "1", name: "Alice" };
 
 describe("Row", () => {

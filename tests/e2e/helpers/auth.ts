@@ -9,6 +9,16 @@ export const SEED_USER = {
   password: "password123",
 } as const;
 
+// Provenance: read tests/fixtures/seed-user.json and tests/fixtures/seed-admin.json — update helper to expose admin fixture name
+export const adminFixtureEmail =
+  process.env.E2E_ADMIN_EMAIL ?? "seed-admin@example.com";
+export const adminFixturePassword =
+  process.env.E2E_ADMIN_PASSWORD ?? "Password1!";
+
+export async function ensureAdminIsSeeded() {
+  return { email: adminFixtureEmail, password: adminFixturePassword };
+}
+
 /**
  * Sign in with the seeded credentials. The app navigates directly to `/dashboard` after success.
  */

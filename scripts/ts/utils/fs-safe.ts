@@ -2,6 +2,17 @@
 import fs from "fs/promises";
 import path from "path";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @async
+ * @param {string} filePath
+ * @param {string} content
+ * @param {?string} [timestamp]
+ * @returns {unknown}
+ */
 export async function writeBackup(
   filePath: string,
   content: string,

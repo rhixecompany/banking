@@ -52,3 +52,6 @@ tsconfig.tsbuildinfo
 
 .vercel
 .env*.local
+
+# Session logger logs (do not commit)
+logs/

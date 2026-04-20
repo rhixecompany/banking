@@ -2,6 +2,13 @@
 import fs from "fs/promises";
 import { glob } from "glob";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @returns {*}
+ */
 async function main() {
   const patterns = [
     "AGENTS.md",

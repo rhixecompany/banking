@@ -6,6 +6,12 @@
 import { readFileSync } from "fs";
 import { join } from "path";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} msg
+ */
 function fail(msg: string) {
   console.error(`ERROR: ${msg}`);
   process.exit(2);

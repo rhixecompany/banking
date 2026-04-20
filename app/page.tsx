@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { HomeServerWrapper } from "@/components/home/home-server-wrapper";
+import RootLayoutWrapper from "@/components/layouts/RootLayoutWrapper";
 
 /**
  * Description placeholder
@@ -17,5 +18,9 @@ export const metadata: Metadata = {
  * Home page route — publicly accessible, no auth required.
  */
 export default function HomePage(): JSX.Element {
-  return <HomeServerWrapper />;
+  return (
+    <RootLayoutWrapper>
+      <HomeServerWrapper />
+    </RootLayoutWrapper>
+  );
 }

@@ -8,12 +8,38 @@ import { spawnSync } from "child_process";
 import fs from "fs";
 import path from "path";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const SCRIPT_DIR = path.dirname(process.argv[1]);
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const PROJECT_ROOT = path.resolve(SCRIPT_DIR, "../..");
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} p
+ * @returns {*}
+ */
 function exists(p: string) {
   return fs.existsSync(p);
 }
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} p
+ * @returns {*}
+ */
 function read(p: string) {
   try {
     return fs.readFileSync(p, "utf8");
@@ -23,6 +49,12 @@ function read(p: string) {
 }
 
 console.log("=== Docker Production Readiness Checklist ===\n");
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const envFile = path.join(PROJECT_ROOT, ".envs/production/.env.production");
 if (exists(envFile)) {
   console.log("✓ .envs/production/.env.production found");
@@ -35,12 +67,24 @@ if (exists(envFile)) {
   console.log("  Run: .\generate-env.ps1");
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const dockerfile = path.join(PROJECT_ROOT, "compose\dev\node\Dockerfile");
 if (exists(dockerfile) && /distroless/.test(read(dockerfile)))
   console.log("✓ Using distroless base image");
 if (exists(dockerfile) && /HEALTHCHECK|appuser/.test(read(dockerfile)))
   console.log("✓ Non-root user and HEALTHCHECK defined");
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const compose = path.join(PROJECT_ROOT, "docker-compose.yml");
 if (exists(compose) && /no-new-privileges/.test(read(compose)))
   console.log("✓ no-new-privileges security option enabled");
@@ -84,6 +128,12 @@ try {
   console.log("ℹ docker not available - skip image check");
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const ht = path.join(PROJECT_ROOT, "compose\traefik\auth\htpasswd");
 if (exists(ht)) console.log("✓ htpasswd file exists");
 else console.log("⚠ htpasswd not found - run: .\deploy\generate-htpasswd.ps1");

@@ -7,7 +7,19 @@ import fs from "fs";
 import path from "path";
 import { parseCli, printDryRunResult } from "../utils/cli";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const SCRIPT_DIR = path.dirname(new URL(import.meta.url).pathname);
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const AUTH_DIR = path.join(
   SCRIPT_DIR,
   "..",
@@ -16,13 +28,55 @@ const AUTH_DIR = path.join(
   "traefik",
   "auth",
 );
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const HTPASSWD_FILE = path.join(AUTH_DIR, "htpasswd");
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {{ readonly dryRun: any; readonly apply: any; readonly verbose: any; readonly help: any; readonly args: any; }}
+ */
 const cli = parseCli();
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {{}}
+ */
 const args = cli.args._ as string[];
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {"admin"}
+ */
 const DEFAULT_USER = "admin";
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {"admin"}
+ */
 const DEFAULT_PASS = "admin";
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const USERNAME = args && args[0] ? args[0] : DEFAULT_USER;
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const PASSWORD =
   args && args[1] ? args[1] : process.env.PASSWORD || DEFAULT_PASS;
 

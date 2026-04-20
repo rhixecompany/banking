@@ -1,0 +1,211 @@
+{
+  "generatedAt": "2026-04-20T21:53:00.000Z",
+  "pages": [
+    {
+      "route": "/",
+      "filePath": "app/page.tsx",
+      "group": "top-level",
+      "imports": {
+        "components": [
+          "@/components/home/home-server-wrapper",
+          "@/components/layouts/RootLayoutWrapper"
+        ],
+        "dal": [],
+        "actions": [],
+        "stores": [],
+        "other": []
+      },
+      "serverActionImports": false,
+      "directEnvReads": false,
+      "directDbImports": false,
+      "referencedByTests": []
+    },
+    {
+      "route": "/dashboard",
+      "filePath": "app/(root)/dashboard/page.tsx",
+      "group": "root",
+      "imports": {
+        "components": [
+          "@/components/dashboard/dashboard-server-wrapper",
+          "@/components/layouts/RootLayoutWrapper"
+        ],
+        "dal": [],
+        "actions": [],
+        "stores": [],
+        "other": []
+      },
+      "serverActionImports": false,
+      "directEnvReads": false,
+      "directDbImports": false,
+      "referencedByTests": []
+    },
+    {
+      "route": "/my-wallets",
+      "filePath": "app/(root)/my-wallets/page.tsx",
+      "group": "root",
+      "imports": {
+        "components": [
+          "@/components/layouts/RootLayoutWrapper",
+          "@/components/my-wallets/my-wallets-server-wrapper"
+        ],
+        "dal": [],
+        "actions": [],
+        "stores": [],
+        "other": []
+      },
+      "serverActionImports": false,
+      "directEnvReads": false,
+      "directDbImports": false,
+      "referencedByTests": []
+    },
+    {
+      "route": "/payment-transfer",
+      "filePath": "app/(root)/payment-transfer/page.tsx",
+      "group": "root",
+      "imports": {
+        "components": [
+          "@/components/layouts/RootLayoutWrapper",
+          "@/components/payment-transfer/payment-transfer-server-wrapper"
+        ],
+        "dal": [],
+        "actions": [],
+        "stores": [],
+        "other": []
+      },
+      "serverActionImports": false,
+      "directEnvReads": false,
+      "directDbImports": false,
+      "referencedByTests": []
+    },
+    {
+      "route": "/settings",
+      "filePath": "app/(root)/settings/page.tsx",
+      "group": "root",
+      "imports": {
+        "components": [
+          "@/components/layouts/RootLayoutWrapper",
+          "@/components/settings/settings-server-wrapper"
+        ],
+        "dal": [],
+        "actions": [],
+        "stores": [],
+        "other": []
+      },
+      "serverActionImports": false,
+      "directEnvReads": false,
+      "directDbImports": false,
+      "referencedByTests": []
+    },
+    {
+      "route": "/transaction-history",
+      "filePath": "app/(root)/transaction-history/page.tsx",
+      "group": "root",
+      "imports": {
+        "components": [
+          "@/components/layouts/RootLayoutWrapper",
+          "@/components/transaction-history/transaction-history-server-wrapper"
+        ],
+        "dal": [],
+        "actions": [],
+        "stores": [],
+        "other": []
+      },
+      "serverActionImports": false,
+      "directEnvReads": false,
+      "directDbImports": false,
+      "referencedByTests": []
+    },
+    {
+      "route": "/sign-up",
+      "filePath": "app/(auth)/sign-up/page.tsx",
+      "group": "auth",
+      "imports": {
+        "components": [
+          "@/components/layouts/AuthLayoutWrapper",
+          "@/components/sign-up/sign-up-server-wrapper",
+          "@/components/ui/spinner"
+        ],
+        "dal": [],
+        "actions": [],
+        "stores": [],
+        "other": []
+      },
+      "serverActionImports": false,
+      "directEnvReads": false,
+      "directDbImports": false,
+      "referencedByTests": []
+    },
+    {
+      "route": "/sign-in",
+      "filePath": "app/(auth)/sign-in/page.tsx",
+      "group": "auth",
+      "imports": {
+        "components": [
+          "@/components/layouts/AuthLayoutWrapper",
+          "@/components/sign-in/sign-in-server-wrapper",
+          "@/components/ui/spinner"
+        ],
+        "dal": [],
+        "actions": [],
+        "stores": [],
+        "other": []
+      },
+      "serverActionImports": false,
+      "directEnvReads": false,
+      "directDbImports": false,
+      "referencedByTests": []
+    },
+    {
+      "route": "/admin",
+      "filePath": "app/(admin)/admin/page.tsx",
+      "group": "admin",
+      "imports": {
+        "components": [
+          "@/components/admin/admin-dashboard-server-wrapper",
+          "@/components/layouts/AdminLayoutWrapper"
+        ],
+        "dal": [],
+        "actions": [],
+        "stores": [],
+        "other": []
+      },
+      "serverActionImports": false,
+      "directEnvReads": false,
+      "directDbImports": false,
+      "referencedByTests": []
+    }
+  ],
+  "summary": {
+    "totalPages": 9,
+    "groups": {
+      "auth": 2,
+      "admin": 1,
+      "root": 5,
+      "top-level": 1
+    },
+    "topImportedComponents": [
+      {
+        "name": "@/components/layouts/RootLayoutWrapper",
+        "count": 6
+      },
+      {
+        "name": "@/components/layouts/AuthLayoutWrapper",
+        "count": 2
+      },
+      {
+        "name": "@/components/layouts/AdminLayoutWrapper",
+        "count": 1
+      },
+      { "name": "@/components/home/home-server-wrapper", "count": 1 },
+      {
+        "name": "@/components/dashboard/dashboard-server-wrapper",
+        "count": 1
+      },
+      {
+        "name": "@/components/my-wallets/my-wallets-server-wrapper",
+        "count": 1
+      }
+    ],
+    "filesWithDirectEnvOrDbInApp": []
+  }
+}

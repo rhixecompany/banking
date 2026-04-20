@@ -8,10 +8,28 @@ import path from "path";
 import { createProject } from "../ts/utils/ast";
 import { parseCli, printDryRunResult } from "../ts/utils/cli";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const ROOT = process.cwd();
 // Skip scripts/ts directory by default unless explicitly targeted
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {{}}
+ */
 const TARGET_GLOBS = ["app", "lib", "pages", "components", "src"];
 // ensure generated TS scripts under scripts/ts/docker are skipped
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const IGNORED_DIRS = new Set([
   "scripts/ts",
   "scripts/ts/docker",
@@ -20,8 +38,23 @@ const IGNORED_DIRS = new Set([
   "scripts/ts/deploy",
   "scripts/ts/server",
 ]);
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const FILE_EXTS = new Set([".js", ".ts", ".jsx", ".tsx"]);
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @async
+ * @param {string[]} [argv=[]]
+ * @returns {unknown}
+ */
 export async function main(argv: string[] = []) {
   const cli = parseCli(argv);
   const apply = cli.apply;
@@ -125,6 +158,15 @@ export async function main(argv: string[] = []) {
   }
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @param {*} projectOrSource
+ * @param {?import("ts-morph").SourceFile} [maybeSource]
+ * @returns {*}
+ */
 async function writeFileWithBackupAndSave(
   projectOrSource: any,
   maybeSource?: import("ts-morph").SourceFile,

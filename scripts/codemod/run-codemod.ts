@@ -2,10 +2,35 @@
 import { spawnSync } from "child_process";
 import path from "path";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const ROOT = process.cwd();
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const script = path.join(ROOT, "scripts", "codemod", "find-process-env.ts");
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const args = process.argv.slice(2);
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @returns {*}
+ */
 async function main() {
   // Prefer running via npx tsx
   try {

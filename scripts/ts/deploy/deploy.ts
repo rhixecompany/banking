@@ -7,13 +7,33 @@ import { spawnSync } from "child_process";
 import fs from "fs";
 import path from "path";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} cmd
+ * @param {string[]} args
+ * @param {{ cwd?: string }} [opts={}]
+ */
 function run(cmd: string, args: string[], opts: { cwd?: string } = {}) {
   const res = spawnSync(cmd, args, { stdio: "inherit", cwd: opts.cwd });
   if (res.error) throw res.error;
   if (res.status && res.status !== 0) process.exit(res.status);
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const SCRIPT_DIR = path.dirname(new URL(import.meta.url).pathname);
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const PROJECT_ROOT = path.resolve(SCRIPT_DIR, "..");
 
 console.log("Banking App - Production Deployment Workflow");
@@ -27,6 +47,12 @@ try {
 }
 
 // Generate htpasswd if missing
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const htpath = path.join(
   PROJECT_ROOT,
   "compose",
@@ -50,6 +76,12 @@ if (!fs.existsSync(htpath)) {
 }
 
 // Verify env
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const ENV_FILE = path.join(
   PROJECT_ROOT,
   ".envs",

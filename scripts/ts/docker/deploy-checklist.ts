@@ -8,13 +8,40 @@ import { spawnSync } from "child_process";
 import fs from "fs";
 import path from "path";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const SCRIPT_DIR = path.dirname(process.argv[1]);
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const PROJECT_ROOT = path.resolve(SCRIPT_DIR, "../..");
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} p
+ * @returns {*}
+ */
 function exists(p: string) {
   return fs.existsSync(p);
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} p
+ * @param {RegExp} pattern
+ * @returns {*}
+ */
 function grepFile(p: string, pattern: RegExp) {
   if (!exists(p)) return false;
   try {
@@ -27,6 +54,12 @@ function grepFile(p: string, pattern: RegExp) {
 
 console.log("=== Docker Production Readiness Checklist ===\n");
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const envPath = path.join(PROJECT_ROOT, ".envs/production/.env.production");
 if (exists(envPath)) {
   console.log("✓ .envs/production/.env.production found");
@@ -39,6 +72,12 @@ if (exists(envPath)) {
 }
 
 console.log("\nChecking Dockerfile optimizations...");
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const dockerfile = path.join(PROJECT_ROOT, "compose/dev/node/Dockerfile");
 if (grepFile(dockerfile, /distroless/))
   console.log("✓ Using distroless base image");
@@ -47,6 +86,12 @@ if (grepFile(dockerfile, /nonroot|appuser/))
 if (grepFile(dockerfile, /HEALTHCHECK/)) console.log("✓ HEALTHCHECK defined");
 
 console.log("\nChecking docker-compose security options...");
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const composeFile = path.join(PROJECT_ROOT, "docker-compose.yml");
 if (grepFile(composeFile, /no-new-privileges/))
   console.log("✓ no-new-privileges security option enabled");
@@ -90,6 +135,12 @@ try {
 }
 
 console.log("\nChecking Traefik dashboard authentication...");
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const htpasswd = path.join(PROJECT_ROOT, "compose/traefik/auth/htpasswd");
 if (exists(htpasswd)) console.log("✓ htpasswd file exists");
 else

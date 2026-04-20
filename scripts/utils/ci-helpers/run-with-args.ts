@@ -3,6 +3,12 @@
 import { spawn } from "child_process";
 import fs from "fs";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @returns {{ template?: string; tmpfile?: string; }}
+ */
 function parseArgs() {
   const argv = process.argv.slice(2);
   const out: { template?: string; tmpfile?: string } = {};
@@ -17,6 +23,13 @@ function parseArgs() {
   return out;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} s
+ * @returns {{}}
+ */
 function splitShellWords(s: string) {
   const re = /"([^"]*)"|'([^']*)'|([^\s"']+)/g;
   const parts: string[] = [];
@@ -27,6 +40,13 @@ function splitShellWords(s: string) {
   return parts;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @returns {*}
+ */
 async function main() {
   const opts = parseArgs();
   if (!opts.template || !opts.tmpfile) {

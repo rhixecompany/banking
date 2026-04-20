@@ -5,6 +5,14 @@
  */
 import type { Environment } from "@/lib/env";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @async
+ * @returns {Promise<string>}
+ */
 export async function getConnectionString(): Promise<string> {
   try {
     // Dynamic import avoids app-config validation side-effects at module load time

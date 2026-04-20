@@ -6,7 +6,19 @@
  */
 import { spawnSync } from "child_process";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {"scripts/server/vps-setup.sh"}
+ */
 const scriptSh = "scripts/server/vps-setup.sh";
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {"scripts/server/vps-setup.ps1"}
+ */
 const scriptPs1 = "scripts/server/vps-setup.ps1";
 
 if (process.platform === "win32") {

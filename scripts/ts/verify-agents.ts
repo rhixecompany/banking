@@ -6,6 +6,12 @@
  */
 import { spawnSync } from "child_process";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {{}}
+ */
 const cmds = [
   ["bash", "scripts/verify-agents.sh"],
   [
@@ -18,6 +24,13 @@ const cmds = [
   ],
 ];
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string[]} cmd
+ * @param {boolean} [skipIfWindows=false]
+ */
 function tryRun(cmd: string[], skipIfWindows = false) {
   if (process.platform === "win32" && cmd[0] === "bash") return;
   if (process.platform !== "win32" && cmd[0].startsWith("powershell")) return;

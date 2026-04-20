@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 
 import { Merriweather, Roboto } from "next/font/google";
-import { ReactNode, Suspense } from "react";
+import { ReactNode } from "react";
 
+import RootLayoutWrapper from "@/components/layouts/RootLayoutWrapper";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { RootProviders } from "@/stores/providers";
 
 import "./globals.css";
 
@@ -55,11 +55,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${roboto.variable} ${merriweather.variable}`}>
-        <Suspense fallback={undefined}>
-          <RootProviders>
-            <TooltipProvider>{children}</TooltipProvider>
-          </RootProviders>
-        </Suspense>
+        <RootLayoutWrapper>
+          <TooltipProvider>{children}</TooltipProvider>
+        </RootLayoutWrapper>
         <Toaster position="top-right" expand={true} richColors closeButton />
       </body>
     </html>

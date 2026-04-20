@@ -6,10 +6,30 @@
 import fs from "fs";
 import path from "path";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const SCRIPT_DIR = path.dirname(new URL(import.meta.url).pathname);
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const PROJECT_ROOT = path.resolve(SCRIPT_DIR, "..", "..");
 
 console.log("(windows) Scanning documentation files...");
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} dir
+ * @param {string[]} [out=[]]
+ * @returns {{}}
+ */
 function walk(dir: string, out: string[] = []) {
   for (const name of fs.readdirSync(dir)) {
     const full = path.join(dir, name);
@@ -20,6 +40,12 @@ function walk(dir: string, out: string[] = []) {
   return out;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const files = walk(PROJECT_ROOT).map((p) =>
   path.relative(PROJECT_ROOT, p).replace(/\\/g, "/"),
 );

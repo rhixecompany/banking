@@ -3,6 +3,14 @@ import fs from "fs";
 import path from "path";
 import { parseCli, printDryRunResult } from "../utils/cli";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} dir
+ * @param {string[]} [filelist=[]]
+ * @returns {{}}
+ */
 function walk(dir: string, filelist: string[] = []) {
   const files = fs.readdirSync(dir);
   for (const file of files) {
@@ -14,10 +22,23 @@ function walk(dir: string, filelist: string[] = []) {
   return filelist;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} p
+ * @returns {*}
+ */
 function relative(p: string) {
   return path.relative(process.cwd(), p).replace(/\\/g, "/");
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @returns {{ discoveredAt: any; layouts: Record<string, any>; appRootPage: any; }}
+ */
 function discoverAppPages() {
   const appDir = path.join(process.cwd(), "app");
   if (!fs.existsSync(appDir)) {
@@ -48,6 +69,13 @@ function discoverAppPages() {
   return { discoveredAt: new Date().toISOString(), layouts, appRootPage };
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @returns {*}
+ */
 async function main() {
   const cli = parseCli();
   const out = cli.args["out"] || cli.args._[0];

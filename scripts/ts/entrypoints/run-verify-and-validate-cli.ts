@@ -2,6 +2,13 @@
 import { main as verifyMain } from "../../run-verify-and-validate";
 import { parseCli, printDryRunResult } from "../utils/cli";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @returns {*}
+ */
 async function run() {
   const cli = parseCli();
   if (cli.dryRun) {

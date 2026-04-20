@@ -6,6 +6,12 @@
  */
 import { spawnSync } from "child_process";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {{}}
+ */
 const cmds = [
   ["bash", "scripts/aggressive-capture.sh"],
   [
