@@ -31,5 +31,3 @@ Quick safety
 - Home page must remain static/public — no auth()/DAL/DB in app/page.tsx.
 - Use app-config.ts or lib/env.ts for env access; seed runner is an exception.
 - Run npm run verify:rules before PRs.
-
--- Canonicalized from docs/AGENTS-CANONICAL.md on 2026-04-17 as part of unify-agent-docs operation.

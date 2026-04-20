@@ -1,12 +1,13 @@
 @echo off
-setlocal enabledelayedexpansion
+REM Provenance: batch3 convert-scripts
 
-set "SCRIPT_DIR=%~dp0"
+SET SCRIPT_DIR=%~dp0
 
-echo === Documentation Cleanup ===
-echo This script requires PowerShell.
-echo.
-echo Starting PowerShell version...
-powershell.exe -ExecutionPolicy Bypass -File "%SCRIPT_DIR%cleanup-docs.ps1" %*
+FOR /F "delims=" %%N IN ('where node 2^>nul') DO SET NODE=%%N
+IF DEFINED NODE (
+  "%NODE%" "%SCRIPT_DIR%..\ts\cleanup\cleanup-docs.ts" %*
+  EXIT /B %ERRORLEVEL%
+)
 
-endlocal
+npx tsx "%SCRIPT_DIR%..\ts\cleanup\cleanup-docs.ts" %*
+EXIT /B %ERRORLEVEL%

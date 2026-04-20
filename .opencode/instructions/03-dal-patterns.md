@@ -9,5 +9,3 @@ lastReviewed: 2026-04-14
 - Use Drizzle ORM and the dal/ helpers for all DB interactions.
 - Prefer queries that avoid N+1 problems. Use JOINs or batch queries with `IN` when fetching related rows.
 - Accept an optional `tx` (transaction) parameter in DAL write helpers for atomic operations.
-
--- Canonicalized from docs/AGENTS-CANONICAL.md on 2026-04-17 as part of unify-agent-docs operation.

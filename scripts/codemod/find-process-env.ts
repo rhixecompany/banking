@@ -5,6 +5,8 @@
  */
 import fs from "fs/promises";
 import path from "path";
+import { createProject } from "../ts/utils/ast";
+import { parseCli, printDryRunResult } from "../ts/utils/cli";
 
 const ROOT = process.cwd();
 // Skip scripts/ts directory by default unless explicitly targeted
@@ -21,7 +23,8 @@ const IGNORED_DIRS = new Set([
 const FILE_EXTS = new Set([".js", ".ts", ".jsx", ".tsx"]);
 
 export async function main(argv: string[] = []) {
-  const apply = argv.includes("--apply");
+  const cli = parseCli(argv);
+  const apply = cli.apply;
   const results: Record<string, string[]> = {};
   let filesScanned = 0;
   const keysSet = new Set<string>();
@@ -61,14 +64,16 @@ export async function main(argv: string[] = []) {
             // Build a stricter JSDoc-style TODO header as requested
             const keys = Array.from(found).sort().join(", ");
             const header = `/**\n * TODO: REPLACE_DIRECT_PROCESS_ENV\n * keys: ${keys}\n * auto-generated-by: convert-scripts\n */\n\n`;
-            // Preserve BOM if present
-            const hasBOM = text.startsWith("\uFEFF");
-            const trimmed = hasBOM ? text.slice(1) : text;
+            // Use ts-morph SourceFile to insert header when applying
+            const project = createProject();
+            const source = project.addSourceFileAtPath(full);
+            const textBefore = source.getFullText();
             if (
-              !trimmed.startsWith("/**\n * TODO: REPLACE_DIRECT_PROCESS_ENV")
+              !textBefore.startsWith("/**\n * TODO: REPLACE_DIRECT_PROCESS_ENV")
             ) {
-              const out = (hasBOM ? "\uFEFF" : "") + header + trimmed;
-              await fs.writeFile(full, out, { encoding: "utf8" });
+              // Insert header at top
+              source.insertText(0, header);
+              await writeFileWithBackupAndSave(project, source);
             }
           }
         }
@@ -107,6 +112,54 @@ export async function main(argv: string[] = []) {
     for (const f of Object.keys(results)) {
       console.log(` - ${f}: ${results[f].join(",")}`);
     }
+  }
+  if (dryRun) {
+    // print both human summary and JSON for CI consumption
+    try {
+      printDryRunResult({ report, path: outPath });
+    } catch (e) {
+      // best-effort
+      console.log(JSON.stringify(report, null, 2));
+    }
+    return report;
+  }
+}
+
+async function writeFileWithBackupAndSave(
+  projectOrSource: any,
+  maybeSource?: import("ts-morph").SourceFile,
+) {
+  // Support calling with (project, source) or just (source)
+  let project: import("ts-morph").Project | undefined;
+  let source: import("ts-morph").SourceFile;
+  if (maybeSource) {
+    project = projectOrSource;
+    source = maybeSource;
+  } else {
+    source = projectOrSource;
+  }
+  const ts = new Date().toISOString().replace(/[:.]/g, "-");
+  const filePath = source.getFilePath();
+  const content = source.getFullText();
+  try {
+    const fsSafe = await import("../ts/utils/fs-safe");
+    if (project && typeof fsSafe.saveWithBackups === "function") {
+      await fsSafe.saveWithBackups(project, { timestamp: ts });
+      return;
+    }
+    if (typeof fsSafe.writeBackup === "function") {
+      await fsSafe.writeBackup(filePath, content, ts);
+    }
+  } catch (err) {
+    // ignore and fallback
+  }
+  try {
+    await fs.writeFile(`${filePath}.bak.${ts}`, content, "utf8");
+  } catch {}
+  if (project && typeof project.save === "function") {
+    await project.save();
+  } else {
+    await source.save();
   }
 }
 

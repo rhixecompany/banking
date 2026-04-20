@@ -1,5 +1,13 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "agent": {
+    "explore": {
+      "disable": false
+    },
+    "general": {
+      "disable": false
+    }
+  },
   "autoupdate": true,
   "compaction": {
     "auto": true
@@ -90,6 +98,10 @@
     }
   },
   "model": "github-copilot/gpt-5-mini",
+  "permission": {
+    "bash": "ask",
+    "edit": "ask"
+  },
   "plugin": [
     "@gotgenes/opencode-agent-identity",
     "opencode-agent-memory",
@@ -100,6 +112,9 @@
     "opencode-handoff",
     "@slkiser/opencode-quota",
     "@howaboua/opencode-planning-toolkit",
-    "opencode-sessions"
+    "opencode-sessions",
+    "oh-my-opencode-slim",
+    "opencode-supermemory@latest",
+    "opencode-plugin-opencoder"
   ]
 }

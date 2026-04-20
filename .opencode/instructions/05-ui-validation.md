@@ -10,5 +10,3 @@ lastReviewed: 2026-04-14
 - Ensure forms have accessible labels and ARIA attributes where necessary.
 - Add role-based queries in Playwright tests to avoid fragile selectors.
 - Keep components small and testable; avoid large monolithic pages with intertwined logic.
-
--- Canonicalized from docs/AGENTS-CANONICAL.md on 2026-04-17 as part of unify-agent-docs operation.

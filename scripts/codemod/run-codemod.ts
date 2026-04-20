@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env node
 import { spawnSync } from "child_process";
 import path from "path";
 
@@ -6,12 +6,39 @@ const ROOT = process.cwd();
 const script = path.join(ROOT, "scripts", "codemod", "find-process-env.ts");
 const args = process.argv.slice(2);
 
-// Try to run via ts-node (npx ts-node ...) so Node can execute the TypeScript file.
-const runner = process.env.TS_NODE ? process.env.TS_NODE : "npx";
-const runnerArgs =
-  runner === "npx" ? ["ts-node", script, ...args] : [script, ...args];
-const res = spawnSync(runner, runnerArgs, { stdio: "inherit" });
-if (res.error) {
-  console.error("Failed to execute codemod runner:", res.error);
+async function main() {
+  // Prefer running via npx tsx
+  try {
+    const res = spawnSync("npx", ["tsx", script, ...args], {
+      stdio: "inherit",
+    });
+    if (res.error) {
+      console.error("Failed to execute codemod runner:", res.error);
+    }
+    if (typeof res.status === "number") process.exitCode = res.status;
+    return;
+  } catch (err) {
+    console.error("Failed to spawn tsx runner:", err);
+  }
+
+  // Fallback: dynamic import and call main
+  try {
+    const mod = await import(script);
+    if (mod && typeof mod.main === "function") {
+      await mod.main(args);
+      return;
+    }
+    console.error("Codemod module did not export main");
+    process.exitCode = 1;
+  } catch (err) {
+    console.error("Failed to import codemod script:", err);
+    process.exitCode = 1;
+  }
 }
-process.exitCode = res.status ?? 0;
+
+if (import.meta.url === `file://${process.argv[1]}`) {
+  main().catch((e) => {
+    console.error(e);
+    process.exitCode = 1;
+  });
+}

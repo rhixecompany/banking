@@ -1,6 +1,7 @@
 @echo off
-if "%*"=="" (
-  npx tsx scripts/mcp-runner.ts --list --catalog-path .opencode/mcp_servers.json
+@if "%*"=="" (
+  npx tsx scripts/ts/entrypoints/opencode-mcp-cli.ts --list --catalog-path .opencode/mcp_servers.json
 ) else (
-  npx tsx scripts/mcp-runner.ts %*
+  npx tsx scripts/ts/entrypoints/opencode-mcp-cli.ts %*
+  exit /b %ERRORLEVEL%
 )

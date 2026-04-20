@@ -43,9 +43,15 @@ function main() {
   const now = new Date().toISOString();
   const branch = git ? git.branch : "nogit";
   const commit = git ? git.commit : "nogit";
-  console.log(
-    `Provenance: read ${files} | branch=${branch} commit=${commit} timestamp=${now}`,
-  );
+  const line = `Provenance: read ${files} | branch=${branch} commit=${commit} timestamp=${now}`;
+  console.log(line);
+  // Also write to .beads/provenance.log for traceability
+  try {
+    fs.mkdirSync(".beads", { recursive: true });
+    fs.appendFileSync(".beads/provenance.log", `${line}\n`, "utf8");
+  } catch (err) {
+    // ignore write failures
+  }
 }
 
 main();

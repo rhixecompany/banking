@@ -55,7 +55,7 @@ Write-Step "Setting up Traefik dashboard authentication..."
 $htpasswdFile = Join-Path $ProjectRoot "compose\traefik\auth\htpasswd"
 if (-not (Test-Path $htpasswdFile)) {
     Write-Host "  Creating htpasswd file..."
-    & "$ScriptDir\generate-htpasswd.ps1" -Password "admin" -ErrorAction SilentlyContinue
+    npx tsx scripts/ts/deploy/generate-htpasswd.ts -n --admin
     if (Test-Path $htpasswdFile) {
         Write-Host "  ✓ htpasswd created"
     } else {

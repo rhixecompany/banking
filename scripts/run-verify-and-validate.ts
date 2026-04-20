@@ -1,21 +1,49 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env node
+
 import { spawnSync } from "child_process";
 
+import { parseCli, printDryRunResult } from "./ts/utils/cli";
+
 const steps = [
-  { cmd: "npm", args: ["run", "format"] },
-  { cmd: "npm", args: ["run", "type-check"] },
-  { cmd: "npm", args: ["run", "lint:strict"] },
-  { cmd: "npm", args: ["run", "verify:rules"] },
+  { args: ["run", "format"], cmd: "npm" },
+  { args: ["run", "type-check"], cmd: "npm" },
+  { args: ["run", "lint:strict"], cmd: "npm" },
+  { args: ["run", "verify:rules"], cmd: "npm" },
 ];
 
-for (const s of steps) {
-  console.log(`\n=== Running: ${s.cmd} ${s.args.join(" ")} ===`);
-  const res = spawnSync(s.cmd, s.args, { stdio: "inherit" });
-  if (res.status !== 0) {
-    console.error(
-      `Step failed: ${s.cmd} ${s.args.join(" ")} -> exit ${res.status}`,
-    );
-    process.exit(res.status ?? 1);
+function runSteps() {
+  for (const s of steps) {
+    console.log(`\n=== Running: ${s.cmd} ${s.args.join(" ")} ===`);
+    const res = spawnSync(s.cmd, s.args, { stdio: "inherit" });
+    if (res.status !== 0) {
+      console.error(
+        `Step failed: ${s.cmd} ${s.args.join(" ")} -> exit ${res.status}`,
+      );
+      process.exit(res.status ?? 1);
+    }
   }
+  console.log("All verification steps completed successfully.");
 }
-console.log("All verification steps completed successfully.");
+
+export async function main(argv: string[] = []) {
+  const cli = parseCli(argv);
+  if (cli.dryRun) {
+    printDryRunResult(
+      "This would run format, type-check, lint:strict and verify:rules",
+      { steps },
+    );
+    return { ok: true, steps };
+  }
+  runSteps();
+  return { ok: true };
+}
+
+if (
+  import.meta.url === `file://${process.argv[1]}` ||
+  require.main === module
+) {
+  main(process.argv.slice(2)).catch((e) => {
+    console.error(e);
+    process.exitCode = 1;
+  });
+}

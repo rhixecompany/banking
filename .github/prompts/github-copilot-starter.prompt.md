@@ -1,6 +1,6 @@
 ---
 agent: "agent"
-model: Claude Sonnet 4
+model: GPT-5 mini (copilot)
 tools:
   [
     "edit",

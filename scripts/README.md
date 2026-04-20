@@ -26,3 +26,45 @@ pwsh ./scripts/utils/run-ci-checks.ps1 -ReportDir .\tmp\reports -DryRun
 
 - For robust file-argument handling the Bash runner writes the file list to a temporary NUL-separated file and invokes the tool using `xargs -0` so filenames containing spaces or special characters are handled reliably.
 - If you need even stronger guarantees for exotic filenames (newlines, control characters) we can replace the xargs invocation with a small Node helper or pass arguments over stdin to the target tool where supported.
+
+## Migration notes
+
+- New pattern: all main logic is in scripts/ts/. Use the sh/ps1/bat wrappers only as thin orchestrators (they forward to tsx entrypoints).
+- Each TypeScript script supports `--dry-run` (human summary + JSON) and `--apply` (writes with backups).
+- See examples in package.json for updated script commands.
+
+## Dry-run and apply examples
+
+The TypeScript entrypoints follow a standard pattern:
+
+- `--dry-run` (default) prints a short human-readable summary line followed by a JSON object describing what would change. It does not write files.
+- `--apply` performs the changes and creates timestamped backups next to any modified file using the pattern: `<file>.bak.<ISO-like-timestamp>` (colons removed, seconds precision). Example backup name:
+
+  myfile.txt.bak.20260420T153012
+
+Examples
+
+- Run the CI runner in dry-run mode (prints summary + JSON):
+
+  npx tsx scripts/run-verify-and-validate.ts --dry-run --report-dir ./tmp/reports
+
+- Inspect what cleanup-docs would change:
+
+  npx tsx scripts/ts/cleanup/cleanup-docs.ts --dry-run --out=./tmp/manifest.json
+
+- Apply cleanup-docs changes (creates backups):
+
+  npx tsx scripts/ts/cleanup/cleanup-docs.ts --apply --out=./tmp/manifest.json
+
+- Dry-run the Docker cleanup (Windows):
+
+  powershell -File scripts/cleanup/cleanup-docker.ps1 -- --dry-run
+
+- Apply gen-certs (creates backups for modified cert files):
+
+  npx tsx scripts/ts/server/gen-certs.ts --apply
+
+## Notes
+
+- Wrapper scripts (sh/ps1/bat) are thin orchestrators and forward arguments to the TS entrypoints. You can call either the wrapper (platform-native) or the TS file directly with `npx tsx`.
+- Backups are created only when `--apply` is used. Dry-run never writes files.

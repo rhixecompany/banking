@@ -1,25 +1,24 @@
 @echo off
-REM vps-setup.bat - Banking App VPS Setup (Windows Wrapper)
-REM Usage: .\vps-setup.bat [OPTIONS]
-REM For full options, run: powershell -ExecutionPolicy Bypass -File "%~dp0vps-setup.ps1" -Help
-
+REM Provenance: batch4 convert-scripts
 setlocal enabledelayedexpansion
 
 set "SCRIPT_DIR=%~dp0"
-set "SCRIPT_NAME=vps-setup.ps1"
+set "TS_PATH=%SCRIPT_DIR%..\ts\server\vps-setup.ts"
 
 echo === Banking App VPS Setup ===
 echo.
-echo Starting PowerShell version...
-echo.
 
-REM Pass all arguments to PowerShell
-powershell -ExecutionPolicy Bypass -File "%SCRIPT_DIR%%SCRIPT_NAME%" %*
-
-if errorlevel 1 (
-    echo.
-    echo Installation failed. Check errors above.
-    pause
+where node >nul 2>&1
+if %ERRORLEVEL%==0 (
+    for /f "delims=\" %%N in ('where node') do set "NODE=%%N" & goto :haveNode
 )
+
+:noNode
+npx tsx "%TS_PATH%" %*
+exit /b %ERRORLEVEL%
+
+:haveNode
+"%NODE%" "%TS_PATH%" %*
+exit /b %ERRORLEVEL%
 
 endlocal

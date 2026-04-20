@@ -9,5 +9,3 @@ lastReviewed: 2026-04-14
 Agents and humans working in this repo must coordinate changes. Before making multi-file edits, create a plan under `.opencode/commands/` and link to it in the PR description. Use `npm run plan:ensure` to help scaffold or merge context into an existing plan when your change touches more than 7 files.
 
 Keep plans small and actionable. If uncertain, ask one short question before implementing.
-
--- Canonicalized from docs/AGENTS-CANONICAL.md on 2026-04-17 as part of unify-agent-docs operation.

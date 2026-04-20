@@ -1,164 +1,25 @@
-#Requires -Version 5.1
+#!/usr/bin/env pwsh
+# Provenance: batch3 convert-scripts
 param(
-    [switch]$DryRun,
-    [switch]$AutoConfirm,
-    [switch]$Help
+    [Parameter(ValueFromRemainingArguments = $true)]
+    $RemainingArgs
 )
 
-$ErrorActionPreference = "Continue"
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-$ProjectRoot = Split-Path (Split-Path $ScriptDir -Parent) -Parent
+$tsPath = Join-Path $ScriptDir '..\ts\cleanup\cleanup-docs.ts' | Resolve-Path -Relative
 
-if ($Help) {
-    Get-Help $MyInvocation.MyCommand.Path -Full
-    exit 0
-}
-
-function Write-ColorOutput {
-    param([string]$Message, [string]$Color = "White")
-    $colors = @{
-        "Red" = [ConsoleColor]::Red
-        "Green" = [ConsoleColor]::Green
-        "Yellow" = [ConsoleColor]::Yellow
-        "Blue" = [ConsoleColor]::Cyan
-        "White" = [ConsoleColor]::White
+try {
+    $node = Get-Command node -ErrorAction SilentlyContinue
+    if ($node) {
+        & $node.Path $tsPath @RemainingArgs
+        exit $LASTEXITCODE
+    } else {
+        npx tsx $tsPath @RemainingArgs
+        exit $LASTEXITCODE
     }
-    Write-Host $Message -ForegroundColor $colors[$Color]
-}
-
-Write-Host ""
-Write-Host "========================================" -ForegroundColor Cyan
-Write-Host " Documentation Cleanup Script" -ForegroundColor Cyan
-Write-Host "========================================" -ForegroundColor Cyan
-Write-Host ""
-
-Write-Host "Scanning documentation files..." -ForegroundColor Cyan
-Write-Host ""
-
-$CoreKeep = @()
-$DockerKeep = @()
-$IntegrationKeep = @()
-$SwarmDelete = @()
-$LegacyDelete = @()
-$OtherDelete = @()
-
-$SwarmPatterns = @(
-    "docs\docker\swarm-overview.md",
-    "docs\traefik\docker-swarm.md"
-)
-
-$LegacyPatterns = @(
-    "00-DOCKER-START-HERE.md",
-    "00-START-HERE.md",
-    "DOCKER-COMMANDS.md",
-    "DOCKER-CONFIG-SUMMARY.md",
-    "DOCKER-DEPLOYMENT.md",
-    "DOCKER-IMPLEMENTATION.md",
-    "DOCKER-INDEX.md",
-    "DOCKER-MANIFEST.md",
-    "DOCKER-QUICK-START.md",
-    "DOCKER-SETUP-CHECKLIST.md",
-    "DOCKER-SETUP.md",
-    "DOCKER-SUMMARY.md",
-    "DOCKERFILE-EXPLANATION.md",
-    "DEPLOYMENT-MIGRATION.md",
-    "PRODUCTION-DEPLOYMENT.md"
-)
-
-$OtherRootPatterns = @(
-    "INDEX.md",
-    "QUICK-REFERENCE.md",
-    "ARCHITECTURE.md",
-    "SECURITY.md",
-    "OPTIMIZATION-SUMMARY.md",
-    "MARKETPLACE.md",
-    "CONTRIBUTING.md",
-    "SUPPORT.md",
-    "setupTasks.md",
-    "blocks.prompts.md",
-    "README.opencode.md"
-)
-
-$ESLintPluginPatterns = @(
-    "docs\eslint-plugin-*-context.md"
-)
-
-$mdFiles = Get-ChildItem -Path $ProjectRoot -Filter "*.md" -Recurse -File -ErrorAction SilentlyContinue |
-    Where-Object { 
-        $_.FullName -notmatch "node_modules" -and 
-        $_.FullName -notmatch "\.cursor" -and 
-        $_.FullName -notmatch "\.github" -and 
-        $_.FullName -notmatch "\.opencode" -and
-        $_.FullName -notmatch "data"
-    }
-
-foreach ($file in $mdFiles) {
-    $relPath = $file.FullName.Replace("$ProjectRoot\", "").Replace("/", "\")
-    
-    if ($relPath -eq "README.md" -or $relPath -eq "AGENTS.md") {
-        $CoreKeep += $relPath
-        continue
-    }
-    
-    if ($relPath -like "docs\docker\*") {
-        $DockerKeep += $relPath
-        continue
-    }
-    
-    if ($relPath -like "docs\plaid\*") {
-        $IntegrationKeep += $relPath
-        continue
-    }
-    
-    if ($relPath -like "docs\services\*") {
-        $IntegrationKeep += $relPath
-        continue
-    }
-    
-    $isSwarm = $false
-    foreach ($p in $SwarmPatterns) {
-        if ($relPath -like $p) {
-            $SwarmDelete += $relPath
-            $isSwarm = $true
-            break
-        }
-    }
-    if ($isSwarm) { continue }
-    
-    $isLegacy = $false
-    foreach ($p in $LegacyPatterns) {
-        if ($relPath -like $p) {
-            $LegacyDelete += $relPath
-            $isLegacy = $true
-            break
-        }
-    }
-    if ($isLegacy) { continue }
-    
-    if ($relPath -like "docs\traefik\*") {
-        $LegacyDelete += $relPath
-        continue
-    }
-    
-    $isOther = $false
-    foreach ($p in $OtherRootPatterns) {
-        if ($relPath -like $p) {
-            $OtherDelete += $relPath
-            $isOther = $true
-            break
-        }
-    }
-    if ($isOther) { continue }
-    
-    $isESLint = $false
-    foreach ($p in $ESLintPluginPatterns) {
-        if ($relPath -like $p) {
-            $OtherDelete += $relPath
-            $isESLint = $true
-            break
-        }
-    }
-    if ($isESLint) { continue }
+} catch {
+    Write-Error "Failed to invoke TypeScript cleanup script: $_"
+    exit 1
 }
 
 Write-Host "=== Documentation Scan Results ===" -ForegroundColor Green

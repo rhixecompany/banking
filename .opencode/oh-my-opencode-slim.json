@@ -1,8 +1,26 @@
 {
   "$schema": "https://unpkg.com/oh-my-opencode-slim@latest/oh-my-opencode-slim.schema.json",
-  "preset": "github-copilot",
+  "preset": "copilot",
   "presets": {
-    "github-copilot": {
+    "copilot": {
+      "council": {
+        "master": {
+          "model": "github-copilot/gpt-5-mini"
+        },
+        "presets": {
+          "default": {
+            "alpha": {
+              "model": "github-copilot/gpt-5-mini"
+            },
+            "beta": {
+              "model": "github-copilot/gpt-5-mini"
+            },
+            "gamma": {
+              "model": "github-copilot/gpt-5-mini"
+            }
+          }
+        }
+      },
       "designer": {
         "mcps": [],
         "model": "github-copilot/gpt-5-mini",
@@ -36,7 +54,8 @@
       "orchestrator": {
         "mcps": ["*", "!context7"],
         "model": "github-copilot/gpt-5-mini",
-        "skills": ["*"]
+        "skills": ["*"],
+        "variant": "high"
       }
     }
   }

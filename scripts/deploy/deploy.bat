@@ -3,10 +3,11 @@ setlocal enabledelayedexpansion
 
 set "SCRIPT_DIR=%~dp0"
 
-echo === Production Deployment ===
-echo This script requires PowerShell.
-echo.
-echo Starting PowerShell version...
-powershell.exe -ExecutionPolicy Bypass -File "%SCRIPT_DIR%deploy.ps1"
+echo === Production Deployment (wrapper) ===
+if "%*"=="" (
+  npx tsx scripts/ts/entrypoints/deploy-cli.ts
+) else (
+  npx tsx scripts/ts/entrypoints/deploy-cli.ts %*
+)
 
 endlocal
