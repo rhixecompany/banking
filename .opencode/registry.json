@@ -92,16 +92,6 @@
     "type": "plugins"
   },
   {
-    "description": "Dynamic skills loader that discovers skills from project, user, and plugin directories.",
-    "displayName": "Agent Skills (JDT)",
-    "productId": "agent-skills-jdt",
-    "repoUrl": "https://github.com/joshuadavidthomas/opencode-agent-skills",
-    "scope": ["global"],
-    "tagline": "Dynamic skills loader",
-    "tags": [],
-    "type": "plugins"
-  },
-  {
     "description": "Use Gemini and Anthropic models for free via Google Antigravity IDE authentication.",
     "displayName": "Antigravity Auth",
     "productId": "antigravity-auth",
@@ -1215,7 +1205,7 @@
     "productId": "00QuickstartRules",
     "repoUrl": ".opencode\\instructions/",
     "scope": ["project"],
-    "tagline": "- Using the question tool ask the user for his persona,shell,os,git config, and any clarify or needed question. then ...",
+    "tagline": "- Use the question tool to ask the user for his persona, shell, os, git config, and summarize his info then ask the u...",
     "tags": ["opencode", "instructions"],
     "type": "resources"
   },
@@ -1275,7 +1265,7 @@
     "productId": "05UiValidation",
     "repoUrl": ".opencode\\instructions/",
     "scope": ["project"],
-    "tagline": "- Ensure forms have accessible labels and ARIA attributes where necessary.",
+    "tagline": "- Ensure to always use shadcn components located at `./components/ui/*`.",
     "tags": ["opencode", "instructions"],
     "type": "resources"
   },
@@ -1335,7 +1325,7 @@
     "productId": "10ApplyPatchVerificationFix",
     "repoUrl": ".opencode\\instructions/",
     "scope": ["project"],
-    "tagline": "- Use the `apply_patch` tool for text edits always read the file with the `read` tool before using the `apply_patch` ...",
+    "tagline": "Short checklist",
     "tags": ["opencode", "instructions"],
     "type": "resources"
   },
@@ -1356,16 +1346,6 @@
     "repoUrl": ".opencode\\instructions/",
     "scope": ["project"],
     "tagline": "- Scripts that modify infrastructure must accept `--dry-run` and be gated behind RUN_DESTRUCTIVE=true plus `--yes`.",
-    "tags": ["opencode", "instructions"],
-    "type": "resources"
-  },
-  {
-    "description": "Background process manager",
-    "displayName": "13BackgroundRules",
-    "productId": "13BackgroundRules",
-    "repoUrl": ".opencode\\instructions/",
-    "scope": ["project"],
-    "tagline": "I need to run and monitor multiple background processes for a build pipeline:",
     "tags": ["opencode", "instructions"],
     "type": "resources"
   },
@@ -1406,6 +1386,36 @@
     "repoUrl": ".opencode\\skills\\auth-skill/",
     "scope": ["project"],
     "tagline": "Overview",
+    "tags": ["opencode", "skills"],
+    "type": "resources"
+  },
+  {
+    "description": "Generate comprehensive hierarchical codemaps for UNFAMILIAR repositories. Expensive operation - only use when explicitly asked for codebase documentation or initial repository mapping",
+    "displayName": "cartography",
+    "productId": "Cartography",
+    "repoUrl": ".opencode\\skills\\cartography/",
+    "scope": ["project"],
+    "tagline": "You help users understand and map repositories by creating hierarchical codemaps.",
+    "tags": ["opencode", "skills"],
+    "type": "resources"
+  },
+  {
+    "description": "Internal logic and data flow philosophy (The 5 Laws of Elegant Defense). Understand deeply to ensure code guides data naturally and prevents errors.",
+    "displayName": "code-philosophy",
+    "productId": "CodePhilosophy",
+    "repoUrl": ".opencode\\skills\\code-philosophy/",
+    "scope": ["project"],
+    "tagline": "**Role:** Principal Engineer for all **Internal Logic & Data Flow** — applies to backend, React components, hooks, st...",
+    "tags": ["opencode", "skills"],
+    "type": "resources"
+  },
+  {
+    "description": "Comprehensive code review methodology with severity classification and confidence thresholds",
+    "displayName": "code-review",
+    "productId": "CodeReview",
+    "repoUrl": ".opencode\\skills\\code-review/",
+    "scope": ["project"],
+    "tagline": "Systematic code review across 4 layers with severity classification. Only report findings with ≥80% confidence. Inclu...",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },
@@ -1476,6 +1486,16 @@
     "repoUrl": ".opencode\\skills\\entra-agent-user/",
     "scope": ["project"],
     "tagline": "An **agent user** is a specialized user identity in Microsoft Entra ID that enables AI agents to act as digital worke...",
+    "tags": ["opencode", "skills"],
+    "type": "resources"
+  },
+  {
+    "description": "Visual & UI philosophy (The 5 Pillars of Intentional UI). Understand deeply to avoid \"AI slop\" and create distinctive, memorable interfaces.",
+    "displayName": "frontend-philosophy",
+    "productId": "FrontendPhilosophy",
+    "repoUrl": ".opencode\\skills\\frontend-philosophy/",
+    "scope": ["project"],
+    "tagline": "**Role:** Design Director for all **Visual & Aesthetic decisions** — applies to styling, layout, colors, typography, ...",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },
@@ -1640,12 +1660,42 @@
     "type": "resources"
   },
   {
+    "description": "These short personas guide tone and actions in plans and PRs. - Implementer — performs changes, tests, and validation. Prefers minimal, auditable edits. - Reviewer — focuses on risks, regressions, tests, and rule compliance. - Maintainer — approves merges and runs destructive infra scripts with approvals. - QA Engineer — runs E2E and exploratory tests across environments. - Product Owner — provides acceptance criteria and approves large changes.",
+    "displayName": "PersonasList",
+    "productId": "PersonasList",
+    "repoUrl": ".opencode\\instructions/",
+    "scope": ["project"],
+    "tagline": "<!-- Canonical personas used by agents and reviewers -->",
+    "tags": ["opencode", "instructions"],
+    "type": "resources"
+  },
+  {
     "description": "Plaid API integration for bank account linking, transaction retrieval, and balance fetching.",
     "displayName": "plaid-skill",
     "productId": "PlaidSkill",
     "repoUrl": ".opencode\\skills\\plaid-skill/",
     "scope": ["project"],
     "tagline": "Overview",
+    "tags": ["opencode", "skills"],
+    "type": "resources"
+  },
+  {
+    "description": "Guidelines for creating and managing implementation plans with citations",
+    "displayName": "plan-protocol",
+    "productId": "PlanProtocol",
+    "repoUrl": ".opencode\\skills\\plan-protocol/",
+    "scope": ["project"],
+    "tagline": "> **Load this skill** when creating or updating implementation plans.",
+    "tags": ["opencode", "skills"],
+    "type": "resources"
+  },
+  {
+    "description": "Criteria for reviewing implementation plans against quality standards",
+    "displayName": "plan-review",
+    "productId": "PlanReview",
+    "repoUrl": ".opencode\\skills\\plan-review/",
+    "scope": ["project"],
+    "tagline": "> **Load this skill** when reviewing implementation plans (not code).",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },
@@ -1706,6 +1756,16 @@
     "repoUrl": ".opencode\\skills\\session-logger/",
     "scope": ["project"],
     "tagline": "Comprehensive logging for opencode coding agent sessions, tracking session starts, ends, and user prompts for audit t...",
+    "tags": ["opencode", "skills"],
+    "type": "resources"
+  },
+  {
+    "description": "Simplifies code for clarity without changing behavior. Use for readability, maintainability, and complexity reduction after behavior is understood.",
+    "displayName": "simplify",
+    "productId": "Simplify",
+    "repoUrl": ".opencode\\skills\\simplify/",
+    "scope": ["project"],
+    "tagline": "Simplify code by reducing complexity while preserving exact behavior. The goal is not fewer lines — it's code that is...",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },
