@@ -21,7 +21,6 @@
     }
   },
   "instructions": [
-    "instructions/agents_quickstart.md",
     "instructions/personas-list.md",
     "instructions/00-quickstart-rules.md",
     "instructions/00-default-rules.md",

@@ -1,94 +1,96 @@
-# Agent Guidelines (short)
+# Agent guidelines (short)
 
-This file lists the small, repo-specific rules and exact commands an automated agent would otherwise miss. Read before making changes.
+Concise, high-signal rules an automated agent would otherwise miss. Read this before making edits, running CI, or opening PRs.
 
-High-priority commands
+High-priority commands (exact)
 
-- Install deps: `npm install` (package-lock.json is authoritative)
-- Dev server: `npm run dev` (Next.js on http://localhost:3000)
-- Build: `npm run build`
-- Quick pre-PR validate: `npm run format && npm run type-check && npm run lint:strict` (run lint before tests)
-- Full validate / CI local run: `npm run validate` (build + lint + tests)
+- Install deps: npm install (package-lock.json is authoritative)
+- Dev server: npm run dev (Next.js dev on http://localhost:3000)
+- Build: npm run build (use npm run build:standalone only when explicitly needed)
+- Quick pre-PR validate: npm run format && npm run type-check && npm run lint:strict
+- Full local CI: npm run validate (runs codegen/validate, build, lint, tests)
+- Rules check: npm run verify:rules (CI: npm run verify:rules:ci -> writes .opencode/reports/rules-report.json)
+- Install git hooks (first setup): npm run prepare (Husky). Do not bypass hooks unless authorized.
 
-Tests
+Tests & Playwright (gotchas)
 
-- Run all tests: `npm run test` (Vitest + Playwright)
-- Unit tests (Vitest): `npm run test:browser` or `npm exec vitest run <path-to-test> --config=vitest.config.ts`
-- E2E (Playwright): `npm run test:ui` (this will prepare DB by default) or `npx playwright test <spec> --project=chromium`
-- Playwright preconditions: a running Postgres, seeded DB, and environment vars: `DATABASE_URL`, `ENCRYPTION_KEY`, `NEXTAUTH_SECRET`. The test runner uses `PLAYWRIGHT_PREPARE_DB=true` when running via npm script.
-- Always free port 3000 before running Playwright/Vitest. Examples:
-  - PowerShell:
-    ```powershell
-    $pids = Get-NetTCPConnection -LocalPort 3000 -State Listen -ErrorAction SilentlyContinue | Select-Object -ExpandProperty OwningProcess -Unique
-    if ($pids) { $pids | ForEach-Object { Stop-Process -Id $_ -Force } }
-    ```
-  - Unix:
-    ```bash
-    lsof -ti tcp:3000 | xargs -r kill -9
-    ```
+- Run all tests: npm run test (this runs test:ui then test:browser).
+- Unit tests: npm run test:browser (or npm exec vitest run <path> --config=vitest.config.ts).
+- E2E: npm run test:ui (this sets PLAYWRIGHT_PREPARE_DB=true and will try to prepare/seed the DB).
+- Playwright requires: a running Postgres, a seeded DB (npm run db:seed), and env vars: DATABASE_URL, ENCRYPTION_KEY, NEXTAUTH_SECRET.
+- Free port 3000 before running Playwright/Vitest. On Unix: lsof -ti tcp:3000 | xargs -r kill -9. On Windows PowerShell: stop the process listening on TCP:3000.
 
 Database / Drizzle
 
-- Push schema: `npm run db:push`
-- Generate migrations: `npm run db:generate`
-- Run migrations: `npm run db:migrate`
-- Seed test DB: `npm run db:seed` (uses `PLAID_TOKEN_MODE=sandbox`)
+- Drizzle commands (drizzle.config.ts is authoritative):
+  - npm run db:push
+  - npm run db:generate
+  - npm run db:migrate
+  - npm run db:seed (uses PLAID_TOKEN_MODE=sandbox)
 
-Environments & secrets
+Environments & secrets (do not miss)
 
-- NEVER commit secrets (.env, tokens). Do not add .env to commits.
-- Do not read `process.env` directly from app/ Server Components — use the centralized helpers: `app-config.ts` and `lib/env.ts`.
+- NEVER commit secrets (.env, tokens). Git hooks and eslint/no-secrets help but are not a substitute.
+- Do not read process.env directly from app/ Server Components — use app-config.ts and lib/env.ts. verify-rules flags direct reads and CI may fail.
 
 Server Actions, DAL, and app boundaries (critical)
 
-- Server Actions must follow repository conventions (verified by `scripts/verify-rules.ts`): include `"use server"`, call `auth()` early for protected actions, validate inputs with Zod/shared schemas, and return a shape like `{ ok: boolean, error?: string }`.
-- Do NOT import the DB directly inside app/ components or pages. Use the typed DAL in `dal/` which accepts an optional `{ db }` tx override for transactional flows.
+- Server Action conventions (scripts/verify-rules.ts enforces these):
+  - include "use server" at the top
+  - call auth() early for protected actions
+  - validate inputs with Zod/shared schemas
+  - return { ok: boolean, error?: string } for actions
+- Do NOT import the DB directly from app/ components or pages. Use the typed DAL in dal/.
+- DAL methods accept an optional { db } transaction override — pass a tx when composing multi-table operations.
 
 Verify-rules & repo hygiene
 
-- Regenerate verification report: `node scripts/verify-rules.ts` (alias: `npm run verify:rules` if present).
-- Output: `.opencode/reports/rules-report.json`. The verify-rules script enforces: no direct `process.env` in app code, Server Action patterns, no direct DB imports from app/, and other repo policies.
+- Run npm run verify:rules locally; CI runs verify:rules:ci and writes .opencode/reports/rules-report.json for review.
+- verify-rules looks for: direct process.env in app/, server-action rule violations (missing auth/Zod/shape), direct DB imports from app/, and other repo policies. Fix critical findings before opening PRs.
 
-Small-change / plan rules
+Small-change / plan rules (read before making multi-file edits)
 
-- Keep edits small and reversible. Do NOT change more than 5 files without explicit approval.
-- For changes touching many files, create a lightweight plan at: `.opencode/commands/<short-kebab-task>.plan.md`. The plan should list batches (<=7 files/batch), verification steps, and provenance (files read).
+- Keep edits small & reversible. Default safe target: <= 5 files.
+- If you plan to change >5 files, get explicit approval (comment or reviewer sign-off) before pushing.
+- If the change touches _more than 7 files_ or is cross-cutting, create a plan file: .opencode/commands/<short-kebab-task>.plan.md. Use npm run plan:ensure to scaffold/validate plans.
+  - Plans must list batches (<=7 files per batch), verification steps, and provenance (files inspected).
 
 Issue tracking (bd / beads)
 
-- This repo uses `bd` (beads) for tracked work. Check ready work: `bd ready --json`.
-- Example commands:
-  - `bd create "Title" -t bug|feature|task -p 0-4 --json`
-  - `bd update bd-42 --status in_progress --json`
-  - `bd close bd-42 --reason "Completed" --json`
-- When you modify issue state, commit the updated `.beads/issues.jsonl` with your change.
+- Use bd (beads) for tracked work. Example: bd create "Short title" -t bug|feature|task -p 0-4 --json
+- If you change issue state, commit the updated .beads/issues.jsonl alongside your change.
 
 Commit / PR provenance and hooks
 
-- All automated edits must include a one-line provenance in the commit or PR body describing which files were read and why (required by agent workflow).
-- Example commit message:
-  - Subject: `chore(ci): sync branch with main`
-  - Body: `Provenance: read package.json, AGENTS.md, scripts/verify-rules.ts, app-config.ts`
-- Pre-commit hooks: the repo uses Husky. Run `npm run prepare` after first install to set hooks. Respect lint-staged pre-PR checks.
+- All automated edits (or agent-made changes) must include a one-line provenance in the commit or PR body listing files read and why.
+  - Example commit body: Provenance: read package.json, AGENTS.md, scripts/verify-rules.ts, app-config.ts
+- Respect Husky pre-commit hooks (npm run prepare). Do not use --no-verify unless explicitly authorized.
+- Do not force-push main/master. Ask before any force push.
 
-CI and runtime notes
+CI & runtime notes
 
-- CI uses Node 22 (GitHub Actions). Follow package.json scripts for local equivalence.
+- CI uses Node 22 (GitHub Actions). Match this locally when reproducing CI issues.
+- Next.js 16 (App Router + Server Actions) and Drizzle ORM are core. Follow the Server Action and DAL rules above.
 
 Where to look first (highest signal)
 
-- package.json (scripts) — canonical commands
-- README.md — quick-start + env examples
-- scripts/verify-rules.ts and `.opencode/reports/rules-report.json` — repo policy enforcement
-- app-config.ts / lib/env.ts — centralized env access
-- dal/ — DB access patterns and transaction helpers
-- actions/ — server actions that must follow conventions
+- package.json (scripts)
+- README.md and .env.example
+- .opencode/opencode.json and .opencode/instructions/\* (agent rules & plan standards)
+- scripts/verify-rules.ts and .opencode/reports/rules-report.json
+- app-config.ts and lib/env.ts (centralized env access)
+- dal/ (DB access patterns) and database/schema.ts
+- actions/ and app/api/\* (Server Actions and API wiring)
+- .github/copilot-instructions.md and .opencode/commands/ (plan policy)
 
 Quick checklist before opening a PR
 
-1. Run: `npm run format && npm run type-check && npm run lint:strict`
-2. Run `node scripts/verify-rules.ts` and address warnings/critical findings
-3. Run the unit tests you changed: `npm run test:browser` (or targeted vitest)
-4. If you changed runtime behavior, run `npm run test:ui` (E2E) locally after seeding DB
+1. npm run format && npm run type-check && npm run lint:strict
+2. npm run verify:rules — fix critical findings
+3. Run unit tests you changed (npm run test:browser or targeted vitest)
+4. If runtime behavior changed, run E2E (npm run test:ui) after seeding DB
+5. Add one-line provenance to commit/PR body; commit .beads/issues.jsonl if you changed issues
 
-References: README.md, package.json, scripts/verify-rules.ts, app-config.ts, lib/env.ts, dal/, actions/
+References (canonical files to read)
+
+- package.json, README.md, scripts/verify-rules.ts, app-config.ts, lib/env.ts, .opencode/instructions/09-plan-file-standards.md, .github/copilot-instructions.md

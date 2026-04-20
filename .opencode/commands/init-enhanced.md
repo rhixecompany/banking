@@ -1,81 +1,70 @@
-# Init-Enhanced Documentation Sync — Plan
+Create or update `AGENTS.md` for this repository.
 
-## Purpose
+The goal is a compact instruction file that helps future OpenCode sessions avoid mistakes and ramp up quickly. Every line should answer: "Would an agent likely miss this without help?" If not, leave it out.
 
-This plan contains the prepared, review-ready content for the `/init-enhanced` documentation-sync checklist. It is intended to be placed under `.opencode/plans/` for maintainers and agents to review, update, and apply. The content mirrors the recommended `.opencode/commands/init-enhanced.md` but is stored as a plan artifact so it can be reviewed and approved before applying to the commands directory.
+User-provided focus or constraints (honor these):
 
-## What this plan includes
+## How to investigate
 
-- A comprehensive, agent-friendly checklist to sync repository documentation with source code
-- Repo validation commands and capture locations
-- Issue Catalog schema and remediation workflow
-- GitHub CLI examples and a helper script template to create issues from the catalog
-- Codemap guidance (generic + example path)
-- Troubleshooting steps for common pre-commit hook failures
-- Testing matrix and changelog guidance
+Read the highest-value sources first:
 
-## Location to apply final content
+- `README*`, root manifests, workspace config, lockfiles
+- build, test, lint, formatter, typecheck, and codegen config
+- CI workflows and pre-commit / task runner config
+- existing instruction files (`AGENTS.md`, `CLAUDE.md`, `.cursor/rules/`, `.cursorrules`, `.github/copilot-instructions.md`,`.opencode/instructions/*.md`)
+- repo-local OpenCode config such as `.opencode/opencode.json`
 
-Recommended final destination (maintainer action):
+If architecture is still unclear after reading config and docs, inspect a small number of representative code files to find the real entrypoints, package boundaries, and execution flow. Prefer reading the files that explain how the system is wired together over random leaf files.
 
-`.opencode/commands/init-enhanced.md`
+Prefer executable sources of truth over prose. If docs conflict with config or scripts, trust the executable source and only keep what you can verify.
 
-This plan file is a review artifact. After approval, maintainers should copy the contents into the commands location above (or let an authorized agent apply it directly) and make a small checkpoint commit following the plan's guidance.
+## What to extract
 
-## Prepared content (summary)
+Look for the highest-signal facts for an agent working in this repo:
 
-1. Discovery & authoritative inventory:
-   - Collect AGENTS.md, package.json, app-config.ts, lib/env.ts, scripts/**, scripts/ts/**, .opencode/**, .cursor/**, database/schema.ts, docs/\*\*
-   - Produce `inventory.json` under `.opencode/outputs/init-enhanced/`
+- exact developer commands, especially non-obvious ones
+- how to run a single test, a single package, or a focused verification step
+- required command order when it matters, such as `lint -> typecheck -> test`
+- monorepo or multi-package boundaries, ownership of major directories, and the real app/library entrypoints
+- framework or toolchain quirks: generated code, migrations, codegen, build artifacts, special env loading, dev servers, infra deploy flow
+- repo-specific style or workflow conventions that differ from defaults
+- testing quirks: fixtures, integration test prerequisites, snapshot workflows, required services, flaky or expensive suites
+- important constraints from existing instruction files worth preserving
 
-2. Repo validation:
-   - Run format, type-check, lint, verify-rules and capture outputs under `.opencode/outputs/init-enhanced/`.
+Good `AGENTS.md` content is usually hard-earned context that took reading multiple files to infer.
 
-3. Output analysis & Issue Catalog:
-   - Parse outputs and produce `.opencode/reports/init-enhanced-issue-catalog.json` with schema: file, line, message, severity, type, suggested_fix, priority, estimated_hours, component, related_files, provenance.
+## Questions
 
-4. Checkpoint commit (docs-only):
-   - `git add` and `git commit` the report(s) with provenance in commit body. Do not bypass hooks.
+Only ask the user questions if the repo cannot answer something important. Use the `question` tool for one short batch at most.
 
-5. Documentation updates (small patches):
-   - Keep patches <=7 files. Include provenance in commit body. Use `chore(docs):` prefix.
+Good questions:
 
-6. Final verification & PR:
-   - Run full verification, tests, and open PR with provenance and checklist.
+- undocumented team conventions
+- branch / PR / release expectations
+- missing setup or test prerequisites that are known but not written down
 
-## Automation helpers included in the plan
+Do not ask about anything the repo already makes clear.
 
-- Example `gh issue create` command for a single issue (with provenance)
-- A TypeScript helper sketch `scripts/ts/tools/create-issues-from-catalog.ts` to create issues in bulk from the Issue Catalog JSON
-- Node snippet to generate `inventory.json`
+## Writing rules
 
-## Codemap guidance
+Include only high-signal, repo-specific guidance such as:
 
-- Document how to run a codemap (expensive) on a powerful machine. Example path: `npx tsx .opencode/tools/cartography/generate-codemap.ts --out .opencode/reports/codemap.json`. If your repo uses a different generator path, adjust accordingly.
+- exact commands and shortcuts the agent would otherwise guess wrong
+- architecture notes that are not obvious from filenames
+- conventions that differ from language or framework defaults
+- setup requirements, environment quirks, and operational gotchas
+- references to existing instruction sources that matter
 
-## Troubleshooting pre-commit hooks
+Exclude:
 
-- If a hook blocks commits: run the underlying tool locally (e.g., `npm run format`, `npm run type-check`, `npx lint-staged --debug`) and fix issues.
-- Only use `--no-verify` when explicitly approved by maintainers and record justification in the PR.
+- generic software advice
+- long tutorials or exhaustive file trees
+- obvious language conventions
+- speculative claims or anything you could not verify
+- content better stored in another file referenced via `opencode.json` `instructions`
 
-## Testing matrix & changelog guidance
+When in doubt, omit.
 
-- Node versions: document supported Node versions (recommended: Node 18/20; CI uses Node 22).
-- OS: Linux (Ubuntu), macOS, Windows — test wrappers on all where applicable.
-- Changelog: for doc-only changes, include `docs:` entries with provenance and PR link.
+Prefer short sections and bullets. If the repo is simple, keep the file simple. If the repo is large, summarize the few structural facts that actually change how an agent should work.
 
-## Next steps (what I will not do without your explicit permission)
-
-1. I will not apply this plan into `.opencode/commands/init-enhanced.md` without explicit permission (your initial preference was to prepare only).
-2. I will not create git commits or open PRs without your explicit request.
-
-## Instructions to apply locally
-
-1. Copy this plan content (or `git apply` a patch) into `.opencode/commands/init-enhanced.md`.
-2. Run Phase 2 validation commands and follow the plan.
-
-## Provenance
-
-Prepared by automated agent (orchestrator) based on your instructions. Review and confirm before committing into commands.
-
-(End of file - total 95 lines)
+If `AGENTS.md` already exists at `C:\Users\Alexa\Desktop\SandBox\Banking`, improve it in place rather than rewriting blindly. Preserve verified useful guidance, delete fluff or stale claims, and reconcile it with the current codebase.
