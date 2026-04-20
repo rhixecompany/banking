@@ -1,8 +1,12 @@
 import type { Config } from "drizzle-kit";
 
+import dotenv from "dotenv";
 import { defineConfig } from "drizzle-kit";
+import path from "path";
 
 import { getDatabaseUrl } from "./app-config";
+
+dotenv.config({ path: path.resolve(__dirname, ".env.local") });
 
 // Avoid importing lib/env at module load time; read only the minimal
 // environment variables we need here so tools that load this config (like
@@ -20,6 +24,11 @@ const env = {
  * @returns {string}
  */
 const resolveDatabaseUrl = (): string => {
+  // Prefer explicit environment variables set for tooling (DATABASE_URL/NEON_DATABASE_URL)
+  const envUrl = process.env.DATABASE_URL ?? process.env.NEON_DATABASE_URL;
+  if (envUrl) return envUrl;
+
+  // Fallback to app-config helper for other resolution paths
   const url = getDatabaseUrl();
   if (!url) {
     throw new Error(

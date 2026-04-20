@@ -14,6 +14,14 @@ ARG NODE_VERSION=22
 FROM node:${NODE_VERSION}-slim AS builder
 
 ENV NODE_ENV=development
+ARG DATABASE_URL
+ARG ENCRYPTION_KEY
+ARG NEXTAUTH_SECRET
+ARG DEBUG_BUILD
+# Expose build-time envs to the process during the Next build
+ENV DATABASE_URL=${DATABASE_URL}
+ENV ENCRYPTION_KEY=${ENCRYPTION_KEY}
+ENV NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
 
 WORKDIR /app
 
@@ -31,7 +39,14 @@ RUN if [ -f ./scripts/utils/fix-line-endings.sh ]; then \
       chmod +x ./scripts/utils/fix-line-endings.sh && \
       ./scripts/utils/fix-line-endings.sh; \
     fi
-RUN npm run build:standalone
+ # Allow running the debug prerender build inside the builder when DEBUG_BUILD=true.
+ # This is a temporary, reversible change used for reproducing prerender failures in CI-like builder
+ # environments. Revert or remove DEBUG_BUILD usage after debugging is complete.
+RUN if [ "${DEBUG_BUILD:-false}" = "true" ]; then \
+      npm run build:debug; \
+    else \
+      npm run build:standalone; \
+    fi
 
 # Remove dev dependencies to shrink what we copy to the runtime image
 RUN npm prune --production --legacy-peer-deps
@@ -65,6 +80,9 @@ EXPOSE 3000
 # Keep the same healthcheck semantics
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
     CMD node -e "require('http').get('http://localhost:3000', (r) => {if (r.statusCode !== 200) throw new Error(r.statusCode)})" || exit 1
+
+# Ensure proper ownership
+RUN chown -R app:app /app || true
 
 USER app
 

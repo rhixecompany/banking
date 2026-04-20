@@ -56,23 +56,3 @@ README.md
 LICENSE
 AGENTS.md
 docs
-
-# Scripts (mounted at runtime)
-scripts
-
-# Config files (mounted or generated at runtime)
-.prettierrc.ts
-.prettierignore
-.eslintrc*
-eslint.config.mts
-*.config.*
-*.config.ts
-!drizzle.config.ts
-tsconfig.json
-
-# CI hooks / caches
-.husky
-
-# Misc logs and dev vars
-*.log
-.dev.vars

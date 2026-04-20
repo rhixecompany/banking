@@ -1,4 +1,4 @@
-Agent Guidelines (short)
+# Agent Guidelines (short)
 
 This file contains the small set of repo-specific rules, exact commands, and gotchas an automated agent would otherwise miss. Read this before making changes.
 
@@ -14,6 +14,7 @@ This file contains the small set of repo-specific rules, exact commands, and got
   - Unit (Vitest): `npm run test:browser` or `npm exec vitest run <path-to-test> --config=vitest.config.ts`
   - E2E (Playwright): `npm run test:ui` or `npx playwright test <spec> --project=chromium`
   - IMPORTANT: Free port 3000 before running Playwright/Vitest on CI or locally (PowerShell example):
+
     ```powershell
     $pids = Get-NetTCPConnection -LocalPort 3000 -State Listen -ErrorAction SilentlyContinue | Select-Object -ExpandProperty OwningProcess -Unique
     if ($pids) { $pids | ForEach-Object { Stop-Process -Id $_ -Force } }

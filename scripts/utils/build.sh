@@ -168,7 +168,21 @@ echo "  Using: $COMPOSE_FILE"
 echo "  Env:   $ENV_FILE"
 echo ""
 
-docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" build --no-cache
+# Pass critical build args from the env file into the docker build so builder
+# stage sees the same environment as local builds. This prevents prerender
+# differences when code conditionally runs based on env vars.
+BUILD_ARGS=(--build-arg "NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}")
+if [ -n "${DATABASE_URL:-}" ]; then
+    BUILD_ARGS+=(--build-arg "DATABASE_URL=${DATABASE_URL}")
+fi
+if [ -n "${ENCRYPTION_KEY:-}" ]; then
+    BUILD_ARGS+=(--build-arg "ENCRYPTION_KEY=${ENCRYPTION_KEY}")
+fi
+if [ -n "${NEXTAUTH_SECRET:-}" ]; then
+    BUILD_ARGS+=(--build-arg "NEXTAUTH_SECRET=${NEXTAUTH_SECRET}")
+fi
+
+docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" build --no-cache "${BUILD_ARGS[@]}"
 
 if [ $? -ne 0 ]; then
     log_error "Build failed. Check output above."

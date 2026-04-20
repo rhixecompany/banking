@@ -2,8 +2,6 @@
 
 import { AlertCircleIcon } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
-
 /**
  * Props for GlobalErrorClientWrapper.
  *
@@ -41,7 +39,13 @@ export function GlobalErrorClientWrapper({
         An unexpected error occurred. Please try again, or contact support if
         the problem persists.
       </p>
-      <Button onClick={reset}>Try again</Button>
+      <button
+        onClick={reset}
+        className="inline-flex items-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90"
+        type="button"
+      >
+        Try again
+      </button>
     </div>
   );
 }

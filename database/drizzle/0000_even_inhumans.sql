@@ -60,6 +60,15 @@ CREATE TABLE "errors" (
 	"user_id" text
 );
 --> statement-breakpoint
+CREATE TABLE "plaid_items" (
+	"access_token_encrypted" text NOT NULL,
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	"id" text PRIMARY KEY NOT NULL,
+	"item_id" varchar(255) NOT NULL,
+	"updated_at" timestamp DEFAULT now() NOT NULL,
+	"user_id" text
+);
+--> statement-breakpoint
 CREATE TABLE "recipients" (
 	"bank_account_id" text,
 	"created_at" timestamp DEFAULT now() NOT NULL,
@@ -160,6 +169,7 @@ ALTER TABLE "dwolla_transfers" ADD CONSTRAINT "dwolla_transfers_receiver_wallet_
 ALTER TABLE "dwolla_transfers" ADD CONSTRAINT "dwolla_transfers_sender_wallet_id_wallets_id_fk" FOREIGN KEY ("sender_wallet_id") REFERENCES "public"."wallets"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "dwolla_transfers" ADD CONSTRAINT "dwolla_transfers_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "errors" ADD CONSTRAINT "errors_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "plaid_items" ADD CONSTRAINT "plaid_items_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "recipients" ADD CONSTRAINT "recipients_bank_account_id_wallets_id_fk" FOREIGN KEY ("bank_account_id") REFERENCES "public"."wallets"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "recipients" ADD CONSTRAINT "recipients_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "session" ADD CONSTRAINT "session_userId_users_id_fk" FOREIGN KEY ("userId") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
@@ -176,6 +186,7 @@ CREATE INDEX "dwolla_transfers_created_at_idx" ON "dwolla_transfers" USING btree
 CREATE INDEX "errors_created_at_idx" ON "errors" USING btree ("created_at");--> statement-breakpoint
 CREATE INDEX "errors_user_id_idx" ON "errors" USING btree ("user_id");--> statement-breakpoint
 CREATE INDEX "errors_severity_idx" ON "errors" USING btree ("severity");--> statement-breakpoint
+CREATE INDEX "plaid_items_item_id_idx" ON "plaid_items" USING btree ("item_id");--> statement-breakpoint
 CREATE INDEX "recipients_user_id_idx" ON "recipients" USING btree ("user_id");--> statement-breakpoint
 CREATE INDEX "recipients_email_idx" ON "recipients" USING btree ("email");--> statement-breakpoint
 CREATE INDEX "session_user_id_idx" ON "session" USING btree ("userId");--> statement-breakpoint

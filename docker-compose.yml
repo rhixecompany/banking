@@ -27,8 +27,7 @@ services:
       - "443:443"
       - "8080:8080"
     env_file:
-      - path: .envs/local/.env.local
-        required: false
+      - .envs/local/.env.local
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./compose/traefik/traefik.yml:/etc/traefik/traefik.yml:ro
@@ -72,15 +71,16 @@ services:
       # as a standalone production server instead of the development server.
       target: production
       args:
-        - NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
+        DATABASE_URL: ${DATABASE_URL:-}
+        ENCRYPTION_KEY: ${ENCRYPTION_KEY:-}
+        NEXTAUTH_SECRET: ${NEXTAUTH_SECRET:-}
     container_name: banking-app
     restart: unless-stopped
     # Load environment from production env when present. Keep local optional file for dev overrides.
     env_file:
-      - path: .envs/production/.env.production
-        required: false
-      - path: .envs/local/.env.local
-        required: false
+      - .envs/production/.env.production
+      - .envs/local/.env.local
     depends_on:
       db:
         condition: service_healthy
@@ -173,10 +173,8 @@ services:
     container_name: banking-init
     # Ensure migrations run with production environment when available
     env_file:
-      - path: .envs/production/.env.production
-        required: false
-      - path: .envs/local/.env.local
-        required: false
+      - .envs/production/.env.production
+      - .envs/local/.env.local
     environment:
       DATABASE_URL: ${DATABASE_URL:-}
     depends_on:

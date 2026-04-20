@@ -1,7 +1,4 @@
-import { redirect } from "next/navigation";
-
 import AuthForm from "@/components/layouts/auth-form";
-import { auth } from "@/lib/auth";
 
 /**
  * Server wrapper for the sign-in page.
@@ -9,13 +6,9 @@ import { auth } from "@/lib/auth";
  * Renders the sign-in AuthForm for unauthenticated visitors.
  *
  * @export
- * @async
- * @returns {Promise<JSX.Element>}
+ * @returns {JSX.Element}
  */
-export async function SignInServerWrapper(): Promise<JSX.Element> {
-  const session = await auth();
-  if (session?.user) redirect("/dashboard");
-
+export function SignInServerWrapper(): JSX.Element {
   return (
     <section className="flex-center size-full max-sm:px-6">
       <AuthForm type="sign-in" />

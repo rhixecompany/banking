@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
 
   cacheComponents: true,
 
-  compress: true,
+  compress: false,
 
   devIndicators: {
     position: "bottom-right",
