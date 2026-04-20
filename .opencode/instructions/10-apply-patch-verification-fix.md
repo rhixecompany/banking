@@ -194,5 +194,3 @@ Collect these outputs and include them when filing a wrapper/agent bug. They wil
   - npm run format && npm run type-check && npm run lint:strict && npm run verify:rules
 - Keep automated edits small — if you will touch more than 5 files, create a plan under .opencode/commands/ as required by repository policy.
 - Do NOT commit secrets (.env, tokens). Use app-config.ts / lib/env.ts helpers rather than direct process.env reads when updating code.
-
--- Canonicalized from docs/AGENTS-CANONICAL.md on 2026-04-20 as part of unify-agent-docs operation.
