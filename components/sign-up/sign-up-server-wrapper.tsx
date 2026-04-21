@@ -1,6 +1,5 @@
 import { redirect } from "next/navigation";
 
-import { registerUser } from "@/actions/register";
 import AuthForm from "@/components/layouts/auth-form";
 import { auth } from "@/lib/auth";
 
@@ -18,10 +17,11 @@ export async function SignUpServerWrapper(): Promise<JSX.Element> {
   if (session?.user) redirect("/dashboard");
 
   // Pass registerUser server action into the client AuthForm via props
-  // to avoid importing DB or DAL into the client component.
+  // to avoid importing DB or DAL into the client component. The client
+  // receives a stable API surface for registration.
   return (
     <section className="flex-center size-full max-sm:px-6">
-      <AuthForm type="sign-up" register={registerUser} />
+      <AuthForm type="sign-up" actionEndpoint="/api/auth/local-create" />
     </section>
   );
 }

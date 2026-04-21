@@ -1,13 +1,3 @@
 {
-  "$schema": "https://opencode.ai/tui.json",
-  "diff_style": "auto",
-  "keybinds": {
-    "leader": "ctrl+x"
-  },
-  "mouse": true,
-  "scroll_acceleration": {
-    "enabled": true
-  },
-  "scroll_speed": 3,
-  "theme": "ayu-dark"
+  "plugin": ["@slkiser/opencode-quota@latest"]
 }

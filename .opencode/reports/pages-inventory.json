@@ -1,0 +1,26 @@
+{
+  "generatedAt": "2026-04-21T00:00:00.000Z",
+  "groups": {
+    "(auth)": [
+      "app/(auth)/sign-in/page.tsx",
+      "app/(auth)/sign-up/page.tsx",
+      "components/sign-in/sign-in-server-wrapper.tsx",
+      "components/sign-up/sign-up-server-wrapper.tsx",
+      "components/auth-form/auth-form.tsx"
+    ],
+    "(admin)": [
+      "app/(admin)/admin/page.tsx",
+      "components/admin/admin-dashboard-server-wrapper.tsx",
+      "components/admin/admin-dashboard-content.tsx",
+      "components/layouts/admin-dashboard/index.tsx"
+    ],
+    "(root)": [
+      "app/(root)/dashboard/page.tsx",
+      "app/(root)/my-wallets/page.tsx",
+      "app/(root)/payment-transfer/page.tsx",
+      "app/(root)/settings/page.tsx",
+      "app/(root)/transaction-history/page.tsx"
+    ],
+    "top-level": ["app/page.tsx"]
+  }
+}

@@ -26,13 +26,14 @@ interface Props {
  * @returns {unknown}
  */
 export default async function AuthLayoutWrapper({ children }: Props) {
+  // Guard: if the user is not authenticated, redirect to sign-in.
+  // getCurrentUser will return null when no session exists.
   const user = await getCurrentUser();
-  if (user) {
-    // if user is authenticated, allow
-  } else {
-    // redirect to sign-in
+  if (!user) {
+    // redirect to sign-in (server-side redirect)
     redirect("/sign-in");
   }
 
+  // Authenticated: render the page shell that provides app chrome and providers.
   return <PageShell>{children}</PageShell>;
 }

@@ -1,6 +1,10 @@
 {
-  "email": "seed.user@example.com",
-  "id": "user-seed-1",
-  "name": "Seed User",
-  "password": "password123"
+  "address1": "123 Test St",
+  "city": "Testville",
+  "email": "seed-user@example.com",
+  "firstName": "Seed",
+  "lastName": "User",
+  "password": "Password123!",
+  "postalCode": "12345",
+  "state": "TS"
 }

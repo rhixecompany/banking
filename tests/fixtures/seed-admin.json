@@ -1,11 +1,11 @@
 {
-  "users": [
-    {
-      "email": "seed-admin@example.com",
-      "password": "Password1!",
-      "isAdmin": true,
-      "isActive": true,
-      "name": "Seed Admin"
-    }
-  ]
+  "address1": "1 Admin Plaza",
+  "city": "Admin City",
+  "email": "seed-admin@example.com",
+  "firstName": "Seed",
+  "isAdmin": true,
+  "lastName": "Admin",
+  "password": "AdminPass123!",
+  "postalCode": "00001",
+  "state": "AD"
 }

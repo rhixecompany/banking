@@ -85,10 +85,12 @@ function getDefaultValues(
 const AuthForm = ({
   register,
   type,
+  actionEndpoint,
 }: {
   register?: (
     input: unknown,
   ) => Promise<{ ok: boolean; user?: unknown; error?: string }>;
+  actionEndpoint?: string;
 } & AuthFormProps): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false);
   const isSignIn = type === "sign-in";
@@ -111,18 +113,43 @@ const AuthForm = ({
     setIsLoading(true);
     try {
       if (!isSignIn) {
-        if (!register) {
-          toast.error("Registration action not available");
+        // Prefer server action prop when provided (register)
+        if (register && typeof register === "function") {
+          const result = await register(formData as SignUpFormData);
+          if (!result.ok) {
+            toast.error(result.error ?? "Registration failed");
+            return;
+          }
+          toast.success("You have successfully signed up. Please sign in.");
+          await router.push("/sign-in");
+          router.refresh();
           return;
         }
-        const result = await register(formData as SignUpFormData);
-        if (!result.ok) {
-          toast.error(result.error ?? "Registration failed");
-          return;
+
+        // Fallback: call provided actionEndpoint (API route) if available
+        if (actionEndpoint) {
+          try {
+            const resp = await fetch(actionEndpoint, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(formData),
+            });
+            const result = await resp.json();
+            if (!result.ok) {
+              toast.error(result.error ?? "Registration failed");
+              return;
+            }
+            toast.success("You have successfully signed up. Please sign in.");
+            await router.push("/sign-in");
+            router.refresh();
+            return;
+          } catch (err) {
+            toast.error("Registration failed");
+            return;
+          }
         }
-        toast.success("You have successfully signed up. Please sign in.");
-        await router.push("/sign-in");
-        router.refresh();
+
+        toast.error("Registration action not available");
         return;
       }
       const signInData = formData as SignInFormData;

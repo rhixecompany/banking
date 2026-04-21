@@ -51,6 +51,33 @@ export async function AdminDashboardServerWrapper() {
     ? transactionTypeStatsResult.typeStats
     : {};
 
+  // Log any action-level errors for observability (non-blocking)
+  try {
+    const { error: logError } = await import("@/lib/logger");
+    if (!statsResult.ok) {
+      logError("admin-dashboard.wrapper", "getAdminStats failed", {
+        error: statsResult.error,
+      });
+    }
+    if (!recentTransactionsResult.ok) {
+      logError("admin-dashboard.wrapper", "getRecentTransactions failed", {
+        error: recentTransactionsResult.error,
+      });
+    }
+    if (!transactionStatusStatsResult.ok) {
+      logError("admin-dashboard.wrapper", "getTransactionStatusStats failed", {
+        error: transactionStatusStatsResult.error,
+      });
+    }
+    if (!transactionTypeStatsResult.ok) {
+      logError("admin-dashboard.wrapper", "getTransactionTypeStats failed", {
+        error: transactionTypeStatsResult.error,
+      });
+    }
+  } catch {
+    // ignore logging failures
+  }
+
   return (
     <AdminDashboardContent
       stats={stats}

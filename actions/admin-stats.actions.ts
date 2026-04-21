@@ -43,8 +43,20 @@ export async function getAdminStats(
   try {
     const stats = await adminDal.getStats();
     return { ok: true, stats };
-  } catch (error) {
-    console.error("Failed to get admin stats:", error);
+  } catch (err) {
+    // Structured log for easier parsing in production logs.
+    try {
+      const { error: e } = (err as any) ?? {};
+      // Lazy import logger to avoid adding runtime cost where not needed
+      const { error: logError } = await import("@/lib/logger");
+      logError("admin-stats.getAdminStats", "Failed to get admin stats", {
+        message: String((err as any)?.message ?? err),
+        stack: (err as any)?.stack,
+        extra: e,
+      });
+    } catch {
+      // swallow logging errors
+    }
     return { error: "Failed to load statistics", ok: false };
   }
 }
@@ -84,7 +96,17 @@ export async function getTransactionStatusStats(input: unknown): Promise<{
     const statusStats = await adminDal.getTransactionStatusStats();
     return { ok: true, statusStats };
   } catch (error) {
-    console.error("Failed to get transaction status stats:", error);
+    try {
+      const { error: logError } = await import("@/lib/logger");
+      logError(
+        "admin-stats.getTransactionStatusStats",
+        "Failed to get transaction status stats",
+        {
+          message: String((error as any)?.message ?? error),
+          stack: (error as any)?.stack,
+        },
+      );
+    } catch {}
     return { error: "Failed to load transaction status statistics", ok: false };
   }
 }
@@ -124,7 +146,17 @@ export async function getTransactionTypeStats(input: unknown): Promise<{
     const typeStats = await adminDal.getTransactionTypeStats();
     return { ok: true, typeStats };
   } catch (error) {
-    console.error("Failed to get transaction type stats:", error);
+    try {
+      const { error: logError } = await import("@/lib/logger");
+      logError(
+        "admin-stats.getTransactionTypeStats",
+        "Failed to get transaction type stats",
+        {
+          message: String((error as any)?.message ?? error),
+          stack: (error as any)?.stack,
+        },
+      );
+    } catch {}
     return { error: "Failed to load transaction type statistics", ok: false };
   }
 }
@@ -174,7 +206,17 @@ export async function getRecentTransactions(
     );
     return { ok: true, transactions };
   } catch (error) {
-    console.error("Failed to get recent transactions:", error);
+    try {
+      const { error: logError } = await import("@/lib/logger");
+      logError(
+        "admin-stats.getRecentTransactions",
+        "Failed to get recent transactions",
+        {
+          message: String((error as any)?.message ?? error),
+          stack: (error as any)?.stack,
+        },
+      );
+    } catch {}
     return { error: "Failed to load recent transactions", ok: false };
   }
 }
@@ -225,7 +267,13 @@ export async function getUsers(input: unknown): Promise<{
     });
     return { ok: true, pagination: result.pagination, users: result.users };
   } catch (error) {
-    console.error("Failed to get users:", error);
+    try {
+      const { error: logError } = await import("@/lib/logger");
+      logError("admin-stats.getUsers", "Failed to get users", {
+        message: String((error as any)?.message ?? error),
+        stack: (error as any)?.stack,
+      });
+    } catch {}
     return { error: "Failed to load users", ok: false };
   }
 }

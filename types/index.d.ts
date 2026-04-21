@@ -990,6 +990,12 @@ export interface AuthFormProps {
    * @type {("sign-in" | "sign-up")}
    */
   type: "sign-in" | "sign-up";
+  /**
+   * Optional API endpoint to use for form submissions when a server action
+   * prop is not available (fallback for API-based flows). This keeps the
+   * client component decoupled from internal server-action imports.
+   */
+  actionEndpoint?: string;
 }
 
 /**

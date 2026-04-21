@@ -17,7 +17,9 @@ async function run() {
     printDryRunResult(summary, { ok: true });
     return;
   }
-  await mcpMain(process.argv.slice(2));
+  // mcp-runner's main() reads process.argv itself (via yargs/hideBin),
+  // so don't pass arguments here — call with no parameters.
+  await mcpMain();
 }
 
 if (require.main === module)

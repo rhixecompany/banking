@@ -20,9 +20,11 @@ export async function SignInServerWrapper(): Promise<JSX.Element> {
   // For sign-in, we intentionally keep this wrapper minimal and delegate
   // authentication to the client AuthForm which uses the credentials
   // flow via /api/auth/local-validate -> actions/auth.signin.ts.
+  // Provide an explicit API endpoint prop to the client to keep the
+  // client decoupled from internal action imports.
   return (
     <section className="flex-center size-full max-sm:px-6">
-      <AuthForm type="sign-in" />
+      <AuthForm type="sign-in" actionEndpoint="/api/auth/local-validate" />
     </section>
   );
 }
