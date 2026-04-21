@@ -16,7 +16,7 @@ import path from "path";
  * @param {{ cwd?: string }} [opts={}]
  */
 function run(cmd: string, args: string[], opts: { cwd?: string } = {}) {
-  const res = spawnSync(cmd, args, { stdio: "inherit", cwd: opts.cwd });
+  const res = spawnSync(cmd, args, { cwd: opts.cwd, stdio: "inherit" });
   if (res.error) throw res.error;
   if (res.status && res.status !== 0) process.exit(res.status);
 }
@@ -41,7 +41,7 @@ console.log("Banking App - Production Deployment Workflow");
 // Verify docker
 try {
   run("docker", ["--version"]);
-} catch (err) {
+} catch {
   console.error("Docker not found. Please install Docker.");
   process.exit(1);
 }
@@ -68,7 +68,7 @@ if (!fs.existsSync(htpath)) {
       "admin",
       process.env.TRAEFIK_PASSWORD || "admin",
     ]);
-  } catch (err) {
+  } catch {
     console.warn("Could not create htpasswd. Create it manually.");
   }
 } else {

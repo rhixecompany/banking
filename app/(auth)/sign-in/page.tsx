@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 
+import { Suspense } from "react";
+
 import AuthLayoutWrapper from "@/components/layouts/AuthLayoutWrapper";
 import { SignInServerWrapper } from "@/components/sign-in/sign-in-server-wrapper";
 import { LoadingSpinner } from "@/components/ui/spinner";
-import { Suspense } from "react";
 
 /**
  * Description placeholder

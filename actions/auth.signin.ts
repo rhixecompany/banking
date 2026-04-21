@@ -1,12 +1,13 @@
 // Provenance: inspected dal/user.dal.ts, lib/auth-options.ts, AGENTS.md — server action: validate credentials (no NextAuth session). Draft only.
 "use server";
-import { findByEmail } from "@/dal/user.dal";
 import bcrypt from "bcrypt";
 import * as z from "zod";
 
+import { userDal } from "@/dal/user.dal";
+
 const SignInSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8),
+  email: z.string().trim().email(),
+  password: z.string().trim().min(8),
 });
 
 /**
@@ -16,15 +17,15 @@ const SignInSchema = z.object({
  */
 export default async function signin(payload: unknown) {
   const parsed = SignInSchema.safeParse(payload);
-  if (!parsed.success) return { ok: false, error: "Invalid input" };
+  if (!parsed.success) return { error: "Invalid input", ok: false };
   const { email, password } = parsed.data;
 
-  const user = await findByEmail(email);
-  if (!user) return { ok: false, error: "Invalid credentials" };
-  if (!user.isActive) return { ok: false, error: "Account disabled" };
+  const user = await userDal.findByEmail(email);
+  if (!user) return { error: "Invalid credentials", ok: false };
+  if (!user.isActive) return { error: "Account disabled", ok: false };
 
   const ok = await bcrypt.compare(password, (user as any).password ?? "");
-  if (!ok) return { ok: false, error: "Invalid credentials" };
+  if (!ok) return { error: "Invalid credentials", ok: false };
 
   return { ok: true };
 }

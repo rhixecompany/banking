@@ -26,7 +26,7 @@ import {
  * @async
  * @returns {*}
  */
-async function main() {
+export async function main() {
   const argv = await yargs(hideBin(process.argv))
     .option("dry-run", { default: true, type: "boolean" })
     .option("apply", { default: false, type: "boolean" })

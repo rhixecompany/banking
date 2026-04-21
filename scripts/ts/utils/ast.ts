@@ -1,6 +1,6 @@
 #!/usr/bin/env ts-node
 import path from "path";
-import { Project, SourceFile, ts } from "ts-morph";
+import { IndentationText, Project, SourceFile } from "ts-morph";
 
 /**
  * Description placeholder
@@ -13,9 +13,9 @@ export function createProject() {
   // Use repo tsconfig if available
   const tsconfigPath = path.join(process.cwd(), "tsconfig.json");
   const project = new Project({
-    tsConfigFilePath: tsconfigPath,
-    manipulationSettings: { indentationText: ts.IndentationText.TwoSpaces },
     compilerOptions: { allowJs: true },
+    manipulationSettings: { indentationText: IndentationText.TwoSpaces },
+    tsConfigFilePath: tsconfigPath,
   });
   return project;
 }
@@ -31,7 +31,7 @@ export function createProject() {
  * @returns {*}
  */
 export async function saveWithBackups(source: SourceFile, timestamp?: string) {
-  timestamp = timestamp ?? new Date().toISOString().replace(/[:.]/g, "-");
+  timestamp = timestamp ?? new Date().toISOString().replaceAll(/[:.]/g, "-");
   const filePath = source.getFilePath();
   const content = source.getFullText();
   const backup = `${filePath}.bak.${timestamp}`;

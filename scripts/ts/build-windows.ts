@@ -31,7 +31,7 @@ const PROJECT_ROOT = path.resolve(SCRIPT_DIR, "..", "..");
  * @returns {*}
  */
 function run(cmd: string) {
-  const proc = spawnSync(cmd, { stdio: "inherit", shell: true });
+  const proc = spawnSync(cmd, { shell: true, stdio: "inherit" });
   if (proc.error) {
     console.error(proc.error);
     process.exit(1);
@@ -76,7 +76,7 @@ run("docker compose version");
  *
  * @type {*}
  */
-const FullEnvFile = path.join(PROJECT_ROOT, EnvFile.replace(/\//g, path.sep));
+const FullEnvFile = path.join(PROJECT_ROOT, EnvFile.replaceAll("/", path.sep));
 if (!fs.existsSync(FullEnvFile)) {
   console.warn(`${EnvFile} not found`);
 }

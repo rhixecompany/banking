@@ -37,7 +37,7 @@ const PROJECT_ROOT = path.resolve(SCRIPT_DIR, "..", "..");
 // Check docker available
 try {
   run("docker", ["--version"]);
-} catch (err) {
+} catch {
   console.error("Docker not found");
   process.exit(1);
 }

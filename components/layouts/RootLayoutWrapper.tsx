@@ -1,5 +1,7 @@
-import RootProviders from "@/stores/providers";
 import React from "react";
+
+import { RootProviders } from "@/stores/providers";
+
 import PageShell from "./PageShell";
 
 /**
@@ -8,9 +10,9 @@ import PageShell from "./PageShell";
  *
  * @typedef {Props}
  */
-type Props = {
+interface Props {
   children: React.ReactNode;
-};
+}
 
 /**
  * Description placeholder

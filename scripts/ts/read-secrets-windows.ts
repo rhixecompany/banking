@@ -63,11 +63,11 @@ const lines = content.split(/\r?\n/);
  */
 let count = 0;
 for (const line of lines) {
-  const m = line.match(/^\s*([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*)$/);
+  const m = line.match(/^\s*([A-Z_]\w*)\s*=\s*(.*)$/i);
   if (!m) continue;
   const key = m[1];
   let value = m[2].trim();
-  value = value.replace(/^(['\"]?)(.*)\1$/, "$2");
+  value = value.replace(/^(['"]?)(.*)\1$/, "$2");
   console.log(`${key}=${value}`);
   count++;
 }

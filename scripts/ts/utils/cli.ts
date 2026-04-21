@@ -11,15 +11,15 @@ import minimist from "minimist";
  */
 export function parseCli(argv = process.argv.slice(2)) {
   const args = minimist(argv, {
-    boolean: ["dry-run", "apply", "verbose", "help"],
     alias: { h: "help", v: "verbose" },
+    boolean: ["dry-run", "apply", "verbose", "help"],
   });
   return {
-    dryRun: Boolean(args["dry-run"]),
     apply: Boolean(args.apply),
-    verbose: Boolean(args.verbose),
-    help: Boolean(args.help),
     args,
+    dryRun: Boolean(args["dry-run"]),
+    help: Boolean(args.help),
+    verbose: Boolean(args.verbose),
   } as const;
 }
 

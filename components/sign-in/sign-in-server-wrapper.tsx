@@ -1,5 +1,6 @@
-import AuthForm from "@/components/layouts/auth-form";
+import { redirect } from "next/navigation";
 
+import AuthForm from "@/components/layouts/auth-form";
 /**
  * Server wrapper for the sign-in page.
  * Checks if the user already has a session and redirects to the dashboard if so.
@@ -9,7 +10,6 @@ import AuthForm from "@/components/layouts/auth-form";
  * @returns {JSX.Element}
  */
 import { auth } from "@/lib/auth";
-import { redirect } from "next/navigation";
 
 export async function SignInServerWrapper(): Promise<JSX.Element> {
   // Ensure authenticated users are redirected to dashboard

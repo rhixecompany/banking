@@ -1,6 +1,7 @@
 #!/usr/bin/env ts-node
 import fs from "fs";
 import path from "path";
+
 import { parseCli, printDryRunResult } from "../utils/cli";
 
 /**
@@ -30,7 +31,7 @@ function walk(dir: string, filelist: string[] = []) {
  * @returns {*}
  */
 function relative(p: string) {
-  return path.relative(process.cwd(), p).replace(/\\/g, "/");
+  return path.relative(process.cwd(), p).replaceAll("\\", "/");
 }
 
 /**
@@ -52,9 +53,9 @@ function discoverAppPages() {
     const layoutSeg = parts.find((p) => /^\(.+\)$/.test(p));
     const layout = layoutSeg || "root";
     layouts[layout] = layouts[layout] || {
-      pages: [],
       components: [],
       files: [],
+      pages: [],
     };
     layouts[layout].files.push(rel);
     if (/page\.tsx?$|page\.jsx?$/.test(f)) layouts[layout].pages.push(rel);
@@ -66,7 +67,7 @@ function discoverAppPages() {
     "app/page.jsx",
     "app/page.js",
   ].find((p) => fs.existsSync(path.join(process.cwd(), p)));
-  return { discoveredAt: new Date().toISOString(), layouts, appRootPage };
+  return { appRootPage, discoveredAt: new Date().toISOString(), layouts };
 }
 
 /**

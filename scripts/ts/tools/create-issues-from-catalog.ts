@@ -35,7 +35,7 @@ async function main() {
  * @returns {*}
  */
 function escape(s: string) {
-  return s.replace(/"/g, '\\"');
+  return s.replaceAll('"', '\\"');
 }
 
 main().catch((err) => {

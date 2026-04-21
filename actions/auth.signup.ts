@@ -7,7 +7,7 @@ import { signUpSchema } from "@/lib/validations/auth";
 // registration logic (hashing, duplicate checks, profile creation).
 export default async function signup(payload: unknown) {
   const parsed = signUpSchema.safeParse(payload);
-  if (!parsed.success) return { ok: false, error: "Invalid input" };
+  if (!parsed.success) return { error: "Invalid input", ok: false };
 
   // registerUser returns the { ok, user?, error? } shape expected by callers
   return registerUser(payload);

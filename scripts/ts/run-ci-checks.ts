@@ -25,8 +25,8 @@ const argv = process.argv.slice(2);
 function run(cmd: string, args: string[] = []) {
   const parts = cmd.split(" ");
   const proc = spawnSync(parts[0], parts.slice(1).concat(args), {
-    stdio: "inherit",
     shell: false,
+    stdio: "inherit",
   });
   if (proc.error) {
     console.error(proc.error);
@@ -60,14 +60,14 @@ const STEPS = [
  * @type {Record<string, string>}
  */
 const COMMANDS: Record<string, string> = {
+  build: "npm run build",
+  "build-debug": "npm run build:debug",
   "format-check": "npm run format:check",
-  "type-check": "npm run type-check",
   "lint-fix": "npm run lint:fix",
   "lint-strict": "npm run lint:strict",
-  "build-debug": "npm run build:debug",
   "test-browser": "npm run test:browser",
   "test-ui": "npm run test:ui",
-  build: "npm run build",
+  "type-check": "npm run type-check",
 };
 
 /**

@@ -13,10 +13,10 @@ import { spawnSync } from "child_process";
  * @type {{}}
  */
 const steps = [
-  { cmd: "npm", args: ["run", "format"] },
-  { cmd: "npm", args: ["run", "type-check"] },
-  { cmd: "npm", args: ["run", "lint:strict"] },
-  { cmd: "npm", args: ["run", "verify:rules"] },
+  { args: ["run", "format"], cmd: "npm" },
+  { args: ["run", "type-check"], cmd: "npm" },
+  { args: ["run", "lint:strict"], cmd: "npm" },
+  { args: ["run", "verify:rules"], cmd: "npm" },
 ];
 
 for (const s of steps) {

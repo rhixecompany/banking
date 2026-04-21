@@ -1,115 +1,161 @@
-#!/usr/bin/env node
-import { Command } from "commander";
-import fs from "fs";
+/**
+ * MCP Runner (dry-run)
+ *
+ * Minimal, dependency-free CLI to inspect a locally-generated pages map and
+ * propose (but not write) changes to opencode manifest files.
+ *
+ * This is a DRY-RUN tool only — it will never modify files. Run with:
+ *   node ./scripts/ts/mcp/mcp-runner.js
+ * (after transpiling with tsc or running with ts-node)
+ */
+import { promises as fs } from "fs";
 import path from "path";
 
-const program = new Command();
+interface PagesMap {
+  generatedAt?: string;
+  pages?: string[];
+  source?: string;
+}
 
-program
-  .description(
-    "Opencode MCP runner: discover and reconcile MCP servers (dry-run first)",
-  )
-  .option("--dry-run", "Print planned changes without applying them")
-  .option(
-    "--manifest <path>",
-    "Path to mcp servers manifest",
-    ".opencode/mcp_servers.json",
-  )
-  .option(
-    "--backup-dir <path>",
-    "Backup directory for manifests",
-    ".opencode/backups",
-  )
-  .parse(process.argv);
-
-const opts = program.opts();
-
-async function readManifest(manifestPath: string) {
+async function fileExists(filePath: string) {
   try {
-    const content = await fs.promises.readFile(manifestPath, "utf8");
-    return JSON.parse(content);
-  } catch (err) {
-    return { servers: [] };
+    await fs.access(filePath);
+    return true;
+  } catch {
+    return false;
   }
 }
 
-async function writeManifest(
-  manifestPath: string,
-  data: any,
-  dryRun = true,
-  backupDir = ".opencode/backups",
-) {
-  const abs = path.resolve(manifestPath);
-  const backupDirAbs = path.resolve(backupDir);
-  await fs.promises.mkdir(backupDirAbs, { recursive: true });
-  const backupPath = path.join(
-    backupDirAbs,
-    `${path.basename(manifestPath)}.backup-${Date.now()}.json`,
-  );
+async function readJson<T = any>(filePath: string): Promise<null | T> {
   try {
-    if (fs.existsSync(abs)) {
-      await fs.promises.copyFile(abs, backupPath);
-      console.log(`Backed up ${manifestPath} to ${backupPath}`);
-    }
+    const raw = await fs.readFile(filePath, "utf8");
+    return JSON.parse(raw) as T;
   } catch (err) {
-    console.warn("Backup failed:", err);
+    // Log underlying error for visibility but keep behavior as a non-throwing helper
+    console.error(`Failed to read/parse JSON at ${filePath}:`, err);
+    return null;
   }
-
-  if (dryRun) {
-    console.log("[dry-run] would write manifest to:", manifestPath);
-    console.log(JSON.stringify(data, null, 2));
-    return;
-  }
-
-  await fs.promises.writeFile(abs, JSON.stringify(data, null, 2), "utf8");
-  console.log(`Wrote manifest ${manifestPath}`);
-}
-
-// Placeholder: discovery implementation should invoke docker mcp CLI or other discovery methods.
-async function discoverMcpServers(): Promise<
-  Array<{ name: string; sha?: string; metadata?: any }>
-> {
-  // For now we return an empty list — implementation will call docker CLI and parse output.
-  return [];
 }
 
 async function main() {
-  const manifestPath = opts.manifest;
-  const dryRun = !!opts.dryRun;
+  const repoRoot = process.cwd();
+  const pagesMapPath = path.join(
+    repoRoot,
+    ".opencode",
+    "reports",
+    "pages-map.json",
+  );
 
-  console.log(`Running mcp-runner (dryRun=${dryRun})`);
-  const discovered = await discoverMcpServers();
-  console.log(`Discovered ${discovered.length} MCP servers`);
-
-  const manifest = await readManifest(manifestPath);
-  const existing = manifest.servers ?? [];
-
-  // Simple reconciliation: list names present and missing
-  const existingNames = new Set(existing.map((s: any) => s.name));
-  const discoveredNames = new Set(discovered.map((s) => s.name));
-
-  const toAdd = discovered.filter((s) => !existingNames.has(s.name));
-  const toRemove = existing.filter((s: any) => !discoveredNames.has(s.name));
-
-  console.log(`toAdd: ${toAdd.length}, toRemove: ${toRemove.length}`);
-
-  const newManifest = {
-    ...manifest,
-    servers: existing
-      .filter((s: any) => discoveredNames.has(s.name))
-      .concat(toAdd),
+  const out: {
+    ok: boolean;
+    report: string;
+    proposals?: Record<string, unknown>;
+  } = {
+    ok: true,
+    report: "",
   };
 
-  await writeManifest(manifestPath, newManifest, dryRun, opts.backupDir);
-
-  if (!dryRun) {
-    console.log("Manifest reconciled and written.");
-  } else {
-    console.log("Dry run completed. No changes applied.");
+  if (!(await fileExists(pagesMapPath))) {
+    out.ok = false;
+    out.report = `Pages map not found at ${pagesMapPath}`;
+    // Human-facing error -> stderr
+    console.error(out.report);
+    // Machine-readable output remains on stdout
+    console.log(JSON.stringify(out, null, 2));
+    process.exit(1);
+    return;
   }
+
+  const pagesMap = (await readJson<PagesMap>(pagesMapPath)) || {};
+  const pages = pagesMap.pages || [];
+
+  const humanReportLines: string[] = [];
+  humanReportLines.push("Discovered pages:");
+  if (pages.length === 0) {
+    humanReportLines.push("  (no pages found in pages-map.json)");
+  } else {
+    for (const p of pages) {
+      humanReportLines.push(`  - ${p}`);
+    }
+  }
+
+  // Check potential manifest files and propose additions if pages missing
+  const manifests = [
+    path.join(repoRoot, ".opencode", "mcp_servers.json"),
+    path.join(repoRoot, ".opencode", "opencode.json"),
+  ];
+
+  const proposals: Record<string, unknown> = {};
+
+  for (const mPath of manifests) {
+    if (!(await fileExists(mPath))) {
+      // propose creating a minimal manifest with pages
+      proposals[path.relative(repoRoot, mPath)] = {
+        action: "create",
+        proposed: { pages },
+        reason: "manifest missing",
+      };
+      continue;
+    }
+
+    const data = await readJson<any>(mPath);
+    if (!data) {
+      proposals[path.relative(repoRoot, mPath)] = {
+        action: "read-failed",
+        reason: "could not parse JSON",
+      };
+      continue;
+    }
+
+    // If manifest has a 'pages' array, compare and propose additions
+    if (Array.isArray(data.pages)) {
+      const missing = pages.filter((p) => !data.pages.includes(p));
+      if (missing.length > 0) {
+        proposals[path.relative(repoRoot, mPath)] = {
+          action: "update",
+          missing,
+          proposed: {
+            pages: [...data.pages, ...missing],
+          },
+          reason: "missing pages",
+        };
+      }
+    } else {
+      // Unknown shape: propose merging under pages key
+      proposals[path.relative(repoRoot, mPath)] = {
+        action: "no-pages-key",
+        proposed: { pages },
+        reason: "manifest exists but has no 'pages' array",
+      };
+    }
+  }
+
+  out.report = humanReportLines.join("\n");
+  if (Object.keys(proposals).length > 0) out.proposals = proposals;
+
+  // Print human-readable report first
+  console.log(out.report);
+  if (out.proposals) {
+    console.log("\nProposals (dry-run, no files will be written):");
+    console.log(JSON.stringify(out.proposals, null, 2));
+  } else {
+    console.log(
+      "\nNo proposals — manifests appear to contain all discovered pages or are not applicable.",
+    );
+  }
+
+  // Print machine-readable JSON as final output
+  console.log("\nJSON_OUTPUT_START");
+  console.log(JSON.stringify(out, null, 2));
+  console.log("JSON_OUTPUT_END");
+  // Success
+  process.exit(0);
 }
 
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+if (require.main === module) {
+  main().catch((err) => {
+    // Unexpected error should write to stderr and exit non-zero
+    console.error("Unexpected error:", err);
+    process.exit(1);
+  });
+}

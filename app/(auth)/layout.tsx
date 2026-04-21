@@ -1,7 +1,8 @@
-import AuthLayoutWrapper from "@/components/layouts/AuthLayoutWrapper";
-import RootLayoutWrapper from "@/components/layouts/RootLayoutWrapper";
 import Image from "next/image";
 import { ReactNode } from "react";
+
+import AuthLayoutWrapper from "@/components/layouts/AuthLayoutWrapper";
+import RootLayoutWrapper from "@/components/layouts/RootLayoutWrapper";
 
 /**
  * Auth layout — wraps auth pages with RootProviders and auth gating

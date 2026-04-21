@@ -30,7 +30,7 @@ try {
       ["-R", "app:app", "/app/node_modules", "/home/app/.npm"],
       { stdio: "inherit" },
     );
-  } catch (e) {
+  } catch {
     // ignore
   }
 

@@ -6,10 +6,10 @@ import React from "react";
  *
  * @typedef {PageShellProps}
  */
-type PageShellProps = {
+interface PageShellProps {
   title?: string;
   children?: React.ReactNode;
-};
+}
 
 /**
  * Description placeholder
@@ -21,7 +21,7 @@ type PageShellProps = {
  * @param {React.ReactNode} param0.children
  * @returns {ReactJSX.Element}
  */
-export default function PageShell({ title, children }: PageShellProps) {
+export default function PageShell({ children, title }: PageShellProps) {
   return (
     <div className="min-h-screen bg-slate-50">
       <header className="border-b bg-white shadow-sm">

@@ -33,7 +33,7 @@ const PROJECT_ROOT = path.resolve(SCRIPT_DIR, "../..");
  * @returns {*}
  */
 function run(cmd: string, args: string[]) {
-  const res = spawnSync(cmd, args, { stdio: "inherit", shell: true });
+  const res = spawnSync(cmd, args, { shell: true, stdio: "inherit" });
   if (res.error) throw res.error;
   if (res.status && res.status !== 0) return res.status;
   return 0;

@@ -33,8 +33,8 @@ function capture(cmd: string, args: string[]) {
   const r = spawnSync(cmd, args, { encoding: "utf8" });
   return {
     code: r.status ?? 0,
-    stdout: r.stdout ?? "",
     stderr: r.stderr ?? "",
+    stdout: r.stdout ?? "",
   };
 }
 

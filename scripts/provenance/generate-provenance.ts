@@ -21,7 +21,7 @@ function getGitInfo() {
       .toString()
       .trim();
     return { branch, commit };
-  } catch (err) {
+  } catch {
     return null;
   }
 }
@@ -43,7 +43,7 @@ function readFilesArg(): string {
       const input = fs.readFileSync(0, "utf8").trim();
       if (input) return input;
     }
-  } catch (err) {
+  } catch {
     // ignore
   }
   return "<files-not-provided>";
@@ -65,7 +65,7 @@ function main() {
   try {
     fs.mkdirSync(".beads", { recursive: true });
     fs.appendFileSync(".beads/provenance.log", `${line}\n`, "utf8");
-  } catch (err) {
+  } catch {
     // ignore write failures
   }
 }

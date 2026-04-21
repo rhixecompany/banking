@@ -130,7 +130,7 @@ try {
       "ℹ banking-app:latest not found - build with: docker compose build",
     );
   }
-} catch (e) {
+} catch {
   console.log("ℹ docker not available - skip image check");
 }
 

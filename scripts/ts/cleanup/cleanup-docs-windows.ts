@@ -47,7 +47,7 @@ function walk(dir: string, out: string[] = []) {
  * @type {*}
  */
 const files = walk(PROJECT_ROOT).map((p) =>
-  path.relative(PROJECT_ROOT, p).replace(/\\/g, "/"),
+  path.relative(PROJECT_ROOT, p).replaceAll("\\", "/"),
 );
 console.log(`Found ${files.length} markdown files`);
 for (const f of files.slice(0, 200)) console.log(" -", f);

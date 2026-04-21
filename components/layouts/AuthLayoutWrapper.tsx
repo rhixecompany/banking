@@ -1,6 +1,8 @@
-import { getCurrentUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 import React from "react";
+
+import { getCurrentUser } from "@/lib/session";
+
 import PageShell from "./PageShell";
 
 /**
@@ -9,7 +11,9 @@ import PageShell from "./PageShell";
  *
  * @typedef {Props}
  */
-type Props = { children: React.ReactNode };
+interface Props {
+  children: React.ReactNode;
+}
 
 /**
  * Description placeholder

@@ -33,10 +33,10 @@ async function main() {
   await fs.mkdir(outDir, { recursive: true });
   const outPath = `${outDir}/inventory.json`;
   const payload = {
-    generatedAt: new Date().toISOString(),
-    patterns,
     count: files.size,
     files: Array.from(files).sort(),
+    generatedAt: new Date().toISOString(),
+    patterns,
   };
   await fs.writeFile(outPath, JSON.stringify(payload, null, 2), "utf8");
   console.log(`Wrote ${outPath} (${files.size} files)`);

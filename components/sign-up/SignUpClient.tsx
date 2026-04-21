@@ -1,15 +1,16 @@
 // Provenance: read package.json, components/auth-form/*, dal/user.dal.ts — implement client sign-up flow (RHF + Zod). Draft only.
 "use client";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
 const SignUpSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8),
-  name: z.string().min(1),
+  email: z.string().trim().email(),
+  name: z.string().trim().min(1),
+  password: z.string().trim().min(8),
 });
 
 type SignUpValues = z.infer<typeof SignUpSchema>;
@@ -19,15 +20,15 @@ export default function SignUpClient({
 }: {
   onSuccess?: () => void;
 }) {
-  const { register, handleSubmit, formState } = useForm<SignUpValues>({
+  const { formState, handleSubmit, register } = useForm<SignUpValues>({
     resolver: zodResolver(SignUpSchema),
   });
 
   async function onSubmit(values: SignUpValues) {
     const res = await fetch("/api/auth/local-create", {
-      method: "POST",
       body: JSON.stringify(values),
       headers: { "Content-Type": "application/json" },
+      method: "POST",
     }).then((r) => r.json());
 
     if (!res?.ok) {

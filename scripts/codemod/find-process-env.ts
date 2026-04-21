@@ -5,6 +5,7 @@
  */
 import fs from "fs/promises";
 import path from "path";
+
 import { createProject } from "../ts/utils/ast";
 import { parseCli, printDryRunResult } from "../ts/utils/cli";
 
@@ -66,13 +67,13 @@ export async function main(argv: string[] = []) {
     let entries: string[];
     try {
       entries = await fs.readdir(dir);
-    } catch (err) {
+    } catch {
       return;
     }
     for (const name of entries) {
       const full = path.join(dir, name);
       // skip ignored dirs
-      const rel = path.relative(ROOT, full).replace(/\\/g, "/");
+      const rel = path.relative(ROOT, full).replaceAll("\\", "/");
       for (const ig of IGNORED_DIRS) {
         if (rel.startsWith(ig)) return;
       }
@@ -84,9 +85,9 @@ export async function main(argv: string[] = []) {
         if (!FILE_EXTS.has(ext)) continue;
         filesScanned++;
         const text = await fs.readFile(full, "utf8");
-        const re = /process\.env\.([A-Za-z0-9_]+)/g;
+        const re = /process\.env\.(\w+)/g;
         const found = new Set<string>();
-        let m: RegExpExecArray | null;
+        let m: null | RegExpExecArray;
         while ((m = re.exec(text))) {
           found.add(m[1]);
           keysSet.add(m[1]);
@@ -120,10 +121,10 @@ export async function main(argv: string[] = []) {
 
   const report = {
     files: results,
+    generatedAt: new Date().toISOString(),
+    scannedFiles: filesScanned,
     totalFiles: Object.keys(results).length,
     totalKeys: keysSet.size,
-    scannedFiles: filesScanned,
-    generatedAt: new Date().toISOString(),
   };
 
   const outPath = path.join(ROOT, "scripts", "codemod", "report.json");
@@ -146,11 +147,14 @@ export async function main(argv: string[] = []) {
       console.log(` - ${f}: ${results[f].join(",")}`);
     }
   }
-  if (dryRun) {
+  if (cli.dryRun) {
     // print both human summary and JSON for CI consumption
     try {
-      printDryRunResult({ report, path: outPath });
-    } catch (e) {
+      printDryRunResult("Process.env scan (dry-run) report", {
+        path: outPath,
+        report,
+      });
+    } catch {
       // best-effort
       console.log(JSON.stringify(report, null, 2));
     }
@@ -180,19 +184,16 @@ async function writeFileWithBackupAndSave(
   } else {
     source = projectOrSource;
   }
-  const ts = new Date().toISOString().replace(/[:.]/g, "-");
+  const ts = new Date().toISOString().replaceAll(/[:.]/g, "-");
   const filePath = source.getFilePath();
   const content = source.getFullText();
   try {
     const fsSafe = await import("../ts/utils/fs-safe");
-    if (project && typeof fsSafe.saveWithBackups === "function") {
-      await fsSafe.saveWithBackups(project, { timestamp: ts });
-      return;
-    }
     if (typeof fsSafe.writeBackup === "function") {
       await fsSafe.writeBackup(filePath, content, ts);
+      return;
     }
-  } catch (err) {
+  } catch {
     // ignore and fallback
   }
   try {

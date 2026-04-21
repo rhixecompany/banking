@@ -1,15 +1,16 @@
 // Provenance: read package.json, components/auth-form/*, dal/user.dal.ts — implement client sign-in flow (RHF + Zod). Draft only.
 "use client";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
 const SignInSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8),
+  email: z.string().trim().email(),
+  password: z.string().trim().min(8),
 });
 
 type SignInValues = z.infer<typeof SignInSchema>;
@@ -19,15 +20,15 @@ export default function SignInClient({
 }: {
   onSuccess?: () => void;
 }) {
-  const { register, handleSubmit, formState } = useForm<SignInValues>({
+  const { formState, handleSubmit, register } = useForm<SignInValues>({
     resolver: zodResolver(SignInSchema),
   });
 
   async function onSubmit(values: SignInValues) {
     const res = await fetch("/api/auth/local-validate", {
-      method: "POST",
       body: JSON.stringify(values),
       headers: { "Content-Type": "application/json" },
+      method: "POST",
     }).then((r) => r.json());
 
     if (!res?.ok) {
@@ -37,9 +38,9 @@ export default function SignInClient({
     }
 
     await signIn("credentials", {
-      redirect: true,
       email: values.email,
       password: values.password,
+      redirect: true,
     });
     onSuccess?.();
   }

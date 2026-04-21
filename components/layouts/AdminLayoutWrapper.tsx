@@ -1,6 +1,8 @@
-import { getCurrentUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 import React from "react";
+
+import { getCurrentUser } from "@/lib/session";
+
 import PageShell from "./PageShell";
 
 /**
@@ -9,7 +11,9 @@ import PageShell from "./PageShell";
  *
  * @typedef {Props}
  */
-type Props = { children: React.ReactNode };
+interface Props {
+  children: React.ReactNode;
+}
 
 /**
  * Description placeholder
@@ -23,7 +27,7 @@ type Props = { children: React.ReactNode };
  */
 export default async function AdminLayoutWrapper({ children }: Props) {
   const user = await getCurrentUser();
-  if (!user || !user.isAdmin) {
+  if (!user?.isAdmin) {
     redirect("/sign-in");
   }
   return <PageShell>{children}</PageShell>;

@@ -52,7 +52,7 @@ function ensureDir(filePath: string) {
  * @returns {*}
  */
 function makeWrapper(original: string) {
-  const rel = path.relative(ROOT, original).replace(/\\/g, "/");
+  const rel = path.relative(ROOT, original).replaceAll("\\", "/");
   const tsPath = path
     .join(ROOT, "scripts", "ts", rel)
     .replace(/\.(sh|ps1)$/, ".ts");

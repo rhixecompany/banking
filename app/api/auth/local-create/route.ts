@@ -1,6 +1,7 @@
+import { NextResponse } from "next/server";
+
 // Provenance: read actions/auth.signup.ts, dal/user.dal.ts — endpoint shim to call signup action from client
 import signup from "@/actions/auth.signup";
-import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
@@ -9,8 +10,8 @@ export async function POST(req: Request) {
     return NextResponse.json(res);
   } catch (err: any) {
     return NextResponse.json({
-      ok: false,
       error: String(err?.message ?? "Invalid request"),
+      ok: false,
     });
   }
 }

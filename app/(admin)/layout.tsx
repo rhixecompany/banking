@@ -1,3 +1,5 @@
+import { LanguagesIcon } from "lucide-react";
+
 import AdminSidebar from "@/components/layouts/admin-sidebar";
 import AdminLayoutWrapper from "@/components/layouts/AdminLayoutWrapper";
 import LanguageDropdown from "@/components/shadcn-studio/blocks/dropdown-language";
@@ -14,7 +16,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { LanguagesIcon } from "lucide-react";
 
 /**
  * Description placeholder
@@ -39,7 +40,7 @@ export default async function AdminLayout({
       <div className="flex min-h-dvh w-full">
         <SidebarProvider>
           <AdminSidebar
-            user={{ email: "admin@example.com", name: "Admin", image: null }}
+            user={{ email: "admin@example.com", image: null, name: "Admin" }}
           />
           <div className="flex flex-1 flex-col">
             <header className="sticky top-0 z-50 border-b bg-card">

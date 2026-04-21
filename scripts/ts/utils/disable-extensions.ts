@@ -66,7 +66,7 @@ function getSettingsPath(): string {
  */
 function isoTimestampForFilename(d: Date): string {
   // ISO-ish without characters invalid in filenames (remove colons)
-  return d.toISOString().replace(/:/g, "").slice(0, 19);
+  return d.toISOString().replaceAll(":", "").slice(0, 19);
 }
 
 /**
@@ -83,7 +83,7 @@ async function readJsonFile(filePath: string): Promise<any> {
     if (!raw.trim()) return {};
     try {
       return JSON.parse(raw);
-    } catch (err) {
+    } catch {
       // If parsing fails, return {} (spec says treat missing as {}) but preserve ability to back up original on apply
       return {};
     }
@@ -113,7 +113,7 @@ async function writeJsonFile(
   const dir = path.dirname(filePath);
   try {
     await fs.mkdir(dir, { recursive: true });
-  } catch (err) {
+  } catch {
     // ignore
   }
 
@@ -121,7 +121,7 @@ async function writeJsonFile(
   try {
     await fs.access(filePath);
     hadExisting = true;
-  } catch (_) {
+  } catch {
     hadExisting = false;
   }
 
@@ -171,10 +171,10 @@ async function main(): Promise<number> {
       JSON.stringify(afterObj, Object.keys(afterObj).sort());
 
     const result = {
-      path: settingsPath,
-      changed,
-      before: beforeObj,
       after: afterObj,
+      before: beforeObj,
+      changed,
+      path: settingsPath,
     };
 
     if (doDry) {
@@ -193,7 +193,7 @@ async function main(): Promise<number> {
     return 0;
   } catch (err: any) {
     // On error, print to stderr and exit non-zero when --apply; for dry-run this shouldn't occur normally
-    console.error("Error:", err && err.message ? err.message : String(err));
+    console.error("Error:", err?.message ? err.message : String(err));
     if (doApply) return 1;
     return 0;
   }

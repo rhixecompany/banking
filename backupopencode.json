@@ -1,6 +1,293 @@
 [
   {
     "$schema": "https://opencode.ai/config.json",
+    "agent": {
+      "build": {
+        "permission": {
+          "bash": {
+            "*": "deny"
+          },
+          "edit": "deny",
+          "task": "allow",
+          "worktree_*": "allow",
+          "write": "deny"
+        },
+        "prompt": "You are a **build orchestrator**. You coordinate implementation through delegation - you do NOT implement directly.\\\\\\\\n\\\\\\\\n## Your Role\\\\\\\\n- Delegate implementation to `coder`\\\\\\\\n- Delegate documentation to `scribe`\\\\\\\\n- Delegate codebase analysis to `explore`\\\\\\\\n- Delegate external research to `researcher`\\\\\\\\n- Interpret results and decide next steps\\\\\\\\n\\\\\\\\n## Critical Constraint\\\\\\\\nYou CANNOT edit files or run commands directly. For ALL implementation and verification, delegate to `coder`."
+      },
+      "coder": {
+        "permission": {
+          "bash": "allow",
+          "context7_*": "deny",
+          "edit": "allow",
+          "exa_*": "deny",
+          "gh_grep_*": "deny",
+          "glob": "allow",
+          "grep": "allow",
+          "plan_read": "deny",
+          "read": "allow",
+          "todoread": "deny",
+          "write": "allow"
+        }
+      },
+      "explore": {
+        "permission": {
+          "bash": {
+            "*": "deny",
+            "cat *": "allow",
+            "file *": "allow",
+            "find *": "allow",
+            "git blame*": "allow",
+            "git branch*": "allow",
+            "git diff*": "allow",
+            "git log*": "allow",
+            "git ls-files*": "allow",
+            "git show*": "allow",
+            "git status*": "allow",
+            "grep *": "allow",
+            "head *": "allow",
+            "hostname": "allow",
+            "ls *": "allow",
+            "pwd": "allow",
+            "realpath *": "allow",
+            "rg *": "allow",
+            "stat *": "allow",
+            "tail *": "allow",
+            "tree *": "allow",
+            "uname*": "allow",
+            "wc *": "allow",
+            "which *": "allow",
+            "whoami": "allow"
+          },
+          "edit": "deny",
+          "plan_read": "deny",
+          "todoread": "deny",
+          "write": "deny"
+        }
+      },
+      "plan": {
+        "permission": {
+          "bash": {
+            "*": "deny"
+          },
+          "edit": "deny",
+          "task": "allow",
+          "worktree_*": "allow",
+          "write": "deny"
+        }
+      },
+      "researcher": {
+        "permission": {
+          "bash": {
+            "*": "deny",
+            "awk *": "allow",
+            "base64 *": "allow",
+            "cargo info*": "allow",
+            "cargo search*": "allow",
+            "cut *": "allow",
+            "dig *": "allow",
+            "gh api *": "allow",
+            "gh issue list*": "allow",
+            "gh issue view*": "allow",
+            "gh pr list*": "allow",
+            "gh pr view*": "allow",
+            "gh release list*": "allow",
+            "gh release view*": "allow",
+            "gh repo view*": "allow",
+            "gh run list*": "allow",
+            "gh run view*": "allow",
+            "gh search *": "allow",
+            "gh workflow list*": "allow",
+            "grep *": "allow",
+            "head *": "allow",
+            "host *": "allow",
+            "jq *": "allow",
+            "man *": "allow",
+            "npm info*": "allow",
+            "npm show*": "allow",
+            "npm view*": "allow",
+            "nslookup *": "allow",
+            "pip index*": "allow",
+            "pip show*": "allow",
+            "rg *": "allow",
+            "sort *": "allow",
+            "tail *": "allow",
+            "tldr *": "allow",
+            "tr *": "allow",
+            "uniq *": "allow",
+            "wc *": "allow",
+            "whois *": "allow"
+          },
+          "context7_*": "allow",
+          "edit": "deny",
+          "exa_*": "allow",
+          "gh_grep_*": "allow",
+          "kagi_*": "deny",
+          "plan_read": "deny",
+          "todoread": "deny",
+          "webfetch": "allow",
+          "write": "deny"
+        }
+      },
+      "reviewer": {
+        "permission": {
+          "bash": {
+            "*": "deny",
+            "git blame*": "allow",
+            "git diff*": "allow",
+            "git log*": "allow",
+            "git show*": "allow",
+            "rg *": "allow"
+          },
+          "delegation_list": "allow",
+          "delegation_read": "allow",
+          "edit": "deny",
+          "plan_read": "allow",
+          "write": "deny"
+        },
+        "temperature": 0.1
+      },
+      "scribe": {
+        "permission": {
+          "bash": {
+            "*": "deny"
+          },
+          "edit": "allow",
+          "glob": "allow",
+          "plan_read": "deny",
+          "read": "allow",
+          "todoread": "deny",
+          "write": "allow"
+        }
+      }
+    },
+    "autoupdate": true,
+    "compaction": {
+      "auto": true
+    },
+    "experimental": {
+      "quotaToast": {
+        "enabledProviders": "auto",
+        "enableToast": true,
+        "formatStyle": "classic",
+        "showSessionTokens": true
+      }
+    },
+    "instructions": [
+      "./instructions/personas-list.md",
+      "./instructions/00-quickstart-rules.md",
+      "./instructions/00-default-rules.md",
+      "./instructions/00-task-sync-note.md",
+      "./instructions/01-core-standards.md",
+      "./instructions/02-nextjs-patterns.md",
+      "./instructions/03-dal-patterns.md",
+      "./instructions/04-auth-testing.md",
+      "./instructions/05-ui-validation.md",
+      "./instructions/06-commands-ref.md",
+      "./instructions/07-upstream-error-handling.md",
+      "./instructions/08-command-plan-steps-rules.md",
+      "./instructions/09-command-plan-steps-rules.md",
+      "./instructions/09-plan-file-standards.md",
+      "./instructions/10-apply-patch-verification-fix.md",
+      "./instructions/11-documentation-standards.md",
+      "./instructions/12-scripts-patterns.md",
+      "./tools/philosophy.md"
+    ],
+    "mcp": {
+      "context7": {
+        "enabled": true,
+        "type": "remote",
+        "url": "https://mcp.context7.com/mcp"
+      },
+      "exa": {
+        "enabled": true,
+        "type": "remote",
+        "url": "https://mcp.exa.ai/mcp"
+      },
+      "filesystem": {
+        "command": [
+          "npx",
+          "-y",
+          "@modelcontextprotocol/server-filesystem",
+          "~/"
+        ],
+        "enabled": true,
+        "timeout": 900000,
+        "type": "local"
+      },
+      "gh_grep": {
+        "enabled": true,
+        "type": "remote",
+        "url": "https://mcp.grep.app"
+      },
+      "memory": {
+        "command": [
+          "npx",
+          "-y",
+          "@modelcontextprotocol/server-memory"
+        ],
+        "enabled": true,
+        "timeout": 900000,
+        "type": "local"
+      },
+      "next-devtools": {
+        "command": ["npx", "-y", "next-devtools-mcp@latest"],
+        "enabled": true,
+        "timeout": 900000,
+        "type": "local"
+      },
+      "playwright": {
+        "command": ["npx", "-y", "@playwright/mcp@latest"],
+        "enabled": true,
+        "timeout": 900000,
+        "type": "local"
+      },
+      "sequential-thinking": {
+        "command": [
+          "npx",
+          "-y",
+          "@modelcontextprotocol/server-sequential-thinking"
+        ],
+        "enabled": true,
+        "timeout": 900000,
+        "type": "local"
+      },
+      "shadcn": {
+        "command": ["npx", "shadcn@latest", "mcp"],
+        "enabled": true,
+        "timeout": 900000,
+        "type": "local"
+      },
+      "youtube-transcript": {
+        "command": [
+          "npx",
+          "-y",
+          "@kimtaeyoon83/mcp-server-youtube-transcript"
+        ],
+        "enabled": true,
+        "timeout": 900000,
+        "type": "local"
+      }
+    },
+    "model": "github-copilot/gpt-5-mini",
+    "plugin": [
+      "@gotgenes/opencode-agent-identity@latest",
+      "opencode-agent-memory@latest",
+      "opencode-agent-skills@latest",
+      "opencode-devcontainers@latest",
+      "@zenobius/opencode-background@latest",
+      "open-plan-annotator@latest",
+      "opencode-handoff@latest",
+      "@slkiser/opencode-quota@latest",
+      "@howaboua/opencode-planning-toolkit@latest",
+      "opencode-sessions@latest",
+      "opencode-supermemory@latest",
+      "opencode-plugin-opencoder@latest",
+      "@tarquinen/opencode-dcp@latest",
+      "@franlol/opencode-md-table-formatter@latest"
+    ]
+  },
+  {
+    "$schema": "https://opencode.ai/config.json",
     "autoupdate": "notify",
     "compaction": {
       "auto": true

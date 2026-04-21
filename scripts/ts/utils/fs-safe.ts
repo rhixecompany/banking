@@ -18,7 +18,7 @@ export async function writeBackup(
   content: string,
   timestamp?: string,
 ) {
-  timestamp = timestamp ?? new Date().toISOString().replace(/[:.]/g, "-");
+  timestamp = timestamp ?? new Date().toISOString().replaceAll(/[:.]/g, "-");
   const backup = `${filePath}.bak.${timestamp}`;
   await fs.mkdir(path.dirname(backup), { recursive: true });
   await fs.writeFile(backup, content, "utf8");

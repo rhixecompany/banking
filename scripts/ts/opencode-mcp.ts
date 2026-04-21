@@ -36,7 +36,7 @@ const sh = path.join(ROOT, "scripts", "opencode-mcp.sh");
  * @param {string} cmd
  */
 function run(cmd: string) {
-  const res = spawnSync(cmd, { stdio: "inherit", shell: true });
+  const res = spawnSync(cmd, { shell: true, stdio: "inherit" });
   process.exitCode = res.status ?? 0;
 }
 

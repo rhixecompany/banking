@@ -1,5 +1,4 @@
 #!/usr/bin/env ts-node
-import { main as deployMain } from "../deploy/deploy";
 import { ensureApplyOrDryRun, parseCli, printDryRunResult } from "../utils/cli";
 
 /**
@@ -11,15 +10,15 @@ import { ensureApplyOrDryRun, parseCli, printDryRunResult } from "../utils/cli";
  */
 async function run() {
   const cli = parseCli();
-  ensureApplyOrDryRun({ dryRun: cli.dryRun, apply: cli.apply });
+  ensureApplyOrDryRun({ apply: cli.apply, dryRun: cli.dryRun });
   if (cli.dryRun) {
     const summary = "This would run the deployment steps (dry-run).";
-    const json = { ok: true, action: "deploy", files: [] };
+    const json = { action: "deploy", files: [], ok: true };
     printDryRunResult(summary, json);
     return;
   }
   // apply mode
-  await deployMain({ apply: cli.apply });
+  await import("../deploy/deploy");
 }
 
 if (require.main === module)

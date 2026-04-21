@@ -60,11 +60,11 @@ const text = fs.readFileSync(ENV_FILE, "utf8");
  */
 const lines = text.split(/\r?\n/);
 for (const line of lines) {
-  const m = line.match(/^\s*([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*)$/);
+  const m = line.match(/^\s*([A-Z_]\w*)\s*=\s*(.*)$/i);
   if (!m) continue;
   const key = m[1];
   let val = m[2].trim();
-  val = val.replace(/^['\"]?(.*)['\"]?$/, "$1");
+  val = val.replace(/^['"]?(.*)['"]?$/, "$1");
   // Print export lines so consumers can eval the output
   console.log(`${key}=${val}`);
 }
