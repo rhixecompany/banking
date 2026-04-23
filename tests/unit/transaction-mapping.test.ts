@@ -26,13 +26,13 @@ test("findByUserIdWithWallets maps sender/receiver wallets correctly", async () 
   // null/undefined, or it has the expected shape. Keep the expect calls
   // outside conditional blocks to satisfy lint rules.
   expect(
-    item.senderWallet == null ||
+    item.senderWallet === undefined ||
       (typeof item.senderWallet.id === "string" &&
         typeof item.senderWallet.institutionName === "string"),
   ).toBe(true);
 
   expect(
-    item.receiverWallet == null ||
+    item.receiverWallet === undefined ||
       (typeof item.receiverWallet.id === "string" &&
         typeof item.receiverWallet.institutionName === "string"),
   ).toBe(true);

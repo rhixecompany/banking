@@ -25,7 +25,7 @@ import type { WalletWithDetails } from "@/types/wallet";
  */
 const mockWallet: WalletWithDetails = {
   accessToken: "MOCK",
-  accountId: null,
+  accountId: undefined,
   accountSubtype: "checking",
   accountType: "depository",
   balances: [
@@ -34,15 +34,15 @@ const mockWallet: WalletWithDetails = {
       balances: {
         available: 100,
         current: 120,
-        isoCurrencyCode: null,
-        limit: null,
+        isoCurrencyCode: undefined,
+        limit: undefined,
       },
     },
   ],
   createdAt: new Date(),
-  fundingSourceUrl: null,
+  fundingSourceUrl: undefined,
   id: "w1",
-  institutionId: null,
+  institutionId: undefined,
   institutionName: "Test Bank",
   sharableId: "s1",
   transactions: [],

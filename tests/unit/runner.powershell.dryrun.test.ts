@@ -11,6 +11,7 @@ test("run-ci-checks.ps1 -DryRun produces ci-summary.json when pwsh available", (
   );
   if (which.error) {
     // Skip test if pwsh is not available in environment
+    // eslint-disable-next-line no-console
     console.warn("pwsh not available; skipping PowerShell runner dry-run test");
     return;
   }

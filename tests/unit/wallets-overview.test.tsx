@@ -13,7 +13,7 @@ describe("WalletsOverview", () => {
         balances: [
           {
             accountId: "acc1",
-            balances: { available: 1234, current: 1234, limit: null },
+            balances: { available: 1234, current: 1234, limit: undefined },
           },
         ],
         id: "w1",

@@ -12,7 +12,7 @@ import SettingsClientWrapper from "@/components/layouts/settings-client";
 const fakeUserWithProfile = {
   email: "u1@example.com",
   id: "u1",
-  image: null,
+  image: undefined,
   name: "User One",
   profile: { address: "", city: "", phone: "", postalCode: "", state: "" },
 };
