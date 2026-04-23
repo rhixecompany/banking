@@ -1,0 +1,154 @@
+[
+  {
+    "group": "(auth)",
+    "pages": [
+      {
+        "path": "app/(auth)/layout.tsx",
+        "imports": [
+          "@/components/layouts/AuthLayoutWrapper",
+          "@/components/layouts/RootLayoutWrapper",
+          "next/image"
+        ],
+        "notes": "Auth layout wraps auth pages and uses AuthLayoutWrapper for gating"
+      },
+      {
+        "path": "app/(auth)/sign-in/page.tsx",
+        "imports": [
+          "@/components/layouts/AuthLayoutWrapper",
+          "@/components/sign-in/sign-in-server-wrapper",
+          "@/components/ui/spinner"
+        ],
+        "tests": ["tests/unit/signin-wrapper.test.ts"]
+      },
+      {
+        "path": "app/(auth)/sign-up/page.tsx",
+        "imports": [
+          "@/components/layouts/AuthLayoutWrapper",
+          "@/components/sign-up/sign-up-server-wrapper",
+          "@/components/ui/spinner"
+        ],
+        "tests": ["tests/unit/AuthForm.test.tsx"]
+      }
+    ]
+  },
+  {
+    "group": "(admin)",
+    "pages": [
+      {
+        "path": "app/(admin)/layout.tsx",
+        "imports": [
+          "@/components/layouts/AdminLayoutWrapper",
+          "@/components/layouts/admin-sidebar",
+          "@/components/ui/*"
+        ],
+        "notes": "Admin layout includes admin gating and sidebar"
+      },
+      {
+        "path": "app/(admin)/admin/page.tsx",
+        "imports": [
+          "@/components/admin/admin-dashboard-server-wrapper",
+          "@/components/layouts/AdminLayoutWrapper"
+        ],
+        "tests": [
+          "tests/unit/admin-dashboard-server-wrapper.test.tsx"
+        ]
+      }
+    ]
+  },
+  {
+    "group": "(root)",
+    "pages": [
+      {
+        "path": "app/(root)/layout.tsx",
+        "imports": [
+          "@/actions/user.actions",
+          "@/actions/plaid.actions",
+          "@/components/layouts/RootLayoutWrapper",
+          "@/components/plaid-context/plaid-context",
+          "@/components/sidebar/sidebar"
+        ],
+        "notes": "Protected banking layout; calls getUserWithProfile and redirects when unauthenticated"
+      },
+      {
+        "path": "app/(root)/dashboard/page.tsx",
+        "imports": [
+          "@/components/dashboard/dashboard-server-wrapper",
+          "@/components/layouts/RootLayoutWrapper"
+        ],
+        "tests": ["tests/unit/dashboard-server-wrapper.test.ts"]
+      },
+      {
+        "path": "app/(root)/my-wallets/page.tsx",
+        "imports": [
+          "@/components/my-wallets/my-wallets-server-wrapper",
+          "@/components/layouts/RootLayoutWrapper"
+        ],
+        "tests": ["tests/unit/my-wallets-server-wrapper.test.ts"]
+      },
+      {
+        "path": "app/(root)/payment-transfer/page.tsx",
+        "imports": [
+          "@/components/payment-transfer/payment-transfer-server-wrapper",
+          "@/components/layouts/RootLayoutWrapper"
+        ],
+        "tests": [
+          "tests/unit/payment-transfer-server-wrapper.test.ts"
+        ]
+      },
+      {
+        "path": "app/(root)/settings/page.tsx",
+        "imports": [
+          "@/components/settings/settings-server-wrapper",
+          "@/components/layouts/RootLayoutWrapper"
+        ],
+        "tests": ["tests/unit/settings-server-wrapper.test.ts"]
+      },
+      {
+        "path": "app/(root)/transaction-history/page.tsx",
+        "imports": [
+          "@/components/transaction-history/transaction-history-server-wrapper",
+          "@/components/layouts/RootLayoutWrapper"
+        ],
+        "tests": [
+          "tests/unit/transaction-history-server-wrapper.test.ts"
+        ]
+      }
+    ]
+  },
+  {
+    "group": "root-app",
+    "pages": [
+      {
+        "path": "app/layout.tsx",
+        "imports": [
+          "@/components/layouts/RootLayoutWrapper",
+          "@/components/ui/sonner",
+          "@/components/ui/tooltip"
+        ],
+        "notes": "Site-level root layout"
+      },
+      {
+        "path": "app/page.tsx",
+        "imports": [
+          "@/components/home/home-server-wrapper",
+          "@/components/layouts/RootLayoutWrapper"
+        ],
+        "notes": "Public home page"
+      },
+      {
+        "path": "app/global-error.tsx",
+        "imports": [
+          "@/components/global-error/global-error-client-wrapper"
+        ],
+        "notes": "Client-side global error boundary"
+      },
+      {
+        "path": "app/not-found.tsx",
+        "imports": [
+          "@/components/not-found/not-found-server-wrapper"
+        ],
+        "notes": "Not-found handler"
+      }
+    ]
+  }
+]

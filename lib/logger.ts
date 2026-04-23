@@ -62,9 +62,11 @@ function output(
       module: moduleName,
       ts: new Date().toISOString(),
     };
+    /* eslint-disable no-console -- logger utility intentionally uses console */
     if (level === "debug") console.debug(JSON.stringify(payload));
     else if (level === "info") console.info(JSON.stringify(payload));
     else console.error(JSON.stringify(payload));
+    /* eslint-enable no-console */
   } catch {
     // ignore
   }

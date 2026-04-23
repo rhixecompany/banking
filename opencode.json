@@ -62,6 +62,12 @@
       "type": "remote",
       "url": "https://mcp.grep.app"
     },
+    "github-agentic-workflows": {
+      "command": ["npx", "-y", "@modelcontextprotocol/server-github"],
+      "enabled": true,
+      "timeout": 900000,
+      "type": "local"
+    },
     "memory": {
       "command": ["npx", "-y", "@modelcontextprotocol/server-memory"],
       "enabled": true,

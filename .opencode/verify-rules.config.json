@@ -1,0 +1,15 @@
+{
+  "allowlist": [
+    "actions/auth.signin.ts",
+    "actions/auth.signup.ts",
+    "actions/register.ts",
+    "lib/env.ts",
+    "app-config.ts",
+    "proxy.ts"
+  ],
+  "notes": "allowlisted files are intentionally public or are env helpers: auth.signin.ts (NextAuth authorize), auth.signup.ts/register.ts (user registration), lib/env.ts (backward-compat helper), app-config.ts (Zod env validation), proxy.ts (Edge Middleware exception per AGENTS.md)",
+  "severities": {
+    "server-action-auth": "warn",
+    "process.env-usage": "warn"
+  }
+}

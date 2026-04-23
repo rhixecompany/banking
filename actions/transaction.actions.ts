@@ -30,7 +30,7 @@ export async function getRecentTransactions(
   if (!parsedLimit.success) {
     return { error: parsedLimit.error.issues[0].message, ok: false };
   }
-  limit = parsedLimit.data;
+  const resolvedLimit = parsedLimit.data;
   try {
     const session = await auth();
     if (!session?.user?.id) {
@@ -43,7 +43,7 @@ export async function getRecentTransactions(
     // optional senderWallet/receiverWallet fields.
     const transactions = await transactionDal.findByUserIdWithWallets(
       userId,
-      limit,
+      resolvedLimit,
     );
     return { ok: true, transactions };
   } catch (error) {
@@ -72,8 +72,8 @@ export async function getTransactionHistory(
   const ps = PageSizeSchema.safeParse(pageSize);
   if (!p.success) return { error: p.error.issues[0].message, ok: false };
   if (!ps.success) return { error: ps.error.issues[0].message, ok: false };
-  page = p.data;
-  pageSize = ps.data;
+  const resolvedPage = p.data;
+  const resolvedPageSize = ps.data;
   try {
     const session = await auth();
     if (!session?.user?.id) {
@@ -81,7 +81,7 @@ export async function getTransactionHistory(
     }
 
     const userId = session.user.id;
-    const offset = (page - 1) * pageSize;
+    const offset = (resolvedPage - 1) * resolvedPageSize;
     // Use the eager-loaded variant to include wallet metadata for each
     // transaction so client-side components don't need additional DAL calls.
     const transactions = await transactionDal.findByUserIdWithWallets(

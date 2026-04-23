@@ -19,8 +19,10 @@ mkdir -p logs/opencode
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 CWD=$(pwd)
 
-# Log session start (use jq for proper JSON encoding)
-jq -Rn --arg timestamp "$TIMESTAMP" --arg cwd "$CWD" '{"timestamp":$timestamp,"event":"sessionStart","cwd":$cwd}' >> logs/opencode/session.log
+
+# Log session start. Use Node.js to write JSON so the script does not depend on `jq`.
+# This keeps the script portable on systems without `jq` (CI images, Windows devs).
+node -e 'const fs=require("fs"); const [ts,cwd,input]=process.argv.slice(2); fs.appendFileSync("logs/opencode/session.log", JSON.stringify({timestamp:ts,event:"sessionStart",cwd:cwd,input:input})+"\n");' "$TIMESTAMP" "$CWD" "$INPUT"
 
 echo "📝 Session logged"
 exit 0

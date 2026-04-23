@@ -1,0 +1,29 @@
+{
+  "bat_wrappers": [
+    "scripts/utils/disable-extensions.bat",
+    "scripts/utils/run-ci-checks.bat"
+  ],
+  "notes": "Many TypeScript scripts exist already. Focus: ensure any scripts that mutate code use ts-morph utilities under scripts/utils/ast or scripts/utils/ast/ts-morph-utils.ts. Add --dry-run flags and consolidate wrappers to call the TS entrypoints.",
+  "ps1_wrappers": [
+    "scripts/utils/disable-extensions.ps1",
+    "scripts/utils/run-ci-checks.ps1",
+    "scripts/verify-agents.ps1"
+  ],
+  "scripts_root": "scripts",
+  "shell_wrappers": [
+    "scripts/utils/disable-extensions.sh",
+    "scripts/utils/run-ci-checks.sh",
+    "scripts/verify-agents.sh"
+  ],
+  "ts_scripts": [
+    "scripts/ts/build.ts",
+    "scripts/ts/deploy/deploy.ts",
+    "scripts/ts/docker/docker-quickstart.ts",
+    "scripts/ts/tools/discover-app-pages.ts",
+    "scripts/ts/tools/generate-inventory.ts",
+    "scripts/ts/run-verify-and-validate.ts",
+    "scripts/ts/run-ci-checks.ts",
+    "scripts/ts/server/server-setup.ts",
+    "scripts/ts/entrypoints/opencode-mcp-cli.ts"
+  ]
+}

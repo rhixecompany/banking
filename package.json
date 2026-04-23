@@ -70,7 +70,7 @@
     "lint:fix": "eslint --config eslint.config.mts . --fix --format=compact",
     "lint:fix:all": "eslint --config eslint.config.mts . --fix --fix-type directive --fix-type problem --fix-type suggestion --fix-type layout --format=compact",
     "lint:strict": "eslint --config eslint.config.mts . --max-warnings=0 --format=compact",
-    "lint-staged": "lint-staged",
+    "lint-staged": "lint-staged --config .lintstagedrc.ts",
     "opencode-mcp": "npx tsx scripts/ts/entrypoints/opencode-mcp-cli.ts",
     "opencode-mcp-list": "npm run opencode-mcp -- --list",
     "opencode-mcp-runner": "tsx scripts/ts/mcp/mcp-runner.ts",

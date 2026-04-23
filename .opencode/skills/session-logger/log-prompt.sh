@@ -18,7 +18,8 @@ mkdir -p logs/opencode
 # Extract timestamp
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
-# Log prompt (you can parse INPUT for more details)
-echo "{\"timestamp\":\"$TIMESTAMP\",\"event\":\"userPromptSubmitted\",\"level\":\"${LOG_LEVEL:-INFO}\"}" >> logs/opencode/prompts.log
+
+# Log prompt, including INPUT
+echo "{\"timestamp\":\"$TIMESTAMP\",\"event\":\"userPromptSubmitted\",\"level\":\"${LOG_LEVEL:-INFO}\",\"input\":$INPUT}" >> logs/opencode/prompts.log
 
 exit 0
