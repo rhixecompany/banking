@@ -2,6 +2,8 @@
 import { promises as fs } from "fs";
 import path from "path";
 
+import { logger } from "@/lib/logger";
+
 /**
  * Description placeholder
  * @author Adminbot
@@ -136,10 +138,10 @@ async function main() {
 
   const out = path.resolve(process.cwd(), "ci-summary.json");
   await fs.writeFile(out, JSON.stringify(results, null, 2), "utf8");
-  console.log("Wrote parsed summary to", out);
+  logger.info("Wrote parsed summary to", out);
 }
 
 main().catch((e) => {
-  console.error(e);
+  logger.error(e);
   process.exit(1);
 });

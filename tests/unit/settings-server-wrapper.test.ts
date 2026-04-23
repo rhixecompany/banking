@@ -27,6 +27,7 @@ vi.mock("@/actions/updateProfile", () => ({
 
 import { SettingsServerWrapper } from "@/components/settings/settings-server-wrapper";
 import { auth } from "@/lib/auth";
+
 import {
   extractPropsFromElement,
   mockRedirectThrow,

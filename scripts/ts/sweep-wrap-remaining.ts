@@ -7,6 +7,8 @@
 import fs from "fs";
 import path from "path";
 
+import { logger } from "@/lib/logger";
+
 /**
  * Description placeholder
  * @author Adminbot
@@ -78,8 +80,8 @@ function main() {
     const w = makeWrapper(s);
     if (w) created.push(w);
   }
-  console.log(`Created ${created.length} wrappers:`);
-  for (const c of created) console.log(` - ${c}`);
+  logger.info(`Created ${created.length} wrappers:`);
+  for (const c of created) logger.info(` - ${c}`);
 }
 
 if (require.main === module) main();

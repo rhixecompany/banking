@@ -2,6 +2,8 @@
 import fs from "fs/promises";
 import { glob } from "glob";
 
+import { logger } from "@/lib/logger";
+
 /**
  * Description placeholder
  * @author Adminbot
@@ -39,10 +41,10 @@ async function main() {
     patterns,
   };
   await fs.writeFile(outPath, JSON.stringify(payload, null, 2), "utf8");
-  console.log(`Wrote ${outPath} (${files.size} files)`);
+  logger.info(`Wrote ${outPath} (${files.size} files)`);
 }
 
 main().catch((err) => {
-  console.error(err);
+  logger.error(err);
   process.exit(1);
 });

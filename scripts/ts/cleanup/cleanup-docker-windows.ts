@@ -5,6 +5,8 @@
  */
 import { spawnSync } from "child_process";
 import path from "path";
+
+import { logger } from "@/lib/logger";
 /**
  * Description placeholder
  * @author Adminbot
@@ -39,5 +41,5 @@ run("docker", ["images", "-f", "dangling=true", "-q"]);
 run("docker", ["ps", "-a", "-f", "status=exited", "-q"]);
 run("docker", ["network", "ls", "-f", "dangling=true", "-q"]);
 
-console.log("Windows variant: to prune volumes run: docker volume prune -f");
+logger.info("Windows variant: to prune volumes run: docker volume prune -f");
 process.exit(0);

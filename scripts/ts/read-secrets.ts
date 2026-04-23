@@ -7,6 +7,8 @@
 import fs from "fs";
 import path from "path";
 
+import { logger } from "@/lib/logger";
+
 /**
  * Description placeholder
  * @author Adminbot
@@ -37,13 +39,13 @@ const PROJECT_ROOT = path.resolve(SCRIPT_DIR, "..", "..");
 const ENV_FILE = arg || path.join(PROJECT_ROOT, ".envs/production/.env");
 
 if (!fs.existsSync(ENV_FILE)) {
-  console.error(`Error: Environment file not found: ${ENV_FILE}`);
+  logger.error(`Error: Environment file not found: ${ENV_FILE}`);
   process.exit(1);
 }
 
-console.log("=== Loading Environment Variables ===");
-console.log(`Source: ${ENV_FILE}`);
-console.log("");
+logger.info("=== Loading Environment Variables ===");
+logger.info(`Source: ${ENV_FILE}`);
+logger.info("");
 
 /**
  * Description placeholder
@@ -66,5 +68,5 @@ for (const line of lines) {
   let val = m[2].trim();
   val = val.replace(/^['"]?(.*)['"]?$/, "$1");
   // Print export lines so consumers can eval the output
-  console.log(`${key}=${val}`);
+  logger.info(`${key}=${val}`);
 }

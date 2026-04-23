@@ -2,6 +2,8 @@
 import fs from "fs";
 import path from "path";
 
+import { logger } from "@/lib/logger";
+
 import { parseCli, printDryRunResult } from "../utils/cli";
 
 /**
@@ -81,7 +83,7 @@ async function main() {
   const cli = parseCli();
   const out = cli.args["out"] || cli.args._[0];
   if (!out) {
-    console.error(
+    logger.error(
       "Usage: npx tsx scripts/ts/tools/discover-app-pages.ts --out=path [--dry-run]",
     );
     process.exit(1);
@@ -93,11 +95,11 @@ async function main() {
     return;
   }
   fs.writeFileSync(out, json, "utf8");
-  console.log("Manifest written to", out);
+  logger.info("Manifest written to", out);
 }
 
 if (require.main === module)
   main().catch((e) => {
-    console.error(e);
+    logger.error(e);
     process.exit(1);
   });

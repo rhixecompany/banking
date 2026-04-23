@@ -2,6 +2,8 @@
 
 import { spawnSync } from "child_process";
 
+import { logger } from "@/lib/logger";
+
 import { parseCli, printDryRunResult } from "./ts/utils/cli";
 
 /**
@@ -23,16 +25,16 @@ const steps = [
  */
 function runSteps() {
   for (const s of steps) {
-    console.log(`\n=== Running: ${s.cmd} ${s.args.join(" ")} ===`);
+    logger.info(`\n=== Running: ${s.cmd} ${s.args.join(" ")} ===`);
     const res = spawnSync(s.cmd, s.args, { stdio: "inherit" });
     if (res.status !== 0) {
-      console.error(
+      logger.error(
         `Step failed: ${s.cmd} ${s.args.join(" ")} -> exit ${res.status}`,
       );
       process.exit(res.status ?? 1);
     }
   }
-  console.log("All verification steps completed successfully.");
+  logger.info("All verification steps completed successfully.");
 }
 
 /**
@@ -62,7 +64,7 @@ if (
   require.main === module
 ) {
   main(process.argv.slice(2)).catch((e) => {
-    console.error(e);
+    logger.error(e);
     process.exitCode = 1;
   });
 }

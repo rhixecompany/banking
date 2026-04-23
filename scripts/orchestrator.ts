@@ -3,6 +3,8 @@ import { execSync } from "child_process";
 import fs from "fs";
 import path from "path";
 
+import { logger } from "@/lib/logger";
+
 /**
  * Description placeholder
  * @author Adminbot
@@ -100,23 +102,23 @@ function main() {
   const base = baseIdx >= 0 ? args[baseIdx + 1] : "origin/main";
 
   const changed = gitDiffFiles(base);
-  console.warn("Changed files:", changed);
+  logger.warn("Changed files:", changed);
 
   const expanded = expandOneLevel(changed);
-  console.warn("One-level dependents:", expanded);
+  logger.warn("One-level dependents:", expanded);
 
   const pages = mapFilesToPages([...changed, ...expanded]);
-  console.warn("Affected pages:", pages);
+  logger.warn("Affected pages:", pages);
 
   if (dryRun) {
-    console.log(
+    logger.info(
       JSON.stringify({ changed: changed.length, ok: true, pages }, null, 2),
     );
     return;
   }
 
   // TODO: map to exact tests and run targeted test runner
-  console.log("Run targeted tests for:", pages.join(", "));
+  logger.info("Run targeted tests for:", pages.join(", "));
 }
 
 if (require.main === module) main();

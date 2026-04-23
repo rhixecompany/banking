@@ -90,26 +90,12 @@ export async function isDatabaseSeeded(
  * @returns {string | undefined} The database URL or undefined if not set
  */
 export function getDatabaseUrl(): string | undefined {
-  try {
-    // Prefer validated env via lib/env to satisfy project standards
-    // Import dynamically to avoid module load ordering issues in scripts
-    // that may run before app-config validation.
-
-    const { env } = require("@/lib/env") as any;
-    return (
-      (env.DATABASE_URL as string | undefined)?.trim() ??
-      (env.LOCAL_DATABASE_URL as string | undefined)?.trim() ??
-      undefined
-    );
-  } catch {
-    // Fallback to direct process.env for one-off local runs
-
-    return (
-      process.env.DATABASE_URL?.trim() ??
-      process.env.LOCAL_DATABASE_URL?.trim() ??
-      undefined
-    );
-  }
+  // Fall back to direct process.env for test helpers
+  return (
+    process.env.DATABASE_URL?.trim() ??
+    process.env.LOCAL_DATABASE_URL?.trim() ??
+    undefined
+  );
 }
 
 /**

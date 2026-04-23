@@ -6,6 +6,8 @@
 import { readFileSync } from "fs";
 import { join } from "path";
 
+import { logger } from "@/lib/logger";
+
 /**
  * Description placeholder
  * @author Adminbot
@@ -13,7 +15,7 @@ import { join } from "path";
  * @param {string} msg
  */
 function fail(msg: string) {
-  console.error(`ERROR: ${msg}`);
+  logger.error(`ERROR: ${msg}`);
   process.exit(2);
 }
 
@@ -33,10 +35,10 @@ try {
     );
   }
 
-  console.log(`opencode.json agentIterationLimit=${val} OK`);
+  logger.info(`opencode.json agentIterationLimit=${val} OK`);
   process.exit(0);
 } catch (err: unknown) {
   const e = err as Error;
-  console.error("Failed to verify opencode.json:", e.message);
+  logger.error("Failed to verify opencode.json:", e.message);
   process.exit(2);
 }

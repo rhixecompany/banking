@@ -114,14 +114,14 @@ vi.mock("next/navigation", () => ({
 vi.mock("@/lib/auth", () => ({
   auth: () =>
     Promise.resolve({
+      expires: new Date(Date.now() + 1000 * 60 * 60).toISOString(),
       user: {
-        id: "test-user",
-        name: "Test User",
         email: "test@example.com",
+        id: "test-user",
+        isActive: true,
         // App code expects these flags on the user object
         isAdmin: false,
-        isActive: true,
+        name: "Test User",
       },
-      expires: new Date(Date.now() + 1000 * 60 * 60).toISOString(),
     }),
 }));

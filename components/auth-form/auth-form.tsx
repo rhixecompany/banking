@@ -78,14 +78,14 @@ function getDefaultValues(
  * <AuthForm type="sign-up" />
  * ```
  *
- * @param props - Component props
- * @param props.type - Form mode: "sign-in" for login, "sign-up" for registration
+ * @param props.actionEndpoint - Server action endpoint URL
+ * @param props.register - Registration callback function
  * @returns Rendered authentication form
  */
 const AuthForm = ({
+  actionEndpoint,
   register,
   type,
-  actionEndpoint,
 }: {
   register?: (
     input: unknown,
@@ -130,9 +130,9 @@ const AuthForm = ({
         if (actionEndpoint) {
           try {
             const resp = await fetch(actionEndpoint, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
               body: JSON.stringify(formData),
+              headers: { "Content-Type": "application/json" },
+              method: "POST",
             });
             const result = await resp.json();
             if (!result.ok) {
@@ -143,7 +143,7 @@ const AuthForm = ({
             await router.push("/sign-in");
             router.refresh();
             return;
-          } catch (err) {
+          } catch {
             toast.error("Registration failed");
             return;
           }

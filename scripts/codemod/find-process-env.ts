@@ -6,6 +6,8 @@
 import fs from "fs/promises";
 import path from "path";
 
+import { logger } from "@/lib/logger";
+
 import { createProject } from "../ts/utils/ast";
 import { parseCli, printDryRunResult } from "../ts/utils/cli";
 
@@ -132,19 +134,19 @@ export async function main(argv: string[] = []) {
     await fs.mkdir(path.dirname(outPath), { recursive: true });
     await fs.writeFile(outPath, JSON.stringify(report, null, 2), "utf8");
   } catch (err) {
-    console.error("Failed to write report:", err);
+    logger.error("Failed to write report:", err);
   }
 
   // Print summary
-  console.log("Process.env scan completed");
-  console.log(`Scanned files: ${filesScanned}`);
-  console.log(`Files with direct process.env usages: ${report.totalFiles}`);
-  console.log(`Unique keys found: ${report.totalKeys}`);
-  console.log(`Report written to: ${path.relative(ROOT, outPath)}`);
+  logger.info("Process.env scan completed");
+  logger.info(`Scanned files: ${filesScanned}`);
+  logger.info(`Files with direct process.env usages: ${report.totalFiles}`);
+  logger.info(`Unique keys found: ${report.totalKeys}`);
+  logger.info(`Report written to: ${path.relative(ROOT, outPath)}`);
   if (report.totalFiles > 0) {
-    console.log("Files:");
+    logger.info("Files:");
     for (const f of Object.keys(results)) {
-      console.log(` - ${f}: ${results[f].join(",")}`);
+      logger.info(` - ${f}: ${results[f].join(",")}`);
     }
   }
   if (cli.dryRun) {
@@ -156,7 +158,7 @@ export async function main(argv: string[] = []) {
       });
     } catch {
       // best-effort
-      console.log(JSON.stringify(report, null, 2));
+      logger.info(JSON.stringify(report, null, 2));
     }
     return report;
   }
@@ -198,7 +200,9 @@ async function writeFileWithBackupAndSave(
   }
   try {
     await fs.writeFile(`${filePath}.bak.${ts}`, content, "utf8");
-  } catch {}
+  } catch {
+    /* backup optional - continue without it */
+  }
   if (project && typeof project.save === "function") {
     await project.save();
   } else {
@@ -212,7 +216,7 @@ if (
 ) {
   // Support both ts-node and compiled runtimes
   main(process.argv.slice(2)).catch((err) => {
-    console.error(err);
+    logger.error(err);
     process.exitCode = 1;
   });
 }

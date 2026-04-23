@@ -2,6 +2,8 @@
 import { execSync } from "child_process";
 import fs from "fs/promises";
 
+import { logger } from "@/lib/logger";
+
 /**
  * Description placeholder
  * @author Adminbot
@@ -17,12 +19,12 @@ async function main() {
     const title =
       issue.title || `${issue.component}: ${issue.message.slice(0, 80)}`;
     const body = `File: ${issue.file}\nLine: ${issue.line}\nSeverity: ${issue.severity}\n\nSuggested fix:\n${issue.suggested_fix || "See description"}`;
-    console.log("Creating issue:", title);
+    logger.info("Creating issue:", title);
     const cmd = `gh issue create --title "${escape(title)}" --body "${escape(body)}" --label "area:${escape(issue.component || "docs")}"`;
     try {
       execSync(cmd, { stdio: "inherit" });
     } catch (err) {
-      console.error("Failed to create issue for", title, err);
+      logger.error("Failed to create issue for", title, err);
     }
   }
 }
@@ -39,6 +41,6 @@ function escape(s: string) {
 }
 
 main().catch((err) => {
-  console.error(err);
+  logger.error(err);
   process.exit(1);
 });

@@ -6,6 +6,8 @@ import readline from "readline";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 
+import { logger } from "@/lib/logger";
+
 import {
   diffLists,
   generateHelper,
@@ -47,7 +49,7 @@ export async function main() {
   const helpersDir = path.resolve(argv["helpers-dir"] as string);
 
   if (!fs.existsSync(catalogPath)) {
-    console.error("Catalog not found:", catalogPath);
+    logger.error("Catalog not found:", catalogPath);
     process.exit(2);
   }
 
@@ -55,7 +57,7 @@ export async function main() {
 
   if (argv["list"]) {
     // Print newline-separated server names
-    for (const s of existing) console.log(s);
+    for (const s of existing) logger.info(s);
     process.exit(0);
   }
 
@@ -76,7 +78,7 @@ export async function main() {
     }
   } catch {
     if (argv.verbose)
-      console.warn("gateway discovery failed, falling back to docker ps");
+      logger.warn("gateway discovery failed, falling back to docker ps");
   }
 
   if (discoveryRecords.length === 0) {
@@ -90,7 +92,7 @@ export async function main() {
         discoveryRecords.push(...r);
       }
     } catch (e: any) {
-      if (argv.verbose) console.warn("docker ps failed: ", e?.message ?? e);
+      if (argv.verbose) logger.warn("docker ps failed: ", e?.message ?? e);
     }
   }
 
@@ -100,15 +102,15 @@ export async function main() {
   if (argv["verify-only"]) {
     const discoveredOnly = discoveryRecords.map((r) => r.name);
     const diff = diffLists(existing, discoveredOnly);
-    console.log(JSON.stringify(diff, null, 2));
+    logger.info(JSON.stringify(diff, null, 2));
     process.exit(diff.added.length || diff.removed.length ? 2 : 0);
   }
 
-  console.warn("Dry-run: proposed changes:");
-  console.warn(JSON.stringify(d, null, 2));
+  logger.warn("Dry-run: proposed changes:");
+  logger.warn(JSON.stringify(d, null, 2));
 
   if (!argv.apply) {
-    console.log("Run with --apply to make changes (default is dry-run)");
+    logger.info("Run with --apply to make changes (default is dry-run)");
     return;
   }
 
@@ -116,12 +118,12 @@ export async function main() {
   if (argv["rollback"]) {
     const backupPath = argv["backup"] as string;
     if (!backupPath) {
-      console.error("--rollback requires --backup <path>");
+      logger.error("--rollback requires --backup <path>");
       process.exit(2);
     }
     try {
       const res = rollbackRestore(backupPath, catalogPath);
-      console.log("Restored backup:", backupPath, "->", catalogPath);
+      logger.info("Restored backup:", backupPath, "->", catalogPath);
       // run validations after restore
       const validationCommands = [
         { cmd: "npm run format", name: "format" },
@@ -133,13 +135,13 @@ export async function main() {
       const valResults = runValidations(validationCommands, {
         timeout: 10 * 60 * 1000,
       });
-      console.log(
+      logger.info(
         "Post-restore validations:",
         JSON.stringify(valResults, null, 2),
       );
       process.exit(0);
     } catch (err: any) {
-      console.error("Rollback failed:", err?.message ?? String(err));
+      logger.error("Rollback failed:", err?.message ?? String(err));
       process.exit(1);
     }
   }
@@ -157,20 +159,20 @@ export async function main() {
       }),
     );
     if (answer.trim() !== "APPLY") {
-      console.log("Aborted by user");
+      logger.info("Aborted by user");
       return;
     }
   } else {
     // If running non-interactive force, require RUN_MCP_FORCE env flag
     if (!process.env.RUN_MCP_FORCE || process.env.RUN_MCP_FORCE !== "true") {
-      console.error(
+      logger.error(
         "Non-interactive --force requires environment variable RUN_MCP_FORCE=true",
       );
       process.exit(3);
     }
   }
 
-  console.warn("Applying changes...");
+  logger.warn("Applying changes...");
 
   // Prepare audit artifact
   const audit: any = {
@@ -208,8 +210,8 @@ export async function main() {
   });
   audit.validations.push(...valResults);
   for (const v of valResults) {
-    if (argv.verbose) console.log(`${v.name} ${v.ok ? "passed" : "failed"}`);
-    if (!v.ok) console.error(`${v.name} failed (see audit)`);
+    if (argv.verbose) logger.info(`${v.name} ${v.ok ? "passed" : "failed"}`);
+    if (!v.ok) logger.error(`${v.name} failed (see audit)`);
   }
 
   // Save audit file
@@ -220,19 +222,19 @@ export async function main() {
     `mcp-runner-apply-${audit.timestamp}.json`,
   );
   fs.writeFileSync(auditPath, JSON.stringify(audit, null, 2), "utf8");
-  console.log("Wrote audit artifact:", auditPath);
+  logger.info("Wrote audit artifact:", auditPath);
 
   // Prune backups older than 365 days by default (no-op if none)
   try {
     const pruned = pruneBackups(path.dirname(catalogPath), 365);
-    if (pruned.length && argv.verbose) console.log("Pruned backups:", pruned);
+    if (pruned.length && argv.verbose) logger.info("Pruned backups:", pruned);
   } catch (e) {
     if (argv.verbose)
-      console.warn("Prune backups failed:", (e as any)?.message ?? e);
+      logger.warn("Prune backups failed:", (e as any)?.message ?? e);
   }
 }
 
 main().catch((err) => {
-  console.error(err);
+  logger.error(err);
   process.exit(1);
 });

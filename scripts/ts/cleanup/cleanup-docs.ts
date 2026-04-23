@@ -3,6 +3,8 @@
 import fs from "fs";
 import path from "path";
 
+import { logger } from "@/lib/logger";
+
 /**
  * Description placeholder
  * @author Adminbot
@@ -171,7 +173,7 @@ async function main() {
       else if (a.startsWith("--action=")) opts.action = a.split("=")[1];
       else if (a.startsWith("--categories=")) opts.categories = a.split("=")[1];
       else if (a === "--help" || a === "-h") {
-        console.log(
+        logger.info(
           "Usage: --dry-run (default) | --apply --confirm=yes [--action=1|2|3|4] [--categories=ab]",
         );
         return;
@@ -201,15 +203,15 @@ async function main() {
       Object.entries(categories).map(([k, v]) => [k, v.length]),
     ) as Record<string, number>;
 
-    console.log(
+    logger.info(
       `Scan complete. Keep: ${counts.CORE_KEEP + counts.DOCKER_KEEP + counts.INTEGRATION_KEEP}  To-review/delete: ${counts.SWARM_DELETE + counts.LEGACY_DELETE + counts.OTHER_DELETE + counts.ORPHANED_DELETE}`,
     );
 
-    console.log(JSON.stringify({ categories, summary: counts }, null, 2));
+    logger.info(JSON.stringify({ categories, summary: counts }, null, 2));
 
     if (!opts.dryRun) {
       if (opts.confirm !== "yes") {
-        console.error("Error: --apply requires --confirm=yes");
+        logger.error("Error: --apply requires --confirm=yes");
         process.exit(2);
       }
 
@@ -244,7 +246,7 @@ async function main() {
             add(categories.OTHER_DELETE);
             break;
           default:
-            console.error("Unknown action");
+            logger.error("Unknown action");
             process.exit(3);
         }
       }
@@ -257,18 +259,18 @@ async function main() {
           const bak = `${abs}.bak.${isoTs()}`;
           await fs.promises.copyFile(abs, bak);
           await fs.promises.unlink(abs);
-          console.log(`Deleted: ${relPath} (backup: ${rel(bak, projectRoot)})`);
+          logger.info(`Deleted: ${relPath} (backup: ${rel(bak, projectRoot)})`);
         } catch (err: any) {
-          console.error(`Failed to delete ${relPath}: ${err.message}`);
+          logger.error(`Failed to delete ${relPath}: ${err.message}`);
           process.exit(4);
         }
       }
 
-      console.log("Apply complete.");
+      logger.info("Apply complete.");
       process.exit(0);
     }
   } catch (err: any) {
-    console.error("Error:", err?.message ? err.message : err);
+    logger.error("Error:", err?.message ? err.message : err);
     process.exit(1);
   }
 }

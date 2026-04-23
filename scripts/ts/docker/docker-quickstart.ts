@@ -9,6 +9,8 @@ import fs from "fs";
 import path from "path";
 import readline from "readline";
 
+import { logger } from "@/lib/logger";
+
 /**
  * Description placeholder
  * @author Adminbot
@@ -79,10 +81,10 @@ async function prompt(q: string) {
  * @returns {*}
  */
 function startDefault() {
-  console.log("Starting default environment (with Traefik)...");
+  logger.info("Starting default environment (with Traefik)...");
   const envFile = path.join(PROJECT_ROOT, ".envs/local/.env.local");
   if (!fileExists(envFile)) {
-    console.error(
+    logger.error(
       "Error: .envs/local/.env.local not found\nPlease create .envs/local/.env.local file with required variables",
     );
     return 1;
@@ -111,10 +113,10 @@ function startDefault() {
  * @returns {*}
  */
 function startLocal() {
-  console.log("Starting local environment (no Traefik)...");
+  logger.info("Starting local environment (no Traefik)...");
   const envFile = path.join(PROJECT_ROOT, ".envs/local/.env.local");
   if (!fileExists(envFile)) {
-    console.error("Error: .envs/local/.env.local not found");
+    logger.error("Error: .envs/local/.env.local not found");
     return 1;
   }
   return run("docker", [
@@ -135,10 +137,10 @@ function startLocal() {
  * @returns {*}
  */
 function startMonitoring() {
-  console.log("Starting with monitoring stack...");
+  logger.info("Starting with monitoring stack...");
   const envFile = path.join(PROJECT_ROOT, ".envs/local/.env.local");
   if (!fileExists(envFile)) {
-    console.error("Error: .envs/local/.env.local not found");
+    logger.error("Error: .envs/local/.env.local not found");
     return 1;
   }
   return run("docker", [
@@ -161,7 +163,7 @@ function startMonitoring() {
  * @returns {*}
  */
 function stopAll() {
-  console.log("Stopping all containers...");
+  logger.info("Stopping all containers...");
   return run("docker", ["compose", "down"]);
 }
 /**
@@ -180,7 +182,7 @@ function viewLogs() {
  * @returns {*}
  */
 function buildImages() {
-  console.log("Building Docker images...");
+  logger.info("Building Docker images...");
   return run("docker", ["compose", "build"]);
 }
 /**
@@ -190,7 +192,7 @@ function buildImages() {
  * @returns {*}
  */
 function migrateDb() {
-  console.log("Running database migrations...");
+  logger.info("Running database migrations...");
   run("docker", [
     "compose",
     "--profile",
@@ -214,7 +216,7 @@ async function cleanup() {
     "This will remove all containers and volumes. Continue? (yes/no): ",
   );
   if (confirm !== "yes") {
-    console.log("Cancelled");
+    logger.info("Cancelled");
     return 0;
   }
   return run("docker", ["compose", "down", "-v"]);
@@ -225,9 +227,9 @@ async function cleanup() {
  * @author Adminbot
  */
 function showStatus() {
-  console.log("\nDocker Containers:");
+  logger.info("\nDocker Containers:");
   run("docker", ["compose", "ps"]);
-  console.log("\nDocker Volumes:");
+  logger.info("\nDocker Volumes:");
   run("sh", [
     "-c",
     'docker volume ls | grep banking || echo "No banking volumes found"',
@@ -247,17 +249,17 @@ async function main() {
     // this returns 0 always; instead test explicitly
   }
   while (true) {
-    console.log("\n=== Banking Application Docker Quick Start ===");
-    console.log("1. Start development environment (with Traefik)");
-    console.log("2. Start local environment (no Traefik, direct ports)");
-    console.log("3. Start with monitoring (Prometheus + Grafana)");
-    console.log("4. Stop all containers");
-    console.log("5. View application logs");
-    console.log("6. Build images");
-    console.log("7. Run database migrations");
-    console.log("8. Clean up volumes & restart");
-    console.log("9. View services status");
-    console.log("10. Exit\n");
+    logger.info("\n=== Banking Application Docker Quick Start ===");
+    logger.info("1. Start development environment (with Traefik)");
+    logger.info("2. Start local environment (no Traefik, direct ports)");
+    logger.info("3. Start with monitoring (Prometheus + Grafana)");
+    logger.info("4. Stop all containers");
+    logger.info("5. View application logs");
+    logger.info("6. Build images");
+    logger.info("7. Run database migrations");
+    logger.info("8. Clean up volumes & restart");
+    logger.info("9. View services status");
+    logger.info("10. Exit\n");
     // prompt
     const choice = await prompt("Select option [1-10]: ");
     switch (choice.trim()) {
@@ -290,16 +292,19 @@ async function main() {
         showStatus();
         break;
       case "10":
-        console.log("Goodbye!");
+        logger.info("Goodbye!");
         process.exit(0);
-      default:
-        console.error("Invalid option");
+        break;
+      default: {
+        logger.error("Invalid option");
+        break;
+      }
     }
     await prompt("Press Enter to continue...");
   }
 }
 
 main().catch((e) => {
-  console.error(e);
+  logger.error(e);
   process.exit(1);
 });

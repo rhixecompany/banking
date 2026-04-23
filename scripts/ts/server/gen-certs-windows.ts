@@ -3,6 +3,8 @@
  * gen-certs-windows.ts - Windows variant of gen-certs.ps1
  */
 import path from "path";
+
+import { logger } from "@/lib/logger";
 /**
  * Description placeholder
  * @author Adminbot
@@ -24,5 +26,5 @@ const CERT_DIR = path.join(
   "traefik",
   "certs",
 );
-console.log("Windows: ensure OpenSSL is available and run gen-certs.ts");
+logger.info("Windows: ensure OpenSSL is available and run gen-certs.ts");
 process.exit(0);

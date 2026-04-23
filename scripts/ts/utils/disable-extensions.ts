@@ -3,6 +3,8 @@
 import { promises as fs } from "fs";
 import path from "path";
 
+import { logger } from "@/lib/logger";
+
 /**
  * Description placeholder
  * @author Adminbot
@@ -179,21 +181,21 @@ async function main(): Promise<number> {
 
     if (doDry) {
       // short human summary line
-      console.log(`${settingsPath}: ${changed ? "would change" : "no change"}`);
+      logger.info(`${settingsPath}: ${changed ? "would change" : "no change"}`);
       // then JSON
-      console.log(JSON.stringify(result, null, 2));
+      logger.info(JSON.stringify(result, null, 2));
       return 0;
     }
 
     // apply
     await writeJsonFile(settingsPath, afterObj, true);
     // Print same summary + JSON to stdout
-    console.log(`${settingsPath}: ${changed ? "changed" : "no change"}`);
-    console.log(JSON.stringify(result, null, 2));
+    logger.info(`${settingsPath}: ${changed ? "changed" : "no change"}`);
+    logger.info(JSON.stringify(result, null, 2));
     return 0;
   } catch (err: any) {
     // On error, print to stderr and exit non-zero when --apply; for dry-run this shouldn't occur normally
-    console.error("Error:", err?.message ? err.message : String(err));
+    logger.error("Error:", err?.message ? err.message : String(err));
     if (doApply) return 1;
     return 0;
   }
@@ -203,6 +205,6 @@ async function main(): Promise<number> {
 main()
   .then((code) => process.exit(code))
   .catch((err) => {
-    console.error("Unhandled error:", err);
+    logger.error("Unhandled error:", err);
     process.exit(1);
   });

@@ -312,9 +312,10 @@ export default async function globalSetup(): Promise<void> {
 
   // Resolve runtime environment flags via lib/env when available, fall back to process.env
   try {
-    // Dynamic require avoids module load-order and validation side-effects
+    // Dynamic import avoids module load-order and validation side-effects
+    // that may run before app-config validation.
 
-    const { env } = require("@/lib/env") as any;
+    const { env } = (await import("@/lib/env")) as any;
     if (env.PLAYWRIGHT_BASE_URL) BASE_URL = env.PLAYWRIGHT_BASE_URL as string;
     const prepare = env.PLAYWRIGHT_PREPARE_DB as string | undefined;
     if (prepare !== "true") {

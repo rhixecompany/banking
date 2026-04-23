@@ -3,6 +3,8 @@ import { execa } from "execa";
 import { promises as fs } from "fs";
 import path from "path";
 
+import { logger } from "@/lib/logger";
+
 // Heuristic runner: parse test-browser-report.txt for failing test file paths
 // and re-run them with vitest. Dry-run by default; pass --apply to execute.
 
@@ -53,14 +55,14 @@ function extractFilesFromReport(content: string): string[] {
  */
 async function runVitestOnFiles(files: string[], apply: boolean) {
   if (files.length === 0) {
-    console.log("No failing test files detected in report.");
+    logger.info("No failing test files detected in report.");
     return;
   }
-  console.log("Targeted test files:", files);
+  logger.info("Targeted test files:", files);
   const cmd = "npx";
   const args = ["vitest", "--config=vitest.config.ts", "run", ...files];
   if (!apply) {
-    console.log("Dry-run: would run:", `${cmd} ${args.join(" ")}`);
+    logger.info("Dry-run: would run:", `${cmd} ${args.join(" ")}`);
     return;
   }
 
@@ -87,8 +89,8 @@ async function main() {
     );
     await runVitestOnFiles(files, apply);
   } catch (err: any) {
-    console.warn(`Could not read ${REPORT}:`, err.message || String(err));
-    console.log(
+    logger.warn(`Could not read ${REPORT}:`, err.message || String(err));
+    logger.info(
       "You can pass explicit file paths: npx tsx scripts/utils/ci-helpers/targeted-test-runner.ts path/to/file.test.ts --apply",
     );
     // also support explicit files
@@ -103,6 +105,6 @@ async function main() {
 }
 
 main().catch((e) => {
-  console.error(e);
+  logger.error(e);
   process.exit(1);
 });

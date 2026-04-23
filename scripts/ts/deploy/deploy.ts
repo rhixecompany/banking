@@ -7,6 +7,8 @@ import { spawnSync } from "child_process";
 import fs from "fs";
 import path from "path";
 
+import { logger } from "@/lib/logger";
+
 /**
  * Description placeholder
  * @author Adminbot
@@ -36,13 +38,13 @@ const SCRIPT_DIR = path.dirname(new URL(import.meta.url).pathname);
  */
 const PROJECT_ROOT = path.resolve(SCRIPT_DIR, "..");
 
-console.log("Banking App - Production Deployment Workflow");
+logger.info("Banking App - Production Deployment Workflow");
 
 // Verify docker
 try {
   run("docker", ["--version"]);
 } catch {
-  console.error("Docker not found. Please install Docker.");
+  logger.error("Docker not found. Please install Docker.");
   process.exit(1);
 }
 
@@ -61,7 +63,7 @@ const htpath = path.join(
   "htpasswd",
 );
 if (!fs.existsSync(htpath)) {
-  console.log("Creating htpasswd file...");
+  logger.info("Creating htpasswd file...");
   try {
     run("bash", [
       path.join(SCRIPT_DIR, "generate-htpasswd.sh"),
@@ -69,10 +71,10 @@ if (!fs.existsSync(htpath)) {
       process.env.TRAEFIK_PASSWORD || "admin",
     ]);
   } catch {
-    console.warn("Could not create htpasswd. Create it manually.");
+    logger.warn("Could not create htpasswd. Create it manually.");
   }
 } else {
-  console.log("htpasswd already exists");
+  logger.info("htpasswd already exists");
 }
 
 // Verify env
@@ -89,11 +91,11 @@ const ENV_FILE = path.join(
   ".env.production",
 );
 if (!fs.existsSync(ENV_FILE)) {
-  console.error(`${ENV_FILE} not found`);
+  logger.error(`${ENV_FILE} not found`);
   process.exit(1);
 }
 
-console.log("Building Docker image...");
+logger.info("Building Docker image...");
 run(
   "docker",
   [
@@ -108,7 +110,7 @@ run(
   { cwd: PROJECT_ROOT },
 );
 
-console.log("Running migrations (profile init)...");
+logger.info("Running migrations (profile init)...");
 run(
   "docker",
   [
@@ -139,23 +141,23 @@ run(
   { cwd: PROJECT_ROOT },
 );
 
-console.log("Starting application...");
+logger.info("Starting application...");
 run(
   "docker",
   ["compose", "-f", "docker-compose.yml", "--env-file", ENV_FILE, "up", "-d"],
   { cwd: PROJECT_ROOT },
 );
 
-console.log("Waiting for health check on http://localhost:3000/api/health");
+logger.info("Waiting for health check on http://localhost:3000/api/health");
 // simple sleep loop
 for (let i = 0; i < 60; i++) {
   const res = spawnSync("curl", ["-s", "http://localhost:3000/api/health"]);
   if (res.status === 0) {
-    console.log("Services healthy");
+    logger.info("Services healthy");
     break;
   }
   Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 1000);
 }
 
-console.log("Deployment complete");
+logger.info("Deployment complete");
 process.exit(0);

@@ -1,6 +1,8 @@
 #!/usr/bin/env tsx
 import { execa } from "execa";
 
+import { logger } from "@/lib/logger";
+
 // Runs checks (eslint, type-check, prettier) only on changed files (git diff).
 // Dry-run by default; pass --apply to execute formatting/fixes.
 
@@ -46,18 +48,18 @@ async function main() {
   const apply = argv.includes("--apply");
   const files = await getChangedFiles();
   if (files.length === 0) {
-    console.log("No changed files detected (git diff HEAD).");
+    logger.info("No changed files detected (git diff HEAD).");
     return;
   }
-  console.log("Changed files:", files);
+  logger.info("Changed files:", files);
 
   const tsFiles = files.filter((f: string) =>
     [".ts", ".tsx", ".js", ".jsx"].some((ext) => f.endsWith(ext)),
   );
   if (tsFiles.length > 0) {
-    console.log("Running eslint on changed files:", tsFiles);
+    logger.info("Running eslint on changed files:", tsFiles);
     if (!apply) {
-      console.log(
+      logger.info(
         "Dry-run: eslint --config eslint.config.mts " + tsFiles.join(" "),
       );
     } else {
@@ -73,13 +75,13 @@ async function main() {
 
   // type-check only if ts/tsx files changed
   if (tsFiles.some((f) => f.endsWith(".ts") || f.endsWith(".tsx"))) {
-    console.log("Running type-check...");
-    if (!apply) console.log("Dry-run: tsc --noEmit");
+    logger.info("Running type-check...");
+    if (!apply) logger.info("Dry-run: tsc --noEmit");
     else await run("npx", ["tsc", "--noEmit"]);
   }
 }
 
 main().catch((e) => {
-  console.error(e);
+  logger.error(e);
   process.exit(1);
 });

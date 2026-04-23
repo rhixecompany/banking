@@ -18,6 +18,7 @@ vi.mock("@/actions/transaction.actions", () => ({
 
 import { DashboardServerWrapper } from "@/components/dashboard/dashboard-server-wrapper";
 import { auth } from "@/lib/auth";
+
 import {
   extractPropsFromElement,
   mockRedirectThrow,

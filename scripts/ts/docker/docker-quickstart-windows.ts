@@ -9,6 +9,8 @@ import fs from "fs";
 import path from "path";
 import readline from "readline";
 
+import { logger } from "@/lib/logger";
+
 /**
  * Description placeholder
  * @author Adminbot
@@ -83,17 +85,17 @@ async function main() {
   }
 
   while (true) {
-    console.log("\n=== Banking Application Docker Quick Start ===");
-    console.log("1. Start development environment (with Traefik)");
-    console.log("2. Start local environment (no Traefik, direct ports)");
-    console.log("3. Start with monitoring (Prometheus + Grafana)");
-    console.log("4. Stop all containers");
-    console.log("5. View application logs");
-    console.log("6. Build images");
-    console.log("7. Run database migrations");
-    console.log("8. Clean up volumes & restart");
-    console.log("9. View services status");
-    console.log("10. Exit\n");
+    logger.info("\n=== Banking Application Docker Quick Start ===");
+    logger.info("1. Start development environment (with Traefik)");
+    logger.info("2. Start local environment (no Traefik, direct ports)");
+    logger.info("3. Start with monitoring (Prometheus + Grafana)");
+    logger.info("4. Stop all containers");
+    logger.info("5. View application logs");
+    logger.info("6. Build images");
+    logger.info("7. Run database migrations");
+    logger.info("8. Clean up volumes & restart");
+    logger.info("9. View services status");
+    logger.info("10. Exit\n");
 
     const choice = (await prompt("Select option [1-10]: ")).trim();
     switch (choice) {
@@ -182,16 +184,19 @@ async function main() {
         ]);
         break;
       case "10":
-        console.log("Goodbye!");
+        logger.info("Goodbye!");
         process.exit(0);
-      default:
-        console.error("Invalid option");
+        break;
+      default: {
+        logger.error("Invalid option");
+        break;
+      }
     }
     await prompt("Press Enter to continue...");
   }
 }
 
 main().catch((e) => {
-  console.error(e);
+  logger.error(e);
   process.exit(1);
 });

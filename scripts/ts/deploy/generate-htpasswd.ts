@@ -6,6 +6,10 @@
 import fs from "fs";
 import path from "path";
 
+import bcrypt from "bcryptjs";
+
+import { logger } from "@/lib/logger";
+
 import { parseCli, printDryRunResult } from "../utils/cli";
 
 /**
@@ -106,14 +110,13 @@ try {
     });
     fs.writeFileSync(HTPASSWD_FILE, `${USERNAME}:${res.stdout}`);
   } else {
-    const bcrypt = require("bcryptjs");
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(PASSWORD, salt);
     fs.writeFileSync(HTPASSWD_FILE, `${USERNAME}:${hash}\n`, "utf8");
   }
   fs.chmodSync(HTPASSWD_FILE, 0o600);
-  console.log(`Created: ${HTPASSWD_FILE}`);
+  logger.info(`Created: ${HTPASSWD_FILE}`);
 } catch (err) {
-  console.error(err);
+  logger.error(err);
   process.exit(1);
 }

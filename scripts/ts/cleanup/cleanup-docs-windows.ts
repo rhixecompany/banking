@@ -6,6 +6,8 @@
 import fs from "fs";
 import path from "path";
 
+import { logger } from "@/lib/logger";
+
 /**
  * Description placeholder
  * @author Adminbot
@@ -21,7 +23,7 @@ const SCRIPT_DIR = path.dirname(new URL(import.meta.url).pathname);
  */
 const PROJECT_ROOT = path.resolve(SCRIPT_DIR, "..", "..");
 
-console.log("(windows) Scanning documentation files...");
+logger.info("(windows) Scanning documentation files...");
 /**
  * Description placeholder
  * @author Adminbot
@@ -49,7 +51,7 @@ function walk(dir: string, out: string[] = []) {
 const files = walk(PROJECT_ROOT).map((p) =>
   path.relative(PROJECT_ROOT, p).replaceAll("\\", "/"),
 );
-console.log(`Found ${files.length} markdown files`);
-for (const f of files.slice(0, 200)) console.log(" -", f);
+logger.info(`Found ${files.length} markdown files`);
+for (const f of files.slice(0, 200)) logger.info(" -", f);
 
 process.exit(0);

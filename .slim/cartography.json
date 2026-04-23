@@ -1,0 +1,24 @@
+{
+  "created": "2026-04-23T16:25:00Z",
+  "exclude": [
+    "node_modules/**",
+    ".next/**",
+    "dist/**",
+    "build/**",
+    "**/*.test.ts",
+    "**/*.spec.ts",
+    "tests/**"
+  ],
+  "include": [
+    "app/**/*.ts",
+    "app/**/*.tsx",
+    "actions/**/*.ts",
+    "dal/**/*.ts",
+    "database/**/*.ts",
+    "lib/**/*.ts",
+    "components/**/*.ts",
+    "components/**/*.tsx"
+  ],
+  "root": "banking",
+  "version": "1.0.0"
+}

@@ -8,6 +8,8 @@ import { spawnSync } from "child_process";
 import fs from "fs";
 import path from "path";
 
+import { logger } from "@/lib/logger";
+
 /**
  * Description placeholder
  * @author Adminbot
@@ -38,7 +40,7 @@ function run(cmd: string, args: string[] = []) {
     stdio: "inherit",
   });
   if (proc.error) {
-    console.error(proc.error);
+    logger.error(proc.error);
     process.exit(1);
   }
   return proc.status ?? 0;
@@ -68,14 +70,14 @@ const envFile = envFileArg
  */
 const skipMigrations = process.argv.includes("--skip-migrations");
 
-console.log("");
-console.log("Banking App - Docker Build (Node shim)");
+logger.info("");
+logger.info("Banking App - Docker Build (Node shim)");
 
 // Check docker
 try {
   run("docker --version");
 } catch {
-  console.error("Docker not found. Please install Docker.");
+  logger.error("Docker not found. Please install Docker.");
   process.exit(1);
 }
 
@@ -83,17 +85,17 @@ try {
 try {
   run("docker compose version");
 } catch {
-  console.error("Docker Compose not found. Please install Docker Compose.");
+  logger.error("Docker Compose not found. Please install Docker Compose.");
   process.exit(1);
 }
 
 if (!fs.existsSync(envFile)) {
-  console.warn(`${envFile} not found`);
+  logger.warn(`${envFile} not found`);
   const gen = path.join(PROJECT_ROOT, "generate-env.sh");
   if (fs.existsSync(gen)) {
     run(`bash ${gen}`);
   } else {
-    console.error(
+    logger.error(
       `generate-env.sh not found. Please create ${envFile} manually.`,
     );
     process.exit(1);
@@ -104,10 +106,10 @@ if (!fs.existsSync(envFile)) {
 if (fs.existsSync(envFile)) {
   const content = fs.readFileSync(envFile, "utf8");
   for (const line of content.split(/\r?\n/)) {
-    const m = line.match(/^\s*([A-Z_]\w*)\s*=\s*(.*)$/i);
+    const m = line.match(/^\s*([A-Z_]\w*)\s*=(.*)$/i);
     if (!m) continue;
     const key = m[1];
-    const val = m[2].replace(/^['"]?(.*)['"]?$/, "$1");
+    const val = m[2].replace(/^['"]?|['"]?$/g, "");
     process.env[key] = val;
   }
 }
@@ -117,22 +119,22 @@ if (
   !process.env.ENCRYPTION_KEY ||
   process.env.ENCRYPTION_KEY === "CHANGE_ME_TO_SECURE_32_CHAR_RANDOM_VALUE"
 ) {
-  console.warn(
-    "ENCRYPTION_KEY missing or placeholder; auto-generating for dev",
-  );
+  logger.warn("ENCRYPTION_KEY missing or placeholder; auto-generating for dev");
   // attempt openssl
   try {
     const r = spawnSync("openssl", ["rand", "-hex", "32"], {
       encoding: "utf8",
     });
     if (r.status === 0) process.env.ENCRYPTION_KEY = r.stdout.trim();
-  } catch {}
+  } catch {
+    /* no openssl - will generate random below */
+  }
 }
 if (
   !process.env.NEXTAUTH_SECRET ||
   process.env.NEXTAUTH_SECRET === "CHANGE_ME_TO_SECURE_32_CHAR_RANDOM_VALUE"
 ) {
-  console.warn(
+  logger.warn(
     "NEXTAUTH_SECRET missing or placeholder; auto-generating for dev",
   );
   try {
@@ -140,10 +142,12 @@ if (
       encoding: "utf8",
     });
     if (r.status === 0) process.env.NEXTAUTH_SECRET = r.stdout.trim();
-  } catch {}
+  } catch {
+    /* no openssl - will generate random below */
+  }
 }
 
-console.log("Building Docker image...");
+logger.info("Building Docker image...");
 /**
  * Description placeholder
  * @author Adminbot
@@ -192,9 +196,9 @@ run(
     .join(" ")}`,
 );
 
-console.log("");
+logger.info("");
 if (!skipMigrations) {
-  console.log("Running database migrations...");
+  logger.info("Running database migrations...");
   run(
     `docker compose -f ${composeFile} --env-file ${envFile} --profile init up`,
   );
@@ -203,4 +207,4 @@ if (!skipMigrations) {
   );
 }
 
-console.log("Build complete!");
+logger.info("Build complete!");

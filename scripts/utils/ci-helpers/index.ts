@@ -4,6 +4,8 @@ import { existsSync, promises as fs } from "fs";
 import os from "os";
 import path from "path";
 
+import { logger } from "@/lib/logger";
+
 /**
  * Description placeholder
  * @author Adminbot
@@ -28,7 +30,7 @@ async function runCmd(cmd: string, args: string[] = []) {
 async function main() {
   const argv = process.argv.slice(2);
   const apply = argv.includes("--apply");
-  console.log("CI helpers entry. --apply=" + apply);
+  logger.info("CI helpers entry. --apply=" + apply);
   // 1. Run CI wrapper to generate reports. Use bash wrapper if available, otherwise run npm scripts individually.
   let hasBash = false;
   try {
@@ -38,14 +40,14 @@ async function main() {
   }
 
   if (hasBash) {
-    console.log("Running CI wrapper: npm run ci:checks:run (via bash)");
+    logger.info("Running CI wrapper: npm run ci:checks:run (via bash)");
     try {
       await runCmd("npm", ["run", "ci:checks:run"]);
     } catch {
-      console.warn("CI wrapper exited with non-zero (expected in some cases)");
+      logger.warn("CI wrapper exited with non-zero (expected in some cases)");
     }
   } else {
-    console.log(
+    logger.info(
       "/bin/bash not available or running on Windows — running npm scripts sequentially (conservative)",
     );
     const seq: [string, string[]][] = [
@@ -63,10 +65,10 @@ async function main() {
     ];
     for (const [c, a] of seq) {
       try {
-        console.log(`Running ${c} ${a.join(" ")}`);
+        logger.info(`Running ${c} ${a.join(" ")}`);
         await runCmd(c, a);
       } catch {
-        console.warn(`Command ${c} ${a.join(" ")} failed — continuing`);
+        logger.warn(`Command ${c} ${a.join(" ")} failed — continuing`);
       }
     }
   }
@@ -81,10 +83,10 @@ async function main() {
   const summary = JSON.parse(
     await fs.readFile(path.resolve(process.cwd(), "ci-summary.json"), "utf8"),
   );
-  console.log("Summary:");
+  logger.info("Summary:");
   for (const k of Object.keys(summary)) {
     const s = summary[k];
-    console.log(k, s.status, s.ok ? `size=${s.size}` : s.error);
+    logger.info(k, s.status, s.ok ? `size=${s.size}` : s.error);
   }
 
   // simple next step: if lint failed and --apply provided, run eslint --fix
@@ -94,20 +96,20 @@ async function main() {
     apply &&
     (lintReport?.status === "failed" || lintStrict?.status === "failed")
   ) {
-    console.log("Running eslint --fix (apply=true)");
+    logger.info("Running eslint --fix (apply=true)");
     await runCmd("npm", ["run", "lint:fix"]);
-    console.log("Re-running CI wrapper to update reports");
+    logger.info("Re-running CI wrapper to update reports");
     try {
       await runCmd("npm", ["run", "ci:checks:run"]);
     } catch {}
     await runCmd("npx", ["tsx", parseScript]);
   }
 
-  console.log("Done. Inspect ci-summary.json for details.");
+  logger.info("Done. Inspect ci-summary.json for details.");
 }
 
 // Entry
 main().catch((e) => {
-  console.error(e);
+  logger.error(e);
   process.exit(1);
 });

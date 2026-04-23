@@ -9,6 +9,8 @@ import fs from "fs";
 import path from "path";
 import readline from "readline";
 
+import { logger } from "@/lib/logger";
+
 /**
  * Description placeholder
  * @author Adminbot
@@ -82,7 +84,7 @@ function randBase64(bytes: number) {
  * @returns {*}
  */
 async function main() {
-  console.log("=== Production Environment Generator ===\n");
+  logger.info("=== Production Environment Generator ===\n");
   const envFile = path.join(PROJECT_ROOT, ".envs/production/.env.production");
   if (fs.existsSync(envFile)) {
     const ans = (
@@ -91,31 +93,31 @@ async function main() {
       .trim()
       .toLowerCase();
     if (ans !== "y") {
-      console.log("Aborted.");
+      logger.info("Aborted.");
       process.exit(1);
     }
   }
 
-  console.log("Generating secure secrets...\n");
+  logger.info("Generating secure secrets...\n");
   const ENCRYPTION_KEY = randHex(64);
   const NEXTAUTH_SECRET = randBase64(32);
   const POSTGRES_PASSWORD = randBase64(16);
   const REDIS_PASSWORD = randBase64(16);
 
-  console.log(
+  logger.info(
     `Secrets generated:\n  ENCRYPTION_KEY: ${ENCRYPTION_KEY.slice(0, 20)}...\n  NEXTAUTH_SECRET: ${NEXTAUTH_SECRET.slice(0, 20)}...\n`,
   );
 
   fs.mkdirSync(path.dirname(envFile), { recursive: true });
   const content = `# Production Environment Variables\n# Generated: ${new Date().toString()}\n\nNEXT_PUBLIC_SITE_URL=https://yourdomain.com\n\nDATABASE_URL=postgresql://postgres:${POSTGRES_PASSWORD}@db:5432/banking\nPOSTGRES_PASSWORD=${POSTGRES_PASSWORD}\nPOSTGRES_DB=banking\n\nENCRYPTION_KEY=${ENCRYPTION_KEY}\nNEXTAUTH_SECRET=${NEXTAUTH_SECRET}\n\nREDIS_URL=redis://:${REDIS_PASSWORD}@redis:6379\nREDIS_PASSWORD=${REDIS_PASSWORD}\n\nNODE_ENV=production\nPORT=3000\nHOSTNAME=0.0.0.0\n\nLETSENCRYPT_EMAIL=admin@yourdomain.com\n\nPLAID_CLIENT_ID=\nPLAID_SECRET=\nPLAID_ENV=sandbox\nPLAID_BASE_URL=https://sandbox.plaid.com\n\nDWOLLA_KEY=\nDWOLLA_SECRET=\nDWOLLA_ENV=sandbox\nDWOLLA_BASE_URL=https://api-sandbox.dwolla.com\n\n`;
   fs.writeFileSync(envFile, content, { encoding: "utf8" });
-  console.log("✓ .envs/production/.env.production generated\n");
-  console.log(
+  logger.info("✓ .envs/production/.env.production generated\n");
+  logger.info(
     "⚠ IMPORTANT: Edit .envs/production/.env.production and set your domain and email\n",
   );
 }
 
 main().catch((e) => {
-  console.error(e);
+  logger.error(e);
   process.exit(1);
 });

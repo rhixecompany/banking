@@ -8,6 +8,8 @@ import { spawnSync } from "child_process";
 import fs from "fs";
 import path from "path";
 
+import { logger } from "@/lib/logger";
+
 /**
  * Description placeholder
  * @author Adminbot
@@ -48,7 +50,7 @@ function read(p: string) {
   }
 }
 
-console.log("=== Docker Production Readiness Checklist ===\n");
+logger.info("=== Docker Production Readiness Checklist ===\n");
 /**
  * Description placeholder
  * @author Adminbot
@@ -57,14 +59,14 @@ console.log("=== Docker Production Readiness Checklist ===\n");
  */
 const envFile = path.join(PROJECT_ROOT, ".envs/production/.env.production");
 if (exists(envFile)) {
-  console.log("✓ .envs/production/.env.production found");
+  logger.info("✓ .envs/production/.env.production found");
   const c = read(envFile);
   if (/CHANGE_ME|yourdomain/.test(c))
-    console.log("⚠ WARNING: Contains placeholders - replace before deploying");
-  else console.log("✓ .env.production appears to have real values");
+    logger.info("⚠ WARNING: Contains placeholders - replace before deploying");
+  else logger.info("✓ .env.production appears to have real values");
 } else {
-  console.log("✗ .envs/production/.env.production not found");
-  console.log("  Run: .\generate-env.ps1");
+  logger.info("✗ .envs/production/.env.production not found");
+  logger.info("  Run: .\\generate-env.ps1");
 }
 
 /**
@@ -73,11 +75,11 @@ if (exists(envFile)) {
  *
  * @type {*}
  */
-const dockerfile = path.join(PROJECT_ROOT, "compose\dev\node\Dockerfile");
+const dockerfile = path.join(PROJECT_ROOT, "compose\\dev\\node\\Dockerfile");
 if (exists(dockerfile) && /distroless/.test(read(dockerfile)))
-  console.log("✓ Using distroless base image");
+  logger.info("✓ Using distroless base image");
 if (exists(dockerfile) && /HEALTHCHECK|appuser/.test(read(dockerfile)))
-  console.log("✓ Non-root user and HEALTHCHECK defined");
+  logger.info("✓ Non-root user and HEALTHCHECK defined");
 
 /**
  * Description placeholder
@@ -87,11 +89,11 @@ if (exists(dockerfile) && /HEALTHCHECK|appuser/.test(read(dockerfile)))
  */
 const compose = path.join(PROJECT_ROOT, "docker-compose.yml");
 if (exists(compose) && /no-new-privileges/.test(read(compose)))
-  console.log("✓ no-new-privileges security option enabled");
+  logger.info("✓ no-new-privileges security option enabled");
 if (exists(compose) && /env_file/.test(read(compose)))
-  console.log("✓ env_file configuration found");
+  logger.info("✓ env_file configuration found");
 
-console.log("\nTesting health check endpoint...");
+logger.info("\nTesting health check endpoint...");
 try {
   const res = spawnSync(
     "powershell",
@@ -101,13 +103,13 @@ try {
     ],
     { stdio: "ignore" },
   );
-  if (res.status === 0) console.log("✓ Health check endpoint responsive");
-  else console.log("ℹ Health check not responding (app may not be running)");
+  if (res.status === 0) logger.info("✓ Health check endpoint responsive");
+  else logger.info("ℹ Health check not responding (app may not be running)");
 } catch {
-  console.log("ℹ Health check skipped");
+  logger.info("ℹ Health check skipped");
 }
 
-console.log("\nChecking Docker image...");
+logger.info("\nChecking Docker image...");
 try {
   const inspect = spawnSync(
     "docker",
@@ -118,14 +120,14 @@ try {
     const json = JSON.parse(inspect.stdout);
     const size = json[0]?.Size ?? 0;
     const mb = Math.round(size / 1024 / 1024);
-    console.log(`✓ Image size: ${mb}MB`);
+    logger.info(`✓ Image size: ${mb}MB`);
   } else {
-    console.log(
+    logger.info(
       "ℹ banking-app:latest not found - build with: docker compose build",
     );
   }
 } catch {
-  console.log("ℹ docker not available - skip image check");
+  logger.info("ℹ docker not available - skip image check");
 }
 
 /**
@@ -134,17 +136,18 @@ try {
  *
  * @type {*}
  */
-const ht = path.join(PROJECT_ROOT, "compose\traefik\auth\htpasswd");
-if (exists(ht)) console.log("✓ htpasswd file exists");
-else console.log("⚠ htpasswd not found - run: .\deploy\generate-htpasswd.ps1");
+const ht = path.join(PROJECT_ROOT, "compose\\traefik\\auth\\htpasswd");
+if (exists(ht)) logger.info("✓ htpasswd file exists");
+else
+  logger.info("⚠ htpasswd not found - run: .\\deploy\\generate-htpasswd.ps1");
 
-console.log("\n=== Deployment Steps ===");
-console.log("1. Generate env file: .\generate-env.ps1");
-console.log("2. Edit .envs/production/.env.production with real values");
-console.log("3. Generate htpasswd: ..\deploy\generate-htpasswd.ps1");
-console.log("4. Build image: docker compose build");
-console.log("5. Run migrations: docker compose --profile init up");
-console.log("6. Stop migrations: docker compose --profile init down");
-console.log("7. Start app: docker compose up -d");
-console.log("8. Check health: curl http://localhost:3000/api/health");
-console.log("9. View logs: docker compose logs -f");
+logger.info("\n=== Deployment Steps ===");
+logger.info("1. Generate env file: .\\generate-env.ps1");
+logger.info("2. Edit .envs/production/.env.production with real values");
+logger.info("3. Generate htpasswd: ..\\deploy\\generate-htpasswd.ps1");
+logger.info("4. Build image: docker compose build");
+logger.info("5. Run migrations: docker compose --profile init up");
+logger.info("6. Stop migrations: docker compose --profile init down");
+logger.info("7. Start app: docker compose up -d");
+logger.info("8. Check health: curl http://localhost:3000/api/health");
+logger.info("9. View logs: docker compose logs -f");

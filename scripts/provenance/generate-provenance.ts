@@ -2,6 +2,8 @@
 import { execSync } from "child_process";
 import fs from "fs";
 
+import { logger } from "@/lib/logger";
+
 /**
  * Description placeholder
  * @author Adminbot
@@ -60,7 +62,7 @@ function main() {
   const branch = git ? git.branch : "nogit";
   const commit = git ? git.commit : "nogit";
   const line = `Provenance: read ${files} | branch=${branch} commit=${commit} timestamp=${now}`;
-  console.log(line);
+  logger.info(line);
   // Also write to .beads/provenance.log for traceability
   try {
     fs.mkdirSync(".beads", { recursive: true });

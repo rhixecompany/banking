@@ -6,6 +6,8 @@ import path from "path";
 import process from "process";
 import { Project, SyntaxKind } from "ts-morph";
 
+import { logger } from "@/lib/logger";
+
 /**
  * Description placeholder
  * @author Adminbot
@@ -96,7 +98,7 @@ export async function runChecks(
     planBase?: string;
   } = {},
 ) {
-  console.log("Starting verify-rules with opts:", opts);
+  logger.info("Starting verify-rules with opts:", opts);
   // Load optional config
   let config: any = {};
   const configPath = ".opencode/verify-rules.config.json";
@@ -115,7 +117,7 @@ export async function runChecks(
     "lib/**/*.{ts,tsx}",
     "actions/**/*.{ts,tsx}",
   ];
-  console.log("Resolved patterns:", patterns);
+  logger.info("Resolved patterns:", patterns);
   const allowlist = opts.allowlist ?? config.allowlist ?? [];
   const files = await (globby as any)(patterns, { gitignore: true });
 
@@ -333,9 +335,9 @@ export async function runChecks(
   try {
     const dir = path.dirname(outPath);
     fs.mkdirSync(dir, { recursive: true });
-    console.log(`Writing rules report to ${outPath}`);
+    logger.info(`Writing rules report to ${outPath}`);
     fs.writeFileSync(outPath, JSON.stringify(report, null, 2), "utf8");
-    console.log(`Wrote rules report (${report.results.length} results)`);
+    logger.info(`Wrote rules report (${report.results.length} results)`);
   } catch {
     // ignore
   }
@@ -349,25 +351,25 @@ export async function runChecks(
     {} as Record<string, number>,
   );
 
-  console.log("\nRules verification summary:");
-  console.log(`  total issues: ${issues.length}`);
-  console.log(`  critical: ${counts["critical"] || 0}`);
-  console.log(`  warn: ${counts["warn"] || 0}`);
-  console.log(`  info: ${counts["info"] || 0}`);
+  logger.info("\nRules verification summary:");
+  logger.info(`  total issues: ${issues.length}`);
+  logger.info(`  critical: ${counts["critical"] || 0}`);
+  logger.info(`  warn: ${counts["warn"] || 0}`);
+  logger.info(`  info: ${counts["info"] || 0}`);
 
   if (issues.length > 0) {
-    console.log("\nTop issues:");
+    logger.info("\nTop issues:");
     for (const it of issues.slice(0, 10)) {
-      console.log(
+      logger.info(
         `- ${it.file}:${it.line} [${it.severity}] ${it.check} — ${it.message}`,
       );
     }
-    console.log("");
+    logger.info("");
   }
 
   const criticalFound = issues.some((i) => i.severity === "critical");
   if (opts.ci && criticalFound) {
-    console.error("Critical rule violations found. Failing CI.");
+    logger.error("Critical rule violations found. Failing CI.");
     process.exit(2);
   }
 
@@ -380,13 +382,13 @@ export async function runChecks(
         issues,
       );
       if (opts.ci && !covered) {
-        console.error(
+        logger.error(
           "Plan check failed: large change detected but no plan found. Failing CI as requested.",
         );
         process.exit(2);
       }
     } catch (e) {
-      console.warn("Failed running plan check:", e);
+      logger.warn("Failed running plan check:", e);
     }
   }
 
@@ -425,7 +427,7 @@ async function ensurePlanForLargeChanges(
       err && typeof err === "object" && "message" in err
         ? (err as any).message
         : String(err);
-    console.warn("Could not determine changed files for plan check:", emsg);
+    logger.warn("Could not determine changed files for plan check:", emsg);
     // If we cannot determine changed files, treat as covered to avoid false failures
     return true;
   }

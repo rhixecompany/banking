@@ -15,6 +15,7 @@ vi.mock("@/actions/plaid.actions", () => ({
 
 import { MyWalletsServerWrapper } from "@/components/my-wallets/my-wallets-server-wrapper";
 import { auth } from "@/lib/auth";
+
 import {
   extractPropsFromElement,
   mockRedirectThrow,

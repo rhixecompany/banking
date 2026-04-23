@@ -69,18 +69,15 @@ export default function SignInClient({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <label>
-        Email
-        <Input {...register("email")} aria-label="email" />
-      </label>
-      <label>
-        Password
-        <Input
-          type="password"
-          {...register("password")}
-          aria-label="password"
-        />
-      </label>
+      <label htmlFor="signin-email">Email</label>
+      <Input id="signin-email" {...register("email")} aria-label="email" />
+      <label htmlFor="signin-password">Password</label>
+      <Input
+        id="signin-password"
+        type="password"
+        {...register("password")}
+        aria-label="password"
+      />
       <Button type="submit" disabled={formState.isSubmitting}>
         Sign in
       </Button>

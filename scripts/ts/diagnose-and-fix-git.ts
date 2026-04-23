@@ -8,6 +8,8 @@ import { spawnSync } from "child_process";
 import fs from "fs";
 import readline from "readline";
 
+import { logger } from "@/lib/logger";
+
 /**
  * Description placeholder
  * @author Adminbot
@@ -72,18 +74,18 @@ async function main() {
     "git",
   ]);
   if (which.code !== 0) {
-    console.error("git not found in PATH");
+    logger.error("git not found in PATH");
     process.exit(1);
   }
 
   // Show porcelain status
   const status = capture("git", ["status", "--porcelain"]);
-  console.log("git status --porcelain output:\n", status.stdout);
+  logger.info("git status --porcelain output:\n", status.stdout);
 
   // Detect index.lock
   const lockPath = ".git/index.lock";
   if (fs.existsSync(lockPath)) {
-    console.log("Detected .git/index.lock");
+    logger.info("Detected .git/index.lock");
     // Find running git processes on Windows via tasklist
     let running = false;
     if (process.platform === "win32") {
@@ -94,7 +96,7 @@ async function main() {
       running = /git/i.test(t.stdout + t.stderr);
     }
     if (running) {
-      console.log(
+      logger.info(
         "Found running git-related processes; recommend closing them before removing index.lock",
       );
     }
@@ -102,9 +104,9 @@ async function main() {
     if (ok) {
       try {
         fs.unlinkSync(lockPath);
-        console.log("Removed .git/index.lock");
+        logger.info("Removed .git/index.lock");
       } catch (err) {
-        console.error("Failed to remove lock:", err);
+        logger.error("Failed to remove lock:", err);
         process.exit(2);
       }
     }
@@ -116,7 +118,7 @@ async function main() {
   if (add.stderr) process.stderr.write(add.stderr);
   const code = add.status ?? 0;
   if (code !== 0) {
-    console.error(
+    logger.error(
       "git add failed. Suggestions:\n - Check for locked index or file permissions.\n - Run 'git status' to inspect changes.\n - Try removing .git/index.lock if safe.",
     );
   }
@@ -125,6 +127,6 @@ async function main() {
 
 if (require.main === module)
   main().catch((err) => {
-    console.error(err);
+    logger.error(err);
     process.exit(1);
   });

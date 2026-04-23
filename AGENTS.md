@@ -1,76 +1,427 @@
-# Purpose
+# Opencode Instructions
 
-This file is a concise, high-signal checklist for automated agents (OpenCode / OpenAI sessions). Only include repo-specific facts an agent would likely miss without help.
+Comprehensive guidance for automated agents and contributors working in the Banking repository. This file is auto-loaded into agent context on every session.
 
-## Read first
+## Priority Guidelines
 
-- README.md (project overview; env examples)
-- package.json (scripts are the single source of truth)
-- .opencode/\* (agent policies, plan rules, instructions)
-- .github/workflows/\* (CI runs full validation)
+When generating code for this repository:
 
-## High-signal rules (read before editing)
+1. **Version Compatibility**: Always detect and respect the exact versions of languages, frameworks, and libraries used in this project
+2. **Context Files**: Prioritize patterns and standards defined in the root directory
+3. **Codebase Patterns**: When context files don't provide specific guidance, scan the codebase for established patterns
+4. **Architectural Consistency**: Maintain our Domain-Driven architectural style and established boundaries
+5. **Code Quality**: Prioritize maintainability, performance, security, accessibility, and testability in all generated code
 
-- Do NOT commit secrets (.env, API keys, tokens). Add logs/ and .env to .gitignore if you create them.
-- Do NOT read process.env directly; use app-config.ts or lib/env.ts. (proxy.ts is an explicit exception in this repo.)
-- If a change touches >7 files, create a plan: .opencode/commands/`short-kebab-task`.plan.md (see .opencode/instructions).
-- This repo uses husky hooks — edits may be auto-formatted or rejected by pre-commit.
+---
 
-## Essential commands (exact)
+## Technology Version Detection
 
-- Install: npm install
-- Dev server: npm run dev
-- Build: npm run build (prebuild runs clean + type-check)
+Before generating code, scan the codebase to identify:
 
-## Quick local validation (run before creating PRs)
+### Language Versions
 
-- npm run format
-- npm run type-check
-- npm run lint:strict
-- Full pipeline (slow): npm run validate # runs scripts/validate.ts --all, build, lint:strict, and tests including Playwright
+- **TypeScript**: 6.0.2 (detected from package.json)
+- **Node.js**: 18+ recommended (check compatibility)
+- **React**: 19 (detected from package.json)
 
-## Tests (shortcuts)
+### Framework Versions
 
-- Vitest (unit/headless): npm run test:browser
-  - Single file: npx vitest path/to/test --run
-- Playwright (E2E/UI): npm run test:ui
-  - Uses cross-env PLAYWRIGHT_PREPARE_DB=true and chromium project. Playwright tests may require browsers and a Postgres DATABASE_URL.
-  - Install browsers: npx playwright install
+- **Next.js**: 16.2.2 (App Router, Server Components by default)
+- **NextAuth**: v4.24.13
+- **Drizzle ORM**: drizzle-orm v0.45.2
+- **drizzle-kit**: v0.31.10
 
-## Database / Drizzle
+### Library Versions (Key Dependencies)
 
-- Generate migration: npm run db:generate
-- Push schema: npm run db:push
-- Run migrations: npm run db:migrate
-- Drizzle Studio: npm run db:studio
-- Seed local DB (reads .env.local): npm run db:seed
+| Library         | Version | Notes         |
+| --------------- | ------- | ------------- |
+| Zod             | ^4.3.6  | Validation    |
+| react-hook-form | ^7.72.1 | Form handling |
+| Plaid           | ^41.4.0 | Bank linking  |
+| Dwolla          | ^3.4.0  | ACH transfers |
+| Playwright      | ^1.59.1 | E2E testing   |
+| Vitest          | ^4.1.2  | Unit testing  |
+| Tailwind CSS    | v4      | Styling       |
 
-## Code & infra conventions worth checking
+**Never use language/framework features not available in these specific versions.**
 
-- All DB writes must go through dal/ helpers (see dal/ and database/schema.ts). Avoid DB calls in loops (watch for N+1).
-- Server Actions are the place for stateful mutations. Validate input with Zod, guard with auth(), use DAL, and revalidate caches (see actions/ and server-action-skill).
-- Sensitive API integrations (Plaid, Dwolla) expect tokens encrypted via lib/encryption.ts and environment keys via app-config.ts.
+---
 
-## CI gotchas
+## Context Files
 
-- CI is authoritative; local passes do not guarantee CI passes. See .github/workflows/ci.yml and verify-agents.yml.
-- If CI fails due to missing lockfile: run npm install --package-lock-only to regenerate.
+These files define project standards. Prioritize them in order:
 
-- Do NOT create commits on behalf of the user unless explicitly requested.
-- When asked to commit: run Quick local validation, create a plan for large changes, then commit.
+1. **AGENTS.md** (this file) — Master instruction set
+2. **architecture.md** — System architecture and high-level design
+3. **tech-stack.md** — Exact technology versions
+4. **coding-standards.md** — Enforceable code style rules
+5. **folder-structure.md** — Directory organization
+6. **exemplars.md** — Exemplary code patterns to follow
 
-## Fast troubleshooting
+---
 
-1. npm install
-2. npm run format && npm run type-check && npm run lint:strict
-3. If behavior changed: npm run test:browser (only run Playwright if DB and browsers are available)
+## Quick Commands (Authoritative)
 
-## When in doubt
+Run these exactly as written:
 
-- Ask one short question (missing env for CI, branch policy, test prerequisites). Check .opencode/instructions and backupopencode.json first.
+### Installation & Dev
 
-## Minimum context sources
+```bash
+npm install              # Install dependencies
+npm run dev              # Start dev server (port 3000)
+npm run build            # Build (prebuild runs clean + type-check)
+npm run validate        # Full validation (format, type-check, lint, test)
+```
 
-- app-config.ts, lib/env.ts, database/schema.ts, dal/, actions/, .opencode/instructions, package.json, .github/workflows/
+### Pre-PR Checklist
 
-Keep edits small, verify quickly, and follow the plan-file rule for large edits.
+```bash
+npm run format          # Format code
+npm run type-check     # TypeScript validation
+npm run lint:strict   # ESLint (zero warnings allowed)
+npm run verify:rules  # Repository policy checks
+```
+
+### Testing
+
+```bash
+npm run test           # All tests (E2E then unit)
+npm run test:ui       # Playwright E2E (requires DB, browsers)
+npm run test:browser  # Vitest unit tests
+```
+
+### Database / Drizzle
+
+```bash
+npm run db:generate   # Generate migration
+npm run db:push     # Apply schema
+npm run db:migrate  # Run migrations
+npm run db:seed    # Seed local DB
+```
+
+---
+
+## Environment / Config Rules (Must Follow)
+
+- **Do NOT read `process.env` directly** in application code. Use:
+  - `app-config.ts` (preferred — typed validation)
+  - `lib/env.ts` (backward compatibility)
+- **Exceptions**: Only `scripts/seed/run.ts` and build helpers intentionally load `.env` before imports.
+- Add new env vars to `app-config.ts` for typed validation.
+- **Never commit secrets**. Use `.env.example` for documentation.
+
+---
+
+## Server Actions Pattern
+
+All mutations MUST be Server Actions (`"use server"`). Pattern:
+
+```typescript
+"use server";
+
+import { z } from "zod";
+import { userDal } from "@/dal";
+import { revalidatePath } from "next/cache";
+import { auth } from "@/lib/auth";
+
+const CreateUserSchema = z.object({
+  email: z.string().email(),
+  name: z.string().min(1).max(100)
+});
+
+export async function createUser(
+  input: unknown
+): Promise<{ ok: boolean; error?: string }> {
+  const session = await auth();
+  if (!session?.user) {
+    return { ok: false, error: "Unauthorized" };
+  }
+
+  const parsed = CreateUserSchema.safeParse(input);
+  if (!parsed.success) {
+    return { ok: false, error: parsed.error.message };
+  }
+
+  try {
+    await userDal.create(parsed.data);
+    revalidatePath("/users");
+    return { ok: true };
+  } catch {
+    return { ok: false, error: "Failed to create user" };
+  }
+}
+```
+
+**Server Actions MUST:**
+
+1. Use `"use server"` directive
+2. Call `auth()` early for protected actions
+3. Validate inputs with Zod (`.safeParse()`)
+4. Return consistent shape: `{ ok: boolean; error?: string }`
+5. Use DAL helpers for DB access
+6. Revalidate caches/tags where needed
+
+---
+
+## DAL Patterns
+
+All database access MUST go through `dal/*` helpers:
+
+- Use Drizzle ORM for queries
+- **Avoid N+1 queries** — use JOINs or batch queries
+- DAL helpers accept optional `tx` parameter for transactions
+- Example: `dal/transaction.dal.ts` shows eager-loading via batched wallet fetch
+
+```typescript
+// BAD (N+1)
+const users = await userDal.findAll();
+for (const user of users) {
+  user.accounts = await accountDal.findByUserId(user.id);
+}
+
+// GOOD (eager loading)
+const usersWithAccounts = await userDal.findAllWithAccounts();
+```
+
+---
+
+## Code Quality Standards
+
+### Maintainability
+
+- Write self-documenting code with clear naming
+- Follow naming and organization conventions in codebase
+- Keep functions focused on single responsibilities
+- Limit complexity — match existing patterns
+
+### Performance
+
+- Follow existing patterns for memory/resource management
+- Use caching consistently with codebase patterns
+- Optimize async operations matching existing approaches
+- Apply eager-loading to prevent N+1 queries
+
+### Security
+
+- Validate all inputs with Zod
+- Use parameterized queries (Drizzle handles this)
+- Never expose secrets in code or logs
+- Follow authentication patterns from `lib/auth.ts`
+
+### Accessibility
+
+- Use shadcn/ui components (`components/ui/*`)
+- Include ARIA attributes where necessary
+- Follow existing accessibility patterns
+
+### Testability
+
+- Use MSW for deterministic network mocks in unit tests
+- Use helpers in `tests/e2e/helpers/` for E2E
+- Follow existing test structure
+
+---
+
+## Testing Approach
+
+### Unit Testing (Vitest)
+
+- Match structure and style in `tests/**/*.test.ts`
+- Use MSW for network mocking
+- Example helpers: `tests/e2e/helpers/plaid.mock.ts`
+
+### E2E Testing (Playwright)
+
+- Run after: `npx playwright install`
+- Requires: `PLAYWRIGHT_PREPARE_DB=true`
+- Requires: reachable `DATABASE_URL`
+- Tests assume port 3000 is free
+
+### Test Isolation
+
+- Free port 3000 before running tests
+- Use mock tokens (`mock*`, `seed*`) for deterministic tests
+- See `lib/plaid.ts` for `isMockAccessToken()` helper
+
+---
+
+## TypeScript Guidelines
+
+- **Strict mode** enabled in `tsconfig.json`
+- **Never use `any`** — use `unknown` with type guards
+- Prefer explicit return types for exported functions
+- Match type definitions with existing patterns
+
+```typescript
+// BAD
+function parse(input: any) {
+  return input.value;
+}
+
+// GOOD
+type WithValue = { value: string };
+
+function hasValue(input: unknown): input is WithValue {
+  return (
+    typeof input === "object" &&
+    input !== null &&
+    "value" in input &&
+    typeof (input as WithValue).value === "string"
+  );
+}
+
+export function parse(input: unknown): string {
+  if (!hasValue(input)) return "";
+  return input.value;
+}
+```
+
+---
+
+## Next.js 16 Specific Guidelines
+
+### Server vs Client Components
+
+- **Server Components** (default): Use for data fetching, heavy logic
+- **Client Components**: Add `"use client"` at top for interactivity
+
+### Cache Components
+
+```typescript
+"use cache";
+cacheLife("hours");
+
+export default async function MyPage() {
+  const data = await getData();
+  return <Display data={data} />;
+}
+```
+
+### Suspense Boundaries
+
+```tsx
+import { Suspense } from "react";
+import { Skeleton } from "./skeleton";
+
+export default function Page() {
+  return (
+    <Suspense fallback={<Skeleton />}>
+      <DataComponent />
+    </Suspense>
+  );
+}
+```
+
+### Async Request APIs
+
+In Next.js 16, these are async:
+
+```typescript
+import { cookies, headers } from "next/headers";
+
+export async function GET() {
+  const cookieStore = await cookies();
+  const headersList = await headers();
+  // ...
+}
+```
+
+---
+
+## Project Structure
+
+```
+app/                  # Next.js App Router pages/layouts
+├── (auth)/           # Auth routes (login, register)
+├── (root)/           # Protected routes
+├── api/              # API routes (minimal — prefer Server Actions)
+components/           # UI components (presentational only)
+├── ui/               # shadcn/ui components
+lib/                  # Shared libraries
+├── actions/          # Server Actions
+├── dal/              # Data Access Layer
+database/            # Drizzle schema and DB init
+scripts/             # Build, seed, verify scripts
+tests/               # Unit and E2E tests
+.opencode/           # Agent artifacts
+```
+
+---
+
+## Repo Process & Planning Rules
+
+- **Changes >7 files**: Create plan under `.opencode/commands/<name>.plan.md`
+- Use `npm run plan:ensure` to scaffold
+- Keep edits small and focused
+- **Automated edits >5 files**: Require plan existence
+
+---
+
+## CI and Verify Rules
+
+- CI runs: `verify:rules` and `lint:strict`
+- Use `npm run verify:rules:ci` for JSON output
+- Output: `.opencode/reports/rules-report.json`
+
+---
+
+## Repository Map
+
+A full codemap is available at `codemap.md` in the project root.
+
+Before working on any task, read `codemap.md` to understand:
+
+- Project architecture and entry points
+- Directory responsibilities and design patterns
+- Data flow and integration points
+
+---
+
+## Skills Available
+
+These skills provide specialized workflows:
+
+| Skill               | Purpose                      |
+| ------------------- | ---------------------------- |
+| server-action-skill | Server Action patterns       |
+| dal-skill           | Drizzle ORM & DAL patterns   |
+| db-skill            | Schema, migrations, queries  |
+| auth-skill          | NextAuth v4 patterns         |
+| plaid-skill         | Plaid API integration        |
+| dwolla-skill        | Dwolla ACH integration       |
+| testing-skill       | Vitest & Playwright patterns |
+| ui-skill            | shadcn/ui components         |
+| validation-skill    | Zod schema patterns          |
+| security-skill      | Encryption & secrets         |
+| deployment-skill    | Vercel, Railway, Docker      |
+| suspense-skill      | Suspense boundaries          |
+
+---
+
+## MCP Servers
+
+- **Playwright MCP**: Browser automation for E2E testing
+- **Next.js MCP**: Available at `/_next/mcp` when dev server runs
+
+---
+
+## Where to Look Next
+
+Priority sources for context:
+
+- `package.json` — scripts, dependencies
+- `app-config.ts` — typed env configuration
+- `lib/env.ts` — env helpers
+- `scripts/verify-rules.ts` — policy enforcement
+- `.opencode/instructions/` — agent rules
+- `dal/` — data access
+- `actions/` — mutations
+- `.github/workflows/` — CI jobs
+
+---
+
+## Contributors
+
+This file is maintained and updated based on codebase analysis. Edits should preserve patterns observed in existing code.
+
+Last updated: 2026-04-23

@@ -519,7 +519,7 @@ export function MultiSelectSeparator(
  */
 function useMultiSelectContext() {
   const context = useContext(MultiSelectContext);
-  if (context == null) {
+  if (context === null) {
     throw new Error(
       "useMultiSelectContext must be used within a MultiSelectContext",
     );

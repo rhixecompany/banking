@@ -1,6 +1,8 @@
 #!/usr/bin/env tsx
 import { execa } from "execa";
 
+import { logger } from "@/lib/logger";
+
 // Minimal git commit helper that stages given files and creates a conventional commit message.
 // Usage: npx tsx scripts/utils/ci-helpers/git-commit-helper.ts "fix: lint" file1 file2 --apply
 
@@ -30,17 +32,17 @@ async function main() {
   const apply = argv.includes("--apply");
   const args = argv.filter((a) => a !== "--apply");
   if (args.length < 2) {
-    console.log(
+    logger.info(
       'Usage: git-commit-helper.ts "<type: summary>" <file> [file...] [--apply]',
     );
     process.exit(1);
   }
   const message = args[0];
   const files = args.slice(1);
-  console.log("Staging files:", files);
-  console.log("Commit message:", message);
+  logger.info("Staging files:", files);
+  logger.info("Commit message:", message);
   if (!apply) {
-    console.log(
+    logger.info(
       'Dry-run: would run: git add <files> && git commit -m "message"',
     );
     return;
@@ -50,6 +52,6 @@ async function main() {
 }
 
 main().catch((e) => {
-  console.error(e);
+  logger.error(e);
   process.exit(1);
 });

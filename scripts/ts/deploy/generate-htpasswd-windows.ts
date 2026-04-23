@@ -4,6 +4,8 @@
  */
 import fs from "fs";
 import path from "path";
+
+import { logger } from "@/lib/logger";
 /**
  * Description placeholder
  * @author Adminbot
@@ -26,7 +28,7 @@ const AUTH_DIR = path.join(SCRIPT_DIR, "compose", "traefik", "auth");
  */
 const HTPASSWD_FILE = path.join(AUTH_DIR, "htpasswd");
 fs.mkdirSync(AUTH_DIR, { recursive: true });
-console.log(
+logger.info(
   "Windows: please install openssl or htpasswd and run generate-htpasswd.ts",
 );
 process.exit(0);

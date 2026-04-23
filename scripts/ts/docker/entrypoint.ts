@@ -6,6 +6,8 @@
  */
 import { spawnSync } from "child_process";
 
+import { logger } from "@/lib/logger";
+
 /**
  * Description placeholder
  * @author Adminbot
@@ -20,7 +22,7 @@ function run(cmd: string, args: string[]) {
 }
 
 try {
-  console.log("[entrypoint] Installing dependencies (production)...");
+  logger.info("[entrypoint] Installing dependencies (production)...");
   // Ensure node_modules can be created by the app user; best-effort
   run("mkdir", ["-p", "/app/node_modules", "/home/app/.npm"]);
   // chown may fail in some environments - ignore non-zero exit
@@ -42,15 +44,15 @@ try {
     "--progress=false",
   ]);
 
-  console.log("[entrypoint] Building Next.js standalone output...");
+  logger.info("[entrypoint] Building Next.js standalone output...");
   run("npm", ["run", "build:standalone"]);
 
-  console.log("[entrypoint] Starting standalone server");
+  logger.info("[entrypoint] Starting standalone server");
   // Replace current process with node server.js
   const res = spawnSync("node", ["server.js"], { stdio: "inherit" });
   if (res.error) throw res.error;
   process.exit(res.status ?? 0);
 } catch (err) {
-  console.error(err);
+  logger.error(err);
   process.exit(1);
 }

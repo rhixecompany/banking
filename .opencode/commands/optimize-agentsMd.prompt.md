@@ -1,6 +1,5 @@
 ---
 description: "Technology-agnostic blueprint generator for creating comprehensive AGENTS.md files that guide Opencode to produce code consistent with project standards, architecture patterns, and exact technology versions by analyzing existing codebase patterns and avoiding assumptions."
-model: GPT-5 mini (copilot)
 ---
 
 # Opencode Instructions Blueprint Generator

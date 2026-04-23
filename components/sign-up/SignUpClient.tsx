@@ -64,22 +64,17 @@ export default function SignUpClient({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <label>
-        Name
-        <Input {...register("name")} aria-label="name" />
-      </label>
-      <label>
-        Email
-        <Input {...register("email")} aria-label="email" />
-      </label>
-      <label>
-        Password
-        <Input
-          type="password"
-          {...register("password")}
-          aria-label="password"
-        />
-      </label>
+      <label htmlFor="signup-name">Name</label>
+      <Input id="signup-name" {...register("name")} aria-label="name" />
+      <label htmlFor="signup-email">Email</label>
+      <Input id="signup-email" {...register("email")} aria-label="email" />
+      <label htmlFor="signup-password">Password</label>
+      <Input
+        id="signup-password"
+        type="password"
+        {...register("password")}
+        aria-label="password"
+      />
       <Button type="submit" disabled={formState.isSubmitting}>
         Sign up
       </Button>

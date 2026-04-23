@@ -6,6 +6,8 @@
 import { spawnSync } from "child_process";
 import path from "path";
 
+import { logger } from "@/lib/logger";
+
 /**
  * Description placeholder
  * @author Adminbot
@@ -35,5 +37,5 @@ function run(cmd: string, args: string[]) {
 }
 
 run("docker", ["--version"]);
-console.log("Windows deploy helper executed");
+logger.info("Windows deploy helper executed");
 process.exit(0);

@@ -7,6 +7,8 @@ import { spawnSync } from "child_process";
 import fs from "fs";
 import path from "path";
 
+import { logger } from "@/lib/logger";
+
 /**
  * Description placeholder
  * @author Adminbot
@@ -43,7 +45,7 @@ function run(cmd: string, args: string[]) {
   if (res.status && res.status !== 0) process.exit(res.status);
 }
 
-console.log("Generating CA...");
+logger.info("Generating CA...");
 run("openssl", ["genrsa", "-out", path.join(CERT_DIR, "ca.key"), "2048"]);
 run("openssl", [
   "req",
@@ -59,10 +61,10 @@ run("openssl", [
   "/CN=Banking CA",
 ]);
 
-console.log("Generating server key...");
+logger.info("Generating server key...");
 run("openssl", ["genrsa", "-out", path.join(CERT_DIR, "server.key"), "2048"]);
 
-console.log("Generating server certificate...");
+logger.info("Generating server certificate...");
 run("openssl", [
   "req",
   "-new",
@@ -99,7 +101,7 @@ try {
   fs.unlinkSync(path.join(CERT_DIR, "ca.srl"));
 } catch {}
 
-console.log(`Certificates generated in ${CERT_DIR}:`);
-console.log(fs.readdirSync(CERT_DIR).join("\n"));
+logger.info(`Certificates generated in ${CERT_DIR}:`);
+logger.info(fs.readdirSync(CERT_DIR).join("\n"));
 
 process.exit(0);

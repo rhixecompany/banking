@@ -49,19 +49,12 @@ export interface IoOptions {
  */
 function isDryRunFlagSet(argv = process.argv): boolean {
   if (argv.includes("--dry-run") || argv.includes("-n")) return true;
-  // Prefer lib/env when available to centralize configuration, fall back to process.env
-  try {
-    // Use require to avoid import-time validation side-effects in scripts
-
-    const { env } = require("@/lib/env") as any;
-    if (env && (env.DRY_RUN === "true" || env.DRY_RUN === "1")) return true;
-  } catch {
-    // fall back to direct process.env when lib/env is not available
-  }
-
+  // Fall back to direct process.env for scripts - lib/env requires async initialization
   if (process.env["DRY_RUN"] === "true" || process.env["DRY_RUN"] === "1")
     return true;
-  const globalDry = (globalThis as any).__SCRIPTS_DRY_RUN;
+  const globalDry = (
+    globalThis as unknown as { __SCRIPTS_DRY_RUN?: boolean | string }
+  ).__SCRIPTS_DRY_RUN;
   if (globalDry === true || globalDry === "true" || globalDry === "1")
     return true;
   return false;

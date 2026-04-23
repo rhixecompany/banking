@@ -11,6 +11,8 @@
 import { promises as fs } from "fs";
 import path from "path";
 
+import { logger } from "@/lib/logger";
+
 /**
  * Description placeholder
  * @author Adminbot
@@ -74,7 +76,7 @@ async function readJson<T = any>(filePath: string): Promise<null | T> {
     return JSON.parse(raw) as T;
   } catch (err) {
     // Log underlying error for visibility but keep behavior as a non-throwing helper
-    console.error(`Failed to read/parse JSON at ${filePath}:`, err);
+    logger.error(`Failed to read/parse JSON at ${filePath}:`, err);
     return null;
   }
 }
@@ -108,9 +110,9 @@ async function main() {
     out.ok = false;
     out.report = `Pages map not found at ${pagesMapPath}`;
     // Human-facing error -> stderr
-    console.error(out.report);
+    logger.error(out.report);
     // Machine-readable output remains on stdout
-    console.log(JSON.stringify(out, null, 2));
+    logger.info(JSON.stringify(out, null, 2));
     process.exit(1);
   }
 
@@ -182,20 +184,20 @@ async function main() {
   if (Object.keys(proposals).length > 0) out.proposals = proposals;
 
   // Print human-readable report first
-  console.log(out.report);
+  logger.info(out.report);
   if (out.proposals) {
-    console.log("\nProposals (dry-run, no files will be written):");
-    console.log(JSON.stringify(out.proposals, null, 2));
+    logger.info("\nProposals (dry-run, no files will be written):");
+    logger.info(JSON.stringify(out.proposals, null, 2));
   } else {
-    console.log(
+    logger.info(
       "\nNo proposals — manifests appear to contain all discovered pages or are not applicable.",
     );
   }
 
   // Print machine-readable JSON as final output
-  console.log("\nJSON_OUTPUT_START");
-  console.log(JSON.stringify(out, null, 2));
-  console.log("JSON_OUTPUT_END");
+  logger.info("\nJSON_OUTPUT_START");
+  logger.info(JSON.stringify(out, null, 2));
+  logger.info("JSON_OUTPUT_END");
   // Success
   process.exit(0);
 }
@@ -203,7 +205,7 @@ async function main() {
 if (require.main === module) {
   main().catch((err) => {
     // Unexpected error should write to stderr and exit non-zero
-    console.error("Unexpected error:", err);
+    logger.error("Unexpected error:", err);
     process.exit(1);
   });
 }

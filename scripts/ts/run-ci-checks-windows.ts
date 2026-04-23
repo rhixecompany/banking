@@ -6,6 +6,8 @@
  */
 import { spawnSync } from "child_process";
 
+import { logger } from "@/lib/logger";
+
 /**
  * Description placeholder
  * @author Adminbot
@@ -23,7 +25,7 @@ const argv = process.argv.slice(2);
 function run(cmd: string) {
   const proc = spawnSync(cmd, { shell: true, stdio: "inherit" });
   if (proc.error) {
-    console.error(proc.error);
+    logger.error(proc.error);
     process.exit(1);
   }
   return proc.status ?? 0;
@@ -105,7 +107,7 @@ const only = csvArg("Only");
 const skip = csvArg("Skip");
 
 if (only.length && skip.length) {
-  console.error("Cannot use -Only and -Skip together");
+  logger.error("Cannot use -Only and -Skip together");
   process.exit(1);
 }
 
@@ -121,19 +123,19 @@ else if (skip.length) steps = STEPS.filter((s) => !skip.includes(s));
 
 (function main() {
   if (steps.length === 0) {
-    console.error("No steps to run after applying filters. Exiting.");
+    logger.error("No steps to run after applying filters. Exiting.");
     process.exit(1);
   }
   const failed: string[] = [];
   for (const step of steps) {
     const cmd = COMMANDS[step];
-    console.log(`==> Running: ${cmd}`);
+    logger.info(`==> Running: ${cmd}`);
     const rc = run(cmd);
     if (rc !== 0) failed.push(step);
   }
   if (failed.length) {
-    console.error("Failed steps: " + failed.join(", "));
+    logger.error("Failed steps: " + failed.join(", "));
     process.exit(1);
   }
-  console.log("All steps passed.");
+  logger.info("All steps passed.");
 })();

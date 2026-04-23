@@ -8,6 +8,8 @@ import fs from "fs";
 import path from "path";
 import readline from "readline";
 
+import { logger } from "@/lib/logger";
+
 /**
  * Description placeholder
  * @author Adminbot
@@ -79,7 +81,7 @@ function cryptoRandom(n: number) {
  * @returns {*}
  */
 async function main() {
-  console.log("=== Production Environment Generator ===\n");
+  logger.info("=== Production Environment Generator ===\n");
   const envFile = path.join(PROJECT_ROOT, ".envs/production/.env.production");
   if (fs.existsSync(envFile)) {
     const ans = (
@@ -88,12 +90,12 @@ async function main() {
       .trim()
       .toLowerCase();
     if (ans !== "y") {
-      console.log("Aborted.");
+      logger.info("Aborted.");
       process.exit(1);
     }
   }
 
-  console.log("Generating secure secrets...\n");
+  logger.info("Generating secure secrets...\n");
   const ENCRYPTION_KEY = randHex(64);
   const NEXTAUTH_SECRET = Buffer.from(cryptoRandom(32)).toString("base64");
   const POSTGRES_PASSWORD = Buffer.from(cryptoRandom(16)).toString("base64");
@@ -102,10 +104,10 @@ async function main() {
   fs.mkdirSync(path.dirname(envFile), { recursive: true });
   const content = `# Production Environment Variables\n# Generated: ${new Date().toString()}\n\nNEXT_PUBLIC_SITE_URL=https://yourdomain.com\n\nDATABASE_URL=postgresql://postgres:${POSTGRES_PASSWORD}@db:5432/banking\nPOSTGRES_PASSWORD=${POSTGRES_PASSWORD}\nPOSTGRES_DB=banking\n\nENCRYPTION_KEY=${ENCRYPTION_KEY}\nNEXTAUTH_SECRET=${NEXTAUTH_SECRET}\n\nREDIS_URL=redis://:${REDIS_PASSWORD}@redis:6379\nREDIS_PASSWORD=${REDIS_PASSWORD}\n\nNODE_ENV=production\nPORT=3000\nHOSTNAME=0.0.0.0\n\nLETSENCRYPT_EMAIL=admin@yourdomain.com\n\n`;
   fs.writeFileSync(envFile, content, { encoding: "utf8" });
-  console.log("✓ .envs/production/.env.production generated\n");
+  logger.info("✓ .envs/production/.env.production generated\n");
 }
 
 main().catch((e) => {
-  console.error(e);
+  logger.error(e);
   process.exit(1);
 });

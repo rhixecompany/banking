@@ -6,6 +6,8 @@
  */
 import { spawnSync } from "child_process";
 
+import { logger } from "@/lib/logger";
+
 /**
  * Description placeholder
  * @author Adminbot
@@ -20,13 +22,13 @@ const steps = [
 ];
 
 for (const s of steps) {
-  console.log(`\n=== Running: ${s.cmd} ${s.args.join(" ")} ===`);
+  logger.info(`\n=== Running: ${s.cmd} ${s.args.join(" ")} ===`);
   const res = spawnSync(s.cmd, s.args, { stdio: "inherit" });
   if (res.status !== 0) {
-    console.error(
+    logger.error(
       `Step failed: ${s.cmd} ${s.args.join(" ")} -> exit ${res.status}`,
     );
     process.exit(res.status ?? 1);
   }
 }
-console.log("All verification steps completed successfully.");
+logger.info("All verification steps completed successfully.");

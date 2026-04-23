@@ -8,6 +8,8 @@ import { spawnSync } from "child_process";
 import fs from "fs";
 import path from "path";
 
+import { logger } from "@/lib/logger";
+
 /**
  * Description placeholder
  * @author Adminbot
@@ -33,7 +35,7 @@ const PROJECT_ROOT = path.resolve(SCRIPT_DIR, "..", "..");
 function run(cmd: string) {
   const proc = spawnSync(cmd, { shell: true, stdio: "inherit" });
   if (proc.error) {
-    console.error(proc.error);
+    logger.error(proc.error);
     process.exit(1);
   }
   return proc.status ?? 0;
@@ -63,8 +65,8 @@ const EnvFile = envFileArg
  */
 const SkipMigrations = process.argv.includes("--skip-migrations");
 
-console.log("");
-console.log("Banking App - Docker Build (Node shim Windows)");
+logger.info("");
+logger.info("Banking App - Docker Build (Node shim Windows)");
 
 // prerequisites
 run("docker --version");
@@ -78,7 +80,7 @@ run("docker compose version");
  */
 const FullEnvFile = path.join(PROJECT_ROOT, EnvFile.replaceAll("/", path.sep));
 if (!fs.existsSync(FullEnvFile)) {
-  console.warn(`${EnvFile} not found`);
+  logger.warn(`${EnvFile} not found`);
 }
 
 run(
@@ -94,4 +96,4 @@ if (!SkipMigrations) {
   );
 }
 
-console.log("Build complete!");
+logger.info("Build complete!");

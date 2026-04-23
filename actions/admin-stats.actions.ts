@@ -50,9 +50,9 @@ export async function getAdminStats(
       // Lazy import logger to avoid adding runtime cost where not needed
       const { error: logError } = await import("@/lib/logger");
       logError("admin-stats.getAdminStats", "Failed to get admin stats", {
+        extra: e,
         message: String((err as any)?.message ?? err),
         stack: (err as any)?.stack,
-        extra: e,
       });
     } catch {
       // swallow logging errors
@@ -106,7 +106,9 @@ export async function getTransactionStatusStats(input: unknown): Promise<{
           stack: (error as any)?.stack,
         },
       );
-    } catch {}
+    } catch {
+      /* ignore - already logged above */
+    }
     return { error: "Failed to load transaction status statistics", ok: false };
   }
 }
@@ -156,7 +158,9 @@ export async function getTransactionTypeStats(input: unknown): Promise<{
           stack: (error as any)?.stack,
         },
       );
-    } catch {}
+    } catch {
+      /* ignore - already logged above */
+    }
     return { error: "Failed to load transaction type statistics", ok: false };
   }
 }
@@ -216,7 +220,9 @@ export async function getRecentTransactions(
           stack: (error as any)?.stack,
         },
       );
-    } catch {}
+    } catch {
+      /* ignore - already logged above */
+    }
     return { error: "Failed to load recent transactions", ok: false };
   }
 }
@@ -273,7 +279,9 @@ export async function getUsers(input: unknown): Promise<{
         message: String((error as any)?.message ?? error),
         stack: (error as any)?.stack,
       });
-    } catch {}
+    } catch {
+      /* ignore - already logged above */
+    }
     return { error: "Failed to load users", ok: false };
   }
 }

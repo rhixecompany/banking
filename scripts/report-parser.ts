@@ -3,6 +3,8 @@ import { XMLParser } from "fast-xml-parser";
 import fs from "fs";
 import path from "path";
 
+import { logger } from "@/lib/logger";
+
 /**
  * Description placeholder
  * @author Adminbot
@@ -155,7 +157,7 @@ function detectAndParse(filePath: string): NormalizedReport | null {
     }
     if (ext === ".xml") return parseJunitXml(filePath);
   } catch (err) {
-    console.error("Failed to parse", filePath, err);
+    logger.error("Failed to parse", filePath, err);
     return null;
   }
   return null;
@@ -172,7 +174,7 @@ function main() {
   const input = args[0] ?? "./reports";
   const abs = path.resolve(process.cwd(), input);
   if (!fs.existsSync(abs)) {
-    console.error("Input path not found:", abs);
+    logger.error("Input path not found:", abs);
     process.exit(2);
   }
 
@@ -194,7 +196,7 @@ function main() {
   }
 
   if (dryRun) {
-    console.log(
+    logger.info(
       JSON.stringify({ files: files.length, ok: true, results }, null, 2),
     );
     return;
@@ -202,7 +204,7 @@ function main() {
 
   // Write summary
   const out = { results };
-  console.log(JSON.stringify(out, null, 2));
+  logger.info(JSON.stringify(out, null, 2));
 }
 
 if (require.main === module) main();

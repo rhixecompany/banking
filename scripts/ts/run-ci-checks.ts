@@ -6,6 +6,8 @@
  */
 import { spawnSync } from "child_process";
 
+import { logger } from "@/lib/logger";
+
 /**
  * Description placeholder
  * @author Adminbot
@@ -29,7 +31,7 @@ function run(cmd: string, args: string[] = []) {
     stdio: "inherit",
   });
   if (proc.error) {
-    console.error(proc.error);
+    logger.error(proc.error);
     process.exit(1);
   }
   return proc.status ?? 0;
@@ -113,7 +115,7 @@ const skip = (() => {
 })();
 
 if (only.length && skip.length) {
-  console.error("Cannot use --only and --skip together");
+  logger.error("Cannot use --only and --skip together");
   process.exit(1);
 }
 
@@ -127,14 +129,14 @@ let steps = STEPS.slice();
 if (only.length) {
   for (const name of only)
     if (!STEPS.includes(name)) {
-      console.error("Unknown step in --only: " + name);
+      logger.error("Unknown step in --only: " + name);
       process.exit(1);
     }
   steps = STEPS.filter((s) => only.includes(s));
 } else if (skip.length) {
   for (const name of skip)
     if (!STEPS.includes(name)) {
-      console.error("Unknown step in --skip: " + name);
+      logger.error("Unknown step in --skip: " + name);
       process.exit(1);
     }
   steps = STEPS.filter((s) => !skip.includes(s));
@@ -142,21 +144,21 @@ if (only.length) {
 
 (async function main() {
   if (steps.length === 0) {
-    console.error("No steps to run after applying filters. Exiting.");
+    logger.error("No steps to run after applying filters. Exiting.");
     process.exit(1);
   }
 
   const failed: string[] = [];
   for (const step of steps) {
     const cmd = COMMANDS[step];
-    console.log(`==> Running: ${cmd}`);
+    logger.info(`==> Running: ${cmd}`);
     const rc = run(cmd);
     if (rc !== 0) failed.push(step);
   }
 
   if (failed.length) {
-    console.error("Failed steps: " + failed.join(", "));
+    logger.error("Failed steps: " + failed.join(", "));
     process.exit(1);
   }
-  console.log("All steps passed.");
+  logger.info("All steps passed.");
 })();

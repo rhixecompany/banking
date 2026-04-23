@@ -202,22 +202,18 @@ export class TransactionDal {
         .from(wallets)
         .where(conditions.length === 1 ? conditions[0] : or(...conditions));
 
-      // Build map for quick lookup
-      // rows shape: { fundingSourceUrl, id, institutionName }
+      // Build map for quick lookup, converting null to undefined
+      // rows shape: { fundingSourceUrl: string | null, id: string, institutionName: string | null }
       walletsMap = rows.reduce(
         (
           acc: Record<
             string,
-            {
-              fundingSourceUrl: null | string;
-              id: string;
-              institutionName: null | string;
-            }
+            Pick<Wallet, "fundingSourceUrl" | "id" | "institutionName">
           >,
           w: {
-            fundingSourceUrl?: null | string;
+            fundingSourceUrl?: string | null;
             id: string;
-            institutionName?: null | string;
+            institutionName?: string | null;
           },
         ) => {
           const id = String(w.id);
@@ -230,11 +226,7 @@ export class TransactionDal {
         },
         {} as Record<
           string,
-          {
-            fundingSourceUrl: null | string;
-            id: string;
-            institutionName: null | string;
-          }
+          Pick<Wallet, "fundingSourceUrl" | "id" | "institutionName">
         >,
       );
     }
