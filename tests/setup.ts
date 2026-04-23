@@ -105,3 +105,23 @@ vi.mock("next/navigation", () => ({
   }),
   useSearchParams: () => new URLSearchParams(),
 }));
+
+// Mock auth helper globally to provide a deterministic authenticated
+// session for most unit tests. Tests that require an unauthenticated
+// session should explicitly override this mock using
+// `vi.mocked(auth).mockImplementationOnce(() => Promise.resolve(null))`
+// or call `vi.unmock('@/lib/auth')` and re-mock per-test.
+vi.mock("@/lib/auth", () => ({
+  auth: () =>
+    Promise.resolve({
+      user: {
+        id: "test-user",
+        name: "Test User",
+        email: "test@example.com",
+        // App code expects these flags on the user object
+        isAdmin: false,
+        isActive: true,
+      },
+      expires: new Date(Date.now() + 1000 * 60 * 60).toISOString(),
+    }),
+}));

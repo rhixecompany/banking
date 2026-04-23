@@ -1,22 +1,19 @@
 import { describe, expect, it, vi } from "vitest";
 
-// Mock auth to return a fake session
 vi.mock("@/lib/auth", () => ({
   auth: vi.fn(async () => ({ user: { id: "user-1", name: "Test User" } })),
 }));
 
-// Mock actions to return stable shapes
-vi.mock("@/actions/wallet.actions", () => ({
-  getUserWallets: vi.fn(async () => ({ ok: true, wallets: [] })),
-}));
 vi.mock("@/actions/plaid.actions", () => ({
-  getAllAccounts: vi.fn(async () => ({ ok: true, accounts: [] })),
-}));
-vi.mock("@/actions/transaction.actions", () => ({
-  getRecentTransactions: vi.fn(async () => ({ ok: true, transactions: [] })),
+  getAllWalletsWithDetails: vi.fn(async () => ({
+    ok: true,
+    walletsWithDetails: [],
+    totalBalance: 0,
+  })),
+  removeWallet: vi.fn(async () => ({ ok: true })),
 }));
 
-import { DashboardServerWrapper } from "@/components/dashboard/dashboard-server-wrapper";
+import { MyWalletsServerWrapper } from "@/components/my-wallets/my-wallets-server-wrapper";
 import { auth } from "@/lib/auth";
 import {
   extractPropsFromElement,
@@ -25,21 +22,21 @@ import {
 
 vi.mock("next/navigation", () => mockRedirectThrow());
 
-describe("DashboardServerWrapper", () => {
+describe("MyWalletsServerWrapper", () => {
   it("returns a JSX element when authenticated", async () => {
-    const res = await DashboardServerWrapper();
+    const res = await MyWalletsServerWrapper();
     expect(res).toBeDefined();
     const props = extractPropsFromElement(res);
     expect(props).toMatchObject({
-      wallets: [],
-      accounts: [],
-      transactions: [],
+      walletsWithDetails: [],
+      totalBalance: 0,
     });
+    expect(typeof props.removeWallet).toBe("function");
   });
 
   it("redirects to sign-in when unauthenticated", async () => {
     (auth as any).mockImplementationOnce(async () => null);
-    await expect(DashboardServerWrapper()).rejects.toThrow(
+    await expect(MyWalletsServerWrapper()).rejects.toThrow(
       /REDIRECT:\/sign-in/,
     );
   });

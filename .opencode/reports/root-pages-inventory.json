@@ -1,0 +1,26 @@
+{
+  "generatedAt": "2026-04-21T00:00:00.000Z",
+  "notes": "Inventory produced by nextjs-16-expert for root-group-refactor plan. Contains primary page entries and their server wrappers where present.",
+  "rootPages": [
+    {
+      "path": "app/(root)/dashboard/page.tsx",
+      "component": "DashboardServerWrapper"
+    },
+    {
+      "path": "app/(root)/my-wallets/page.tsx",
+      "component": "MyWalletsServerWrapper"
+    },
+    {
+      "path": "app/(root)/payment-transfer/page.tsx",
+      "component": "PaymentTransferPage"
+    },
+    {
+      "path": "app/(root)/settings/page.tsx",
+      "component": "SettingsPage"
+    },
+    {
+      "path": "app/(root)/transaction-history/page.tsx",
+      "component": "TransactionHistoryPage"
+    }
+  ]
+}
