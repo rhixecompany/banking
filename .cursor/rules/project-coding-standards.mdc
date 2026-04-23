@@ -1,6 +1,8 @@
 ---
 description: Focused project coding standards and safe typing patterns
 alwaysApply: true
+canonicalSource: AGENTS.md
+lastReviewed: 2026-04-23
 ---
 
 # Project Coding Standards

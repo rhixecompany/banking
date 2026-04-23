@@ -1,7 +1,8 @@
 ---
-description: Always Enforces this rules
+description: Always Enforce these rules for new chat sessions
 applyTo: "**"
-lastReviewed: 2026-04-14
+canonicalSource: AGENTS.md
+lastReviewed: 2026-04-23
 ---
 
 # When A user start a new chat session always enfore this rules

@@ -2,6 +2,17 @@
 
 This file documents the required environment and steps to run deterministic unit and E2E tests for the Banking app.
 
+## Route Mapping
+
+| Route Group | Layout File | Routes | Auth Required |
+| --- | --- | --- | --- |
+| `(auth)` | `(auth)\layout.tsx` | `/sign-in`, `/sign-up` | No |
+| `(admin)` | `(admin)\layout.tsx` | `/admin` | Yes (Admin) |
+| `(root)` | `(root)\layout.tsx` | `/dashboard`, `/my-wallets`, `/payment-transfer`, `/settings`, `/transaction-history` | Yes |
+| Root | `app\page.tsx` | `/` | No |
+
+## Environment Variables
+
 Important environment variables (ensure present in `.env.local`):
 
 - DATABASE_URL

@@ -1,7 +1,8 @@
 ---
 description: UI validation rules for accessible and testable components
 applyTo: "app/**/*.{tsx,ts}"
-lastReviewed: 2026-04-14
+canonicalSource: AGENTS.md
+lastReviewed: 2026-04-23
 ---
 
 # UI Validation

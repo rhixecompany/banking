@@ -1,5 +1,8 @@
 ---
+description: Performance guidelines for the Banking project
 applyTo: "**/*"
+canonicalSource: AGENTS.md
+lastReviewed: 2026-04-23
 ---
 
 # Performance Guidelines

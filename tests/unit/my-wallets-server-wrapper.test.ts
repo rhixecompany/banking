@@ -4,6 +4,13 @@ vi.mock("@/lib/auth", () => ({
   auth: vi.fn(async () => ({ user: { id: "user-1", name: "Test User" } })),
 }));
 
+// Mock redirect for unauthenticated checks
+vi.mock("next/navigation", () => ({
+  redirect: (url: string) => {
+    throw new Error("REDIRECT:" + url);
+  },
+}));
+
 vi.mock("@/actions/plaid.actions", () => ({
   getAllWalletsWithDetails: vi.fn(async () => ({
     ok: true,
@@ -16,12 +23,7 @@ vi.mock("@/actions/plaid.actions", () => ({
 import { MyWalletsServerWrapper } from "@/components/my-wallets/my-wallets-server-wrapper";
 import { auth } from "@/lib/auth";
 
-import {
-  extractPropsFromElement,
-  mockRedirectThrow,
-} from "../utils/serverWrapperTestUtils";
-
-vi.mock("next/navigation", () => mockRedirectThrow());
+import { extractPropsFromElement } from "../utils/serverWrapperTestUtils";
 
 describe("MyWalletsServerWrapper", () => {
   it("returns a JSX element when authenticated", async () => {

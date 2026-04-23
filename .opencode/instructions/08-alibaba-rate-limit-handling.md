@@ -1,7 +1,8 @@
 ---
 description: Rate-limit handling patterns for external APIs
 applyTo: "lib/**/*.{ts,tsx}"
-lastReviewed: 2026-04-14
+canonicalSource: AGENTS.md
+lastReviewed: 2026-04-23
 ---
 
 # Alibaba Rate-Limit Handling

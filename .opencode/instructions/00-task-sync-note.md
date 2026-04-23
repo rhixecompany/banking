@@ -1,7 +1,8 @@
 ---
 description: Short note on task synchronization for agents and humans
 applyTo: "**"
-lastReviewed: 2026-04-14
+canonicalSource: AGENTS.md
+lastReviewed: 2026-04-23
 ---
 
 # Task Synchronization Note

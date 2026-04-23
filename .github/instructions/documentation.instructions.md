@@ -3,8 +3,8 @@ name: "documentation"
 description: "Documentation standards for Banking project"
 applyTo: "**/*.md,**/*.ts,**/*.tsx"
 priority: "medium"
-version: "1.0"
-lastUpdated: "2026-03-31"
+canonicalSource: AGENTS.md
+lastReviewed: 2026-04-23
 ---
 
 # Documentation Guidelines

@@ -1,7 +1,8 @@
 ---
 description: DAL patterns and N+1 prevention
 applyTo: "dal/**/*.{ts,tsx}"
-lastReviewed: 2026-04-14
+canonicalSource: AGENTS.md
+lastReviewed: 2026-04-23
 ---
 
 # DAL Patterns

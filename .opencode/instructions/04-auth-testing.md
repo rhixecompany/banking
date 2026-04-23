@@ -1,7 +1,8 @@
 ---
 description: Auth testing notes and required patterns for protected actions
 applyTo: "actions/**/*.{ts,tsx}"
-lastReviewed: 2026-04-14
+canonicalSource: AGENTS.md
+lastReviewed: 2026-04-23
 ---
 
 # Auth Testing

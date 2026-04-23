@@ -1,6 +1,8 @@
 ---
 description: Free port 3000 before Playwright or Vitest runs
 alwaysApply: true
+canonicalSource: AGENTS.md
+lastReviewed: 2026-04-23
 ---
 
 # Test Runner Port Guard

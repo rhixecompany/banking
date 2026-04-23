@@ -8,32 +8,16 @@
   "experimental": {},
   "instructions": [
     "AGENTS.md",
-    "./.github/copilot-instructions.md",
-    "./.cursorrules",
-    "./.opencode/instructions/personas-list.md",
-    "./.opencode/instructions/00-quickstart-rules.md",
-    "./.opencode/instructions/00-default-rules.md",
-    "./.opencode/instructions/00-task-sync-note.md",
-    "./.opencode/instructions/01-core-standards.md",
-    "./.opencode/instructions/02-nextjs-patterns.md",
-    "./.opencode/instructions/03-dal-patterns.md",
-    "./.opencode/instructions/04-auth-testing.md",
-    "./.opencode/instructions/05-ui-validation.md",
-    "./.opencode/instructions/06-commands-ref.md",
-    "./.opencode/instructions/07-upstream-error-handling.md",
-    "./.opencode/instructions/08-command-plan-steps-rules.md",
-    "./.opencode/instructions/09-command-plan-steps-rules.md",
-    "./.opencode/instructions/09-plan-file-standards.md",
-    "./.opencode/instructions/10-apply-patch-verification-fix.md",
-    "./.opencode/instructions/11-documentation-standards.md",
-    "./.opencode/instructions/12-scripts-patterns.md",
-    "./.opencode/tools/philosophy.md",
-    "./.cursor/rules/*.mdc",
     "./architecture.md",
     "./tech-stack.md",
     "./coding-standards.md",
     "./folder-structure.md",
-    "./exemplars.md"
+    "./exemplars.md",
+    "./.github/copilot-instructions.md",
+    "./.cursorrules",
+    "./.opencode/instructions/*.md",
+    "./.github/instructions/*.md",
+    "./.cursor/rules/*.mdc",
   ],
   "mcp": {
     "context7": {
@@ -63,25 +47,41 @@
       "url": "https://mcp.grep.app"
     },
     "github-agentic-workflows": {
-      "command": ["npx", "-y", "@modelcontextprotocol/server-github"],
+      "command": [
+        "npx",
+        "-y",
+        "@modelcontextprotocol/server-github"
+      ],
       "enabled": true,
       "timeout": 900000,
       "type": "local"
     },
     "memory": {
-      "command": ["npx", "-y", "@modelcontextprotocol/server-memory"],
+      "command": [
+        "npx",
+        "-y",
+        "@modelcontextprotocol/server-memory"
+      ],
       "enabled": true,
       "timeout": 900000,
       "type": "local"
     },
     "next-devtools": {
-      "command": ["npx", "-y", "next-devtools-mcp@latest"],
+      "command": [
+        "npx",
+        "-y",
+        "next-devtools-mcp@latest"
+      ],
       "enabled": true,
       "timeout": 900000,
       "type": "local"
     },
     "playwright": {
-      "command": ["npx", "-y", "@playwright/mcp@latest"],
+      "command": [
+        "npx",
+        "-y",
+        "@playwright/mcp@latest"
+      ],
       "enabled": true,
       "timeout": 900000,
       "type": "local"
@@ -97,7 +97,11 @@
       "type": "local"
     },
     "shadcn": {
-      "command": ["npx", "shadcn@latest", "mcp"],
+      "command": [
+        "npx",
+        "shadcn@latest",
+        "mcp"
+      ],
       "enabled": true,
       "timeout": 900000,
       "type": "local"
@@ -113,7 +117,7 @@
       "type": "local"
     }
   },
-  "model": "github-copilot/gpt-5-mini",
+  "model": "opencode/big-pickle",
   "plugin": [
     "@gotgenes/opencode-agent-identity@latest",
     "opencode-agent-memory@latest",

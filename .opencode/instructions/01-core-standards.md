@@ -1,7 +1,8 @@
 ---
 description: Core repo standards for code style, commits, and tests
 applyTo: "**/*.{ts,tsx,js,md}"
-lastReviewed: 2026-04-14
+canonicalSource: AGENTS.md
+lastReviewed: 2026-04-23
 ---
 
 # Core Standards

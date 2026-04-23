@@ -1,57 +1,47 @@
 import React from "react";
 
+import { cn } from "@/lib/utils";
+
 /**
- * Description placeholder
- * @author Adminbot
+ * Form root component - wraps children in a styled form with error display
  *
+ * @export
  * @interface FormProps
  * @typedef {FormProps}
  */
 interface FormProps {
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {React.ReactNode}
-   */
+  /** Form content */
   children: React.ReactNode;
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {?(e?: React.FormEvent) => void}
-   */
+  /** Form submission handler */
   onSubmit?: (e?: React.FormEvent) => void;
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {?Record<string, string>}
-   */
+  /** Server-side errors to display */
   errors?: Record<string, string>;
+  /** Additional CSS classes */
+  className?: string;
 }
 
 /**
- * Description placeholder
- * @author Adminbot
+ * Form root component with error display
  *
  * @export
  * @param {FormProps} param0
- * @param {React.ReactNode} param0.children
- * @param {Record<string, string>} [param0.errors={}]
- * @param {(e?: React.FormEvent) => void} param0.onSubmit
- * @returns {ReactJSX.Element}
+ * @returns {JSX.Element}
  */
-export default function Form({ children, errors = {}, onSubmit }: FormProps) {
+export default function Form({
+  children,
+  errors = {},
+  onSubmit,
+  className,
+}: FormProps) {
   return (
-    <form onSubmit={onSubmit} className="simple-form">
+    <form onSubmit={onSubmit} className={cn("space-y-4", className)}>
       {children}
       {Object.keys(errors).length > 0 && (
-        <div className="form-errors">
-          {Object.entries(errors).map(([k, v]) => (
-            <div role="alert" key={k}>
-              {k}: {v}
-            </div>
+        <div className="rounded-md border border-destructive/50 bg-destructive/10 p-3">
+          {Object.entries(errors).map(([key, message]) => (
+            <p role="alert" key={key} className="text-sm text-destructive">
+              {message}
+            </p>
           ))}
         </div>
       )}

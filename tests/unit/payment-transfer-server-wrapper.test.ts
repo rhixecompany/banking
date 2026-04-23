@@ -5,7 +5,7 @@ vi.mock("@/lib/auth", () => ({
   auth: vi.fn(async () => ({ user: { id: "user-pt-1", name: "PT User" } })),
 }));
 
-// Mock redirect so unauthenticated flows throw a predictable error we can assert
+// Mock redirect for unauthenticated checks
 vi.mock("next/navigation", () => ({
   redirect: (url: string) => {
     throw new Error("REDIRECT:" + url);
@@ -26,13 +26,7 @@ vi.mock("@/actions/dwolla.actions", () => ({
 import { PaymentTransferServerWrapper } from "@/components/payment-transfer/payment-transfer-server-wrapper";
 import { auth } from "@/lib/auth";
 
-import {
-  extractPropsFromElement,
-  mockRedirectThrow,
-} from "../utils/serverWrapperTestUtils";
-
-// Re-use mock helper for redirect (keeps file local mocks small)
-vi.mock("next/navigation", () => mockRedirectThrow());
+import { extractPropsFromElement } from "../utils/serverWrapperTestUtils";
 
 describe("PaymentTransferServerWrapper", () => {
   it("returns a JSX element when authenticated", async () => {

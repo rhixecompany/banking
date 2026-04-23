@@ -1,3 +1,10 @@
+---
+description: Morph tool selection policy for efficient code editing
+applyTo: "**"
+canonicalSource: AGENTS.md
+lastReviewed: 2026-04-23
+---
+
 # morph_edit Tool Selection Policy
 
 This instruction is designed to be always loaded by OpenCode so agents reliably choose `morph_edit` when it is the better editing tool.

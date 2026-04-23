@@ -10,14 +10,14 @@
     },
     {
       "name": "type-check",
-      "status": "DRY-RUN",
+      "status": "PENDING",
       "report": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\tmp\\test-runner-reports/type-check-report.txt",
       "exit_code": null,
       "fallback": false
     },
     {
       "name": "lint-fix",
-      "status": "PENDING",
+      "status": "DRY-RUN",
       "report": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\tmp\\test-runner-reports/lint-fix-report.txt",
       "exit_code": null,
       "fallback": false
@@ -58,5 +58,5 @@
       "fallback": false
     }
   ],
-  "timestamp": "20260421-024213"
+  "timestamp": "20260423-220828"
 }

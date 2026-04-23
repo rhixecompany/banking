@@ -1,7 +1,8 @@
 ---
 description: Always enforce these repository rules
 applyTo: "**"
-lastReviewed: 2026-04-17
+lastReviewed: 2026-04-23
+canonicalSource: AGENTS.md
 ---
 
 # Quick Start — Commands You Will Actually Run
@@ -23,11 +24,12 @@ lastReviewed: 2026-04-17
 5. Seed DB (careful)
    - npm run db:seed
    - Dry-run: npm run db:seed -- --dry-run
-
-- Reset (destructive): npm run db:seed -- --reset (must set RUN_DESTRUCTIVE=true and --yes)
+   - Reset (destructive): npm run db:seed -- --reset (must set RUN_DESTRUCTIVE=true and --yes)
 
 Quick safety
 
 - Home page must remain static/public — no auth()/DAL/DB in app/page.tsx.
 - Use app-config.ts or lib/env.ts for env access; seed runner is an exception.
+- Prefer npm scripts (preserves NODE_OPTIONS and other flags).
+- Destructive scripts must accept --dry-run and require explicit flags.
 - Run npm run verify:rules before PRs.

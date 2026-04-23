@@ -1,7 +1,8 @@
 ---
 description: How to use apply_patch safely and verify edits
 applyTo: "**/*"
-lastReviewed: 2026-04-20
+canonicalSource: AGENTS.md
+lastReviewed: 2026-04-23
 ---
 
 # Apply Patch Verification

@@ -1,7 +1,8 @@
 ---
 description: Documentation standards and evidence linking
 applyTo: "docs/**/*.md"
-lastReviewed: 2026-04-14
+canonicalSource: AGENTS.md
+lastReviewed: 2026-04-23
 ---
 
 # Documentation Standards

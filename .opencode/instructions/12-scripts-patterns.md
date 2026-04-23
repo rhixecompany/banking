@@ -1,7 +1,8 @@
 ---
 description: Patterns for repository scripts and destructive operations
 applyTo: "scripts/**/*.{ts,sh}"
-lastReviewed: 2026-04-14
+canonicalSource: AGENTS.md
+lastReviewed: 2026-04-23
 ---
 
 # Scripts Patterns

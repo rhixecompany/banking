@@ -1,5 +1,8 @@
 ---
+description: Code review standards for the Banking project
 applyTo: "**/*"
+canonicalSource: AGENTS.md
+lastReviewed: 2026-04-23
 ---
 
 # Code Review Standards

@@ -1,5 +1,8 @@
 ---
+description: Testing guidelines for the Banking project
 applyTo: "tests/**/*"
+canonicalSource: AGENTS.md
+lastReviewed: 2026-04-23
 ---
 
 # Testing Guidelines

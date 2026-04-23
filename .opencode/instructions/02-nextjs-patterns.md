@@ -3,7 +3,8 @@ name: "nextjs-patterns"
 description: "Next.js patterns, App Router, Cache Components, and Server Actions"
 applyTo: "**/*.{ts,tsx}"
 priority: 2
-lastReviewed: 2026-04-13
+canonicalSource: AGENTS.md
+lastReviewed: 2026-04-23
 ---
 
 # Next.js Patterns - Banking Project

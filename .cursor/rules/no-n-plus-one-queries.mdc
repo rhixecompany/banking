@@ -1,6 +1,8 @@
 ---
 description: Prevent N+1 queries with eager loading
 alwaysApply: true
+canonicalSource: AGENTS.md
+lastReviewed: 2026-04-23
 ---
 
 # Database Query Efficiency

@@ -20,12 +20,7 @@ vi.mock("@/actions/transaction.actions", () => ({
 import { TransactionHistoryServerWrapper } from "@/components/transaction-history/transaction-history-server-wrapper";
 import { auth } from "@/lib/auth";
 
-import {
-  extractPropsFromElement,
-  mockRedirectThrow,
-} from "../utils/serverWrapperTestUtils";
-
-vi.mock("next/navigation", () => mockRedirectThrow());
+import { extractPropsFromElement } from "../utils/serverWrapperTestUtils";
 
 describe("TransactionHistoryServerWrapper", () => {
   it("returns a JSX element when authenticated", async () => {

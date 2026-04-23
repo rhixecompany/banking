@@ -15,7 +15,7 @@ describe("AdminDal defensive fallbacks", () => {
   let errSpy: any;
 
   beforeEach(() => {
-    errSpy = vi.spyOn(logger, "error").mockImplementation(() => {});
+    errSpy = vi.spyOn(logger, "error").mockImplementation(() => undefined);
   });
 
   afterEach(() => {
