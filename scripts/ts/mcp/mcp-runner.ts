@@ -11,12 +11,45 @@
 import { promises as fs } from "fs";
 import path from "path";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @interface PagesMap
+ * @typedef {PagesMap}
+ */
 interface PagesMap {
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?string}
+   */
   generatedAt?: string;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?string[]}
+   */
   pages?: string[];
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?string}
+   */
   source?: string;
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @param {string} filePath
+ * @returns {unknown}
+ */
 async function fileExists(filePath: string) {
   try {
     await fs.access(filePath);
@@ -26,6 +59,15 @@ async function fileExists(filePath: string) {
   }
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @template [T=any]
+ * @param {string} filePath
+ * @returns {Promise<null | T>}
+ */
 async function readJson<T = any>(filePath: string): Promise<null | T> {
   try {
     const raw = await fs.readFile(filePath, "utf8");
@@ -37,6 +79,13 @@ async function readJson<T = any>(filePath: string): Promise<null | T> {
   }
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @async
+ * @returns {*}
+ */
 async function main() {
   const repoRoot = process.cwd();
   const pagesMapPath = path.join(
@@ -63,7 +112,6 @@ async function main() {
     // Machine-readable output remains on stdout
     console.log(JSON.stringify(out, null, 2));
     process.exit(1);
-    return;
   }
 
   const pagesMap = (await readJson<PagesMap>(pagesMapPath)) || {};

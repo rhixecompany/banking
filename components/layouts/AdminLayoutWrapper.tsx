@@ -12,6 +12,12 @@ import PageShell from "./PageShell";
  * @typedef {Props}
  */
 interface Props {
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {React.ReactNode}
+   */
   children: React.ReactNode;
 }
 

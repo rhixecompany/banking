@@ -1,10 +1,15 @@
-// Provenance: inspected dal/user.dal.ts, lib/auth-options.ts, AGENTS.md — server action: validate credentials (no NextAuth session). Draft only.
 "use server";
 import bcrypt from "bcrypt";
 import * as z from "zod";
 
 import { userDal } from "@/dal/user.dal";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const SignInSchema = z.object({
   email: z.string().trim().email(),
   password: z.string().trim().min(8),

@@ -1,6 +1,16 @@
-// Provenance: inspected components/layouts/AdminLayoutWrapper.tsx — small helper for admin gating
 import React from "react";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {{
+ *   children: React.ReactNode;
+ * }} param0
+ * @param {React.ReactNode} param0.children
+ * @returns {ReactJSX.Element}
+ */
 export default function AdminLayoutWrapperNotice({
   children,
 }: {

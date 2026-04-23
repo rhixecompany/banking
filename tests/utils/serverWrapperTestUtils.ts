@@ -1,6 +1,12 @@
 import type { ReactElement } from "react";
 
 // Returns a mock object for next/navigation that throws on redirect so tests can assert it
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @returns {{ redirect: (url: string) => never; }}
+ */
 export const mockRedirectThrow = () => ({
   redirect: (url: string) => {
     throw new Error("REDIRECT:" + url);
@@ -8,6 +14,13 @@ export const mockRedirectThrow = () => ({
 });
 
 // Factory to create an auth mock (vi.fn) that resolves to the given session object
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {{ user: { id: string; name: string; }; }} [session={ user: { id: "test-user", name: "Test User" } }]
+ * @returns {*}
+ */
 export const makeAuthMock = (
   session = { user: { id: "test-user", name: "Test User" } },
 ) => {
@@ -15,10 +28,17 @@ export const makeAuthMock = (
 };
 
 // Extract props from a React element safely for assertions in tests
-export const extractPropsFromElement = (el: ReactElement | null) => {
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {(ReactElement | null)} el
+ * @returns {*}
+ */
+export const extractPropsFromElement = (el: null | ReactElement) => {
   if (!el) return {};
   // ReactElement has a `props` property at runtime in tests
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   return (el as any).props ?? {};
 };
 

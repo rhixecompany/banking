@@ -7,7 +7,19 @@ import React from "react";
  * @typedef {PageShellProps}
  */
 interface PageShellProps {
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?string}
+   */
   title?: string;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {?React.ReactNode}
+   */
   children?: React.ReactNode;
 }
 

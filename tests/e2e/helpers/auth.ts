@@ -10,11 +10,31 @@ export const SEED_USER = {
 } as const;
 
 // Provenance: read tests/fixtures/seed-user.json and tests/fixtures/seed-admin.json — update helper to expose admin fixture name
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 export const adminFixtureEmail =
   process.env.E2E_ADMIN_EMAIL ?? "seed-admin@example.com";
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 export const adminFixturePassword =
   process.env.E2E_ADMIN_PASSWORD ?? "Password1!";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @async
+ * @returns {unknown}
+ */
 export async function ensureAdminIsSeeded() {
   return { email: adminFixtureEmail, password: adminFixturePassword };
 }

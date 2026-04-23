@@ -3,6 +3,15 @@ import { NextResponse } from "next/server";
 // Provenance: read actions/auth.signup.ts, dal/user.dal.ts — endpoint shim to call signup action from client
 import signup from "@/actions/auth.signup";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @async
+ * @param {Request} req
+ * @returns {unknown}
+ */
 export async function POST(req: Request) {
   try {
     const body = await req.json();

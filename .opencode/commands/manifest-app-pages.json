@@ -1,0 +1,76 @@
+{
+  "appRootPage": "app/page.tsx",
+  "discoveredAt": "2026-04-17T15:59:31.104Z",
+  "layouts": {
+    "(admin)": {
+      "pages": ["app/(admin)/admin/page.tsx"],
+      "components": [],
+      "files": [
+        "app/(admin)/admin/error.tsx",
+        "app/(admin)/admin/loading.tsx",
+        "app/(admin)/admin/page.tsx",
+        "app/(admin)/layout.tsx"
+      ]
+    },
+    "(auth)": {
+      "pages": [
+        "app/(auth)/sign-in/page.tsx",
+        "app/(auth)/sign-up/page.tsx"
+      ],
+      "components": [],
+      "files": [
+        "app/(auth)/layout.tsx",
+        "app/(auth)/sign-in/error.tsx",
+        "app/(auth)/sign-in/loading.tsx",
+        "app/(auth)/sign-in/page.tsx",
+        "app/(auth)/sign-up/error.tsx",
+        "app/(auth)/sign-up/loading.tsx",
+        "app/(auth)/sign-up/page.tsx"
+      ]
+    },
+    "(root)": {
+      "pages": [
+        "app/(root)/dashboard/page.tsx",
+        "app/(root)/my-wallets/page.tsx",
+        "app/(root)/payment-transfer/page.tsx",
+        "app/(root)/settings/page.tsx",
+        "app/(root)/transaction-history/page.tsx"
+      ],
+      "components": [],
+      "files": [
+        "app/(root)/dashboard/error.tsx",
+        "app/(root)/dashboard/loading.tsx",
+        "app/(root)/dashboard/page.tsx",
+        "app/(root)/layout.tsx",
+        "app/(root)/my-wallets/error.tsx",
+        "app/(root)/my-wallets/loading.tsx",
+        "app/(root)/my-wallets/page.tsx",
+        "app/(root)/payment-transfer/error.tsx",
+        "app/(root)/payment-transfer/loading.tsx",
+        "app/(root)/payment-transfer/page.tsx",
+        "app/(root)/settings/error.tsx",
+        "app/(root)/settings/loading.tsx",
+        "app/(root)/settings/page.tsx",
+        "app/(root)/transaction-history/error.tsx",
+        "app/(root)/transaction-history/loading.tsx",
+        "app/(root)/transaction-history/page.tsx"
+      ]
+    },
+    "root": {
+      "pages": ["app/page.tsx"],
+      "components": [],
+      "files": [
+        "app/api/auth/[...nextauth]/route.ts",
+        "app/api/dwolla/webhook/route.ts",
+        "app/api/health/route.ts",
+        "app/api/__playwright__/set-cookie/route.ts",
+        "app/global-error.tsx",
+        "app/globals.css",
+        "app/layout.tsx",
+        "app/not-found.tsx",
+        "app/page.tsx",
+        "app/__playwright__/set-cookie/route.ts"
+      ]
+    }
+  }
+}

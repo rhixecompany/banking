@@ -11,6 +11,14 @@ import AuthForm from "@/components/layouts/auth-form";
  */
 import { auth } from "@/lib/auth";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @async
+ * @returns {Promise<JSX.Element>}
+ */
 export async function SignInServerWrapper(): Promise<JSX.Element> {
   // Ensure authenticated users are redirected to dashboard
   // This keeps server-side redirect behavior consistent with SignUpServerWrapper

@@ -1,4 +1,3 @@
-// Provenance: read package.json, components/auth-form/*, dal/user.dal.ts — implement client sign-in flow (RHF + Zod). Draft only.
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
@@ -8,13 +7,36 @@ import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const SignInSchema = z.object({
   email: z.string().trim().email(),
   password: z.string().trim().min(8),
 });
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @typedef {SignInValues}
+ */
 type SignInValues = z.infer<typeof SignInSchema>;
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {{
+ *   onSuccess?: () => void;
+ * }} param0
+ * @param {() => void} param0.onSuccess
+ * @returns {void; }) => ReactJSX.Element}
+ */
 export default function SignInClient({
   onSuccess,
 }: {

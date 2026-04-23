@@ -1,4 +1,3 @@
-// Provenance: read package.json, components/auth-form/*, dal/user.dal.ts — implement client sign-up flow (RHF + Zod). Draft only.
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -7,14 +6,37 @@ import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
 const SignUpSchema = z.object({
   email: z.string().trim().email(),
   name: z.string().trim().min(1),
   password: z.string().trim().min(8),
 });
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @typedef {SignUpValues}
+ */
 type SignUpValues = z.infer<typeof SignUpSchema>;
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {{
+ *   onSuccess?: () => void;
+ * }} param0
+ * @param {() => void} param0.onSuccess
+ * @returns {void; }) => ReactJSX.Element}
+ */
 export default function SignUpClient({
   onSuccess,
 }: {

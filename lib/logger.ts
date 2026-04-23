@@ -1,13 +1,20 @@
 // Simple structured logger used during admin actions and server wrappers.
 // Keep lightweight and non-blocking; avoids leaking secrets into logs.
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {unknown[]} args
+ * @returns {{ module: any; message: any; meta: any; }}
+ */
 function normalizeArgs(args: unknown[]) {
   // Returns { module, message, meta }
   if (!args || args.length === 0) {
-    return { module: "app", message: "", meta: undefined };
+    return { message: "", meta: undefined, module: "app" };
   }
 
   if (args.length === 1) {
-    return { module: "app", message: String(args[0]), meta: undefined };
+    return { message: String(args[0]), meta: undefined, module: "app" };
   }
 
   if (args.length === 2) {
@@ -18,20 +25,29 @@ function normalizeArgs(args: unknown[]) {
       ("stack" in (a1 as any) || "message" in (a1 as any))
     ) {
       // message, error
-      return { module: "app", message: String(a0), meta: a1 };
+      return { message: String(a0), meta: a1, module: "app" };
     }
     // treat as module, message
-    return { module: String(a0), message: String(a1), meta: undefined };
+    return { message: String(a1), meta: undefined, module: String(a0) };
   }
 
   // 3+ args: module, message, meta...
   return {
-    module: String(args[0]),
     message: String(args[1]),
     meta: args.slice(2),
+    module: String(args[0]),
   };
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @param {string} level
+ * @param {string} moduleName
+ * @param {string} message
+ * @param {?unknown} [meta]
+ */
 function output(
   level: string,
   moduleName: string,
@@ -40,11 +56,11 @@ function output(
 ) {
   try {
     const payload = {
-      ts: new Date().toISOString(),
       level,
-      module: moduleName,
       message,
       meta,
+      module: moduleName,
+      ts: new Date().toISOString(),
     };
     if (level === "debug") console.debug(JSON.stringify(payload));
     else if (level === "info") console.info(JSON.stringify(payload));
@@ -54,30 +70,64 @@ function output(
   }
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {...unknown[]} args
+ */
 export function debug(...args: unknown[]) {
-  const { module, message, meta } = normalizeArgs(args);
+  const { message, meta, module } = normalizeArgs(args);
   output("debug", module, message, meta);
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {...unknown[]} args
+ */
 export function info(...args: unknown[]) {
-  const { module, message, meta } = normalizeArgs(args);
+  const { message, meta, module } = normalizeArgs(args);
   output("info", module, message, meta);
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {...unknown[]} args
+ */
 export function warn(...args: unknown[]) {
-  const { module, message, meta } = normalizeArgs(args);
+  const { message, meta, module } = normalizeArgs(args);
   output("info", module, message, meta); // map warn -> info level
 }
 
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @param {...unknown[]} args
+ */
 export function error(...args: unknown[]) {
-  const { module, message, meta } = normalizeArgs(args);
+  const { message, meta, module } = normalizeArgs(args);
   output("error", module, message, meta);
 }
 
 // Provide a convenience object for callers that import { logger } from '@/lib/logger'
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {{ debug: (...args: {}) => void; info: (...args: {}) => void; warn: (...args: {}) => void; error: (...args: {}) => void; }}
+ */
 export const logger = {
   debug,
+  error,
   info,
   warn,
-  error,
 };
