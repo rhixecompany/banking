@@ -1,0 +1,6 @@
+{
+  "plugin": [
+    "opencode-snippets",
+    "@slkiser/opencode-quota@latest"
+  ]
+}
