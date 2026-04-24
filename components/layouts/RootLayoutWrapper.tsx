@@ -1,8 +1,19 @@
-import React from "react";
+import { Suspense } from "react";
 
 import { RootProviders } from "@/stores/providers";
 
 import PageShell from "./PageShell";
+
+/**
+ * Loading fallback while session loads - prevents blocking route errors with Cache Components
+ */
+function SessionLoadingFallback() {
+  return (
+    <div className="flex min-h-screen items-center justify-center">
+      <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+    </div>
+  );
+}
 
 /**
  * Description placeholder
@@ -31,8 +42,10 @@ interface Props {
  */
 export default function RootLayoutWrapper({ children }: Props) {
   return (
-    <RootProviders>
-      <PageShell>{children}</PageShell>
-    </RootProviders>
+    <Suspense fallback={<SessionLoadingFallback />}>
+      <RootProviders>
+        <PageShell>{children}</PageShell>
+      </RootProviders>
+    </Suspense>
   );
 }

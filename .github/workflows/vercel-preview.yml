@@ -1,0 +1,122 @@
+name: Vercel Preview
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+
+# Cancel in-progress runs for the same PR
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  deploy-preview:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Install Vercel CLI
+        run: npm i -g vercel@latest
+
+      - name: Pull Vercel Environment
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build & Deploy to Vercel
+        id: vercel
+        run: |
+          OUTPUT=$(vercel --token=${{ secrets.VERCEL_TOKEN }})
+          echo "preview_url=$(echo $OUTPUT | grep -oP 'https://[^ ]+\.vercel\.app' || echo '')" >> $GITHUB_OUTPUT
+
+      - name: Comment PR with Preview URL
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const previewUrl = '${{ steps.vercel.outputs.preview_url }}';
+            if (previewUrl && previewUrl.trim()) {
+              // Find previous preview comment
+              const comments = await github.rest.issues.listComments({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number
+              });
+              const botComment = comments.data.find(c => c.user.type === 'Bot' && c.body.includes('Preview Deployment'));
+              
+              const body = `## 🚀 Preview Deployment
+              The preview environment is deployed and available at: **${previewUrl}**
+              
+              > Built on ${{ github.sha.slice(0, 7) }} | ${{ github.event.pull_request.title }}`;
+              
+              if (botComment) {
+                await github.rest.issues.updateComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  comment_id: botComment.id,
+                  body
+                });
+              } else {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.issue.number,
+                  body
+                });
+              }
+            }
+
+      - name: Deploy status (success)
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Set deployment status to active
+            github.rest.repos.createDeploymentStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              deployment_id: context.serverUrl,
+              state: 'success',
+              environment: 'Preview',
+              auto_inactive: false
+            });
+
+      - name: Deploy status (failure)
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.repos.createDeploymentStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              deployment_id: context.serverUrl,
+              state: 'failure',
+              environment: 'Preview'
+            });
+
+  cleanup-preview:
+    runs-on: ubuntu-latest
+    needs: [deploy-preview]
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Vercel CLI
+        run: npm i -g vercel@latest
+
+      - name: Remove preview deployment
+        run: |
+          vercel remove --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+        continue-on-error: true

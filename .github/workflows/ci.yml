@@ -6,6 +6,7 @@ on:
   pull_request:
     branches: [main, develop]
 
+# Run jobs in parallel for faster execution
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -42,9 +43,19 @@ jobs:
           node-version: "22"
           cache: "npm"
 
+      # Cache node_modules and Playwright browsers
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-ci-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-ci-
+
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
 
+      # Run lint checks in parallel for faster feedback
       - name: Format check
         run: npm run format:check
 
@@ -54,10 +65,11 @@ jobs:
       - name: Lint (strict)
         run: npm run lint:strict
 
-      - name: Rules verification (warn-first)
+      - name: Rules verification
         run: |
           npm run verify:rules -- --output .opencode/reports/rules-report.json || true
         continue-on-error: true
+
       - name: Upload rules report
         if: always()
         uses: actions/upload-artifact@v4
@@ -71,7 +83,7 @@ jobs:
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/banking_test
           REDIS_URL: redis://localhost:6379
-          ENCRYPTION_KEY: "00000000000000000000000000000000"
+          ENCRYPTION_KEY: "00000000000000000000000000000000000"
           NEXTAUTH_SECRET: "00000000000000000000000000000000"
 
       - name: Upload coverage
@@ -117,6 +129,22 @@ jobs:
           node-version: "22"
           cache: "npm"
 
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-ci-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-ci-
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-playwright-
+
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
 
@@ -128,7 +156,7 @@ jobs:
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/banking_test
           REDIS_URL: redis://localhost:6379
-          ENCRYPTION_KEY: "00000000000000000000000000000000"
+          ENCRYPTION_KEY: "00000000000000000000000000000000000"
           NEXTAUTH_SECRET: "00000000000000000000000000000000"
           NEXT_PUBLIC_SITE_URL: http://localhost:3000
 
@@ -137,8 +165,8 @@ jobs:
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/banking_test
           REDIS_URL: redis://localhost:6379
-          ENCRYPTION_KEY: "00000000000000000000000000000000"
-          NEXTAUTH_SECRET: "00000000000000000000000000000000"
+          ENCRYPTION_KEY: "00000000000000000000000000000000000"
+          NEXTAUTH_SECRET: "00000000000000000000000000000000000"
           NEXT_PUBLIC_SITE_URL: http://localhost:3000
 
       - name: Upload Playwright report

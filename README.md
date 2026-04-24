@@ -1,8 +1,8 @@
 <div align="center">
   <br />
-    <a href="#" target="_blank">
-      <img src="https://github.com/adrianhajdin/banking/assets/151519281/3c03519c-7ebd-4539-b598-49e63d1770b4" alt="Project Banner">
-    </a>
+  <a href="https://www.youtube.com/playlist?list=PL6yR5PZzhVcwU5__wN5FQoNOk_9T-2-" target="_blank">
+    <img src="https://github.com/adrianhajdin/banking/assets/151519281/3c03519c-7ebd-4539-b598-49e63d1770b4" alt="Project Banner">
+  </a>
   <br />
 
   <div>
@@ -13,36 +13,35 @@
 
   <h3 align="center">A Fintech Bank Application</h3>
 
-   <div align="center">
-     Build this project step by step with our detailed tutorial on <a href="#" target="_blank"><b>Alexander Iseghohi</b></a> YouTube. Join the JSM family!
-    </div>
+  <div align="center">
+    Build this project step by step with our detailed tutorial on <a href="https://www.youtube.com/playlist?list=PL6yR5PZzhVcwU5__wN5FQoNOk_9T-2-" target="_blank"><b>Alexander Iseghohi</b></a> YouTube channel. Join the JSM family!
+  </div>
 </div>
 
-## 📋 <a name="table">Table of Contents</a>
+## 📋 Table of Contents
 
-1. 🤖 [Introduction](#introduction)
-2. ⚙️ [Tech Stack](#tech-stack)
-3. 🔋 [Features](#features)
-4. 🚀 [Live Deployments](#deployments)
-5. 🤸 [Quick Start](#quick-start)
-6. 🗄️ [Database Setup](#database)
-7. 🔐 [Authentication](#auth)
-8. 📊 [DAL Pattern](#dal)
-9. ⚡ [Server Actions](#server-actions)
-10. 📧 [Email Service](#email)
-11. 📚 [Documentation](#documentation)
-12. 🔧 [Debugging](#debugging)
-13. 🕸️ [Code Snippets to Copy](#snippets)
-14. 🔗 [Links](#links)
-15. 🚀 [More](#more)
+1. [🤖 Introduction](#introduction)
+2. [⚙️ Tech Stack](#tech-stack)
+3. [🔋 Features](#features)
+4. [🚀 Live Deployments](#deployments)
+5. [🤸 Quick Start](#quick-start)
+6. [🗄️ Database Setup](#database)
+7. [🔐 Authentication](#auth)
+8. [📊 DAL Pattern](#dal)
+9. [⚡ Server Actions](#server-actions)
+10. [📧 Email Service](#email)
+11. [🔗 Links](#links)
+12. [📚 Documentation](#documentation)
+13. [🤝 Contributing](#contributing)
+14. [📄 License](#license)
 
 ## 🚨 Tutorial
 
-This repository contains the code corresponding to an in-depth tutorial available on our YouTube channel, <a href="#" target="_blank"><b>Alexander Iseghohi</b></a>.
+This repository contains the code corresponding to an in-depth tutorial available on our YouTube channel, <a href="https://www.youtube.com/playlist?list=PL6yR5PZzhVcwU5__wN5FQoNOk_9T-2-" target="_blank"><b>Alexander Iseghohi</b></a>.
 
 If you prefer visual learning, this is the perfect resource for you. Follow our tutorial to learn how to build projects like these step-by-step in a beginner-friendly manner!
 
-<a href="#" target="_blank"><img src="https://github.com/sujatagunale/EasyRead/assets/151519281/1736fca5-a031-4854-8c09-bc110e3bc16d" /></a>
+<a href="https://www.youtube.com/playlist?list=PL6yR5PZzhVcwU5__wN5FQoNOk_9T-2-" target="_blank"><img src="https://github.com/sujatagunale/EasyRead/assets/151519281/1736fca5-a031-4854-8c09-bc110e3bc16d" /></a>
 
 ## <a name="introduction">🤖 Introduction</a>
 
@@ -1556,105 +1555,68 @@ For full agentic guidance and examples, see `AGENTS.md` and `.opencode/instructi
 
 ---
 
-## <a name="debugging">🔧 Debugging</a>
-
-### GitHub Actions
-
-#### Common Issues
-
-**"Dependencies lock file is not found"**
-
-```bash
-# Generate package-lock.json
-npm install --package-lock-only
-```
-
-**"npm: command not found"**
-
-- Ensure npm is available in the workflow environment
-
-#### View Logs
-
-```bash
-gh run list
-gh run view <run-id> --log-failed
-```
-
----
-
-### Vercel
-
-#### Common Issues
-
-**Build fails**
-
-- Check Vercel Dashboard → Deployments → Click latest deployment
-- Verify all environment variables are set in Vercel project settings
-
-**Environment variables missing**
-
-- Go to Vercel Dashboard → Project → Settings → Environment Variables
-- Add all variables from `.env.example`
-
-#### View Logs
-
-```bash
-vercel logs
-```
-
----
-
-### Railway
-
-#### Common Issues
-
-**"packages field missing or empty"**
-
-- This is a lockfile format issue
-- Update `railway.json` to use npm:
-
-```json
-{
-  "build": {
-    "builder": "NIXPACKS",
-    "buildCommand": "npm install && npm run build",
-    "installCommand": "npm install"
-  }
-}
-```
-
-**Database connection fails**
-
-- Verify DATABASE_URL in Railway variables
-- Ensure PostgreSQL plugin is active
-
-#### View Logs
-
-```bash
-railway logs
-```
-
-#### Useful Commands
-
-```bash
-railway status          # Check project status
-railway variables      # List environment variables
-railway redeploy       # Redeploy the service
-railway open           # Open Railway dashboard
-```
-
----
-
 ## <a name="links">🔗 Links</a>
 
 Assets used in the project can be found [here](https://drive.google.com/file/d/1TVhdnD97LajGsyaiNa6sDs-ap-z1oerA/view?usp=sharing)
 
-## <a name="more">🚀 More</a>
+---
+
+## <a name="contributing">🤝 Contributing
+
+Contributions are welcome! Please read our [contributing guidelines](./CONTRIBUTING.md) first.
+
+### Quick Start
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Make your changes
+4. Run the validation checks:
+   ```bash
+   npm run format
+   npm run type-check
+   npm run lint:strict
+   ```
+5. Commit your changes (`git commit -m 'Add amazing feature'`)
+6. Push to the branch (`git push origin feature/amazing-feature`)
+7. Open a Pull Request
+
+### Code Standards
+
+- Follow TypeScript strict mode
+- Use Server Actions for all mutations
+- Access database only through DAL helpers
+- Validate inputs with Zod
+- See [AGENTS.md](./AGENTS.md) for full guidelines
+
+---
+
+## <a name="license">📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
+
+---
+
+## 📚 Documentation
+
+For more detailed documentation, see the [docs](./docs) folder:
+
+| Document | Description |
+| --- | --- |
+| [Deploy to Vercel](./docs/deploy-to-vercel.md) | Vercel deployment guide |
+| [Deploy to Railway](./docs/deploy-to-railway.md) | Railway deployment guide |
+| [Deploy to Hostinger](./docs/deploy-to-hostinger.md) | Self-hosted VPS deployment |
+| [Drizzle ORM Guides](./docs/DrizzleORMGuides-context.md) | Database ORM documentation |
+| [Next.js Context](./docs/Next-js-context.md) | Next.js features and patterns |
+| [Credentials Provider](./docs/Credentials-Provider-context.md) | NextAuth credentials setup |
+
+---
+
+## 🚀 More
 
 **Advance your skills with Next.js Pro Course**
 
 Enjoyed creating this project? Dive deeper into our PRO courses for a richer learning experience. They're packed with detailed explanations, cool features, and exercises to boost your skills. Give it a go!
 
-<a href="#" target="_blank">
+<a href="https://www.youtube.com/playlist?list=PL6yR5PZzhVcwU5__wN5FQoNOk_9T-2-" target="_blank">
 <img src="https://i.ibb.co/804sPK6/Image-720.png" alt="Project Banner">
 </a>

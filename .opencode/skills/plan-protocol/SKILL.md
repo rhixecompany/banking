@@ -12,11 +12,14 @@ description: Guidelines for creating and managing implementation plans with cita
 When creating or updating a plan, ensure:
 
 - [ ] YAML frontmatter with `status`, `phase`, `updated`
-- [ ] `## Goal` section (one sentence)
+- [ ] **Title** (clear name) and **Description** (1-3 sentences)
+- [ ] **Personas** section with responsible roles
+- [ ] `## Goal` section (one sentence - alternative to Title)
 - [ ] `## Context & Decisions` table with citations (`ref:delegation-id`)
 - [ ] Phases with status markers: `[COMPLETE]`, `[IN PROGRESS]`, `[PENDING]`
 - [ ] Tasks with hierarchical numbering (1.1, 1.2, 2.1)
 - [ ] Only ONE task marked `← CURRENT`
+- [ ] **Verification checklist** for completion validation
 - [ ] Citations for all research-based decisions
 
 ---
@@ -50,6 +53,23 @@ updated: YYYY-MM-DD
 
 # Implementation Plan
 
+## Title
+
+CLEAR_PLAN_NAME
+
+## Description
+
+1-3 sentences describing what this plan covers.
+
+## Personas
+
+| Persona | Role |
+| ------- | ---- |
+| IMPLEMENTER | Performs code changes and tests |
+| REVIEWER | Reviews changes for correctness |
+| QA_ENGINEER | Runs E2E and exploratory tests |
+| MAINTAINER | Approves merges and destructive ops |
+
 ## Goal
 
 ONE_SENTENCE_DESCRIBING_OUTCOME
@@ -75,6 +95,12 @@ ONE_SENTENCE_DESCRIBING_OUTCOME
 
 - [ ] 3.1 Future task
 - [ ] 3.2 Another future task
+
+## Verification
+
+- [ ] Run `npm run build` - must pass
+- [ ] Run `npm run lint:strict` - zero warnings
+- [ ] Run `npm run test` - all tests pass
 
 ## Notes
 
@@ -175,6 +201,22 @@ updated: 2026-01-02
 
 # Implementation Plan
 
+## Title
+
+JWT Authentication with Refresh Tokens
+
+## Description
+
+Add JWT authentication with refresh token support for mobile-friendly stateless auth.
+
+## Personas
+
+| Persona | Role |
+| ------- | ---- |
+| IMPLEMENTER | Creates auth utilities and tests |
+| REVIEWER | Reviews security and implementation |
+| QA_ENGINEER | Runs E2E auth tests |
+
 ## Goal
 
 Add JWT authentication with refresh token support
@@ -201,6 +243,12 @@ Add JWT authentication with refresh token support
 
 - [ ] 3.1 Write unit tests
 - [ ] 3.2 Integration tests
+
+## Verification
+
+- [ ] Run `npm run build` - must pass
+- [ ] Run `npm run lint:strict` - zero warnings
+- [ ] Run `npm run test` - all tests pass
 
 ## Notes
 
@@ -259,7 +307,11 @@ Add authentication
 | "Missing frontmatter" | Add `---\nstatus: in-progress\nphase: 1\nupdated: 2026-01-02\n---` at top |
 | "Multiple CURRENT markers" | Remove `← CURRENT` from all but the active task |
 | "Invalid citation format" | Use `ref:delegation-id` format (e.g., `ref:swift-amber-falcon`) |
+| "Missing title" | Add `## Title` section with clear plan name |
+| "Missing description" | Add `## Description` with 1-3 sentence summary |
+| "Missing personas" | Add `## Personas` section with roles |
 | "Missing goal" | Add `## Goal` section with one-sentence description |
+| "Missing verification" | Add `## Verification` checklist |
 | "Empty phase" | Add at least one task to each phase |
 | "Invalid phase status" | Use `[PENDING]`, `[IN PROGRESS]`, `[COMPLETE]`, or `[BLOCKED]` |
 
@@ -270,8 +322,12 @@ Add authentication
 Before calling `plan_save`, verify:
 
 - [ ] **Frontmatter:** Has status, phase, and updated date?
+- [ ] **Title:** Is there a clear plan name?
+- [ ] **Description:** Is there a 1-3 sentence summary?
+- [ ] **Personas:** Are roles defined for each step?
 - [ ] **Goal:** Is there a clear, one-sentence goal?
 - [ ] **Citations:** Are all research-based decisions cited with `ref:id`?
 - [ ] **Single CURRENT:** Is exactly one task marked `← CURRENT`?
 - [ ] **Valid markers:** Do all phases use valid status markers?
 - [ ] **Hierarchical IDs:** Are tasks numbered correctly (1.1, 1.2, 2.1)?
+- [ ] **Verification:** Is there a completion checklist?

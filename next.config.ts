@@ -6,6 +6,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   bundlePagesRouterDependencies: true,
 
+  // Enable Cache Components for performance
   cacheComponents: true,
 
   compress: false,
