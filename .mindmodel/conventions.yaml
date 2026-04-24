@@ -1,0 +1,62 @@
+# Coding Conventions
+
+This file documents the coding conventions enforced in the Banking project.
+
+## TypeScript
+
+- **strict mode** is enabled in tsconfig.json - keep types exact
+- **Never use `any`** - use `unknown` with narrowing or type guards
+- **Explicit return types** for exported functions preferred
+
+## Environment Access
+
+- **Do NOT read `process.env` directly** in application code
+- Use `app-config.ts` (preferred) or `lib/env.ts` for typed env access
+- Exception: `scripts/seed/run.ts` intentionally loads .env before imports
+- `app-config.ts` provides Zod schema validation for all environment variables
+
+## Server Actions
+
+All mutations MUST be Server Actions with:
+1. `"use server"` directive
+2. Zod validation with `.safeParse()` before any work
+3. Early `auth()` call for protected actions
+4. Return consistent shape: `{ ok: boolean; error?: string }`
+
+## DAL and Database
+
+- Use `dal/*` helpers for ALL database access
+- **Avoid N+1 queries** - use eager loading or batch queries
+- Accept optional `tx` parameter in DAL write helpers for transactions
+
+## Testing
+
+- **Unit tests**: Use MSW for deterministic network mocks
+- **E2E tests**: Use Playwright with helpers in `tests/e2e/helpers/`
+- Use mock tokens (`seed-*`, `mock-*`) for deterministic tests
+- Reference `lib/plaid.ts` for `isMockAccessToken()` helper
+
+## Formatting & Linting
+
+- Run `npm run format` before committing
+- Run `npm run lint:strict` - zero warnings allowed for PRs
+- Run `npm run verify:rules` before PRs to catch policy violations
+
+## Security
+
+- Never commit secrets - use app-config.ts for typed env validation
+- Validate all inputs with Zod
+- Use parameterized queries (Drizzle handles this)
+
+## Commit Rules
+
+- Keep commits small and focused
+- If change affects >7 files, create a plan under `.opencode/commands/`
+- Run pre-PR checklist: `npm run format && npm run type-check && npm run lint:strict && npm run verify:rules`
+
+## Evidence
+
+- `tsconfig.json` - strict mode
+- `scripts/verify-rules.ts` - policy enforcement (detects process.env, any usage)
+- `app-config.ts` - typed env validation
+- `actions/register.ts` - Server Action pattern example

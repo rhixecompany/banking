@@ -100,15 +100,15 @@ export default function Loading() {
 
 ## When to Use Suspense
 
-| Pattern              | Use Suspense? | Reason              |
-| -------------------- | ------------- | ------------------- |
-| `cookies()`          | ✅ Yes        | Async in Next.js 16 |
-| `headers()`          | ✅ Yes        | Async in Next.js 16 |
-| `auth()`             | ✅ Yes        | Depends on cookies  |
-| `searchParams`       | ✅ Yes        | Async in Next.js 16 |
-| `params` (awaited)   | ✅ Yes        | Can be Promise      |
-| Static content       | ❌ No         | No async ops        |
-| Client Components    | ❌ No         | Already handled     |
+| Pattern            | Use Suspense? | Reason              |
+| ------------------ | ------------- | ------------------- |
+| `cookies()`        | ✅ Yes        | Async in Next.js 16 |
+| `headers()`        | ✅ Yes        | Async in Next.js 16 |
+| `auth()`           | ✅ Yes        | Depends on cookies  |
+| `searchParams`     | ✅ Yes        | Async in Next.js 16 |
+| `params` (awaited) | ✅ Yes        | Can be Promise      |
+| Static content     | ❌ No         | No async ops        |
+| Client Components  | ❌ No         | Already handled     |
 
 ## Common Errors
 

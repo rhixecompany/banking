@@ -1,13 +1,11 @@
 {
   "ok": true,
-  "projectConfig": "/root/banking/opencode.json",
-  "runtimeConfig": "/root/banking/.opencode/reports/opencode-debug-config.runtime.json",
+  "projectConfig": "C:/Users/Alexa/Desktop/SandBox/Banking/opencode.json",
+  "runtimeConfig": "C:/Users/Alexa/Desktop/SandBox/Banking/.opencode/reports/opencode-debug-config.runtime.json",
   "expectedCount": 23,
-  "runtimeCount": 24,
+  "runtimeCount": 23,
   "missing": [],
-  "extras": [
-    "opencode-agent-tmux"
-  ],
+  "extras": [],
   "projectDuplicates": [],
   "runtimeDuplicates": []
 }

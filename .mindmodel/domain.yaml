@@ -1,0 +1,71 @@
+# Domain Model
+
+This file documents the business domain entities and terminology in the Banking project.
+
+## Core Entities
+
+### User
+- **Fields**: id, email, name, createdAt, updatedAt
+- **Related**: UserProfile (one-to-one)
+- **Auth**: Managed via NextAuth v4
+
+### UserProfile
+- **Fields**: userId, firstName, lastName, phone, address, dateOfBirth
+- **Relationship**: One-to-one with User
+
+### Wallet
+- **Fields**: id, userId, name, type (checking/savings), balance, currency, status
+- **Operations**: Deposit, withdraw, transfer
+
+### Transaction
+- **Fields**: id, senderWalletId, receiverWalletId, amount, type, status, description
+- **Types**: transfer, deposit, withdrawal
+- **Statuses**: pending, completed, failed
+
+### Account (External Bank)
+- **Fields**: id, userId, plaidAccessToken, institutionId, institutionName, accountMask
+- **Integration**: Plaid for bank linking
+- **Purpose**: ACH transfers via Dwolla
+
+## Banking Operations
+
+### Plaid Bank Linking
+- User connects external bank account via Plaid Link
+- Access token stored securely (not exposed to client)
+- Used to verify account ownership and get account details
+
+### Dwolla ACH Transfers
+- **Types**: ACH debit (push), ACH credit (pull)
+- **Verification**: micro-deposits for account verification
+- **Webhook**: Dwolla webhook handlers for transfer status updates
+
+### Fund Transfers
+- Internal wallet-to-wallet transfers
+- External bank account transfers via Dwolla
+- Transaction history tracking
+
+## Features/Pages
+
+| Route | Description |
+|-------|-------------|
+| `/` | Landing page (public, static) |
+| `/sign-in` | NextAuth login |
+| `/sign-up` | User registration |
+| `/dashboard` | Main dashboard with balance overview |
+| `/my-wallets` | User's wallet management |
+| `/payment-transfer` | Send money to internal or external accounts |
+| `/transaction-history` | Transaction history with filters |
+| `/settings` | User settings and profile |
+
+## Business Workflows
+
+1. **Registration**: User signs up → profile created → default wallet created
+2. **Bank Linking**: User connects bank → Plaid token exchanged → Dwolla funding source created
+3. **Deposit**: External bank → Dwolla ACH credit → Wallet balance increased
+4. **Transfer**: Wallet → Wallet (internal) or Wallet → External bank (ACH debit)
+
+## Evidence
+
+- `database/schema.ts` - Drizzle schema definitions
+- `actions/register.ts` - registration workflow
+- `actions/dwolla.actions.ts` - ACH transfer operations

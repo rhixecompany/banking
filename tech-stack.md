@@ -92,6 +92,8 @@ This file lists the exact technology versions and key libraries observed in the 
 | react       | 19.x            |
 | TypeScript  | 6.x             |
 
----
+## Provenance
 
-Last updated: 2026-04-23
+This file is auto-generated from package.json. Run `npm run validate` to verify versions match.
+
+_Last updated: 2026-04-24_

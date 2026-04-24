@@ -1,0 +1,128 @@
+# Anti-Patterns
+
+This file documents anti-patterns and inconsistencies to avoid in the Banking project.
+
+## Critical Anti-Patterns
+
+### 1. Direct process.env Usage
+
+**BAD** (in app/, lib/, components/):
+```typescript
+const apiKey = process.env.API_KEY;
+```
+
+**GOOD**:
+```typescript
+// Preferred
+import { plaid } from "@/app-config";
+const clientId = plaid.PLAID_CLIENT_ID;
+
+// Or backward compatibility
+import { env } from "@/lib/env";
+const apiKey = env.API_KEY;
+```
+
+### 2. N+1 Query Patterns
+
+**BAD**:
+```typescript
+const users = await userDal.findAll();
+for (const user of users) {
+  user.accounts = await accountDal.findByUserId(user.id);
+}
+```
+
+**GOOD** (from dal/transaction.dal.ts):
+```typescript
+const usersWithAccounts = await userDal.findAllWithAccounts();
+```
+
+### 3. Missing Zod Validation in Server Actions
+
+**BAD**:
+```typescript
+export async function createUser(input: any) {
+  // No validation
+  await userDal.create(input);
+}
+```
+
+**GOOD**:
+```typescript
+const CreateUserSchema = z.object({...});
+
+export async function createUser(input: unknown) {
+  const parsed = CreateUserSchema.safeParse(input);
+  if (!parsed.success) {
+    return { ok: false, error: parsed.error.message };
+  }
+  // proceed with mutation
+}
+```
+
+### 4. Missing Auth Check in Protected Actions
+
+**BAD**:
+```typescript
+export async function deleteUser(id: string) {
+  // No auth check!
+  await userDal.delete(id);
+}
+```
+
+**GOOD**:
+```typescript
+export async function deleteUser(id: string) {
+  const session = await auth();
+  if (!session?.user) {
+    return { ok: false, error: "Unauthorized" };
+  }
+  // proceed
+}
+```
+
+### 5. Using `any` Type
+
+**BAD**:
+```typescript
+function parse(input: any) { ... }
+```
+
+**GOOD**:
+```typescript
+function parse(input: unknown): string {
+  // Use type guards or Zod
+}
+```
+
+## Warnings
+
+### 6. Direct DB Imports in UI
+
+- Components should not import database clients directly
+- Use Server Components to fetch data via DAL
+
+### 7. Inconsistent Error Handling
+
+- Always return `{ ok: boolean; error?: string }` from Server Actions
+- Log errors appropriately
+
+### 8. Missing Revalidation
+
+- After mutations, call `revalidatePath()` or `revalidateTag()`
+- Ensures UI reflects latest data
+
+## Enforcement
+
+The repository uses `scripts/verify-rules.ts` to detect:
+- Direct `process.env` usage (critical)
+- `any` type usage
+- Missing Server Action patterns
+- N+1 query patterns
+
+Run `npm run verify:rules` before PRs.
+
+## Evidence
+
+- `scripts/verify-rules.ts` - AST-based policy enforcement
+- `coding-standards.md` - enforceable rules

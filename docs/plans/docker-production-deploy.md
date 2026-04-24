@@ -5,9 +5,11 @@ plan status: active
 ---
 
 ## Idea
+
 Deploy the Banking application to a production server using Docker Compose with all features: Traefik reverse proxy, full monitoring stack (Prometheus/Grafana), PostgreSQL, Redis, and fresh secure secrets generation.
 
 ## Implementation
+
 - 1. Generate fresh secure secrets: Run npm run docker:env:generate to create new .envs/production/.env.production with new ENCRYPTION_KEY, NEXTAUTH_SECRET, POSTGRES_PASSWORD, REDIS_PASSWORD
 - 2. Update environment file: Edit .envs/production/.env.production with production DOMAIN (e.g., rhixecompany.online), NEXTAUTH_URL, LETSENCRYPT_EMAIL, and optional integrations (Plaid/Dwolla credentials if using real APIs)
 - 3. Generate htpasswd for Traefik: Run scripts/generate-htpasswd.sh to create Traefik dashboard credentials (or verify existing htpasswd)
@@ -19,5 +21,6 @@ Deploy the Banking application to a production server using Docker Compose with 
 - 9. Verify deployment: Check docker compose ps, verify health endpoints, and test app accessibility
 
 ## Required Specs
+
 <!-- SPECS_START -->
 <!-- SPECS_END -->

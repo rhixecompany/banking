@@ -42,14 +42,14 @@ This document provides a comprehensive reference for naming conventions, code pa
 
 ### 1.4 Imports & Aliases
 
-| Alias | Resolution | Usage |
-| --- | --- | --- |
-| `@/` | `/root/banking` | Root imports |
+| Alias          | Resolution                 | Usage             |
+| -------------- | -------------------------- | ----------------- |
+| `@/`           | `/root/banking`            | Root imports      |
 | `@/components` | `/root/banking/components` | Component imports |
-| `@/lib` | `/root/banking/lib` | Library imports |
-| `@/dal` | `/root/banking/dal` | Data access layer |
-| `@/actions` | `/root/banking/actions` | Server actions |
-| `@/types` | `/root/banking/types` | Type definitions |
+| `@/lib`        | `/root/banking/lib`        | Library imports   |
+| `@/dal`        | `/root/banking/dal`        | Data access layer |
+| `@/actions`    | `/root/banking/actions`    | Server actions    |
+| `@/types`      | `/root/banking/types`      | Type definitions  |
 
 ---
 
@@ -70,7 +70,7 @@ import { userDal } from "@/dal/user.dal";
 
 const SignInSchema = z.object({
   email: z.string().trim().email(),
-  password: z.string().trim().min(8),
+  password: z.string().trim().min(8)
 });
 
 export default async function signin(payload: unknown) {
@@ -78,18 +78,18 @@ export default async function signin(payload: unknown) {
   if (!parsed.success) {
     return { error: "Invalid input", ok: false };
   }
-  
+
   const { email, password } = parsed.data;
   const user = await userDal.findByEmail(email);
-  
+
   if (!user) {
     return { error: "Invalid credentials", ok: false };
   }
-  
+
   if (!user.isActive) {
     return { error: "Account disabled", ok: false };
   }
-  
+
   const ok = await bcrypt.compare(password, user.password ?? "");
   if (!ok) {
     return { error: "Invalid credentials", ok: false };
@@ -108,6 +108,7 @@ export default async function signin(payload: unknown) {
 5. Auth check via `auth()` for protected actions
 
 **Reference Files**:
+
 - `actions/register.ts` - User registration with password hashing
 - `actions/auth.signin.ts` - Authentication flow
 
@@ -121,12 +122,17 @@ export default async function signin(payload: unknown) {
 // File: dal/user.dal.ts
 export class UserDal {
   async findByEmail(email: string): Promise<User | null> {
-    const result = await db.select().from(users).where(eq(users.email, email));
+    const result = await db
+      .select()
+      .from(users)
+      .where(eq(users.email, email));
     return result[0] || null;
   }
 
   async findById(id: string): Promise<User | null> {
-    const result = await db.select().from(users)
+    const result = await db
+      .select()
+      .from(users)
       .where(and(eq(users.id, id), isNull(users.deletedAt)));
     return result[0] || null;
   }
@@ -136,8 +142,12 @@ export class UserDal {
     return created;
   }
 
-  async update(id: string, data: Partial<User>): Promise<User | null> {
-    const [updated] = await db.update(users)
+  async update(
+    id: string,
+    data: Partial<User>
+  ): Promise<User | null> {
+    const [updated] = await db
+      .update(users)
       .set({ ...data, updatedAt: new Date() })
       .where(and(eq(users.id, id), isNull(users.deletedAt)))
       .returning();
@@ -145,7 +155,8 @@ export class UserDal {
   }
 
   async delete(id: string): Promise<boolean> {
-    const result = await db.update(users)
+    const result = await db
+      .update(users)
       .set({ deletedAt: new Date() })
       .where(and(eq(users.id, id), isNull(users.deletedAt)))
       .returning();
@@ -163,6 +174,7 @@ export class UserDal {
 5. Return single result or null: `result[0] || null`
 
 **Reference Files**:
+
 - `dal/user.dal.ts` - User data access
 - `dal/transaction.dal.ts` - Transaction data access with eager loading
 
@@ -174,7 +186,15 @@ export class UserDal {
 
 ```typescript
 // File: database/schema.ts
-import { pgTable, text, timestamp, boolean, uuid, decimal, pgEnum } from "drizzle-orm/pg_core";
+import {
+  pgTable,
+  text,
+  timestamp,
+  boolean,
+  uuid,
+  decimal,
+  pgEnum
+} from "drizzle-orm/pg_core";
 
 // Enums
 export const userRoleEnum = pgEnum("user_role", ["user", "admin"]);
@@ -182,7 +202,7 @@ export const transactionStatusEnum = pgEnum("transaction_status", [
   "pending",
   "completed",
   "failed",
-  "cancelled",
+  "cancelled"
 ]);
 
 // Users Table
@@ -195,7 +215,7 @@ export const users = pgTable("users", {
   isActive: boolean("is_active").default(true).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
-  deletedAt: timestamp("deleted_at"),
+  deletedAt: timestamp("deleted_at")
 });
 
 // Transactions Table
@@ -209,11 +229,13 @@ export const transactions = pgTable("transactions", {
     .notNull(),
   amount: decimal("amount", { precision: 19, scale: 4 }).notNull(),
   type: transactionTypeEnum("type").notNull(),
-  status: transactionStatusEnum("status").default("pending").notNull(),
+  status: transactionStatusEnum("status")
+    .default("pending")
+    .notNull(),
   description: text("description"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
-  deletedAt: timestamp("deleted_at"),
+  deletedAt: timestamp("deleted_at")
 });
 ```
 
@@ -226,6 +248,7 @@ export const transactions = pgTable("transactions", {
 5. Default values: `.default(value)` or `.defaultRandom()` for UUIDs
 
 **Reference Files**:
+
 - `database/schema.ts` - Full schema definition
 
 ---
@@ -265,7 +288,7 @@ export const signUpSchema = z.object({
     .string()
     .trim()
     .optional()
-    .meta({ description: "Street address" }),
+    .meta({ description: "Street address" })
 });
 
 export type SignUpInput = z.infer<typeof signUpSchema>;
@@ -280,6 +303,7 @@ export type SignUpInput = z.infer<typeof signUpSchema>;
 5. Optional fields: `.optional()` before validators
 
 **Reference Files**:
+
 - `lib/validations/auth.ts` - Authentication validation
 - `lib/schemas/auth.schema.ts` - Additional schemas
 
@@ -304,24 +328,31 @@ export function cn(...inputs: ClassValue[]): string {
 /**
  * Format amount as currency
  */
-export function formatAmount(amount: number | string, currency = "USD"): string {
-  const num = typeof amount === "string" ? parseFloat(amount) : amount;
+export function formatAmount(
+  amount: number | string,
+  currency = "USD"
+): string {
+  const num =
+    typeof amount === "string" ? parseFloat(amount) : amount;
   return new Intl.NumberFormat("en-US", {
     style: "currency",
-    currency,
+    currency
   }).format(num);
 }
 
 /**
  * Format date for display
  */
-export function formatDate(date: Date | string, options?: Intl.DateTimeFormatOptions): string {
+export function formatDate(
+  date: Date | string,
+  options?: Intl.DateTimeFormatOptions
+): string {
   const d = typeof date === "string" ? new Date(date) : date;
   return d.toLocaleDateString("en-US", {
     year: "numeric",
     month: "short",
     day: "numeric",
-    ...options,
+    ...options
   });
 }
 ```
@@ -333,6 +364,7 @@ export function formatDate(date: Date | string, options?: Intl.DateTimeFormatOpt
 3. Date handling with `toLocaleDateString()`
 
 **Reference Files**:
+
 - `lib/utils.ts` - Utility functions
 
 ---
@@ -343,7 +375,11 @@ export function formatDate(date: Date | string, options?: Intl.DateTimeFormatOpt
 
 ```typescript
 // File: lib/auth.ts
-import { type DefaultSession, getServerSession, type Session } from "next-auth";
+import {
+  type DefaultSession,
+  getServerSession,
+  type Session
+} from "next-auth";
 import { authOptions } from "@/lib/auth-options";
 
 declare module "next-auth" {
@@ -368,6 +404,7 @@ export function auth(): Promise<null | Session> {
 3. Custom properties: `id`, `isAdmin`, `isActive`
 
 **Reference Files**:
+
 - `lib/auth.ts` - Auth helper
 - `lib/auth-options.ts` - NextAuth configuration
 - `app/api/auth/[...nextauth]/route.ts` - API route
@@ -386,21 +423,21 @@ import { redirect } from "next/navigation";
 
 export default async function DashboardServerWrapper() {
   const session = await auth();
-  
+
   if (!session?.user) {
     redirect("/signin");
   }
-  
+
   const user = await userDal.findById(session.user.id);
-  
+
   if (!user) {
     redirect("/signin");
   }
-  
+
   const accounts = await getAccounts();
   const wallets = await userDal.findWalletsById(session.user.id);
   const transactions = await getTransactionsByUserId(session.user.id);
-  
+
   return (
     <DashboardClientWrapper
       accounts={accounts}
@@ -448,6 +485,7 @@ export function DashboardClientWrapper({
 4. Client handles interactivity (state, effects)
 
 **Reference Files**:
+
 - `components/dashboard/dashboard-server-wrapper.tsx`
 - `components/dashboard/dashboard-client-wrapper.tsx`
 
@@ -487,6 +525,7 @@ export async function someAction(input: unknown) {
 4. Never expose internal error details to client
 
 **Reference Files**:
+
 - `actions/register.ts` - Registration with duplicate check
 - `dal/*.dal.ts` - DAL operations
 
@@ -498,34 +537,34 @@ export async function someAction(input: unknown) {
 
 **Pattern**: Use shadcn/ui primitives from `@/components/ui/*`.
 
-| Component | Location | Usage |
-| --- | --- | --- |
-| Button | `components/ui/button.tsx` | Action buttons |
-| Input | `components/ui/input.tsx` | Form inputs |
-| Card | `components/ui/card.tsx` | Content containers |
-| Dialog | `components/ui/dialog.tsx` | Modal dialogs |
-| Select | `components/ui/select.tsx` | Dropdowns |
-| Table | `components/ui/table.tsx` | Data tables |
+| Component | Location                   | Usage              |
+| --------- | -------------------------- | ------------------ |
+| Button    | `components/ui/button.tsx` | Action buttons     |
+| Input     | `components/ui/input.tsx`  | Form inputs        |
+| Card      | `components/ui/card.tsx`   | Content containers |
+| Dialog    | `components/ui/dialog.tsx` | Modal dialogs      |
+| Select    | `components/ui/select.tsx` | Dropdowns          |
+| Table     | `components/ui/table.tsx`  | Data tables        |
 
 ### 3.2 Shared Components
 
 **Pattern**: Reusable components in `components/shared/*`.
 
-| Component | Purpose |
-| --- | --- |
+| Component              | Purpose                |
+| ---------------------- | ---------------------- |
 | `wallets-overview.tsx` | Wallet summary display |
-| `bank-card.tsx` | Linked bank card |
-| `transaction-list.tsx` | Transaction items |
+| `bank-card.tsx`        | Linked bank card       |
+| `transaction-list.tsx` | Transaction items      |
 
 ### 3.3 Layout Components
 
 **Pattern**: Layout components in `components/layouts/*`.
 
-| Component | Purpose |
-| --- | --- |
+| Component     | Purpose            |
+| ------------- | ------------------ |
 | `sidebar.tsx` | Navigation sidebar |
-| `header.tsx` | Page header |
-| `footer.tsx` | Page footer |
+| `header.tsx`  | Page header        |
+| `footer.tsx`  | Page footer        |
 
 ---
 
@@ -584,7 +623,7 @@ describe("UserDal", () => {
   beforeEach(() => {
     // Reset mock state
   });
-  
+
   it("should find user by email", async () => {
     const user = await userDal.findByEmail("test@example.com");
     expect(user).toBeDefined();
@@ -616,30 +655,30 @@ test.describe("Authentication", () => {
 
 ### 6.1 Core Commands
 
-| Command | Purpose |
-| --- | --- |
-| `npm run dev` | Start development server |
-| `npm run build` | Build for production |
-| `npm run start` | Start production server |
-| `npm run lint` | Run ESLint |
+| Command               | Purpose                     |
+| --------------------- | --------------------------- |
+| `npm run dev`         | Start development server    |
+| `npm run build`       | Build for production        |
+| `npm run start`       | Start production server     |
+| `npm run lint`        | Run ESLint                  |
 | `npm run lint:strict` | Run ESLint with strict mode |
 
 ### 6.2 Database Commands
 
-| Command | Purpose |
-| --- | --- |
+| Command               | Purpose                    |
+| --------------------- | -------------------------- |
 | `npm run db:generate` | Generate Drizzle migration |
-| `npm run db:migrate` | Run migrations |
-| `npm run db:push` | Push schema to database |
-| `npm run db:seed` | Seed database |
+| `npm run db:migrate`  | Run migrations             |
+| `npm run db:push`     | Push schema to database    |
+| `npm run db:seed`     | Seed database              |
 
 ### 6.3 Testing Commands
 
-| Command | Purpose |
-| --- | --- |
-| `npm run test` | Run all tests |
-| `npm run test:ui` | Run E2E tests (Playwright) |
-| `npm run test:browser` | Run unit tests (Vitest) |
+| Command                | Purpose                    |
+| ---------------------- | -------------------------- |
+| `npm run test`         | Run all tests              |
+| `npm run test:ui`      | Run E2E tests (Playwright) |
+| `npm run test:browser` | Run unit tests (Vitest)    |
 
 ---
 
@@ -647,11 +686,11 @@ test.describe("Authentication", () => {
 
 ### 7.1 Return Shapes
 
-| Function Type | Return Shape |
-| --- | --- |
+| Function Type | Return Shape                      |
+| ------------- | --------------------------------- |
 | Server Action | `{ ok: boolean; error?: string }` |
-| Query Action | `{ data?: T; error?: string }` |
-| Auth Check | Redirects or returns Session |
+| Query Action  | `{ data?: T; error?: string }`    |
+| Auth Check    | Redirects or returns Session      |
 
 ### 7.2 Common Patterns
 

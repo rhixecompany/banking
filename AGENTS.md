@@ -110,6 +110,8 @@ npm run db:seed    # Seed local DB
 - Add new env vars to `app-config.ts` for typed validation.
 - **Never commit secrets**. Use `.env.example` for documentation.
 
+**Evidence**: `scripts/verify-rules.ts` uses ts-morph AST analysis to detect `process.env` usage in `app/`, `lib/`, `components/`. See `app-config.ts` for typed schema-based config validation.
+
 ---
 
 ## Server Actions Pattern
@@ -161,6 +163,8 @@ export async function createUser(
 5. Use DAL helpers for DB access
 6. Revalidate caches/tags where needed
 
+**Evidence**: `actions/register.ts` implements this pattern. `scripts/verify-rules.ts` validates Server Action heuristics via AST analysis.
+
 ---
 
 ## DAL Patterns
@@ -182,6 +186,8 @@ for (const user of users) {
 // GOOD (eager loading)
 const usersWithAccounts = await userDal.findAllWithAccounts();
 ```
+
+**Evidence**: `dal/transaction.dal.ts` implements `findByUserIdWithWallets()` using batch wallet fetch to avoid N+1. Uses optional `opts.db` parameter for transaction composition.
 
 ---
 
@@ -220,6 +226,8 @@ const usersWithAccounts = await userDal.findAllWithAccounts();
 - Use helpers in `tests/e2e/helpers/` for E2E
 - Follow existing test structure
 
+**Evidence**: `tests/e2e/helpers/plaid.mock.ts` provides mock Plaid Link injection. `lib/plaid.ts` exports `isMockAccessToken()` for deterministic test shortcuts.
+
 ---
 
 ## Testing Approach
@@ -242,6 +250,8 @@ const usersWithAccounts = await userDal.findAllWithAccounts();
 - Free port 3000 before running tests
 - Use mock tokens (`mock*`, `seed*`) for deterministic tests
 - See `lib/plaid.ts` for `isMockAccessToken()` helper
+
+**Evidence**: `package.json` scripts: `test:browser` (Vitest), `test:ui` (Playwright). `scripts/verify-rules.ts` enforces home page remains static (no auth/DB).
 
 ---
 
@@ -275,6 +285,8 @@ export function parse(input: unknown): string {
   return input.value;
 }
 ```
+
+**Evidence**: `tsconfig.json` sets `"strict": true`. `scripts/verify-rules.ts` uses ts-morph to detect `any` usage.
 
 ---
 
@@ -326,6 +338,8 @@ export async function GET() {
 }
 ```
 
+**Evidence**: `next.config.ts` enables `cacheComponents: true` and `reactCompiler: true`. `typedRoutes: true` enabled.
+
 ---
 
 ## Project Structure
@@ -362,6 +376,8 @@ tests/               # Unit and E2E tests
 - CI runs: `verify:rules` and `lint:strict`
 - Use `npm run verify:rules:ci` for JSON output
 - Output: `.opencode/reports/rules-report.json`
+
+**Evidence**: `scripts/verify-rules.ts` uses ts-morph for AST-based rule enforcement. Supports `--ci` mode that exits with code 2 on critical violations.
 
 ---
 
@@ -425,7 +441,7 @@ Priority sources for context:
 This file provides high-level guidance. For detailed, topic-specific instructions, refer to:
 
 | Topic | File | Purpose |
-| ----- | ---- | --------|
+| --- | --- | --- |
 | Commands | `.opencode/instructions/00-default-rules.md` | Quick start commands |
 | Code Style | `.opencode/instructions/01-core-standards.md` | Format, lint, type-check rules |
 | Next.js | `.opencode/instructions/02-nextjs-patterns.md` | Server Actions, Cache Components |
@@ -439,8 +455,26 @@ Full index: `.opencode/instructions/index.md`
 
 ---
 
+## Provenance
+
+This file is maintained based on codebase analysis. Evidence sources:
+
+- `package.json` — scripts, dependencies, versions
+- `tsconfig.json` — TypeScript strict mode, compiler options
+- `next.config.ts` — Next.js 16 features, cache components
+- `app-config.ts` — typed env validation
+- `lib/env.ts` — env re-exports
+- `scripts/verify-rules.ts` — AST-based policy enforcement
+- `dal/transaction.dal.ts` — DAL patterns with eager loading
+- `actions/register.ts` — Server Action pattern
+- `lib/plaid.ts` — mock token detection
+- `tests/e2e/helpers/plaid.mock.ts` — E2E mock helpers
+- `.opencode/instructions/*` — agent rules
+
+---
+
 ## Contributors
 
 This file is maintained and updated based on codebase analysis. Edits should preserve patterns observed in existing code.
 
-Last updated: 2026-04-23
+_Last updated: 2026-04-24_

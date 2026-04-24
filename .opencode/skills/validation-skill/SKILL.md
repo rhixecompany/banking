@@ -71,7 +71,11 @@ export const transferSchema = z
       .positive("Amount must be positive")
       .max(10000, "Amount exceeds limit")
       .meta({ description: "Transfer amount" }),
-    memo: z.string().max(100).optional().meta({ description: "Transfer memo" })
+    memo: z
+      .string()
+      .max(100)
+      .optional()
+      .meta({ description: "Transfer memo" })
   })
   .refine(d => d.amount > 0, {
     message: "Amount must be greater than 0",

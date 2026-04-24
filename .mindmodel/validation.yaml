@@ -1,0 +1,80 @@
+# Validation Patterns
+
+This file documents the Zod validation patterns used in the Banking project.
+
+## Schema Pattern
+
+All input schemas should use Zod with descriptive error messages:
+
+```typescript
+import { z } from "zod";
+
+export const signUpSchema = z.object({
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(8, "Password must be at least 8 characters")
+    .max(100, "Password must be less than 100 characters"),
+  name: z.string().min(1, "Name is required")
+    .max(100, "Name must be less than 100 characters"),
+  // Add .describe() for documentation
+}).describe("User registration input");
+```
+
+## Validation Rules
+
+1. **Always use `.safeParse()`** for Server Action inputs
+2. **Include descriptive error messages** for each field
+3. **Use `.describe()`** on schemas for documentation
+4. **Slice errors** to limit displayed issues (e.g., first 3 errors)
+5. **Return consistent shape**: `{ ok: false, error: string }`
+
+## Example: Server Action Validation
+
+```typescript
+const parsed = signUpSchema.safeParse(input);
+if (!parsed.success) {
+  const allErrors = parsed.error.issues
+    .slice(0, 3)
+    .map(issue => issue.message)
+    .join("; ");
+  return { ok: false, error: allErrors };
+}
+```
+
+## Common Validators
+
+| Validator | Use Case |
+|-----------|----------|
+| `z.string().email()` | Email addresses |
+| `z.string().min(n)` | Minimum string length |
+| `z.string().max(n)` | Maximum string length |
+| `z.number().positive()` | Positive numbers |
+| `z.number().min(n)` | Minimum number value |
+| `z.string().date()` | Date strings |
+| `z.enum([...])` | Enumeration values |
+| `z.array(z.string())` | Array of strings |
+
+## Validation Files
+
+- `lib/validations/auth.ts` - Authentication schemas
+- `lib/validations/user.ts` - User-related schemas
+- `lib/validations/transaction.ts` - Transaction schemas
+
+## Integration with Forms
+
+Use `@hookform/resolvers` with react-hook-form:
+
+```typescript
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { signUpSchema } from "@/lib/validations/auth";
+
+const form = useForm({
+  resolver: zodResolver(signUpSchema),
+});
+```
+
+## Evidence
+
+- `lib/validations/auth.ts` - auth validation schemas
+- `actions/register.ts` - validation in Server Actions
+- `app-config.ts` - Zod schema for environment validation

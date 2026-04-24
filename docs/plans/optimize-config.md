@@ -57,7 +57,7 @@ Optimize and consolidate agent instruction files per user priorities.
 ## Files to Delete
 
 | File | Redirects To |
-|------|------------|
+| --- | --- |
 | `.opencode/instructions/agents_quickstart.md` | AGENTS.md |
 | `.opencode/instructions/09-plan-file-standards.md` | plan-workflow.md |
 | `.opencode/instructions/09-command_plan_steps_rules.md` | plan-workflow.md |

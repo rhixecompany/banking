@@ -1,57 +1,220 @@
 # Custom Components — Inventory & Guidelines
 
-Purpose
+**Date:** 2026-04-24  
+**Scope:** All custom components in `./components/**` (excluding `./components/ui/**`)  
+**Status:** IN_PROGRESS
 
-- Capture conventions for custom components that are referenced directly by pages (excluding the component library under ./components/ui).
+---
 
-Guidelines
+## Purpose
 
-- Structure: prefer presentational components to be pure (props-only) and free of fetching logic. If a component mixes fetching + rendering, extract the presentational part into components/layouts.
-- Tests: add unit tests for presentational components. Keep DOM interaction minimal and avoid heavy E2E testing for presentational-only pieces.
-- Naming: components under components/layouts should be kebab-cased folders with an index.tsx exporting the primary component.
+Capture conventions for custom components that are referenced directly by pages, excluding the component library under `./components/ui`.
 
-Example
+---
 
-- components/layouts/total-balance/
-  - index.tsx
-  - total-balance.test.tsx
+## Guidelines
 
-Inventory
+### Structure
 
-- This document is a living inventory. Use the per-page audits (docs/app-pages.md) and the per-page plan artifacts to keep this list up to date.
+- Prefer presentational components to be pure (props-only) and free of fetching logic
+- If a component mixes fetching + rendering, extract the presentational part into `components/layouts`
+- Components under `components/layouts` should be kebab-cased folders with an `index.tsx` exporting the primary component
 
-Current components (non-ui library) referenced directly by pages
+### Tests
 
-- components/total-balance-box/total-balance-box.tsx — Presentational card showing total balance and chart. Candidate to extract into components/layouts/total-balance with a small unit test.
-  - Note: `components/layouts/total-balance` has been added and includes `index.tsx` and `total-balance.test.tsx`.
+- Add unit tests for presentational components
+- Keep DOM interaction minimal and avoid heavy E2E testing for presentational-only pieces
 
-Helpers & Test notes:
+### Naming
 
-- Added `tests/fixtures/seed-user.json` as the canonical seeded test user.
-- Added `tests/mocks/handlers.ts` with a minimal MSW handler and updated `tests/setup.ts` to start an MSW server for unit tests.
-- components/shared/wallets-overview.tsx — Presentational list of linked wallets with optional actions. Candidate to split into a pure WalletCard under components/layouts/wallet-card and a wrapper that handles onRemove.
-- components/payment-transfer/payment-transfer-client-wrapper.tsx — Client wrapper that contains TransferSchema and form wiring; TransferSchema should be moved to lib/schemas/transfer.schema.ts and the presentational PaymentTransferForm (already under components/layouts) kept schema-agnostic.
-  - Note: TransferSchema has been centralized to `lib/schemas/transfer.schema.ts` and `components/layouts/payment-transfer-form.tsx` is presentational and schema-agnostic.
-- components/payment-transfer/payment-transfer-server-wrapper.tsx — Server wrapper (auth + parallel fetch) that correctly passes createTransfer server action into the client wrapper (pattern is correct).
-- components/transaction-history/\* — Client mapping and datatable pieces. Transaction rows should be rendered by a presentational component under components/layouts/transaction-row and DAL should provide eager-loaded wallet metadata to avoid N+1 queries.
-- components/settings/\* — Client/server wrappers currently duplicate ProfileSchema and PasswordSchema. Move schemas to lib/schemas/profile.schema.ts and import both server- and client-side where needed.
-- components/auth-form/\* — Reusable auth UI used by sign-in and sign-up pages. Keep presentational and behaviour separated; server actions should be injected by the server wrapper.
+- Components under `components/layouts` should be kebab-cased folders with an `index.tsx`
+- Example: `components/layouts/total-balance/index.tsx` + `total-balance.test.tsx`
 
-Actionable Guidelines
+---
 
-- Extraction rule: If a component mixes data fetching or auth with rendering, extract a components/layouts/<kebab-name> presentational component that accepts props only (data + callbacks). Keep server wrappers responsible for fetch/auth and pass props down.
-- Schema centralization: All Zod schemas that are shared by server and client must live under lib/schemas/ with explicit .describe() messages per AGENTS.md. Client wrappers should import types from those schemas rather than re-defining them.
-- DAL responsibilities: components must not perform DB access. If a page requires joined metadata (for example transactions with wallet names), add a dal helper (e.g., transactionDal.findByUserIdWithWallets) that returns the joined data in one query.
-- Tests: Add unit tests for extracted presentational components under the same folder as the component (e.g., components/layouts/total-balance/total-balance.test.tsx). Keep tests fast and deterministic: prefer mocking server actions and using the autoSubmit + initial\* pattern for form-based components in unit tests.
-- Naming: components/layouts folders should be kebab-cased and export a single default component via index.tsx. Keep file names small and consistent with existing project conventions.
+## Inventory
 
-How to update this file
+### Layout Components (`components/layouts/`)
 
-- When you extract or create a presentational component, add a single-line inventory entry here describing the component, its path, and any migration notes (for example: moved TransferSchema -> lib/schemas/transfer.schema.ts).
-- When you add a shared schema under lib/schemas/, add a cross-reference line here to indicate which components/pages consume it.
+| Component | Path | Status | Notes |
+| --- | --- | --- | --- |
+| **RootLayoutWrapper** | `components/layouts/RootLayoutWrapper.tsx` | ✅ Presentational | Main app shell with header/sidebar |
+| **AuthLayoutWrapper** | `components/layouts/AuthLayoutWrapper.tsx` | ✅ Presentational | Auth pages wrapper |
+| **AdminLayoutWrapper** | `components/layouts/AdminLayoutWrapper.tsx` | ✅ Presentational | Admin pages wrapper |
+| **PageShell** | `components/layouts/PageShell.tsx` | ✅ Presentational | Reusable page container |
+| **AuthForm** | `components/layouts/auth-form/index.tsx` | ✅ Presentational | Login/register form template |
+| **TotalBalance** | `components/layouts/total-balance/index.tsx` | ✅ Presentational | Balance display with chart |
+| **WalletCard** | `components/layouts/wallet-card/index.tsx` | ✅ Presentational | Individual wallet display |
+| **TransactionList** | `components/layouts/transaction-list.tsx` | ✅ Presentational | Transaction list renderer |
+| **TransactionHistoryClient** | `components/layouts/transaction-history-client/index.tsx` | ✅ Presentational | Transaction table component |
+| **PaymentTransferForm** | `components/layouts/payment-transfer-form.tsx` | ✅ Presentational | Transfer form (schema-agnostic) |
+| **PaymentTransferClient** | `components/layouts/payment-transfer-client/index.tsx` | ✅ Presentational | Transfer page wrapper |
+| **SettingsProfileForm** | `components/layouts/settings-profile-form.tsx` | ✅ Presentational | Profile settings form |
+| **SettingsClient** | `components/layouts/settings-client/index.tsx` | ✅ Presentational | Settings page wrapper |
+| **MyWalletsClient** | `components/layouts/my-wallets-client/index.tsx` | ✅ Presentational | Wallets page wrapper |
+| **DashboardClient** | `components/layouts/dashboard-client/index.tsx` | ✅ Presentational | Dashboard page wrapper |
+| **AdminDashboard** | `components/layouts/admin-dashboard/index.tsx` | ✅ Presentational | Admin dashboard wrapper |
+| **AdminData** | `components/layouts/admin-data/index.tsx` | ✅ Presentational | Admin data table |
+| **AdminSidebar** | `components/layouts/admin-sidebar.tsx` | ✅ Presentational | Admin navigation |
+| **TransferSummary** | `components/layouts/transfer-summary.tsx` | ✅ Presentational | Transfer confirmation |
+| **HomeFooter** | `components/layouts/home-footer.tsx` | ✅ Presentational | Landing page footer |
+| **FeaturesGrid** | `components/layouts/features-grid.tsx` | ✅ Presentational | Landing page features |
+| **CtaGetStarted** | `components/layouts/cta-get-started.tsx` | ✅ Presentational | Call-to-action component |
+| **DataTable** | `components/layouts/data-table/index.tsx` | ✅ Presentational | Reusable data table |
+| **Card** | `components/layouts/card/index.tsx` | ✅ Presentational | Generic card component |
+| **Row** | `components/layouts/row/index.tsx` | ✅ Presentational | Row layout component |
+| **Form** | `components/layouts/form/index.tsx` | ✅ Presentational | Form utilities |
+| **FormField** | `components/layouts/form/form-field.tsx` | ✅ Presentational | Form field component |
+| **PlaidProvider** | `components/layouts/plaid-provider.tsx` | ⚠️ Provider | Plaid context provider |
+| **AuthPageWrapper** | `components/layouts/auth-page-wrapper.tsx` | ✅ Presentational | Auth page layout |
+| **WalletCard (root)** | `components/layouts/wallet-card.tsx` | ⚠️ Legacy | Root-level duplicate - consider removing |
 
-Maintenance notes
+### Server Wrappers (`components/*/`)
 
-- This file is intended to be low-friction and updated whenever a presentational extraction happens. It helps reviewers quickly identify where UI-only components live and where server wrappers provide data/behaviour.
+| Wrapper | Path | Status | Notes |
+| --- | --- | --- | --- |
+| **HomeServerWrapper** | `components/home/home-server-wrapper.tsx` | ✅ Pattern | Landing page data |
+| **DashboardServerWrapper** | `components/dashboard/dashboard-server-wrapper.tsx` | ✅ Pattern | Dashboard auth + fetch |
+| **SettingsServerWrapper** | `components/settings/settings-server-wrapper.tsx` | ✅ Pattern | Settings auth + fetch |
+| **PaymentTransferServerWrapper** | `components/payment-transfer/payment-transfer-server-wrapper.tsx` | ✅ Pattern | Transfer auth + fetch |
+| **TransactionHistoryServerWrapper** | `components/transaction-history/transaction-history-server-wrapper.tsx` | ✅ Pattern | History auth + fetch |
+| **MyWalletsServerWrapper** | `components/my-wallets/my-wallets-server-wrapper.tsx` | ✅ Pattern | Wallets auth + fetch |
+| **SignInServerWrapper** | `components/sign-in/sign-in-server-wrapper.tsx` | ✅ Pattern | Sign-in auth check |
+| **SignUpServerWrapper** | `components/sign-up/sign-up-server-wrapper.tsx` | ✅ Pattern | Sign-up auth check |
+| **AdminDashboardServerWrapper** | `components/admin/admin-dashboard-server-wrapper.tsx` | ✅ Pattern | Admin auth + fetch |
+| **NotFoundServerWrapper** | `components/not-found/not-found-server-wrapper.tsx` | ✅ Pattern | 404 page data |
 
-(End of file)
+### Client Wrappers (`components/*/`)
+
+| Wrapper | Path | Status | Notes |
+| --- | --- | --- | --- |
+| **SignInClient** | `components/sign-in/SignInClient.tsx` | ✅ Presentational | Sign-in form UI |
+| **SignInClientWrapper** | `components/sign-in/sign-in-client-wrapper.tsx` | ✅ Presentational | Sign-in page wrapper |
+| **SignUpClient** | `components/sign-up/SignUpClient.tsx` | ✅ Presentational | Sign-up form UI |
+| **SignUpClientWrapper** | `components/sign-up/sign-up-client-wrapper.tsx` | ✅ Presentational | Sign-up page wrapper |
+| **MyWalletsClientWrapper** | `components/my-wallets/my-wallets-client-wrapper.tsx` | ✅ Presentational | Wallets page UI |
+| **TransactionHistoryClientWrapper** | `components/transaction-history/transaction-history-client-wrapper.tsx` | ✅ Presentational | History page UI |
+
+### Feature Components (`components/`)
+
+| Component | Path | Status | Notes |
+| --- | --- | --- | --- |
+| **Sidebar** | `components/sidebar/sidebar.tsx` | ✅ Presentational | Navigation sidebar |
+| **MobileNav** | `components/mobile-nav/mobile-nav.tsx` | ✅ Presentational | Mobile navigation |
+| **TotalBalanceBox** | `components/total-balance-box/total-balance-box.tsx` | ✅ Presentational | Balance display card |
+| **WalletsOverview** | `components/shared/wallets-overview.tsx` | ✅ Presentational | Wallet list display |
+
+### Other Components
+
+| Component | Path | Status | Notes |
+| --- | --- | --- | --- |
+| **RootLayoutWrapperNotice** | `components/layouts/RootLayoutWrapperNotice.tsx` | ⚠️ Legacy | Notice wrapper - check if needed |
+| **AdminLayoutWrapperNotice** | `components/layouts/AdminLayoutWrapperNotice.tsx` | ⚠️ Legacy | Admin notice wrapper - check if needed |
+| **MobileNav (root)** | `components/mobile-nav/mobile-nav.tsx` | ✅ Presentational | Mobile navigation |
+
+### shadcn-studio Components (Non-production)
+
+| Component | Path | Status | Notes |
+| --- | --- | --- | --- |
+| MenuNavigation | `components/shadcn-studio/blocks/menu-navigation.tsx` | ⚠️ Demo | Demo component |
+| WidgetTotalEarning | `components/shadcn-studio/blocks/widget-total-earning.tsx` | ⚠️ Demo | Demo component |
+| WidgetProductInsights | `components/shadcn-studio/blocks/widget-product-insights.tsx` | ⚠️ Demo | Demo component |
+| StatisticsCard01 | `components/shadcn-studio/blocks/statistics-card-01.tsx` | ⚠️ Demo | Demo component |
+| OnboardingFeed01 | `components/shadcn-studio/blocks/onboarding-feed-01/onboarding-feed-01.tsx` | ⚠️ Demo | Demo component |
+| MenuDropdown | `components/shadcn-studio/blocks/menu-dropdown.tsx` | ⚠️ Demo | Demo component |
+| HeroSection41 | `components/shadcn-studio/blocks/hero-section-41/hero-section-41.tsx` | ⚠️ Demo | Demo component |
+
+---
+
+## Categorization Summary
+
+| Category                 | Count | Status             |
+| ------------------------ | ----- | ------------------ |
+| **Layout Components**    | 30    | ✅ Well-organized  |
+| **Server Wrappers**      | 10    | ✅ Correct pattern |
+| **Client Wrappers**      | 6     | ✅ Presentational  |
+| **Feature Components**   | 4     | ✅ Clean           |
+| **Other**                | 2     | ✅ OK              |
+| **shadcn-studio (Demo)** | 7     | ⚠️ Non-production  |
+| **Total Custom**         | ~52   | ✅ Good shape      |
+
+---
+
+## Compliance Assessment
+
+### ✅ Compliant Patterns
+
+| Requirement | Status | Evidence |
+| --- | --- | --- |
+| Server wrappers handle auth | ✅ | All 10 use `auth()` pattern |
+| Server wrappers do data fetching | ✅ | Parallel `Promise.all()` for efficiency |
+| Presentational components are pure | ✅ | Props-only, no DB access |
+| Folder structure follows convention | ✅ | `components/layouts/*/index.tsx` |
+| Client/server separation | ✅ | Clear `-server-wrapper.tsx` / `-client-wrapper.tsx` |
+
+### ⚠️ Issues Identified
+
+| Issue | Location | Priority | Notes |
+| --- | --- | --- | --- |
+| Duplicate wallet-card | `components/layouts/wallet-card.tsx` + `wallet-card/index.tsx` | Low | Consider removing root-level duplicate |
+| Legacy notice wrappers | `RootLayoutWrapperNotice.tsx`, `AdminLayoutWrapperNotice.tsx` | Low | Verify if still needed |
+| shadcn-studio demo components | `components/shadcn-studio/` | Low | Non-production, can ignore |
+| Missing Suspense boundaries | All pages | Medium | Could add loading states |
+
+---
+
+## Refactoring Candidates
+
+### High Priority
+
+None identified — current architecture is clean.
+
+### Medium Priority
+
+| Candidate | Issue | Suggestion |
+| --- | --- | --- |
+| All pages | No Suspense boundaries | Add `<Suspense>` wrappers for loading states |
+
+### Low Priority
+
+| Candidate | Issue | Suggestion |
+| --- | --- | --- |
+| Duplicate WalletCard | Two locations | Remove `wallet-card.tsx`, keep `wallet-card/index.tsx` |
+| Notice wrappers | Unclear purpose | Audit and either remove or document |
+
+---
+
+## Schema Cross-Reference
+
+All shared Zod schemas should live in `lib/schemas/`. Current schemas:
+
+| Schema | Path | Used By |
+| --- | --- | --- |
+| TransferSchema | `lib/schemas/transfer.schema.ts` | `payment-transfer-form.tsx`, `createTransfer` action |
+
+---
+
+## Recommendations
+
+1. **Add Suspense boundaries** — Wrap server components in pages with Suspense for loading states
+2. **Remove duplicates** — Clean up legacy `wallet-card.tsx` at root level
+3. **Document notice wrappers** — Determine if `RootLayoutWrapperNotice` and `AdminLayoutWrapperNotice` are still needed
+4. **Keep current pattern** — Server wrapper + client wrapper separation is excellent
+
+---
+
+## Verification Checklist
+
+- [x] All custom components listed
+- [x] Categories applied
+- [x] Split candidates identified
+- [ ] Compliance issues resolved (optional)
+- [ ] markdownlint passes
+
+---
+
+## References
+
+- `docs/app-pages.md` — Per-page component usage
+- `AGENTS.md` — Canonical component patterns
+- `.opencode/instructions/02-nextjs-patterns.md` — Next.js patterns

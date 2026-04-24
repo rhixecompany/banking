@@ -13,7 +13,7 @@ This file provides a unified index of all instruction files across the Banking p
 ## .opencode/instructions/
 
 | File | Purpose | Priority |
-| ---- | ------- | -------- |
+| --- | --- | --- |
 | 00-default-rules.md | Always-enforced repository rules | high |
 | 00-task-sync-note.md | Task synchronization for agents and humans | high |
 | 01-core-standards.md | Code style, commits, and tests | high |
@@ -34,7 +34,7 @@ This file provides a unified index of all instruction files across the Banking p
 ## .github/instructions/
 
 | File | Purpose | Priority |
-| ---- | ------- | -------- |
+| --- | --- | --- |
 | code-review.instructions.md | Code review standards | medium |
 | documentation.instructions.md | Documentation standards | medium |
 | nextjs-tailwind.instructions.md | Next.js + Tailwind standards | medium |

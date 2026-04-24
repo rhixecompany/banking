@@ -1,0 +1,39 @@
+# Mindmodel Manifest
+
+This file documents the constraint files in .mindmodel/ that encode the Banking project's patterns and conventions.
+
+## Version
+
+- **Created**: 2026-04-24
+- **Project**: Banking (rhixecompany/banking)
+- **Type**: Next.js 16 App Router application
+
+## Constraint Files
+
+| File | Description |
+|------|-------------|
+| `manifest.yaml` | This file - index of all constraints |
+| `tech-stack.yaml` | Technology versions and dependencies |
+| `conventions.yaml` | Coding conventions and patterns |
+| `server-action.yaml` | Server Action rules and examples |
+| `dal-patterns.yaml` | Data Access Layer patterns |
+| `domain.yaml` | Business domain entities and terms |
+| `validation.yaml` | Zod validation patterns |
+| `anti-patterns.yaml` | Anti-patterns to avoid |
+
+## Usage
+
+Reference these constraint files when:
+- Implementing new features
+- Writing tests
+- Reviewing code
+- Onboarding new developers
+
+## Evidence
+
+All constraints are derived from:
+- `package.json` - dependencies and versions
+- `AGENTS.md` - agent rules
+- `coding-standards.md` - enforceable rules
+- `exemplars.md` - code pattern examples
+- `scripts/verify-rules.ts` - policy enforcement

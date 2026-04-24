@@ -60,23 +60,23 @@ curl http://localhost:3000/api/health
 
 ## Services Deployed
 
-| Service | Image | Ports |
-| ------- | ----- | ---- |
-| app | banking-app (custom) | 3000 |
-| db | postgres:17-alpine | 5432 |
-| redis | redis:7-alpine | 6379 |
-| traefik | traefik:v3.3 | 80, 443, 8080 |
-| prometheus | prom/prometheus | 9090 |
-| grafana | grafana/grafana | 3000 |
-| postgres_exporter | prometheus/postgres_exporter | - |
-| redis_exporter | oliver006/redis_exporter | - |
+| Service           | Image                        | Ports         |
+| ----------------- | ---------------------------- | ------------- |
+| app               | banking-app (custom)         | 3000          |
+| db                | postgres:17-alpine           | 5432          |
+| redis             | redis:7-alpine               | 6379          |
+| traefik           | traefik:v3.3                 | 80, 443, 8080 |
+| prometheus        | prom/prometheus              | 9090          |
+| grafana           | grafana/grafana              | 3000          |
+| postgres_exporter | prometheus/postgres_exporter | -             |
+| redis_exporter    | oliver006/redis_exporter     | -             |
 
 ---
 
 ## Access Points (after deploy)
 
 | Service | URL | Credentials |
-| ------ | --- | ----------- |
+| --- | --- | --- |
 | App | https://rhixecompany.online | - |
 | Traefik Dashboard | https://traefik.rhixecompany.online | admin/<htpasswd> |
 | Prometheus | https://prometheus.rhixecompany.online:9090 | - |

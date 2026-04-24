@@ -1137,16 +1137,6 @@
     "type": "resources"
   },
   {
-    "description": "DEPRECATED — redirect to 00-default-rules.md. Content merged there.",
-    "displayName": "06CommandsRef",
-    "productId": "06CommandsRef",
-    "repoUrl": ".opencode\\instructions/",
-    "scope": ["project"],
-    "tagline": "> **This file is deprecated.** Content has been moved to [00-default-rules.md](./00-default-rules.md).",
-    "tags": ["opencode", "instructions"],
-    "type": "resources"
-  },
-  {
     "description": "Guidance for handling upstream API errors and retries",
     "displayName": "07UpstreamErrorHandling",
     "productId": "07UpstreamErrorHandling",
@@ -1163,36 +1153,6 @@
     "repoUrl": ".opencode\\instructions/",
     "scope": ["project"],
     "tagline": "- Detect 429 responses and implement jittered exponential backoff.",
-    "tags": ["opencode", "instructions"],
-    "type": "resources"
-  },
-  {
-    "description": "DEPRECATED — redirect to plan-workflow.md. Content merged there.",
-    "displayName": "08CommandPlanStepsRules",
-    "productId": "08CommandPlanStepsRules",
-    "repoUrl": ".opencode\\instructions/",
-    "scope": ["project"],
-    "tagline": "> **This file is deprecated.** Content has been moved to [plan-workflow.md](./plan-workflow.md).",
-    "tags": ["opencode", "instructions"],
-    "type": "resources"
-  },
-  {
-    "description": "DEPRECATED — redirect to plan-workflow.md. Content merged there.",
-    "displayName": "09CommandPlanStepsRules",
-    "productId": "09CommandPlanStepsRules",
-    "repoUrl": ".opencode\\instructions/",
-    "scope": ["project"],
-    "tagline": "> **This file is deprecated.** Content has been moved to [plan-workflow.md](./plan-workflow.md).",
-    "tags": ["opencode", "instructions"],
-    "type": "resources"
-  },
-  {
-    "description": "DEPRECATED — redirect to plan-workflow.md. Content merged there.",
-    "displayName": "09PlanFileStandards",
-    "productId": "09PlanFileStandards",
-    "repoUrl": ".opencode\\instructions/",
-    "scope": ["project"],
-    "tagline": "> **This file is deprecated.** Content has been moved to [plan-workflow.md](./plan-workflow.md).",
     "tags": ["opencode", "instructions"],
     "type": "resources"
   },
@@ -1244,16 +1204,6 @@
     "scope": ["project"],
     "tagline": "Patterns for self-improvement through iterative evaluation and refinement.",
     "tags": ["opencode", "skills"],
-    "type": "resources"
-  },
-  {
-    "description": "DEPRECATED — redirect to AGENTS.md. Content merged there.",
-    "displayName": "Agents_quickstart",
-    "productId": "Agents_quickstart",
-    "repoUrl": ".opencode\\instructions/",
-    "scope": ["project"],
-    "tagline": "> **This file is deprecated.** Content has been merged into `AGENTS.md`.",
-    "tags": ["opencode", "instructions"],
     "type": "resources"
   },
   {
@@ -1437,6 +1387,26 @@
     "type": "resources"
   },
   {
+    "description": "Scans opencode agent prompts for threat signals and logs governance events",
+    "displayName": "Governance Audit",
+    "productId": "GovernanceAudit",
+    "repoUrl": ".opencode\\skills\\governance-audit/",
+    "scope": ["project"],
+    "tagline": "Real-time threat detection and audit logging for opencode coding agent sessions. Scans user prompts for dangerous pat...",
+    "tags": ["opencode", "skills"],
+    "type": "resources"
+  },
+  {
+    "description": "Unified index of all instruction files with purposes and priorities",
+    "displayName": "Index",
+    "productId": "Index",
+    "repoUrl": ".opencode\\instructions/",
+    "scope": ["project"],
+    "tagline": "This file provides a unified index of all instruction files across the Banking project.",
+    "tags": ["opencode", "instructions"],
+    "type": "resources"
+  },
+  {
     "description": "Create new Agent Skills for GitHub Copilot from prompts or by duplicating this template. Use when asked to \"create a skill\", \"make a new skill\", \"scaffold a skill\", or when building specialized AI capabilities with bundled resources. Generates SKILL.md files with proper frontmatter, directory structure, and optional scripts/references/assets folders.",
     "displayName": "make-skill-template",
     "productId": "MakeSkillTemplate",
@@ -1497,12 +1467,12 @@
     "type": "resources"
   },
   {
-    "description": "--- description: Personas for agents and reviewers in plans and PRs applyTo: \"**\" canonicalSource: AGENTS.md lastReviewed: 2026-04-23 --- These short personas guide tone and actions in plans and PRs. - Implementer — performs changes, tests, and validation. Prefers minimal, auditable edits. - Reviewer — focuses on risks, regressions, tests, and rule compliance. - Maintainer — approves merges and runs destructive infra scripts with approvals.",
+    "description": "--- These short personas guide tone and actions in plans and PRs. - Implementer — performs changes, tests, and validation. Prefers minimal, auditable edits. - Reviewer — focuses on risks, regressions, tests, and rule compliance. - Maintainer — approves merges and runs destructive infra scripts with approvals. - QA Engineer — runs E2E and exploratory tests across environments. - Product Owner — provides acceptance criteria and approves large changes.",
     "displayName": "PersonasList",
     "productId": "PersonasList",
     "repoUrl": ".opencode\\instructions/",
     "scope": ["project"],
-    "tagline": "<!-- Canonical personas used by agents and reviewers -->",
+    "tagline": "description: Personas for agents and reviewers in plans and PRs applyTo: \"\\*\\*\" canonicalSource: AGENTS.md lastReview...",
     "tags": ["opencode", "instructions"],
     "type": "resources"
   },
@@ -1517,12 +1487,12 @@
     "type": "resources"
   },
   {
-    "description": "Plaid API integration for bank account linking, transaction retrieval, and balance fetching.",
-    "displayName": "plaid-skill",
+    "description": "name: plaid-skill description: Plaid API integration for bank account linking, transaction retrieval, and balance fetching. lastReviewed: 2026-04-24 applyTo: \"lib/plaid.ts\", \"actions/**/*.{ts,tsx}\" --- Overview Guidance for safely integrating Plaid Link, exchanging public tokens, and storing access tokens (encrypted). Use Server Actions for sensitive operations and `dal/` for DB access. This skill references the repo's actual DAL structure: `wallet.dal.ts` for Plaid item storage. When to use",
+    "displayName": "PlaidSkill",
     "productId": "PlaidSkill",
     "repoUrl": ".opencode\\skills\\plaid-skill/",
     "scope": ["project"],
-    "tagline": "Overview",
+    "tagline": "---",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },

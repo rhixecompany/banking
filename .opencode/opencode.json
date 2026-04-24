@@ -1,4 +1,28 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "plugin": []
+  "plugin": [
+    "micode",
+    "opencode-handoff",
+    "opencode-beads",
+    "@tarquinen/opencode-dcp",
+    "@ramarivera/opencode-model-announcer",
+    "github:JRedeker/opencode-morph-fast-apply",
+    "open-plan-annotator",
+    "opentmux",
+    "opencode-ignore",
+    "opencode-mem",
+    "opencode-synced",
+    "opencode-snippets",
+    "opencode-mystatus",
+    "@gotgenes/opencode-agent-identity",
+    "opencode-agent-memory",
+    "opencode-agent-skills",
+    "opencode-devcontainers",
+    "@zenobius/opencode-background",
+    "@slkiser/opencode-quota",
+    "opencode-sessions",
+    "@franlol/opencode-md-table-formatter",
+    "@liannnix/opencode-ntfy",
+    "@howaboua/opencode-planning-toolkit"
+  ]
 }

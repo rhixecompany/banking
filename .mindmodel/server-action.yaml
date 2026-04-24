@@ -1,0 +1,74 @@
+# Server Action Pattern
+
+This file documents the Server Action pattern enforced in the Banking project.
+
+## Required Pattern
+
+All mutations MUST use Server Actions. The pattern is:
+
+```typescript
+"use server";
+
+import { z } from "zod";
+import { userDal } from "@/dal";
+import { revalidatePath } from "next/cache";
+import { auth } from "@/lib/auth";
+
+// Input schema with Zod
+const CreateUserSchema = z.object({
+  email: z.string().email(),
+  name: z.string().min(1).max(100)
+});
+
+export async function createUser(
+  input: unknown
+): Promise<{ ok: boolean; error?: string }> {
+  // 1. Authenticate early
+  const session = await auth();
+  if (!session?.user) {
+    return { ok: false, error: "Unauthorized" };
+  }
+
+  // 2. Validate input with Zod
+  const parsed = CreateUserSchema.safeParse(input);
+  if (!parsed.success) {
+    return { ok: false, error: parsed.error.message };
+  }
+
+  // 3. Perform the mutation
+  try {
+    await userDal.create(parsed.data);
+    revalidatePath("/users");
+    return { ok: true };
+  } catch {
+    return { ok: false, error: "Failed to create user" };
+  }
+}
+```
+
+## Rules
+
+1. **"use server" directive** - Required at top of file
+2. **Zod validation** - Validate all inputs with `.safeParse()` before any work
+3. **Auth check** - Call `auth()` early for protected actions
+4. **Return shape** - Always return `{ ok: boolean; error?: string }`
+5. **DAL access** - Use dal/* helpers for database operations
+6. **Revalidation** - Call `revalidatePath()` or `revalidateTag()` after mutations
+
+## Example Files
+
+- `actions/register.ts` - User registration
+- `actions/dwolla.actions.ts` - Dwolla ACH operations
+- `actions/wallet.actions.ts` - Wallet management
+
+## Anti-Patterns
+
+- ❌ Mutations in API routes - use Server Actions instead
+- ❌ Missing Zod validation
+- ❌ No auth check for protected actions
+- ❌ Inconsistent return shapes
+
+## Evidence
+
+- `actions/register.ts` - canonical example
+- `.opencode/instructions/02-nextjs-patterns.md` - Next.js patterns

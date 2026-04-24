@@ -1,0 +1,83 @@
+# DAL Patterns
+
+This file documents the Data Access Layer patterns used in the Banking project.
+
+## Core Principles
+
+1. **All DB access via dal/* helpers** - Never import DB clients directly
+2. **Avoid N+1 queries** - Use eager loading or batch queries
+3. **Accept optional tx parameter** - For transaction composition
+
+## Example: Eager Loading Pattern
+
+From `dal/transaction.dal.ts`:
+
+```typescript
+async findByUserIdWithWallets(userId: string, limitVal = 50, offsetVal = 0) {
+  // 1. Fetch transactions
+  const txns = await db.select().from(transactions).where(...);
+
+  // 2. Collect unique wallet IDs
+  const walletIds = new Set<string>();
+  for (const t of txns) {
+    if (t.senderWalletId) walletIds.add(t.senderWalletId);
+    if (t.receiverWalletId) walletIds.add(t.receiverWalletId);
+  }
+
+  // 3. Batch fetch wallets (single query)
+  if (walletIds.size > 0) {
+    const rows = await db.select(...).from(wallets).where(or(...conditions));
+    // Build map for lookup
+  }
+
+  // 4. Map wallets back onto transactions
+  return txns.map((txn) => ({
+    ...txn,
+    senderWallet: walletsMap[txn.senderWalletId] ?? null,
+    receiverWallet: walletsMap[txn.receiverWalletId] ?? null,
+  }));
+}
+```
+
+## Query Pattern Rules
+
+1. **Fetch primary records** first
+2. **Collect IDs** from primary records
+3. **Batch fetch** related records in one query
+4. **Map back** to primary records
+
+## Transaction Support
+
+DAL write helpers should accept optional transaction parameter:
+
+```typescript
+async create(data: InsertUser, opts?: { db?: NodePgDatabase }) {
+  const db = opts?.db ?? getDb();
+  return db.insert(users).values(data).returning();
+}
+```
+
+## N+1 Anti-Pattern (Avoid)
+
+```typescript
+// BAD - N+1 pattern
+const users = await userDal.findAll();
+for (const user of users) {
+  user.accounts = await accountDal.findByUserId(user.id);
+}
+
+// GOOD - eager loading
+const usersWithAccounts = await userDal.findAllWithAccounts();
+```
+
+## DAL Files
+
+- `dal/user.dal.ts` - User operations
+- `dal/wallet.dal.ts` - Wallet operations
+- `dal/transaction.dal.ts` - Transaction operations (with eager loading)
+- `dal/health.dal.ts` - Health checks
+
+## Evidence
+
+- `dal/transaction.dal.ts` - eager loading example
+- `scripts/verify-rules.ts` - enforces DAL-only access
