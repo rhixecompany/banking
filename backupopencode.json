@@ -2,6 +2,198 @@
   {
     "$schema": "https://opencode.ai/config.json",
     "agent": {
+      "artifact-searcher": {
+        "model": "opencode/minimax-m2.5-free"
+      },
+      "brainstormer": {
+        "model": "opencode/minimax-m2.5-free"
+      },
+      "codebase-analyzer": {
+        "model": "opencode/minimax-m2.5-free"
+      },
+      "codebase-locator": {
+        "model": "opencode/minimax-m2.5-free"
+      },
+      "commander": {
+        "model": "opencode/minimax-m2.5-free"
+      },
+      "executor": {
+        "model": "opencode/minimax-m2.5-free"
+      },
+      "implementer": {
+        "model": "opencode/minimax-m2.5-free"
+      },
+      "ledger-creator": {
+        "model": "opencode/minimax-m2.5-free"
+      },
+      "mm-orchestrator": {
+        "model": "opencode/minimax-m2.5-free"
+      },
+      "pattern-finder": {
+        "model": "opencode/minimax-m2.5-free"
+      },
+      "planner": {
+        "model": "opencode/minimax-m2.5-free"
+      },
+      "project-initializer": {
+        "model": "opencode/minimax-m2.5-free"
+      },
+      "reviewer": {
+        "model": "opencode/minimax-m2.5-free"
+      }
+    },
+    "autoupdate": true,
+    "command": {
+      "mystatus": {
+        "description": "Query quota usage for all AI accounts",
+        "template": "Use the mystatus tool to query quota usage. Return the result as-is without modification."
+      }
+    },
+    "compaction": {
+      "auto": true
+    },
+    "experimental": {},
+    "instructions": [
+      "AGENTS.md",
+      "./architecture.md",
+      "./tech-stack.md",
+      "./coding-standards.md",
+      "./folder-structure.md",
+      "./exemplars.md",
+      "./.github/copilot-instructions.md",
+      "./.cursorrules",
+      "./.opencode/instructions/*.md",
+      "./.github/instructions/*.md",
+      "./.cursor/rules/*.mdc"
+    ],
+    "mcp": {
+      "context7": {
+        "enabled": true,
+        "type": "remote",
+        "url": "https://mcp.context7.com/mcp"
+      },
+      "exa": {
+        "enabled": true,
+        "type": "remote",
+        "url": "https://mcp.exa.ai/mcp"
+      },
+      "filesystem": {
+        "command": [
+          "npx",
+          "-y",
+          "@modelcontextprotocol/server-filesystem",
+          "~/"
+        ],
+        "enabled": true,
+        "timeout": 900000,
+        "type": "local"
+      },
+      "gh_grep": {
+        "enabled": true,
+        "type": "remote",
+        "url": "https://mcp.grep.app"
+      },
+      "github-agentic-workflows": {
+        "command": [
+          "npx",
+          "-y",
+          "@modelcontextprotocol/server-github"
+        ],
+        "enabled": true,
+        "timeout": 900000,
+        "type": "local"
+      },
+      "memory": {
+        "command": [
+          "npx",
+          "-y",
+          "@modelcontextprotocol/server-memory"
+        ],
+        "enabled": true,
+        "timeout": 900000,
+        "type": "local"
+      },
+      "next-devtools": {
+        "command": [
+          "npx",
+          "-y",
+          "next-devtools-mcp@latest"
+        ],
+        "enabled": true,
+        "timeout": 900000,
+        "type": "local"
+      },
+      "playwright": {
+        "command": [
+          "npx",
+          "-y",
+          "@playwright/mcp@latest"
+        ],
+        "enabled": true,
+        "timeout": 900000,
+        "type": "local"
+      },
+      "sequential-thinking": {
+        "command": [
+          "npx",
+          "-y",
+          "@modelcontextprotocol/server-sequential-thinking"
+        ],
+        "enabled": true,
+        "timeout": 900000,
+        "type": "local"
+      },
+      "shadcn": {
+        "command": [
+          "npx",
+          "shadcn@latest",
+          "mcp"
+        ],
+        "enabled": true,
+        "timeout": 900000,
+        "type": "local"
+      },
+      "youtube-transcript": {
+        "command": [
+          "npx",
+          "-y",
+          "@kimtaeyoon83/mcp-server-youtube-transcript"
+        ],
+        "enabled": true,
+        "timeout": 900000,
+        "type": "local"
+      }
+    },
+    "model": "opencode/minimax-m2.5-free",
+    "plugin": [
+      "micode",
+      "opencode-handoff@latest",
+      "opencode-beads",
+      "@tarquinen/opencode-dcp@latest",
+      "@ramarivera/opencode-model-announcer",
+      "github:JRedeker/opencode-morph-fast-apply",
+      "open-plan-annotator@latest",
+      "opentmux",
+      "opencode-ignore",
+      "opencode-mem",
+      "opencode-ntfy.sh",
+      "@howaboua/opencode-planning-toolkit@latest",
+      "opencode-synced",
+      "opencode-snippets",
+      "opencode-mystatus",
+      "@gotgenes/opencode-agent-identity@latest",
+      "opencode-agent-memory@latest",
+      "opencode-agent-skills@latest",
+      "opencode-devcontainers@latest",
+      "@zenobius/opencode-background@latest",
+      "@slkiser/opencode-quota@latest",
+      "opencode-sessions@latest",
+      "@franlol/opencode-md-table-formatter@latest"
+    ]
+  },
+  {
+    "$schema": "https://opencode.ai/config.json",
+    "agent": {
       "build": {
         "permission": {
           "bash": {
@@ -230,13 +422,21 @@
         "type": "local"
       },
       "next-devtools": {
-        "command": ["npx", "-y", "next-devtools-mcp@latest"],
+        "command": [
+          "npx",
+          "-y",
+          "next-devtools-mcp@latest"
+        ],
         "enabled": true,
         "timeout": 900000,
         "type": "local"
       },
       "playwright": {
-        "command": ["npx", "-y", "@playwright/mcp@latest"],
+        "command": [
+          "npx",
+          "-y",
+          "@playwright/mcp@latest"
+        ],
         "enabled": true,
         "timeout": 900000,
         "type": "local"
@@ -252,7 +452,11 @@
         "type": "local"
       },
       "shadcn": {
-        "command": ["npx", "shadcn@latest", "mcp"],
+        "command": [
+          "npx",
+          "shadcn@latest",
+          "mcp"
+        ],
         "enabled": true,
         "timeout": 900000,
         "type": "local"
@@ -320,7 +524,11 @@
         "type": "local"
       },
       "shadcn": {
-        "command": ["npx", "shadcn@latest", "mcp"],
+        "command": [
+          "npx",
+          "shadcn@latest",
+          "mcp"
+        ],
         "enabled": true,
         "timeout": 900000,
         "type": "local"
@@ -529,7 +737,11 @@
         "type": "local"
       },
       "shadcn": {
-        "command": ["npx", "shadcn@latest", "mcp"],
+        "command": [
+          "npx",
+          "shadcn@latest",
+          "mcp"
+        ],
         "enabled": true,
         "timeout": 900000,
         "type": "local"
@@ -572,7 +784,13 @@
       }
     },
     "watcher": {
-      "ignore": ["node_modules", ".next", "dist", ".git", "*.log"]
+      "ignore": [
+        "node_modules",
+        ".next",
+        "dist",
+        ".git",
+        "*.log"
+      ]
     }
   }
 ]

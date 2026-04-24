@@ -164,29 +164,5 @@
     }
   },
   "model": "opencode/minimax-m2.5-free",
-  "plugin": [
-    "micode",
-    "opencode-handoff@latest",
-    "opencode-beads",
-    "@tarquinen/opencode-dcp@latest",
-    "@ramarivera/opencode-model-announcer",
-    "github:JRedeker/opencode-morph-fast-apply",
-    "open-plan-annotator@latest",
-    "opentmux",
-    "opencode-ignore",
-    "opencode-mem",
-    "opencode-ntfy.sh",
-    "@howaboua/opencode-planning-toolkit@latest",
-    "opencode-synced",
-    "opencode-snippets",
-    "opencode-mystatus",
-    "@gotgenes/opencode-agent-identity@latest",
-    "opencode-agent-memory@latest",
-    "opencode-agent-skills@latest",
-    "opencode-devcontainers@latest",
-    "@zenobius/opencode-background@latest",
-    "@slkiser/opencode-quota@latest",
-    "opencode-sessions@latest",
-    "@franlol/opencode-md-table-formatter@latest"
-  ]
+  "plugin": []
 }

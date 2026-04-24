@@ -1,32 +1,3 @@
 {
-  "plugin": [
-    "micode",
-    "opencode-handoff",
-    "opencode-beads",
-    "@tarquinen/opencode-dcp@latest",
-    "@ramarivera/opencode-model-announcer",
-    "github:JRedeker/opencode-morph-fast-apply",
-    "open-plan-annotator@latest",
-    "opentmux",
-    "opencode-ignore",
-    "opencode-mem",
-    "opencode-ntfy.sh",
-    "@howaboua/opencode-planning-toolkit@latest",
-    "opencode-sessions",
-    "opencode-synced",
-    "opencode-snippets",
-    "opencode-mystatus",
-    "@gotgenes/opencode-agent-identity@latest",
-    "opencode-agent-memory@latest",
-    "opencode-agent-skills@latest",
-    "opencode-devcontainers@latest",
-    "@zenobius/opencode-background@latest",
-    "open-plan-annotator@latest",
-    "opencode-handoff@latest",
-    "@slkiser/opencode-quota@latest",
-    "@howaboua/opencode-planning-toolkit@latest",
-    "opencode-sessions@latest",
-    "@tarquinen/opencode-dcp@latest",
-    "@franlol/opencode-md-table-formatter@latest"
-  ]
+  "plugin": []
 }
