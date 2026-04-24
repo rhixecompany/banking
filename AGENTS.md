@@ -420,6 +420,25 @@ Priority sources for context:
 
 ---
 
+## Instruction Files (Detailed References)
+
+This file provides high-level guidance. For detailed, topic-specific instructions, refer to:
+
+| Topic | File | Purpose |
+| ----- | ---- | --------|
+| Commands | `.opencode/instructions/00-default-rules.md` | Quick start commands |
+| Code Style | `.opencode/instructions/01-core-standards.md` | Format, lint, type-check rules |
+| Next.js | `.opencode/instructions/02-nextjs-patterns.md` | Server Actions, Cache Components |
+| Database | `.opencode/instructions/03-dal-patterns.md` | DAL patterns, N+1 prevention |
+| Auth | `.opencode/instructions/04-auth-testing.md` | Auth testing patterns |
+| UI | `.opencode/instructions/05-ui-validation.md` | UI validation rules |
+| Plans | `.opencode/instructions/plan-workflow.md` | Plan file standards |
+| Code Philosophy | `.opencode/instructions/philosophy.md` | Mandatory philosophy loading |
+
+Full index: `.opencode/instructions/index.md`
+
+---
+
 ## Contributors
 
 This file is maintained and updated based on codebase analysis. Edits should preserve patterns observed in existing code.

@@ -21,12 +21,8 @@ This file provides a unified index of all instruction files across the Banking p
 | 03-dal-patterns.md | DAL patterns and N+1 prevention | high |
 | 04-auth-testing.md | Auth testing patterns | high |
 | 05-ui-validation.md | UI validation rules | high |
-| 06-commands-ref.md | DEPRECATED — redirect to 00-default-rules.md | — |
 | 07-upstream-error-handling.md | Upstream API error handling | medium |
-| 08-command-plan-steps-rules.md | DEPRECATED — redirect to plan-workflow.md | — |
 | 08-alibaba-rate-limit-handling.md | Rate-limit handling | medium |
-| 09-plan-file-standards.md | DEPRECATED — redirect to plan-workflow.md | — |
-| 09-command-plan-plan-steps-rules.md | DEPRECATED — redirect to plan-workflow.md | — |
 | 10-apply-patch-verification-fix.md | Apply patch verification | medium |
 | 11-documentation-standards.md | Documentation standards | medium |
 | 12-scripts-patterns.md | Scripts and destructive ops patterns | medium |

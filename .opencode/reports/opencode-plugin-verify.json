@@ -1,0 +1,13 @@
+{
+  "ok": true,
+  "projectConfig": "/root/banking/opencode.json",
+  "runtimeConfig": "/root/banking/.opencode/reports/opencode-debug-config.runtime.json",
+  "expectedCount": 23,
+  "runtimeCount": 24,
+  "missing": [],
+  "extras": [
+    "opencode-agent-tmux"
+  ],
+  "projectDuplicates": [],
+  "runtimeDuplicates": []
+}
