@@ -60,8 +60,14 @@ export function useBankConnection(): UseBankConnectionReturn {
   }, []);
 
   useEffect(() => {
-    fetchWallets();
-  }, [fetchWallets]);
+    const loadWallets = async () => {
+      const result = await getUserWallets();
+      if (result.ok) {
+        setWallets(result.wallets ?? []);
+      }
+    };
+    void loadWallets();
+  }, []);
 
   const openPlaidLink = useCallback(() => {
     if (ready) {
