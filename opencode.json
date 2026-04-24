@@ -166,7 +166,7 @@
   "model": "opencode/minimax-m2.5-free",
   "plugin": [
     "micode",
-    "opencode-handoff",
+    "opencode-handoff@latest",
     "opencode-beads",
     "@tarquinen/opencode-dcp@latest",
     "@ramarivera/opencode-model-announcer",
@@ -177,7 +177,6 @@
     "opencode-mem",
     "opencode-ntfy.sh",
     "@howaboua/opencode-planning-toolkit@latest",
-    "opencode-sessions",
     "opencode-synced",
     "opencode-snippets",
     "opencode-mystatus",
@@ -186,12 +185,8 @@
     "opencode-agent-skills@latest",
     "opencode-devcontainers@latest",
     "@zenobius/opencode-background@latest",
-    "open-plan-annotator@latest",
-    "opencode-handoff@latest",
     "@slkiser/opencode-quota@latest",
-    "@howaboua/opencode-planning-toolkit@latest",
     "opencode-sessions@latest",
-    "@tarquinen/opencode-dcp@latest",
     "@franlol/opencode-md-table-formatter@latest"
   ]
 }
