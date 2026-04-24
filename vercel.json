@@ -2,8 +2,6 @@
   "buildCommand": "npm install && npm run build",
   "devCommand": "npm run dev",
   "framework": "nextjs",
-  "installCommand": "npm install",
-  "regions": ["iad1"],
   "functions": {
     "api/**/*.ts": {
       "maxDuration": 30
@@ -58,6 +56,8 @@
       ]
     }
   ],
+  "installCommand": "npm install",
+  "regions": ["iad1"],
   "rewrites": [
     {
       "source": "/(.*)",

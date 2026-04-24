@@ -63,12 +63,12 @@ CLEAR_PLAN_NAME
 
 ## Personas
 
-| Persona | Role |
-| ------- | ---- |
-| IMPLEMENTER | Performs code changes and tests |
-| REVIEWER | Reviews changes for correctness |
-| QA_ENGINEER | Runs E2E and exploratory tests |
-| MAINTAINER | Approves merges and destructive ops |
+| Persona     | Role                                |
+| ----------- | ----------------------------------- |
+| IMPLEMENTER | Performs code changes and tests     |
+| REVIEWER    | Reviews changes for correctness     |
+| QA_ENGINEER | Runs E2E and exploratory tests      |
+| MAINTAINER  | Approves merges and destructive ops |
 
 ## Goal
 
@@ -211,11 +211,11 @@ Add JWT authentication with refresh token support for mobile-friendly stateless 
 
 ## Personas
 
-| Persona | Role |
-| ------- | ---- |
-| IMPLEMENTER | Creates auth utilities and tests |
-| REVIEWER | Reviews security and implementation |
-| QA_ENGINEER | Runs E2E auth tests |
+| Persona     | Role                                |
+| ----------- | ----------------------------------- |
+| IMPLEMENTER | Creates auth utilities and tests    |
+| REVIEWER    | Reviews security and implementation |
+| QA_ENGINEER | Runs E2E auth tests                 |
 
 ## Goal
 

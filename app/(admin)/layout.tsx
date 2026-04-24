@@ -1,5 +1,5 @@
-import { Suspense } from "react";
 import { LanguagesIcon } from "lucide-react";
+import { Suspense } from "react";
 
 import AdminSidebar from "@/components/layouts/admin-sidebar";
 import AdminLayoutWrapper from "@/components/layouts/AdminLayoutWrapper";

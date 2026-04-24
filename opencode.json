@@ -1,7 +1,12 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "agent": {},
   "autoupdate": true,
+  "command": {
+    "mystatus": {
+      "description": "Query quota usage for all AI accounts",
+      "template": "Use the mystatus tool to query quota usage. Return the result as-is without modification."
+    }
+  },
   "compaction": {
     "auto": true
   },
@@ -47,25 +52,41 @@
       "url": "https://mcp.grep.app"
     },
     "github-agentic-workflows": {
-      "command": ["npx", "-y", "@modelcontextprotocol/server-github"],
+      "command": [
+        "npx",
+        "-y",
+        "@modelcontextprotocol/server-github"
+      ],
       "enabled": true,
       "timeout": 900000,
       "type": "local"
     },
     "memory": {
-      "command": ["npx", "-y", "@modelcontextprotocol/server-memory"],
+      "command": [
+        "npx",
+        "-y",
+        "@modelcontextprotocol/server-memory"
+      ],
       "enabled": true,
       "timeout": 900000,
       "type": "local"
     },
     "next-devtools": {
-      "command": ["npx", "-y", "next-devtools-mcp@latest"],
+      "command": [
+        "npx",
+        "-y",
+        "next-devtools-mcp@latest"
+      ],
       "enabled": true,
       "timeout": 900000,
       "type": "local"
     },
     "playwright": {
-      "command": ["npx", "-y", "@playwright/mcp@latest"],
+      "command": [
+        "npx",
+        "-y",
+        "@playwright/mcp@latest"
+      ],
       "enabled": true,
       "timeout": 900000,
       "type": "local"
@@ -81,7 +102,11 @@
       "type": "local"
     },
     "shadcn": {
-      "command": ["npx", "shadcn@latest", "mcp"],
+      "command": [
+        "npx",
+        "shadcn@latest",
+        "mcp"
+      ],
       "enabled": true,
       "timeout": 900000,
       "type": "local"
@@ -99,6 +124,22 @@
   },
   "model": "opencode/minimax-m2.5-free",
   "plugin": [
+    "micode",
+    "opencode-handoff",
+    "opencode-beads",
+    "@tarquinen/opencode-dcp@latest",
+    "@ramarivera/opencode-model-announcer",
+    "github:JRedeker/opencode-morph-fast-apply",
+    "open-plan-annotator@latest",
+    "opentmux",
+    "opencode-ignore",
+    "opencode-mem",
+    "opencode-ntfy.sh",
+    "@howaboua/opencode-planning-toolkit@latest",
+    "opencode-sessions",
+    "opencode-synced",
+    "opencode-snippets",
+    "opencode-mystatus",
     "@gotgenes/opencode-agent-identity@latest",
     "opencode-agent-memory@latest",
     "opencode-agent-skills@latest",
