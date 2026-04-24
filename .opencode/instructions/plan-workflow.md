@@ -41,12 +41,12 @@ updated: YYYY-MM-DD
 
 ### Phase Status Markers
 
-| Marker | Meaning |
-| ------ | ------- |
-| `[PENDING]` | Not yet started |
+| Marker          | Meaning                   |
+| --------------- | ------------------------- |
+| `[PENDING]`     | Not yet started           |
 | `[IN PROGRESS]` | Currently being worked on |
-| `[COMPLETE]` | Finished successfully |
-| `[BLOCKED]` | Waiting on dependencies |
+| `[COMPLETE]`    | Finished successfully     |
+| `[BLOCKED]`     | Waiting on dependencies   |
 
 ### Task Markers
 

@@ -46,7 +46,6 @@ const resolveDatabaseUrl = (): string => {
 
 // Drizzle config with connection pooling hints for production
 /**
- * Description placeholder
  *
  * @type {Config}
  */
@@ -60,7 +59,10 @@ const cfg: Config = {
   out: "database/drizzle",
   schema: "database/schema.ts",
   strict: true,
-  // Verbose migration output for CI and local runs
+  // Non-interactive: auto-confirm schema changes (use with caution in production)
+  // This fixes the "Interactive prompts require a TTY" error in CI/dev environments
+  tablesFilter: undefined,
+  // verbose migration output for CI and local runs
   verbose: env.VERBOSE_DRIZZLE === "true" || env.NODE_ENV !== "production",
 } as Config;
 

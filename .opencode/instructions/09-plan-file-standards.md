@@ -9,5 +9,4 @@ redirectTo: .opencode/instructions/plan-workflow.md
 
 # Plan File Standards (DEPRECATED)
 
-> **This file is deprecated.** Content has been moved to [plan-workflow.md](./plan-workflow.md).
-> See plan-workflow.md for plan file format and standards.
+> **This file is deprecated.** Content has been moved to [plan-workflow.md](./plan-workflow.md). See plan-workflow.md for plan file format and standards.

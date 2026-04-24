@@ -1,20 +1,19 @@
 import Image from "next/image";
 import { ReactNode } from "react";
 
-import AuthLayoutWrapper from "@/components/layouts/AuthLayoutWrapper";
 import RootLayoutWrapper from "@/components/layouts/RootLayoutWrapper";
 
 /**
- * Auth layout — wraps auth pages with RootProviders and auth gating
+ * Auth layout — wraps auth pages with RootProviders (NO auth gating).
+ * Auth pages (sign-in, sign-up) are public pages for unauthenticated users.
+ * Auth gating is handled per-page via AuthPageWrapper.
  */
 export default function AuthLayout({
   children,
 }: Readonly<{ children: ReactNode }>): JSX.Element {
   return (
     <RootLayoutWrapper>
-      {/* AuthLayoutWrapper is an async server component that performs auth gating */}
-      {/* It will redirect to /sign-in when the user is not authenticated */}
-      <AuthLayoutWrapper>{children}</AuthLayoutWrapper>
+      {children}
       <div className="auth-asset">
         <div>
           <Image

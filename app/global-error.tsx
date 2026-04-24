@@ -1,24 +1,13 @@
 "use client";
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @type {"force-dynamic"}
- */
-export const dynamic = "force-dynamic";
-
-import { GlobalErrorClientWrapper } from "@/components/global-error/global-error-client-wrapper";
+import { Button } from "@/components/ui/button";
 
 /**
  * Global error boundary — required to be a Client Component by Next.js.
  * Must render <html> + <body> because it replaces the entire document on error.
- * Delegates content to GlobalErrorClientWrapper.
- *
- * @export
- * @param {{ error: { digest?: string } & Error; reset: () => void }} props
- * @returns {JSX.Element}
  */
+export const dynamic = "force-dynamic";
+
 export default function GlobalError({
   error,
   reset,
@@ -29,7 +18,11 @@ export default function GlobalError({
   return (
     <html lang="en">
       <body>
-        <GlobalErrorClientWrapper error={error} reset={reset} />
+        <div className="flex min-h-screen flex-col items-center justify-center">
+          <h2 className="text-2xl font-bold">Something went wrong</h2>
+          <p className="text-muted-foreground">{error.message}</p>
+          <Button onClick={reset}>Try again</Button>
+        </div>
       </body>
     </html>
   );

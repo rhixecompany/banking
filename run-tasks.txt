@@ -1,5 +1,10 @@
 You are the Reviewer persona Create a implementation plan to completely implement all features below:
-1: @architecture-planner  List and triage all Next.js pages in ./app a Next.js Page should look like  this @page.tsx triage and group by route layouts.
+1: List, triage and read all nextjs pages and configurations in `./app/**`.
+2: List, triage and read all components in `./components` skip `./components/ui`.
+3: consolidate, dead duplicate or dead code, use any remaining unused components and enhance all components in `./components` skip `./components/ui` ensure to create and use any needed, recommended hooks and stores.
+4: List,triage,Catalog by vitest or playwright and read all test in `./tests`
+5: consolidate, dead duplicate or dead code,  all test in `./tests` and  enhance all test.
+
 2: @architecture-planner  Start with the First group route layouts which should be `(auth)` then `(admin)` then `(root)` and lastly `app\page.tsx` and locate all its custom components,dal,actions,tests,stores.
 3: @nextjs-16-expert   For All its components,dal,actions,tests,stores Modify them to be fully functional ensure to create and use any reusable dynamic generic custom components and saved to `./components/layouts` ensure to verify and valid all reusable dynamic generic custom components in `./components/layouts` use dry practices Update all test,helpers and configurations in `docs/test-context.md` use dry practices, validate and use all stores for state management Harden all vitest and Playwright E2E specs by removing skipped/non-deterministic tests, standardizing assertions, and making authenticated scenarios deterministic with a seeded user Work through all Next.js pages sequentially and repeat the process Ensure to run typecheck/lint/tests as a group is completed.
 

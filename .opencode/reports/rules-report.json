@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-23T18:26:22.232Z",
+  "generatedAt": "2026-04-24T07:18:57.711Z",
   "results": [
     {
       "check": "process.env-usage",
@@ -210,20 +210,6 @@
     },
     {
       "check": "no-any",
-      "file": "components/app-sidebar/app-sidebar.tsx",
-      "line": 173,
-      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "components/dashboard/dashboard-server-wrapper.tsx",
-      "line": 54,
-      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
       "file": "components/data-table/data-table.tsx",
       "line": 331,
       "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
@@ -255,13 +241,6 @@
       "file": "components/payment-transfer/payment-transfer-client-wrapper.tsx",
       "line": 143,
       "message": "Found 'any' type usage (4 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "components/plaid-link/plaid-link.tsx",
-      "line": 126,
-      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
       "severity": "warn"
     },
     {
@@ -944,7 +923,7 @@
     {
       "check": "no-any",
       "file": "tests/unit/dashboard-server-wrapper.test.ts",
-      "line": 42,
+      "line": 44,
       "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
       "severity": "warn"
     },
@@ -979,7 +958,7 @@
     {
       "check": "no-any",
       "file": "tests/unit/my-wallets-server-wrapper.test.ts",
-      "line": 39,
+      "line": 41,
       "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
       "severity": "warn"
     },
@@ -993,7 +972,7 @@
     {
       "check": "no-any",
       "file": "tests/unit/payment-transfer-server-wrapper.test.ts",
-      "line": 51,
+      "line": 45,
       "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
       "severity": "warn"
     },
@@ -1028,7 +1007,7 @@
     {
       "check": "no-any",
       "file": "tests/unit/settings-server-wrapper.test.ts",
-      "line": 50,
+      "line": 44,
       "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
       "severity": "warn"
     },
@@ -1041,8 +1020,15 @@
     },
     {
       "check": "no-any",
+      "file": "tests/unit/total-balance.test.tsx",
+      "line": 21,
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
       "file": "tests/unit/transaction-history-server-wrapper.test.ts",
-      "line": 39,
+      "line": 34,
       "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
       "severity": "warn"
     },
@@ -1084,7 +1070,7 @@
     {
       "check": "no-any",
       "file": "tests/utils/serverWrapperTestUtils.ts",
-      "line": 42,
+      "line": 26,
       "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
       "severity": "warn"
     },
@@ -1111,13 +1097,6 @@
     },
     {
       "check": "no-any",
-      "file": "components/layouts/total-balance/total-balance.test.tsx",
-      "line": 21,
-      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
       "file": "components/layouts/wallet-card/index.tsx",
       "line": 48,
       "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
@@ -1125,9 +1104,9 @@
     },
     {
       "check": "no-any",
-      "file": "components/layouts/wallet-card/wallet-card.test.tsx",
-      "line": 14,
-      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
+      "file": "scripts/ts/cleanup/cleanup-docs.ts",
+      "line": 168,
+      "message": "Found 'any' type usage (3 occurrences). Avoid using any.",
       "severity": "warn"
     },
     {
@@ -1155,8 +1134,8 @@
     },
     {
       "check": "no-any",
-      "file": "scripts/ts/cleanup/cleanup-docs.ts",
-      "line": 168,
+      "file": "scripts/ts/mcp/mcp-runner.ts",
+      "line": 69,
       "message": "Found 'any' type usage (3 occurrences). Avoid using any.",
       "severity": "warn"
     },
@@ -1165,51 +1144,6 @@
       "file": "scripts/ts/docker/docker-quickstart.ts",
       "line": 38,
       "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "scripts/ts/mcp/mcp-runner.ts",
-      "line": 69,
-      "message": "Found 'any' type usage (3 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "scripts/ts/utils/cli.ts",
-      "line": 12,
-      "message": "Found 'any' type usage (5 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "process.env-usage",
-      "file": "scripts/ts/utils/disable-extensions.ts",
-      "line": 36,
-      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
-      "severity": "warn",
-      "snippet": "process.env"
-    },
-    {
-      "check": "process.env-usage",
-      "file": "scripts/ts/utils/disable-extensions.ts",
-      "line": 44,
-      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
-      "severity": "warn",
-      "snippet": "process.env"
-    },
-    {
-      "check": "process.env-usage",
-      "file": "scripts/ts/utils/disable-extensions.ts",
-      "line": 54,
-      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
-      "severity": "warn",
-      "snippet": "process.env"
-    },
-    {
-      "check": "no-any",
-      "file": "scripts/ts/utils/disable-extensions.ts",
-      "line": 80,
-      "message": "Found 'any' type usage (6 occurrences). Avoid using any.",
       "severity": "warn"
     },
     {
@@ -1252,6 +1186,44 @@
       "file": "scripts/utils/ci-helpers/targeted-test-runner.ts",
       "line": 91,
       "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "scripts/ts/utils/cli.ts",
+      "line": 12,
+      "message": "Found 'any' type usage (5 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "process.env-usage",
+      "file": "scripts/ts/utils/disable-extensions.ts",
+      "line": 36,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
+    },
+    {
+      "check": "process.env-usage",
+      "file": "scripts/ts/utils/disable-extensions.ts",
+      "line": 44,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
+    },
+    {
+      "check": "process.env-usage",
+      "file": "scripts/ts/utils/disable-extensions.ts",
+      "line": 54,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
+    },
+    {
+      "check": "no-any",
+      "file": "scripts/ts/utils/disable-extensions.ts",
+      "line": 80,
+      "message": "Found 'any' type usage (6 occurrences). Avoid using any.",
       "severity": "warn"
     },
     {
@@ -1330,14 +1302,14 @@
     },
     {
       "check": "no-any",
-      "file": "app/api/auth/local-validate/route.ts",
+      "file": "app/api/auth/local-create/route.ts",
       "line": 20,
       "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
       "severity": "warn"
     },
     {
       "check": "no-any",
-      "file": "app/api/auth/local-create/route.ts",
+      "file": "app/api/auth/local-validate/route.ts",
       "line": 20,
       "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
       "severity": "warn"

@@ -20,16 +20,16 @@ import { cn } from "@/lib/utils";
  * @typedef {FormFieldProps}
  */
 interface FormFieldProps {
-  /** Field name matching form schema */
-  name: string;
-  /** Field label text */
-  label?: string;
-  /** Helper description */
-  description?: string;
-  /** Child input element */
-  children: React.ReactNode;
   /** Additional CSS classes */
   className?: string;
+  /** Child input element */
+  children: React.ReactNode;
+  /** Helper description */
+  description?: string;
+  /** Field label text */
+  label?: string;
+  /** Field name matching form schema */
+  name: string;
 }
 
 /**
@@ -41,11 +41,11 @@ interface FormFieldProps {
  * @returns {JSX.Element}
  */
 export function FormField({
-  name,
-  label,
-  description,
   children,
   className,
+  description,
+  label,
+  name,
 }: FormFieldProps) {
   const { control } = useFormContext();
 

@@ -9,5 +9,4 @@ redirectTo: .opencode/instructions/plan-workflow.md
 
 # Command Plan Steps Rules (DEPRECATED)
 
-> **This file is deprecated.** Content has been moved to [plan-workflow.md](./plan-workflow.md).
-> See plan-workflow.md for workflow and plan file standards.
+> **This file is deprecated.** Content has been moved to [plan-workflow.md](./plan-workflow.md). See plan-workflow.md for workflow and plan file standards.

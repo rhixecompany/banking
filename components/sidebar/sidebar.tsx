@@ -26,6 +26,7 @@ import { sidebarLinks } from "@/constants";
  * ```
  *
  * @param props - Component props
+ * @param props.logoutAccount - Server action for logout
  * @param props.user - Authenticated user data for personalization and footer
  * @returns Rendered sidebar navigation
  */

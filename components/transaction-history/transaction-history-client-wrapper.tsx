@@ -6,6 +6,7 @@ import type { Wallet } from "@/types/wallet";
 
 import HeaderBox from "@/components/header-box/header-box";
 import TransactionDatatable from "@/components/shadcn-studio/blocks/datatable-transaction";
+import { FilterStoreProvider } from "@/stores/filter-store";
 
 /**
  * Maps a DB Transaction row to the Item shape expected by TransactionDatatable.
@@ -96,17 +97,19 @@ export function TransactionHistoryClientWrapper({
   const items: Item[] = transactions.map(toItem);
 
   return (
-    <section className="space-y-6">
-      <header>
-        <HeaderBox
-          title="Transaction History"
-          subtext="A complete record of all your account activity."
-        />
-      </header>
+    <FilterStoreProvider>
+      <section className="space-y-6">
+        <header>
+          <HeaderBox
+            title="Transaction History"
+            subtext="A complete record of all your account activity."
+          />
+        </header>
 
-      <div className="rounded-lg border bg-card">
-        <TransactionDatatable data={items} />
-      </div>
-    </section>
+        <div className="rounded-lg border bg-card">
+          <TransactionDatatable data={items} />
+        </div>
+      </section>
+    </FilterStoreProvider>
   );
 }

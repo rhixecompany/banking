@@ -65,7 +65,7 @@ const lines = content.split(/\r?\n/);
  */
 let count = 0;
 for (const line of lines) {
-  const m = line.match(/^\s*([A-Z_]\w*)\s*=\s*(.*)$/i);
+  const m = line.match(/^([A-Z_]\w*)\s*=\s*(.*)$/i);
   if (!m) continue;
   const key = m[1];
   let value = m[2].trim();

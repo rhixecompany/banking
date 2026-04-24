@@ -1,5 +1,6 @@
-import { redirect } from "next/navigation";
 import type { JSX } from "react";
+
+import { redirect } from "next/navigation";
 
 import AuthForm from "@/components/layouts/auth-form";
 import { auth } from "@/lib/auth";
@@ -7,13 +8,13 @@ import { auth } from "@/lib/auth";
 export type AuthFormType = "sign-in" | "sign-up";
 
 interface AuthPageWrapperProps {
-  type: AuthFormType;
   /**
    * API endpoint for the authentication form.
-   * - "sign-in" → /api/auth/local-validate
    * - "sign-up" → /api/auth/local-create
+   * - "sign-in" → /api/auth/local-validate
    */
-  actionEndpoint: "/api/auth/local-validate" | "/api/auth/local-create";
+  actionEndpoint: "/api/auth/local-create" | "/api/auth/local-validate";
+  type: AuthFormType;
 }
 
 /**
@@ -29,8 +30,8 @@ interface AuthPageWrapperProps {
  * @returns {Promise<JSX.Element>}
  */
 export async function AuthPageWrapper({
-  type,
   actionEndpoint,
+  type,
 }: AuthPageWrapperProps): Promise<JSX.Element> {
   const session = await auth();
   if (session?.user) redirect("/dashboard");

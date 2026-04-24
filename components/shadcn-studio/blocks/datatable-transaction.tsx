@@ -1,6 +1,6 @@
 "use client";
 
-import type { ColumnDef, PaginationState } from "@tanstack/react-table";
+import type { ColumnDef } from "@tanstack/react-table";
 
 import {
   flexRender,
@@ -14,8 +14,10 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
   EllipsisVerticalIcon,
+  FilterIcon,
+  SearchIcon,
 } from "lucide-react";
-import { useState } from "react";
+import { useCallback } from "react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -27,12 +29,20 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
 import {
   Pagination,
   PaginationContent,
   PaginationEllipsis,
   PaginationItem,
 } from "@/components/ui/pagination";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -42,6 +52,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { usePagination } from "@/hooks/use-pagination";
+import type { TransactionStatus } from "@/stores/create-filter-store";
+import { useFilterStore } from "@/stores/filter-store";
 
 /**
  * Description placeholder
@@ -193,24 +205,40 @@ export const columns: ColumnDef<Item>[] = [
  * @returns {ReactJSX.Element}
  */
 const TransactionDatatable = ({ data }: { data: Item[] }) => {
-  const pageSize = 5;
+  const searchQuery = useFilterStore((s) => s.searchQuery);
+  const setSearchQuery = useFilterStore((s) => s.setSearchQuery);
+  const status = useFilterStore((s) => s.status);
+  const setStatus = useFilterStore((s) => s.setStatus);
 
-  const [pagination, setPagination] = useState<PaginationState>({
-    pageIndex: 0,
-    pageSize: pageSize,
+  const handleSearch = useCallback(
+    (value: string) => {
+      setSearchQuery(value);
+    },
+    [setSearchQuery],
+  );
+
+  // Client-side filter: apply searchQuery across name, email, and amount fields
+  const filteredData = data.filter((item) => {
+    // Status filter
+    if (status && item.status !== status) return false;
+
+    // Search filter
+    if (!searchQuery.trim()) return true;
+    const q = searchQuery.toLowerCase();
+    return (
+      item.name.toLowerCase().includes(q) ||
+      item.email.toLowerCase().includes(q) ||
+      String(item.amount).includes(q)
+    );
   });
 
   const table = useReactTable({
     columns,
-    data,
+    data: filteredData,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    onPaginationChange: setPagination,
-    state: {
-      pagination,
-    },
   });
 
   const { pages, showLeftEllipsis, showRightEllipsis } = usePagination({
@@ -221,6 +249,41 @@ const TransactionDatatable = ({ data }: { data: Item[] }) => {
 
   return (
     <div className="w-full">
+      <div className="flex items-center gap-2 border-b px-4 py-3 ps-4">
+        <SearchIcon
+          className="size-4 text-muted-foreground"
+          aria-hidden="true"
+        />
+        <Input
+          aria-label="Search transactions"
+          className="h-8 w-full max-w-xs border-0 shadow-none focus-visible:ring-0"
+          placeholder="Search by name, email, or amount..."
+          value={searchQuery}
+          onChange={(e) => handleSearch(e.currentTarget.value)}
+        />
+        <div className="flex items-center gap-2">
+          <FilterIcon
+            className="size-4 text-muted-foreground"
+            aria-hidden="true"
+          />
+          <Select
+            value={status}
+            onValueChange={(value) => setStatus(value as TransactionStatus)}
+          >
+            <SelectTrigger className="h-8 w-32" aria-label="Filter by status">
+              <SelectValue placeholder="All statuses" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="">All statuses</SelectItem>
+              <SelectItem value="paid">Paid</SelectItem>
+              <SelectItem value="pending">Pending</SelectItem>
+              <SelectItem value="processing">Processing</SelectItem>
+              <SelectItem value="failed">Failed</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
       <div className="border-b">
         <Table>
           <TableHeader>

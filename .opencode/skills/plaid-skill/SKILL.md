@@ -1,15 +1,15 @@
 ---
 name: plaid-skill
 description: Plaid API integration for bank account linking, transaction retrieval, and balance fetching.
-lastReviewed: 2026-04-13
-applyTo: "lib/**/*.{ts,js}"
+lastReviewed: 2026-04-23
+applyTo: "lib/plaid.ts", "actions/**/*.{ts,tsx}"
 ---
 
 # PlaidSkill — Plaid Integration Patterns
 
 Overview
 
-Guidance for safely integrating Plaid Link, exchanging public tokens, and storing access tokens (encrypted). Use Server Actions for sensitive operations and `dal/` for DB access.
+Guidance for safely integrating Plaid Link, exchanging public tokens, and storing access tokens (encrypted). Use Server Actions for sensitive operations and `dal/` for DB access. This skill references the repo's actual DAL structure: `wallet.dal.ts` for Plaid item storage.
 
 When to use
 
@@ -20,9 +20,9 @@ Canonical Example — Server Action (exchange public token)
 
 ```ts
 "use server";
-import { auth } from "@/auth";
+import { auth } from "@/lib/auth";
 import { plaidClient } from "@/lib/plaid";
-import { bankDal } from "@/dal";
+import { walletDal } from "@/dal/wallet.dal";
 import { encrypt } from "@/lib/encryption";
 
 export async function exchangePublicToken(input: {
@@ -36,7 +36,7 @@ export async function exchangePublicToken(input: {
   });
   const accessToken = resp.data.access_token;
 
-  await bankDal.create({
+  await walletDal.create({
     userId: session.user.id,
     accessToken: encrypt(accessToken)
   });

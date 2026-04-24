@@ -1,6 +1,8 @@
 ---
 name: simplify
 description: Simplifies code for clarity without changing behavior. Use for readability, maintainability, and complexity reduction after behavior is understood.
+lastReviewed: 2026-04-23
+applyTo: "**/*.{ts,tsx,js,jsx}"
 ---
 
 # Code Simplification

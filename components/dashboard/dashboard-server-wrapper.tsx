@@ -50,9 +50,7 @@ export async function DashboardServerWrapper(): Promise<JSX.Element> {
 
   const wallets = walletsResult.ok ? (walletsResult.wallets ?? []) : [];
   const accounts = accountsResult.ok ? (accountsResult.accounts ?? []) : [];
-  const transactions = txResult.ok
-    ? ((txResult.transactions as any[]) ?? [])
-    : [];
+  const transactions = txResult.ok ? (txResult.transactions ?? []) : [];
 
   return (
     <DashboardClientWrapper

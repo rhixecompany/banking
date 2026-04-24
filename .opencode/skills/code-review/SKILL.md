@@ -1,6 +1,8 @@
 ---
 name: code-review
 description: Comprehensive code review methodology with severity classification and confidence thresholds
+lastReviewed: 2026-04-23
+applyTo: "**/*.{ts,tsx,js,jsx}"
 ---
 
 # Code Review Philosophy

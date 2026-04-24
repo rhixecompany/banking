@@ -16,6 +16,24 @@ export const TransferSchema = z.object({
       },
     )
     .meta({ description: "Transfer amount as decimal string (e.g. '25.00')" }),
+  // Optional ledger creation - when provided, creates transaction record in DAL
+  createLedger: z
+    .object({
+      amount: z.string().trim().optional(),
+      category: z.string().trim().optional(),
+      channel: z.enum(["in_store", "online", "other"]).optional(),
+      currency: z.string().trim().optional(),
+      email: z.string().trim().optional(),
+      name: z.string().trim().optional(),
+      receiverWalletId: z.string().trim().optional(),
+      senderWalletId: z.string().trim().optional(),
+      status: z
+        .enum(["cancelled", "completed", "failed", "pending", "processing"])
+        .optional(),
+      type: z.enum(["credit", "debit"]).optional(),
+    })
+    .optional()
+    .meta({ description: "Optional ledger record to create" }),
   currency: z
     .string()
     .trim()
@@ -31,24 +49,6 @@ export const TransferSchema = z.object({
     .trim()
     .url()
     .meta({ description: "Source funding source URL" }),
-  // Optional ledger creation - when provided, creates transaction record in DAL
-  createLedger: z
-    .object({
-      amount: z.string().optional(),
-      category: z.string().optional(),
-      channel: z.enum(["in_store", "online", "other"]).optional(),
-      currency: z.string().optional(),
-      email: z.string().optional(),
-      name: z.string().optional(),
-      receiverWalletId: z.string().optional(),
-      senderWalletId: z.string().optional(),
-      status: z
-        .enum(["cancelled", "completed", "failed", "pending", "processing"])
-        .optional(),
-      type: z.enum(["credit", "debit"]).optional(),
-    })
-    .optional()
-    .meta({ description: "Optional ledger record to create" }),
 });
 
 /**

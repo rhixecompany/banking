@@ -12,6 +12,7 @@ import HeaderBox from "@/components/header-box/header-box";
 import { SectionCards } from "@/components/section-cards/section-cards";
 import OnboardingFeed from "@/components/shadcn-studio/blocks/onboarding-feed-01/onboarding-feed-01";
 import WalletsOverview from "@/components/shared/wallets-overview";
+import TotalBalanceBox from "@/components/total-balance-box/total-balance-box";
 
 /** Route path to the My Wallets page. */
 const MY_WALLETS_PATH = "/my-wallets" as const;
@@ -93,6 +94,13 @@ export function DashboardClientWrapper({
           subtext="Here's your financial overview"
         />
       </header>
+
+      {/* Total Balance Box - Hero balance display */}
+      <TotalBalanceBox
+        accounts={accounts}
+        totalWallets={wallets.length}
+        totalCurrentBalance={totalBalance}
+      />
 
       {/* Key metric cards */}
       <SectionCards

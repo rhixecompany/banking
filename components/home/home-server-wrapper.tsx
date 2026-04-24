@@ -1,4 +1,5 @@
 import type { MenuData } from "@/components/shadcn-studio/blocks/hero-section-41/hero-section-41";
+import type { NavigationSection } from "@/components/shadcn-studio/blocks/menu-navigation";
 
 import CtaGetStarted from "@/components/layouts/cta-get-started";
 import FeaturesGrid from "@/components/layouts/features-grid";
@@ -8,13 +9,7 @@ import Header from "@/components/shadcn-studio/blocks/hero-section-41/header";
 import HeroSection from "@/components/shadcn-studio/blocks/hero-section-41/hero-section-41";
 import { Container } from "@/components/ui/container";
 
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @type {never[]}
- */
-const navigationData: never[] = [];
+const navigationData: NavigationSection[] = [];
 
 /**
  * Description placeholder

@@ -12,7 +12,7 @@ declare global {
   }
 }
 
-import type { User } from "@/types/user";
+export type { User, User as UserType } from "@/types/user";
 
 /**
  * Props for the `WalletCard` component that renders a styled wallet card tile.

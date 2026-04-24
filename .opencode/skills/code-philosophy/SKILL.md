@@ -1,6 +1,8 @@
 ---
 name: code-philosophy
 description: Internal logic and data flow philosophy (The 5 Laws of Elegant Defense). Understand deeply to ensure code guides data naturally and prevents errors.
+lastReviewed: 2026-04-23
+applyTo: "**/*.{ts,tsx,js,jsx}"
 ---
 
 # Internal Logic Philosophy: The 5 Laws of Elegant Defense

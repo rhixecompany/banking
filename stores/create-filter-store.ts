@@ -1,10 +1,20 @@
 /**
  * Transaction Filter Store — holds active filter state for transaction lists.
- * Supports date range, category, and free-text search filtering.
+ * Supports date range, category, status, and free-text search filtering.
  * Uses createStore for SSR-safe React Context initialization.
  */
 
 import { createStore } from "zustand";
+
+/**
+ * Valid transaction statuses for filtering.
+ */
+export type TransactionStatus =
+  | "failed"
+  | "paid"
+  | "pending"
+  | "processing"
+  | "";
 
 /**
  * Description placeholder
@@ -34,6 +44,8 @@ export interface FilterState {
   dateRange: DateRange;
   /** Active category filter. Empty string means no category filter. */
   category: string;
+  /** Active status filter. Empty string means no status filter. */
+  status: TransactionStatus;
   /** Free-text search query applied to transaction name/email. */
   searchQuery: string;
   /** Current page number (1-indexed). */
@@ -55,6 +67,8 @@ export interface FilterActions {
   setDateRange: (range: DateRange) => void;
   /** Set or clear the category filter. */
   setCategory: (category: string) => void;
+  /** Set or clear the status filter. */
+  setStatus: (status: TransactionStatus) => void;
   /** Set or clear the search query. */
   setSearchQuery: (query: string) => void;
   /** Set the current page (resets to 1 if filters change). */
@@ -86,6 +100,7 @@ export const defaultFilterState: FilterState = {
   page: 1,
   pageSize: 20,
   searchQuery: "",
+  status: "",
 };
 
 /**
@@ -108,5 +123,7 @@ export function createFilterStore(initState: Partial<FilterState> = {}) {
     setPageSize: (pageSize) => set({ page: 1, pageSize }),
 
     setSearchQuery: (searchQuery) => set({ page: 1, searchQuery }),
+
+    setStatus: (status) => set({ status, page: 1 }),
   }));
 }

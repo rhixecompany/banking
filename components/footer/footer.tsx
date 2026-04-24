@@ -22,6 +22,7 @@ import type { FooterProps } from "@/types";
  * ```
  *
  * @param props - Component props
+ * @param props.logoutAccount - Server action for logout
  * @param props.type - Layout variant: "desktop" for sidebar, "mobile" for drawer
  * @param props.user - Authenticated user data with name and email
  * @returns Rendered footer with user info and logout button

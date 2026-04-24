@@ -102,15 +102,15 @@ interface DataTableProps<TData, TValue> {
  * ```
  */
 export function DataTable<TData, TValue>({
+  className,
   columns,
   data,
-  searchPlaceholder = "Search...",
-  searchColumn,
+  emptyMessage = "No data available",
+  enableColumnToggle = false,
   enablePagination = true,
   pageSize = 10,
-  enableColumnToggle = false,
-  className,
-  emptyMessage = "No data available",
+  searchColumn,
+  searchPlaceholder = "Search...",
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(

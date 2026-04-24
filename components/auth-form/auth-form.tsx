@@ -12,9 +12,6 @@ import { z } from "zod";
 
 import type { AuthFormProps } from "@/types";
 
-// Accept register as a prop from the server wrapper to avoid importing
-// the server action directly in this client component.
-import MyLoader from "@/components/my-loader/my-loader";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -25,6 +22,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Spinner } from "@/components/ui/spinner";
 import { getAuthFormSchema, signInSchema, signUpSchema } from "@/lib/utils";
 
 /** Sign-in form data type inferred from signInSchema */
@@ -472,7 +470,7 @@ const AuthForm = ({
 
           <div className="flex flex-col gap-4">
             <Button type="submit" disabled={isLoading} className="form-btn">
-              {isLoading ? <MyLoader /> : isSignIn ? "Sign In" : "Sign Up"}
+              {isLoading ? <Spinner /> : isSignIn ? "Sign In" : "Sign Up"}
             </Button>
           </div>
         </form>

@@ -9,6 +9,4 @@ redirectTo: AGENTS.md
 
 # Default Agent Rules (DEPRECATED)
 
-> **This file is deprecated.** Content has been merged into `AGENTS.md`.
-> Read AGENTS.md for repo-specific rules, commands, and patterns.
-> If an `.opencode/instructions/*.md` file conflicts with `AGENTS.md`, align to AGENTS.md.
+> **This file is deprecated.** Content has been merged into `AGENTS.md`. Read AGENTS.md for repo-specific rules, commands, and patterns. If an `.opencode/instructions/*.md` file conflicts with `AGENTS.md`, align to AGENTS.md.
