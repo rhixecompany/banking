@@ -1,7 +1,7 @@
 ---
 name: plaid-skill
 description: Plaid API integration for bank account linking, transaction retrieval, and balance fetching.
-lastReviewed: 2026-04-23
+lastReviewed: 2026-04-24
 applyTo: "lib/plaid.ts", "actions/**/*.{ts,tsx}"
 ---
 

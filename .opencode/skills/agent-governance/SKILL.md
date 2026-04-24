@@ -9,8 +9,8 @@ description: |
   - Building audit trails for agent actions and decisions
   - Enforcing rate limits, content filters, or tool restrictions on agents
   - Working with any agent framework (PydanticAI, CrewAI, OpenAI Agents, LangChain, AutoGen)
-lastReviewed: 2026-04-13
-applyTo: "lib/**/*.{py,js,ts,md}"
+lastReviewed: 2026-04-24
+applyTo: "**/*"
 ---
 
 # Agent Governance Patterns

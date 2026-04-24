@@ -1,7 +1,7 @@
 ---
 name: ui-skill
 description: shadcn/ui component patterns and Tailwind CSS styling for the Banking app. Use when building forms, tables, dialogs, or UI components.
-lastReviewed: 2026-04-13
+lastReviewed: 2026-04-24
 applyTo: "app/**/*.{tsx,ts}"
 ---
 
@@ -47,7 +47,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { transferSchema, type TransferInput } from "@/lib/validations/transfer";
+import { TransferSchema, type TransferInput } from "@/lib/schemas/transfer";
 
 export function TransferForm() {
   const form = useForm<TransferInput>({

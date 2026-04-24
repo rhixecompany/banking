@@ -1,7 +1,7 @@
 ---
 name: vscode-ext-localization
 description: Guidelines for proper localization of VS Code extensions following VS Code extension development guidelines and best practices.
-lastReviewed: 2026-04-13
+lastReviewed: 2026-04-24
 applyTo: "extensions/**"
 ---
 

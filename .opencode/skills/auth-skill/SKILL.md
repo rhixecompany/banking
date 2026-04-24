@@ -1,7 +1,7 @@
 ---
 name: auth-skill
 description: NextAuth v4 authentication patterns, session helper, and protected route guidance.
-lastReviewed: 2026-04-13
+lastReviewed: 2026-04-24
 applyTo: "actions/**/*.{ts,tsx}"
 ---
 
@@ -18,7 +18,7 @@ Session Shape
 Server Action Example
 
 ```ts
-import { auth } from "@/auth";
+import { auth } from "@/lib/auth";
 
 export async function protectedAction(input: unknown) {
   const session = await auth();

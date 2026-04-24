@@ -1,7 +1,7 @@
 ---
 name: github-issues
 description: Create and manage GitHub issues via MCP tools (create, update, label, assign, and search issues).
-lastReviewed: 2026-04-13
+lastReviewed: 2026-04-24
 applyTo: "mcp__github__*"
 ---
 

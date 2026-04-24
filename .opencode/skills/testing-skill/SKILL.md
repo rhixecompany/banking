@@ -1,7 +1,7 @@
 ---
 name: testing-skill
 description: Testing patterns for Vitest (unit) and Playwright (E2E) used by the Banking app.
-lastReviewed: 2026-04-13
+lastReviewed: 2026-04-24
 applyTo: "tests/**"
 ---
 

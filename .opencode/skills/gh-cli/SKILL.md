@@ -1,7 +1,7 @@
 ---
 name: gh-cli
 description: Comprehensive GitHub CLI (gh) reference for repositories, issues, PRs, Actions, and other GitHub operations.
-lastReviewed: 2026-04-13
+lastReviewed: 2026-04-24
 applyTo: "**/*"
 ---
 

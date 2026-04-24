@@ -1,7 +1,7 @@
 ---
 name: validation-skill
 description: Zod schema validation patterns for forms, API inputs, and type-safe data in the Banking app. Use when creating schemas, validating user input, or implementing form validation.
-lastReviewed: 2026-04-13
+lastReviewed: 2026-04-24
 applyTo: "**/*.{ts,tsx,md}"
 ---
 
@@ -17,10 +17,12 @@ This skill provides guidance on Zod schema validation patterns for the Banking p
 
 - `zod/no-any-schema` — error
 - `zod/require-error-message` — error (all validators need message strings)
-- `zod/prefer-meta` — error (every field must have `.describe("...")`)
+- `zod/prefer-meta` — error (every field must have `.meta({ description: "..." })`)
 - `zod/no-optional-and-default-together` — error
 
-### Basic Schema with `.describe()`
+### Basic Schema with `.meta({ description: "..." })`
+
+Zod v4 uses `.meta()` for field descriptions (ESLint `zod/prefer-meta` enforces this):
 
 ```typescript
 import { z } from "zod";
@@ -29,28 +31,28 @@ export const signInSchema = z.object({
   email: z
     .string()
     .email("Invalid email address")
-    .describe("User email"),
+    .meta({ description: "User email" }),
   password: z
     .string()
     .min(8, "Password must be at least 8 characters")
-    .describe("User password")
+    .meta({ description: "User password" })
 });
 
 export const signUpSchema = z.object({
   name: z
     .string()
     .min(2, "Name must be at least 2 characters")
-    .describe("Display name"),
+    .meta({ description: "Display name" }),
   email: z
     .string()
     .email("Invalid email address")
-    .describe("User email"),
+    .meta({ description: "User email" }),
   password: z
     .string()
     .min(8, "Password must be at least 8 characters")
     .regex(/[A-Z]/, "Must contain uppercase")
     .regex(/[0-9]/, "Must contain number")
-    .describe("User password")
+    .meta({ description: "User password" })
 });
 ```
 
@@ -63,13 +65,13 @@ export const transferSchema = z
     recipientId: z
       .string()
       .uuid("Invalid recipient")
-      .describe("Recipient UUID"),
+      .meta({ description: "Recipient UUID" }),
     amount: z.coerce
       .number()
       .positive("Amount must be positive")
       .max(10000, "Amount exceeds limit")
-      .describe("Transfer amount"),
-    memo: z.string().max(100).optional().describe("Transfer memo")
+      .meta({ description: "Transfer amount" }),
+    memo: z.string().max(100).optional().meta({ description: "Transfer memo" })
   })
   .refine(d => d.amount > 0, {
     message: "Amount must be greater than 0",
@@ -87,8 +89,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const formSchema = z.object({
-  email: z.string().email().describe("Recipient email"),
-  amount: z.coerce.number().min(0.01).describe("Transfer amount"),
+  email: z.string().email().meta({ description: "Recipient email" }),
+  amount: z.coerce.number().min(0.01).meta({ description: "Transfer amount" }),
 });
 
 export function TransferForm() {
@@ -152,7 +154,7 @@ import { auth, plaid, dwolla } from "@/app-config";
 2. **Use `safeParse`** for controlled error handling
 3. **Chain validators** — `z.string().email().min(8)`
 4. **Custom error messages** — Provide clear feedback
-5. **`.describe()` on every field** — ESLint-enforced
+5. **`.meta({ description: "..." })` on every field** — ESLint-enforced
 6. **Use `z.coerce`** for form inputs (numbers, booleans)
 
 Note: For canonical agent rules and plan repository location, see `AGENTS.md` and create plans in `.opencode/commands/` when changes touch more than 7 files.
@@ -166,5 +168,5 @@ Run: `npm run type-check`
 1. **Type inference** — Use `z.infer<typeof schema>` for TypeScript types
 2. **Partial validation** — Use `.partial()` for optional fields
 3. **Union types** — Use `.union()` or `.discriminatedUnion()` for alternatives
-4. **Missing `.describe()`** — ESLint `zod/prefer-meta` will error
+4. **Missing `.meta()`** — ESLint `zod/prefer-meta` will error
 5. **Missing error messages** — ESLint `zod/require-error-message` will error

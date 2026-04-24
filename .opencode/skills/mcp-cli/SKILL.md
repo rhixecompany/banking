@@ -1,7 +1,7 @@
 ---
 name: mcp-cli
 description: CLI interface for interacting with MCP (Model Context Protocol) servers and their tools.
-lastReviewed: 2026-04-13
+lastReviewed: 2026-04-24
 applyTo: "tools/**"
 ---
 

@@ -1,7 +1,7 @@
 ---
 name: scoutqa-test
 description: Automated exploratory and accessibility testing for web apps using the ScoutQA CLI.
-lastReviewed: 2026-04-13
+lastReviewed: 2026-04-24
 applyTo: "tests/**"
 ---
 

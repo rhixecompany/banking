@@ -1,7 +1,7 @@
 ---
 name: security-skill
 description: Security patterns for encryption, environment handling, and secret management.
-lastReviewed: 2026-04-13
+lastReviewed: 2026-04-24
 applyTo: "lib/**/*.{ts,js}"
 ---
 

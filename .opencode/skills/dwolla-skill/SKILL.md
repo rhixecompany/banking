@@ -1,7 +1,7 @@
 ---
 name: dwolla-skill
 description: Dwolla API integration for ACH transfers, payment processing, and bank account verification in the Banking app.
-lastReviewed: 2026-04-13
+lastReviewed: 2026-04-24
 applyTo: "lib/**/*.{ts,js,md}"
 ---
 
@@ -26,7 +26,7 @@ Example — Create Dwolla Customer (Server Action)
 
 ```ts
 "use server";
-import { auth } from "@/auth";
+import { auth } from "@/lib/auth";
 import { dwollaClient } from "@/lib/dwolla";
 import { recipientDal } from "@/dal";
 

@@ -1,7 +1,7 @@
 ---
 name: db-skill
 description: Drizzle ORM patterns - schema, migrations, queries, and N+1 prevention for the Banking app.
-lastReviewed: 2026-04-13
+lastReviewed: 2026-04-24
 applyTo: "database/**"
 ---
 

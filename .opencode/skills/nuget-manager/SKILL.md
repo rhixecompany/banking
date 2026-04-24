@@ -1,7 +1,7 @@
 ---
 name: nuget-manager
 description: Manage NuGet packages safely using the `dotnet` CLI and prescribed update workflows.
-lastReviewed: 2026-04-13
+lastReviewed: 2026-04-24
 applyTo: "**/*.{csproj,props,sln}"
 ---
 

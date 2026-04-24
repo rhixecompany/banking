@@ -1,7 +1,7 @@
 ---
 name: server-action-skill
 description: Patterns and examples for Next.js Server Actions in the Banking app.
-lastReviewed: 2026-04-13
+lastReviewed: 2026-04-24
 applyTo: "app/**/*.{ts,tsx}"
 ---
 
@@ -15,13 +15,13 @@ Quick Example
 
 ```ts
 "use server";
-import { auth } from "@/auth";
+import { auth } from "@/lib/auth";
 import { userDal } from "@/dal";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 const Schema = z.object({
-  name: z.string().min(1).describe("Display name")
+  name: z.string().min(1).meta({ description: "Display name" })
 });
 
 export async function updateProfile(input: unknown) {

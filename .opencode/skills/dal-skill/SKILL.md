@@ -1,7 +1,7 @@
 ---
 name: dal-skill
 description: Drizzle ORM and Data Access Layer patterns for efficient, type-safe database access.
-lastReviewed: 2026-04-13
+lastReviewed: 2026-04-24
 applyTo: "dal/**"
 ---
 

@@ -1,7 +1,7 @@
 ---
 name: meeting-minutes
 description: Generate concise, actionable meeting minutes with decisions and action items for internal meetings.
-lastReviewed: 2026-04-13
+lastReviewed: 2026-04-24
 applyTo: "docs/meetings/**"
 ---
 

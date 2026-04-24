@@ -1,7 +1,7 @@
 ---
 name: suspense-skill
 description: Guidance for implementing Suspense boundaries in Next.js 16 to handle async auth APIs without blocking route rendering.
-lastReviewed: 2026-04-13
+lastReviewed: 2026-04-24
 applyTo: "app/**/*.{tsx,ts,md}"
 ---
 
@@ -11,7 +11,7 @@ This skill provides guidance for implementing Suspense boundaries in Next.js 16 
 
 ## Overview
 
-In Next.js 16, APIs like `cookies()`, `headers()`, and `getServerSession()` are **async**. Using them directly in Server Components without `<Suspense>` causes blocking route errors and degrades performance.
+In Next.js 16, APIs like `cookies()`, `headers()`, and `auth()` are **async**. Using them directly in Server Components without `<Suspense>` causes blocking route errors and degrades performance.
 
 ## Key Patterns
 
@@ -20,7 +20,7 @@ In Next.js 16, APIs like `cookies()`, `headers()`, and `getServerSession()` are 
 ```tsx
 // ❌ BAD - Blocks route rendering
 export default async function DashboardPage() {
-  const session = await getServerSession();
+  const session = await auth();
   if (!session) redirect("/sign-in");
   return <Dashboard />;
 }
@@ -35,7 +35,7 @@ export default function DashboardPage() {
 }
 
 async function DashboardContent() {
-  const session = await getServerSession();
+  const session = await auth();
   if (!session) redirect("/sign-in");
   return <Dashboard />;
 }
@@ -54,7 +54,7 @@ export default function SignIn() {
 }
 
 async function SignInContent() {
-  const session = await getServerSession();
+  const session = await auth();
   if (session) redirect("/dashboard");
   return <AuthForm type="sign-in" />;
 }
@@ -104,7 +104,7 @@ export default function Loading() {
 | -------------------- | ------------- | ------------------- |
 | `cookies()`          | ✅ Yes        | Async in Next.js 16 |
 | `headers()`          | ✅ Yes        | Async in Next.js 16 |
-| `getServerSession()` | ✅ Yes        | Depends on cookies  |
+| `auth()`             | ✅ Yes        | Depends on cookies  |
 | `searchParams`       | ✅ Yes        | Async in Next.js 16 |
 | `params` (awaited)   | ✅ Yes        | Can be Promise      |
 | Static content       | ❌ No         | No async ops        |

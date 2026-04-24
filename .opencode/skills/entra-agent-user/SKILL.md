@@ -1,7 +1,7 @@
 ---
 name: entra-agent-user
 description: Create Agent Users in Microsoft Entra ID from Agent Identities to enable agent-as-user scenarios.
-lastReviewed: 2026-04-13
+lastReviewed: 2026-04-24
 applyTo: "infra/**"
 ---
 
