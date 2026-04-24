@@ -6,8 +6,6 @@ import { Button } from "@/components/ui/button";
  * Global error boundary — required to be a Client Component by Next.js.
  * Must render <html> + <body> because it replaces the entire document on error.
  */
-export const dynamic = "force-dynamic";
-
 export default function GlobalError({
   error,
   reset,
