@@ -1,28 +1,17 @@
 // Centralized MSW handlers for unit tests and dev-time mocks
-import * as msw from "msw";
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @type {*}
- */
-const { rest } = msw as any;
+import { http, HttpResponse } from "msw";
 
-// Example handler for auth - returns seeded user fixture if requested
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @type {{}}
- */
+// Example handler for auth - returns seeded user fixture
 export const handlers = [
-  rest.post("/api/auth/sign-in", (req: any, res: any, ctx: any) => {
-    return res(
-      ctx.status(200),
-      ctx.json({
-        ok: true,
-        user: { email: "seed.user@example.com", id: "user-seed-1" },
-      }),
-    );
-  }),
+  http.post(
+    "/api/auth/sign-in",
+    () =>
+      HttpResponse.json(
+        {
+          ok: true,
+          user: { email: "seed.user@example.com", id: "user-seed-1" },
+        },
+        { status: 200 },
+      ),
+  ),
 ];
