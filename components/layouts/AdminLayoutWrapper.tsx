@@ -33,8 +33,9 @@ interface Props {
  */
 export default async function AdminLayoutWrapper({ children }: Props) {
   const user = await getCurrentUser();
-  if (!user?.isAdmin) {
-    redirect("/sign-in");
-  }
+
+  if (!user) redirect("/sign-in");
+  if (!user.isAdmin) redirect("/dashboard");
+
   return <PageShell>{children}</PageShell>;
 }

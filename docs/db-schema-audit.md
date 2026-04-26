@@ -25,17 +25,17 @@ Key Findings
 - The schema mixes camelCase and snake_case column names (e.g., `created_at` vs `emailVerified`). This makes raw SQL, migrations, and snapshots harder to reason about.
 - Recommendation: normalize column names to snake_case across all tables (created_at, email_verified, is_active, is_admin, updated_at, etc.). Use a staged migration strategy (dual-write -> backfill -> read switch -> drop old columns).
 
-2. Missing Plaid Item tracking (medium risk)
+1. Missing Plaid Item tracking (medium risk)
 
 - The codebase (e.g., `actions/plaid.actions.ts`, `scripts/seed/create-plaid-tokens.ts`, `types/plaid.ts`) expects a Plaid `item_id` and `access_token` lifecycle. The schema currently stores `access_token` on `wallets` but no `plaid_items` table and no `item_id` column for reliable reconciliation.
 - Recommendation: create a normalized `plaid_items` table with columns: `id`, `item_id`, `access_token_encrypted`, `user_id`, `created_at`, `updated_at`. Link `wallets` to `plaid_items` via `plaid_item_id`. This supports multiple wallets per Plaid item.
 
-3. CamelCase DB column names present (medium risk)
+1. CamelCase DB column names present (medium risk)
 
 - Examples: `emailVerified`, `credentialBackedUp`, `credentialDeviceType`, `credentialID`, `credentialPublicKey`.
 - Recommendation: rename to `email_verified`, `credential_backed_up`, `credential_device_type`, `credential_id`, `credential_public_key`.
 
-4. FK onDelete inconsistencies (medium risk)
+1. FK onDelete inconsistencies (medium risk)
 
 - Some FKs use `onDelete: 'cascade'` (good for session cleanup), others lack explicit `onDelete` (e.g., `dwolla_transfers.userId`, `transactions.senderWalletId`/`receiverWalletId`).
 - Recommendation: standardize policies:
@@ -43,15 +43,15 @@ Key Findings
   - Ledger entries (transactions): `ON DELETE SET NULL` to preserve historical data.
   - Dwolla transfers: `ON DELETE SET NULL` (preserve transfer records for audits).
 
-5. Nullable vs notNull mismatches (low/medium)
+1. Nullable vs notNull mismatches (low/medium)
 
 - Ensure fields that code requires are `NOT NULL` and optional fields remain nullable. E.g., `wallets.access_token` is notNull and encrypted correctly in code.
 
-6. Encryption & secrets (security)
+1. Encryption & secrets (security)
 
 - Sensitive fields (`ssn_encrypted`, `account_number_encrypted`, `access_token`) are expected to be encrypted. Ensure `ENCRYPTION_KEY` is enforced and that the `lib/encryption` module is used consistently.
 
-7. Index coverage and uniqueness (performance)
+1. Index coverage and uniqueness (performance)
 
 - Existing helpful indices: `users_email_idx`, `wallets_sharable_id_idx`, `transactions_*`.
 - Recommendation: add index on `plaid_items.item_id` and `wallets.plaid_item_id`. Consider compound indexes `(user_id, account_id)` if used frequently.
@@ -70,23 +70,23 @@ Primary schema changes (recommended)
 - Columns: `id TEXT PRIMARY KEY`, `item_id VARCHAR(255) NOT NULL`, `access_token_encrypted TEXT NOT NULL`, `user_id TEXT REFERENCES users(id) ON DELETE CASCADE`, `created_at TIMESTAMP NOT NULL DEFAULT now()`, `updated_at TIMESTAMP NOT NULL DEFAULT now()`
 - Add index on `item_id`.
 
-2. Add `plaid_item_id` to `wallets` to reference `plaid_items(id)`.
+1. Add `plaid_item_id` to `wallets` to reference `plaid_items(id)`.
 
 - Make `plaid_item_id` nullable initially, backfill from existing data.
 
-3. Normalize column names to snake_case with dual-write strategy
+1. Normalize column names to snake_case with dual-write strategy
 
 - Example: add `email_verified` while keeping `emailVerified` written temporarily.
 - Backfill values and switch reads to `email_verified`.
 
-4. Apply FK policies (preserve ledger)
+1. Apply FK policies (preserve ledger)
 
 - `transactions.sender_wallet_id` and `transactions.receiver_wallet_id`: `ON DELETE SET NULL`
 - `dwolla_transfers.user_id`: `ON DELETE SET NULL`
 - `wallets.user_id`: `ON DELETE CASCADE`
 - `sessions`, `account`: `ON DELETE CASCADE`
 
-5. Add indices
+1. Add indices
 
 - `plaid_items_item_id_idx` on `plaid_items(item_id)`
 - `wallets_plaid_item_id_idx` on `wallets(plaid_item_id)`

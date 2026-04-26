@@ -87,10 +87,10 @@ curl http://localhost:3000/api/health
 
 | Service | URL | Credentials |
 | --- | --- | --- |
-| App | http://localhost | - |
-| Traefik Dashboard | https://traefik.localhost | admin/admin\* |
-| Prometheus | http://prometheus.localhost:9090 | - |
-| Grafana | https://grafana.localhost | admin/admin\* |
+| App | `http://localhost` | - |
+| Traefik Dashboard | `https://traefik.localhost` | admin/admin\* |
+| Prometheus | `http://prometheus.localhost:9090` | - |
+| Grafana | `https://grafana.localhost` | admin/admin\* |
 
 \*Change default credentials in production!
 

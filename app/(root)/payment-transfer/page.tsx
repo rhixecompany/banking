@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 
+import { Suspense } from "react";
+
 import RootLayoutWrapper from "@/components/layouts/RootLayoutWrapper";
 import { PaymentTransferServerWrapper } from "@/components/payment-transfer/payment-transfer-server-wrapper";
+import { LoadingSpinner } from "@/components/ui/spinner";
 
 /**
  * Description placeholder
@@ -23,7 +26,11 @@ export const metadata: Metadata = {
 export default function PaymentTransferPage(): JSX.Element {
   return (
     <RootLayoutWrapper>
-      <PaymentTransferServerWrapper />
+      <Suspense
+        fallback={<LoadingSpinner className="flex-center min-h-screen" />}
+      >
+        <PaymentTransferServerWrapper />
+      </Suspense>
     </RootLayoutWrapper>
   );
 }

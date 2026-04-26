@@ -1,4 +1,4 @@
-## Pull Request Checklist
+# Pull Request Checklist
 
 - [ ] I have read and followed the [CONTRIBUTING.md](https://github.com/github/awesome-copilot/blob/main/CONTRIBUTING.md) guidelines.
 - [ ] I have read and followed the [Guidance for submissions involving paid services](https://github.com/github/awesome-copilot/discussions/968).
@@ -11,7 +11,7 @@
 
 ---
 
-### CI E2E label
+## CI E2E label
 
 - This repository may skip expensive E2E checks for PRs coming from forks. To request that maintainers run the full E2E suite (Playwright), add the label `run-e2e` to your PR or ask a maintainer to add it.
 - Maintainers can add `run-e2e` to trigger the full verify-agents workflow including Playwright E2E.

@@ -17,7 +17,7 @@ This file describes the key folders and their responsibilities based on the code
 
 ## App Router Structure
 
-```
+```text
 app/
 ├── (auth)/              # Auth routes (login, register)
 │   ├── sign-in/
@@ -36,7 +36,7 @@ app/
 
 ## Components Structure
 
-```
+```text
 components/
 ├── ui/                  # shadcn/ui components
 ├── layouts/             # Reusable layout components
@@ -46,7 +46,7 @@ components/
 
 ## Server Actions
 
-```
+```text
 actions/
 ├── register.ts          # User registration
 ├── dwolla.actions.ts    # Dwolla ACH operations
@@ -55,7 +55,7 @@ actions/
 
 ## Data Access Layer
 
-```
+```text
 dal/
 ├── user.dal.ts          # User operations
 ├── wallet.dal.ts        # Wallet operations
@@ -65,7 +65,7 @@ dal/
 
 ## Scripts
 
-```
+```text
 scripts/
 ├── seed/run.ts          # DB seeding (intentionally loads .env)
 ├── verify-rules.ts     # AST-based policy enforcement
@@ -79,7 +79,7 @@ scripts/
 
 ## Tests
 
-```
+```text
 tests/
 ├── e2e/                 # Playwright E2E tests
 │   ├── helpers/         # Test helpers (plaid.mock.ts)
@@ -92,7 +92,7 @@ tests/
 
 ## .opencode Structure
 
-```
+```text
 .opencode/
 ├── commands/           # Implementation plans
 ├── instructions/       # Agent instructions
@@ -115,4 +115,4 @@ Evidence sources:
 - `scripts/verify-rules.ts` — folder-based policy enforcement
 - `next.config.ts` — Next.js 16 configuration
 
-_Last updated: 2026-04-24_
+Last updated: 2026-04-24

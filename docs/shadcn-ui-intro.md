@@ -1,6 +1,6 @@
 # shadcn/ui — Introduction
 
-Source: https://ui.shadcn.com/docs
+Source: [shadcn/ui docs](https://ui.shadcn.com/docs)
 
 ## What is shadcn/ui?
 
@@ -45,27 +45,27 @@ shadcn/ui solution: You get the source, you edit it directly.
 
 shadcn/ui includes (as of current version):
 
-**Layout & Structure**
+### Layout & Structure
 
 - Accordion, Aspect Ratio, Card, Collapsible, Resizable, Scroll Area, Separator, Sheet, Sidebar, Tabs
 
-**Form & Input**
+### Form & Input
 
 - Button, Button Group, Calendar, Checkbox, Combobox, Command, Date Picker, Input, Input Group, Input OTP, Label, Native Select, Radio Group, Select, Slider, Switch, Textarea, Toggle, Toggle Group
 
-**Overlay & Popup**
+### Overlay & Popup
 
 - Alert Dialog, Context Menu, Dialog, Drawer, Dropdown Menu, Hover Card, Menubar, Navigation Menu, Popover, Tooltip
 
-**Feedback & Status**
+### Feedback & Status
 
 - Alert, Badge, Progress, Skeleton, Sonner (toasts), Spinner
 
-**Data Display**
+### Data Display
 
 - Avatar, Breadcrumb, Chart, Carousel, Data Table, Empty, Field, Item, Kbd, Pagination, Table, Typography
 
-**Utility**
+### Utility
 
 - Direction
 
@@ -155,12 +155,12 @@ You can use the schema to:
 
 ## Resources
 
-- Docs: https://ui.shadcn.com/docs
-- Components: https://ui.shadcn.com/docs/components
-- Blocks: https://ui.shadcn.com/blocks
-- Charts: https://ui.shadcn.com/charts
-- GitHub: https://github.com/shadcn-ui/ui (111k stars)
-- CLI reference: https://ui.shadcn.com/docs/cli
-- Theming: https://ui.shadcn.com/docs/theming
-- Dark mode: https://ui.shadcn.com/docs/dark-mode
-- React Hook Form integration: https://ui.shadcn.com/docs/forms/react-hook-form
+- Docs: [shadcn/ui docs](https://ui.shadcn.com/docs)
+- Components: [shadcn/ui components](https://ui.shadcn.com/docs/components)
+- Blocks: [shadcn/ui blocks](https://ui.shadcn.com/blocks)
+- Charts: [shadcn/ui charts](https://ui.shadcn.com/charts)
+- GitHub: [shadcn-ui/ui](https://github.com/shadcn-ui/ui) (111k stars)
+- CLI reference: [shadcn/ui CLI docs](https://ui.shadcn.com/docs/cli)
+- Theming: [shadcn/ui theming docs](https://ui.shadcn.com/docs/theming)
+- Dark mode: [shadcn/ui dark mode docs](https://ui.shadcn.com/docs/dark-mode)
+- React Hook Form integration: [shadcn/ui React Hook Form docs](https://ui.shadcn.com/docs/forms/react-hook-form)

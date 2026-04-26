@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
+
+import { Button } from "@/components/ui/button";
 
 /**
  * Not Found (404) page.

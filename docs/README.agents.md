@@ -2,6 +2,8 @@
 
 > **Note:** This catalog is sourced from Awesome Copilot and is not specific to the Banking app. Use it as an external reference if you need additional agents.
 
+<!-- markdownlint-disable MD001 MD033 MD060 -->
+
 Custom agents for GitHub Copilot, making it easy for users and organizations to "specialize" their Copilot coding agent (CCA) through simple file-based configuration.
 
 ### How to Contribute

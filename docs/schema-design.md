@@ -18,7 +18,7 @@ The banking registry is a curated collection of extensions that enhance the Open
 
 ### Directory Structure
 
-```
+```text
 banking/
 ├── .opencode/
 │   ├── plugins/
@@ -188,7 +188,7 @@ Extensions can also be fetched from remote sources or custom locations.
 
 When multiple configuration sources exist, OpenCode follows this precedence (later sources override earlier ones):
 
-```
+```text
 1. Remote config (.well-known/opencode)
 2. Global config (~/.config/opencode/)
 3. Custom config (OPENCODE_CONFIG env var)
@@ -267,22 +267,21 @@ installation: |
   ## Installation
   ```bash
   git clone https://github.com/user/my-extension ~/.config/opencode/plugin/my-extension
-````
-
+  ```
 ````
 
 ### Examples Directory
 
 Full exemplar files for each extension type are available in `.opencode/examples/`:
 
-| Type | Example File |
-|------|-------------|
-| Plugin | `.opencode/examples/plugin.yaml` |
-| Theme | `.opencode/examples/theme.yaml` |
-| Agent | `.opencode/examples/agent.yaml` |
-| Project | `.opencode/examples/project.yaml` |
+| Type     | Example File                       |
+| -------- | ---------------------------------- |
+| Plugin   | `.opencode/examples/plugin.yaml`   |
+| Theme    | `.opencode/examples/theme.yaml`    |
+| Agent    | `.opencode/examples/agent.yaml`    |
+| Project  | `.opencode/examples/project.yaml`  |
 | Resource | `.opencode/examples/resource.yaml` |
-| Fork | `.opencode/examples/fork.yaml` |
+| Fork     | `.opencode/examples/fork.yaml`     |
 
 ---
 
@@ -294,28 +293,35 @@ The `installation` field uses a structured template that contributors fill in. N
 
 ```markdown
 ## Prerequisites
+
 - OpenCode version requirements
 - Other dependencies (Node.js, Python, CLI tools, etc.)
 
 ## Installation
 
 ### Global (all projects)
+
 Steps for installing to ~/.config/opencode/
 
 ### Project-only
+
 Steps for installing to .opencode/ within a project
 
 ## Configuration
+
 Config options to add to opencode.json
 
 ## Files Modified
+
 List of files created/modified (for backup purposes)
+
 - ~/.config/opencode/opencode.json
 - ~/.config/opencode/plugin/codegpt.js
 
 ## Removal
+
 How to uninstall the extension
-````
+```
 
 ### Template Guidelines
 
@@ -411,7 +417,7 @@ A terminal UI that:
 - Shows extension metadata and readme preview
 - Handles multi-step installations interactively
 
-```
+```text
 ┌─────────────────────────────────────────┐
 │  Install Extension                      │
 ├─────────────────────────────────────────┤
@@ -486,7 +492,7 @@ installation: |
   ## Installation
   ```bash
   git clone https://github.com/user/my-extension ~/.config/opencode/plugin/my-extension
-````
+```
 
 ````
 
@@ -498,7 +504,7 @@ node scripts/validate.js
 
 # Regenerate README
 node scripts/generate-readme.js
-````
+```
 
 ---
 
@@ -535,27 +541,5 @@ for each file in .opencode/{category}/*.yaml:
   output.push(mapFields(entry))
 writeJSON(output)
 ```
-
-**Field mapping:** | YAML | JSON Output | |------|-------------| | `name` | `displayName` | | `repo` | `repoUrl` | | `tagline` | `tagline` | | `description` | `description` | | (directory) | `type` | | (filename) | `productId` | | `scope` | `scope` (default `["global"]`) | | `tags` | `tags` (default `[]`) | | `homepage` | `homepageUrl` | | `installation` | `installation` | | `min_version` | `minVersion` |
-
-**Usage:**
-
-```bash
-node scripts/export-json.js > dist/registry.json
-node scripts/export-json.js --pretty > dist/registry.json
-```
-
----
-
-_Document Version: 1.2_ \_Last Updated: 2026-01-12_tion`| | (directory) |`type`| | (filename) |`productId`| |`scope`|`scope`(default`["global"]`) | | `tags`|`tags`(default`[]`) | | `homepage`|`homepageUrl`| |`installation`|`installation`| |`min_version`|`minVersion` |
-
-**Usage:**
-
-```bash
-node scripts/export-json.js > dist/registry.json
-node scripts/export-json.js --pretty > dist/registry.json
-```
-
----
 
 _Document Version: 1.2_ _Last Updated: 2026-01-12_

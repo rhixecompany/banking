@@ -1,6 +1,6 @@
 # Plaid Balance — Introduction
 
-Source: https://plaid.com/docs/balance/
+Source: [Plaid Balance](https://plaid.com/docs/balance/)
 
 ## Overview
 

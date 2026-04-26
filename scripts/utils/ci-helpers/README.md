@@ -1,6 +1,6 @@
-CI Helpers
+# CI Helpers
 
-Usage:
+## Usage
 
 - Parse reports (generate ci-summary.json): npx tsx scripts/utils/ci-helpers/parse-reports.ts
 - Parse reports (generate ci-summary.json): npx tsx scripts/utils/ci-helpers/parse-reports.ts
@@ -19,6 +19,6 @@ Usage:
 
 - Fast-check (run checks only on changed files): npx tsx scripts/utils/ci-helpers/fast-check.ts [--apply]
 
-Safety:
+## Safety
 
 - By default helpers run in read-only/dry-run mode. Pass --apply to allow safe auto-fixes (eslint --fix, seed, git commit, etc.).

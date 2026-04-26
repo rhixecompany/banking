@@ -3,7 +3,6 @@ import type { ReactNode } from "react";
 import type { Account } from "@/types";
 
 import TotalBalanceBox from "@/components/total-balance-box/total-balance-box";
-import { env } from "@/lib/env";
 
 // Keep types narrow for now; avoid any in public components.
 /**
@@ -134,16 +133,6 @@ export default function TotalBalanceLayout({
   totalCurrentBalance = 0,
   totalWallets = 0,
 }: TotalBalanceLayoutProps): JSX.Element {
-  // Debug: print props during unit tests to diagnose render failures
-  // REMOVE or guard this log before committing if noisy in CI.
-  if (env.NODE_ENV === "test") {
-    // eslint-disable-next-line no-console
-    console.log("TotalBalanceLayout props:", {
-      accounts,
-      totalCurrentBalance,
-      totalWallets,
-    });
-  }
   // Normalize accounts to match the app's Account shape expected by TotalBalanceBox
   const normalizedAccounts = (accounts || []).map((a) => ({
     availableBalance: a.availableBalance ?? 0,

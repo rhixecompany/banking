@@ -17,9 +17,9 @@ This document captures the current state of the Banking project codebase, identi
 3. [Components Inventory](#3-components-inventory)
 4. [Actions & DAL Inventory](#4-actions--dal-inventory)
 5. [Database Schema](#5-database-schema)
-6. [Type Definitions](#6-type-definitions)
-7. [Test Infrastructure](#7-test-infrastructure)
-8. [Issues & Inconsistencies](#8-issues--inconsistencies)
+6. [Test Infrastructure](#6-test-infrastructure)
+7. [Issues & Inconsistencies](#7-issues--inconsistencies)
+8. [Recommendations](#8-recommendations)
 
 ---
 
@@ -52,7 +52,7 @@ This document captures the current state of the Banking project codebase, identi
 
 ### Project Structure
 
-```
+```text
 app/
 ├── (auth)/                    # Unauthenticated routes
 ├── (root)/                    # Protected routes
@@ -340,5 +340,3 @@ All pages follow: Page (Server) → ServerWrapper → ClientWrapper
 - Initial analysis documented
 
 ---
-
-**End of Document**

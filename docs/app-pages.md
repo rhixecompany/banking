@@ -372,7 +372,7 @@ export default function AdminPage(): JSX.Element {
 
 All pages follow a consistent pattern:
 
-```
+```text
 page.tsx (Server Component)
   └── RootLayoutWrapper (layout)
         └── *ServerWrapper (data fetching + auth)

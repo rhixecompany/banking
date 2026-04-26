@@ -1,7 +1,7 @@
 {
-  "projectConfig": "C:/Users/Alexa/Desktop/SandBox/Banking/opencode.json",
-  "originalCount": 23,
-  "dedupedCount": 23,
-  "removedPlugins": [],
-  "changed": false
+  "changed": false,
+  "dedupedCount": 28,
+  "originalCount": 28,
+  "projectConfig": "C:/Users/Alexa/Desktop/SandBox/Banking/aiconfig.json",
+  "removedPlugins": []
 }

@@ -1,4 +1,4 @@
-Discovery outputs from init-enhanced plan
+# Init-Enhanced Discovery Outputs
 
 Files produced by automated discovery:
 

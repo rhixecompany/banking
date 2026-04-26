@@ -15,7 +15,7 @@ This guide covers getting started with Plaid's API for bank account linking.
 
 ## Sandbox Credentials
 
-```
+```text
 username: user_good
 password: pass_good
 ```

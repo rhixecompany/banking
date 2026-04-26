@@ -96,4 +96,4 @@ This file lists the exact technology versions and key libraries observed in the 
 
 This file is auto-generated from package.json. Run `npm run validate` to verify versions match.
 
-_Last updated: 2026-04-24_
+Last updated: 2026-04-24

@@ -200,4 +200,4 @@ Use markdown tables for all data sections.
 - If any API call fails, note it in the report and continue with available data. Do not let a single failure block the entire report.
 - Keep the issue body under 65,000 characters (GitHub issue body limit).
 - All times should be reported in hours. Convert to days only if > 72 hours.
-- Use the `safe-outputs` constraint: only create 1 issue, with title prefixed `[Org Health] `.
+- Use the `safe-outputs` constraint: only create 1 issue, with title prefixed `[Org Health]`.

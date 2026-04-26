@@ -28,8 +28,8 @@ WORKDIR /app
 # Copy dependency manifests and install all deps (dev + prod) for build
 COPY package.json package-lock.json ./
 RUN --mount=type=cache,target=/root/.npm \
-    npm ci --legacy-peer-deps --no-audit --progress=false --ignore-scripts && \
-    npm cache clean --force
+    bun install --frozen-lockfile --legacy-peer-deps --no-audit --progress=false --ignore-scripts && \
+    bun pm cache clean
 
 # Copy source and build the standalone Next output
 COPY . .
@@ -104,8 +104,8 @@ WORKDIR /app
 # Copy dependency manifests and install all dev deps for development image
 COPY package.json package-lock.json ./
 RUN --mount=type=cache,target=/root/.npm \
-    npm ci --legacy-peer-deps --no-audit --progress=false --ignore-scripts && \
-    npm cache clean --force
+    bun install --frozen-lockfile --legacy-peer-deps --no-audit --progress=false --ignore-scripts && \
+    bun pm cache clean
 
 # Copy source code for hot-reload/dev
 COPY . .

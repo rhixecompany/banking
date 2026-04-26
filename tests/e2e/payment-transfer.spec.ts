@@ -32,20 +32,20 @@ test.describe("Payment Transfer", () => {
     test("should render payment transfer form with all fields", async ({
       paymentTransferPage,
     }) => {
-      await expect(paymentTransferPage.pageHeading).toBeVisible({
+      await expect.soft(paymentTransferPage.pageHeading).toBeVisible({
         timeout: 15_000,
       });
-      await expect(paymentTransferPage.sourceWalletSelect).toBeVisible();
-      await expect(paymentTransferPage.recipientSelect).toBeVisible();
-      await expect(paymentTransferPage.amountInput).toBeVisible();
-      await expect(paymentTransferPage.submitButton).toBeVisible();
+      await expect.soft(paymentTransferPage.sourceWalletSelect).toBeVisible();
+      await expect.soft(paymentTransferPage.recipientSelect).toBeVisible();
+      await expect.soft(paymentTransferPage.amountInput).toBeVisible();
+      await expect.soft(paymentTransferPage.submitButton).toBeVisible();
     });
 
     test("should show validation errors for empty form", async ({
       paymentTransferPage,
     }) => {
       await paymentTransferPage.submitTransfer();
-      await expect(paymentTransferPage.errorMessage).toBeVisible({
+      await expect.soft(paymentTransferPage.errorMessage).toBeVisible({
         timeout: 10_000,
       });
     });
@@ -55,7 +55,7 @@ test.describe("Payment Transfer", () => {
     }) => {
       await paymentTransferPage.enterAmount("abc");
       await paymentTransferPage.submitTransfer();
-      await expect(paymentTransferPage.errorMessage).toBeVisible({
+      await expect.soft(paymentTransferPage.errorMessage).toBeVisible({
         timeout: 10_000,
       });
     });
@@ -63,7 +63,7 @@ test.describe("Payment Transfer", () => {
     test("should reject negative amount", async ({ paymentTransferPage }) => {
       await paymentTransferPage.enterAmount("-10.00");
       await paymentTransferPage.submitTransfer();
-      await expect(paymentTransferPage.errorMessage).toBeVisible({
+      await expect.soft(paymentTransferPage.errorMessage).toBeVisible({
         timeout: 10_000,
       });
     });
@@ -71,7 +71,7 @@ test.describe("Payment Transfer", () => {
     test("should reject zero amount", async ({ paymentTransferPage }) => {
       await paymentTransferPage.enterAmount("0.00");
       await paymentTransferPage.submitTransfer();
-      await expect(paymentTransferPage.errorMessage).toBeVisible({
+      await expect.soft(paymentTransferPage.errorMessage).toBeVisible({
         timeout: 10_000,
       });
     });
@@ -128,7 +128,7 @@ test.describe("Payment Transfer", () => {
     }) => {
       await paymentTransferPage.enterAmount("999999.00");
       await paymentTransferPage.submitTransfer();
-      await expect(paymentTransferPage.errorMessage).toBeVisible({
+      await expect.soft(paymentTransferPage.errorMessage).toBeVisible({
         timeout: 10_000,
       });
     });

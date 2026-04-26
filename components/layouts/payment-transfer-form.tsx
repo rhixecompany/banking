@@ -94,6 +94,10 @@ export default function PaymentTransferForm({
   transferResult,
   wallets,
 }: Props) {
+  const handleTransferSubmit = form.handleSubmit(async (data: unknown) => {
+    await onSubmit(data);
+  });
+
   return (
     <section className="space-y-8">
       <header>
@@ -115,19 +119,7 @@ export default function PaymentTransferForm({
             </CardHeader>
             <CardContent>
               <Form {...form}>
-                <form
-                  onSubmit={async (e: React.FormEvent<HTMLFormElement>) => {
-                    try {
-                      await form.trigger();
-                      await form.handleSubmit(async (data: unknown) => {
-                        await onSubmit(data);
-                      })(e);
-                    } catch {
-                      /* swallow errors in tests */
-                    }
-                  }}
-                  className="space-y-5"
-                >
+                <form onSubmit={handleTransferSubmit} className="space-y-5">
                   <FormField
                     control={form.control}
                     name="sourceBankId"
@@ -252,10 +244,13 @@ export default function PaymentTransferForm({
                   />
 
                   <Button
-                    type="submit"
+                    type="button"
                     data-testid="transfer-submit"
                     className="w-full"
                     disabled={form.formState.isSubmitting}
+                    onClick={() => {
+                      void handleTransferSubmit();
+                    }}
                   >
                     {form.formState.isSubmitting ? "Sending…" : "Send Transfer"}
                   </Button>

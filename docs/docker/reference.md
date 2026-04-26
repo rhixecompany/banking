@@ -8,7 +8,7 @@ Environment variables, ports, commands, and file structure.
 
 | Variable | Required | Default | Description |
 | --- | --- | --- | --- |
-| `NEXT_PUBLIC_SITE_URL` | Yes | http://localhost:3000 | Public site URL |
+| `NEXT_PUBLIC_SITE_URL` | Yes | `http://localhost:3000` | Public site URL |
 | `NODE_ENV` | Yes | production | Runtime environment |
 | `PORT` | No | 3000 | App port |
 | `HOSTNAME` | No | 0.0.0.0 | Bind address |
@@ -47,11 +47,15 @@ Environment variables, ports, commands, and file structure.
 
 ### Dwolla (Optional)
 
-| Variable          | Required | Description                    |
-| ----------------- | -------- | ------------------------------ |
-| `DWOLLA_KEY`      | No       | Dwolla API key                 |
-| `DWOLLA_SECRET`   | No       | Dwolla API secret              |
-| `DWOLLA_BASE_URL` | No       | https://api-sandbox.dwolla.com |
+<!-- markdownlint-disable MD060 -->
+
+| Variable          | Required | Description                      |
+| ----------------- | -------- | -------------------------------- |
+| `DWOLLA_KEY`      | No       | Dwolla API key                   |
+| `DWOLLA_SECRET`   | No       | Dwolla API secret                |
+| `DWOLLA_BASE_URL` | No       | `https://api-sandbox.dwolla.com` |
+
+<!-- markdownlint-enable MD060 -->
 
 ### Traefik/Let's Encrypt
 
@@ -182,7 +186,7 @@ docker network inspect app-internal
 
 ## File Structure
 
-```
+```text
 .
 ├── docker-compose.yml           # Main compose file
 │
@@ -234,13 +238,17 @@ docker network inspect app-internal
 
 ## Health Check Endpoints
 
-| Service    | Endpoint                         | Expected |
-| ---------- | -------------------------------- | -------- |
-| App        | http://localhost:3000/api/health | HTTP 200 |
-| Traefik    | http://localhost:8080/ping       | Pong     |
-| PostgreSQL | `pg_isready`                     | Ready    |
-| Redis      | `redis-cli ping`                 | PONG     |
-| Prometheus | http://localhost:9090/-/healthy  | HTTP 200 |
+<!-- markdownlint-disable MD060 -->
+
+| Service    | Endpoint                           | Expected |
+| ---------- | ---------------------------------- | -------- |
+| App        | `http://localhost:3000/api/health` | HTTP 200 |
+| Traefik    | `http://localhost:8080/ping`       | Pong     |
+| PostgreSQL | `pg_isready`                       | Ready    |
+| Redis      | `redis-cli ping`                   | PONG     |
+| Prometheus | `http://localhost:9090/-/healthy`  | HTTP 200 |
+
+<!-- markdownlint-enable MD060 -->
 
 ## Resource Limits (Production)
 

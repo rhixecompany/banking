@@ -21,7 +21,7 @@ Plaid is a financial data platform that enables applications to connect with use
 
 ### Environment URLs
 
-```
+```text
 Sandbox:     https://sandbox.plaid.com
 Production:  https://production.plaid.com
 ```
@@ -158,7 +158,7 @@ Errors are indicated in response bodies with `error_code` and `error_type`. Use 
 
 ### Sandbox Credentials
 
-```
+```text
 Username: user_good
 Password: pass_good
 2FA (if prompted): 1234

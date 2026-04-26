@@ -1,10 +1,20 @@
 "use client";
 
 import { Trash2 } from "lucide-react";
+import { useTransition } from "react";
+import { toast } from "sonner";
 
 import type { WalletWithDetails } from "@/types/wallet";
 
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { formatAmount } from "@/lib/utils";
 
 /**
  * Description placeholder
@@ -34,7 +44,7 @@ interface WalletCardProps {
    *
    * @type {?(walletId: string) => void | Promise<void>}
    */
-  onRemove?: (walletId: string) => Promise<void> | void;
+  removeWallet: (input: unknown) => Promise<{ ok: boolean; error?: string }>;
 }
 
 /**
@@ -49,40 +59,84 @@ interface WalletCardProps {
  * @returns {ReactJSX.Element}
  */
 export default function WalletCard({
-  onRemove,
-  showActions = false,
+  removeWallet,
+  showActions,
   wallet,
-}: WalletCardProps) {
-  return (
-    <div className="flex items-center justify-between rounded-lg border p-3">
-      <div>
-        <p className="font-medium">
-          {wallet.institutionName ?? "Unknown Wallet"}
-        </p>
-        <p className="text-sm text-muted-foreground">
-          {wallet.accountType ?? "Account"} -{" "}
-          {wallet.accountSubtype ?? "Standard"}
-        </p>
-      </div>
+}: WalletCardProps): JSX.Element {
+  const [isPending, startTransition] = useTransition();
 
-      <div className="text-right">
-        <div className="text-sm text-muted-foreground">Balance</div>
-        <div className="text-base font-semibold">
-          {wallet.balances?.[0]?.balances?.current ?? "$0.00"}
+  function handleRemove(): void {
+    startTransition(async () => {
+      const result = await removeWallet({ walletId: wallet.id });
+      if (!result.ok) {
+        toast.error(result.error ?? "Failed to remove wallet.");
+      }
+    });
+  }
+
+  return (
+    <Card>
+      <CardHeader className="flex flex-row items-center justify-between pb-2">
+        <div>
+          <CardTitle className="text-xl">
+            {wallet.institutionName ?? "Unknown Institution"}
+          </CardTitle>
+          <CardDescription>
+            {wallet.accountType} - {wallet.accountSubtype}
+          </CardDescription>
         </div>
-        {showActions && (
-          <div className="mt-2">
-            <Button
-              variant="ghost"
-              size="icon"
-              aria-label={`Remove ${wallet.institutionName ?? "wallet"}`}
-              onClick={() => onRemove?.(wallet.id)}
-            >
-              <Trash2 className="size-5" />
-            </Button>
+        <div className="flex items-center gap-4">
+          <div className="text-right">
+            <div className="text-sm text-muted-foreground">Balance</div>
+            <div className="text-2xl font-bold">
+              {formatAmount(wallet.balances[0]?.balances?.current ?? 0)}
+            </div>
+          </div>
+          {showActions !== false && (
+            <div>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="text-destructive hover:text-destructive"
+                disabled={isPending}
+                type="button"
+                aria-label={`Remove ${wallet.institutionName ?? "wallet"}`}
+                onClick={handleRemove}
+              >
+                <Trash2 className="size-5" />
+              </Button>
+            </div>
+          )}
+        </div>
+      </CardHeader>
+      <CardContent>
+        {wallet.balances.length > 0 && (
+          <div className="mb-6 grid gap-4 rounded-lg bg-muted p-4 sm:grid-cols-3">
+            <div>
+              <div className="text-sm text-muted-foreground">Available</div>
+              <div className="text-lg font-semibold">
+                {formatAmount(wallet.balances[0]?.balances?.available ?? 0)}
+              </div>
+            </div>
+            <div>
+              <div className="text-sm text-muted-foreground">Current</div>
+              <div className="text-lg font-semibold">
+                {formatAmount(wallet.balances[0]?.balances?.current ?? 0)}
+              </div>
+            </div>
+            <div>
+              <div className="text-sm text-muted-foreground">Limit</div>
+              <div className="text-lg font-semibold">
+                {wallet.balances[0]?.balances?.limit
+                  ? formatAmount(wallet.balances[0].balances.limit)
+                  : "N/A"}
+              </div>
+            </div>
           </div>
         )}
-      </div>
-    </div>
+
+        {/* TransactionList is rendered by the parent; keep layout consistent. */}
+      </CardContent>
+    </Card>
   );
 }

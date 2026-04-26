@@ -62,7 +62,7 @@ const text = fs.readFileSync(ENV_FILE, "utf8");
  */
 const lines = text.split(/\r?\n/);
 for (const line of lines) {
-  const m = line.match(/^([A-Z_]\w*)(?:=)(.*)$/i);
+  const m = line.match(/^([A-Z_]\w*)=(.*)$/i);
   if (!m) continue;
   const key = m[1];
   let val = m[2].trim();

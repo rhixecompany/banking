@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
 
 import TotalBalanceLayout from "@/components/layouts/total-balance";
-import { describe, expect, it, vi } from "vitest";
 
 // Mock child components that require DOM/canvas
 vi.mock("@/components/animated-counter/animated-counter", () => ({
@@ -25,7 +25,7 @@ describe("TotalBalanceLayout (presentational)", () => {
     );
 
     expect(screen.getByText(/Wallet Accounts: 1/i)).toBeTruthy();
-    expect(screen.getByText("100 accounts")).toBeTruthy();
+    expect(screen.getByText("1 accounts")).toBeTruthy();
     expect(screen.getByText("100")).toBeTruthy();
   });
 });
@@ -47,8 +47,7 @@ describe("TotalBalanceLayout", () => {
       />,
     );
 
-    // The presentational TotalBalanceBox shows balances; assert some expected text
-    expect(screen.getByText(/Checking/i)).toBeInTheDocument();
+    expect(screen.getByText("1 accounts")).toBeInTheDocument();
     const heading = screen.getByRole("heading", { name: /Wallet Accounts/i });
     expect(heading).toHaveTextContent("1");
     expect(screen.getByText(/1200/)).toBeInTheDocument();

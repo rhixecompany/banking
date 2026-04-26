@@ -11,17 +11,17 @@ Audited **10 DAL files** in `dal/`. All DAL helpers follow the established patte
 ## DAL Files Audited
 
 | File | N+1 Prevention | Eager Loading | `tx` Parameter | Status |
-| ---- | -------------- | ----------- --- | -------------- | ------ |
+| --- | --- | --- | --- | --- |
 | `transaction.dal.ts` | ✅ | ✅ | ✅ | **PASS** |
 | `user.dal.ts` | ✅ | ✅ | ✅ | **PASS** |
-| `wallet.dal.ts` | — | — | — | *(not read)* |
-| `wallets.ts` | — | — | — | *(not read)* |
-| `dwolla.dal.ts` | — | — | — | *(not read)* |
-| `recipient.dal.ts` | — | — | — | *(not read)* |
-| `admin.dal.ts` | — | — | — | *(not read)* |
-| `health.dal.ts` | — | — | — | *(not read)* |
-| `errors.dal.ts` | — | — | — | *(not read)* |
-| `index.ts` | — | — | — | *(exports)* |
+| `wallet.dal.ts` | — | — | — | _(not read)_ |
+| `wallets.ts` | — | — | — | _(not read)_ |
+| `dwolla.dal.ts` | — | — | — | _(not read)_ |
+| `recipient.dal.ts` | — | — | — | _(not read)_ |
+| `admin.dal.ts` | — | — | — | _(not read)_ |
+| `health.dal.ts` | — | — | — | _(not read)_ |
+| `errors.dal.ts` | — | — | — | _(not read)_ |
+| `index.ts` | — | — | — | _(exports)_ |
 
 ## Detailed Findings
 

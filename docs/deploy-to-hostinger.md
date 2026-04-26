@@ -6,7 +6,7 @@ This guide covers deploying the Banking app to a Hostinger KVM VPS using **Docke
 
 ### Architecture
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────────┐
 │                        Hostinger VPS                              │
 │                                                                  │
@@ -224,7 +224,7 @@ docker build -t ghcr.io/rhixecompany/banking:latest \
 
 ### 4.2 Push to Registry
 
-**Option A: GitHub Container Registry (GHCR)**
+#### Option A: GitHub Container Registry (GHCR)
 
 ```bash
 # Login to GHCR
@@ -234,7 +234,7 @@ echo $GITHUB_TOKEN | docker login ghcr.io -u $GITHUB_USERNAME --password-stdin
 docker push ghcr.io/rhixecompany/banking:latest
 ```
 
-**Option B: Docker Hub**
+#### Option B: Docker Hub
 
 ```bash
 # Login to Docker Hub
@@ -317,7 +317,7 @@ curl http://localhost:3000/api/health
 
 3. **Create DNS Records** in Cloudflare:
 
-   ```
+   ```text
    Type: A
    Name: banking
    Value: YOUR_VPS_IP
@@ -605,16 +605,16 @@ docker compose --env-file .envs/production/.env up -d
 ## Next Steps
 
 1. **Configure OAuth Providers**:
-   - GitHub: https://github.com/settings/developers
-   - Google: https://console.cloud.google.com
+   - GitHub: [https://github.com/settings/developers](https://github.com/settings/developers)
+   - Google: [https://console.cloud.google.com](https://console.cloud.google.com)
 
 2. **Set up Plaid Sandbox**:
-   - Sign up at https://plaid.com
+   - Sign up at [https://plaid.com](https://plaid.com)
    - Create sandbox environment
    - Get API keys
 
 3. **Set up Dwolla Sandbox**:
-   - Sign up at https://dwolla.com
+   - Sign up at [https://dwolla.com](https://dwolla.com)
    - Create sandbox account
    - Get API keys
 

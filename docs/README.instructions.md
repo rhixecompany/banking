@@ -2,6 +2,8 @@
 
 > **Note:** This catalog is sourced from Awesome Copilot and is not specific to the Banking app. Use it as an external reference if you need additional instruction sets.
 
+<!-- markdownlint-disable MD001 -->
+
 Team and project-specific instructions to enhance GitHub Copilot's behavior for specific technologies and coding practices.
 
 ### How to Contribute

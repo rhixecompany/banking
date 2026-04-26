@@ -138,4 +138,4 @@ In recent shadcn releases, an update was introduced to the tooltip component to 
 
 ---
 
-_Source: https://shadcnstudio.com/docs/getting-started/introduction_ _Source: https://shadcnstudio.com/docs/getting-started/components_
+_Sources: [shadcnstudio introduction](https://shadcnstudio.com/docs/getting-started/introduction), [shadcnstudio components](https://shadcnstudio.com/docs/getting-started/components)_

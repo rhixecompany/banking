@@ -5,7 +5,6 @@ import { getRecipients } from "@/actions/recipient.actions";
 import { getUserWallets } from "@/actions/wallet.actions";
 import PaymentTransferClientWrapper from "@/components/layouts/payment-transfer-client";
 import { auth } from "@/lib/auth";
-import { TransferStoreProvider } from "@/stores/transfer-store";
 
 /**
  * Server wrapper for the Payment Transfer page.
@@ -33,12 +32,10 @@ export async function PaymentTransferServerWrapper(): Promise<JSX.Element> {
     : [];
 
   return (
-    <TransferStoreProvider>
-      <PaymentTransferClientWrapper
-        wallets={wallets}
-        recipients={recipients}
-        createTransfer={createTransfer}
-      />
-    </TransferStoreProvider>
+    <PaymentTransferClientWrapper
+      wallets={wallets}
+      recipients={recipients}
+      createTransfer={createTransfer}
+    />
   );
 }

@@ -62,4 +62,4 @@ This document captures concise, enforceable coding standards that are implemente
 
 All rules are enforced by `scripts/verify-rules.ts` (AST-based policy enforcement) and map to concrete files in the repository.
 
-_Last updated: 2026-04-24_
+Last updated: 2026-04-24

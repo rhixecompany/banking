@@ -5,10 +5,10 @@
 
 import { useCallback, useEffect, useState } from "react";
 
+import type { Wallet } from "@/types/wallet";
+
 import { getAllAccounts } from "@/actions/plaid.actions";
 import { getUserWallets } from "@/actions/wallet.actions";
-
-import type { Wallet } from "@/types/wallet";
 
 /**
  * Account data from Plaid.
@@ -115,12 +115,12 @@ export function useWalletBalance(): UseWalletBalanceReturn {
   );
 
   return {
-    wallets,
     accounts,
+    error,
+    isLoading,
+    refresh: fetchData,
     totalBalance,
     totalWallets: wallets.length,
-    isLoading,
-    error,
-    refresh: fetchData,
+    wallets,
   };
 }

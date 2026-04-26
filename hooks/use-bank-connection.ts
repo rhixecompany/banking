@@ -5,10 +5,9 @@
 
 import { useCallback, useEffect, useState } from "react";
 
-import { getUserWallets } from "@/actions/wallet.actions";
-
 import type { Wallet } from "@/types/wallet";
 
+import { getUserWallets } from "@/actions/wallet.actions";
 import { usePlaid } from "@/components/plaid-context/plaid-context";
 
 /**
@@ -49,7 +48,7 @@ export interface UseBankConnectionReturn {
  * ```
  */
 export function useBankConnection(): UseBankConnectionReturn {
-  const { open, ready, isLoading, error } = usePlaid();
+  const { error, isLoading, open, ready } = usePlaid();
   const [wallets, setWallets] = useState<Wallet[]>([]);
 
   const fetchWallets = useCallback(async () => {
@@ -77,12 +76,12 @@ export function useBankConnection(): UseBankConnectionReturn {
 
   return {
     isConnected: wallets.length > 0,
-    wallets,
-    walletCount: wallets.length,
-    openPlaidLink,
-    isLinkReady: ready,
     isLinkLoading: isLoading,
+    isLinkReady: ready,
     linkError: error,
+    openPlaidLink,
     refresh: fetchWallets,
+    walletCount: wallets.length,
+    wallets,
   };
 }

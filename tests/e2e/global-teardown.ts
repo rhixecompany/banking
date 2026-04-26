@@ -19,6 +19,11 @@ const TIMEOUTS = {
   SERVER_STOP: 10_000,
 } as const;
 
+function getBaseUrl(): string {
+  // eslint-disable-next-line n/no-process-env
+  return process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3000";
+}
+
 /**
  * Print a section header for better log readability
  *
@@ -45,6 +50,7 @@ function getTestResultsDir(): string {
  * @returns {Promise<boolean>}
  */
 async function isServerRunning(): Promise<boolean> {
+  const baseUrl = getBaseUrl();
   try {
     const controller = new AbortController();
     const timeoutId = setTimeout(
@@ -52,7 +58,7 @@ async function isServerRunning(): Promise<boolean> {
       TIMEOUTS.SERVER_CHECK,
     );
 
-    const response = await fetch("http://localhost:3000", {
+    const response = await fetch(baseUrl, {
       method: "HEAD",
       signal: controller.signal,
     });
@@ -77,6 +83,24 @@ async function isServerRunning(): Promise<boolean> {
  * @returns {Promise<void>}
  */
 async function stopDevServer(): Promise<void> {
+  // Avoid killing a developer's existing server locally.
+  // Playwright's webServer will manage lifecycle in CI.
+  // eslint-disable-next-line n/no-process-env
+  const shouldStop = process.env.CI === "true";
+  if (!shouldStop) {
+    console.info("  - Skipping dev server stop (non-CI run)");
+    return;
+  }
+
+  const baseUrl = getBaseUrl();
+  let port = "3000";
+  try {
+    const url = new URL(baseUrl);
+    port = url.port || (url.protocol === "https:" ? "443" : "80");
+  } catch {
+    // ignore
+  }
+
   console.info("  Checking if dev server is running...");
 
   const isRunning = await isServerRunning();
@@ -88,15 +112,15 @@ async function stopDevServer(): Promise<void> {
 
   console.info("  - Dev server is running, attempting to stop...");
 
-  // Try to find and kill the process using port 3000
+  // Try to find and kill the process using the configured port
   try {
-    // Use netstat to find process ID on port 3000
+    // Use netstat to find process ID by port
     const { execSync } = await import("node:child_process");
 
     try {
-      // Windows: find process using port 3000
+      // Windows: find process by port
       const result = execSync(
-        "netstat -ano | findstr :3000 | findstr LISTENING",
+        `netstat -ano | findstr :${port} | findstr LISTENING`,
         {
           encoding: "utf-8",
           windowsHide: true,
@@ -112,7 +136,7 @@ async function stopDevServer(): Promise<void> {
 
         if (pid && /^\d+$/.test(pid)) {
           console.info(
-            `    Found process ${pid} on port 3000, attempting to stop...`,
+            `    Found process ${pid} on port ${port}, attempting to stop...`,
           );
 
           try {

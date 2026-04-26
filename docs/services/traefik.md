@@ -24,7 +24,7 @@ Infrastructure components - orchestrators, container engines, cloud providers, o
 
 ## How Traefik Works
 
-```
+```text
 [Internet] --> Traefik --> [Service A]
                   --> [Service B]
                   --> [Service C]
@@ -291,4 +291,4 @@ Deploy Traefik using Docker - for containerized environments
 
 ---
 
-_Source: https://doc.traefik.io/traefik/_ _Source: https://oneuptime.com/blog/post/2026-01-16-docker-traefik-reverse-proxy/view_
+_Sources: [Traefik Documentation](https://doc.traefik.io/traefik/), [Docker Traefik Reverse Proxy Guide](https://oneuptime.com/blog/post/2026-01-16-docker-traefik-reverse-proxy/view)_

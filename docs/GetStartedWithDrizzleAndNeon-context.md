@@ -4,7 +4,7 @@
 
 This is the basic file structure of the project. In the `database` directory, we have table definition in `schema.ts`. In `drizzle` folder there are sql migration file and snapshots.
 
-```
+```text
 📦 <project root>
 ├ 📂 drizzle
 ├ 📂 database
@@ -27,7 +27,7 @@ npm i -D drizzle-kit tsx
 
 Create a `.env` file in the root of your project and add your database connection variable:
 
-```
+```dotenv
 DATABASE_URL=
 ```
 

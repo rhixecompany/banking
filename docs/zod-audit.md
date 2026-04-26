@@ -13,22 +13,22 @@ Audited Zod schemas in `lib/validations/` and inline schemas in `actions/`. Sche
 ### lib/validations/ Files
 
 | File | Schema | `.describe()` | Error Messages | DRY | Status |
-| ---- | ------ | ------------- | ------------- | --- | ------ |
+| --- | --- | --- | --- | --- | --- |
 | `auth.ts` | `signInSchema`, `signUpSchema` | N/A (re-exports) | ✅ | ✅ | **PASS** |
 | `transfer.ts` | `TransferSchema` | N/A (re-exports) | ✅ | ✅ | **PASS** |
-| `admin.ts` | *(not read)* | — | — | — | — |
-| `index.ts` | *(re-exports)* | — | — | — | — |
+| `admin.ts` | _(not read)_ | — | — | — | — |
+| `index.ts` | _(re-exports)_ | — | — | — | — |
 
 ### Inline Schemas in actions/
 
 | File | Schemas | `.describe()` | Error Messages | Status |
-| ---- | ------- | ------------- | ------------- | --- |
+| --- | --- | --- | --- | --- |
 | `dwolla.actions.ts` | `CreateCustomerSchema`, `CreateLedgerSchema`, `FundingSourceSchema`, `AddFundingSourceSchema` | ❌ Missing | ✅ PASS | **PARTIAL** |
 | `wallet.actions.ts` | `DisconnectWalletSchema` | ✅ Has `.meta()` | ✅ PASS | **PASS** |
 
 ## Detailed Findings
 
-###.actions/wallet.actions.ts ✅ PASS
+### actions/wallet.actions.ts ✅ PASS
 
 ```typescript
 const DisconnectWalletSchema = z
@@ -37,7 +37,7 @@ const DisconnectWalletSchema = z
       .string()
       .trim()
       .uuid("Invalid wallet ID format")
-      .meta({ description: "Wallet ID to disconnect" }),
+      .meta({ description: "Wallet ID to disconnect" })
   })
   .meta({ description: "Disconnect wallet input" });
 ```
@@ -57,8 +57,11 @@ const DisconnectWalletSchema = z
 ```typescript
 // Current — lacks schema-level .describe()
 const CreateCustomerSchema = z.object({
-  address1: z.string().trim().min(1, "Address is required")
-    .meta({ description: "Street address" }),
+  address1: z
+    .string()
+    .trim()
+    .min(1, "Address is required")
+    .meta({ description: "Street address" })
   // ... more fields
 });
 ```
@@ -67,21 +70,26 @@ const CreateCustomerSchema = z.object({
 
 ```typescript
 // Recommended — add schema-level .meta()
-const CreateCustomerSchema = z.object({
-  address1: z.string().trim().min(1, "Address is required")
-    .meta({ description: "Street address" }),
-  // ... more fields
-}).describe("Dwolla customer creation payload");
+const CreateCustomerSchema = z
+  .object({
+    address1: z
+      .string()
+      .trim()
+      .min(1, "Address is required")
+      .meta({ description: "Street address" })
+    // ... more fields
+  })
+  .describe("Dwolla customer creation payload");
 ```
 
 ### lib/schemas/ Files
 
 | File | Schema | `.describe()` | Error Messages | Status |
-| ---- | ------ | ------------- | ------------- | --- |
-| `auth.schema.ts` | `signInSchema`, `signUpSchema` | ⚠️ Check | ✅ | *(not fully read)* |
-| `transfer.schema.ts` | `TransferSchema` | ⚠️ Check | ✅ | *(not fully read)* |
-| `profile.schema.ts` | *(not read)* | — | — | — |
-| `index.ts` | *(re-exports)* | — | — | — |
+| --- | --- | --- | --- | --- |
+| `auth.schema.ts` | `signInSchema`, `signUpSchema` | ⚠️ Check | ✅ | _(not fully read)_ |
+| `transfer.schema.ts` | `TransferSchema` | ⚠️ Check | ✅ | _(not fully read)_ |
+| `profile.schema.ts` | _(not read)_ | — | — | — |
+| `index.ts` | _(re-exports)_ | — | — | — |
 
 ## Patterns Observed
 
@@ -91,7 +99,7 @@ const CreateCustomerSchema = z.object({
 z.string()
   .trim()
   .min(1, "Error message")
-  .meta({ description: "Field description" })
+  .meta({ description: "Field description" });
 ```
 
 ### Schema-Level Metadata
@@ -106,9 +114,9 @@ z.object({ ... })
 ### Error Messages in Validators
 
 ```typescript
-z.string().email("Invalid email address")
-z.string().min(1, "Field is required")
-z.string().uuid("Invalid UUID format")
+z.string().email("Invalid email address");
+z.string().min(1, "Field is required");
+z.string().uuid("Invalid UUID format");
 ```
 
 ## Recommendations

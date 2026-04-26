@@ -80,4 +80,4 @@ Add "use client" at top for interactivity.
 
 ---
 
-_Last updated: 2026-04-24_
+Last updated: 2026-04-24

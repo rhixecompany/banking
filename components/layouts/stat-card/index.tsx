@@ -16,13 +16,13 @@ import {
  */
 export interface StatCardProps {
   /** The main value to display (can be string or number) */
-  value: string | number;
+  value: number | string;
   /** Label/description above the value */
   label: string;
   /** Optional description in footer */
   footer?: string;
   /** Trend indicator: 'up' | 'down' | 'neutral' */
-  trend?: "up" | "down" | "neutral";
+  trend?: "down" | "neutral" | "up";
   /** Optional trend value or suffix (e.g., "+12.5%", "# accounts") */
   trendSuffix?: string;
   /** Optional icon for the badge (defaults to TrendingUp/TrendingDown based on trend) */
@@ -78,13 +78,13 @@ const formatPercent = (value: number): string => {
  * @returns Rendered stat card
  */
 export function StatCard({
-  value,
-  label,
-  footer,
-  trend = "neutral",
-  trendSuffix,
   BadgeIcon,
   className,
+  footer,
+  label,
+  trend = "neutral",
+  trendSuffix,
+  value,
 }: StatCardProps): JSX.Element {
   // Guard: value is required per Law 2 (Make Illegal States Unrepresentable)
   if (value === undefined || value === null) {

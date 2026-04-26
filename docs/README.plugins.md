@@ -2,6 +2,8 @@
 
 > **Note:** This catalog is sourced from Awesome Copilot and is not specific to the Banking app. Use it as an external reference if you need additional plugins.
 
+<!-- markdownlint-disable MD001 MD033 MD060 -->
+
 Curated plugins of related agents and skills organized around specific themes, workflows, or use cases. Plugins can be installed directly via GitHub Copilot CLI or VS Code.
 
 > **Awesome Copilot is a default plugin marketplace** — no setup required in either Copilot CLI or VS Code.

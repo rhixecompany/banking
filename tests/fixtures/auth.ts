@@ -1,14 +1,7 @@
-import {
-  test as base,
-  Page,
-  request as playwrightRequest,
-} from "@playwright/test";
+import { test as base, Page } from "@playwright/test";
+import { encode } from "next-auth/jwt";
 
 import { SEED_USER, signInWithSeedUser } from "../e2e/helpers/auth";
-import {
-  makeNextAuthJweToken as makeNextAuthJwtToken,
-  setAuthCookie,
-} from "../e2e/utils/auth-fixtures";
 import {
   DashboardPage,
   MyWalletsPage,
@@ -17,6 +10,8 @@ import {
   SignUpPage,
   TransactionHistoryPage,
 } from "./pages";
+
+const SEED_USER_ID = "00000000-0000-4000-8000-000000000003";
 
 /**
  * Test user credentials for E2E — must match [scripts/seed/seed-data.ts](scripts/seed/seed-data.ts).
@@ -62,80 +57,67 @@ export interface AuthFixtures {
 export const test = base.extend<AuthFixtures>({
   // Page fixtures (in alphabetical order)
   authenticatedPage: async ({ page }, use) => {
-    // Prefer deterministic session via seeded JWT when NEXTAUTH_SECRET exists
-    // and the tests are running with a seeded DB. Fall back to UI sign-in.
-    // Prefer validated env access via lib/env.ts per project standards. Fallback
-    // to process.env for local runs.
-    // Resolve environment via lib/env if available to satisfy lint rules
-    // and ensure central validation; keep process.env fallback for local runs
-    let secret: string | undefined = undefined;
-    let baseUrl = "http://localhost:3000";
+    // Prefer deterministic session cookie (NextAuth JWT) when NEXTAUTH_SECRET
+    // exists. Fall back to UI sign-in if missing or if the token isn't accepted.
+    let secret: string | undefined;
+    // eslint-disable-next-line n/no-process-env
+    const baseUrl = process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3000";
     try {
       const { env } = await import("@/lib/env");
       if (env.NEXTAUTH_SECRET) secret = env.NEXTAUTH_SECRET as string;
-      if (env.PLAYWRIGHT_BASE_URL) baseUrl = env.PLAYWRIGHT_BASE_URL as string;
     } catch {
-      // fallback to process.env for local setups
       // eslint-disable-next-line n/no-process-env
       secret = process.env.NEXTAUTH_SECRET;
-      // eslint-disable-next-line n/no-process-env
-      baseUrl = process.env.PLAYWRIGHT_BASE_URL ?? baseUrl;
     }
 
-    if (secret) {
-      const token = await makeNextAuthJwtToken({ id: "seed-user" }, secret);
-
-      // Use Playwright APIRequestContext to set cookie on the app domain
-      // newContext() returns a Promise — await it so TypeScript types align
-      const apiReq = await playwrightRequest.newContext();
-      try {
-        // This hits a small test-only endpoint we'll add to the app in dev mode
-        const ok = await setAuthCookie(apiReq, baseUrl, token);
-
-        // Debug: if the endpoint responded OK but the browser gets closed or
-        // navigation fails, we want more context. Log current cookies in the
-        // browser context before navigation.
-        try {
-          const current = await page.context().cookies();
-          console.log(
-            `[authenticatedPage] pre-navigation cookies=${JSON.stringify(current)}`,
-          );
-        } catch (e) {
-          console.log(
-            `[authenticatedPage] failed to read cookies before navigation: ${String(e)}`,
-          );
-        }
-
-        // If the endpoint is unavailable or failed to set the cookie on the
-        // browser context (some environments/proxies can drop Set-Cookie),
-        // fall back to performing the UI sign-in flow so the test is
-        // deterministic and the session is created correctly by NextAuth.
-        if (!ok) {
-          await signInWithSeedUser(page);
-          await use(page);
-          return;
-        }
-
-        // Load the page with the authenticated cookie set and verify server
-        // accepted the session. If NextAuth redirected back to sign-in (e.g.,
-        // because token format was invalid), perform the UI sign-in as a
-        // fallback so the test remains deterministic.
-        await page.goto(`${baseUrl}/dashboard`);
-        await page.waitForLoadState("domcontentloaded");
-        const currentUrl = page.url();
-        if (currentUrl.includes("/sign-in")) {
-          // Token wasn't accepted server-side; do UI sign-in instead.
-          await signInWithSeedUser(page);
-        }
-
-        await use(page);
-      } finally {
-        await apiReq.dispose();
-      }
-    } else {
+    if (!secret) {
       await signInWithSeedUser(page);
       await use(page);
+      return;
     }
+
+    const isSecure = new URL(baseUrl).protocol === "https:";
+    const cookieName = isSecure
+      ? "__Secure-next-auth.session-token"
+      : "next-auth.session-token";
+
+    try {
+      const jwt = await encode({
+        token: {
+          sub: SEED_USER_ID,
+          id: SEED_USER_ID,
+          email: TEST_USER.email,
+          name: `${TEST_USER.firstName} ${TEST_USER.lastName}`,
+          isAdmin: false,
+          isActive: true,
+        },
+        secret,
+        salt: cookieName,
+      });
+
+      await page.context().clearCookies();
+      await page.context().addCookies([
+        {
+          name: cookieName,
+          value: jwt,
+          url: baseUrl,
+          path: "/",
+          httpOnly: true,
+          secure: isSecure,
+          sameSite: "Lax",
+        },
+      ]);
+
+      await page.goto("/dashboard");
+      await page.waitForLoadState("domcontentloaded");
+      if (page.url().includes("/sign-in")) {
+        await signInWithSeedUser(page);
+      }
+    } catch {
+      await signInWithSeedUser(page);
+    }
+
+    await use(page);
   },
 
   dashboardPage: async ({ authenticatedPage }, use) => {

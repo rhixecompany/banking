@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from "vitest";
 // Mock auth to return admin session
 vi.mock("@/lib/auth", () => ({
   auth: vi.fn(async () => ({
-    user: { id: "admin-1", name: "Admin User", isAdmin: true },
+    user: { id: "admin-1", isAdmin: true, name: "Admin User" },
   })),
 }));
 
@@ -16,7 +16,7 @@ vi.mock("next/navigation", () => ({
 
 // Mock actions to return stable shapes
 vi.mock("@/actions/plaid.actions", () => ({
-  getAllAccounts: vi.fn(async () => ({ ok: true, accounts: [] })),
+  getAllAccounts: vi.fn(async () => ({ accounts: [], ok: true })),
   getAllWalletsWithDetails: vi.fn(async () => ({
     ok: true,
     walletsWithDetails: [],

@@ -1,6 +1,7 @@
+import type { ColumnDef } from "@tanstack/react-table";
+
 import { render, screen } from "@testing-library/react";
 
-import type { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "../../components/layouts/data-table/index";
 
 /**
@@ -24,8 +25,8 @@ const columns: ColumnDef<TestUser>[] = [
  * Sample data
  */
 const testData: TestUser[] = [
-  { id: "1", name: "Alice", email: "alice@example.com" },
-  { id: "2", name: "Bob", email: "bob@example.com" },
+  { email: "alice@example.com", id: "1", name: "Alice" },
+  { email: "bob@example.com", id: "2", name: "Bob" },
 ];
 
 describe("DataTable", () => {
@@ -83,7 +84,7 @@ describe("DataTable column types", () => {
   interface Transaction {
     id: string;
     amount: number;
-    status: "pending" | "completed" | "failed";
+    status: "completed" | "failed" | "pending";
     date: string;
   }
 
@@ -95,9 +96,9 @@ describe("DataTable column types", () => {
   ];
 
   const transactionData: Transaction[] = [
-    { id: "tx-001", amount: 100, status: "completed", date: "2024-01-15" },
-    { id: "tx-002", amount: 250, status: "pending", date: "2024-01-16" },
-    { id: "tx-003", amount: 50, status: "failed", date: "2024-01-17" },
+    { amount: 100, date: "2024-01-15", id: "tx-001", status: "completed" },
+    { amount: 250, date: "2024-01-16", id: "tx-002", status: "pending" },
+    { amount: 50, date: "2024-01-17", id: "tx-003", status: "failed" },
   ];
 
   it("renders transaction columns correctly", () => {

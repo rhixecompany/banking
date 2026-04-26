@@ -16,7 +16,7 @@ This directory contains guides for running the Banking app with Docker and Docke
 
 The Banking app uses Docker Compose with multiple profiles to support different environments:
 
-```
+```text
 docker-compose.yml
 ├── Profiles
 │   ├── default     → App + DB + Redis + Traefik
@@ -68,7 +68,7 @@ docker compose down -v
 
 ## File Structure
 
-```
+```text
 .
 ├── docker-compose.yml           # Main compose file
 ├── scripts/

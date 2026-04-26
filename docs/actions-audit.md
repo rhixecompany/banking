@@ -11,19 +11,19 @@ Audited **12 Server Action files** in `actions/`. All files follow the establish
 ## Audit Results
 
 | File | `"use server"` | Zod `.safeParse()` | Return Shape | `auth()` Call | Status |
-| ---- | ------------- | ---------------- | ---------------- | ---------- | ----------- | ------ |
+| --- | --- | --- | --- | --- | --- |
 | `register.ts` | ✅ | ✅ | ✅ | N/A (public) | **PASS** |
 | `dwolla.actions.ts` | ✅ | ✅ | ✅ | ✅ | **PASS** |
 | `wallet.actions.ts` | ✅ | ✅ | ✅ | ✅ | **PASS** |
-| `auth.signin.ts` | — | — | — | — | *(not read)* |
-| `auth.signup.ts` | — | — | — | — | *(not read)* |
-| `user.actions.ts` | — | — | — | — | *(not read)* |
-| `updateProfile.ts` | — | — | — | — | *(not read)* |
-| `admin.actions.ts` | — | — | — | — | *(not read)* |
-| `recipient.actions.ts` | — | — | — | — | *(not read)* |
-| `transaction.actions.ts` | — | — | — | — | *(not read)* |
-| `admin-stats.actions.ts` | — | — | — | — | *(not read)* |
-| `plaid.actions.ts` | — | — | — | — | *(not read)* |
+| `auth.signin.ts` | — | — | — | — | _(not read)_ |
+| `auth.signup.ts` | — | — | — | — | _(not read)_ |
+| `user.actions.ts` | — | — | — | — | _(not read)_ |
+| `updateProfile.ts` | — | — | — | — | _(not read)_ |
+| `admin.actions.ts` | — | — | — | — | _(not read)_ |
+| `recipient.actions.ts` | — | — | — | — | _(not read)_ |
+| `transaction.actions.ts` | — | — | — | — | _(not read)_ |
+| `admin-stats.actions.ts` | — | — | — | — | _(not read)_ |
+| `plaid.actions.ts` | — | — | — | — | _(not read)_ |
 
 ## Detailed Findings
 
@@ -92,7 +92,7 @@ if (!parsed.success) {
 ### Transaction Support
 
 ```typescript
-await db.transaction(async (tx) => {
+await db.transaction(async tx => {
   await transactionDal.createTransaction(data, { db: tx });
 });
 ```

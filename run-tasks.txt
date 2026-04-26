@@ -1,19 +1,29 @@
-You are the Reviewer persona @planner Create a implementation plan to completely implement all features below:
+You are the Reviewer persona Create a implementation plan to completely implement all features below:
+0: Read and Understand `docs/custom-components.md`, `docs/app-pages.md`,`docs/test-context.md` and any other helpful documentation in the repository
 1: List, triage and read all nextjs pages and configurations in `./app/**`.
 2: List, triage and read all components in `./components` skip `./components/ui`.
 3: consolidate, dead duplicate or dead code, use any remaining unused components and enhance all components in `./components` skip `./components/ui` ensure to create and use any needed, recommended hooks and stores.
 4: List,triage,Catalog by vitest or playwright and read all test in `./tests`
 5: consolidate, dead duplicate or dead code,  all test in `./tests` and  enhance all test.
 
-2: @planner  Start with the First group route layouts which should be `(auth)` then `(admin)` then `(root)` and lastly `app\page.tsx` and locate all its custom components,dal,actions,tests,stores.
-3: @implementer   For All its components,dal,actions,tests,stores Modify them to be fully functional ensure to create and use any reusable dynamic generic custom components and saved to `./components/layouts` ensure to verify and valid all reusable dynamic generic custom components in `./components/layouts` use dry practices Update all test,helpers and configurations in `docs/test-context.md` use dry practices, validate and use all stores for state management Harden all vitest and Playwright E2E specs by removing skipped/non-deterministic tests, standardizing assertions, and making authenticated scenarios deterministic with a seeded user Work through all Next.js pages sequentially and repeat the process Ensure to run typecheck/lint/tests as a group is completed.
+6:   Start with the First group route layouts which should be `(auth)` then `(admin)` then `(root)` and lastly `app\page.tsx` and locate all its custom components,dal,actions,tests,stores.
+7:   For All its components,dal,actions,tests,stores Modify them to be fully functional ensure to create and use any reusable dynamic generic custom components and saved to `./components/layouts` ensure to verify and valid all reusable dynamic generic custom components in `./components/layouts` use dry practices Update all test,helpers and configurations in `docs/test-context.md` use dry practices, validate and use all stores for state management Harden all vitest and Playwright E2E specs by removing skipped/non-deterministic tests, standardizing assertions, and making authenticated scenarios deterministic with a seeded user Work through all Next.js pages sequentially and repeat the process Ensure to run typecheck/lint/tests as a group is completed.
 
-4: @implementer   Update all custom typescript scripts,bash,powershell,bat scripts in `./scripts/**` enhance with ts-morph  AST-safe, dry-run functionality, create/ update/ consolidate any needed scripts and delete all dead code Ensure bash,powershell,bat scripts are just orchestrators and all functionality are in custom typescript scripts then update package.json accordingly validate all scripts are working.
+8:    Update all custom typescript scripts,bash,powershell,bat scripts in `./scripts/**` enhance with ts-morph  AST-safe, dry-run functionality, create/ update/ consolidate any needed scripts and delete all dead code Ensure bash,powershell,bat scripts are just orchestrators and all functionality are in custom typescript scripts then update package.json accordingly validate all scripts are working.
 
+
+
+
+9: using the question tool ask any clarifying and needed questions then using the question tool keep asking until you dont have any clarifying and needed questions.
+
+10: Update Agentic Documentation and Rules, Make AGENTS.md the canonical, accurate source of truth for agent behavior in this repo, Rewrite overlapping instruction surfaces so they do not drift (they should mostly point to AGENTS.md and a small set of canonical rules/instructions),Standardize plan location on .opencode/commands/ across all agent docs/rules, Use when the user asks to mine prior chats, maintain `AGENTS.md`, or run the continual-learning loop..
+
+11: Delete and Create `.opencode\commands\init-enhanced.md` to be a reusable prompt that Update Agentic Documentation and Rules, Make AGENTS.md the canonical, accurate source of truth for agent behavior in this repo, Rewrite overlapping instruction surfaces so they do not drift (they should mostly point to AGENTS.md and a small set of canonical rules/instructions),Standardize plan location on .opencode/commands/ across all agent docs/rules, Use when the user asks to mine prior chats, maintain `AGENTS.md`, or run the continual-learning loop..
 
 @implementer   Read and update `.opencode\commands\init-enhanced.md` to be Comprehensive documentation sync for all agentic coding tools (OpenCode, Cursor, GitHub Copilot) operating in this Banking repository. This document is a reproducible checklist to bring documentation in sync with source code and to collect actionable issues for maintainers using the question tool ask all clarifying/needed questions keep asking until you dont have anymore clarifying/needed questions then show me the plan.
 
 
+1: List, triage,Catalog and read all markdown files in `docs/**`,`.opencode/commands`consolidate, dead duplicate or dead markdown files,  verify  all markdown files and  enhance all markdown files format all markdown files markdownlint,.markdownlintrc.json.
 
 5: using the question tool ask any clarifying and needed questions then using the question tool keep asking until you dont have any clarifying and needed questions.
 
@@ -28,3 +38,28 @@ You are the Reviewer persona @planner Create a implementation plan to completely
 | `mcp/sequentialthinking` | `sha256:cd3174...` |
 | `mcp/time`               | `sha256:9c46a9...` |
 | `mcp/youtube-transcript` | `sha256:b70b13...` | servers and install the remote npx versions using @scripts\mcp-runner.ts then update @opencode.json with all mcp_servers
+
+opencode plugin opencode-handoff
+ opencode plugin opencode-beads
+  opencode plugin @tarquinen/opencode-dcp
+   opencode plugin @ramarivera/opencode-model-announcer
+    opencode plugin github:JRedeker/opencode-morph-fast-apply
+     opencode plugin open-plan-annotator
+      opencode plugin opentmux
+       opencode plugin opencode-ignore
+        opencode plugin opencode-mem
+         opencode plugin opencode-synced
+          opencode plugin opencode-snippets
+           opencode plugin opencode-mystatus
+            opencode plugin @gotgenes/opencode-agent-identity
+             opencode plugin opencode-agent-memory
+              opencode plugin opencode-agent-skills
+               opencode plugin opencode-devcontainers
+                opencode plugin @zenobius/opencode-background
+                 opencode plugin @slkiser/opencode-quota
+                  opencode plugin opencode-sessions
+                   opencode plugin @franlol/opencode-md-table-formatter
+                    opencode plugin @liannnix/opencode-ntfy
+                     opencode plugin @howaboua/opencode-planning-toolkit
+
+ opencode plugin micode

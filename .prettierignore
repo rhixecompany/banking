@@ -36,3 +36,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 /typings
+
+# mindmodel pseudo-yaml docs
+.mindmodel/*.yaml

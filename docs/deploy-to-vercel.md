@@ -33,13 +33,13 @@ Add these in Vercel dashboard → **Environment Variables** section:
 
 ### Database
 
-```
+```dotenv
 DATABASE_URL = postgresql://<user>:<password>@<host>:5432/banking?sslmode=require
 ```
 
 ### Authentication
 
-```
+```dotenv
 NEXTAUTH_SECRET = <32+ character secret>
 NEXTAUTH_URL = https://your-project.vercel.app
 NEXT_PUBLIC_SITE_URL = https://your-project.vercel.app
@@ -47,7 +47,7 @@ NEXT_PUBLIC_SITE_URL = https://your-project.vercel.app
 
 ### OAuth Providers (optional)
 
-```
+```dotenv
 AUTH_GITHUB_ID = <github-oauth-client-id>
 AUTH_GITHUB_SECRET = <github-oauth-client-secret>
 AUTH_GOOGLE_ID = <google-oauth-client-id>
@@ -56,13 +56,13 @@ AUTH_GOOGLE_SECRET = <google-oauth-client-secret>
 
 ### Redis (optional)
 
-```
+```dotenv
 REDIS_URL = redis://:<password>@<host>:6379
 ```
 
 ### Plaid (optional)
 
-```
+```dotenv
 PLAID_CLIENT_ID = <plaid-client-id>
 PLAID_SECRET = <plaid-secret>
 PLAID_ENV = sandbox
@@ -71,7 +71,7 @@ PLAID_BASE_URL = https://sandbox.plaid.com
 
 ### Dwolla (optional)
 
-```
+```dotenv
 DWOLLA_KEY = <dwolla-key>
 DWOLLA_SECRET = <dwolla-secret>
 DWOLLA_ENV = sandbox
@@ -90,7 +90,7 @@ DWOLLA_BASE_URL = https://api-sandbox.dwolla.com
 
 After deployment, go back to Vercel environment variables and update:
 
-```
+```dotenv
 NEXTAUTH_URL = https://your-actual-project.vercel.app
 NEXT_PUBLIC_SITE_URL = https://your-actual-project.vercel.app
 ```

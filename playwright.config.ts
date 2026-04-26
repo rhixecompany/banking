@@ -38,6 +38,22 @@ const env = {
   PLAYWRIGHT_PREPARE_DB: process.env.PLAYWRIGHT_PREPARE_DB ?? undefined,
 };
 
+const baseURL = env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3000";
+
+function isLocalUrl(urlStr: string): boolean {
+  try {
+    const url = new URL(urlStr);
+    return (
+      url.hostname === "localhost" ||
+      url.hostname === "127.0.0.1" ||
+      url.hostname === "0.0.0.0" ||
+      url.hostname === "::1"
+    );
+  } catch {
+    return true;
+  }
+}
+
 export default defineConfig({
   /* Assertion timeout - increased for slower pages */
   expect: { timeout: TIMEOUTS.ASSERTION },
@@ -114,7 +130,7 @@ export default defineConfig({
     actionTimeout: TIMEOUTS.ACTION,
 
     /* Base URL to use in actions like `await page.goto('')`. */
-    baseURL: env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3000",
+    baseURL,
 
     headless: true,
 
@@ -132,32 +148,43 @@ export default defineConfig({
   },
 
   /* Run your local dev server before starting the tests */
-  webServer: (() => {
-    // Only include env vars that are defined; Playwright expects string values
-    // for the webServer.env object (Record<string, string>), so we build a
-    // filtered object to satisfy the TypeScript type.
-    const webEnv: Record<string, string> = {};
-    if (process.env.ENABLE_TEST_ENDPOINTS) {
-      webEnv.ENABLE_TEST_ENDPOINTS = process.env.ENABLE_TEST_ENDPOINTS;
-    }
-    if (process.env.PLAYWRIGHT_PREPARE_DB) {
-      webEnv.PLAYWRIGHT_PREPARE_DB = process.env.PLAYWRIGHT_PREPARE_DB;
-    }
+  webServer: !isLocalUrl(baseURL)
+    ? undefined
+    : (() => {
+        // Only include env vars that are defined; Playwright expects string values
+        // for the webServer.env object (Record<string, string>), so we build a
+        // filtered object to satisfy the TypeScript type.
+        const webEnv: Record<string, string> = {};
+        if (process.env.ENABLE_TEST_ENDPOINTS) {
+          webEnv.ENABLE_TEST_ENDPOINTS = process.env.ENABLE_TEST_ENDPOINTS;
+        }
+        if (process.env.PLAYWRIGHT_PREPARE_DB) {
+          webEnv.PLAYWRIGHT_PREPARE_DB = process.env.PLAYWRIGHT_PREPARE_DB;
+        }
 
-    return {
-      command: "npm run dev",
-      // Forward a small set of test flags to the spawned dev server process so
-      // test-only endpoints (like /__playwright__/set-cookie) are enabled when
-      // Playwright starts the application. We avoid forwarding the whole
-      // process.env to limit leakage of unrelated variables.
-      env: webEnv,
-      reuseExistingServer: !env.CI,
-      stderr: "pipe",
-      stdout: "pipe",
-      timeout: TIMEOUTS.WEB_SERVER,
-      url: "http://localhost:3000",
-    };
-  })(),
+        // If a custom baseURL is used, ensure Next dev binds the matching port.
+        try {
+          const url = new URL(baseURL);
+          if (url.port) webEnv.PORT = url.port;
+        } catch {
+          // ignore invalid PLAYWRIGHT_BASE_URL
+        }
+
+        return {
+          // Start Next.js directly to avoid predev clean overhead during E2E.
+          command: "npx next dev --webpack",
+          // Forward a small set of test flags to the spawned dev server process so
+          // test-only endpoints (like /__playwright__/set-cookie) are enabled when
+          // Playwright starts the application. We avoid forwarding the whole
+          // process.env to limit leakage of unrelated variables.
+          env: webEnv,
+          reuseExistingServer: !env.CI,
+          stderr: "pipe",
+          stdout: "pipe",
+          timeout: TIMEOUTS.WEB_SERVER,
+          url: baseURL,
+        };
+      })(),
 
   /* Always 1 worker — stateful app (auth sessions, shared DB). */
   workers: 1,

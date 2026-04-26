@@ -20,7 +20,7 @@ npm run docker:env:generate
 
 ### Environment File Location
 
-```
+```text
 .envs/production/.env.production  # Production secrets
 .env.local                        # Development secrets
 ```
@@ -36,6 +36,12 @@ npm run docker:env:generate
 | `PLAID_SECRET` | Plaid API secret | From Plaid dashboard |
 | `DWOLLA_KEY` | Dwolla API key | From Dwolla dashboard |
 | `DWOLLA_SECRET` | Dwolla API secret | From Dwolla dashboard |
+
+### Tooling / MCP Secrets
+
+| Variable | Used by | Notes |
+| --- | --- | --- |
+| `APITOKEN` | `hostinger-api-mcp` (OpenCode MCP) | Set in your shell or `.env.local`; do not commit it in `.opencode/*.json` or reports |
 
 ## Security Best Practices
 

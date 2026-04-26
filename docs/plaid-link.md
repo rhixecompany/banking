@@ -1,6 +1,6 @@
 # Plaid Link — Overview
 
-Source: https://plaid.com/docs/link/
+Source: [Plaid Link](https://plaid.com/docs/link/)
 
 ## Introduction
 
@@ -8,7 +8,7 @@ Plaid Link is the client-side component users interact with to link their bank a
 
 Link handles credential validation, MFA, error handling, and account-linking confirmation emails. For OAuth institutions, Link manages the full OAuth handoff.
 
-Demo: https://plaid.com/demo/
+Demo: [Plaid demo](https://plaid.com/demo/)
 
 ---
 

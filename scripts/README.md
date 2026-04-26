@@ -22,7 +22,7 @@ Use the PowerShell shim:
 
 pwsh ./scripts/utils/run-ci-checks.ps1 -ReportDir .\tmp\reports -DryRun
 
-## Notes
+## Wrapper Notes
 
 - For robust file-argument handling the Bash runner writes the file list to a temporary NUL-separated file and invokes the tool using `xargs -0` so filenames containing spaces or special characters are handled reliably.
 - If you need even stronger guarantees for exotic filenames (newlines, control characters) we can replace the xargs invocation with a small Node helper or pass arguments over stdin to the target tool where supported.

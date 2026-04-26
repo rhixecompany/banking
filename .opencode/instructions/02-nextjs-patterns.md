@@ -152,7 +152,7 @@ export async function GET() {
 
 ## Project Structure
 
-```
+```text
 app/
 ├── (auth)/           # Auth routes
 ├── (root)/           # Protected routes

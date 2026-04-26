@@ -86,7 +86,7 @@ on:
 
 ## Deployment Flow
 
-```
+```text
 git push
   ↓
 CI (lint + typecheck + tests)

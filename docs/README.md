@@ -1,5 +1,13 @@
 # Documentation Index
 
+## Markdown Catalog
+
+- [Markdown Catalog](./markdown-catalog.md) - Generated inventory of tracked Markdown docs.
+
+Note: Legacy plan docs may live under `docs/plans/`, but canonical plans are under `.opencode/commands/`.
+
+Regenerate the catalog with `npm run docs:markdown-catalog`.
+
 ## Docker & Containerization
 
 ### Docker (Primary)
@@ -19,12 +27,11 @@
 
 - [Next.js Docker Images](services/nextjs-docker.md) - Docker image configuration
 
-## Traefik
+## Infrastructure
 
-- [Traefik Quickstart](traefik/quickstart.md)
-- [Traefik HTTPS/TLS](traefik/https-tls.md)
-- [Traefik Dashboard](traefik/dashboard.md)
-- [Traefik Middlewares](traefik/middlewares.md)
+- [Environment Variables](env-vars.md)
+- [Secrets Management](secrets-management.md)
+- [GitHub Actions CI/CD](github-actions.md)
 - [Traefik Guide](services/traefik.md)
 
 ## Integration Docs
@@ -76,21 +83,40 @@
 
 - [Next.js Context](Next-js-context.md)
 - [Next.js Caching](nextjs/app-router-caching.md)
-- [use cache Directive](nextjs/use-cache-directive.md)
 - [TypeScript Context](TypeScript-context.md)
 - [Getting Started Example](Getting-Started-Example-context.md)
 
-## Infrastructure
+## Audits & Inventories
 
-- [Environment Variables](env-vars.md)
-- [Secrets Management](secrets-management.md)
-- [GitHub Actions CI/CD](github-actions.md)
+- [App Pages Documentation](app-pages.md)
+- [Custom Components](custom-components.md)
+- [Test Context](test-context.md)
+- [Server Actions Audit](actions-audit.md)
+- [DAL Audit](dal-audit.md)
+- [Zod Audit](zod-audit.md)
+- [Database Schema Audit](db-schema-audit.md)
+- [Evidence Map](evidence_map.md)
+- [Review Comments](review-comments.md)
 
 ## ESLint & Tools
 
 - [ESLint Config Next](eslint-config-next-context.md)
 - [ESLint Config Prettier](eslint-config-prettier-context.md)
-- [ESLint Plugins](eslint-plugin-*.md)
+- [ESLint Plugin Better Tailwind CSS](eslint-plugin-better-tailwindcss-context.md)
+- [ESLint Plugin Drizzle](eslint-plugin-drizzle-context.md)
+- [ESLint Plugin Import X](eslint-plugin-import-x-context.md)
+- [ESLint Plugin Jest](eslint-plugin-jest-context.md)
+- [ESLint Plugin N](eslint-plugin-n-context.md)
+- [ESLint Plugin Perfectionist](eslint-plugin-perfectionist-context.md)
+- [ESLint Plugin Playwright](eslint-plugin-playwright-context.md)
+- [ESLint Plugin React](eslint-plugin-react-context.md)
+- [ESLint Plugin React Refresh](eslint-plugin-react-refresh-context.md)
+- [ESLint Plugin Security](eslint-plugin-security-context.md)
+- [ESLint Plugin SonarJS](eslint-plugin-sonarjs-context.md)
+- [ESLint Plugin Testing Library](eslint-plugin-testing-library-context.md)
+- [ESLint Plugin Unicorn](eslint-plugin-unicorn-context.md)
+- [ESLint Plugin Vitest](eslint-plugin-vitest-context.md)
+- [ESLint Plugin Zod](eslint-plugin-zod-context.md)
 
 ## Deployment
 
@@ -109,3 +135,9 @@
 - [Credentials Provider](Credentials-Provider-context.md)
 - [Migration Summary](MIGRATION-SUMMARY.md)
 - [Optimization Plan](optimization-plan.md)
+
+## Legacy Plan Mirrors
+
+- [Legacy Plans](plans/markdown-docs-consolidation.md)
+- [Specs](specs/enhance-pages-spec.md)
+- [Issue Catalog](issue-catalog.md)

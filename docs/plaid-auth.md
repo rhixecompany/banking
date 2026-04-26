@@ -1,6 +1,6 @@
 # Plaid Auth — Introduction
 
-Source: https://plaid.com/docs/auth/
+Source: [Plaid Auth](https://plaid.com/docs/auth/)
 
 ## Overview
 
@@ -45,7 +45,7 @@ Example integration guide: [Move money with Dwolla](https://plaid.com/docs/auth/
 
 ## Processor Token Flow
 
-```
+```text
 /link/token/create (products: ["auth"])
        ↓
   Link (user logs in)
@@ -123,7 +123,7 @@ Some institutions (Chase, PNC, US Bank) return **tokenized account numbers** ins
 
 ## Testing Auth in Sandbox
 
-- GitHub repo: https://github.com/plaid/sandbox-custom-users
+- GitHub repo: [plaid/sandbox-custom-users](https://github.com/plaid/sandbox-custom-users)
 - Default test credentials: `user_good` / `pass_good`
 - For complex flows (micro-deposit): see [Additional Auth flows](https://plaid.com/docs/auth/coverage/testing/)
 

@@ -109,7 +109,7 @@ if (fs.existsSync(envFile)) {
     const m = line.match(/^\s*([A-Z_]\w*)\s*=(.*)$/i);
     if (!m) continue;
     const key = m[1];
-    const val = m[2].replace(/^['"]?|['"]?$/g, "");
+    const val = m[2].replaceAll(/^['"]?|['"]?$/g, "");
     process.env[key] = val;
   }
 }

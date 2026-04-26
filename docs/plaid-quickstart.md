@@ -1,13 +1,13 @@
 # Plaid Quickstart
 
-Source: https://plaid.com/docs/quickstart/
+Source: [Plaid Quickstart](https://plaid.com/docs/quickstart/)
 
 ## Overview
 
 The Quickstart app demonstrates the full Plaid token flow locally. Requires API keys from the [Plaid Dashboard](https://dashboard.plaid.com/developers/keys).
 
 - Sandbox credentials: `user_good` / `pass_good` (2FA: `1234`)
-- GitHub: https://github.com/plaid/quickstart
+- GitHub: [plaid/quickstart](https://github.com/plaid/quickstart)
 
 ---
 

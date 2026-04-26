@@ -1,4 +1,6 @@
-AGENTS — Canonical Agent Reference
+# AGENTS Canonical Agent Reference
+
+<!-- markdownlint-disable MD025 -->
 
 Purpose
 
@@ -23,13 +25,13 @@ Canonical Rules (summary)
 - Never read process.env directly in application code. Use app-config.ts (preferred) or lib/env.ts. Exceptions: documented scripts that intentionally load env before imports (for example scripts/seed/run.ts).
 - Never commit .env, .env.local, keys, or tokens.
 
-2. Database / DAL
+1. Database / DAL
 
 - All database access must go through dal/\* helpers. Do not import the DB client from app/, components, pages, or Server Component wrappers.
 - Prevent N+1 queries: prefer eager-loading, JOINs, or batched queries.
 - DAL write helpers should accept an optional tx (transaction) parameter for atomic operations.
 
-3. Server Actions (mutations)
+1. Server Actions (mutations)
 
 - Server Actions live under actions/\* and are the only allowed place for stateful mutations.
 - Contract for Server Actions:
@@ -40,34 +42,34 @@ Canonical Rules (summary)
   - Return Promise<{ ok: boolean; error?: string; ... }> and avoid uncaught throws.
   - Revalidate caches/tags after success (revalidatePath, revalidateTag, updateTag).
 
-4. App Router / Home
+1. App Router / Home
 
 - app/page.tsx must remain public/static. Do not add auth(), DAL, or DB queries there.
 
-5. Static Checks & CI
+1. Static Checks & CI
 
 - Before creating PRs, run: npm run type-check, npm run lint:strict, npm run verify:rules.
 - Run npm run verify:rules; it enforces process.env usage, zod rules, direct-db-imports, Server Action heuristics, and Home constraints and writes .opencode/reports/rules-report.json.
 
-6. Commits, Plans & Provenance
+1. Commits, Plans & Provenance
 
 - Ask for permission BEFORE editing files or committing changes (agent must request user approval before creating commits).
 - If a change touches more than seven files, create a plan under .opencode/commands/ (use npm run plan:ensure). See Plan File Standards (required sections below).
 - Every change must include a provenance list of files read and one-line reason in the commit/PR body.
 
-7. Type Safety & Lint
+1. Type Safety & Lint
 
 - No `any` for external data. Prefer `unknown` and explicit guards.
 - All PRs must pass npm run type-check and npm run lint:strict with zero errors/warnings per repo policy.
 
-8. Secrets & Safety
+1. Secrets & Safety
 
 - Do not commit secrets or environment files. Scripts that modify infra must accept --dry-run and be gated by RUN_DESTRUCTIVE=true plus an explicit acknowledgment flag (--yes).
 
 Plan File Standards (from .opencode/instructions)
 
-- Location & naming: save plans under .opencode/commands/, file suffix .plan.md, filename format <short-kebab-task>.plan.md.
-- Required sections for every plan: # <Plan Title>, ## Goals, ## Scope, ## Target Files, ## Risks, ## Planned Changes, ## Validation, ## Rollback or Mitigation.
+- Location & naming: save plans under `.opencode/commands/`, file suffix `.plan.md`, filename format `<short-kebab-task>.plan.md`.
+- Required sections for every plan: `# <Plan Title>`, `## Goals`, `## Scope`, `## Target Files`, `## Risks`, `## Planned Changes`, `## Validation`, `## Rollback or Mitigation`.
 - Run markdown lint on plan files and fix violations before implementation.
 - Use npm run plan:ensure to scaffold/merge plan context for changes touching >7 files.
 

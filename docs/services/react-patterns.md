@@ -311,4 +311,4 @@ handleClick(e) {
 
 ---
 
-_Source: https://github.com/vasanthk/react-bits_
+_Source: [vasanthk/react-bits](https://github.com/vasanthk/react-bits)_

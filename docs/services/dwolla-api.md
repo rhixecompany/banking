@@ -48,7 +48,7 @@ Welcome to the Dwolla API documentation, your gateway to seamlessly integrating 
 
 ### Before You Begin
 
-- Create a sandbox account at https://dashboard.dwolla.com
+- Create a sandbox account at [Dwolla Dashboard](https://dashboard.dwolla.com)
 - Obtain API Key and Secret
 - Create webhook subscription (recommended)
 
@@ -167,4 +167,4 @@ Authorization: Bearer {access_token}
 
 ---
 
-_Source: https://developers.dwolla.com/docs/api-reference/api-fundamentals_ _Source: https://developers.dwolla.com/docs/send-money_
+_Sources: [Dwolla API Fundamentals](https://developers.dwolla.com/docs/api-reference/api-fundamentals), [Dwolla Send Money](https://developers.dwolla.com/docs/send-money)_

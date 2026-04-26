@@ -64,7 +64,7 @@ EXPOSE 3000
 CMD ["node", "server.js"]
 ```
 
-### Required next.config.js:
+### Required next.config.js
 
 ```javascript
 module.exports = {
@@ -74,7 +74,7 @@ module.exports = {
 
 ### .dockerignore
 
-```
+```text
 node_modules
 .next
 .git
@@ -164,4 +164,4 @@ services:
 
 ---
 
-_Source: https://thelinuxcode.com/nextjs-docker-images-a-practical-2026-guide-for-reliable-deploys/_
+_Source: [Next.js Docker Images: A Practical 2026 Guide for Reliable Deploys](https://thelinuxcode.com/nextjs-docker-images-a-practical-2026-guide-for-reliable-deploys/)_

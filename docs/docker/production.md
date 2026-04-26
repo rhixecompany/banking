@@ -4,7 +4,7 @@ Production deployment with Traefik, HTTPS, and monitoring.
 
 ## Architecture
 
-```
+```text
 ┌─────────────────────────────────────────────────────────┐
 │                     Internet                             │
 └─────────────────────────┬───────────────────────────────┘
@@ -151,8 +151,8 @@ docker compose --profile monitoring up -d
 
 Access:
 
-- Prometheus: https://prometheus.yourdomain.com
-- Grafana: https://grafana.yourdomain.com
+- Prometheus: `https://prometheus.yourdomain.com`
+- Grafana: `https://grafana.yourdomain.com`
 
 ## Backup
 

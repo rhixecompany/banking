@@ -1,6 +1,6 @@
 # Dwolla — Transfer Money Between Users
 
-Source: https://developers.dwolla.com/docs/transfer-money-between-users
+Source: [Dwolla Transfer Money Between Users](https://developers.dwolla.com/docs/transfer-money-between-users)
 
 ## Overview
 
@@ -109,9 +109,9 @@ Authorization: Bearer {access_token}
 2. Guide user through Plaid Link (authentication with bank credentials)
 3. Use Exchange details to create a verified funding source in Dwolla
 
-Integration guide: https://developers.dwolla.com/docs/open-banking/plaid
+Integration guide: [Dwolla Open Banking with Plaid](https://developers.dwolla.com/docs/open-banking/plaid)
 
-Working example: https://github.com/Dwolla/integration-examples/tree/main/packages/open-banking/plaid
+Working example: [Dwolla open banking Plaid example](https://github.com/Dwolla/integration-examples/tree/main/packages/open-banking/plaid)
 
 ---
 

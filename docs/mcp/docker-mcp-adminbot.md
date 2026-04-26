@@ -24,7 +24,9 @@ The `adminbot` profile loads 9 MCP servers from the Docker MCP catalog with 316 
 | 8 | `fetch` | 1 | 1 | 0 | URL fetching |
 | 9 | `sequentialthinking` | 1 | 0 | 0 | Chain-of-thought reasoning |
 
-**Total: 56 tools, 3 prompts, 16 resources**
+### Totals
+
+56 tools, 3 prompts, and 16 resources.
 
 ---
 

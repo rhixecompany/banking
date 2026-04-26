@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 
+import { Suspense } from "react";
+
 import RootLayoutWrapper from "@/components/layouts/RootLayoutWrapper";
 import { MyWalletsServerWrapper } from "@/components/my-wallets/my-wallets-server-wrapper";
+import { LoadingSpinner } from "@/components/ui/spinner";
 
 /**
  * My Wallets page metadata.
@@ -24,7 +27,11 @@ export const metadata: Metadata = {
 export default function MyWalletsPage(): JSX.Element {
   return (
     <RootLayoutWrapper>
-      <MyWalletsServerWrapper />
+      <Suspense
+        fallback={<LoadingSpinner className="flex-center min-h-screen" />}
+      >
+        <MyWalletsServerWrapper />
+      </Suspense>
     </RootLayoutWrapper>
   );
 }

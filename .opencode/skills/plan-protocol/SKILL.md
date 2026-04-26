@@ -15,7 +15,7 @@ When creating or updating a plan, ensure:
 - [ ] **Title** (clear name) and **Description** (1-3 sentences)
 - [ ] **Personas** section with responsible roles
 - [ ] `## Goal` section (one sentence - alternative to Title)
-- [ ] `## Context & Decisions` table with citations (`ref:delegation-id`)
+- [ ] `## Context & Decisions` table with citations (`ref:TASK-ID` or source)
 - [ ] Phases with status markers: `[COMPLETE]`, `[IN PROGRESS]`, `[PENDING]`
 - [ ] Tasks with hierarchical numbering (1.1, 1.2, 2.1)
 - [ ] Only ONE task marked `← CURRENT`
@@ -42,7 +42,7 @@ When creating or updating a plan, ensure:
 
 ## Plan Format
 
-Use `plan_save` with this exact markdown format:
+Use `createPlan` tool with this exact markdown format:
 
 ```markdown
 ---
@@ -106,6 +106,17 @@ ONE_SENTENCE_DESCRIBING_OUTCOME
 
 - YYYY-MM-DD: Observation or decision `ref:DELEGATION_ID`
 ```
+
+### Available Plan Tools
+
+| Tool           | Purpose                        |
+| -------------- | ------------------------------ |
+| `createPlan`   | Create new implementation plan |
+| `createSpec`   | Create reusable specification  |
+| `readPlan`     | Read existing plan             |
+| `appendSpec`   | Link spec to plan              |
+| `markPlanDone` | Mark plan complete             |
+| `submit_plan`  | Submit plan for user review    |
 
 ### Frontmatter Fields
 
@@ -177,13 +188,14 @@ Citations reference delegation research. The flow is:
 
 ### How to Find Delegation IDs
 
-- Use `delegation_list()` to see all delegations
-- Use `delegation_read("id")` to verify content before citing
+- Use `task` tool to delegate research - you'll receive a task_id in the response
+- Reference that task_id in your plan using `ref:task-id` format
+- Use `readPlan` to read referenced plan files before citing
 
 ### ❌ NEVER
 
-- Make up delegation IDs
-- Cite without actually reading the delegation
+- Make up task IDs
+- Cite without actual research or source
 - Skip citations for research-based decisions
 
 ---
@@ -288,7 +300,7 @@ Add authentication
 | Use Redis | It's fast | -      |
 ```
 
-**Error:** Decisions must cite research with `ref:delegation-id`.
+**Error:** Decisions must cite research with `ref:task-id` or include a source reference.
 
 ### ❌ WRONG: Invalid phase status
 
@@ -306,7 +318,7 @@ Add authentication
 | --- | --- |
 | "Missing frontmatter" | Add `---\nstatus: in-progress\nphase: 1\nupdated: 2026-01-02\n---` at top |
 | "Multiple CURRENT markers" | Remove `← CURRENT` from all but the active task |
-| "Invalid citation format" | Use `ref:delegation-id` format (e.g., `ref:swift-amber-falcon`) |
+| "Invalid citation format" | Use `ref:task-id` format (e.g., `ref:abc-123`) |
 | "Missing title" | Add `## Title` section with clear plan name |
 | "Missing description" | Add `## Description` with 1-3 sentence summary |
 | "Missing personas" | Add `## Personas` section with roles |
@@ -315,18 +327,69 @@ Add authentication
 | "Empty phase" | Add at least one task to each phase |
 | "Invalid phase status" | Use `[PENDING]`, `[IN PROGRESS]`, `[COMPLETE]`, or `[BLOCKED]` |
 
+### Cross-Platform Command Execution
+
+#### Bash / macOS / Linux / Git Bash / WSL
+
+```bash
+# Run verification commands
+npm run build
+npm run lint:strict
+npm run test
+
+# Run format
+npm run format
+
+# TypeScript check
+npm run type-check
+```
+
+#### PowerShell (Windows)
+
+```powershell
+# Run verification commands
+npm run build
+npm run lint:strict
+npm run test
+
+# Run format
+npm run format
+
+# TypeScript check
+npm run type-check
+```
+
+#### Cross-Platform Path Notes
+
+- File paths in markdown use forward slashes (`/`) for readability
+- Both Bash and PowerShell accept forward slashes in most contexts
+- For Windows-specific scripts, use `\` or use `Join-Path` in PowerShell
+- The skill tools handle path separators automatically
+
+### npm Scripts Reference
+
+These npm scripts are verified to exist in the Banking project:
+
+| Script        | Command                   | Purpose          |
+| ------------- | ------------------------- | ---------------- |
+| `build`       | `next build`              | Production build |
+| `lint:strict` | `eslint --max-warnings=0` | Strict linting   |
+| `test`        | `test:ui && test:browser` | Run all tests    |
+| `format`      | `prettier --write`        | Format code      |
+| `type-check`  | `tsc --noEmit`            | Type check       |
+
 ---
 
 ## Before Saving Checklist
 
-Before calling `plan_save`, verify:
+Before calling `createPlan`, verify:
 
 - [ ] **Frontmatter:** Has status, phase, and updated date?
 - [ ] **Title:** Is there a clear plan name?
 - [ ] **Description:** Is there a 1-3 sentence summary?
 - [ ] **Personas:** Are roles defined for each step?
 - [ ] **Goal:** Is there a clear, one-sentence goal?
-- [ ] **Citations:** Are all research-based decisions cited with `ref:id`?
+- [ ] **Citations:** Are all research-based decisions cited with `ref:task-id`?
 - [ ] **Single CURRENT:** Is exactly one task marked `← CURRENT`?
 - [ ] **Valid markers:** Do all phases use valid status markers?
 - [ ] **Hierarchical IDs:** Are tasks numbered correctly (1.1, 1.2, 2.1)?

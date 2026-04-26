@@ -202,4 +202,4 @@ All examples extracted from:
 - `tests/e2e/helpers/plaid.mock.ts`
 - `scripts/verify-rules.ts`
 
-_Last updated: 2026-04-24_
+Last updated: 2026-04-24

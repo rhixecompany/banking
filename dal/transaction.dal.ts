@@ -211,9 +211,9 @@ export class TransactionDal {
             Pick<Wallet, "fundingSourceUrl" | "id" | "institutionName">
           >,
           w: {
-            fundingSourceUrl?: string | null;
+            fundingSourceUrl?: null | string;
             id: string;
-            institutionName?: string | null;
+            institutionName?: null | string;
           },
         ) => {
           const id = String(w.id);

@@ -1,6 +1,6 @@
 # react-plaid-link — React Hook & Component
 
-Source: https://github.com/plaid/react-plaid-link
+Source: [plaid/react-plaid-link](https://github.com/plaid/react-plaid-link)
 
 ## Install
 
@@ -158,7 +158,7 @@ class App extends React.Component {
 - [examples/oauth.tsx](https://github.com/plaid/react-plaid-link/blob/master/examples/oauth.tsx) — OAuth handling
 - [examples/component.tsx](https://github.com/plaid/react-plaid-link/blob/master/examples/component.tsx) — class component
 
-Storybook demo: https://plaid.github.io/react-plaid-link
+Storybook demo: [react-plaid-link Storybook](https://plaid.github.io/react-plaid-link)
 
 ---
 

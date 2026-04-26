@@ -1,6 +1,6 @@
 # Drizzle ORM Guide: Conditional Filters in Query
 
-## Overview
+## Increment Overview
 
 - Use `.where()` with logical operators for conditional filters.
 - Combine filters with `and()` or `or()`.
@@ -86,14 +86,14 @@ await searchPosts(8, 200);
 
 ---
 
-# Drizzle ORM Guide: Incrementing a Value
+## Drizzle ORM Guide: Incrementing a Value
 
 ## Overview
 
 - Use `update().set()` with `sql` to increment a column.
 - Custom increment function possible.
 
-## Example
+## Increment Example
 
 ```ts
 import { eq, sql } from 'drizzle-orm';
@@ -118,14 +118,14 @@ await db
 
 ---
 
-# Drizzle ORM Guide: Decrementing a Value
+## Drizzle ORM Guide: Decrementing a Value
 
-## Overview
+## Decrement Overview
 
 - Use `update().set()` with `sql` to decrement a column.
 - Custom decrement function possible.
 
-## Example
+## Decrement Example
 
 ```ts
 import { eq, sql } from 'drizzle-orm';

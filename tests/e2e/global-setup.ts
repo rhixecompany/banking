@@ -174,12 +174,12 @@ function loadEnvironmentVariables(root: string): void {
   ];
 
   for (const envFile of envFiles) {
-    try {
-      loadEnv({ path: envFile.path });
-      console.info(`    ✓ ${envFile.name} loaded`);
-    } catch {
+    const result = loadEnv({ path: envFile.path });
+    if (result.error) {
       console.info(`    - ${envFile.name} not found (this is OK)`);
+      continue;
     }
+    console.info(`    ✓ ${envFile.name} loaded`);
   }
 }
 
@@ -310,43 +310,27 @@ async function ensureSeededData(databaseUrl: string): Promise<void> {
 export default async function globalSetup(): Promise<void> {
   printSection("PLAYWRIGHT E2E GLOBAL SETUP");
 
-  // Resolve runtime environment flags via lib/env when available, fall back to process.env
-  try {
-    // Dynamic import avoids module load-order and validation side-effects
-    // that may run before app-config validation.
-
-    const { env } = (await import("@/lib/env")) as any;
-    if (env.PLAYWRIGHT_BASE_URL) BASE_URL = env.PLAYWRIGHT_BASE_URL as string;
-    const prepare = env.PLAYWRIGHT_PREPARE_DB as string | undefined;
-    if (prepare !== "true") {
-      console.info("  SKIP: PLAYWRIGHT_PREPARE_DB is not set to 'true'");
-      console.info(
-        "  Run tests with: PLAYWRIGHT_PREPARE_DB=true npx playwright test",
-      );
-      printSection("SETUP COMPLETE (SKIPPED)");
-      return;
-    }
-  } catch {
-    // Fallback to direct process.env for CI or simple local runs
-
-    if (process.env.PLAYWRIGHT_PREPARE_DB !== "true") {
-      console.info("  SKIP: PLAYWRIGHT_PREPARE_DB is not set to 'true'");
-      console.info(
-        "  Run tests with: PLAYWRIGHT_PREPARE_DB=true npx playwright test",
-      );
-      printSection("SETUP COMPLETE (SKIPPED)");
-      return;
-    }
-
-    BASE_URL = process.env.PLAYWRIGHT_BASE_URL ?? BASE_URL;
-  }
-
   // Step 1: Load environment variables
   printStep(1, 5, "Loading environment variables");
   const root = path.resolve(__dirname, "../..");
   await measureTime(async () => {
     loadEnvironmentVariables(root);
   }, "Environment variables loaded");
+
+  // IMPORTANT: Avoid importing app-config/lib/env before dotenv loads.
+  // E2E global setup calls the seed runner which imports the app DB client.
+  // If we import lib/env too early, it can cache undefined DATABASE_URL and
+  // cause seeding/auth to target the wrong database.
+  BASE_URL = process.env.PLAYWRIGHT_BASE_URL ?? BASE_URL;
+
+  if (process.env.PLAYWRIGHT_PREPARE_DB !== "true") {
+    console.info("  SKIP: PLAYWRIGHT_PREPARE_DB is not set to 'true'");
+    console.info(
+      "  Run tests with: PLAYWRIGHT_PREPARE_DB=true npx playwright test",
+    );
+    printSection("SETUP COMPLETE (SKIPPED)");
+    return;
+  }
 
   // Step 2: Validate database URL
   printStep(2, 5, "Validating database configuration");

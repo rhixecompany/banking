@@ -1,4 +1,4 @@
-## Plan: Enhance All Next.js Pages and Docs
+# Plan: Enhance All Next.js Pages and Docs
 
 TL;DR
 
@@ -24,7 +24,7 @@ Steps
 - Read `docs/custom-components.md`, `docs/test-context.md`, and `docs/app-pages.md` to align with repository conventions.
 - Confirmed current wrappers and layout usage for Home, Dashboard, and Payment Transfer.
 
-2. Home page (`app/page.tsx`)
+1. Home page (`app/page.tsx`)
 
 - Validate `components/home/home-server-wrapper.tsx` remains public/static and contains no auth or DAL calls.
 - Confirm presentational components are in `components/layouts`: `total-balance`, `features-grid`, `cta-get-started`, and `home-footer`.
@@ -32,7 +32,7 @@ Steps
 - If any Home layout component is missing or uses data fetching, extract a props-only component into `components/layouts` and add a dedicated unit test.
 - Update docs inventory: add Home component entries and note presentational extraction.
 
-3. Dashboard page
+1. Dashboard page
 
 - Validate `app/(root)/dashboard/page.tsx` and `components/dashboard/dashboard-server-wrapper.tsx`.
 - Confirm auth via `auth()` and redirects for unauthenticated users.
@@ -40,14 +40,14 @@ Steps
 - Ensure the client wrapper is presentational and that any rendering-only components are in `components/layouts`.
 - Audit existing tests and add missing unit tests for extracted components, plus deterministic E2E coverage via seed user.
 
-4. My Wallets page
+1. My Wallets page
 
 - Validate `app/(root)/my-wallets/page.tsx`, `components/my-wallets/my-wallets-server-wrapper.tsx`, and client wrapper.
 - Confirm actions such as `getUserWallets` and DAL helpers in `dal/wallet.dal.ts` are used, not inline fetching.
 - Extract card/list components into `components/layouts/wallet-card` if needed.
 - Add or harden unit tests and E2E specs.
 
-5. Payment Transfer page
+1. Payment Transfer page
 
 - Validate `app/(root)/payment-transfer/page.tsx` and `components/payment-transfer/payment-transfer-server-wrapper.tsx`.
 - Confirm `TransferSchema` is centralized under `lib/schemas/transfer.schema.ts`.
@@ -55,40 +55,40 @@ Steps
 - Audit `components/layouts/payment-transfer-form.tsx` and add deterministic unit tests using `autoSubmit` / initial patterns.
 - Harden E2E tests with seeded user and mocked Dwolla/Plaid behavior.
 
-6. Settings page
+1. Settings page
 
 - Validate `app/(root)/settings/page.tsx` and `components/settings/settings-server-wrapper.tsx`.
 - Centralize `ProfileSchema` and `PasswordSchema` under `lib/schemas/profile.schema.ts`.
 - Confirm `actions/updateProfile.ts` authenticates first, validates input, and returns stable output.
 - Add presentational form tests and deterministic authenticated E2E coverage.
 
-7. Transaction History page
+1. Transaction History page
 
 - Validate `app/(root)/transaction-history/page.tsx` and `components/transaction-history/transaction-history-server-wrapper.tsx`.
 - Ensure `dal/transaction.dal.ts` supports eager-loaded queries with joined wallet metadata to prevent N+1 query patterns.
 - Extract list row rendering into `components/layouts/transaction-list` or `transaction-row` as needed.
 - Add unit tests for mapping/display logic and strengthen E2E assertions.
 
-8. Sign-in and Sign-up pages
+1. Sign-in and Sign-up pages
 
 - Validate `app/(auth)/sign-in/page.tsx`, `components/sign-in/sign-in-server-wrapper.tsx`, `app/(auth)/sign-up/page.tsx`, and `components/sign-up/sign-up-server-wrapper.tsx`.
 - Confirm `components/auth-form/*` remains presentational and only receives server actions from wrappers.
 - Ensure `actions/register.ts` and any auth actions use Zod validation and stable returns.
 - Harden E2E auth flows with seeded user credentials and deterministic page navigation.
 
-9. Admin page
+1. Admin page
 
 - Validate `app/(admin)/admin/page.tsx` and `components/admin/admin-dashboard-server-wrapper.tsx`.
 - Confirm admin guard logic is enforced and `admin.actions.ts` checks `isAdmin` on auth.
 - Add or harden admin E2E coverage using seeded admin user or deterministic test hooks.
 
-10. Cross-cutting docs updates
+1. Cross-cutting docs updates
 
 - `docs/custom-components.md`: update inventory entries for all extracted layout components, including Home and pages that now use `components/layouts`.
 - `docs/test-context.md`: update seeded user details, mock helper guidance, and deterministic Playwright/Vitest patterns.
 - `docs/app-pages.md`: update page audit entries with current page list, page wrappers, components, actions, DAL methods, schemas, and tests.
 
-11. Validation gating
+1. Validation gating
 
 - Do not run `npm run type-check`, `npm run lint`, or `npm run test` until all page enhancements are complete.
 - After implementation, validate with `npm run validate` and inspect any rule reports.

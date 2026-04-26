@@ -15,15 +15,21 @@ This document explains how to run the repository verification checks locally, ho
 
 - Run full verification (requires Postgres and Redis running and env vars set):
 
+  ```bash
   # Start local services (example using docker-compose included in repo)
 
   docker-compose up -d postgres redis
 
   # Set required env vars (example)
 
-  export DATABASE_URL=postgresql://postgres:postgres@localhost:5432/banking_test export REDIS_URL=redis://localhost:6379 export ENCRYPTION_KEY=REPLACE_WITH_YOURS export NEXTAUTH_SECRET=REPLACE_WITH_YOURS export NEXT_PUBLIC_SITE_URL=http://localhost:3000
+  export DATABASE_URL=postgresql://postgres:postgres@localhost:5432/banking_test
+  export REDIS_URL=redis://localhost:6379
+  export ENCRYPTION_KEY=REPLACE_WITH_YOURS
+  export NEXTAUTH_SECRET=REPLACE_WITH_YOURS
+  export NEXT_PUBLIC_SITE_URL=http://localhost:3000
 
   ./scripts/verify-agents.sh
+  ```
 
 ## Requesting full E2E for forked PRs
 

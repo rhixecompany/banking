@@ -46,13 +46,13 @@ export interface PageContainerProps {
  * @returns Rendered page container
  */
 export function PageContainer({
-  title,
-  description,
-  children,
   actions,
+  children,
   className,
   columns = "grid-cols-1 lg:grid-cols-3",
+  description,
   gap = "gap-6",
+  title,
 }: PageContainerProps): JSX.Element {
   return (
     <section

@@ -2,12 +2,32 @@
   "config": {
     "default": true,
     "MD013": false,
+    "MD024": {
+      "siblings_only": true
+    },
     "MD033": {
-      "allowed_elements": ["details", "summary"]
+      "allowed_elements": ["br", "details", "summary"]
     }
   },
-  "fix": true,
+  "fix": false,
   "gitignore": true,
   "globs": ["**/*.md"],
-  "ignores": ["node_modules", "CHANGELOG.md"]
+  "ignores": [
+    "node_modules",
+    ".next",
+    "build",
+    "coverage",
+    "dist",
+    "out",
+    "tmp",
+    "CHANGELOG.md",
+    ".cursor/**/*.md",
+    ".github/agents/**/*.md",
+    ".github/hooks/**/*.md",
+    ".github/instructions/**/*.md",
+    ".github/prompts/**/*.md",
+    ".github/skills/**/*.md",
+    ".github/workflows/**/*.md",
+    ".opencode/agent/**/*.md"
+  ]
 }

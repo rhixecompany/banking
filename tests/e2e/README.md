@@ -90,7 +90,7 @@ Use these credentials for authenticated E2E tests.
 
 ### Database Connection Failed
 
-```
+```text
 [playwright] Cannot connect to database at <URL>
 ```
 
@@ -103,7 +103,7 @@ Use these credentials for authenticated E2E tests.
 
 ### Database URL Not Set
 
-```
+```text
 [playwright] DATABASE_URL is not set
 ```
 
@@ -159,7 +159,7 @@ services:
 
 ## Test Structure
 
-```
+```text
 tests/e2e/
 ├── helpers/
 │   └── db.ts          # Database connectivity helpers

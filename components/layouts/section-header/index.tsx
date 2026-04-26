@@ -42,11 +42,11 @@ export interface SectionHeaderProps {
  * @returns Rendered section header
  */
 export function SectionHeader({
-  title,
-  description,
   actions,
   as: HeadingTag = "h2",
   className,
+  description,
+  title,
 }: SectionHeaderProps): JSX.Element {
   return (
     <div

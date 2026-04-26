@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
+
 import { Suspense } from "react";
 
 import { AdminDashboardServerWrapper } from "@/components/admin/admin-dashboard-server-wrapper";
-import AdminLayoutWrapper from "@/components/layouts/AdminLayoutWrapper";
 import { Skeleton } from "@/components/ui/skeleton";
 
 /**
@@ -43,10 +43,8 @@ function AdminLoadingFallback() {
  */
 export default function AdminPage(): JSX.Element {
   return (
-    <AdminLayoutWrapper>
-      <Suspense fallback={<AdminLoadingFallback />}>
-        <AdminDashboardServerWrapper />
-      </Suspense>
-    </AdminLayoutWrapper>
+    <Suspense fallback={<AdminLoadingFallback />}>
+      <AdminDashboardServerWrapper />
+    </Suspense>
   );
 }

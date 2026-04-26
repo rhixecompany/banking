@@ -10,6 +10,7 @@ import StatisticsCard from "@/components/shadcn-studio/blocks/statistics-card-01
 import ProductInsightsCard from "@/components/shadcn-studio/blocks/widget-product-insights";
 import TotalEarningCard from "@/components/shadcn-studio/blocks/widget-total-earning";
 import { Card } from "@/components/ui/card";
+import { FilterStoreProvider } from "@/stores/filter-store";
 
 import { earningData, statisticsCardData, transactionData } from "./admin-data";
 
@@ -179,9 +180,11 @@ const AdminDashboardContent = ({
 
         <SalesMetricsCard className="col-span-full xl:col-span-2 [&>[data-slot=card-content]]:space-y-6" />
 
-        <Card className="col-span-full w-full py-0">
-          <TransactionDatatable data={resolvedTransactions} />
-        </Card>
+        <FilterStoreProvider>
+          <Card className="col-span-full w-full py-0">
+            <TransactionDatatable data={resolvedTransactions} />
+          </Card>
+        </FilterStoreProvider>
         <p className="col-span-full text-xs text-muted-foreground">
           {useLiveData
             ? "Live metrics based on current activity."

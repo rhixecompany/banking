@@ -10,11 +10,11 @@ import { createStore } from "zustand";
  * Valid transaction statuses for filtering.
  */
 export type TransactionStatus =
+  | ""
   | "failed"
   | "paid"
   | "pending"
-  | "processing"
-  | "";
+  | "processing";
 
 /**
  * Description placeholder
@@ -124,6 +124,6 @@ export function createFilterStore(initState: Partial<FilterState> = {}) {
 
     setSearchQuery: (searchQuery) => set({ page: 1, searchQuery }),
 
-    setStatus: (status) => set({ status, page: 1 }),
+    setStatus: (status) => set({ page: 1, status }),
   }));
 }

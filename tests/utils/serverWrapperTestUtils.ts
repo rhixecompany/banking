@@ -1,4 +1,5 @@
 import type { ReactElement } from "react";
+
 import { vi } from "vitest";
 
 // Returns a mock object for next/navigation that throws on redirect so tests can assert it

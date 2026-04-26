@@ -29,12 +29,16 @@ interface FormProps {
  */
 export default function Form({
   children,
+  className,
   errors = {},
   onSubmit,
-  className,
 }: FormProps) {
   return (
-    <form onSubmit={onSubmit} className={cn("space-y-4", className)}>
+    <form
+      aria-label="form"
+      onSubmit={onSubmit}
+      className={cn("space-y-4", className)}
+    >
       {children}
       {Object.keys(errors).length > 0 && (
         <div className="rounded-md border border-destructive/50 bg-destructive/10 p-3">

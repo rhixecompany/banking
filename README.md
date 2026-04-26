@@ -1,3 +1,4 @@
+<!-- markdownlint-disable MD033 MD036 MD041 MD045 MD059 -->
 <div align="center">
   <br />
     <a href="#" target="_blank">

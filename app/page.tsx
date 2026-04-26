@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 
+import { Suspense } from "react";
+
 import { HomeServerWrapper } from "@/components/home/home-server-wrapper";
 import RootLayoutWrapper from "@/components/layouts/RootLayoutWrapper";
+import { LoadingSpinner } from "@/components/ui/spinner";
 
 /**
  * Description placeholder
@@ -20,7 +23,11 @@ export const metadata: Metadata = {
 export default function HomePage(): JSX.Element {
   return (
     <RootLayoutWrapper>
-      <HomeServerWrapper />
+      <Suspense
+        fallback={<LoadingSpinner className="flex-center min-h-screen" />}
+      >
+        <HomeServerWrapper />
+      </Suspense>
     </RootLayoutWrapper>
   );
 }

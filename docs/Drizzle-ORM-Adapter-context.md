@@ -15,7 +15,7 @@ npm install drizzle-kit --save-dev
 
 ### Environment Variables
 
-```
+```dotenv
 AUTH_DRIZZLE_URL=postgres://postgres:postgres@127.0.0.1:5432/db
 ```
 
@@ -75,4 +75,4 @@ await connection.end();
 
 ---
 
-[Source: https://authjs.dev/getting-started/adapters/drizzle]
+[Source: Auth.js Drizzle Adapter](https://authjs.dev/getting-started/adapters/drizzle)

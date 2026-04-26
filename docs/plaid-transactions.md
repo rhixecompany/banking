@@ -1,6 +1,6 @@
 # Plaid Transactions — Introduction
 
-Source: https://plaid.com/docs/transactions/
+Source: [Plaid Transactions](https://plaid.com/docs/transactions/)
 
 ## Overview
 

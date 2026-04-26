@@ -31,7 +31,7 @@ Authorization: Bearer {access_token}
 
 ### Base URL
 
-```
+```text
 Sandbox:     https://api-sandbox.dwolla.com
 Production:  https://api.dwolla.com
 ```

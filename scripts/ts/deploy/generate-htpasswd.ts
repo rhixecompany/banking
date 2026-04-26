@@ -1,12 +1,11 @@
 #!/usr/bin/env node
+import bcrypt from "bcryptjs";
 /**
  * generate-htpasswd.ts - Generate htpasswd for Traefik
  * TODO: Add bcrypt-based fallback if openssl missing
  */
 import fs from "fs";
 import path from "path";
-
-import bcrypt from "bcryptjs";
 
 import { logger } from "@/lib/logger";
 

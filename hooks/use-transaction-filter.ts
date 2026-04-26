@@ -2,16 +2,16 @@
  * useTransactionFilter hook — provides filter state management for transaction lists.
  */
 
-import {
-  useFilterStoreApi,
-  useFilterStoreShallow,
-} from "@/stores/filter-store";
-
 import type {
   DateRange,
   FilterState,
   TransactionStatus,
 } from "@/stores/create-filter-store";
+
+import {
+  useFilterStoreApi,
+  useFilterStoreShallow,
+} from "@/stores/filter-store";
 
 /**
  * Hook return type combining filter state and actions.
@@ -52,22 +52,22 @@ export interface UseTransactionFilterReturn extends FilterState {
 export function useTransactionFilter(): UseTransactionFilterReturn {
   const store = useFilterStoreApi();
   const filterState = useFilterStoreShallow((s) => ({
-    dateRange: s.dateRange,
     category: s.category,
-    status: s.status,
-    searchQuery: s.searchQuery,
+    dateRange: s.dateRange,
     page: s.page,
     pageSize: s.pageSize,
+    searchQuery: s.searchQuery,
+    status: s.status,
   }));
 
   return {
     ...filterState,
-    setDateRange: store.getState().setDateRange,
+    resetFilters: store.getState().resetFilters,
     setCategory: store.getState().setCategory,
-    setStatus: store.getState().setStatus,
-    setSearchQuery: store.getState().setSearchQuery,
+    setDateRange: store.getState().setDateRange,
     setPage: store.getState().setPage,
     setPageSize: store.getState().setPageSize,
-    resetFilters: store.getState().resetFilters,
+    setSearchQuery: store.getState().setSearchQuery,
+    setStatus: store.getState().setStatus,
   };
 }

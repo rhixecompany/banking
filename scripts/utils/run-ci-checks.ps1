@@ -1,4 +1,4 @@
-<#: 
+<#:
 SYNOPSIS
   PowerShell shim for running CI checks on Windows.
 
@@ -293,26 +293,3 @@ if ($failed.Count -gt 0) {
 
 Write-Host "All steps passed."
 exit 0
-
-# Write machine-readable summary
-$summary = [ordered]@{
-    timestamp = (Get-Date -Format "yyyyMMdd-HHmmss")
-    report_dir = (Resolve-Path -Path $ReportDir).Path
-    steps = @()
-}
-
-foreach ($step in $STEPS) {
-    $s = [ordered]@{
-        name = $step
-        status = $Results[$step]
-        report = (Join-Path $ReportDir $REPORTS[$step])
-        exit_code = ($ExitCodes[$step] -as [int])
-        fallback = ($Fallbacks[$step] -eq $true)
-    }
-    $summary.steps += $s
-}
-
-$summary_json = $summary | ConvertTo-Json -Depth 4
-$summary_file = Join-Path $ReportDir 'ci-summary.json'
-$summary_json | Out-File -FilePath $summary_file -Encoding utf8
-Write-Host "Wrote CI summary: $summary_file"

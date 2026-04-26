@@ -110,4 +110,4 @@ shadcn/ui integrates with form libraries:
 
 ---
 
-_Source: https://ui.shadcn.com/docs_
+_Source: [shadcn/ui docs](https://ui.shadcn.com/docs)_

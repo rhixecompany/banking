@@ -67,7 +67,7 @@ Capture conventions for custom components that are referenced directly by pages,
 | **FormField** | `components/layouts/form/form-field.tsx` | ✅ Presentational | Form field component |
 | **PlaidProvider** | `components/layouts/plaid-provider.tsx` | ⚠️ Provider | Plaid context provider |
 | **AuthPageWrapper** | `components/layouts/auth-page-wrapper.tsx` | ✅ Presentational | Auth page layout |
-| **WalletCard (root)** | `components/layouts/wallet-card.tsx` | ⚠️ Legacy | Root-level duplicate - consider removing |
+| **WalletCard (root)** | `components/layouts/wallet-card.tsx` | ✅ Compatibility export | Re-exports folder implementation to preserve imports |
 
 ### Server Wrappers (`components/*/`)
 
@@ -108,8 +108,8 @@ Capture conventions for custom components that are referenced directly by pages,
 
 | Component | Path | Status | Notes |
 | --- | --- | --- | --- |
-| **RootLayoutWrapperNotice** | `components/layouts/RootLayoutWrapperNotice.tsx` | ⚠️ Legacy | Notice wrapper - check if needed |
-| **AdminLayoutWrapperNotice** | `components/layouts/AdminLayoutWrapperNotice.tsx` | ⚠️ Legacy | Admin notice wrapper - check if needed |
+| **RootLayoutWrapperNotice** | `components/layouts/RootLayoutWrapperNotice.tsx` | ✅ Removed | Legacy notice wrapper removed as unused |
+| **AdminLayoutWrapperNotice** | `components/layouts/AdminLayoutWrapperNotice.tsx` | ✅ Removed | Legacy notice wrapper removed as unused |
 | **MobileNav (root)** | `components/mobile-nav/mobile-nav.tsx` | ✅ Presentational | Mobile navigation |
 
 ### shadcn-studio Components (Non-production)
@@ -156,8 +156,8 @@ Capture conventions for custom components that are referenced directly by pages,
 
 | Issue | Location | Priority | Notes |
 | --- | --- | --- | --- |
-| Duplicate wallet-card | `components/layouts/wallet-card.tsx` + `wallet-card/index.tsx` | Low | Consider removing root-level duplicate |
-| Legacy notice wrappers | `RootLayoutWrapperNotice.tsx`, `AdminLayoutWrapperNotice.tsx` | Low | Verify if still needed |
+| Duplicate wallet-card | `components/layouts/wallet-card.tsx` + `wallet-card/index.tsx` | Resolved | Root path now re-exports folder implementation |
+| Legacy notice wrappers | `RootLayoutWrapperNotice.tsx`, `AdminLayoutWrapperNotice.tsx` | Resolved | Removed (no runtime references) |
 | shadcn-studio demo components | `components/shadcn-studio/` | Low | Non-production, can ignore |
 | Missing Suspense boundaries | All pages | Medium | Could add loading states |
 

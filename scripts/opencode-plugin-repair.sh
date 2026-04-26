@@ -3,7 +3,7 @@ set -euo pipefail
 
 SCRIPT_DIR=$(dirname "$(realpath "$0")")
 REPO_ROOT=$(realpath "$SCRIPT_DIR/..")
-PROJECT_CONFIG=${PROJECT_CONFIG:-"$REPO_ROOT/opencode.json"}
+PROJECT_CONFIG=${PROJECT_CONFIG:-"$REPO_ROOT/aiconfig.json"}
 GLOBAL_CONFIG_DIR=${OPENCODE_CONFIG_DIR:-"$HOME/.config/opencode"}
 CACHE_DIR=${OPENCODE_CACHE_DIR:-"$HOME/.cache/opencode"}
 REPORT_DIR=${REPORT_DIR:-"$REPO_ROOT/.opencode/reports"}

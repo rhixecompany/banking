@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 
+import { Suspense } from "react";
+
 import { DashboardServerWrapper } from "@/components/dashboard/dashboard-server-wrapper";
 import RootLayoutWrapper from "@/components/layouts/RootLayoutWrapper";
+import { LoadingSpinner } from "@/components/ui/spinner";
 
 /**
  * Description placeholder
@@ -24,7 +27,11 @@ export const metadata: Metadata = {
 export default function DashboardPage(): JSX.Element {
   return (
     <RootLayoutWrapper>
-      <DashboardServerWrapper />
+      <Suspense
+        fallback={<LoadingSpinner className="flex-center min-h-screen" />}
+      >
+        <DashboardServerWrapper />
+      </Suspense>
     </RootLayoutWrapper>
   );
 }

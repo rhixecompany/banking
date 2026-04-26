@@ -76,6 +76,6 @@ describe("DashboardClientWrapper", () => {
     );
 
     expect(screen.getByTestId("area-mock")).toBeTruthy();
-    expect(screen.getByTestId("doughnut-mock")).toBeTruthy();
+    expect(screen.getAllByTestId("doughnut-mock")).toHaveLength(2);
   });
 });

@@ -6,6 +6,7 @@ import SettingsClientWrapper from "@/components/layouts/settings-client";
 import ConnectedAccount from "@/components/shadcn-studio/blocks/account-settings-01/content/connect-account";
 import DangerZone from "@/components/shadcn-studio/blocks/account-settings-01/content/danger-zone";
 import SocialUrl from "@/components/shadcn-studio/blocks/account-settings-01/content/social-url";
+import { auth } from "@/lib/auth";
 
 /**
  * Server wrapper for the Settings page.
@@ -17,10 +18,13 @@ import SocialUrl from "@/components/shadcn-studio/blocks/account-settings-01/con
  * @returns {Promise<JSX.Element>}
  */
 export async function SettingsServerWrapper(): Promise<JSX.Element> {
-  // getUserWithProfile already checks auth and returns {ok: false} if unauthenticated
+  const session = await auth();
+  if (!session?.user?.id) {
+    redirect("/sign-in");
+  }
+
   const result = await getUserWithProfile();
   if (!result.ok || !result.user) {
-    // Action handles "Unauthorized" error; redirect to sign-in
     redirect("/sign-in");
   }
 

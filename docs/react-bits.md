@@ -1,7 +1,7 @@
 # React Bits — Animated React Components
 
-Source: https://github.com/DavidHDev/react-bits  
-Website: https://reactbits.dev/
+Source: [DavidHDev/react-bits](https://github.com/DavidHDev/react-bits)  
+Website: [reactbits.dev](https://reactbits.dev/)
 
 ## Overview
 
@@ -41,7 +41,7 @@ npx shadcn@latest add @react-bits/SplitText-TS-TW
 npx shadcn@latest add @react-bits/Marquee-TS-TW
 ```
 
-Each component page at https://reactbits.dev has copy-ready CLI commands.
+Each component page at [reactbits.dev](https://reactbits.dev) has copy-ready CLI commands.
 
 You can also select your preferred tech stack and copy the source code manually.
 
@@ -64,7 +64,7 @@ For this Banking project, always use the **TS-TW** variant.
 
 ## Creative Tools
 
-React Bits also offers free creative tools at https://reactbits.dev/tools:
+React Bits also offers free creative tools at [reactbits.dev/tools](https://reactbits.dev/tools):
 
 | Tool | What it does |
 | --- | --- |
@@ -125,13 +125,13 @@ export function HeroSection() {
 
 ## Official Ports
 
-- Vue.js: https://vue-bits.dev/
+- Vue.js: [vue-bits.dev](https://vue-bits.dev/)
 
 ---
 
 ## Documentation
 
-- Full docs: https://reactbits.dev/
-- Installation guide: https://reactbits.dev/get-started/installation
-- Tools: https://reactbits.dev/tools
-- Contributing: https://github.com/DavidHDev/react-bits/blob/main/CONTRIBUTING.md
+- Full docs: [reactbits.dev](https://reactbits.dev/)
+- Installation guide: [React Bits installation](https://reactbits.dev/get-started/installation)
+- Tools: [reactbits.dev/tools](https://reactbits.dev/tools)
+- Contributing: [React Bits contributing guide](https://github.com/DavidHDev/react-bits/blob/main/CONTRIBUTING.md)

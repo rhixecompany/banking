@@ -36,7 +36,7 @@ A Next.js 16 banking application with Server Components, Drizzle ORM for Postgre
 
 ## Architecture Overview
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │                      Next.js 16 App Router                  │
 ├─────────────────────────────────────────────────────────────┤

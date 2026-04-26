@@ -24,8 +24,8 @@ Items cannot be moved between environments.
 
 ## API Status
 
-- https://status.plaid.com/api/v2/status.json for current status
-- https://status.plaid.com/api/v2/incidents.json for current and historical incidents
+- [Plaid status JSON](https://status.plaid.com/api/v2/status.json) for current status
+- [Plaid incidents JSON](https://status.plaid.com/api/v2/incidents.json) for current and historical incidents
 
 ## Storing API Data
 
@@ -122,4 +122,4 @@ Plaid offers various products:
 
 ---
 
-_Source: https://plaid.com/docs/api/_ _Source: https://plaid.com/docs/link/_ _Source: https://plaid.com/docs/quickstart/_
+_Sources: [Plaid API docs](https://plaid.com/docs/api/), [Plaid Link docs](https://plaid.com/docs/link/), [Plaid Quickstart docs](https://plaid.com/docs/quickstart/)_

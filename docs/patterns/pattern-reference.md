@@ -570,7 +570,7 @@ export async function someAction(input: unknown) {
 
 ## 4. Directory Structure
 
-```
+```text
 /root/banking
 ├── actions/                    # Server Actions
 │   ├── auth.signin.ts

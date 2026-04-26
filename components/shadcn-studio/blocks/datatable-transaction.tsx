@@ -19,6 +19,8 @@ import {
 } from "lucide-react";
 import { useCallback } from "react";
 
+import type { TransactionStatus } from "@/stores/create-filter-store";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -52,7 +54,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { usePagination } from "@/hooks/use-pagination";
-import type { TransactionStatus } from "@/stores/create-filter-store";
 import { useFilterStore } from "@/stores/filter-store";
 
 /**

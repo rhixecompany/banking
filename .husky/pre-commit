@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Run staged eslint --fix then quick verify for staged files
-echo "Running staged ESLint fixes..."
-#npm run lint-staged
+# .husky/pre-commit
+# Run staged lint-staged checks
+echo "Running Lint-staged checks..."
+#bun run lint-staged
 exit 0
