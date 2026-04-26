@@ -20,7 +20,7 @@ E2E tests require a **running PostgreSQL database** that is:
 | Variable | Description |
 | --- | --- |
 | `LOCAL_DATABASE_URL` | Fallback if `DATABASE_URL` is not set |
-| `PLAYWRIGHT_PREPARE_DB` | Set to `true` to auto-prepare DB (default in `npm run test:ui`) |
+| `PLAYWRIGHT_PREPARE_DB` | Set to `true` to auto-prepare DB (default in `bun run test:ui`) |
 
 ## Setup
 
@@ -44,14 +44,14 @@ E2E tests require a **running PostgreSQL database** that is:
 ### Full E2E Suite (requires DB)
 
 ```bash
-npm run test:ui
+bun run test:ui
 ```
 
 This will:
 
 1. Check database connectivity
-2. Run `npm run db:push` to sync schema (if not already done)
-3. Run `npm run db:seed -- --reset` to seed test data
+2. Run `bun run db:push` to sync schema (if not already done)
+3. Run `bun run db:seed -- --reset` to seed test data
 4. Start the dev server
 5. Run all Playwright tests
 
@@ -119,10 +119,10 @@ If `db:push` fails:
 
 ```bash
 # Check for migration issues
-npm run db:check
+bun run db:check
 
 # Reset and recreate
-npm run db:reset
+bun run db:reset
 ```
 
 ### Seed Script Errors
@@ -131,7 +131,7 @@ If seeding fails:
 
 ```bash
 # Run seed manually with verbose output
-npm run db:seed -- --reset --verbose
+bun run db:seed -- --reset --verbose
 ```
 
 ## CI/CD

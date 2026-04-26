@@ -1,6 +1,9 @@
 ---
 description: Always enforce these repository rules
 applyTo: "**"
+priority: high
+redirectFrom:
+  - .opencode/instructions/00-quickstart-rules.md
 lastReviewed: 2026-04-23
 canonicalSource: AGENTS.md
 ---

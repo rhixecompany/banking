@@ -148,15 +148,12 @@
     "@franlol/opencode-md-table-formatter",
     "@liannnix/opencode-ntfy",
     "@howaboua/opencode-planning-toolkit",
-    "file:./.opencode/local-plugins/pocket-universe",
     "github:JRedeker/opencode-morph-fast-apply",
     "opencode-mem",
     "@slkiser/opencode-quota",
     "@mailshieldai/opencode-canvas",
     "smart-codebase",
     "superpowers@git+https://github.com/obra/superpowers.git",
-    "opencode-helicone-session",
-    "opencode-wakatime",
     "octto"
   ],
   "watcher": {

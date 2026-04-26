@@ -40,6 +40,9 @@ tsconfig.tsbuildinfo
 .fleet
 .vscode
 
+# git worktrees (local)
+.worktrees/
+
 # Sentry Config File
 .env.sentry-build-plugin
 

@@ -1,8 +1,11 @@
 ---
 description: Always Enforce these rules for new chat sessions
 applyTo: "**"
+priority: low
 canonicalSource: AGENTS.md
 lastReviewed: 2026-04-23
+deprecated: true
+redirectTo: .opencode/instructions/00-default-rules.md
 ---
 
 # When A user start a new chat session always enforce this rules

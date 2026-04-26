@@ -1,6 +1,7 @@
 ---
 description: "Playwright test generation instructions"
 applyTo: "**"
+priority: medium
 canonicalSource: AGENTS.md
 lastReviewed: 2026-04-23
 ---

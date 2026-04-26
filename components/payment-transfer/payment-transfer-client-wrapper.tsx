@@ -156,7 +156,6 @@ export function PaymentTransferClientWrapper({
       // Run validation immediately to ensure the form state is updated for tests
       void form.trigger();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const sourceBankId = form.watch("sourceBankId");
@@ -253,7 +252,6 @@ export function PaymentTransferClientWrapper({
         // swallow errors during autoSubmit in tests
       }
     })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

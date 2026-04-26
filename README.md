@@ -116,7 +116,7 @@ Make sure you have the following installed on your machine:
 
 - [Git](https://git-scm.com/)
 - [Node.js](https://nodejs.org/en)
-- [npm](https://www.npmjs.com/) (Node Package Manager)
+- [Bun](https://bun.sh/) (package manager; see `package.json#packageManager`)
 
 **Cloning the Repository**
 
@@ -127,46 +127,34 @@ cd banking
 
 **Installation**
 
-Install the project dependencies using npm:
+Install the project dependencies using Bun:
 
 ```bash
-npm install
+bun install
 ```
 
 **Set Up Environment Variables**
 
-Create a new file named `.env` in the root of your project and add the following content:
+This repo includes a starter env file at `.env.example`.
 
-```env
-# NEXT
-NEXT_PUBLIC_SITE_URL=http://localhost:3000
-
-# SECURITY (required)
-ENCRYPTION_KEY=                    # 32+ character random key (openssl rand -hex 32)
-NEXTAUTH_SECRET=                   # Random secret (openssl rand -base64 32)
-NEXTAUTH_URL=http://localhost:3000
-
-# PLAID
-PLAID_CLIENT_ID=
-PLAID_SECRET=
-PLAID_ENV=sandbox
-
-# DWOLLA
-DWOLLA_KEY=
-DWOLLA_SECRET=
-DWOLLA_BASE_URL=https://api-sandbox.dwolla.com
-DWOLLA_ENV=sandbox
-
-# DATABASE
-DATABASE_URL=
+```bash
+cp .env.example .env.local
 ```
 
-Replace the placeholder values with your actual respective account credentials. You can obtain these credentials by signing up on [Plaid](https://plaid.com/) and [Dwolla](https://www.dwolla.com/)
+Edit `.env.local` and set at least:
+
+- `DATABASE_URL`
+- `ENCRYPTION_KEY`
+- `NEXTAUTH_SECRET`
+
+Then add any provider keys you plan to use (Plaid, Dwolla, OAuth).
+
+Replace the placeholder values with your actual respective account credentials. You can obtain these credentials by signing up on [Plaid](https://plaid.com/) and [Dwolla](https://www.dwolla.com/).
 
 **Running the Project**
 
 ```bash
-npm run dev
+bun run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser to view the project.
@@ -202,7 +190,7 @@ DWOLLA_ENV=sandbox
 <details>
 <summary><code>exchangePublicToken (Drizzle pattern)</code></summary>
 
-```typescript
+```tsx
 export const exchangePublicToken = async ({
   publicToken,
   userId
@@ -263,7 +251,7 @@ export const exchangePublicToken = async ({
 
 <summary><code>user.actions.ts (Drizzle + NextAuth)</code></summary>
 
-```typescript
+```tsx
 "use server";
 import bcrypt from "bcrypt"; // docs: updated snippet — verify vs. source
 import { z } from "zod";
@@ -304,7 +292,7 @@ export async function registerUser(input: unknown) {
 <details>
 <summary><code>dwolla.actions.ts</code></summary>
 
-```typescript
+```tsx
 "use server";
 
 import { Client } from "dwolla-v2";
@@ -421,7 +409,7 @@ export const addFundingSource = async ({
 <details>
 <summary><code>bank.actions.ts</code></summary>
 
-```typescript
+```tsx
 "use server";
 
 import {
@@ -676,14 +664,17 @@ export const createTransfer = async () => {
 <details>
 <summary><code>BankTabItem.tsx</code></summary>
 
-```typescript
+```tsx
 "use client";
 
 import { useSearchParams, useRouter } from "next/navigation";
 
 import { cn, formUrlQuery } from "@/lib/utils";
 
-export const BankTabItem = ({ account, appwriteItemId }: BankTabItemProps) => {
+export const BankTabItem = ({
+  account,
+  appwriteItemId
+}: BankTabItemProps) => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const isActive = appwriteItemId === account?.appwriteItemId;
@@ -692,7 +683,7 @@ export const BankTabItem = ({ account, appwriteItemId }: BankTabItemProps) => {
     const newUrl = formUrlQuery({
       params: searchParams.toString(),
       key: "id",
-      value: account?.appwriteItemId,
+      value: account?.appwriteItemId
     });
     router.push(newUrl, { scroll: false });
   };
@@ -701,13 +692,16 @@ export const BankTabItem = ({ account, appwriteItemId }: BankTabItemProps) => {
     <div
       onClick={handleBankChange}
       className={cn(`banktab-item`, {
-        " border-blue-600": isActive,
+        " border-blue-600": isActive
       })}
     >
       <p
-        className={cn(`text-16 line-clamp-1 flex-1 font-medium text-gray-500`, {
-          " text-blue-600": isActive,
-        })}
+        className={cn(
+          `text-16 line-clamp-1 flex-1 font-medium text-gray-500`,
+          {
+            " text-blue-600": isActive
+          }
+        )}
       >
         {account.name}
       </p>
@@ -721,7 +715,7 @@ export const BankTabItem = ({ account, appwriteItemId }: BankTabItemProps) => {
 <details>
 <summary><code>BankInfo.tsx</code></summary>
 
-```typescript
+```tsx
 "use client";
 
 import Image from "next/image";
@@ -731,10 +725,14 @@ import {
   cn,
   formUrlQuery,
   formatAmount,
-  getAccountTypeColors,
+  getAccountTypeColors
 } from "@/lib/utils";
 
-const BankInfo = ({ account, appwriteItemId, type }: BankInfoProps) => {
+const BankInfo = ({
+  account,
+  appwriteItemId,
+  type
+}: BankInfoProps) => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -744,7 +742,7 @@ const BankInfo = ({ account, appwriteItemId, type }: BankInfoProps) => {
     const newUrl = formUrlQuery({
       params: searchParams.toString(),
       key: "id",
-      value: account?.appwriteItemId,
+      value: account?.appwriteItemId
     });
     router.push(newUrl, { scroll: false });
   };
@@ -757,7 +755,7 @@ const BankInfo = ({ account, appwriteItemId, type }: BankInfoProps) => {
       className={cn(`bank-info ${colors.bg}`, {
         "shadow-xs border-blue-700": type === "card" && isActive,
         "rounded-xl": type === "card",
-        "hover:shadow-xs cursor-pointer": type === "card",
+        "hover:shadow-xs cursor-pointer": type === "card"
       })}
     >
       <figure
@@ -787,7 +785,9 @@ const BankInfo = ({ account, appwriteItemId, type }: BankInfoProps) => {
           )}
         </div>
 
-        <p className={`text-16 font-medium text-blue-700 ${colors.subText}`}>
+        <p
+          className={`text-16 font-medium text-blue-700 ${colors.subText}`}
+        >
           {formatAmount(account.currentBalance)}
         </p>
       </div>
@@ -803,7 +803,7 @@ export default BankInfo;
 <details>
 <summary><code>Copy.tsx</code></summary>
 
-```typescript
+```tsx
 "use client";
 import { useState } from "react";
 
@@ -845,7 +845,14 @@ const Copy = ({ title }: { title: string }) => {
           stroke-linejoin="round"
           className="mr-2 size-4"
         >
-          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+          <rect
+            width="14"
+            height="14"
+            x="8"
+            y="8"
+            rx="2"
+            ry="2"
+          ></rect>
           <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
         </svg>
       ) : (
@@ -876,7 +883,7 @@ export default Copy;
 <details>
 <summary><code>PaymentTransferForm.tsx</code></summary>
 
-```typescript
+```tsx
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -900,7 +907,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
+  FormMessage
 } from "./ui/form";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
@@ -910,10 +917,12 @@ const formSchema = z.object({
   name: z.string().min(4, "Transfer note is too short"),
   amount: z.string().min(4, "Amount is too short"),
   senderBank: z.string().min(4, "Please select a valid bank account"),
-  sharableId: z.string().min(8, "Please select a valid sharable Id"),
+  sharableId: z.string().min(8, "Please select a valid sharable Id")
 });
 
-const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
+const PaymentTransferForm = ({
+  accounts
+}: PaymentTransferFormProps) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -924,8 +933,8 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
       email: "",
       amount: "",
       senderBank: "",
-      sharableId: "",
-    },
+      sharableId: ""
+    }
   });
 
   const submit = async (data: z.infer<typeof formSchema>) => {
@@ -934,14 +943,14 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
     try {
       const receiverAccountId = decryptId(data.sharableId);
       const receiverBank = await getBankByAccountId({
-        accountId: receiverAccountId,
+        accountId: receiverAccountId
       });
       const senderBank = await getBank({ bankId: data.senderBank });
 
       const transferParams = {
         sourceFundingSourceUrl: senderBank.fundingSourceUrl,
         destinationFundingSourceUrl: receiverBank.fundingSourceUrl,
-        amount: data.amount,
+        amount: data.amount
       };
       const transfer = await createTransfer(transferParams);
 
@@ -953,7 +962,7 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
           senderBankId: senderBank.id,
           receiverId: receiverBank.userId,
           receiverBankId: receiverBank.id,
-          email: data.email,
+          email: data.email
         };
 
         const newTransaction = await createTransaction(transaction);
@@ -964,7 +973,10 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
         }
       }
     } catch (error) {
-      console.error("Submitting create transfer request failed: ", error);
+      console.error(
+        "Submitting create transfer request failed: ",
+        error
+      );
     }
 
     setIsLoading(false);
@@ -972,7 +984,10 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(submit)} className="flex flex-col">
+      <form
+        onSubmit={form.handleSubmit(submit)}
+        className="flex flex-col"
+      >
         <FormField
           control={form.control}
           name="senderBank"
@@ -984,7 +999,8 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
                     Select Source Bank
                   </FormLabel>
                   <FormDescription className="text-12 font-normal text-gray-600">
-                    Select the bank account you want to transfer funds from
+                    Select the bank account you want to transfer funds
+                    from
                   </FormDescription>
                 </div>
                 <div className="flex w-full flex-col">
@@ -1013,8 +1029,8 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
                     Transfer Note (Optional)
                   </FormLabel>
                   <FormDescription className="text-12 font-normal text-gray-600">
-                    Please provide any additional information or instructions
-                    related to the transfer
+                    Please provide any additional information or
+                    instructions related to the transfer
                   </FormDescription>
                 </div>
                 <div className="flex w-full flex-col">
@@ -1117,7 +1133,8 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
           <Button type="submit" className="payment-transfer_btn">
             {isLoading ? (
               <>
-                <Loader2 size={20} className="animate-spin" /> &nbsp; Sending...
+                <Loader2 size={20} className="animate-spin" /> &nbsp;
+                Sending...
               </>
             ) : (
               "Transfer Funds"
@@ -1137,7 +1154,7 @@ export default PaymentTransferForm;
 <details>
 <summary><code>Missing from the video (top right on the transaction list page) BankDropdown.tsx</code></summary>
 
-```typescript
+```tsx
 "use client";
 
 import Image from "next/image";
@@ -1150,27 +1167,29 @@ import {
   SelectGroup,
   SelectItem,
   SelectLabel,
-  SelectTrigger,
+  SelectTrigger
 } from "@/components/ui/select";
 import { formUrlQuery, formatAmount } from "@/lib/utils";
 
 export const BankDropdown = ({
   accounts = [],
   setValue,
-  otherStyles,
+  otherStyles
 }: BankDropdownProps) => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [selected, setSeclected] = useState(accounts[0]);
 
   const handleBankChange = (id: string) => {
-    const account = accounts.find((account) => account.appwriteItemId === id)!;
+    const account = accounts.find(
+      account => account.appwriteItemId === id
+    )!;
 
     setSeclected(account);
     const newUrl = formUrlQuery({
       params: searchParams.toString(),
       key: "id",
-      value: id,
+      value: id
     });
     router.push(newUrl, { scroll: false });
 
@@ -1182,7 +1201,7 @@ export const BankDropdown = ({
   return (
     <Select
       defaultValue={selected.id}
-      onValueChange={(value) => handleBankChange(value)}
+      onValueChange={value => handleBankChange(value)}
     >
       <SelectTrigger
         className={`flex w-full gap-3 md:w-[300px] ${otherStyles}`}
@@ -1193,7 +1212,9 @@ export const BankDropdown = ({
           height={20}
           alt="account"
         />
-        <p className="line-clamp-1 w-full text-left">{selected.name}</p>
+        <p className="line-clamp-1 w-full text-left">
+          {selected.name}
+        </p>
       </SelectTrigger>
       <SelectContent
         className={`w-full md:w-[300px] ${otherStyles}`}
@@ -1229,7 +1250,7 @@ export const BankDropdown = ({
 <details>
 <summary><code>Pagination.tsx</code></summary>
 
-```typescript
+```tsx
 "use client";
 
 import Image from "next/image";
@@ -1242,13 +1263,13 @@ export const Pagination = ({ page, totalPages }: PaginationProps) => {
   const router = useRouter();
   const searchParams = useSearchParams()!;
 
-  const handleNavigation = (type: "prev" | "next") => {
+  const handleNavigation = (type: "next" | "prev") => {
     const pageNumber = type === "prev" ? page - 1 : page + 1;
 
     const newUrl = formUrlQuery({
       params: searchParams.toString(),
       key: "page",
-      value: pageNumber.toString(),
+      value: pageNumber.toString()
     });
 
     router.push(newUrl, { scroll: false });
@@ -1301,7 +1322,7 @@ export const Pagination = ({ page, totalPages }: PaginationProps) => {
 <details>
 <summary><code>Category.tsx</code></summary>
 
-```typescript
+```tsx
 import Image from "next/image";
 
 import { topCategoryStyles } from "@/constants";
@@ -1315,19 +1336,29 @@ export const Category = ({ category }: CategoryProps) => {
     circleBg,
     text: { main, count },
     progress: { bg: progressBg, indicator },
-    icon,
-  } = topCategoryStyles[category.name as keyof typeof topCategoryStyles] ||
-  topCategoryStyles.default;
+    icon
+  } = topCategoryStyles[
+    category.name as keyof typeof topCategoryStyles
+  ] || topCategoryStyles.default;
 
   return (
     <div className={cn("gap-[18px] flex p-4 rounded-xl", bg)}>
-      <figure className={cn("flex-center size-10 rounded-full", circleBg)}>
-        <Image src={icon} width={20} height={20} alt={category.name} />
+      <figure
+        className={cn("flex-center size-10 rounded-full", circleBg)}
+      >
+        <Image
+          src={icon}
+          width={20}
+          height={20}
+          alt={category.name}
+        />
       </figure>
       <div className="flex w-full flex-1 flex-col gap-2">
         <div className="text-14 flex justify-between">
           <h2 className={cn("font-medium", main)}>{category.name}</h2>
-          <h3 className={cn("font-normal", count)}>{category.count}</h3>
+          <h3 className={cn("font-normal", count)}>
+            {category.count}
+          </h3>
         </div>
         <Progress
           value={(category.count / category.totalCount) * 100}
@@ -1352,19 +1383,19 @@ This project uses **Drizzle ORM** with **PostgreSQL**.
 
 ```bash
 # Push schema to database
-npm run db:push
+bun run db:push
 
 # Generate migrations
-npm run db:generate
+bun run db:generate
 
 # Run migrations
-npm run db:migrate
+bun run db:migrate
 
 # Open Drizzle Studio (GUI)
-npm run db:studio
+bun run db:studio
 
 # Drop all tables
-npm run db:drop
+bun run db:drop
 ```
 
 ### Database Schema
@@ -1398,7 +1429,7 @@ Uses **NextAuth v4** with a **JWT session strategy** and Credentials + OAuth pro
 
 ### OAuth Providers
 
-Configure in `.env`:
+Configure in `.env.local`:
 
 ```env
 AUTH_GITHUB_ID=your-github-client-id
@@ -1430,7 +1461,7 @@ Data Access Layer for type-safe database queries.
 
 ### Usage Example
 
-```typescript
+```tsx
 import { userDal } from "@/dal";
 
 // Find user by email
@@ -1465,7 +1496,7 @@ All mutations use Next.js Server Actions.
 
 ### Usage Example
 
-```typescript
+```tsx
 "use server";
 import { registerUser } from "@/actions/register";
 
@@ -1500,7 +1531,7 @@ SMTP_FROM=noreply@yourdomain.com
 
 ### Email Functions
 
-```typescript
+```tsx
 import { sendEmail, sendWelcomeEmail } from "@/lib/email";
 
 await sendWelcomeEmail("user@example.com", "John");
@@ -1542,15 +1573,15 @@ await sendWelcomeEmail("user@example.com", "John");
 This repo includes agentic docs that guide automated agents and contributors. Keep edits conservative and follow AGENTS.md as the canonical source-of-truth.
 
 - Read `AGENTS.md` first — it is authoritative for agent commands, rules, and patterns.
-- If a change touches more than 7 files, create a plan in `.opencode/commands/` named `<short-kebab-task>.plan.md` before implementing. See `.opencode/instructions/09-plan-file-standards.md` for required sections.
+- If a change touches more than 7 files, create a plan in `.opencode/commands/` named `<short-kebab-task>.plan.md` before implementing. See `.opencode/instructions/plan-workflow.md` for required sections.
 
   Note: Legacy plan artifacts may exist under `.opencode/plans/` or `.cursor/plans/`. Preserve those files for historical provenance — do not move or delete them. Use `.opencode/commands/` for all new user-facing plan files.
 
 - Quick Validate (recommended before opening a PR):
-  - `npm run format`
-  - `npm run type-check`
-  - `npm run lint:strict`
-- Optional: run `npm run test` for behavior changes (Playwright E2E is slow).
+  - `bun run format`
+  - `bun run type-check`
+  - `bun run lint:strict`
+- Optional: run `bun run test` for behavior changes (Playwright E2E is slow).
 - NEVER commit secrets (.env, tokens). Use `app-config.ts` or `lib/env.ts` for env access (proxy.ts is the only exception allowed to read `process.env`).
 
 For full agentic guidance and examples, see `AGENTS.md` and `.opencode/instructions/`.
@@ -1566,13 +1597,13 @@ For full agentic guidance and examples, see `AGENTS.md` and `.opencode/instructi
 **"Dependencies lock file is not found"**
 
 ```bash
-# Generate package-lock.json
-npm install --package-lock-only
+# Generate bun.lock
+bun install
 ```
 
-**"npm: command not found"**
+**"bun: command not found"**
 
-- Ensure npm is available in the workflow environment
+- Ensure Bun is available in the workflow environment
 
 #### View Logs
 

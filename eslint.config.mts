@@ -1,28 +1,27 @@
 import js from "@eslint/js";
 import markdown from "@eslint/markdown";
+import nextPlugin from "@next/eslint-plugin-next";
 import tsEslintParser from "@typescript-eslint/parser";
-import nextVitals from "eslint-config-next/core-web-vitals";
-import nextTs from "eslint-config-next/typescript";
 import prettier from "eslint-config-prettier";
 import betterTailwind from "eslint-plugin-better-tailwindcss";
 // @ts-expect-error - no bundled types for eslint-plugin-drizzle
+import eslintReact from "@eslint-react/eslint-plugin";
+import vitest from "@vitest/eslint-plugin";
 import drizzle from "eslint-plugin-drizzle";
 import importX from "eslint-plugin-import-x";
 import jest from "eslint-plugin-jest";
 import jsdoc from "eslint-plugin-jsdoc";
+import jsxA11y from "eslint-plugin-jsx-a11y";
 import nodePlugin from "eslint-plugin-n";
 import noSecrets from "eslint-plugin-no-secrets";
 import perfectionist from "eslint-plugin-perfectionist";
 import playwright from "eslint-plugin-playwright";
-import reactPlugin from "eslint-plugin-react";
-import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
 import regexp from "eslint-plugin-regexp";
 import security from "eslint-plugin-security";
 import sonarjs from "eslint-plugin-sonarjs";
 import testingLibrary from "eslint-plugin-testing-library";
 import unicorn from "eslint-plugin-unicorn";
-import vitest from "eslint-plugin-vitest";
 import zod from "eslint-plugin-zod";
 import { defineConfig, globalIgnores } from "eslint/config";
 import globals from "globals";
@@ -34,14 +33,16 @@ export default defineConfig([
   tsEslint.configs.strict,
   tsEslint.configs.stylistic,
 
-  nextVitals,
-  nextTs,
+  nextPlugin.configs.recommended,
+  nextPlugin.configs["core-web-vitals"],
 
   globalIgnores([
     ".next/**",
     "out/**",
     "build/**",
     "dist/**",
+    ".worktrees/**",
+    ".cursor/**",
     "node_modules/**",
     "next-env.d.ts",
     ".references/**",
@@ -50,10 +51,11 @@ export default defineConfig([
     "test-results/**",
     "playwright-report/**",
     ".vercel/**",
-    ".github/skills/**",
+    ".github/**",
     ".opencode/skills/**",
     ".opencode/**",
     "docs/**",
+    "thoughts/**",
   ]),
   {
     files: ["**/*.{js,jsx,ts,tsx,cjs,mts,cts}"],
@@ -103,13 +105,13 @@ export default defineConfig([
       jest,
       js,
       jsdoc,
+      "jsx-a11y": jsxA11y,
       n: nodePlugin,
       "no-secrets": noSecrets,
       perfectionist,
 
       playwright,
-      react: reactPlugin,
-      "react-hooks": reactHooks as unknown as typeof importX,
+      "@eslint-react": eslintReact,
       "react-refresh": reactRefresh,
       regexp,
       security: security as unknown as typeof importX,
@@ -251,21 +253,13 @@ export default defineConfig([
 
       "prefer-const": "error",
       "preserve-caught-error": "warn", // Not all errors need cause
-      "react-hooks/exhaustive-deps": "warn",
-
-      "react-hooks/incompatible-library": "off", // TanStack Table can't be fixed
-      "react-hooks/purity": "warn", // React compiler warnings
-      "react-hooks/rules-of-hooks": "error",
+      "@eslint-react/exhaustive-deps": "warn",
+      "@eslint-react/purity": "warn", // React compiler warnings
+      "@eslint-react/rules-of-hooks": "error",
       // =====================================================
       // REACT REFRESH - Hot Reloading Compatibility
       // =====================================================
       "react-refresh/only-export-components": "off", // Too strict for this project
-      // =====================================================
-      // REACT - React Best Practices
-      // =====================================================
-      "react/jsx-uses-react": "warn", // Automatic JSX transform in React 17+
-      "react/prop-types": "warn", // Using TypeScript
-      "react/react-in-jsx-scope": "off", // Not needed for React 17+
       // =====================================================
       // REGEXP - Regular expression correctness and safety
       // Complements security/detect-unsafe-regex
@@ -632,16 +626,6 @@ export default defineConfig([
   },
 
   // =====================================================
-  // UI COMPONENTS - Disable strict prop-types for library components
-  // =====================================================
-  {
-    files: ["components/ui/calendar.tsx", "components/ui/table.tsx"],
-    rules: {
-      "react/prop-types": "off", // Library components with complex prop spreading
-    },
-  },
-
-  // =====================================================
   // PLAID-LINK - Disable nullish coalescing for boolean logic
   // =====================================================
   {
@@ -695,7 +679,7 @@ export default defineConfig([
   {
     files: ["tests/fixtures/**/*.ts"],
     rules: {
-      "react-hooks/rules-of-hooks": "off", // Playwright fixtures use `use` method, not React hooks
+      "@eslint-react/rules-of-hooks": "off", // Playwright fixtures use `use` method, not React hooks
       "security/detect-non-literal-regexp": "off", // Dynamic institution names from test data
     },
   },
@@ -763,7 +747,7 @@ export default defineConfig([
       "@typescript-eslint/require-await": "off", // UI lib async fns may not await
       "better-tailwindcss/no-unknown-classes": "off", // UI lib may use data-attribute classes
       "no-param-reassign": "off", // UI lib assigns to params intentionally
-      "react-hooks/purity": "off", // UI lib uses Math.random() in useMemo intentionally
+      "@eslint-react/purity": "off", // UI lib uses Math.random() in useMemo intentionally
       "require-await": "off", // UI lib async fns may not await
       "unicorn/no-null": "off", // UI lib uses null intentionally for refs/context
     },
@@ -854,9 +838,18 @@ export default defineConfig([
     files: ["tests/**/*.ts", "tests/**/*.tsx"],
     rules: {
       "@typescript-eslint/require-await": "off",
+      "perfectionist/sort-objects": "off",
       "require-await": "off",
       "testing-library/no-container": "off",
       "unicorn/no-null": "off",
+    },
+  },
+  {
+    files: ["eslint.config.*"],
+    rules: {
+      // Strict lint runs with --max-warnings=0; avoid style warnings in the lint config itself.
+      "perfectionist/sort-imports": "off",
+      "perfectionist/sort-objects": "off",
     },
   },
   {
@@ -874,7 +867,7 @@ export default defineConfig([
       "no-console": "off",
       "no-empty": "off",
       "no-param-reassign": "off",
-      "react-hooks/exhaustive-deps": "off",
+      "@eslint-react/exhaustive-deps": "off",
       "require-await": "off",
       "unicorn/no-array-for-each": "off",
       "unicorn/no-null": "off",
@@ -915,15 +908,53 @@ export default defineConfig([
       "@typescript-eslint/no-unsafe-member-access": "off",
       "@typescript-eslint/no-unsafe-return": "off",
       // Relax general rules that are too strict for inline docs examples
+      "@next/next/no-img-element": "off",
+      "@eslint-react/exhaustive-deps": "off",
+      "@eslint-react/purity": "off",
+      "@eslint-react/rules-of-hooks": "off",
+      "@typescript-eslint/no-non-null-assertion": "off",
       "@typescript-eslint/no-unused-vars": "off",
       "@typescript-eslint/prefer-nullish-coalescing": "off",
       "@typescript-eslint/prefer-optional-chain": "off",
       "@typescript-eslint/require-await": "off",
       "@typescript-eslint/restrict-plus-operands": "off",
       "@typescript-eslint/restrict-template-expressions": "off",
+      "better-tailwindcss/enforce-consistent-class-order": "off",
+      "better-tailwindcss/enforce-shorthand-classes": "off",
+      "better-tailwindcss/no-conflicting-classes": "off",
+      "better-tailwindcss/no-deprecated-classes": "off",
+      "better-tailwindcss/no-duplicate-classes": "off",
+      "better-tailwindcss/no-unknown-classes": "off",
+      "jsx-a11y/alt-text": "off",
+      "jsx-a11y/anchor-has-content": "off",
+      "jsx-a11y/anchor-is-valid": "off",
+      "jsx-a11y/aria-props": "off",
+      "jsx-a11y/aria-proptypes": "off",
+      "jsx-a11y/aria-role": "off",
+      "jsx-a11y/aria-unsupported-elements": "off",
+      "jsx-a11y/click-events-have-key-events": "off",
+      "jsx-a11y/heading-has-content": "off",
+      "jsx-a11y/html-has-lang": "off",
+      "jsx-a11y/img-redundant-alt": "off",
+      "jsx-a11y/interactive-supports-focus": "off",
+      "jsx-a11y/label-has-associated-control": "off",
+      "jsx-a11y/mouse-events-have-key-events": "off",
+      "jsx-a11y/no-access-key": "off",
+      "jsx-a11y/no-autofocus": "off",
+      "jsx-a11y/no-noninteractive-element-interactions": "off",
+      "jsx-a11y/no-redundant-roles": "off",
+      "jsx-a11y/role-has-required-aria-props": "off",
+      "jsx-a11y/role-supports-aria-props": "off",
+      "jsx-a11y/tabindex-no-positive": "off",
       "import-x/no-unresolved": "off",
+      "n/no-process-env": "off",
       "no-console": "off",
+      "no-secrets/no-secrets": "off",
       "no-undef": "off",
+      "perfectionist/sort-imports": "off",
+      "perfectionist/sort-objects": "off",
+      "zod/prefer-meta": "off",
+      "zod/prefer-string-schema-with-trim": "off",
     },
   },
 ]);

@@ -1,6 +1,7 @@
 ---
 description: Testing guidelines for the Banking project
 applyTo: "tests/**/*"
+priority: medium
 canonicalSource: AGENTS.md
 lastReviewed: 2026-04-23
 ---

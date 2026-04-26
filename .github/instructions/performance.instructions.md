@@ -1,6 +1,7 @@
 ---
 description: Performance guidelines for the Banking project
 applyTo: "**/*"
+priority: low
 canonicalSource: AGENTS.md
 lastReviewed: 2026-04-23
 ---

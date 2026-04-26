@@ -3,7 +3,7 @@ description: Unified index of all instruction files with purposes and priorities
 applyTo: "**"
 priority: high
 canonicalSource: AGENTS.md
-lastReviewed: 2026-04-24
+lastReviewed: 2026-04-23
 ---
 
 # Instruction Files Index
@@ -15,6 +15,7 @@ This file provides a unified index of all instruction files across the Banking p
 | File | Purpose | Priority |
 | --- | --- | --- |
 | 00-default-rules.md | Always-enforced repository rules | high |
+| 00-quickstart-rules.md | Deprecated; replaced by 00-default-rules.md | low |
 | 00-task-sync-note.md | Task synchronization for agents and humans | high |
 | 01-core-standards.md | Code style, commits, and tests | high |
 | 02-nextjs-patterns.md | Next.js patterns, App Router, Server Actions | high |
@@ -44,10 +45,24 @@ This file provides a unified index of all instruction files across the Banking p
 | typescript.instructions.md | TypeScript guidelines | medium |
 | performance.instructions.md | Performance guidelines | low |
 
+## Other Instruction Entrypoints
+
+| File | Purpose | Priority |
+| --- | --- | --- |
+| .cursorrules | Cursor/automation summary rules (AGENTS.md remains canonical) | high |
+| .github/copilot-instructions.md | GitHub Copilot workspace-wide instructions | high |
+| docs/README.instructions.md | External instruction catalog (reference only) | low |
+
 ## Usage
 
 - **High priority**: Must read before any implementation
 - **Medium priority**: Reference during implementation
 - **Low priority**: Optional, for optimization tasks
 
-All instruction files should include YAML frontmatter with `description`, `applyTo`, and `priority` fields.
+All instruction files should include YAML frontmatter with `description`, `applyTo`, `priority`, `canonicalSource`, and `lastReviewed`.
+
+Optional frontmatter fields:
+
+- `deprecated`: true/false
+- `redirectFrom`: list of paths replaced by this file
+- `redirectTo`: path to the replacement file

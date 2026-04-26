@@ -1,10 +1,12 @@
-# Personas
-
-<!-- Canonical personas used by agents and reviewers -->
-
-description: Personas for agents and reviewers in plans and PRs applyTo: "\*\*" canonicalSource: AGENTS.md lastReviewed: 2026-04-23
-
 ---
+description: Personas for agents and reviewers in plans and PRs
+applyTo: "**"
+priority: medium
+canonicalSource: AGENTS.md
+lastReviewed: 2026-04-23
+---
+
+# Personas
 
 These short personas guide tone and actions in plans and PRs.
 

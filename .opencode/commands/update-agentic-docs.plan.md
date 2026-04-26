@@ -42,7 +42,7 @@ Files inspected during discovery (provenance):
 - .cursor/rules/workflow-and-steps.mdc — workflow enforcement guidance (read to align execution steps)
 - .github/copilot-instructions.md — Copilot guidance and sync checklist (read to align cross references)
 - .opencode/instructions/00-default-rules.md — default instructions that reference AGENTS.md (read to ensure no conflicts)
-- .opencode/instructions/09-plan-file-standards.md — plan file format used by repo (read because changes will create plans)
+- .opencode/instructions/plan-workflow.md — plan file format used by repo (read because changes will create plans)
 - .opencode/skills/agent-governance/SKILL.md — sample skill (read to ensure skill frontmatter pattern)
 - .opencode/skills/\* (list truncated) — multiple skill files read for consistency checks
 - .cursor/skills/banking-agent-standards/SKILL.md — cursor skill set (read for local conventions)
@@ -105,7 +105,7 @@ Provenance (files read to prepare this plan):
 - .cursorrules — quick rules summary to align enforcement keys
 - .cursor/rules/workflow-and-steps.mdc — validate workflow guidance
 - .github/copilot-instructions.md — copilot quickref and script checks
-- .opencode/instructions/00-default-rules.md, 09-plan-file-standards.md — plan standards and defaults
+- .opencode/instructions/00-default-rules.md, plan-workflow.md — plan standards and defaults
 - .opencode/skills/agent-governance/SKILL.md and a representative set of SKILL.md files — verify frontmatter patterns
 - .cursor/skills/banking-agent-standards/SKILL.md — cursor skill content and conventions
 - README.md — top-level agent note contradictions

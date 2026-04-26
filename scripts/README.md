@@ -1,6 +1,6 @@
 # Run CI Checks
 
-This folder contains a cross-platform CI runner for the repository that wraps the project's npm scripts and produces per-step reports and a machine-readable ci-summary.json.
+This folder contains a cross-platform CI runner for the repository that wraps the project's package scripts and produces per-step reports and a machine-readable ci-summary.json.
 
 ## Usage (Bash)
 
@@ -11,7 +11,7 @@ This folder contains a cross-platform CI runner for the repository that wraps th
 
 ## Behavior
 
-- --file/-f accepts a comma-separated list of files or globs and will attempt to run the underlying tool (prettier, eslint, vitest, playwright, tsc) directly, falling back to `npm run <script>` if the tool is not available on PATH.
+- --file/-f accepts a comma-separated list of files or globs and will attempt to run the underlying tool (prettier, eslint, vitest, playwright, tsc) directly, falling back to `bun run <script>` if the tool is not available on PATH.
 - The runner writes per-step text reports into the `--report-dir` (default: `./ci-reports/<timestamp>`).
 - A machine-readable `ci-summary.json` is written into the report dir. It contains an array of steps with fields: `name`, `status`, `report`, `exit_code`, `fallback`.
 - The runner writes `ci-summary.json` incrementally after each step, so CI consumers can read partial progress while a run is in-flight.
@@ -46,15 +46,15 @@ Examples
 
 - Run the CI runner in dry-run mode (prints summary + JSON):
 
-  npx tsx scripts/run-verify-and-validate.ts --dry-run --report-dir ./tmp/reports
+  bunx tsx scripts/run-verify-and-validate.ts --dry-run --report-dir ./tmp/reports
 
 - Inspect what cleanup-docs would change:
 
-  npx tsx scripts/ts/cleanup/cleanup-docs.ts --dry-run --out=./tmp/manifest.json
+  bunx tsx scripts/ts/cleanup/cleanup-docs.ts --dry-run --out=./tmp/manifest.json
 
 - Apply cleanup-docs changes (creates backups):
 
-  npx tsx scripts/ts/cleanup/cleanup-docs.ts --apply --out=./tmp/manifest.json
+  bunx tsx scripts/ts/cleanup/cleanup-docs.ts --apply --out=./tmp/manifest.json
 
 - Dry-run the Docker cleanup (Windows):
 
@@ -62,7 +62,7 @@ Examples
 
 - Apply gen-certs (creates backups for modified cert files):
 
-  npx tsx scripts/ts/server/gen-certs.ts --apply
+  bunx tsx scripts/ts/server/gen-certs.ts --apply
 
 ## Notes
 

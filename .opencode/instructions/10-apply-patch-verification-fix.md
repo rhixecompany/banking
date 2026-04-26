@@ -1,6 +1,7 @@
 ---
 description: How to use apply_patch safely and verify edits
 applyTo: "**/*"
+priority: medium
 canonicalSource: AGENTS.md
 lastReviewed: 2026-04-23
 ---

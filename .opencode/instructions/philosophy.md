@@ -1,6 +1,7 @@
 ---
 description: Mandatory code philosophy loading policy before writing or modifying code
 applyTo: "**"
+priority: high
 canonicalSource: AGENTS.md
 lastReviewed: 2026-04-23
 ---

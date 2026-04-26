@@ -52,9 +52,16 @@ export async function registerUser(input: unknown): Promise<{
 - Avoids joining same table twice
 
 ```typescript
-async findByUserIdWithWallets(userId: string, limitVal = 50, offsetVal = 0) {
+export async function findByUserIdWithWallets(
+  userId: string,
+  limitVal = 50,
+  offsetVal = 0
+) {
   // 1. Fetch transactions
-  const txns = await db.select().from(transactions).where(...);
+  const txns = await db
+    .select()
+    .from(transactions)
+    .where(/* conditions */);
 
   // 2. Collect unique wallet ids
   const walletIds = new Set<string>();
@@ -65,15 +72,19 @@ async findByUserIdWithWallets(userId: string, limitVal = 50, offsetVal = 0) {
 
   // 3. Batch fetch wallets (single query)
   if (walletIds.size > 0) {
-    const rows = await db.select(...).from(wallets).where(or(...conditions));
+    const rows = await db
+      .select()
+      .from(wallets)
+      .where(or(/* conditions */));
+    void rows;
     // Build map for lookup
   }
 
   // 4. Map wallets back onto transactions
-  return txns.map((txn) => ({
+  return txns.map(txn => ({
     ...txn,
     senderWallet: walletsMap[txn.senderWalletId] ?? null,
-    receiverWallet: walletsMap[txn.receiverWalletId] ?? null,
+    receiverWallet: walletsMap[txn.receiverWalletId] ?? null
   }));
 }
 ```
@@ -168,14 +179,22 @@ export async function addMockPlaidInitScript(
 // ts-morph AST-based detection
 const project = new Project({
   skipAddingFilesFromTsConfig: true,
-  tsConfigFilePath: "tsconfig.json",
+  tsConfigFilePath: "tsconfig.json"
 });
 
 // Detect process.env usage
-const propAccesses = sf.getDescendantsOfKind(SyntaxKind.PropertyAccessExpression);
+const propAccesses = sf.getDescendantsOfKind(
+  SyntaxKind.PropertyAccessExpression
+);
 for (const p of propAccesses) {
-  if (p.getExpression().getText() === "process" && p.getName() === "env") {
-    issues.push({ check: "process.env-usage", ... });
+  if (
+    p.getExpression().getText() === "process" &&
+    p.getName() === "env"
+  ) {
+    issues.push({
+      check: "process.env-usage"
+      // ... add additional fields here
+    });
   }
 }
 

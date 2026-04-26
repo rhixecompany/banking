@@ -1,6 +1,7 @@
 ---
 description: "Next.js + Tailwind development standards and instructions"
 applyTo: "**/*.tsx, **/*.ts, **/*.jsx, **/*.js, **/*.css"
+priority: medium
 canonicalSource: AGENTS.md
 lastReviewed: 2026-04-23
 ---

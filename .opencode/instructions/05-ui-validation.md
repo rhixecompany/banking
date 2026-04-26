@@ -1,6 +1,7 @@
 ---
 description: UI validation rules for accessible and testable components
 applyTo: "app/**/*.{tsx,ts}"
+priority: high
 canonicalSource: AGENTS.md
 lastReviewed: 2026-04-23
 ---

@@ -1,6 +1,7 @@
 ---
 description: Security guidelines for the Banking project
 applyTo: "**/*"
+priority: high
 canonicalSource: AGENTS.md
 lastReviewed: 2026-04-23
 ---

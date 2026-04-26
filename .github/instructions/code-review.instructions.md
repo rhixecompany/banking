@@ -1,6 +1,7 @@
 ---
 description: Code review standards for the Banking project
 applyTo: "**/*"
+priority: medium
 canonicalSource: AGENTS.md
 lastReviewed: 2026-04-23
 ---

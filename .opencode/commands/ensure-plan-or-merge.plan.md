@@ -11,7 +11,7 @@ Last Reviewed: 2026-04-17
 
 ## Scope
 
-- Authoritative docs to update (after plan review): AGENTS.md, .opencode/instructions/09-plan-file-standards.md, .opencode/instructions/00-task-sync-note.md.
+- Authoritative docs to update (after plan review): AGENTS.md, .opencode/instructions/plan-workflow.md, .opencode/instructions/00-task-sync-note.md.
 - Automation to add: scripts/plan-ensure.ts (TypeScript), extend scripts/verify-rules.ts with optional plan-check flag.
 - CI: add GitHub Actions job "plan-check" that runs plan-ensure in non-interactive CI mode (pilot: warning).
 - Tests: unit tests and integration tests for plan-ensure logic and verify-rules integration.
@@ -33,7 +33,7 @@ Last Reviewed: 2026-04-17
 - Modify scripts/verify-rules.ts (add --require-plan-for-large-changes flag)
 - Modify package.json (add "plan:ensure" script)
 - Add GitHub Actions workflow .github/workflows/plan-check.yml
-- Update AGENTS.md and .opencode/instructions/09-plan-file-standards.md (after review)
+- Update AGENTS.md and .opencode/instructions/plan-workflow.md (after review)
 
 ## Provenance
 

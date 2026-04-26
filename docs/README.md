@@ -6,7 +6,7 @@
 
 Note: Legacy plan docs may live under `docs/plans/`, but canonical plans are under `.opencode/commands/`.
 
-Regenerate the catalog with `npm run docs:markdown-catalog`.
+Regenerate the catalog with `bun run docs:markdown-catalog`.
 
 ## Docker & Containerization
 

@@ -1,83 +1,63 @@
 # Environment Variables
 
-All environment variables validated via `lib/env.ts` using Zod. **Never read `process.env` directly** — always import from `@/lib/env`.
+Environment variables are defined and validated in `app-config.ts` using Zod.
 
-## All Variables (24)
+- Preferred imports (new code): `import { auth, database, plaid, dwolla } from "@/app-config"`
+- Compatibility import: `import { env } from "@/lib/env"` (re-exported from `app-config.ts`)
 
-| # | Variable | Required | Sensitive | Docker Variant |
-| --- | --- | --- | --- | --- |
-| 1 | `ENCRYPTION_KEY` | Yes | Yes | `ENCRYPTION_KEY_FILE` |
-| 2 | `NEXTAUTH_SECRET` | Yes | Yes | `NEXTAUTH_SECRET_FILE` |
-| 3 | `NODE_ENV` | No | No | - |
-| 4 | `PORT` | No | No | - |
-| 5 | `HOSTNAME` | No | No | - |
-| 6 | `NEXT_PUBLIC_SITE_URL` | No | No | - |
-| 7 | `DATABASE_URL` | No | Yes | `DATABASE_URL_FILE` |
-| 8 | `PLAID_CLIENT_ID` | No | No | - |
-| 9 | `PLAID_SECRET` | No | Yes | `PLAID_SECRET_FILE` |
-| 10 | `PLAID_ENV` | No | No | - |
-| 11 | `PLAID_BASE_URL` | No | No | - |
-| 12 | `DWOLLA_KEY` | No | No | - |
-| 13 | `DWOLLA_SECRET` | No | Yes | `DWOLLA_SECRET_FILE` |
-| 14 | `DWOLLA_ENV` | No | No | - |
-| 15 | `DWOLLA_BASE_URL` | No | No | - |
-| 16 | `AUTH_GITHUB_ID` | No | No | - |
-| 17 | `AUTH_GITHUB_SECRET` | No | Yes | `AUTH_GITHUB_SECRET_FILE` |
-| 18 | `AUTH_GOOGLE_ID` | No | No | - |
-| 19 | `AUTH_GOOGLE_SECRET` | No | Yes | `AUTH_GOOGLE_SECRET_FILE` |
-| 20 | `NEXTAUTH_URL` | No | No | - |
-| 21 | `SMTP_HOST` | No | No | - |
-| 22 | `SMTP_PORT` | No | No | - |
-| 23 | `SMTP_USER` | No | No | - |
-| 24 | `SMTP_PASS` | No | Yes | `SMTP_PASS_FILE` |
+## Local Development
 
-**Optional:** `REDIS_URL` for rate limiting.
-
-## Sensitive vs Plain
-
-### Sensitive (use Docker Swarm secrets)
-
-- `ENCRYPTION_KEY`
-- `NEXTAUTH_SECRET`
-- `DATABASE_URL`
-- `PLAID_SECRET`
-- `DWOLLA_SECRET`
-- `AUTH_GITHUB_SECRET`
-- `AUTH_GOOGLE_SECRET`
-- `SMTP_PASS`
-
-### Plain (can use .env files)
-
-- All others
-
-## Docker Compose Environment Files
-
-In production, use environment files with Docker Compose:
+Copy the example file and fill in your values:
 
 ```bash
-# Create environment file
-docker compose --env-file .envs/production/.env.production up -d
+cp .env.example .env.local
 ```
 
-Or reference the env file in `docker-compose.yml`:
+Minimum for most flows:
 
-```yaml
-services:
-  app:
-    env_file:
-      - .envs/production/.env.production
-```
+- `DATABASE_URL`
+- `ENCRYPTION_KEY`
+- `NEXTAUTH_SECRET`
 
-## Validation
+## Common Variables
 
-All vars validated at startup via `lib/env.ts`. Missing required vars will throw errors.
+The canonical starter list lives in `.env.example`.
 
-```typescript
-import { env } from "@/lib/env";
+| Variable | Notes |
+| --- | --- |
+| `DATABASE_URL` | Postgres connection string |
+| `NEXTAUTH_URL` | e.g. `http://localhost:3000` |
+| `NEXTAUTH_SECRET` | 32+ chars |
+| `AUTH_GITHUB_ID` | optional |
+| `AUTH_GITHUB_SECRET` | optional |
+| `AUTH_GOOGLE_ID` | optional |
+| `AUTH_GOOGLE_SECRET` | optional |
+| `PLAID_CLIENT_ID` | required for Plaid flows |
+| `PLAID_SECRET` | required for Plaid flows |
+| `PLAID_ENV` | `sandbox` by default |
+| `PLAID_BASE_URL` | usually sandbox URL |
+| `PLAID_PRODUCTS` | default includes `auth,transactions,identity` |
+| `PLAID_COUNTRY_CODES` | default includes `US,CA` |
+| `PLAID_SANDBOX_USERNAME` | used for sandbox/E2E convenience |
+| `PLAID_SANDBOX_PASSWORD` | used for sandbox/E2E convenience |
+| `DWOLLA_KEY` | required for Dwolla flows |
+| `DWOLLA_SECRET` | required for Dwolla flows |
+| `DWOLLA_BASE_URL` | sandbox URL by default |
+| `DWOLLA_ENV` | `sandbox` by default |
+| `SMTP_HOST` | optional (emails) |
+| `SMTP_PORT` | optional (emails) |
+| `SMTP_USER` | optional (emails) |
+| `SMTP_PASS` | optional (emails) |
+| `SMTP_FROM` | optional |
+| `NEXT_PUBLIC_SITE_URL` | public base URL |
+| `PLAYWRIGHT_BASE_URL` | E2E runner base URL |
 
-// GOOD
-const encryptionKey = env.ENCRYPTION_KEY;
+## Access Patterns
 
-// BAD
-const encryptionKey = process.env.ENCRYPTION_KEY;
+**Never read `process.env` directly in app code.** Use `app-config.ts` (preferred) or `lib/env.ts` (compat).
+
+```ts
+import { auth } from "@/app-config";
+
+const nextAuthSecret = auth.NEXTAUTH_SECRET;
 ```

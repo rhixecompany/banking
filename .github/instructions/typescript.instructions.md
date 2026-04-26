@@ -1,6 +1,7 @@
 ---
 description: TypeScript and Next.js guidelines for code quality
 applyTo: "**/*.ts,**/*.tsx"
+priority: medium
 canonicalSource: AGENTS.md
 lastReviewed: 2026-04-23
 ---

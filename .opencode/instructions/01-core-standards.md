@@ -1,6 +1,7 @@
 ---
 description: Core repo standards for code style, commits, and tests
 applyTo: "**/*.{ts,tsx,js,md}"
+priority: high
 canonicalSource: AGENTS.md
 lastReviewed: 2026-04-23
 ---

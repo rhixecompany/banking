@@ -1,6 +1,7 @@
 ---
 description: Patterns for repository scripts and destructive operations
 applyTo: "scripts/**/*.{ts,sh}"
+priority: medium
 canonicalSource: AGENTS.md
 lastReviewed: 2026-04-23
 ---

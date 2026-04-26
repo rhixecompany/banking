@@ -18,7 +18,9 @@ import { ROOT_FOLDER } from "./constants.js";
  * @type {*}
  */
 const ajv = new Ajv({ allErrors: true });
-addFormats(ajv);
+// ajv-formats may be resolved with a nested Ajv dependency, which makes its
+// types incompatible with the project's Ajv instance even though runtime works.
+addFormats(ajv as unknown as Parameters<typeof addFormats>[0]);
 
 /**
  * Description placeholder

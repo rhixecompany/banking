@@ -1,6 +1,7 @@
 ---
 description: Workflow rules for multi-file and agentic changes; plan file format standards for .opencode/commands/
 applyTo: ".opencode/commands/*.md, **"
+priority: high
 canonicalSource: AGENTS.md
 lastReviewed: 2026-04-23
 ---

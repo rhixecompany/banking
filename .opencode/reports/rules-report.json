@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-26T19:22:18.386Z",
+  "generatedAt": "2026-04-26T22:30:24.249Z",
   "results": [
     {
       "check": "process.env-usage",
@@ -856,7 +856,7 @@
     {
       "check": "process.env-usage",
       "file": "tests/e2e/global-setup.ts",
-      "line": 332,
+      "line": 324,
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
       "severity": "warn",
       "snippet": "process.env"
@@ -864,17 +864,10 @@
     {
       "check": "process.env-usage",
       "file": "tests/e2e/global-setup.ts",
-      "line": 341,
+      "line": 326,
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
       "severity": "warn",
       "snippet": "process.env"
-    },
-    {
-      "check": "no-any",
-      "file": "tests/e2e/global-setup.ts",
-      "line": 318,
-      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
-      "severity": "warn"
     },
     {
       "check": "process.env-usage",
@@ -1279,13 +1272,6 @@
       "file": "tests/fixtures/pages/payment-transfer.page.ts",
       "line": 138,
       "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "tests/mocks/msw/server.ts",
-      "line": 146,
-      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
       "severity": "warn"
     },
     {

@@ -1,6 +1,7 @@
 ---
 description: DAL patterns and N+1 prevention
 applyTo: "dal/**/*.{ts,tsx}"
+priority: high
 canonicalSource: AGENTS.md
 lastReviewed: 2026-04-23
 ---

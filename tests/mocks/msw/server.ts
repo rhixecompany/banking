@@ -1,4 +1,4 @@
-import { rest } from "msw";
+import { http, HttpResponse } from "msw";
 import { setupServer } from "msw/node";
 
 import { env } from "@/lib/env";
@@ -26,34 +26,33 @@ const DWOLLA_BASE = env.DWOLLA_BASE_URL ?? "https://api-sandbox.dwolla.com";
  */
 const handlers = [
   // Plaid: create link token
-  rest.post(`${PLAID_BASE}/link/token/create`, (req, res, ctx) =>
-    res(
-      ctx.status(200),
-      ctx.json({
+  http.post(`${PLAID_BASE}/link/token/create`, () =>
+    HttpResponse.json(
+      {
         expiration: new Date(Date.now() + 60 * 60 * 1000).toISOString(),
         link_token: "link-sandbox-123",
         request_id: "req-link-1",
-      }),
+      },
+      { status: 200 },
     ),
   ),
 
   // Plaid: exchange public token
-  rest.post(`${PLAID_BASE}/item/public_token/exchange`, (req, res, ctx) =>
-    res(
-      ctx.status(200),
-      ctx.json({
+  http.post(`${PLAID_BASE}/item/public_token/exchange`, () =>
+    HttpResponse.json(
+      {
         access_token: "access-sandbox-123",
         item_id: "item-sandbox-123",
         request_id: "req-exchange-1",
-      }),
+      },
+      { status: 200 },
     ),
   ),
 
   // Plaid: accounts/get
-  rest.post(`${PLAID_BASE}/accounts/get`, (req, res, ctx) =>
-    res(
-      ctx.status(200),
-      ctx.json({
+  http.post(`${PLAID_BASE}/accounts/get`, () =>
+    HttpResponse.json(
+      {
         accounts: [
           {
             account_id: "acc-1",
@@ -71,12 +70,13 @@ const handlers = [
         ],
         item: { institution_id: "ins_123" },
         request_id: "req-accounts-1",
-      }),
+      },
+      { status: 200 },
     ),
   ),
 
   // Plaid: transactions/get
-  rest.post(`${PLAID_BASE}/transactions/get`, (req, res, ctx) => {
+  http.post(`${PLAID_BASE}/transactions/get`, () => {
     const txns = [
       {
         account_id: "acc-1",
@@ -90,21 +90,20 @@ const handlers = [
       },
     ];
 
-    return res(
-      ctx.status(200),
-      ctx.json({
+    return HttpResponse.json(
+      {
         added: txns,
         request_id: "req-tx-1",
         total_transactions: txns.length,
-      }),
+      },
+      { status: 200 },
     );
   }),
 
   // Plaid: accounts/balance/get
-  rest.post(`${PLAID_BASE}/accounts/balance/get`, (req, res, ctx) =>
-    res(
-      ctx.status(200),
-      ctx.json({
+  http.post(`${PLAID_BASE}/accounts/balance/get`, () =>
+    HttpResponse.json(
+      {
         accounts: [
           {
             account_id: "acc-1",
@@ -120,38 +119,39 @@ const handlers = [
           },
         ],
         request_id: "req-balance-1",
-      }),
+      },
+      { status: 200 },
     ),
   ),
 
   // Plaid: institutions/get_by_id
-  rest.post(`${PLAID_BASE}/institutions/get_by_id`, (req, res, ctx) =>
-    res(
-      ctx.status(200),
-      ctx.json({
+  http.post(`${PLAID_BASE}/institutions/get_by_id`, () =>
+    HttpResponse.json(
+      {
         institution: { institution_id: "ins_123", name: "Mock Bank" },
         request_id: "req-inst-1",
-      }),
+      },
+      { status: 200 },
     ),
   ),
 
   // Dwolla: create customer
-  rest.post(`${DWOLLA_BASE}/customers`, (req, res, ctx) => {
+  http.post(`${DWOLLA_BASE}/customers`, () => {
     const location = `${DWOLLA_BASE}/customers/cust-123`;
-    return res(ctx.status(201), ctx.set("location", location));
+    return new HttpResponse(null, { status: 201, headers: { location } });
   }),
 
   // Dwolla: create funding source for customer
-  rest.post(`${DWOLLA_BASE}/customers/:id/funding-sources`, (req, res, ctx) => {
-    const { id } = (req.params as any) ?? {};
+  http.post(`${DWOLLA_BASE}/customers/:id/funding-sources`, ({ params }) => {
+    const id = params.id;
     const location = `${DWOLLA_BASE}/funding-sources/fs-${id}-1`;
-    return res(ctx.status(201), ctx.set("location", location));
+    return new HttpResponse(null, { status: 201, headers: { location } });
   }),
 
   // Dwolla: create transfer
-  rest.post(`${DWOLLA_BASE}/transfers`, (req, res, ctx) => {
+  http.post(`${DWOLLA_BASE}/transfers`, () => {
     const location = `${DWOLLA_BASE}/transfers/transfer-123`;
-    return res(ctx.status(201), ctx.set("location", location));
+    return new HttpResponse(null, { status: 201, headers: { location } });
   }),
 ];
 

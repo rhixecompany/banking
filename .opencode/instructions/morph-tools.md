@@ -1,6 +1,7 @@
 ---
 description: Morph tool selection policy for efficient code editing
 applyTo: "**"
+priority: high
 canonicalSource: AGENTS.md
 lastReviewed: 2026-04-23
 ---

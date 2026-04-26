@@ -1,6 +1,7 @@
 ---
 description: Short note on task synchronization for agents and humans
 applyTo: "**"
+priority: high
 canonicalSource: AGENTS.md
 lastReviewed: 2026-04-23
 ---

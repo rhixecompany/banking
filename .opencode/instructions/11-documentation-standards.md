@@ -1,6 +1,7 @@
 ---
 description: Documentation standards and evidence linking
 applyTo: "docs/**/*.md"
+priority: medium
 canonicalSource: AGENTS.md
 lastReviewed: 2026-04-23
 ---
