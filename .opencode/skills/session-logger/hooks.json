@@ -3,30 +3,79 @@
     "sessionStart": [
       {
         "type": "command",
-        "bash": ".github/hooks/session-logger/log-session-start.sh",
+        "bash": ".opencode/skills/session-logger/log-session-start.sh",
         "cwd": ".",
-        "timeoutSec": 5
+        "timeoutSec": 10,
+        "env": {
+          "LOG_LEVEL": "INFO",
+          "LOG_SESSION_DATA": "true"
+        }
       }
     ],
     "sessionEnd": [
       {
         "type": "command",
-        "bash": ".github/hooks/session-logger/log-session-end.sh",
+        "bash": ".opencode/skills/session-logger/log-session-end.sh",
         "cwd": ".",
-        "timeoutSec": 5
+        "timeoutSec": 10,
+        "env": {
+          "LOG_LEVEL": "INFO",
+          "LOG_SESSION_DATA": "true"
+        }
       }
     ],
     "userPromptSubmitted": [
       {
         "type": "command",
-        "bash": ".github/hooks/session-logger/log-prompt.sh",
+        "bash": ".opencode/skills/session-logger/log-prompt.sh",
+        "cwd": ".",
+        "env": {
+          "LOG_LEVEL": "DEBUG",
+          "LOG_SESSION_DATA": "true"
+        },
+        "timeoutSec": 10
+      }
+    ],
+    "toolCall": [
+      {
+        "type": "command",
+        "bash": ".opencode/skills/session-logger/log-tool-call.sh",
+        "cwd": ".",
+        "env": {
+          "LOG_LEVEL": "DEBUG"
+        },
+        "timeoutSec": 5
+      }
+    ],
+    "fileChange": [
+      {
+        "type": "command",
+        "bash": ".opencode/skills/session-logger/log-file-change.sh",
         "cwd": ".",
         "env": {
           "LOG_LEVEL": "INFO"
         },
         "timeoutSec": 5
       }
+    ],
+    "error": [
+      {
+        "type": "command",
+        "bash": ".opencode/skills/session-logger/log-error.sh",
+        "cwd": ".",
+        "env": {
+          "LOG_LEVEL": "ERROR"
+        },
+        "timeoutSec": 5
+      }
     ]
   },
-  "version": 1
+  "version": 2,
+  "config": {
+    "logDirectory": "logs/opencode",
+    "retentionDays": 30,
+    "enableAnalytics": true,
+    "enableDetailedToolLogging": true,
+    "enableFileChangeTracking": true
+  }
 }

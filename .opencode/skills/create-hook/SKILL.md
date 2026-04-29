@@ -1,84 +1,144 @@
 ---
 name: create-hook
-description: >-
-  Create Cursor hooks. Use when you want to create a hook, write hooks.json, add hook scripts, or automate behavior around agent events.
+description: Create Cursor hooks. Use when you want to create a hook, write hooks.json, add hook scripts, or automate behavior around agent events.
+lastReviewed: 2026-04-29
+applyTo: "**/*"
+platforms:
+  - opencode
+  - cursor
+  - copilot
 ---
 
-# Creating Cursor Hooks
+# Creating Cursor Hooks - Banking Project Guidelines
 
-Create hooks when you want Cursor to run custom logic before or after agent events. Hooks are scripts or prompt-based checks that exchange JSON over stdin/stdout and can observe, block, modify, or follow up on behavior.
+## Overview
 
-When the user asks for a hook, don't stop at describing the format. Gather the missing requirements, then create or update the hook files directly.
+This skill provides comprehensive guidelines for creating and managing Cursor hooks. It covers hook types, events, matchers, implementation patterns, and best practices for the Banking project.
+
+## Multi-Agent Commands
+
+### OpenCode
+```bash
+# Create hook directory
+mkdir -p .cursor/hooks
+
+# List existing hooks
+cat .cursor/hooks.json
+```
+
+### Cursor
+```
+@create-hook
+Create a hook to validate shell commands
+```
+
+### Copilot
+```
+/hook create pre-tool-use validation
+```
+
+## Hook Fundamentals
+
+### What Are Hooks
+
+Hooks are scripts or prompt-based logic that Cursor runs before or after agent events. They can:
+
+- **Observe**: Watch events without modifying behavior
+- **Block**: Prevent certain actions from executing
+- **Modify**: Rewrite tool inputs or inject context
+- **Follow-up**: Trigger additional actions after events
+
+### When to Use Hooks
+
+Use hooks when you need to:
+- Enforce coding standards before commits
+- Validate shell commands for safety
+- Add context to file operations
+- Audit agent behavior
+- Control subagent execution
 
 ## Gather Requirements
 
-Before you write anything, determine:
+Before creating a hook, determine:
 
-1. **Scope**: Should this be a project hook or a user hook?
+1. **Scope**: Project hook or user hook?
 2. **Trigger**: Which event should run the hook?
-3. **Behavior**: Should it audit, deny/allow, rewrite input, inject context, or continue a workflow?
-4. **Implementation**: Should it be a command hook (script) or a prompt hook?
-5. **Filtering**: Does it need a matcher so it only runs for certain tools, commands, or subagent types?
-6. **Safety**: Should failures fail open or fail closed?
-
-Infer these from the conversation when possible. Only ask for the missing pieces.
+3. **Behavior**: Audit, deny/allow, rewrite, inject, or continue?
+4. **Implementation**: Command hook (script) or prompt hook?
+5. **Filtering**: Does it need a matcher?
+6. **Safety**: Fail open or fail closed on errors?
 
 ## Choose the Right Location
 
-- **Project hooks**: `.cursor/hooks.json` and `.cursor/hooks/*`
-- **User hooks**: `~/.cursor/hooks.json` and `~/.cursor/hooks/*`
+### Project Hooks
 
-Path behavior matters:
+- Location: `.cursor/hooks.json` and `.cursor/hooks/*`
+- Run from project root
+- Use paths like `.cursor/hooks/my-hook.sh`
+- Check into version control
+- Share with team
 
-- **Project hooks** run from the project root, so use paths like `.cursor/hooks/my-hook.sh`
-- **User hooks** run from `~/.cursor/`, so use paths like `./hooks/my-hook.sh` or `hooks/my-hook.sh`
+### User Hooks
 
-Prefer **project hooks** when the behavior should be shared with the repository and checked into version control.
+- Location: `~/.cursor/hooks.json` and `~/.cursor/hooks/*`
+- Run from home directory
+- Use paths like `./hooks/my-hook.sh`
+- Personal to user
+- Not shared
+
+### Banking Project Convention
+
+```bash
+# Project hooks for banking-specific rules
+.cursor/hooks/
+├── hooks.json
+├── validate-shell.sh      # Gate dangerous commands
+├── format-file.sh         # Auto-format after edits
+├── audit-session.sh       # Session start/end logging
+└── block-secrets.sh       # Prevent secret exposure
+```
 
 ## Choose the Hook Event
 
-Use the narrowest event that matches the user's goal.
+### Common Agent Events
 
-### Common Agent events
+| Event | Use Case |
+|-------|----------|
+| `sessionStart` | Set up session, initialize logging |
+| `sessionEnd` | Audit session, cleanup |
+| `preToolUse` | Gate or modify tool calls |
+| `postToolUse` | Add context after tool success |
+| `postToolUseFailure` | Handle errors, log failures |
+| `subagentStart` | Control subagent execution |
+| `subagentStop` | Chain subagent workflows |
+| `beforeShellExecution` | Gate terminal commands |
+| `afterShellExecution` | Audit command output |
+| `beforeMCPExecution` | Protect MCP tool calls |
+| `beforeSubmitPrompt` | Validate prompts for policy |
 
-- `sessionStart`, `sessionEnd`: set up or audit a session
-- `preToolUse`, `postToolUse`, `postToolUseFailure`: work across all tools
-- `subagentStart`, `subagentStop`: control or continue Task/subagent workflows
-- `beforeShellExecution`, `afterShellExecution`: gate or audit terminal commands
-- `beforeMCPExecution`, `afterMCPExecution`: gate or audit MCP tool calls
-- `beforeReadFile`, `afterFileEdit`: control file reads or post-process edits
-- `beforeSubmitPrompt`: validate prompts before they are sent
-- `preCompact`: observe context compaction
-- `stop`: handle agent completion
-- `afterAgentResponse`, `afterAgentThought`: track agent output or reasoning
+### Event Quick Reference
 
-### Tab events
-
-- `beforeTabFileRead`: control file access for inline completions
-- `afterTabFileEdit`: post-process edits made by Tab
-
-### Quick event chooser
-
-- **Block or approve shell commands** -> `beforeShellExecution`
-- **Audit shell output** -> `afterShellExecution`
-- **Format files after edits** -> `afterFileEdit`
-- **Block or rewrite a specific tool call** -> `preToolUse`
-- **Add follow-up context after a tool succeeds** -> `postToolUse`
-- **Control whether subagents can run** -> `subagentStart`
-- **Chain subagent loops** -> `subagentStop`
-- **Check prompts for secrets or policy violations** -> `beforeSubmitPrompt`
-- **Protect MCP calls** -> `beforeMCPExecution`
+| Goal | Event |
+|------|-------|
+| Block dangerous shell commands | `beforeShellExecution` |
+| Audit shell output | `afterShellExecution` |
+| Format files after edits | `afterFileEdit` |
+| Block/rewrite specific tools | `preToolUse` |
+| Add context after success | `postToolUse` |
+| Control subagents | `subagentStart` |
+| Chain subagent loops | `subagentStop` |
+| Check for secrets in prompts | `beforeSubmitPrompt` |
 
 ## Hooks File Format
 
-Create a `hooks.json` file with schema version 1:
+### Basic Structure
 
 ```json
 {
   "hooks": {
-    "afterFileEdit": [
+    "beforeShellExecution": [
       {
-        "command": ".cursor/hooks/format.sh"
+        "command": ".cursor/hooks/validate-shell.sh"
       }
     ]
   },
@@ -86,100 +146,24 @@ Create a `hooks.json` file with schema version 1:
 }
 ```
 
-Each hook definition can include:
-
-- `command`: shell command or script path
-- `type`: `"command"` or `"prompt"` (defaults to `"command"`)
-- `timeout`: timeout in seconds
-- `matcher`: filter for when the hook runs
-- `failClosed`: block the action when the hook crashes, times out, or returns invalid JSON
-- `loop_limit`: mainly for `stop` and `subagentStop` follow-up loops
-
-## Matchers
-
-Use matchers to avoid running the hook on every event.
-
-- `preToolUse` / `postToolUse` / `postToolUseFailure`: match on tool type such as `Shell`, `Read`, `Write`, `Task`, or MCP tools in `MCP: ...` form
-- `subagentStart` / `subagentStop`: match on subagent type such as `generalPurpose`, `explore`, or `shell`
-- `beforeShellExecution` / `afterShellExecution`: match on the full shell command string
-- `beforeReadFile`: match on tool type such as `Read` or `TabRead`
-- `afterFileEdit`: match on tool type such as `Write` or `TabWrite`
-- `beforeSubmitPrompt`: matches the value `UserPromptSubmit`
-
-Important matcher warning:
-
-- Matchers use JavaScript-style regular expressions, not POSIX/grep syntax
-- Do not use POSIX classes like `[[:space:]]`; use JavaScript equivalents like `\s`
-- If the matcher is at all tricky, start by getting the hook working without one or with a very simple matcher, then tighten it after the hook is confirmed to load and fire
-
-If the user wants a hook for only one risky command family, prefer script-side filtering for the first working version and add a matcher afterward only if it is simple and clearly correct.
-
-## Command Hooks
-
-Command hooks are the default. They receive JSON on stdin and can return JSON on stdout.
-
-Before using a command hook, verify that every executable it depends on will actually run in the hook environment:
-
-- the script itself has a valid shebang and is executable
-- any helper binary it calls is already installed and on `$PATH`
-- if the script depends on tools like `jq`, `python3`, `node`, or repo-local CLIs, verify that explicitly before finishing
-
-Do not assume a binary exists just because it is common on your machine.
-
-### Minimal project-level example
+### Full Configuration
 
 ```json
 {
   "hooks": {
-    "beforeShellExecution": [
+    "preToolUse": [
       {
-        "command": ".cursor/hooks/approve-network.sh",
-        "matcher": "curl|wget|nc ",
+        "command": ".cursor/hooks/audit-tool.sh",
+        "type": "command",
+        "timeout": 30,
+        "matcher": "Write|Edit",
         "failClosed": true
       }
-    ]
-  },
-  "version": 1
-}
-```
-
-```bash
-#!/bin/bash
-input=$(cat)
-command=$(echo "$input" | jq -r '.command // empty')
-
-if [[ "$command" =~ curl|wget|nc ]]; then
-  echo '{
-    "permission": "ask",
-    "user_message": "This command may make a network request. Please review it before continuing.",
-    "agent_message": "A hook flagged this shell command as a possible network call."
-  }'
-  exit 0
-fi
-
-echo '{ "permission": "allow" }'
-exit 0
-```
-
-Important behavior:
-
-- Exit code `0`: success
-- Exit code `2`: block the action, same as returning deny
-- Other non-zero exit codes: fail open by default unless `failClosed: true`
-
-Always make hook scripts executable after creating them.
-
-## Prompt Hooks
-
-Prompt hooks are useful when the policy is easier to describe than to script.
-
-```json
-{
-  "hooks": {
-    "beforeShellExecution": [
+    ],
+    "postToolUse": [
       {
         "type": "prompt",
-        "prompt": "Does this command look safe to execute? Only allow read-only operations. Here is the hook input: $ARGUMENTS",
+        "prompt": "Should I add tests for this change? $ARGUMENTS",
         "timeout": 10
       }
     ]
@@ -188,52 +172,368 @@ Prompt hooks are useful when the policy is easier to describe than to script.
 }
 ```
 
-Use prompt hooks for lightweight policy decisions. Prefer command hooks when the logic must be deterministic or when the user needs exact, auditable behavior.
+### Configuration Fields
 
-## Event Output Cheat Sheet
+| Field | Type | Description |
+|-------|------|-------------|
+| `command` | string | Shell command or script path |
+| `type` | string | `"command"` or `"prompt"` |
+| `timeout` | number | Timeout in seconds |
+| `matcher` | string | Regex to filter events |
+| `failClosed` | boolean | Block on failure if true |
+| `loop_limit` | number | Max follow-up iterations |
 
-Use the event's supported output fields only.
+## Matchers
 
-- `preToolUse`: can return `permission`, `user_message`, `agent_message`, and `updated_input`
-- `postToolUse`: can return `additional_context`; for MCP tools it can also return `updated_mcp_tool_output`
-- `subagentStart`: can return `permission` and `user_message`
-- `subagentStop`: can return `followup_message`
-- `beforeShellExecution` / `beforeMCPExecution`: can return `permission`, `user_message`, and `agent_message`
+### Purpose
 
-When the user wants to rewrite a tool call, prefer `preToolUse`. When they want to gate only shell commands, prefer `beforeShellExecution`.
+Matchers filter when hooks run, avoiding unnecessary execution.
+
+### Matcher Patterns
+
+```json
+// Match specific tool types
+"matcher": "Write|Edit|Read"
+
+// Match shell commands
+"matcher": "npm install|yarn add"
+
+// Match subagent types
+"matcher": "generalPurpose|explore"
+
+// Match file patterns
+"matcher": "\\.tsx$|\\.ts$"
+```
+
+### Important Warnings
+
+- Matchers use **JavaScript regular expressions**, not POSIX/grep
+- Use `\s` instead of POSIX classes like `[[:space:]]`
+- Start without matcher to confirm hook works, then add carefully
+
+## Command Hooks
+
+### Overview
+
+Command hooks receive JSON on stdin and return JSON on stdout. They are the default type.
+
+### Prerequisites
+
+Before using command hooks, verify:
+1. Script has valid shebang and is executable
+2. All dependencies are installed and on `$PATH`
+3. Repo-local CLIs are explicitly available
+
+### Example: Shell Command Validator
+
+```bash
+#!/bin/bash
+# .cursor/hooks/validate-shell.sh
+
+input=$(cat)
+command=$(echo "$input" | jq -r '.command // empty')
+
+# Block dangerous commands
+if echo "$command" | grep -qE "rm -rf|sudo|chmod 777"; then
+  echo '{
+    "permission": "deny",
+    "user_message": "This command is blocked for safety.",
+    "agent_message": "Hook blocked dangerous command: rm -rf, sudo, or chmod 777"
+  }'
+  exit 2
+fi
+
+# Warn on network commands
+if echo "$command" | grep -qE "curl|wget|nc "; then
+  echo '{
+    "permission": "ask",
+    "user_message": "This command makes a network request. Continue?",
+    "agent_message": "Hook flagged network command"
+  }'
+  exit 0
+fi
+
+echo '{ "permission": "allow" }'
+exit 0
+```
+
+### Exit Code Behavior
+
+| Exit Code | Behavior |
+|-----------|----------|
+| 0 | Success, allow action |
+| 2 | Block the action |
+| Other | Fail open (unless `failClosed: true`) |
+
+### Banking-Specific Hook Example
+
+```bash
+#!/bin/bash
+# .cursor/hooks/banking-validate.sh
+
+input=$(cat)
+action=$(echo "$input" | jq -r '.name // empty')
+
+case "$action" in
+  "Write"|"Edit")
+    file=$(echo "$input" | jq -r '.arguments.path // empty')
+    
+    # Block .env files
+    if [[ "$file" == *".env"* ]]; then
+      echo '{"permission": "deny", "user_message": "Cannot write .env files directly"}'
+      exit 2
+    fi
+    
+    # Warn on database migrations
+    if [[ "$file" == *"migrations"* ]]; then
+      echo '{"permission": "ask", "user_message": "This is a migration file. Continue?"}'
+      exit 0
+    fi
+    ;;
+esac
+
+echo '{ "permission": "allow" }'
+exit 0
+```
+
+## Prompt Hooks
+
+### Overview
+
+Prompt hooks use AI to make decisions. Useful when policy is easier to describe than script.
+
+### Example
+
+```json
+{
+  "hooks": {
+    "beforeShellExecution": [
+      {
+        "type": "prompt",
+        "prompt": "Is this command safe to run in a banking app? Consider: no destructive commands, no secret exposure, no unauthorized network calls. Input: $ARGUMENTS",
+        "timeout": 15
+      }
+    ]
+  },
+  "version": 1
+}
+```
+
+### When to Use
+
+- Lightweight policy decisions
+- Complex validation logic
+- Natural language is clearer than scripts
+
+### When to Prefer Command Hooks
+
+- Deterministic behavior required
+- Exact, auditable decisions needed
+- Performance is critical
+
+## Event Output Reference
+
+### preToolUse
+
+```json
+{
+  "permission": "allow|deny|ask",
+  "user_message": "Optional message for user",
+  "agent_message": "Optional message for agent",
+  "updated_input": { ... }
+}
+```
+
+### postToolUse
+
+```json
+{
+  "additional_context": "Context to inject",
+  "updated_mcp_tool_output": { ... }
+}
+```
+
+### subagentStart
+
+```json
+{
+  "permission": "allow|deny",
+  "user_message": "Why subagent is blocked"
+}
+```
+
+### subagentStop
+
+```json
+{
+  "followup_message": "What to do next"
+}
+```
+
+## Banking Project Hooks
+
+### Session Logger Hook
+
+```bash
+#!/bin/bash
+# .cursor/hooks/session-logger.sh
+
+input=$(cat)
+timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+event=$(echo "$input" | jq -r '.event // "unknown"')
+
+echo "{\"timestamp\": \"$timestamp\", \"event\": \"$event\"}" >> .cursor/hooks/session.log
+echo '{ "permission": "allow" }'
+exit 0
+```
+
+### Format Hook
+
+```bash
+#!/bin/bash
+# .cursor/hooks/format-file.sh
+
+input=$(cat)
+file=$(echo "$input" | jq -r '.arguments.path // empty')
+
+if [[ "$file" == *.ts ]] || [[ "$file" == *.tsx ]]; then
+  npx prettier --write "$file"
+fi
+
+echo '{ "permission": "allow" }'
+exit 0
+```
+
+### Secrets Blocker
+
+```bash
+#!/bin/bash
+# .cursor/hooks/block-secrets.sh
+
+input=$(cat)
+content=$(echo "$input" | jq -r '.arguments.content // ""')
+
+if echo "$content" | grep -qE "(API_KEY|SECRET|PASSWORD|TOKEN)="; then
+  echo '{"permission": "deny", "user_message": "Possible secret detected. Use env variables instead."}'
+  exit 2
+fi
+
+echo '{ "permission": "allow" }'
+exit 0
+```
 
 ## Implementation Workflow
 
-1. Pick the correct location and event
-2. Create or update the correct `hooks.json` file
-3. Start with no matcher or the simplest safe matcher
-4. Create the script under the matching hooks directory
-5. Read stdin JSON and implement the required behavior
-6. Make the script executable
-7. Verify any helper executables the script uses are installed and on `$PATH`
-8. Trigger the relevant action to test the hook
-9. Verify behavior in Cursor's **Hooks** settings tab or the **Hooks** output channel
+1. **Pick location**: Project vs user hook
+2. **Choose event**: Narrowest matching event
+3. **Create hooks.json**: Add hook definition
+4. **Start simple**: No matcher or simple matcher
+5. **Create script**: Implement behavior
+6. **Make executable**: `chmod +x script.sh`
+7. **Verify dependencies**: Check all tools available
+8. **Test**: Trigger the event
+9. **Debug**: Check Hooks settings tab
 
-If you are editing an existing hooks setup, preserve unrelated hooks and only change the minimum necessary entries.
+## Validation Commands
 
-## Validation and Troubleshooting
+```bash
+# Check hooks.json is valid JSON
+cat .cursor/hooks.json | jq .
 
-- Cursor watches `hooks.json` and reloads on save
-- If hooks still do not load, restart Cursor
-- Double-check relative paths:
-  - project hooks -> relative to the project root
-  - user hooks -> relative to `~/.cursor/`
-- If the hook does not appear to load at all, suspect matcher/config parsing first; remove the matcher and confirm the base hook works before tightening it
-- If the script runs external commands, verify each one is installed and reachable from the hook process with `command -v` or equivalent
-- If the hook should block on failure, set `failClosed: true`
-- If a command hook should intentionally block, returning exit code `2` is valid
+# List active hooks
+# In Cursor: Settings > Extensions > Hooks
+
+# Test hook manually
+echo '{"command": "echo test"}' | .cursor/hooks/validate-shell.sh
+```
+
+## Troubleshooting
+
+### Hook Not Loading
+
+- Check hooks.json is valid JSON
+- Verify file path is correct
+- Restart Cursor
+
+### Hook Not Firing
+
+- Remove matcher to confirm base works
+- Check matcher regex is valid
+- Verify event is correct
+
+### Script Errors
+
+- Make script executable
+- Check all dependencies installed
+- Test script standalone first
+
+### Permission Denied
+
+- Check script has execute permission
+- Verify working directory is correct
+
+## Best Practices
+
+### 1. Start Simple
+
+```json
+// First: No matcher
+{"command": ".cursor/hooks/test.sh"}
+
+// Then: Add matcher after confirmed working
+{"command": ".cursor/hooks/test.sh", "matcher": "Write"}
+```
+
+### 2. Use failClosed Carefully
+
+```json
+{
+  "command": ".cursor/hooks/security.sh",
+  "failClosed": true  // Block on any error
+}
+```
+
+### 3. Test Thoroughly
+
+```bash
+# Test each event type
+echo '{"event": "preToolUse"}' | ./hook.sh
+echo '{"event": "postToolUse"}' | ./hook.sh
+```
+
+### 4. Document Your Hooks
+
+```bash
+# Add header to hook scripts
+#!/bin/bash
+# Hook: beforeShellExecution
+# Purpose: Block dangerous commands
+# Dependencies: jq
+```
+
+## Cross-References
+
+- **create-skill**: For creating new skills
+- **session-logger**: For audit logging
+- **security-skill**: For security patterns
+- **testing-skill**: For testing patterns
+
+## Performance Tips
+
+1. Use matchers to avoid unnecessary runs
+2. Keep scripts lightweight
+3. Cache results when possible
+4. Set appropriate timeouts
 
 ## Final Checklist
 
-- [ ] Used the correct hook location and path style
-- [ ] Chose the narrowest correct event
-- [ ] Added a matcher when appropriate
-- [ ] Returned only fields supported by that hook event
-- [ ] Made the script executable
-- [ ] Tested the hook by triggering the real event
-- [ ] Checked the Hooks tab or Hooks output channel if debugging was needed
+- [ ] Used correct location (project vs user)
+- [ ] Chose narrowest correct event
+- [ ] Added matcher when appropriate
+- [ ] Returned only valid fields for event
+- [ ] Made script executable
+- [ ] Tested with real event
+- [ ] Documented hook purpose
+- [ ] Verified all dependencies
+
+(End of file - total 500 lines)

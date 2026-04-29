@@ -1,6 +1,11 @@
 ---
 name: cartography
 description: Generate comprehensive hierarchical codemaps for UNFAMILIAR repositories. Expensive operation - only use when explicitly asked for codebase documentation or initial repository mapping
+lastReviewed: 2026-04-29
+platforms:
+  - opencode
+  - cursor
+  - copilot
 ---
 
 # Cartography Skill
@@ -167,3 +172,108 @@ A high-performance, low-latency agent orchestration plugin for OpenCode, focusin
 | `src/features/` | Core logic for tmux integration, background task spawning, and session state. | [View Map](src/features/codemap.md) |
 | `src/config/` | Implements the configuration loading pipeline and environment variable injection. | [View Map](src/config/codemap.md) |
 ```
+
+---
+
+## Multi-Agent Support
+
+### OpenCode
+
+In OpenCode, use this skill when:
+- User explicitly asks to understand a new codebase
+- Starting work on unfamiliar repository
+- Creating documentation for existing project
+
+```bash
+# Example: OpenCode prompt
+Map the repository structure and create codemaps for each major directory.
+Focus on understanding the architecture and data flow.
+```
+
+### Cursor
+
+In Cursor IDE:
+- Use with `.cursorrules` for project documentation standards
+- Integrate with code generation for understanding context
+- Apply to new project setup
+
+```json
+// .cursorrules - Cartography configuration
+{
+  "documentation": {
+    "requireCodemap": true,
+    "codemapLocation": "codemap.md"
+  }
+}
+```
+
+### GitHub Copilot
+
+In Copilot CLI:
+- Reference codemaps for context-aware suggestions
+- Use for understanding unfamiliar code
+
+```bash
+# Example: Copilot prompt
+Based on the codemap, explain how the authentication module
+integrates with the API layer.
+```
+
+---
+
+## Cross-References
+
+This skill works well with:
+
+| Related Skill | Use Case |
+|---------------|----------|
+| `code-review` | Use codemaps to understand code context |
+| `refactor` | Understand structure before refactoring |
+| `testing-skill` | Map test structure to source code |
+| `prd | Document architecture from codemaps |
+
+---
+
+## Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| Large repository takes too long | Use incremental updates with `changes` command |
+| Too many directories to map | Focus on core directories first; skip utilities |
+| Codemap becomes outdated | Set up periodic updates or trigger on major changes |
+| Missing important files | Adjust include/exclude patterns in init command |
+| Permission denied on write | Ensure agent has write access to codemap.md files |
+
+---
+
+## Best Practices
+
+### Codemap Maintenance
+
+1. **Update incrementally** - Use `changes` command to update only modified directories.
+
+2. **Keep codemaps focused** - Document responsibilities, not every file.
+
+3. **Use consistent format** - Follow the schema: Responsibility, Design, Flow, Integration.
+
+4. **Link to detailed docs** - Reference README files and inline documentation.
+
+5. **Register in AGENTS.md** - Ensure agents discover the codemap automatically.
+
+### Codemap Quality
+
+- Write for both human and agent readers
+- Use precise technical terminology
+- Include actual file paths and function names
+- Document design patterns explicitly
+- Note integration points with external systems
+
+---
+
+## Notes
+
+- Cartography is expensive - only use when explicitly requested
+- Store state in `.slim/cartography.json` for incremental updates
+- Exclude tests, docs, and build artifacts by default
+- Create root codemap as the entry point for the repository
+- Register in AGENTS.md for automatic agent discovery

@@ -1,140 +1,425 @@
 ---
 name: simplify
 description: Simplifies code for clarity without changing behavior. Use for readability, maintainability, and complexity reduction after behavior is understood.
-lastReviewed: 2026-04-23
+lastReviewed: 2026-04-29
 applyTo: "**/*.{ts,tsx,js,jsx}"
+platforms:
+  - opencode
+  - cursor
+  - copilot
 ---
 
-# Code Simplification
+# Simplify - Code Clarity Patterns
 
 ## Overview
 
-Simplify code by reducing complexity while preserving exact behavior. The goal is not fewer lines — it's code that is easier to read, understand, modify, and debug. Every simplification must pass a simple test: "Would a new team member understand this faster than the original?"
+This skill provides comprehensive guidelines for simplifying code while preserving behavior. It covers refactoring patterns, readability improvements, and complexity reduction.
 
-## When to Use
+## Multi-Agent Commands
 
-- After a feature is working and tests pass, but the implementation feels heavier than it needs to be
-- During code review when readability or complexity issues are flagged
-- When you encounter deeply nested logic, long functions, or unclear names
-- When refactoring code written under time pressure
-- When consolidating related logic scattered across files
-- After merging changes that introduced duplication or inconsistency
+### OpenCode
+```bash
+# Find complex functions
+grep -r "function.*(" --include="*.ts" | wc -l
 
-**When NOT to use:**
+# Check complexity
+npx complexity-reporter src/
+```
 
-- Code is already clean and readable — don't simplify for the sake of it
-- You don't understand what the code does yet — comprehend before you simplify
-- The code is performance-critical and the "simpler" version would be measurably slower
-- You're about to rewrite the module entirely — simplifying throwaway code wastes effort
+### Cursor
+```
+@simplify
+Simplify the transaction service
+```
 
-## The Five Principles
+### Copilot
+```
+/simplify refactor auth module
+```
 
-### 1. Preserve Behavior Exactly
+## Simplification Principles
 
-Don't change what the code does — only how it expresses it. All inputs, outputs, side effects, error behavior, and edge cases must remain identical. If you're not sure a simplification preserves behavior, don't make it.
+### 1. Single Responsibility
 
-Before every change, ask:
+```typescript
+// BEFORE - Multiple responsibilities
+class UserService {
+  async createUser(data: UserData) {
+    // Validation
+    if (!data.email.includes('@')) throw new Error();
+    // Creation
+    const user = await db.users.insert(data);
+    // Email
+    await sendWelcomeEmail(user.email);
+    // Logging
+    await log('user_created', user.id);
+    return user;
+  }
+}
 
-- Does this produce the same output for every input?
-- Does this maintain the same error behavior?
-- Does this preserve the same side effects and ordering?
-- Do all existing tests still pass without modification?
+// AFTER - Single responsibility each
+class UserValidator {
+  validate(data: UserData): ValidatedData { ... }
+}
 
-### 2. Follow Project Conventions
+class UserCreator {
+  async create(data: ValidatedData): Promise<User> { ... }
+}
 
-Simplification means making code more consistent with the codebase, not imposing external preferences.
+class WelcomeEmailService {
+  async send(user: User): Promise<void> { ... }
+}
+```
 
-Before simplifying:
+### 2. Early Returns
 
-1. Read `AGENTS.md` / project conventions
-2. Study how neighboring code handles similar patterns
-3. Match the project's style for imports, naming, function style, error handling, and type annotations
+```typescript
+// BEFORE - Nested conditions
+function getUser(id: string) {
+  if (id) {
+    if (id.length > 0) {
+      const user = db.findUser(id);
+      if (user) {
+        return user;
+      }
+    }
+  }
+  return null;
+}
 
-Simplification that breaks project consistency is not simplification — it's churn.
+// AFTER - Early returns
+function getUser(id: string) {
+  if (!id || id.length === 0) return null;
 
-### 3. Prefer Clarity Over Cleverness
+  const user = db.findUser(id);
+  if (!user) return null;
 
-Explicit code is better than compact code when the compact version requires a mental pause to parse.
+  return user;
+}
+```
 
-- Replace nested ternaries with readable control flow
-- Replace dense inline transforms with named intermediate steps when they clarify intent
-- Keep helpful names even if they cost a few extra lines
+### 3. Extract Complex Logic
 
-### 4. Maintain Balance
+```typescript
+// BEFORE - Complex inline logic
+function calculateFee(amount: number, type: string) {
+  if (type === 'transfer') {
+    if (amount < 1000) return amount * 0.01;
+    else if (amount < 5000) return amount * 0.005;
+    else return amount * 0.001;
+  } else if (type === 'withdraw') {
+    if (amount < 500) return 5;
+    else return amount * 0.01;
+  }
+  return 0;
+}
 
-Watch for over-simplification:
+// AFTER - Extracted to clear function
+function calculateTransferFee(amount: number): number {
+  if (amount < 1000) return amount * 0.01;
+  if (amount < 5000) return amount * 0.005;
+  return amount * 0.001;
+}
 
-- Don't inline away names that carry meaning
-- Don't merge unrelated logic into one larger function
-- Don't remove abstractions that serve testability or extensibility
-- Don't optimize for line count over comprehension
+function calculateWithdrawFee(amount: number): number {
+  if (amount < 500) return 5;
+  return amount * 0.01;
+}
+```
 
-### 5. Scope to What Changed
+## Refactoring Patterns
 
-Default to simplifying recently modified code. Avoid unrelated drive-by refactors unless explicitly asked.
+### Rename for Clarity
 
-## Process
+```typescript
+// BEFORE - Cryptic names
+function p(u: string) {
+  return u.split('@')[0];
+}
 
-### Step 1: Understand Before Touching
+// AFTER - Descriptive names
+function getUsernameFromEmail(email: string): string {
+  return email.split('@')[0];
+}
+```
 
-Before changing or removing anything, understand why it exists.
+### Remove Dead Code
 
-Answer:
+```typescript
+// BEFORE - Unused code
+function processData(data: unknown) {
+  // Old validation - no longer used
+  // if (data.old) return null;
 
-- What is this code's responsibility?
-- What calls it? What does it call?
-- What are the edge cases and error paths?
-- Are there tests that define expected behavior?
-- Why might it have been written this way?
+  // Current logic
+  return transform(data);
+}
 
-If you can't answer these, read more context first.
+// AFTER - Clean code
+function processData(data: Data): ProcessedData {
+  return transform(data);
+}
+```
 
-### Step 2: Look for Simplification Opportunities
+### Simplify Conditionals
 
-Signals:
+```typescript
+// BEFORE - Complex boolean
+if (user.isActive && user.hasVerifiedEmail && (!user.isBlocked || user.isAdmin)) {
+  // Do something
+}
 
-- Deep nesting
-- Long functions with mixed responsibilities
-- Nested ternaries
-- Boolean flag arguments
-- Repeated conditionals
-- Generic or misleading names
-- Duplicated logic
-- Dead code
-- Wrappers or abstractions that add no value
+// AFTER - Extracted with clear name
+function canAccessSystem(user: User): boolean {
+  return user.isActive &&
+    user.hasVerifiedEmail &&
+    (user.isAdmin || !user.isBlocked);
+}
 
-### Step 3: Apply Changes Incrementally
+if (canAccessSystem(user)) {
+  // Do something
+}
+```
 
-Make one simplification at a time.
+## Banking-Specific Simplifications
 
-For each simplification:
+### Transaction Processing
 
-1. Make the change
-2. Run relevant tests
-3. Keep it only if behavior is preserved
+```typescript
+// BEFORE - Complex transaction logic
+async function processTransaction(tx: Transaction) {
+  if (tx.type === 'transfer') {
+    if (tx.amount > 0) {
+      if (tx.fromUserId === tx.toUserId) {
+        return { error: 'Cannot transfer to self' };
+      }
+      const fromWallet = await getWallet(tx.fromUserId);
+      if (fromWallet.balance >= tx.amount) {
+        await deductBalance(fromWallet, tx.amount);
+        await addBalance(tx.toUserId, tx.amount);
+        return { success: true };
+      }
+      return { error: 'Insufficient funds' };
+    }
+    return { error: 'Invalid amount' };
+  }
+  // ... more types
+}
 
-Separate refactoring from feature work whenever possible.
+// AFTER - Simplified with clear functions
+async function processTransaction(tx: Transaction): Promise<Result> {
+  if (!isValidAmount(tx.amount)) {
+    return { error: 'Invalid amount' };
+  }
 
-### Step 4: Verify the Result
+  if (tx.type === 'transfer') {
+    return await processTransfer(tx);
+  }
 
-After simplifying, confirm:
+  if (tx.type === 'withdraw') {
+    return await processWithdraw(tx);
+  }
 
-- The code is genuinely easier to understand
-- The diff is clean and reviewable
-- Project conventions still match
-- No behavior, error handling, or side effects changed
+  return { error: 'Unknown transaction type' };
+}
 
-## Guidance for This Repository
+async function processTransfer(tx: TransferTransaction): Promise<Result> {
+  if (isSameUser(tx.fromUserId, tx.toUserId)) {
+    return { error: 'Cannot transfer to self' };
+  }
 
-- Prefer straightforward TypeScript over clever compression
-- Preserve existing runtime behavior, tests, and hooks
-- Favor explicit names and smaller focused helpers when they improve readability
-- Keep refactors tightly scoped to the task or review feedback
+  const hasSufficientFunds = await checkSufficientFunds(tx.fromUserId, tx.amount);
+  if (!hasSufficientFunds) {
+    return { error: 'Insufficient funds' };
+  }
 
-## Verification Checklist
+  await executeTransfer(tx);
+  return { success: true };
+}
+```
 
-- [ ] Existing tests pass without modification
-- [ ] Build/typecheck/lint still pass
-- [ ] No unrelated files were refactored
-- [ ] No error handling was weakened or removed
-- [ ] The result is simpler to review than the original
+### Wallet Connection
+
+```typescript
+// BEFORE - Nested callbacks
+async function connectWallet(userId: string, publicToken: string) {
+  const accessToken = await exchangeToken(publicToken);
+  if (accessToken) {
+    const account = await getAccountInfo(accessToken);
+    if (account) {
+      const wallet = await createWallet(userId, accessToken, account);
+      if (wallet) {
+        await syncTransactions(wallet.id);
+        return wallet;
+      }
+    }
+  }
+  return null;
+}
+
+// AFTER - Flat async/await
+async function connectWallet(userId: string, publicToken: string): Promise<Wallet> {
+  const accessToken = await exchangeToken(publicToken);
+  if (!accessToken) throw new Error('Token exchange failed');
+
+  const account = await getAccountInfo(accessToken);
+  if (!account) throw new Error('Account not found');
+
+  const wallet = await createWallet(userId, accessToken, account);
+  await syncTransactions(wallet.id);
+
+  return wallet;
+}
+```
+
+## Code Smells to Fix
+
+### 1. Long Functions
+
+```typescript
+// Split into smaller functions
+// BEFORE: 100+ lines
+// AFTER: Functions < 20 lines each
+```
+
+### 2. Magic Numbers
+
+```typescript
+// BEFORE
+if (amount > 10000) { ... }
+
+// AFTER
+const MAX_TRANSFER_AMOUNT = 10000;
+if (amount > MAX_TRANSFER_AMOUNT) { ... }
+```
+
+### 3. Nested Callbacks
+
+```typescript
+// BEFORE - Callback hell
+getData((data) => {
+  processData(data, (result) => {
+    saveData(result, (saved) => {
+      // More nesting
+    });
+  });
+});
+
+// AFTER - Async/await
+const data = await getData();
+const result = await processData(data);
+const saved = await saveData(result);
+```
+
+### 4. Duplicate Code
+
+```typescript
+// BEFORE - Repeated logic
+function validateUser(user: User) {
+  if (!user.email.includes('@')) return false;
+  if (!user.name) return false;
+  return true;
+}
+
+function validateAdmin(admin: Admin) {
+  if (!admin.email.includes('@')) return false;
+  if (!admin.name) return false;
+  return true;
+}
+
+// AFTER - Shared validation
+function validateEmail(email: string): boolean {
+  return email.includes('@');
+}
+
+function validatePerson(person: Person): boolean {
+  return validateEmail(person.email) && !!person.name;
+}
+```
+
+## Testing After Simplification
+
+### Preserve Behavior
+
+```typescript
+// Ensure simplified code produces same results
+describe('simplified processTransaction', () => {
+  it('should return error for invalid amount', async () => {
+    const result = await processTransaction({
+      amount: -100,
+      type: 'transfer'
+    });
+    expect(result.error).toBe('Invalid amount');
+  });
+
+  it('should return error for insufficient funds', async () => {
+    const result = await processTransaction({
+      amount: 10000,
+      type: 'transfer',
+      fromUserId: 'user1'
+    });
+    expect(result.error).toBe('Insufficient funds');
+  });
+});
+```
+
+## Best Practices
+
+### 1. Test Before and After
+
+```bash
+# Run tests to verify behavior
+npm test -- --grep "processTransaction"
+```
+
+### 2. Make Small Changes
+
+```bash
+# Commit after each simplification
+git commit -m "refactor: simplify validation logic"
+```
+
+### 3. Document Complex Decisions
+
+```typescript
+// Keep comments for complex logic
+// This complex formula is based on:
+// - Industry standard fee structure
+// - Regulatory requirements for reporting
+const fee = calculateFee(amount, type);
+```
+
+### 4. Use TypeScript
+
+```typescript
+// Leverage types for clarity
+type TransactionResult =
+  | { success: true; transactionId: string }
+  | { error: string };
+```
+
+## Cross-References
+
+- **refactor**: For refactoring patterns
+- **code-philosophy**: For internal logic
+- **testing-skill**: For testing patterns
+
+## Validation Commands
+
+```bash
+# Check function length
+npx tsc --noEmit | grep "Function"
+
+# Find code duplication
+npx duplicate-checker src/
+
+# Complexity check
+npx eslint --max-lines-per-function 50
+```
+
+## Performance Tips
+
+1. Simplify before optimizing
+2. Profile before refactoring
+3. Keep functions under 20 lines
+4. Use meaningful names

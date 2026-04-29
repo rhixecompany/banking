@@ -1,126 +1,381 @@
 ---
 name: git-commit
 description: Create conventional git commits with intelligent staging and message generation.
-license: MIT
-allowed-tools: Bash
-lastReviewed: 2026-04-13
-applyTo: "**/.git/**"
+lastReviewed: 2026-04-29
+applyTo: "**/*"
+platforms:
+  - opencode
+  - cursor
+  - copilot
 ---
 
-# Git Commit with Conventional Commits
+# Git Commit - Conventional Commits
 
 ## Overview
 
-Create standardized, semantic git commits using the Conventional Commits specification. Analyze the actual diff to determine appropriate type, scope, and message.
+This skill provides comprehensive guidelines for creating conventional git commits. It covers commit message format, intelligent staging, and best practices for the Banking project.
 
-## Conventional Commit Format
+## Multi-Agent Commands
 
-```
-<type>[optional scope]: <description>
-
-[optional body]
-
-[optional footer(s)]
-```
-
-## Commit Types
-
-| Type       | Purpose                        |
-| ---------- | ------------------------------ |
-| `feat`     | New feature                    |
-| `fix`      | Bug fix                        |
-| `docs`     | Documentation only             |
-| `style`    | Formatting/style (no logic)    |
-| `refactor` | Code refactor (no feature/fix) |
-| `perf`     | Performance improvement        |
-| `test`     | Add/update tests               |
-| `build`    | Build system/dependencies      |
-| `ci`       | CI/config changes              |
-| `chore`    | Maintenance/misc               |
-| `revert`   | Revert commit                  |
-
-## Breaking Changes
-
-```
-# Exclamation mark after type/scope
-feat!: remove deprecated endpoint
-
-# BREAKING CHANGE footer
-feat: allow config to extend other configs
-
-BREAKING CHANGE: `extends` key behavior changed
-```
-
-## Workflow
-
-### 1. Analyze Diff
-
+### OpenCode
 ```bash
-# If files are staged, use staged diff
-git diff --staged
-
-# If nothing staged, use working tree diff
-git diff
-
-# Also check status
-git status --porcelain
-```
-
-### 2. Stage Files (if needed)
-
-If nothing is staged or you want to group changes differently:
-
-```bash
-# Stage specific files
-git add path/to/file1 path/to/file2
-
-# Stage by pattern
-git add *.test.*
-git add src/components/*
+# Stage and commit with conventional message
+git commit -m "feat: add wallet connection"
 
 # Interactive staging
 git add -p
+
+# View commit history
+git log --oneline -20
 ```
 
-**Never commit secrets** (.env, credentials.json, private keys).
+### Cursor
+```
+@git-commit
+Commit the banking feature changes
+```
 
-### 3. Generate Commit Message
+### Copilot
+```
+/git commit add login feature
+```
 
-Analyze the diff to determine:
+## Commit Message Format
 
-- **Type**: What kind of change is this?
-- **Scope**: What area/module is affected?
-- **Description**: One-line summary of what changed (present tense, imperative mood, <72 chars)
+### Structure
 
-### 4. Execute Commit
+```
+<type>(<scope>): <subject>
+
+<body>
+
+<footer>
+```
+
+### Types
+
+| Type | Description |
+|------|-------------|
+| `feat` | New feature |
+| `fix` | Bug fix |
+| `docs` | Documentation |
+| `style` | Formatting |
+| `refactor` | Code refactoring |
+| `test` | Adding tests |
+| `chore` | Maintenance |
+| `perf` | Performance |
+| `ci` | CI/CD changes |
+
+### Examples
 
 ```bash
-# Single line
-git commit -m "<type>[scope]: <description>"
+# Feature
+git commit -m "feat(wallet): add Plaid link integration"
 
-# Multi-line with body/footer
-git commit -m "$(cat <<'EOF'
-<type>[scope]: <description>
+# Fix
+git commit -m "fix(auth): resolve session timeout issue"
 
-<optional body>
+# Documentation
+git commit -m "docs: update API documentation"
 
-<optional footer>
-EOF
-)"
+# Refactor
+git commit -m "refactor(dal): simplify transaction queries"
+
+# Test
+git commit -m "test: add wallet connection tests"
+
+# Chore
+git commit -m "chore(deps): update Drizzle ORM"
 ```
 
-## Best Practices
+## Intelligent Staging
 
-- One logical change per commit
-- Present tense: "add" not "added"
-- Imperative mood: "fix bug" not "fixes bug"
-- Reference issues: `Closes #123`, `Refs #456`
-- Keep description under 72 characters
+### Stage by Pattern
 
-## Git Safety Protocol
+```bash
+# Stage all new files
+git add .
 
-- NEVER update git config
-- NEVER run destructive commands (--force, hard reset) without explicit request
-- NEVER skip hooks (--no-verify) unless user asks
-- NEVER force push to main/master
-- If commit fails due to hooks, fix and create NEW commit (don't amend)
+# Stage by pattern
+git add "**/*.ts"
+git add "**/*.tsx"
+git add "!**/*.test.ts"
+
+# Stage modified files only
+git add -u
+```
+
+### Interactive Staging
+
+```bash
+# Stage hunks interactively
+git add -p
+
+# Stage specific files
+git add -p file1.ts file2.ts
+
+# Stage by directory
+git add --patch src/components/
+```
+
+### Stage with Intent
+
+```bash
+# Stage with intent message
+git add -v file.ts
+
+# Stage and see what will be committed
+git diff --cached
+```
+
+## Banking Project Conventions
+
+### Feature Commits
+
+```bash
+# Wallet feature
+git commit -m "feat(wallet): add connect wallet flow
+
+- Implement Plaid Link integration
+- Add wallet DAL methods
+- Add connection status UI
+
+Closes #123"
+
+# Transaction feature
+git commit -m "feat(transaction): add transfer functionality
+
+- Implement Dwolla transfer API
+- Add transfer validation
+- Add transaction history view
+
+Refs #456"
+```
+
+### Fix Commits
+
+```bash
+# Bug fix with context
+git commit -m "fix(auth): resolve login redirect loop
+
+The login flow was redirecting to /dashboard even when
+authentication failed due to missing session check.
+
+Fixes #789"
+
+# Security fix
+git commit -m "fix(security): sanitize user input in forms
+
+- Add XSS prevention
+- Validate all form inputs
+- Update validation-skill documentation
+
+Security: CVE-2024-12345"
+```
+
+### Refactor Commits
+
+```bash
+# Refactoring
+git commit -m "refactor(dal): extract common query patterns
+
+- Create base query builder
+- Simplify N+1 pattern in transaction.dal.ts
+- Add documentation
+
+No functional changes"
+```
+
+## Commit Best Practices
+
+### 1. Write Descriptive Messages
+
+```bash
+# Bad
+git commit -m "fixed it"
+
+# Good
+git commit -m "fix(wallet): resolve balance display issue
+
+The wallet balance was not updating after transactions
+due to missing cache invalidation.
+
+Root cause: Cache was not cleared on transaction completion"
+```
+
+### 2. Keep Commits Atomic
+
+```bash
+# One feature per commit
+git commit -m "feat(ui): add wallet card component"
+git commit -m "feat(dal): add findByUserId method"
+git commit -m "feat(api): add /api/wallets endpoint"
+
+# Not
+git commit -m "feat: add wallet card, dal method, and API"
+```
+
+### 3. Reference Issues
+
+```bash
+# Close issue
+git commit -m "feat: add feature
+
+Closes #123"
+
+# Reference issue
+git commit -m "feat: add feature
+
+Refs #123"
+
+# Multiple references
+git commit -m "feat: add feature
+
+Closes #123
+Fixes #456"
+```
+
+### 4. Use Body for Context
+
+```bash
+git commit -m "feat(auth): add JWT refresh token
+
+The refresh token endpoint now returns a new access token
+without requiring re-authentication.
+
+Implementation:
+- Add refresh token to database
+- Implement token rotation
+- Add expiration handling
+
+Testing:
+- Add unit tests for token refresh
+- Add integration tests for auth flow"
+```
+
+## Advanced Patterns
+
+### Squashing Commits
+
+```bash
+# Interactive rebase to squash
+git rebase -i HEAD~3
+
+# Squash all commits into one
+git reset --soft HEAD~3
+git commit -m "feat: complete feature"
+```
+
+### Amending Commits
+
+```bash
+# Amend last commit
+git commit --amend
+
+# Amend with new message
+git commit --amend -m "feat: updated message"
+
+# Amend to add files
+git add forgotten-file.ts
+git commit --amend --no-edit
+```
+
+### Cherry-Picking
+
+```bash
+# Cherry-pick a commit
+git cherry-pick <commit-hash>
+
+# Cherry-pick without commit
+git cherry-pick -n <commit-hash>
+```
+
+## Git Hooks
+
+### Pre-commit Hook
+
+```bash
+# .git/hooks/pre-commit
+#!/bin/sh
+npx lint-staged
+npm run verify:rules
+npm run type-check
+```
+
+### Commit Message Hook
+
+```bash
+# .git/hooks/commit-msg
+#!/bin/sh
+COMMIT_MSG_FILE=$1
+COMMIT_MSG=$(cat "$COMMIT_MSG_FILE")
+
+if ! echo "$COMMIT_MSG" | grep -qE '^(feat|fix|docs|style|refactor|test|chore|perf|ci)(\(.+\))?: .+'; then
+  echo "Invalid commit message format"
+  exit 1
+fi
+```
+
+## Troubleshooting
+
+### Accidental Commit to Wrong Branch
+
+```bash
+# Undo last commit but keep changes
+git reset --soft HEAD~1
+
+# Switch to correct branch
+git checkout correct-branch
+
+# Commit again
+git commit -m "feat: add feature"
+```
+
+### Merge Conflicts in Commit
+
+```bash
+# Resolve conflicts
+git status
+# Edit conflicted files
+git add resolved-file.ts
+
+# Continue rebase
+git rebase --continue
+
+# Or abort
+git rebase --abort
+```
+
+### Large Commit
+
+**Problem**: Commit is too large
+**Solutions**:
+1. Split into smaller commits: `git rebase -i`
+2. Use partial staging: `git add -p`
+3. Split by directory: `git add src/feature-a/ && git commit`
+
+## Cross-References
+
+- **gh-cli**: For GitHub integration
+- **babysit**: For PR maintenance
+- **code-review**: For review patterns
+
+## Validation Commands
+
+```bash
+# Check commit message format
+git log --format="%s" | head -20
+
+# View commit details
+git show --stat HEAD
+
+# Verify staged changes
+git diff --cached --stat
+```
+
+## Performance Tips
+
+1. Use aliases for common commands
+2. Enable git auto-gc periodically
+3. Use shallow clones for large repos
+4. Cache credentials securely

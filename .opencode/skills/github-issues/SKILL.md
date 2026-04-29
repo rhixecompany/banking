@@ -1,136 +1,395 @@
 ---
 name: github-issues
 description: Create and manage GitHub issues via MCP tools (create, update, label, assign, and search issues).
-lastReviewed: 2026-04-24
-applyTo: "mcp__github__*"
+lastReviewed: 2026-04-29
+applyTo: "**/*"
+platforms:
+  - opencode
+  - cursor
+  - copilot
 ---
 
-# GitHub Issues
+# GitHub Issues - Banking Project Management
 
-Manage GitHub issues using the `@modelcontextprotocol/server-github` MCP server.
+## Overview
 
-## Available MCP Tools
+This skill provides comprehensive guidelines for creating and managing GitHub issues using MCP tools. It covers issue creation, updates, labeling, assignment, and search patterns.
 
-| Tool                             | Purpose                |
-| -------------------------------- | ---------------------- |
-| `mcp__github__create_issue`      | Create new issues      |
-| `mcp__github__update_issue`      | Update existing issues |
-| `mcp__github__get_issue`         | Fetch issue details    |
-| `mcp__github__search_issues`     | Search issues          |
-| `mcp__github__add_issue_comment` | Add comments           |
-| `mcp__github__list_issues`       | List repository issues |
+## Multi-Agent Commands
 
-## Workflow
+### OpenCode
+```bash
+# Create issue
+gh issue create --title "Bug: Login fails" --body "Description"
 
-1. **Determine action**: Create, update, or query?
-2. **Gather context**: Get repo info, existing labels, milestones if needed
-3. **Structure content**: Use appropriate template from [references/templates.md](references/templates.md)
-4. **Execute**: Call the appropriate MCP tool
-5. **Confirm**: Report the issue URL to user
+# List issues
+gh issue list --state open
 
-## Creating Issues
-
-### Required Parameters
-
-```
-owner: repository owner (org or user)
-repo: repository name
-title: clear, actionable title
-body: structured markdown content
+# Search issues
+gh issue list --search "wallet+label:bug"
 ```
 
-### Optional Parameters
-
+### Cursor
 ```
-labels: ["bug", "enhancement", "documentation", ...]
-assignees: ["username1", "username2"]
-milestone: milestone number (integer)
+@github-issues
+Create a bug report for the transaction issue
 ```
 
-### Title Guidelines
-
-- Start with type prefix when useful: `[Bug]`, `[Feature]`, `[Docs]`
-- Be specific and actionable
-- Keep under 72 characters
-- Examples:
-  - `[Bug] Login fails with SSO enabled`
-  - `[Feature] Add dark mode support`
-  - `Add unit tests for auth module`
-
-### Body Structure
-
-Always use the templates in [references/templates.md](references/templates.md). Choose based on issue type:
-
-| User Request                    | Template        |
-| ------------------------------- | --------------- |
-| Bug, error, broken, not working | Bug Report      |
-| Feature, enhancement, add, new  | Feature Request |
-| Task, chore, refactor, update   | Task            |
-
-## Updating Issues
-
-Use `mcp__github__update_issue` with:
-
+### Copilot
 ```
-owner, repo, issue_number (required)
-title, body, state, labels, assignees, milestone (optional - only changed fields)
+/issue create wallet bug
 ```
 
-State values: `open`, `closed`
+## Issue Creation
 
-## Examples
+### Basic Creation
 
-### Example 1: Bug Report
+```bash
+# Create issue with title
+gh issue create --title "Add wallet connection feature"
 
-**User**: "Create a bug issue - the login page crashes when using SSO"
+# Create with body
+gh issue create --title "Feature: Add wallet" --body "Description here"
 
-**Action**: Call `mcp__github__create_issue` with:
+# Create with labels
+gh issue create --title "Bug" --label "bug" --label "priority:high"
+```
 
-```json
-{
-  "body": "## Description\nThe login page crashes when users attempt to authenticate using SSO.\n\n## Steps to Reproduce\n1. Navigate to login page\n2. Click 'Sign in with SSO'\n3. Page crashes\n\n## Expected Behavior\nSSO authentication should complete and redirect to dashboard.\n\n## Actual Behavior\nPage becomes unresponsive and displays error.\n\n## Environment\n- Browser: [To be filled]\n- OS: [To be filled]\n\n## Additional Context\nReported by user.",
-  "labels": ["bug"],
-  "owner": "github",
-  "repo": "awesome-copilot",
-  "title": "[Bug] Login page crashes when using SSO"
+### Programmatic Creation
+
+```typescript
+import { github_agentic_workflows_create_issue } from '@modelcontextprotocol/github';
+
+const issue = await github_agentic_workflows_create_issue({
+  owner: 'rhixecompany',
+  repo: 'banking',
+  title: 'Bug: Transaction fails for large amounts',
+  body: `## Description
+Transaction amounts over $10,000 fail with error.
+
+## Steps to Reproduce
+1. Connect wallet
+2. Attempt transfer of $15,000
+3. See error
+
+## Expected Behavior
+Transfer should complete successfully
+
+## Actual Behavior
+Error: "Amount exceeds limit"
+
+## Environment
+- App version: 2.1.0
+- Browser: Chrome 120
+`,
+  labels: ['bug', 'priority:high'],
+  assignees: ['developer']
+});
+```
+
+## Issue Updates
+
+### Update Title/Body
+
+```bash
+# Update title
+gh issue edit 123 --title "Updated title"
+
+# Update body
+gh issue edit 123 --body "New description"
+
+# Update both
+gh issue edit 123 --title "New" --body "Body"
+```
+
+### Add Labels
+
+```bash
+# Add single label
+gh issue edit 123 --add-label "bug"
+
+# Add multiple labels
+gh issue edit 123 --add-label "bug" --add-label "priority:high"
+
+# Remove label
+gh issue edit 123 --remove-label "wontfix"
+```
+
+### Assignment
+
+```bash
+# Assign to user
+gh issue edit 123 --assignee "username"
+
+# Unassign
+gh issue edit 123 --unassign "username"
+
+# Assign to multiple
+gh issue edit 123 --assignee "user1,user2"
+```
+
+### State Management
+
+```bash
+# Close issue
+gh issue close 123
+
+# Reopen issue
+gh issue reopen 123
+
+# Mark as completed
+gh issue edit 123 --state "closed"
+```
+
+## Issue Search
+
+### Basic Search
+
+```bash
+# Search by text
+gh issue list --search "wallet"
+
+# Search in title
+gh issue list --search "title:wallet"
+
+# Search in body
+gh issue list --search "body:transfer"
+```
+
+### Filter by State
+
+```bash
+# Open issues
+gh issue list --state open
+
+# Closed issues
+gh issue list --state closed
+
+# All issues
+gh issue list --state all
+```
+
+### Filter by Labels
+
+```bash
+# Single label
+gh issue list --label "bug"
+
+# Multiple labels (AND)
+gh issue list --label "bug" --label "priority:high"
+
+# Any label (OR)
+gh issue list --search "label:bug label:feature"
+```
+
+### Filter by Assignee
+
+```bash
+# Assigned to me
+gh issue list --assignee "@me"
+
+# Assigned to specific user
+gh issue list --assignee "username"
+
+# Unassigned
+gh issue list --unassigned
+```
+
+## Banking Project Labels
+
+### Type Labels
+
+| Label | Description |
+|-------|-------------|
+| `feature` | New feature request |
+| `bug` | Bug report |
+| `enhancement` | Improvement to existing |
+| `documentation` | Docs-related |
+| `question` | Question from user |
+
+### Priority Labels
+
+| Label | Description |
+|-------|-------------|
+| `priority:critical` | Must fix immediately |
+| `priority:high` | High importance |
+| `priority:medium` | Normal priority |
+| `priority:low` | Low priority |
+
+### Area Labels
+
+| Label | Description |
+|-------|-------------|
+| `area:auth` | Authentication |
+| `area:wallet` | Wallet operations |
+| `area:transaction` | Transactions |
+| `area:plaid` | Plaid integration |
+| `area:dwolla` | Dwolla integration |
+| `area:ui` | User interface |
+| `area:api` | API endpoints |
+
+## Issue Templates
+
+### Bug Report Template
+
+```markdown
+## Bug Description
+[Description of the issue]
+
+## Steps to Reproduce
+1. [Step 1]
+2. [Step 2]
+3. [Step 3]
+
+## Expected Behavior
+[What should happen]
+
+## Actual Behavior
+[What actually happens]
+
+## Environment
+- App version:
+- OS:
+- Browser:
+
+## Screenshots
+[If applicable]
+
+## Additional Context
+[Any other information]
+```
+
+### Feature Request Template
+
+```markdown
+## Feature Summary
+[Short description]
+
+## Problem Solved
+[What problem does this solve]
+
+## Proposed Solution
+[How should it work]
+
+## Alternatives Considered
+[Other solutions considered]
+
+## Additional Context
+[Any mockups, examples, or notes]
+```
+
+## Automation
+
+### Issue Bot
+
+```typescript
+// Auto-label based on keywords
+async function autoLabel(issue: GitHubIssue) {
+  const labels: string[] = [];
+
+  if (issue.title.includes('bug') || issue.body.includes('error')) {
+    labels.push('bug');
+  }
+  if (issue.title.includes('feature') || issue.title.includes('add')) {
+    labels.push('feature');
+  }
+  if (issue.body.includes('critical') || issue.body.includes('urgent')) {
+    labels.push('priority:critical');
+  }
+
+  if (labels.length > 0) {
+    await github_agentic_workflows_update_issue({
+      issue_number: issue.number,
+      labels
+    });
+  }
 }
 ```
 
-### Example 2: Feature Request
+### Triage Workflow
 
-**User**: "Create a feature request for dark mode with high priority"
+```typescript
+// Daily triage
+async function triageIssues() {
+  const issues = await github_agentic_workflows_list_issues({
+    state: 'open',
+    labels: 'needs-triage'
+  });
 
-**Action**: Call `mcp__github__create_issue` with:
-
-```json
-{
-  "body": "## Summary\nAdd dark mode theme option for improved user experience and accessibility.\n\n## Motivation\n- Reduces eye strain in low-light environments\n- Increasingly expected by users\n- Improves accessibility\n\n## Proposed Solution\nImplement theme toggle with system preference detection.\n\n## Acceptance Criteria\n- [ ] Toggle switch in settings\n- [ ] Persists user preference\n- [ ] Respects system preference by default\n- [ ] All UI components support both themes\n\n## Alternatives Considered\nNone specified.\n\n## Additional Context\nHigh priority request.",
-  "labels": ["enhancement", "high-priority"],
-  "owner": "github",
-  "repo": "awesome-copilot",
-  "title": "[Feature] Add dark mode support"
+  for (const issue of issues) {
+    // Add triage label
+    // Assign to triage owner
+    // Add comment for clarification
+  }
 }
 ```
 
-## Common Labels
+## Best Practices
 
-Use these standard labels when applicable:
+### 1. Use Descriptive Titles
 
-| Label              | Use For                       |
-| ------------------ | ----------------------------- |
-| `bug`              | Something isn't working       |
-| `enhancement`      | New feature or improvement    |
-| `documentation`    | Documentation updates         |
-| `good first issue` | Good for newcomers            |
-| `help wanted`      | Extra attention needed        |
-| `question`         | Further information requested |
-| `wontfix`          | Will not be addressed         |
-| `duplicate`        | Already exists                |
-| `high-priority`    | Urgent issues                 |
+```bash
+# Bad
+gh issue create --title "Problem"
 
-## Tips
+# Good
+gh issue create --title "Bug: Wallet balance not updating after transfer"
+```
 
-- Always confirm the repository context before creating issues
-- Ask for missing critical information rather than guessing
-- Link related issues when known: `Related to #123`
-- For updates, fetch current issue first to preserve unchanged fields
+### 2. Provide Context
+
+```markdown
+## Problem
+Explain what you're trying to achieve
+
+## What you've tried
+- Approach 1
+- Approach 2
+
+## Current workaround
+Temporary solution if any
+```
+
+### 3. Use Templates
+
+```bash
+# Create issue from template
+gh issue create --template "bug.md"
+```
+
+### 4. Link Related Issues
+
+```bash
+# Reference in body
+This is related to #123
+
+# Close with commit
+Closes #123
+Fixes #456
+```
+
+## Cross-References
+
+- **gh-cli**: For CLI commands
+- **babysit**: For PR maintenance
+- **code-review**: For review workflow
+
+## Validation Commands
+
+```bash
+# List open issues
+gh issue list --state open
+
+# View issue details
+gh issue view 123
+
+# Check labels
+gh label list
+```
+
+## Performance Tips
+
+1. Use saved searches for common filters
+2. Bulk update issues when possible
+3. Use projects for organization
+4. Automate routine triage
