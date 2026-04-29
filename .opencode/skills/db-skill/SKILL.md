@@ -156,23 +156,23 @@ await db.transaction(async tx => {
 ## Migrations
 
 ```bash
-npm run db:generate   # Generate migration
-npm run db:push       # Push schema to database
-npm run db:studio     # Drizzle Studio (localhost:8000)
-npm run db:seed       # Seed database (PLAID_TOKEN_MODE=sandbox)
-npm run db:reset      # Full reset: db:drop + db:generate + db:push
+bun run db:generate   # Generate migration
+bun run db:push       # Push schema to database
+bun run db:studio     # Drizzle Studio (localhost:8000)
+bun run db:seed       # Seed database (PLAID_TOKEN_MODE=sandbox)
+bun run db:reset      # Full reset: db:drop + db:generate + db:push
 ```
 
 Drizzle migrations read `.env.local` first, then `.env` via `dotenv` in `drizzle.config.ts`.
 
 ## Validation
 
-Run: `npm run type-check` and verify no N+1 patterns in DAL files.
+Run: `bun run type-check` and verify no N+1 patterns in DAL files.
 
 ## Common Issues
 
 1. **Circular imports** — Use `@/database/db` and `@/database/schema` imports
-2. **Type errors** — Run `npm run db:push` after schema changes
+2. **Type errors** — Run `bun run db:push` after schema changes
 3. **Migration conflicts** — Ensure unique migration names
 4. **Table name confusion** — The table is `wallets`, not `banks` (was renamed)
 5. **Drizzle rules** — `drizzle/enforce-delete-with-where` and `drizzle/enforce-update-with-where` are `error` only in `database/**/*.ts` and `dal/**/*.ts` files

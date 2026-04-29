@@ -188,7 +188,7 @@ export default function DashboardPage() {
 
 ## Validation
 
-Run: `npm run lint:strict`
+Run: `bun run lint:strict`
 
 ## Common Issues
 

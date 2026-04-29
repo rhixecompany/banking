@@ -58,7 +58,7 @@ Environment
 
 Validation
 
-- Run: `npm run type-check` and `npm run test:browser`
+- Run: `bun run type-check` and `bun run test:browser`
 
 Notes
 

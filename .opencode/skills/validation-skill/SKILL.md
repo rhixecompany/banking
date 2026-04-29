@@ -165,7 +165,7 @@ Note: For canonical agent rules and plan repository location, see `AGENTS.md` an
 
 ## Validation
 
-Run: `npm run type-check`
+Run: `bun run type-check`
 
 ## Common Issues
 

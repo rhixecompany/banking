@@ -31,4 +31,4 @@ export async function protectedAction(input: unknown) {
 
 Validation
 
-- `npm run type-check`
+- `bun run type-check`

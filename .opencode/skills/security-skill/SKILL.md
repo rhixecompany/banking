@@ -18,4 +18,4 @@ Env Management
 
 Validation
 
-- `npm run type-check`
+- `bun run type-check`

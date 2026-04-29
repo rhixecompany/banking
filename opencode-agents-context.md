@@ -102,7 +102,7 @@ Create and manage GitHub issues via MCP tools (create, update, label, assign, an
 
 Scans opencode agent prompts for threat signals and logs governance events.
 
-### 25. make_skill_template
+### 25. make-skill-template
 
 Create new Agent Skills for GitHub Copilot from prompts or by duplicating this template. Use when asked to "create a skill", "make a new skill", "scaffold a skill", or when building specialized AI capabilities with bundled resources. Generates SKILL.md files with proper frontmatter, directory structure, and optional scripts/references/assets folders.
 
@@ -197,6 +197,104 @@ Guidelines for contributing commands in VS Code extensions (naming, visibility, 
 ### 48. vscode-ext-localization
 
 Guidelines for proper localization of VS Code extensions following VS Code extension development guidelines and best practices.
+
+## Plugin Skills (Superpowers)
+
+Additional skills loaded from the Superpowers plugin (`.opencode/plugins/superpowers/`):
+
+### 49. brainstorming
+
+You MUST use this before any creative work — creating features, building components, adding functionality, or modifying behavior. Explores user intent, requirements, and design before implementation.
+
+### 50. dispatching-parallel-agents
+
+Use when facing 2+ independent tasks that can be worked on without shared state or sequential dependencies.
+
+### 51. executing-plans
+
+Use when you have a written implementation plan to execute in a separate session with review checkpoints.
+
+### 52. finishing-a-development-branch
+
+Use when implementation is complete, all tests pass, and you need to decide how to integrate the work — guides completion of development work by presenting structured options for merge, PR, or cleanup.
+
+### 53. receiving-code-review
+
+Use when receiving code review feedback, before implementing suggestions, especially if feedback seems unclear or technically questionable — requires technical rigor and verification, not performative agreement or blind implementation.
+
+### 54. requesting-code-review
+
+Use when completing tasks, implementing major features, or before merging to verify work meets requirements.
+
+### 55. subagent-driven-development
+
+Use when executing implementation plans with independent tasks in the current session.
+
+### 56. test-driven-development
+
+Use when implementing any feature or bugfix, before writing implementation code.
+
+### 57. using-git-worktrees
+
+Use when starting feature work that needs isolation from current workspace or before executing implementation plans — creates isolated git worktrees with smart directory selection and safety verification.
+
+### 58. using-superpowers
+
+Use when starting any conversation — establishes how to find and use skills, requiring Skill tool invocation before ANY response including clarifying questions.
+
+### 59. verification-before-completion
+
+Use when about to claim work is complete, fixed, or passing, before committing or creating PRs — requires running verification commands and confirming output before making any success claims; evidence before assertions always.
+
+### 60. writing-plans
+
+Use when you have a spec or requirements for a multi-step task, before touching code.
+
+### 61. writing-skills
+
+Use when creating new skills, editing existing skills, or verifying skills work before deployment.
+
+### 62. snippets
+
+MUST use when user asks to create, edit, manage, or share snippets, or asks how snippets work.
+
+### 63. scoutqa-test
+
+Automated exploratory and accessibility testing for web apps using the ScoutQA CLI.
+
+### 64. systematic-debugging
+
+Use when encountering any bug, test failure, or unexpected behavior, before proposing fixes.
+
+### 65. plans-and-specs
+
+This SKILL provides detailed instructions on how to use the planning plugin tools. MUST be loaded when: User asks to create a plan, roadmap, or break down work into steps; User mentions specs, requirements, or standards that need to be documented; User references an existing plan that needs to be read or updated; User asks to mark work as complete or done; User wants to link requirements to a plan; User references a task that matches available_plans.
+
+## Available Plans
+
+Pre-defined implementation plans in the workspace:
+
+| Plan | Description |
+|------|-------------|
+| cleanup-dead-code | Cleanup dead code and duplicate tests |
+| convert-scripts | Convert scripts to TypeScript |
+| docker-production-deploy | Deploy Banking app with Docker Compose to production server |
+| enhance-pages-complete | Pages & scripts overhaul |
+| enhance-pages-v2 | Enhance pages & scripts |
+| enhanced-readme | Sync code, docs, README |
+| fix-lint-strict | Automated and manual lint fixes |
+| instruction-files-enhancement | Enhance instruction files |
+| markdown-docs-consolidation | Docs catalog and lint |
+| nextjs-page-refactor | Next.js DRY, Test Hardening |
+| opencode-plugin-audit | Audit plugins and MCP auth |
+| opencode-tools-debug | Stabilize agent tooling stack |
+| playwright-e2e-fix | UI suite reliability work |
+| root-group-next | Server wrappers + tests |
+| root-group-refactor | Refactor root pages to server wrappers |
+| session-logger-hook | Integrate session-logger skill hooks |
+| skill-audit-fix | Skill audit fix implementation |
+| skill-review-fix | Review and fix skill files |
+| test-fix-iter | Run tests iteratively and fix in batches |
 
 ## Tools
 
@@ -302,6 +400,86 @@ A comprehensive list of all available tools organized by category.
 | `next-devtools_nextjs_call` | Call MCP tool on Next.js server |
 | `next-devtools_upgrade_nextjs_16` | Guide upgrading Next.js to v16 |
 
+### Hostinger VPS Tools
+
+| Tool | Description |
+|------|-------------|
+| `hostinger_VPS_getVirtualMachinesV1` | Retrieve all available VPS instances |
+| `hostinger_VPS_getVirtualMachineDetailsV1` | Get detailed VPS information |
+| `hostinger_VPS_createNewProjectV1` | Deploy new Docker Compose project |
+| `hostinger_VPS_getProjectListV1` | List Docker Compose projects |
+| `hostinger_VPS_startProjectV1` | Start Docker Compose services |
+| `hostinger_VPS_stopProjectV1` | Stop Docker Compose services |
+| `hostinger_VPS_restartProjectV1` | Restart Docker Compose services |
+| `hostinger_VPS_deleteProjectV1` | Remove Docker Compose project |
+| `hostinger_VPS_getProjectLogsV1` | Get aggregated logs from all services |
+| `hostinger_VPS_getProjectContentsV1` | Get project details and compose file |
+| `hostinger_VPS_getProjectContainersV1` | Get container details |
+
+### Hostinger Hosting Tools
+
+| Tool | Description |
+|------|-------------|
+| `hostinger_hosting_listOrdersV1` | List hosting orders |
+| `hostinger_hosting_listWebsitesV1` | List websites |
+| `hostinger_hosting_createWebsiteV1` | Create new website |
+| `hostinger_hosting_listAvailableDatacentersV1` | List available datacenters |
+
+### Hostinger Domains Tools
+
+| Tool | Description |
+|------|-------------|
+| `hostinger_domains_getDomainListV1` | List domains |
+| `hostinger_domains_checkDomainAvailabilityV1` | Check domain availability |
+| `hostinger_domains_purchaseNewDomainV1` | Purchase new domain |
+| `hostinger_domains_getDomainDetailsV1` | Get domain details |
+| `hostinger_domains_updateDomainNameserversV1` | Update nameservers |
+| `hostinger_domains_createDomainForwardingV1` | Create domain forwarding |
+
+### Hostinger DNS Tools
+
+| Tool | Description |
+|------|-------------|
+| `hostinger_DNS_getDNSRecordsV1` | Get DNS zone records |
+| `hostinger_DNS_updateDNSRecordsV1` | Update DNS records |
+| `hostinger_DNS_deleteDNSRecordsV1` | Delete DNS records |
+| `hostinger_DNS_restoreDNSSnapshotV1` | Restore DNS snapshot |
+
+### Hostinger Billing Tools
+
+| Tool | Description |
+|------|-------------|
+| `hostinger_billing_getSubscriptionListV1` | List subscriptions |
+| `hostinger_billing_getPaymentMethodListV1` | List payment methods |
+
+### Hostinger Firewall Tools
+
+| Tool | Description |
+|------|-------------|
+| `hostinger_VPS_getFirewallListV1` | List firewalls |
+| `hostinger_VPS_createNewFirewallV1` | Create new firewall |
+| `hostinger_VPS_createFirewallRuleV1` | Add firewall rule |
+| `hostinger_VPS_activateFirewallV1` | Activate firewall on VPS |
+
+### Hostinger Backup Tools
+
+| Tool | Description |
+|------|-------------|
+| `hostinger_VPS_getBackupsV1` | List backups |
+| `hostinger_VPS_restoreBackupV1` | Restore from backup |
+| `hostinger_VPS_createSnapshotV1` | Create snapshot |
+| `hostinger_VPS_restoreSnapshotV1` | Restore snapshot |
+
+### Hostinger Email (Reach) Tools
+
+| Tool | Description |
+|------|-------------|
+| `hostinger_reach_listContactsV1` | List contacts |
+| `hostinger_reach_createANewContactV1` | Create contact |
+| `hostinger_reach_deleteAContactV1` | Delete contact |
+| `hostinger_reach_listContactGroupsV1` | List contact groups |
+| `hostinger_reach_createANewContactSegmentV1` | Create contact segment |
+
 ### Shadcn UI Tools
 
 | Tool | Description |
@@ -328,16 +506,99 @@ A comprehensive list of all available tools organized by category.
 | `memory_search_nodes` | Search nodes by query |
 | `memory_open_nodes` | Open specific nodes |
 
-### Other Tools
+### Session and Brainstorm Tools
 
 | Tool | Description |
 |------|-------------|
-| `sequential-thinking_sequentialthinking` | Dynamic reflective problem-solving through thoughts |
-| `question` | Ask user questions during execution |
-| `bash` | Execute bash commands |
-| `skill` | Load specialized skills into conversation |
-| `task` | Launch subagents for specialized tasks |
+| `start_session` | Start interactive octto session |
+| `end_session` | End interactive session |
+| `pick_one` | Ask user to select ONE option |
+| `pick_many` | Ask user to select MULTIPLE options |
+| `confirm` | Ask user for Yes/No confirmation |
+| `ask_text` | Ask user for text input |
+| `ask_image` | Ask user to upload image(s) |
+| `ask_file` | Ask user to upload file(s) |
+| `show_diff` | Show diff and ask for approval |
+| `show_plan` | Show plan for user review |
+| `show_options` | Show options with pros/cons |
+| `review_section` | Show content for review |
+| `thumbs` | Ask for thumbs up/down feedback |
+| `get_answer` | Get answer to specific question |
+| `get_next_answer` | Wait for any question answer |
+| `list_questions` | List all questions |
+| `push_question` | Push question to queue |
+| `create_brainstorm` | Create brainstorm session |
+| `await_brainstorm_complete` | Wait for brainstorm completion |
+| `end_brainstorm` | End brainstorm session |
+
+### OpenCode Platform Tools
+
+| Tool | Description |
+|------|-------------|
+| `opencode_sync` | Manage opencode config sync with GitHub |
+| `quota_status` | Diagnostics for toast, TUI, pricing |
+| `compress` | Collapse conversation into summary |
+| `mystatus` | Query account quota usage |
+| `worktree` | Set active git worktree |
+| `workspaces` | List and manage workspaces |
+| `devcontainer` | Set active devcontainer |
+| `createBackgroundProcess` | Run command as background task |
+| `listBackgroundProcesss` | List background tasks |
+| `killTasks` | Kill background tasks |
+| `get_available_skills` | Get available skills |
+| `use_skill` | Load skill content into context |
+
+### Planning Tools
+
+| Tool | Description |
+|------|-------------|
+| `createPlan` | Create implementation plan |
+| `createSpec` | Create reusable spec |
+| `readPlan` | Read plan with linked spec |
+| `appendSpec` | Link spec to plan |
+| `markPlanDone` | Mark plan as done |
+| `submit_plan` | Submit plan for review |
+| `get_session_summary` | Get summary of branches |
+
+### Memory Tools
+
+| Tool | Description |
+|------|-------------|
+| `memory_list` | List available memory blocks |
+| `memory_set` | Create/update memory block |
+| `memory_replace` | Replace text in memory block |
+| `memory_read_graph` | Read knowledge graph |
+| `memory_create_entities` | Create entities |
+| `memory_create_relations` | Create relations |
+
+### Context7 Documentation Tools
+
+| Tool | Description |
+|------|-------------|
+| `context7_resolve-library-id` | Resolve library to Context7 ID |
+| `context7_query-docs` | Query Context7 documentation |
+
+### Exa Web Search Tools
+
+| Tool | Description |
+|------|-------------|
+| `exa_web_search_exa` | Search web using Exa AI |
+| `exa_web_fetch_exa` | Read webpage as markdown |
+| `youtube-transcript_get_transcript` | Extract YouTube transcript |
+| `github-agentic-workflows_search_users` | Search GitHub users |
+| `gh_grep_searchGitHub` | Find real-world code examples |
+
+### Other Utility Tools
+
+| Tool | Description |
+|------|-------------|
+| `sequential-thinking_sequentialthinking` | Dynamic reflective problem-solving |
+| `bash` | Execute shell commands |
+| `skill` | Load specialized skills |
+| `task` | Launch subagents |
 | `todowrite` | Create and manage task lists |
+| `glob` | Fast file pattern matching |
+| `grep` | Fast content search |
 
 ## Notes
 

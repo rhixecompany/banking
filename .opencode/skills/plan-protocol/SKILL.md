@@ -98,9 +98,9 @@ ONE_SENTENCE_DESCRIBING_OUTCOME
 
 ## Verification
 
-- [ ] Run `npm run build` - must pass
-- [ ] Run `npm run lint:strict` - zero warnings
-- [ ] Run `npm run test` - all tests pass
+- [ ] Run `bun run build` - must pass
+- [ ] Run `bun run lint:strict` - zero warnings
+- [ ] Run `bun run test` - all tests pass
 
 ## Notes
 
@@ -258,9 +258,9 @@ Add JWT authentication with refresh token support
 
 ## Verification
 
-- [ ] Run `npm run build` - must pass
-- [ ] Run `npm run lint:strict` - zero warnings
-- [ ] Run `npm run test` - all tests pass
+- [ ] Run `bun run build` - must pass
+- [ ] Run `bun run lint:strict` - zero warnings
+- [ ] Run `bun run test` - all tests pass
 
 ## Notes
 
@@ -333,30 +333,30 @@ Add authentication
 
 ```bash
 # Run verification commands
-npm run build
-npm run lint:strict
-npm run test
+bun run build
+bun run lint:strict
+bun run test
 
 # Run format
-npm run format
+bun run format
 
 # TypeScript check
-npm run type-check
+bun run type-check
 ```
 
 #### PowerShell (Windows)
 
 ```powershell
 # Run verification commands
-npm run build
-npm run lint:strict
-npm run test
+bun run build
+bun run lint:strict
+bun run test
 
 # Run format
-npm run format
+bun run format
 
 # TypeScript check
-npm run type-check
+bun run type-check
 ```
 
 #### Cross-Platform Path Notes

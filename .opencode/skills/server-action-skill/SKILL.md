@@ -46,5 +46,5 @@ Rules
 
 Validation
 
-- `npm run type-check`
-- `npm run lint:strict`
+- `bun run type-check`
+- `bun run lint:strict`

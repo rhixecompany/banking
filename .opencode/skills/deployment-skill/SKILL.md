@@ -21,4 +21,4 @@ Railway / Docker
 
 Validation
 
-- Run `npm run build` to verify production build.
+- Run `bun run build` to verify production build.
