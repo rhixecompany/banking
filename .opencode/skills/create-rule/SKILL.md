@@ -13,6 +13,51 @@ minLines: 300
 
 # Creating Cursor Rules
 
+## Agent Support
+
+| Agent | Integration | Usage |
+|-------|-------------|-------|
+| **OpenCode** | Direct skill invocation | `skill("create-rule")` when creating rules |
+| **Cursor** | `.cursorrules` reference | Add to project rules for rule config |
+| **Copilot** | `.github/copilot-instructions.md` | Reference for rule patterns |
+
+### OpenCode Usage
+```
+# When creating project rules
+Use create-rule to structure .mdc files in .cursor/rules/.
+
+# When setting file-specific patterns
+Load create-rule for glob patterns and frontmatter.
+```
+
+### Cursor Integration
+```json
+// .cursorrules - Add rule patterns
+{
+  "rules": {
+    "rulesDir": ".cursor/rules",
+    "requireFrontmatter": true,
+    "maxLines": 500
+  }
+}
+```
+
+### Copilot Integration
+```markdown
+<!-- .github/copilot-instructions.md -->
+## Cursor Rules Patterns
+
+When creating project rules:
+- Format: .mdc files with YAML frontmatter
+- Fields: description, globs, alwaysApply
+- Globs: **/*.ts, **/*.tsx for file-specific rules
+- Keep under 500 lines
+
+See skills/create-rule for full format guide.
+```
+
+---
+
 Create project rules in `.cursor/rules/` to provide persistent context for the AI agent.
 
 ## When to Use This Skill

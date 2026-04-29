@@ -5,6 +5,51 @@ lastReviewed: 2026-04-29
 applyTo: "web/**/*"
 ---
 
+## Agent Support
+
+| Agent | Integration | Usage |
+|-------|-------------|-------|
+| **OpenCode** | Direct skill invocation | `skill("create-web-form")` when building forms |
+| **Cursor** | `.cursorrules` reference | Add to project rules for form patterns |
+| **Copilot** | `.github/copilot-instructions.md` | Reference for web form creation |
+
+### OpenCode Usage
+```
+# When creating a web form
+Use create-web-form for HTML structure and validation.
+
+# When building accessible forms
+Load create-web-form for ARIA patterns and best practices.
+```
+
+### Cursor Integration
+```json
+// .cursorrules - Add form patterns
+{
+  "forms": {
+    "requireLabels": true,
+    "requireValidation": true,
+    "accessibilityRequired": true
+  }
+}
+```
+
+### Copilot Integration
+```markdown
+<!-- .github/copilot-instructions.md -->
+## Web Form Patterns
+
+When creating forms:
+- Progressive enhancement: work without JS
+- Defense in depth: validate on client AND server
+- Accessibility: labels, ARIA, keyboard navigation
+- Security: CSRF protection, rate limiting, sanitization
+
+See skills/create-web-form for full patterns.
+```
+
+---
+
 # Create Web Form Skill
 
 ## Overview

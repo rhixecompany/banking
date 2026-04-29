@@ -41,7 +41,6 @@ export default defineConfig([
     "build/**",
     "dist/**",
     ".worktrees/**",
-    ".cursor/**",
     "node_modules/**",
     "next-env.d.ts",
     ".references/**",
@@ -50,20 +49,16 @@ export default defineConfig([
     "test-results/**",
     "playwright-report/**",
     ".vercel/**",
-    ".github/**",
-    ".opencode/skills/**",
-    ".opencode/**",
-    "docs/**",
     "thoughts/**",
   ]),
   {
     files: ["**/*.{js,jsx,ts,tsx,cjs,mts,cts}"],
     languageOptions: {
-      ecmaVersion: 2022,
+      ecmaVersion: 2025,
       globals: {
         ...globals.browser,
         ...globals.node,
-        ...globals.es2021,
+        ...globals.es2025,
         ...globals.jest,
         afterAll: "readonly",
         afterEach: "readonly",
@@ -80,7 +75,7 @@ export default defineConfig([
         ecmaFeatures: {
           jsx: true,
         },
-        ecmaVersion: 2022,
+        ecmaVersion: 2025,
         projectService: {
           allowDefaultProject: [
             ".prettierrc.ts",

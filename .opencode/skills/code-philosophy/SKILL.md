@@ -5,6 +5,53 @@ lastReviewed: 2026-04-29
 applyTo: "**/*.{ts,tsx,js,jsx}"
 ---
 
+## Agent Support
+
+| Agent | Integration | Usage |
+|-------|-------------|-------|
+| **OpenCode** | Direct skill invocation | `skill("code-philosophy")` when writing or reviewing logic |
+| **Cursor** | `.cursorrules` reference | Add to project rules for code quality |
+| **Copilot** | `.github/copilot-instructions.md` | Reference for internal logic patterns |
+
+### OpenCode Usage
+```
+# When writing TypeScript/JavaScript code
+Use code-philosophy to apply the 5 Laws of Elegant Defense.
+
+# When reviewing code for quality
+Load code-philosophy for the 5 laws assessment.
+```
+
+### Cursor Integration
+```json
+// .cursorrules - Add code philosophy rules
+{
+  "codeQuality": {
+    "enforceEarlyExits": true,
+    "makeIllegalStatesUnrepresentable": true,
+    "pureFunctions": true,
+    "failFast": true,
+    "intentionalNaming": true
+  }
+}
+```
+
+### Copilot Integration
+```markdown
+<!-- .github/copilot-instructions.md -->
+## Code Philosophy - 5 Laws of Elegant Defense
+
+1. Law of Early Exit - Handle edge cases at top
+2. Make Illegal States Unrepresentable - Parse don't validate
+3. Law of Atomic Predictability - Pure functions, same input = same output
+4. Fail Fast, Fail Loud - Halt immediately on invalid state
+5. Intentional Naming - Self-documenting names, no comments needed
+
+See skills/code-philosophy for full details.
+```
+
+---
+
 # Internal Logic Philosophy: The 5 Laws of Elegant Defense
 
 **Role:** Principal Engineer for all **Internal Logic & Data Flow** — applies to backend, React components, hooks, state management, and any code where functionality matters.

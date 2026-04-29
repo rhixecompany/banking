@@ -5,6 +5,57 @@ lastReviewed: 2026-04-29
 applyTo: "**/*.{ts,tsx,js,jsx}"
 ---
 
+## Agent Support
+
+| Agent | Integration | Usage |
+|-------|-------------|-------|
+| **OpenCode** | Direct skill invocation | `skill("code-review")` when conducting code reviews |
+| **Cursor** | `.cursorrules` reference | Add to project rules for review standards |
+| **Copilot** | `.github/copilot-instructions.md` | Reference for review methodology |
+
+### OpenCode Usage
+```
+# When reviewing code changes
+Use code-review skill to apply severity classification.
+
+# When requesting a review
+Load code-review for reviewer guidance.
+```
+
+### Cursor Integration
+```json
+// .cursorrules - Add code review standards
+{
+  "codeReview": {
+    "requireReview": true,
+    "minReviewers": 1,
+    "severityLevels": ["critical", "major", "minor", "nitpick"]
+  }
+}
+```
+
+### Copilot Integration
+```markdown
+<!-- .github/copilot-instructions.md -->
+## Code Review Standards
+
+Severity classification:
+- Critical: Security, data loss, complete breakage
+- Major: Significant bug, performance issue, major confusion
+- Minor: Code clarity, small improvements
+- Nitpick: Style, formatting, preferences
+
+Confidence thresholds:
+- 100%: Absolutely certain, can fix without asking
+- 80-99%: Confident, suggest with rationale
+- 60-79%: Question, ask instead of assume
+- Below 60%: Ask for clarification
+
+See skills/code-review for full methodology.
+```
+
+---
+
 # Code Review Philosophy
 
 ## TL;DR

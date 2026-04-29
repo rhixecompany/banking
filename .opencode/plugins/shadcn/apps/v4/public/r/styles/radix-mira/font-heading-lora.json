@@ -1,0 +1,14 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "font": {
+    "family": "'Lora Variable', serif",
+    "provider": "google",
+    "import": "Lora",
+    "variable": "--font-heading",
+    "subsets": ["latin"],
+    "dependency": "@fontsource-variable/lora"
+  },
+  "name": "font-heading-lora",
+  "title": "Lora (Heading)",
+  "type": "registry:font"
+}

@@ -8,6 +8,52 @@ platforms:
   - copilot
 ---
 
+## Agent Support
+
+| Agent | Integration | Usage |
+|-------|-------------|-------|
+| **OpenCode** | Direct skill invocation | `skill("cartography")` when mapping unfamiliar repositories |
+| **Cursor** | `.cursorrules` reference | Add to project rules for codemap generation |
+| **Copilot** | `.github/copilot-instructions.md` | Reference for repository mapping |
+
+### OpenCode Usage
+```
+# When asked to understand/map a repository
+Use cartography skill to generate hierarchical codemaps.
+
+# When starting on unfamiliar codebase
+Load cartography for systematic exploration workflow.
+```
+
+### Cursor Integration
+```json
+// .cursorrules - Add cartography configuration
+{
+  "documentation": {
+    "requireCodemap": true,
+    "codemapLocation": "codemap.md",
+    "excludePatterns": ["tests/**", "docs/**", "node_modules/**"]
+  }
+}
+```
+
+### Copilot Integration
+```markdown
+<!-- .github/copilot-instructions.md -->
+## Cartography Patterns
+
+When mapping repositories:
+1. Check for existing .slim/cartography.json
+2. Initialize or detect changes
+3. Generate codemaps per directory
+4. Create root atlas (codemap.md)
+5. Register in AGENTS.md
+
+See skills/cartography for full workflow.
+```
+
+---
+
 # Cartography Skill
 
 You help users understand and map repositories by creating hierarchical codemaps.

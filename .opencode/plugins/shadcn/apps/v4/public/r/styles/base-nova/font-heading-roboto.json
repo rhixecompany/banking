@@ -1,0 +1,14 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "font": {
+    "family": "'Roboto Variable', sans-serif",
+    "provider": "google",
+    "import": "Roboto",
+    "variable": "--font-heading",
+    "subsets": ["latin"],
+    "dependency": "@fontsource-variable/roboto"
+  },
+  "name": "font-heading-roboto",
+  "title": "Roboto (Heading)",
+  "type": "registry:font"
+}

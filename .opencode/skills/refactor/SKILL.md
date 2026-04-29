@@ -2,8 +2,12 @@
 name: refactor
 description: Surgical code refactoring guidance to improve maintainability without changing behavior.
 license: MIT
-lastReviewed: 2026-04-24
+lastReviewed: 2026-04-29
 applyTo: "src/**/*.{ts,tsx,js,jsx}"
+platforms:
+  - opencode
+  - cursor
+  - copilot
 ---
 
 # Refactor

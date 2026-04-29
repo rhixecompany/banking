@@ -2,22 +2,62 @@
   "compilerOptions": {
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
     "esModuleInterop": true,
-    // Added from awesome-opencode
     "forceConsistentCasingInFileNames": true,
+    "ignoreDeprecations": "6.0",
     "incremental": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "module": "esnext",
     "moduleResolution": "bundler",
     "noEmit": true,
     "paths": {
-      "@/*": ["./*"],
-      "@/lib/*": ["./lib/*"]
+      "@/*": [
+        "./*"
+      ],
+      "actions/*": [
+        "./actions/*"
+      ],
+      "app/*": [
+        "./app/*"
+      ],
+      "components/*": [
+        "./components/*"
+      ],
+      "constants/*": [
+        "./constants/*"
+      ],
+      "dal/*": [
+        "./dal/*"
+      ],
+      "database/*": [
+        "./database/*"
+      ],
+      "hooks/*": [
+        "./hooks/*"
+      ],
+      "lib/*": [
+        "./lib/*"
+      ],
+      "scripts/*": [
+        "./scripts/*"
+      ],
+      "stores/*": [
+        "./stores/*"
+      ],
+      "tests/*": [
+        "./tests/*"
+      ],
+      "types/*": [
+        "./types/*"
+      ]
     },
-    "baseUrl": ".",
-    "ignoreDeprecations": "6.0",
     "plugins": [
       {
         "name": "next"
@@ -26,7 +66,7 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "ES2017",
+    "target": "es2025",
     "types": [
       "node",
       "react",
@@ -35,7 +75,9 @@
       "vitest/globals"
     ]
   },
-  "exclude": ["node_modules"],
+  "exclude": [
+    "node_modules"
+  ],
   "include": [
     "next-env.d.ts",
     "**/*.ts",
@@ -44,8 +86,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "eslint.config.mts",
-    "dal/health.d.ts",
-    "scripts/utils/ci-helpers/run-with-args.js",
     "**/*.d.ts"
   ]
 }

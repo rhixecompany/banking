@@ -9,6 +9,51 @@ platforms:
   - copilot
 ---
 
+## Agent Support
+
+| Agent | Integration | Usage |
+|-------|-------------|-------|
+| **OpenCode** | Direct skill invocation | `skill("create-hook")` when creating Cursor hooks |
+| **Cursor** | `.cursorrules` reference | Add to project rules for hook patterns |
+| **Copilot** | `.github/copilot-instructions.md` | Reference for hook automation |
+
+### OpenCode Usage
+```
+# When creating a hook for Cursor
+Use create-hook skill to implement hook scripts.
+
+# When automating agent events
+Load create-hook for event types and implementation patterns.
+```
+
+### Cursor Integration
+```json
+// .cursorrules - Add hook patterns
+{
+  "hooks": {
+    "requireHooks": false,
+    "hooksDir": ".cursor/hooks",
+    "events": ["preToolUse", "postToolUse", "sessionStart", "sessionEnd"]
+  }
+}
+```
+
+### Copilot Integration
+```markdown
+<!-- .github/copilot-instructions.md -->
+## Cursor Hooks
+
+When automating behavior around agent events:
+- sessionStart: Set up session, initialize logging
+- preToolUse: Gate or modify tool calls
+- postToolUse: Add context after success
+- beforeShellExecution: Block dangerous commands
+
+See skills/create-hook for implementation patterns.
+```
+
+---
+
 # Creating Cursor Hooks - Banking Project Guidelines
 
 ## Overview

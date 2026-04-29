@@ -1,0 +1,13 @@
+{
+  "pages": [
+    "components",
+    "(root)",
+    "changelog",
+    "forms",
+    "installation",
+    "dark-mode",
+    "rtl",
+    "registry"
+  ],
+  "root": true
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "author": "shadcn (https://ui.shadcn.com)",
+  "cssVars": {},
+  "dependencies": [
+    "tailwindcss-animate",
+    "class-variance-authority",
+    "lucide-react"
+  ],
+  "files": [],
+  "name": "style",
+  "registryDependencies": ["utils"],
+  "tailwind": {
+    "config": {
+      "plugins": ["require(\"tailwindcss-animate\")"]
+    }
+  },
+  "type": "registry:style"
+}

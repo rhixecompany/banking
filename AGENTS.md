@@ -21,12 +21,36 @@
 
 ## Non-Obvious Workflow Rules
 
-- If a change touches more than 7 files, add a plan under `.opencode/commands/` before implementation. `scripts/verify-rules.ts` and CI both enforce this.
-- Do not read `process.env` directly in app code. Use `app-config.ts` first, `lib/env.ts` only for compatibility. Verified exception: `proxy.ts` reads Upstash env vars directly.
+- If a change touches more than 7 files, add a plan under `.opencode/commands/` before implementation. `scripts/verify-rules.ts` and CI both enforce this with exit code 2 on violations.
+- Do not read `process.env` directly in app code. Use `app-config.ts` first, `lib/env.ts` only for compatibility. **Verified exception:** `proxy.ts` reads Upstash env vars directly.
 - Keep `app/page.tsx` public and static. `scripts/verify-rules.ts` treats auth calls, direct env reads, and DB/DAL access on the home page as critical violations.
-- All writes belong in Server Actions, not API routes. In `actions/**`, follow the enforced pattern: `"use server"`, authenticate early when protected, validate with Zod, return `{ ok, error? }`, and call DAL helpers.
-- UI and route components should not import DB clients directly. DB access is expected through `dal/**` helpers.
-- When loading related DB data, avoid N+1 queries. `dal/transaction.dal.ts` is the reference pattern: fetch base rows, batch related IDs, map results back.
+- All writes belong in Server Actions, not API routes. Pattern in `actions/register.ts`: `"use server"`, early auth(), Zod validation, return `{ ok, error? }`, call DAL helpers.
+- UI and route components must NOT import DB clients directly. Use `dal/**` helpers exclusively.
+- When loading related DB data, avoid N+1 queries. Reference: `dal/transaction.dal.ts` — fetch base rows, batch related IDs with IN clauses, map results back.
+
+## Canonical Reference Files
+
+These files are the authoritative implementations. Always reference them when implementing similar patterns:
+
+| File | Pattern It Implements |
+| --- | --- |
+| `actions/register.ts` | Server Action with Zod validation, auth, { ok, error? } return |
+| `dal/transaction.dal.ts` | N+1 prevention with batch fetching |
+| `dal/user.dal.ts` | User CRUD with profile relations |
+| `lib/auth-options.ts` | NextAuth v4 JWT configuration |
+| `lib/auth.ts` | Server-side session helper |
+| `database/schema.ts` | Drizzle ORM schema definitions |
+
+## Testing Patterns
+
+- **Mock tokens:** Use tokens starting with `seed-`, `mock-`, or `mock_` to skip Plaid API calls. See `lib/plaid.ts` (`isMockAccessToken()`).
+- **E2E seed user:** `seed-user@example.com` / `password123`
+- **Port guard:** Always free port 3000 before running tests:
+
+```powershell
+$pids = Get-NetTCPConnection -LocalPort 3000 -State Listen -ErrorAction SilentlyContinue | Select-Object -ExpandProperty OwningProcess -Unique
+if ($pids) { $pids | ForEach-Object { Stop-Process -Id $_ -Force } }
+```
 
 ## Architecture Snapshot
 
@@ -39,24 +63,24 @@
   - `database/`: Drizzle schema and DB client
   - `components/`: presentational/UI code
 
-## Testing Gotchas
-
-- Free port 3000 before running Playwright or Vitest. Use:
-
-```powershell
-$pids = Get-NetTCPConnection -LocalPort 3000 -State Listen -ErrorAction SilentlyContinue | Select-Object -ExpandProperty OwningProcess -Unique
-if ($pids) { $pids | ForEach-Object { Stop-Process -Id $_ -Force } }
-```
+## Test Infrastructure
 
 - `vitest.config.ts` only includes `tests/unit/**/*.test.{ts,tsx,js,jsx}`.
-- Playwright is stateful here: `workers: 1`, `fullyParallel: false`, and it starts the app through `bun run dev` from `playwright.config.ts`. Do not casually rewrite those script invocations to Bun without checking test behavior.
-- `bun run test:ui` sets `PLAYWRIGHT_PREPARE_DB=true`. `tests/e2e/global-setup.ts` will then run `bun run db:push` and `bun run db:seed -- --reset` if the DB is not prepared.
-- E2E requires a reachable Postgres `DATABASE_URL`, plus `ENCRYPTION_KEY` and `NEXTAUTH_SECRET`. Seeded auth uses `seed-user@example.com` / `password123`.
+- Playwright is stateful: `workers: 1`, `fullyParallel: false`, starts app via `bun run dev` from `playwright.config.ts`.
+- `bun run test:ui` sets `PLAYWRIGHT_PREPARE_DB=true`. `tests/e2e/global-setup.ts` runs `bun run db:push` and `bun run db:seed -- --reset` if DB not prepared.
+- E2E requires reachable Postgres `DATABASE_URL`, plus `ENCRYPTION_KEY` and `NEXTAUTH_SECRET`.
 
 ## Verification Order
 
 - Preferred local check sequence for app changes: `bun run format && bun run type-check && bun run lint:strict && bun run verify:rules`
 - Use `bun run build` and `bun run test` when the change affects runtime behavior, routing, auth, or persistence.
+
+## Pre-Commit Hooks
+
+The repo uses Husky (configured in `.husky/`). On `git commit`, hooks run automatically. Key hooks:
+- `verify-rules.ts` — AST-based policy enforcement (same as CI)
+- `lint-staged` — Format and lint only staged files
+- Do not bypass hooks with `--no-verify` unless explicitly instructed by the user.
 
 ## Learned User Preferences
 
@@ -65,6 +89,18 @@ if ($pids) { $pids | ForEach-Object { Stop-Process -Id $_ -Force } }
 ## Learned Workspace Facts
 
 - The repo already enforces clearing listeners on port `3000` before Playwright/Vitest runs through the always-applied test runner guard rule.
+
+## Repository Map
+
+A full codemap is available at `codemap.md` in the project root.
+
+Before working on any task, read `codemap.md` to understand:
+
+- Project architecture and entry points
+- Directory responsibilities and design patterns
+- Data flow and integration points between modules
+
+For deep work on a specific folder, also read that folder's `codemap.md`.
 
 ## Plugins
 
@@ -243,12 +279,12 @@ Tools organized by category. All tools are available in opencode.
 
 ### Next.js DevTools (MCP)
 
-- `next_devtools_init` - Initialize Next.js MCP context
-- `next_devtools_nextjs_index` - Discover Next.js servers
-- `next_devtools_nextjs_call` - Call Next.js MCP tool
-- `next_devtools_nextjs_docs` - Fetch Next.js documentation
-- `next_devtools_upgrade_nextjs_16` - Upgrade to Next.js 16
-- `next_devtools_enable_cache_components` - Enable Cache Components
+Next.js 16+ exposes MCP at `/_next/mcp` automatically when dev server runs. Use these tools to query the running app:
+
+- `next_devtools_init` - Initialize Next.js MCP context (call first in Next.js sessions)
+- `next_devtools_nextjs_index` - Discover running Next.js servers and list available tools
+- `next_devtools_nextjs_call` - Call MCP tools on running server (get errors, routes, diagnostics)
+- `next_devtools_nextjs_docs` - Fetch Next.js documentation by path
 - `next_devtools_browser_eval` - Browser automation via Playwright
 
 ### shadcn UI Tools

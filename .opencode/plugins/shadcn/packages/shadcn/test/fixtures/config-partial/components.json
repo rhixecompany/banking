@@ -1,0 +1,13 @@
+{
+  "aliases": {
+    "utils": "@/lib/utils",
+    "components": "@/components"
+  },
+  "style": "default",
+  "tailwind": {
+    "config": "./tailwind.config.ts",
+    "css": "./src/assets/css/tailwind.css",
+    "baseColor": "neutral",
+    "cssVariables": false
+  }
+}

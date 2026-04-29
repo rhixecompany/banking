@@ -5,6 +5,51 @@ description: >-
 
 
 disable-model-invocation: true
+lastReviewed: 2026-04-29
+---
+
+## Agent Support
+
+| Agent | Integration | Usage |
+|-------|-------------|-------|
+| **OpenCode** | Direct skill invocation | `skill("create-subagent")` when creating subagents |
+| **Cursor** | `.cursorrules` reference | Add to project rules for subagent config |
+| **Copilot** | `.github/copilot-instructions.md` | Reference for subagent patterns |
+
+### OpenCode Usage
+```
+# When creating a custom subagent
+Use create-subagent to define agent prompts and descriptions.
+
+# When setting up specialized agents
+Load create-subagent for location and format guidance.
+```
+
+### Cursor Integration
+```json
+// .cursorrules - Add subagent patterns
+{
+  "subagents": {
+    "projectDir": ".cursor/agents",
+    "userDir": "~/.cursor/agents",
+    "requireDescription": true
+  }
+}
+```
+
+### Copilot Integration
+```markdown
+<!-- .github/copilot-instructions.md -->
+## Subagent Patterns
+
+When creating custom subagents:
+- Location: .cursor/agents/ (project) or ~/.cursor/agents/ (user)
+- Format: .md file with YAML frontmatter
+- Description: Include trigger terms and "use proactively"
+
+See skills/create-subagent for examples.
+```
+
 ---
 
 # Creating Custom Subagents

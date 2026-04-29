@@ -1,0 +1,26 @@
+{
+  "author": {
+    "name": "Exa",
+    "email": "hello@exa.ai"
+  },
+  "commands": "./commands/",
+  "description": "Web search and content extraction powered by Exa AI",
+  "displayName": "Exa",
+  "homepage": "https://docs.exa.ai",
+  "keywords": [
+    "search",
+    "web-search",
+    "exa",
+    "research",
+    "mcp",
+    "content-extraction"
+  ],
+  "license": "MIT",
+  "logo": "https://exa.imgix.net/exa-logo.jpg",
+  "mcpServers": "mcp.json",
+  "name": "exa",
+  "repository": "https://github.com/exa-labs/exa-cursor-plugin",
+  "rules": "./rules/",
+  "skills": "./skills/",
+  "version": "1.1.0"
+}

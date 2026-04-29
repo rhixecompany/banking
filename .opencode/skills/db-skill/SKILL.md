@@ -11,6 +11,51 @@ platforms:
 
 # DBSkill - Banking Database Patterns
 
+## Agent Support
+
+| Agent | Integration | Usage |
+|-------|-------------|-------|
+| **OpenCode** | Direct skill invocation | `skill("db-skill")` for schema and migrations |
+| **Cursor** | `.cursorrules` reference | Add to project rules for Drizzle patterns |
+| **Copilot** | `.github/copilot-instructions.md` | Reference for database operations |
+
+### OpenCode Usage
+```
+# When working with database schema
+Use db-skill for Drizzle ORM patterns.
+
+# When running migrations
+Load db-skill for migration commands.
+```
+
+### Cursor Integration
+```json
+// .cursorrules - Add database patterns
+{
+  "database": {
+    "orm": "drizzle",
+    "requireMigrations": true,
+    "n1Prevention": true
+  }
+}
+```
+
+### Copilot Integration
+```markdown
+<!-- .github/copilot-instructions.md -->
+## Database Patterns
+
+Drizzle ORM for the Banking app:
+- Schema: 10 tables + enums in database/schema.ts
+- Migrations: bun run db:generate, db:push
+- N+1 prevention: Use eager loading with JOINs
+- Transactions: Use db.transaction() for atomic ops
+
+See skills/db-skill for full patterns.
+```
+
+---
+
 ## Overview
 
 This skill provides comprehensive guidance on Drizzle ORM patterns for the Banking project. It covers schema definitions, migrations, data access patterns, N+1 prevention, and transaction management.

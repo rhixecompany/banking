@@ -1,6 +1,12 @@
 ---
 name: plan-review
 description: Criteria for reviewing implementation plans against quality standards
+lastReviewed: 2026-04-29
+applyTo: "**/*"
+platforms:
+  - opencode
+  - cursor
+  - copilot
 ---
 
 # Plan Review

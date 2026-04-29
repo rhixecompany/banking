@@ -1,0 +1,17 @@
+{
+  "author": {
+    "name": "Sentry"
+  },
+  "description": "Sentry Plugin for Claude Code to help with debugging including MCP, commands, and skill capabilities.",
+  "keywords": ["sentry", "debugging", "monitoring", "error-tracking"],
+  "license": "MIT",
+  "mcpServers": {
+    "sentry": {
+      "type": "http",
+      "url": "https://mcp.sentry.dev/mcp"
+    }
+  },
+  "name": "sentry",
+  "repository": "https://github.com/getsentry/sentry-for-ai",
+  "version": "1.0.0"
+}

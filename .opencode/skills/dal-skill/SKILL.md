@@ -7,6 +7,51 @@ applyTo: "dal/**"
 
 # DAL Skill — Data Access Layer Patterns
 
+## Agent Support
+
+| Agent | Integration | Usage |
+|-------|-------------|-------|
+| **OpenCode** | Direct skill invocation | `skill("dal-skill")` when accessing database |
+| **Cursor** | `.cursorrules` reference | Add to project rules for DAL patterns |
+| **Copilot** | `.github/copilot-instructions.md` | Reference for data access patterns |
+
+### OpenCode Usage
+```
+# When querying the database
+Use dal-skill for type-safe DAL patterns.
+
+# When avoiding N+1 queries
+Load dal-skill for eager loading patterns.
+```
+
+### Cursor Integration
+```json
+// .cursorrules - Add DAL patterns
+{
+  "database": {
+    "requireDAL": true,
+    "preventN1Queries": true,
+    "useTransactions": true
+  }
+}
+```
+
+### Copilot Integration
+```markdown
+<!-- .github/copilot-instructions.md -->
+## DAL Patterns
+
+All DB access must go through dal/ classes:
+- Never query directly from Server Actions
+- Prevent N+1 with eager loading
+- Use transactions for multi-step operations
+- Always use type-safe returns
+
+See skills/dal-skill for implementation.
+```
+
+---
+
 ## Overview
 
 The DAL (Data Access Layer) is the mandatory pattern for all database operations in the Banking app. All DB access must flow through `dal/` classes or helpers to ensure type safety, N+1 prevention, and consistent error handling.

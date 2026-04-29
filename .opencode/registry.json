@@ -4,7 +4,9 @@
     "displayName": "Agentic",
     "productId": "agentic",
     "repoUrl": "https://github.com/Cluster444/agentic",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Modular AI agents",
     "tags": [],
     "type": "agents"
@@ -14,7 +16,9 @@
     "displayName": "Claude Subagents",
     "productId": "claude-subagents",
     "repoUrl": "https://github.com/VoltAgent/awesome-claude-code-subagents",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Claude Code subagents",
     "tags": [],
     "type": "agents"
@@ -24,7 +28,9 @@
     "displayName": "Opencode Agents",
     "productId": "opencode-agents",
     "repoUrl": "https://github.com/darrenhinde/opencode-agents",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Enhanced workflows",
     "tags": [],
     "type": "agents"
@@ -34,7 +40,9 @@
     "displayName": "Redstone",
     "productId": "opencode-redstone",
     "repoUrl": "https://github.com/BackGwa/Redstone",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "AI-built Minecraft plugins",
     "tags": [],
     "type": "agents"
@@ -44,7 +52,9 @@
     "displayName": "Agent Memory",
     "productId": "agent-memory",
     "repoUrl": "https://github.com/joshuadavidthomas/opencode-agent-memory",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Letta-inspired memory",
     "tags": [],
     "type": "plugins"
@@ -54,7 +64,9 @@
     "displayName": "Agent Skills (JDT)",
     "productId": "agent-skills-jdt",
     "repoUrl": "https://github.com/joshuadavidthomas/opencode-agent-skills",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Dynamic skills loader",
     "tags": [],
     "type": "plugins"
@@ -64,7 +76,9 @@
     "displayName": "Antigravity Auth",
     "productId": "antigravity-auth",
     "repoUrl": "https://github.com/NoeFabris/opencode-antigravity-auth",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Google Antigravity models",
     "tags": [],
     "type": "plugins"
@@ -74,7 +88,9 @@
     "displayName": "Antigravity Multi-Auth",
     "productId": "antigravity-multi-auth",
     "repoUrl": "https://github.com/theblazehen/opencode-antigravity-multi-auth",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Multiple Google accounts",
     "tags": [],
     "type": "plugins"
@@ -84,7 +100,9 @@
     "displayName": "Background",
     "productId": "background",
     "repoUrl": "https://github.com/zenobi-us/opencode-background",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Background process management",
     "tags": [],
     "type": "plugins"
@@ -94,7 +112,9 @@
     "displayName": "Background Agents",
     "productId": "background-agents",
     "repoUrl": "https://github.com/kdcokenny/opencode-background-agents",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Async agent delegation",
     "tags": [],
     "type": "plugins"
@@ -104,7 +124,9 @@
     "displayName": "Beads Plugin",
     "productId": "beads-plugin",
     "repoUrl": "https://github.com/joshuadavidthomas/opencode-beads",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Beads issue tracker integration",
     "tags": [],
     "type": "plugins"
@@ -114,7 +136,9 @@
     "displayName": "CC Safety Net",
     "productId": "cc-safety-net",
     "repoUrl": "https://github.com/kenryu42/claude-code-safety-net",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Safety net catching destructive commands",
     "tags": [],
     "type": "plugins"
@@ -124,7 +148,9 @@
     "displayName": "Context Analysis",
     "productId": "context-analysis",
     "repoUrl": "https://github.com/IgorWarzocha/Opencode-Context-Analysis-Plugin",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Token usage analysis",
     "tags": [],
     "type": "plugins"
@@ -134,7 +160,9 @@
     "displayName": "Devcontainers",
     "productId": "devcontainers",
     "repoUrl": "https://github.com/athal7/opencode-devcontainers",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Multi-branch devcontainers",
     "tags": [],
     "type": "plugins"
@@ -144,7 +172,9 @@
     "displayName": "Direnv",
     "productId": "direnv",
     "repoUrl": "https://github.com/simonwjackson/opencode-direnv",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Load direnv variables",
     "tags": [],
     "type": "plugins"
@@ -154,7 +184,9 @@
     "displayName": "Dynamic Context Pruning",
     "productId": "dynamic-context-pruning",
     "repoUrl": "https://github.com/Tarquinen/opencode-dynamic-context-pruning",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Optimize token usage",
     "tags": [],
     "type": "plugins"
@@ -164,7 +196,9 @@
     "displayName": "Envsitter Guard",
     "productId": "envsitter-guard",
     "repoUrl": "https://github.com/boxpositron/envsitter-guard",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Prevent .env leaks",
     "tags": [],
     "type": "plugins"
@@ -174,7 +208,9 @@
     "displayName": "Froggy",
     "productId": "froggy",
     "repoUrl": "https://github.com/smartfrog/opencode-froggy",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Hooks and specialized agents",
     "tags": [],
     "type": "plugins"
@@ -184,7 +220,9 @@
     "displayName": "Gemini Auth",
     "productId": "gemini-auth",
     "repoUrl": "https://github.com/jenslys/opencode-gemini-auth",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Google account auth",
     "tags": [],
     "type": "plugins"
@@ -194,7 +232,9 @@
     "displayName": "Google AI Search",
     "productId": "google-ai-search",
     "repoUrl": "https://github.com/IgorWarzocha/Opencode-Google-AI-Search-Plugin",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Query Google AI Mode (SGE)",
     "tags": [],
     "type": "plugins"
@@ -204,7 +244,9 @@
     "displayName": "Handoff",
     "productId": "handoff",
     "repoUrl": "https://github.com/joshuadavidthomas/opencode-handoff",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Session handoff prompts",
     "tags": [],
     "type": "plugins"
@@ -214,7 +256,9 @@
     "displayName": "Kilo Gateway Auth",
     "productId": "kilo-auth",
     "repoUrl": "https://github.com/JungHoonGhae/opencode-kilo-auth",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Kilo Gateway provider",
     "tags": [],
     "type": "plugins"
@@ -224,7 +268,9 @@
     "displayName": "Micode",
     "productId": "micode",
     "repoUrl": "https://github.com/vtemian/micode",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Brainstorm-Plan-Implement workflow",
     "tags": [],
     "type": "plugins"
@@ -234,7 +280,9 @@
     "displayName": "Model Announcer",
     "productId": "model-announcer",
     "repoUrl": "https://github.com/ramarivera/opencode-model-announcer",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Model self-awareness",
     "tags": [],
     "type": "plugins"
@@ -244,7 +292,9 @@
     "displayName": "Morph Fast Apply",
     "productId": "morph-fast-apply",
     "repoUrl": "https://github.com/JRedeker/opencode-morph-fast-apply",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "10,500+ tokens/sec code editing",
     "tags": [],
     "type": "plugins"
@@ -254,7 +304,9 @@
     "displayName": "Oh My Opencode",
     "productId": "oh-my-opencode",
     "repoUrl": "https://github.com/code-yeongyu/oh-my-opencode",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Agents & Pre-built tools",
     "tags": [],
     "type": "plugins"
@@ -265,7 +317,9 @@
     "homepageUrl": "https://ohmyopencodeslim.com",
     "productId": "oh-my-opencode-slim",
     "repoUrl": "https://github.com/alvinunreal/oh-my-opencode-slim",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Lightweight agent orchestration with reduced token usage",
     "tags": [
       "agents",
@@ -281,7 +335,9 @@
     "displayName": "Omniroute Auth",
     "productId": "omniroute-auth",
     "repoUrl": "https://github.com/Alph4d0g/opencode-omniroute-auth",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Omniroute authentication provider",
     "tags": [],
     "type": "plugins"
@@ -291,7 +347,9 @@
     "displayName": "open-plan-annotator",
     "productId": "open-plan-annotator",
     "repoUrl": "https://github.com/ndom91/open-plan-annotator",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Annotate LLM plans like a Google Doc!",
     "tags": [],
     "type": "plugins"
@@ -301,7 +359,9 @@
     "displayName": "OpenAI Codex Auth",
     "productId": "openai-codex-auth",
     "repoUrl": "https://github.com/numman-ali/opencode-openai-codex-auth",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "ChatGPT Plus/Pro OAuth",
     "tags": [],
     "type": "plugins"
@@ -311,7 +371,9 @@
     "displayName": "Agent Identity",
     "productId": "opencode-agent-identity",
     "repoUrl": "https://github.com/gotgenes/opencode-agent-identity",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Agent self-identity and per-message attribution for multi-agent sessions",
     "tags": [],
     "type": "plugins"
@@ -321,7 +383,9 @@
     "displayName": "OpenCode Agent Tmux",
     "productId": "opencode-agent-tmux",
     "repoUrl": "https://github.com/AnganSamadder/opencode-agent-tmux",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Real-time tmux panes for OpenCode agents with auto-launch, streaming, and cleanup.",
     "tags": [],
     "type": "plugins"
@@ -331,7 +395,9 @@
     "displayName": "Opencode Canvas",
     "productId": "opencode-canvas",
     "repoUrl": "https://github.com/mailshieldai/opencode-canvas",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Interactive terminal canvases in tmux splits",
     "tags": [],
     "type": "plugins"
@@ -341,7 +407,9 @@
     "displayName": "Opencode Ignore",
     "productId": "opencode-ignore",
     "repoUrl": "https://github.com/lgladysz/opencode-ignore",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Ignore files based on pattern",
     "tags": [],
     "type": "plugins"
@@ -351,7 +419,9 @@
     "displayName": "Opencode Mem",
     "productId": "opencode-mem",
     "repoUrl": "https://github.com/tickernelz/opencode-mem",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Persistent memory with vector database",
     "tags": [],
     "type": "plugins"
@@ -361,7 +431,9 @@
     "displayName": "opencode-mystatus",
     "productId": "opencode-mystatus",
     "repoUrl": "https://github.com/vbgate/opencode-mystatus",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Check AI subscription quotas",
     "tags": [],
     "type": "plugins"
@@ -371,7 +443,9 @@
     "displayName": "Opencode Notify",
     "productId": "opencode-notify",
     "repoUrl": "https://github.com/kdcokenny/opencode-notify",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Native OS notifications",
     "tags": [],
     "type": "plugins"
@@ -381,7 +455,9 @@
     "displayName": "OpenCode ntfy.sh",
     "productId": "opencode-ntfy.sh",
     "repoUrl": "https://github.com/lannuttia/opencode-ntfy.sh",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Push notifications to keep you in the know, even when you're on the go.",
     "tags": [],
     "type": "plugins"
@@ -391,7 +467,9 @@
     "displayName": "OpenSpec",
     "productId": "opencode-plugin-openspec",
     "repoUrl": "https://github.com/Octane0411/opencode-plugin-openspec",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Add Architecture planning and specification agent for OpenSpec",
     "tags": [],
     "type": "plugins"
@@ -401,7 +479,9 @@
     "displayName": "opencode-plugin-otel",
     "productId": "opencode-plugin-otel",
     "repoUrl": "https://github.com/DEVtheOPS/opencode-plugin-otel",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "OpenTelemetry telemetry exporter for opencode sessions, mirroring Claude Code monitoring signals",
     "tags": [],
     "type": "plugins"
@@ -411,7 +491,9 @@
     "displayName": "Opencode Quota",
     "productId": "opencode-quota",
     "repoUrl": "https://github.com/slkiser/opencode-quota",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Quota toasts and token tracking",
     "tags": [],
     "type": "plugins"
@@ -421,7 +503,9 @@
     "displayName": "Opencode Roadmap",
     "productId": "opencode-roadmap",
     "repoUrl": "https://github.com/IgorWarzocha/Opencode-Roadmap",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Strategic planning",
     "tags": [],
     "type": "plugins"
@@ -431,7 +515,9 @@
     "displayName": "Opencode Sessions",
     "productId": "opencode-sessions",
     "repoUrl": "https://github.com/malhashemi/opencode-sessions",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Session management",
     "tags": [],
     "type": "plugins"
@@ -441,7 +527,9 @@
     "displayName": "Opencode Skills",
     "productId": "opencode-skills",
     "repoUrl": "https://github.com/malhashemi/opencode-skills",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Manage skills and capabilities",
     "tags": [],
     "type": "plugins"
@@ -451,7 +539,9 @@
     "displayName": "opencode-snip",
     "productId": "opencode-snip",
     "repoUrl": "https://github.com/VincentHardouin/opencode-snip",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "OpenCode plugin that prefixes shell commands with snip to reduce LLM token consumption by 60-90%",
     "tags": [],
     "type": "plugins"
@@ -461,7 +551,9 @@
     "displayName": "Opencode Snippets",
     "productId": "opencode-snippets",
     "repoUrl": "https://github.com/JosXa/opencode-snippets",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Instant inline text expansion",
     "tags": [],
     "type": "plugins"
@@ -471,7 +563,9 @@
     "displayName": "Opencode Synced",
     "productId": "opencode-synced",
     "repoUrl": "https://github.com/iHildy/opencode-synced",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Sync configs across machines",
     "tags": [],
     "type": "plugins"
@@ -481,7 +575,9 @@
     "displayName": "Opencode Workspace",
     "productId": "opencode-workspace",
     "repoUrl": "https://github.com/kdcokenny/opencode-workspace",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Multi-agent orchestration",
     "tags": [],
     "type": "plugins"
@@ -491,7 +587,9 @@
     "displayName": "Opencode Worktree",
     "productId": "opencode-worktree",
     "repoUrl": "https://github.com/kdcokenny/opencode-worktree",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Zero-friction git worktrees",
     "tags": [],
     "type": "plugins"
@@ -501,7 +599,9 @@
     "displayName": "OpenHax Codex",
     "productId": "openhax-codex",
     "repoUrl": "https://github.com/open-hax/codex",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "OAuth authentication",
     "tags": [],
     "type": "plugins"
@@ -511,7 +611,9 @@
     "displayName": "Openskills",
     "productId": "openskills",
     "repoUrl": "https://github.com/numman-ali/openskills",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Alternative skills manager",
     "tags": [],
     "type": "plugins"
@@ -521,7 +623,9 @@
     "displayName": "Optimal Model Temps",
     "productId": "optimal-model-temps",
     "repoUrl": "https://github.com/Lyapsus/opencode-optimal-model-temps",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Optimal sampling temperatures",
     "tags": [],
     "type": "plugins"
@@ -531,7 +635,9 @@
     "displayName": "Pilot",
     "productId": "pilot",
     "repoUrl": "https://github.com/athal7/opencode-pilot",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Automation daemon",
     "tags": [],
     "type": "plugins"
@@ -541,7 +647,9 @@
     "displayName": "Plannotator",
     "productId": "plannotator",
     "repoUrl": "https://github.com/backnotprop/plannotator",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Interactive plan review UI",
     "tags": [],
     "type": "plugins"
@@ -551,7 +659,9 @@
     "displayName": "Plugin Template",
     "productId": "plugin-template",
     "repoUrl": "https://github.com/zenobi-us/opencode-plugin-template",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "CICD setup for plugins",
     "tags": [],
     "type": "plugins"
@@ -561,7 +671,9 @@
     "displayName": "Pocket Universe",
     "productId": "pocket-universe",
     "repoUrl": "https://github.com/spoons-and-mirrors/pocket-universe",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "A subagent driven pocket universe for your primary agent",
     "tags": [],
     "type": "plugins"
@@ -571,7 +683,9 @@
     "displayName": "Ralph Wiggum",
     "productId": "ralph-wiggum",
     "repoUrl": "https://github.com/Th0rgal/opencode-ralph-wiggum",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Self-correcting agent loops",
     "tags": [],
     "type": "plugins"
@@ -581,7 +695,9 @@
     "displayName": "Ring a Bell Example",
     "productId": "ring-a-bell-example",
     "repoUrl": "https://gist.github.com/ahosker/267f375a65378bcb9a867fd9a195db1e",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Simple terminal bell plugin",
     "tags": [],
     "type": "plugins"
@@ -591,7 +707,9 @@
     "displayName": "Shell Strategy",
     "productId": "shell-strategy",
     "repoUrl": "https://github.com/JRedeker/opencode-shell-strategy",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Avoid interactive shell hangs",
     "tags": [],
     "type": "plugins"
@@ -601,7 +719,9 @@
     "displayName": "Simple Memory",
     "productId": "simple-memory",
     "repoUrl": "https://github.com/cnicolov/opencode-plugin-simple-memory",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Git-based memory",
     "tags": [],
     "type": "plugins"
@@ -611,7 +731,9 @@
     "displayName": "Smart Title",
     "productId": "smart-title",
     "repoUrl": "https://github.com/Tarquinen/opencode-smart-title",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Auto-generate session titles",
     "tags": [],
     "type": "plugins"
@@ -621,7 +743,9 @@
     "displayName": "Smart Voice Notify",
     "productId": "smart-voice-notify",
     "repoUrl": "https://github.com/MasuRii/opencode-smart-voice-notify",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Intelligent voice notifications",
     "tags": [],
     "type": "plugins"
@@ -631,7 +755,9 @@
     "displayName": "Subtask2",
     "productId": "subtask2",
     "repoUrl": "https://github.com/spoons-and-mirrors/subtask2",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Orchestration system",
     "tags": [],
     "type": "plugins"
@@ -641,7 +767,9 @@
     "displayName": "Swarm Plugin",
     "productId": "swarm-plugin",
     "repoUrl": "https://github.com/joelhooks/opencode-swarm-plugin",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Swarm intelligence",
     "tags": [],
     "type": "plugins"
@@ -651,7 +779,9 @@
     "displayName": "Tokenscope",
     "productId": "tokenscope",
     "repoUrl": "https://github.com/ramtinJ95/opencode-tokenscope",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Token analysis & cost tracking",
     "tags": [],
     "type": "plugins"
@@ -661,7 +791,9 @@
     "displayName": "UNMOJI",
     "productId": "unmoji",
     "repoUrl": "https://codeberg.org/bastiangx/opencode-unmoji",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Strip emojis from output",
     "tags": [],
     "type": "plugins"
@@ -671,7 +803,9 @@
     "displayName": "Vibe Coding Slack Notifier",
     "productId": "vibe-coding-slack-notifier",
     "repoUrl": "https://github.com/Wangmerlyn/vibe-coding-slack-notifier",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Slack DM alerts for OpenCode task completion",
     "tags": [],
     "type": "plugins"
@@ -681,7 +815,9 @@
     "displayName": "WakaTime",
     "productId": "wakatime",
     "repoUrl": "https://github.com/angristan/opencode-wakatime",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "WakaTime integration",
     "tags": [],
     "type": "plugins"
@@ -691,7 +827,9 @@
     "displayName": "Warcraft Notifications",
     "productId": "warcraft-notifications",
     "repoUrl": "https://github.com/pantheon-org/opencode-warcraft-notifications",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Fun sound notifications",
     "tags": [],
     "type": "plugins"
@@ -701,7 +839,9 @@
     "displayName": "With Context MCP",
     "productId": "with-context-mcp",
     "repoUrl": "https://github.com/boxpositron/with-context-mcp",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Project-specific markdown notes",
     "tags": [],
     "type": "plugins"
@@ -711,7 +851,9 @@
     "displayName": "Xquik",
     "productId": "xquik",
     "repoUrl": "https://github.com/Xquik-dev/x-twitter-scraper",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "X/Twitter data skill & MCP server",
     "tags": [],
     "type": "plugins"
@@ -721,7 +863,9 @@
     "displayName": "Zellij Namer",
     "productId": "zellij-namer",
     "repoUrl": "https://github.com/24601/opencode-zellij-namer",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Auto-rename Zellij sessions",
     "tags": [],
     "type": "plugins"
@@ -731,7 +875,9 @@
     "displayName": "Agent of Empires",
     "productId": "agent-of-empires",
     "repoUrl": "https://github.com/njbrake/agent-of-empires",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Multi-session TUI for OpenCode",
     "tags": [],
     "type": "projects"
@@ -741,7 +887,9 @@
     "displayName": "Beads",
     "productId": "beads",
     "repoUrl": "https://github.com/steveyegge/beads",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Project task management",
     "tags": [],
     "type": "projects"
@@ -751,7 +899,9 @@
     "displayName": "CLI Proxy API",
     "productId": "cli-proxy-api",
     "repoUrl": "https://github.com/router-for-me/CLIProxyAPI",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Multi-model proxy",
     "tags": [],
     "type": "projects"
@@ -761,7 +911,9 @@
     "displayName": "Codex Proxy Server",
     "productId": "codex-proxy-server",
     "repoUrl": "https://github.com/unluckyjori/Codex-Proxy-Server",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Local API proxy",
     "tags": [],
     "type": "projects"
@@ -771,7 +923,9 @@
     "displayName": "Cupcake",
     "productId": "cupcake",
     "repoUrl": "https://github.com/eqtylab/cupcake",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Policy enforcement layer",
     "tags": [],
     "type": "projects"
@@ -781,7 +935,9 @@
     "displayName": "Gemini CLI to API",
     "productId": "gemini-cli-to-api",
     "repoUrl": "https://github.com/gzzhongqi/geminicli2api",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Gemini proxy",
     "tags": [],
     "type": "projects"
@@ -791,7 +947,9 @@
     "displayName": "GolemBot",
     "productId": "golembot",
     "repoUrl": "https://github.com/0xranx/golembot",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Unified AI assistant framework for multiple Coding Agent CLIs",
     "tags": [],
     "type": "projects"
@@ -801,7 +959,9 @@
     "displayName": "Handy",
     "productId": "handy",
     "repoUrl": "https://github.com/cjpais/Handy",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Speech to Text",
     "tags": [],
     "type": "projects"
@@ -811,7 +971,9 @@
     "displayName": "hcom",
     "productId": "hcom",
     "repoUrl": "https://github.com/aannoo/hcom",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Let AI agents message, watch, and spawn each other across terminals",
     "tags": [],
     "type": "projects"
@@ -821,7 +983,9 @@
     "displayName": "Kimaki",
     "productId": "kimaki",
     "repoUrl": "https://github.com/remorses/kimaki/",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Discord bot controller",
     "tags": [],
     "type": "projects"
@@ -831,7 +995,9 @@
     "displayName": "MCP Voice Interface",
     "productId": "mcp-voice-interface",
     "repoUrl": "https://github.com/shantur/mcp-voice-interface",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Talk to AI assistants",
     "tags": [],
     "type": "projects"
@@ -841,7 +1007,9 @@
     "displayName": "OC Context (occtx)",
     "productId": "oc-context-occtx",
     "repoUrl": "https://github.com/hungthai1401/occtx",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Switch contexts quickly",
     "tags": [],
     "type": "projects"
@@ -851,7 +1019,9 @@
     "displayName": "OC Manager",
     "productId": "oc-manager",
     "repoUrl": "https://github.com/kcrommett/oc-manager",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Metadata TUI",
     "tags": [],
     "type": "projects"
@@ -861,7 +1031,9 @@
     "displayName": "OC Monitor Share",
     "productId": "oc-monitor-share",
     "repoUrl": "https://github.com/Shlomob/ocmonitor-share",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "CLI monitoring tool",
     "tags": [],
     "type": "projects"
@@ -871,7 +1043,9 @@
     "displayName": "Octto",
     "productId": "octto",
     "repoUrl": "https://github.com/vtemian/octto",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Interactive browser UI for AI brainstorming",
     "tags": [],
     "type": "projects"
@@ -881,7 +1055,9 @@
     "displayName": "OCX",
     "productId": "ocx",
     "repoUrl": "https://github.com/kdcokenny/ocx",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "OpenCode package manager",
     "tags": [],
     "type": "projects"
@@ -891,7 +1067,9 @@
     "displayName": "Open Agent",
     "productId": "open-agent",
     "repoUrl": "https://github.com/Th0rgal/openagent",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Self-hosted control plane",
     "tags": [],
     "type": "projects"
@@ -901,7 +1079,9 @@
     "displayName": "Open Dispatch",
     "productId": "open-dispatch",
     "repoUrl": "https://github.com/bobum/open-dispatch",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Control OpenCode from Slack or Microsoft Teams",
     "tags": [],
     "type": "projects"
@@ -911,7 +1091,9 @@
     "displayName": "OpenChamber",
     "productId": "openchamber",
     "repoUrl": "https://github.com/btriapitsyn/openchamber",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "GUI for OpenCode",
     "tags": [],
     "type": "projects"
@@ -921,7 +1103,9 @@
     "displayName": "Opencode DDEV",
     "productId": "opencode-ddev",
     "repoUrl": "https://github.com/JUVOJustin/opencode-ddev",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "DDEV container wrapper",
     "tags": [],
     "type": "projects"
@@ -931,7 +1115,9 @@
     "displayName": "Opencode Neovim",
     "productId": "opencode-neovim",
     "repoUrl": "https://github.com/NickvanDyke/opencode.nvim",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Neovim plugin",
     "tags": [],
     "type": "projects"
@@ -941,7 +1127,9 @@
     "displayName": "Opencode Session Manager",
     "productId": "opencode-session",
     "repoUrl": "https://github.com/GNITOAHC/opencode-session",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Session viewer & manager",
     "tags": [],
     "type": "projects"
@@ -951,7 +1139,9 @@
     "displayName": "Opencode Sessions",
     "productId": "opencode-sessions",
     "repoUrl": "https://github.com/malhashemi/opencode-sessions",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Session tracker",
     "tags": [],
     "type": "projects"
@@ -961,7 +1151,9 @@
     "displayName": "Opencode Skills",
     "productId": "opencode-skills",
     "repoUrl": "https://github.com/malhashemi/opencode-skills",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Skills management",
     "tags": [],
     "type": "projects"
@@ -971,7 +1163,9 @@
     "displayName": "Opencode Telegram Bot",
     "productId": "opencode-telegram-bot",
     "repoUrl": "https://github.com/grinev/opencode-telegram-bot",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Telegram bot client for OpenCode CLI",
     "tags": [],
     "type": "projects"
@@ -981,7 +1175,9 @@
     "displayName": "Opencode Web",
     "productId": "opencode-web",
     "repoUrl": "https://github.com/kcrommett/opencode-web",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Browser-based access",
     "tags": [],
     "type": "projects"
@@ -991,7 +1187,9 @@
     "displayName": "OpenSpec",
     "productId": "openspec",
     "repoUrl": "https://github.com/Fission-AI/OpenSpec",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Spec-driven development",
     "tags": [],
     "type": "projects"
@@ -1002,9 +1200,16 @@
     "homepageUrl": "https://openwork.software/",
     "productId": "openwork",
     "repoUrl": "https://github.com/different-ai/openwork",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Desktop GUI for OpenCode workflows",
-    "tags": ["desktop", "gui", "opencode", "workflows"],
+    "tags": [
+      "desktop",
+      "gui",
+      "opencode",
+      "workflows"
+    ],
     "type": "projects"
   },
   {
@@ -1012,7 +1217,9 @@
     "displayName": "Qwen Code OAI Proxy",
     "productId": "qwen-code-oai-proxy",
     "repoUrl": "https://github.com/aptdnfapt/qwen-code-oai-proxy",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Qwen model proxy",
     "tags": [],
     "type": "projects"
@@ -1022,7 +1229,9 @@
     "displayName": "Tokscale",
     "productId": "tokscale",
     "repoUrl": "https://github.com/junhoyeo/tokscale",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Token usage tracking CLI",
     "tags": [],
     "type": "projects"
@@ -1032,7 +1241,9 @@
     "displayName": "Universal LLM API Proxy",
     "productId": "universal-llm-proxy",
     "repoUrl": "https://github.com/Mirrowel/LLM-API-Key-Proxy",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Universal multi-model proxy and library - made with Opencode community",
     "tags": [
       "desktop",
@@ -1051,7 +1262,9 @@
     "displayName": "Vibe Kanban",
     "productId": "vibe-kanban",
     "repoUrl": "https://github.com/BloopAI/vibe-kanban",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Manage AI in parallel",
     "tags": [],
     "type": "projects"
@@ -1061,9 +1274,14 @@
     "displayName": "00DefaultRules",
     "productId": "00DefaultRules",
     "repoUrl": ".opencode\\instructions/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "1. Start dev server",
-    "tags": ["opencode", "instructions"],
+    "tags": [
+      "opencode",
+      "instructions"
+    ],
     "type": "resources"
   },
   {
@@ -1071,9 +1289,14 @@
     "displayName": "00QuickstartRules",
     "productId": "00QuickstartRules",
     "repoUrl": ".opencode\\instructions/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "- Use the question tool to ask the user for his persona, shell, os, git config, and summarize his info then ask the u...",
-    "tags": ["opencode", "instructions"],
+    "tags": [
+      "opencode",
+      "instructions"
+    ],
     "type": "resources"
   },
   {
@@ -1081,9 +1304,14 @@
     "displayName": "00TaskSyncNote",
     "productId": "00TaskSyncNote",
     "repoUrl": ".opencode\\instructions/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "Agents and humans working in this repo must coordinate changes. Before making multi-file edits, create a plan under `...",
-    "tags": ["opencode", "instructions"],
+    "tags": [
+      "opencode",
+      "instructions"
+    ],
     "type": "resources"
   },
   {
@@ -1091,9 +1319,14 @@
     "displayName": "01CoreStandards",
     "productId": "01CoreStandards",
     "repoUrl": ".opencode\\instructions/",
-    "scope": ["project"],
-    "tagline": "- Use `npm run format` before committing.",
-    "tags": ["opencode", "instructions"],
+    "scope": [
+      "project"
+    ],
+    "tagline": "- Use `bun run format` before committing.",
+    "tags": [
+      "opencode",
+      "instructions"
+    ],
     "type": "resources"
   },
   {
@@ -1101,9 +1334,14 @@
     "displayName": "nextjs-patterns",
     "productId": "02NextjsPatterns",
     "repoUrl": ".opencode\\instructions/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "Agentic note: These patterns assume Next.js 16+ and the app-router. Confirm with package.json if in doubt.",
-    "tags": ["opencode", "instructions"],
+    "tags": [
+      "opencode",
+      "instructions"
+    ],
     "type": "resources"
   },
   {
@@ -1111,9 +1349,14 @@
     "displayName": "03DalPatterns",
     "productId": "03DalPatterns",
     "repoUrl": ".opencode\\instructions/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "- Use Drizzle ORM and the dal/ helpers for all DB interactions.",
-    "tags": ["opencode", "instructions"],
+    "tags": [
+      "opencode",
+      "instructions"
+    ],
     "type": "resources"
   },
   {
@@ -1121,9 +1364,14 @@
     "displayName": "04AuthTesting",
     "productId": "04AuthTesting",
     "repoUrl": ".opencode\\instructions/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "- Server Actions that require authentication must call `auth()` at the start and return `{ ok: false, error: 'Unautho...",
-    "tags": ["opencode", "instructions"],
+    "tags": [
+      "opencode",
+      "instructions"
+    ],
     "type": "resources"
   },
   {
@@ -1131,9 +1379,14 @@
     "displayName": "05UiValidation",
     "productId": "05UiValidation",
     "repoUrl": ".opencode\\instructions/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "- Ensure to always use shadcn components located at `./components/ui/*`.",
-    "tags": ["opencode", "instructions"],
+    "tags": [
+      "opencode",
+      "instructions"
+    ],
     "type": "resources"
   },
   {
@@ -1141,9 +1394,14 @@
     "displayName": "07UpstreamErrorHandling",
     "productId": "07UpstreamErrorHandling",
     "repoUrl": ".opencode\\instructions/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "- Use typed error wrappers for upstream API calls and map to user-friendly messages.",
-    "tags": ["opencode", "instructions"],
+    "tags": [
+      "opencode",
+      "instructions"
+    ],
     "type": "resources"
   },
   {
@@ -1151,9 +1409,14 @@
     "displayName": "08AlibabaRateLimitHandling",
     "productId": "08AlibabaRateLimitHandling",
     "repoUrl": ".opencode\\instructions/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "- Detect 429 responses and implement jittered exponential backoff.",
-    "tags": ["opencode", "instructions"],
+    "tags": [
+      "opencode",
+      "instructions"
+    ],
     "type": "resources"
   },
   {
@@ -1161,9 +1424,14 @@
     "displayName": "10ApplyPatchVerificationFix",
     "productId": "10ApplyPatchVerificationFix",
     "repoUrl": ".opencode\\instructions/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "Short checklist",
-    "tags": ["opencode", "instructions"],
+    "tags": [
+      "opencode",
+      "instructions"
+    ],
     "type": "resources"
   },
   {
@@ -1171,9 +1439,14 @@
     "displayName": "11DocumentationStandards",
     "productId": "11DocumentationStandards",
     "repoUrl": ".opencode\\instructions/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "- Keep docs concise. Add evidence_map.md pointers for any normative claims.",
-    "tags": ["opencode", "instructions"],
+    "tags": [
+      "opencode",
+      "instructions"
+    ],
     "type": "resources"
   },
   {
@@ -1181,9 +1454,14 @@
     "displayName": "12ScriptsPatterns",
     "productId": "12ScriptsPatterns",
     "repoUrl": ".opencode\\instructions/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "- Scripts that modify infrastructure must accept `--dry-run` and be gated behind RUN_DESTRUCTIVE=true plus `--yes`.",
-    "tags": ["opencode", "instructions"],
+    "tags": [
+      "opencode",
+      "instructions"
+    ],
     "type": "resources"
   },
   {
@@ -1191,9 +1469,14 @@
     "displayName": "agent-browser",
     "productId": "AgentBrowser",
     "repoUrl": ".opencode\\skills\\agent-browser/",
-    "scope": ["project"],
-    "tagline": "Fast browser automation CLI for AI agents. Chrome/Chromium via CDP with",
-    "tags": ["opencode", "skills"],
+    "scope": [
+      "project"
+    ],
+    "tagline": "Fast browser automation CLI for AI agents using Chrome/Chromium via CDP with accessibility-tree snapshots and compact...",
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1201,9 +1484,14 @@
     "displayName": "agent-governance",
     "productId": "AgentGovernance",
     "repoUrl": ".opencode\\skills\\agent-governance/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "Patterns for adding safety, trust, and policy enforcement to AI agent systems.",
-    "tags": ["opencode", "skills"],
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1211,29 +1499,44 @@
     "displayName": "agentic-eval",
     "productId": "AgenticEval",
     "repoUrl": ".opencode\\skills\\agentic-eval/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "Patterns for self-improvement through iterative evaluation and refinement.",
-    "tags": ["opencode", "skills"],
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
-    "description": "NextAuth v4 authentication patterns, session helper, and protected route guidance.",
+    "description": "NextAuth v4 authentication patterns, session helper, and protected route guidance. Use when implementing authentication, protecting routes, managing sessions, or working with user authorization. Triggers include requests to \"add auth\", \"protect routes\", \"check session\", \"implement login/logout\", or any authentication-related task.",
     "displayName": "auth-skill",
     "productId": "AuthSkill",
     "repoUrl": ".opencode\\skills\\auth-skill/",
-    "scope": ["project"],
-    "tagline": "Overview",
-    "tags": ["opencode", "skills"],
+    "scope": [
+      "project"
+    ],
+    "tagline": "Comprehensive authentication patterns for the Banking app using NextAuth v4 with JWT strategy.",
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
-    "description": "Keep a PR merge-ready by triaging comments, resolving clear conflicts, and fixing CI in a loop.",
+    "description": "Keep a PR merge-ready by triaging comments, resolving clear conflicts, and fixing CI in a loop. Use when a PR needs ongoing maintenance, has failing checks, has merge conflicts, or needs comment resolution.",
     "displayName": "babysit",
     "productId": "Babysit",
     "repoUrl": ".opencode\\skills\\babysit/",
-    "scope": ["project"],
-    "tagline": "Your job is to get this PR to a merge-ready state.",
-    "tags": ["opencode", "skills"],
+    "scope": [
+      "project"
+    ],
+    "tagline": "Your job is to get this PR to a merge-ready state. This is a loop-based skill - you repeat the cycle until the PR is ...",
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1241,9 +1544,14 @@
     "displayName": "canvas",
     "productId": "Canvas",
     "repoUrl": ".opencode\\skills\\canvas/",
-    "scope": ["project"],
-    "tagline": "A canvas is a single `.canvas.tsx` file the IDE compiles so the user can open it beside the chat. Follow the workflow...",
-    "tags": ["opencode", "skills"],
+    "scope": [
+      "project"
+    ],
+    "tagline": "Create rich, interactive visual artifacts using Cursor Canvas. This skill provides comprehensive guidance for buildin...",
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1251,9 +1559,14 @@
     "displayName": "cartography",
     "productId": "Cartography",
     "repoUrl": ".opencode\\skills\\cartography/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "You help users understand and map repositories by creating hierarchical codemaps.",
-    "tags": ["opencode", "skills"],
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1261,9 +1574,14 @@
     "displayName": "code-philosophy",
     "productId": "CodePhilosophy",
     "repoUrl": ".opencode\\skills\\code-philosophy/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "**Role:** Principal Engineer for all **Internal Logic & Data Flow** — applies to backend, React components, hooks, st...",
-    "tags": ["opencode", "skills"],
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1271,9 +1589,14 @@
     "displayName": "code-review",
     "productId": "CodeReview",
     "repoUrl": ".opencode\\skills\\code-review/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "Systematic code review across 4 layers with severity classification. Only report findings with ≥80% confidence. Inclu...",
-    "tags": ["opencode", "skills"],
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1281,9 +1604,14 @@
     "displayName": "ContextMap",
     "productId": "ContextMap",
     "repoUrl": ".opencode\\skills\\context-map/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "Skill to generate a map of all files relevant to a task before making changes.",
-    "tags": ["opencode", "skills"],
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1291,9 +1619,14 @@
     "displayName": "create-hook",
     "productId": "CreateHook",
     "repoUrl": ".opencode\\skills\\create-hook/",
-    "scope": ["project"],
-    "tagline": "Create hooks when you want Cursor to run custom logic before or after agent events. Hooks are scripts or prompt-based...",
-    "tags": ["opencode", "skills"],
+    "scope": [
+      "project"
+    ],
+    "tagline": "This skill provides comprehensive guidelines for creating and managing Cursor hooks. It covers hook types, events, ma...",
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1301,9 +1634,14 @@
     "displayName": "create-rule",
     "productId": "CreateRule",
     "repoUrl": ".opencode\\skills\\create-rule/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "Create project rules in `.cursor/rules/` to provide persistent context for the AI agent.",
-    "tags": ["opencode", "skills"],
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1311,9 +1649,14 @@
     "displayName": "create-skill",
     "productId": "CreateSkill",
     "repoUrl": ".opencode\\skills\\create-skill/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "This skill guides you through creating effective Agent Skills for Cursor. Skills are markdown files that teach the ag...",
-    "tags": ["opencode", "skills"],
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1321,9 +1664,14 @@
     "displayName": "create-subagent",
     "productId": "CreateSubagent",
     "repoUrl": ".opencode\\skills\\create-subagent/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "This skill guides you through creating custom subagents for Cursor. Subagents are specialized AI assistants that run ...",
-    "tags": ["opencode", "skills"],
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1331,9 +1679,14 @@
     "displayName": "create-web-form",
     "productId": "CreateWebForm",
     "repoUrl": ".opencode\\skills\\create-web-form/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "This skill provides comprehensive reference materials and best practices for creating web forms. It covers HTML synta...",
-    "tags": ["opencode", "skills"],
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1341,9 +1694,14 @@
     "displayName": "dal-skill",
     "productId": "DalSkill",
     "repoUrl": ".opencode\\skills\\dal-skill/",
-    "scope": ["project"],
-    "tagline": "Overview",
-    "tags": ["opencode", "skills"],
+    "scope": [
+      "project"
+    ],
+    "tagline": "The DAL (Data Access Layer) is the mandatory pattern for all database operations in the Banking app. All DB access mu...",
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1351,9 +1709,14 @@
     "displayName": "db-skill",
     "productId": "DbSkill",
     "repoUrl": ".opencode\\skills\\db-skill/",
-    "scope": ["project"],
-    "tagline": "This skill provides guidance on Drizzle ORM patterns for the Banking project.",
-    "tags": ["opencode", "skills"],
+    "scope": [
+      "project"
+    ],
+    "tagline": "This skill provides comprehensive guidance on Drizzle ORM patterns for the Banking project. It covers schema definiti...",
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1361,7 +1724,9 @@
     "displayName": "Debug Log to Text File",
     "productId": "debug-log-to-text-file",
     "repoUrl": "https://github.com/awesome-opencode/awesome-opencode/discussions/19",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Troubleshooting guide",
     "tags": [],
     "type": "resources"
@@ -1371,9 +1736,14 @@
     "displayName": "deployment-skill",
     "productId": "DeploymentSkill",
     "repoUrl": ".opencode\\skills\\deployment-skill/",
-    "scope": ["project"],
-    "tagline": "Overview",
-    "tags": ["opencode", "skills"],
+    "scope": [
+      "project"
+    ],
+    "tagline": "This skill provides comprehensive deployment patterns for the Banking app across Vercel, Railway, and Docker platform...",
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1381,9 +1751,14 @@
     "displayName": "DocumentationWriter",
     "productId": "DocumentationWriter",
     "repoUrl": ".opencode\\skills\\documentation-writer/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "Skill for Diátaxis Documentation Expert for creating high-quality software documentation.",
-    "tags": ["opencode", "skills"],
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1391,9 +1766,14 @@
     "displayName": "dwolla-skill",
     "productId": "DwollaSkill",
     "repoUrl": ".opencode\\skills\\dwolla-skill/",
-    "scope": ["project"],
-    "tagline": "Overview",
-    "tags": ["opencode", "skills"],
+    "scope": [
+      "project"
+    ],
+    "tagline": "This skill provides comprehensive patterns for integrating with the Dwolla API for ACH transfers, funding source mana...",
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1401,9 +1781,14 @@
     "displayName": "entra-agent-user",
     "productId": "EntraAgentUser",
     "repoUrl": ".opencode\\skills\\entra-agent-user/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "An **agent user** is a specialized user identity in Microsoft Entra ID that enables AI agents to act as digital worke...",
-    "tags": ["opencode", "skills"],
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1411,9 +1796,14 @@
     "displayName": "frontend-philosophy",
     "productId": "FrontendPhilosophy",
     "repoUrl": ".opencode\\skills\\frontend-philosophy/",
-    "scope": ["project"],
-    "tagline": "**Role:** Design Director for all **Visual & Aesthetic decisions** — applies to styling, layout, colors, typography, ...",
-    "tags": ["opencode", "skills"],
+    "scope": [
+      "project"
+    ],
+    "tagline": "This skill establishes the visual and UI philosophy for the Banking project. It covers the 5 Pillars of Intentional U...",
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1421,9 +1811,14 @@
     "displayName": "gh-cli",
     "productId": "GhCli",
     "repoUrl": ".opencode\\skills\\gh-cli/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "Comprehensive reference for GitHub CLI (gh) - work seamlessly with GitHub from the command line.",
-    "tags": ["opencode", "skills"],
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1431,9 +1826,14 @@
     "displayName": "git-commit",
     "productId": "GitCommit",
     "repoUrl": ".opencode\\skills\\git-commit/",
-    "scope": ["project"],
-    "tagline": "Create standardized, semantic git commits using the Conventional Commits specification. Analyze the actual diff to de...",
-    "tags": ["opencode", "skills"],
+    "scope": [
+      "project"
+    ],
+    "tagline": "This skill provides comprehensive guidelines for creating conventional git commits. It covers commit message format, ...",
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1441,9 +1841,14 @@
     "displayName": "github-issues",
     "productId": "GithubIssues",
     "repoUrl": ".opencode\\skills\\github-issues/",
-    "scope": ["project"],
-    "tagline": "Manage GitHub issues using the `@modelcontextprotocol/server-github` MCP server.",
-    "tags": ["opencode", "skills"],
+    "scope": [
+      "project"
+    ],
+    "tagline": "This skill provides comprehensive guidelines for creating and managing GitHub issues using MCP tools. It covers issue...",
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1451,19 +1856,26 @@
     "displayName": "GoTTY",
     "productId": "gotty",
     "repoUrl": "https://github.com/sorenisanerd/gotty",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Turn CLI into Web App",
     "tags": [],
     "type": "resources"
   },
   {
     "description": "Scans opencode agent prompts for threat signals and logs governance events",
-    "displayName": "Governance Audit",
+    "displayName": "governance-audit",
     "productId": "GovernanceAudit",
     "repoUrl": ".opencode\\skills\\governance-audit/",
-    "scope": ["project"],
-    "tagline": "Real-time threat detection and audit logging for opencode coding agent sessions. Scans user prompts for dangerous pat...",
-    "tags": ["opencode", "skills"],
+    "scope": [
+      "project"
+    ],
+    "tagline": "This skill provides patterns and techniques for adding governance, safety, and trust controls to AI agent systems. It...",
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1471,9 +1883,14 @@
     "displayName": "Index",
     "productId": "Index",
     "repoUrl": ".opencode\\instructions/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "This file provides a unified index of all instruction files across the Banking project.",
-    "tags": ["opencode", "instructions"],
+    "tags": [
+      "opencode",
+      "instructions"
+    ],
     "type": "resources"
   },
   {
@@ -1481,9 +1898,14 @@
     "displayName": "make-skill-template",
     "productId": "MakeSkillTemplate",
     "repoUrl": ".opencode\\skills\\make-skill-template/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "A meta-skill for creating new Agent Skills. Use this skill when you need to scaffold a new skill folder, generate a S...",
-    "tags": ["opencode", "skills"],
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1491,9 +1913,14 @@
     "displayName": "mcp-cli",
     "productId": "McpCli",
     "repoUrl": ".opencode\\skills\\mcp-cli/",
-    "scope": ["project"],
-    "tagline": "Access MCP servers through the command line. MCP enables interaction with external systems like GitHub, filesystems, ...",
-    "tags": ["opencode", "skills"],
+    "scope": [
+      "project"
+    ],
+    "tagline": "This skill provides comprehensive guidelines for working with MCP (Model Context Protocol) servers and their CLI tool...",
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1501,9 +1928,14 @@
     "displayName": "meeting-minutes",
     "productId": "MeetingMinutes",
     "repoUrl": ".opencode\\skills\\meeting-minutes/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "This Skill produces high-quality, consistent meeting minutes for internal meetings that are 60 minutes or shorter. Ou...",
-    "tags": ["opencode", "skills"],
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1511,9 +1943,14 @@
     "displayName": "migrate-to-skills",
     "productId": "MigrateToSkills",
     "repoUrl": ".opencode\\skills\\migrate-to-skills/",
-    "scope": ["project"],
-    "tagline": "Convert Cursor rules (\"Applied intelligently\") and slash commands to Agent Skills format.",
-    "tags": ["opencode", "skills"],
+    "scope": [
+      "project"
+    ],
+    "tagline": "Convert legacy Cursor rules and commands to the Agent Skills format. This comprehensive guide covers migration patter...",
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1521,9 +1958,14 @@
     "displayName": "MorphTools",
     "productId": "MorphTools",
     "repoUrl": ".opencode\\instructions/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "This instruction is designed to be always loaded by OpenCode so agents reliably choose `morph_edit` when it is the be...",
-    "tags": ["opencode", "instructions"],
+    "tags": [
+      "opencode",
+      "instructions"
+    ],
     "type": "resources"
   },
   {
@@ -1531,9 +1973,14 @@
     "displayName": "nuget-manager",
     "productId": "NugetManager",
     "repoUrl": ".opencode\\skills\\nuget-manager/",
-    "scope": ["project"],
-    "tagline": "This skill ensures consistent and safe management of NuGet packages across .NET projects. It prioritizes using the `d...",
-    "tags": ["opencode", "skills"],
+    "scope": [
+      "project"
+    ],
+    "tagline": "This skill provides comprehensive guidelines for managing NuGet packages in .NET projects. It covers safe update work...",
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1541,7 +1988,9 @@
     "displayName": "Opencode Config Starter",
     "productId": "opencode-config-starter",
     "repoUrl": "https://github.com/jjmartres/opencode",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Flexible config starting point",
     "tags": [],
     "type": "resources"
@@ -1551,9 +2000,14 @@
     "displayName": "PersonasList",
     "productId": "PersonasList",
     "repoUrl": ".opencode\\instructions/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "These short personas guide tone and actions in plans and PRs.",
-    "tags": ["opencode", "instructions"],
+    "tags": [
+      "opencode",
+      "instructions"
+    ],
     "type": "resources"
   },
   {
@@ -1561,19 +2015,29 @@
     "displayName": "Philosophy",
     "productId": "Philosophy",
     "repoUrl": ".opencode\\instructions/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "Before writing or modifying any code, you MUST:",
-    "tags": ["opencode", "instructions"],
+    "tags": [
+      "opencode",
+      "instructions"
+    ],
     "type": "resources"
   },
   {
-    "description": "name: plaid-skill description: Plaid API integration for bank account linking, transaction retrieval, and balance fetching. lastReviewed: 2026-04-24 applyTo: \"lib/plaid.ts\", \"actions/**/*.{ts,tsx}\" --- Overview Guidance for safely integrating Plaid Link, exchanging public tokens, and storing access tokens (encrypted). Use Server Actions for sensitive operations and `dal/` for DB access. This skill references the repo's actual DAL structure: `wallet.dal.ts` for Plaid item storage. When to use",
+    "description": "name: plaid-skill description: >- Plaid API integration for bank account linking, transaction retrieval, and balance fetching. Use when implementing bank connections, linking accounts, fetching transactions, or managing Plaid integration. Triggers include requests to \"link bank\", \"connect account\", \"fetch transactions\", \"get balance\", or any Plaid-related task. lastReviewed: 2026-04-24 applyTo: \"lib/plaid.ts\", \"actions/**/*.{ts,tsx}\" ---",
     "displayName": "PlaidSkill",
     "productId": "PlaidSkill",
     "repoUrl": ".opencode\\skills\\plaid-skill/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "---",
-    "tags": ["opencode", "skills"],
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1581,9 +2045,14 @@
     "displayName": "plan-protocol",
     "productId": "PlanProtocol",
     "repoUrl": ".opencode\\skills\\plan-protocol/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "> **Load this skill** when creating or updating implementation plans.",
-    "tags": ["opencode", "skills"],
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1591,9 +2060,14 @@
     "displayName": "plan-review",
     "productId": "PlanReview",
     "repoUrl": ".opencode\\skills\\plan-review/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "> **Load this skill** when reviewing implementation plans (not code).",
-    "tags": ["opencode", "skills"],
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1601,9 +2075,14 @@
     "displayName": "PlanWorkflow",
     "productId": "PlanWorkflow",
     "repoUrl": ".opencode\\instructions/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "Canonical source: AGENTS.md — this file consolidates and references AGENTS.md for agentic workflow and plan requireme...",
-    "tags": ["opencode", "instructions"],
+    "tags": [
+      "opencode",
+      "instructions"
+    ],
     "type": "resources"
   },
   {
@@ -1611,9 +2090,14 @@
     "displayName": "PolyglotTestAgent",
     "productId": "PolyglotTestAgent",
     "repoUrl": ".opencode\\skills\\polyglot-test-agent/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "Skill for generating comprehensive, workable unit tests for any language using a multi-agent pipeline.",
-    "tags": ["opencode", "skills"],
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1621,9 +2105,14 @@
     "displayName": "PostgresqlCodeReview",
     "productId": "PostgresqlCodeReview",
     "repoUrl": ".opencode\\skills\\postgresql-code-review/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "Skill for PostgreSQL-specific code review assistant for best practices, anti-patterns, and security features.",
-    "tags": ["opencode", "skills"],
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1631,9 +2120,14 @@
     "displayName": "prd",
     "productId": "Prd",
     "repoUrl": ".opencode\\skills\\prd/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "Design comprehensive, production-grade Product Requirements Documents (PRDs) that bridge the gap between business vis...",
-    "tags": ["opencode", "skills"],
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1641,9 +2135,14 @@
     "displayName": "QualityPlaybook",
     "productId": "QualityPlaybook",
     "repoUrl": ".opencode\\skills\\quality-playbook/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "Skill for generating a quality constitution, functional tests, code review protocol, integration testing protocol, an...",
-    "tags": ["opencode", "skills"],
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1651,9 +2150,14 @@
     "displayName": "ReadmeBlueprintGenerator",
     "productId": "ReadmeBlueprintGenerator",
     "repoUrl": ".opencode\\skills\\readme-blueprint-generator/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "Skill for intelligent README.md generation based on project structure and standards.",
-    "tags": ["opencode", "skills"],
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1661,9 +2165,14 @@
     "displayName": "refactor",
     "productId": "Refactor",
     "repoUrl": ".opencode\\skills\\refactor/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "Improve code structure and readability without changing external behavior. Refactoring is gradual evolution, not revo...",
-    "tags": ["opencode", "skills"],
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1671,9 +2180,14 @@
     "displayName": "scoutqa-test",
     "productId": "ScoutqaTest",
     "repoUrl": ".opencode\\skills\\scoutqa-test/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "Perform AI-powered exploratory testing on web applications using the `scoutqa` CLI.",
-    "tags": ["opencode", "skills"],
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1681,9 +2195,14 @@
     "displayName": "SecurityReview",
     "productId": "SecurityReview",
     "repoUrl": ".opencode\\skills\\security-review/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "Skill for AI-powered codebase security scanner for vulnerabilities, secrets, and best practices across JS, TS, Python...",
-    "tags": ["opencode", "skills"],
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1691,49 +2210,74 @@
     "displayName": "security-skill",
     "productId": "SecuritySkill",
     "repoUrl": ".opencode\\skills\\security-skill/",
-    "scope": ["project"],
-    "tagline": "Overview",
-    "tags": ["opencode", "skills"],
+    "scope": [
+      "project"
+    ],
+    "tagline": "This skill provides comprehensive security patterns for the Banking app, covering encryption, environment handling, s...",
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
-    "description": "Patterns and examples for Next.js Server Actions in the Banking app.",
+    "description": "Patterns and examples for Next.js Server Actions in the Banking app. Use when creating, modifying, or debugging Server Actions. Triggers include requests to \"create action\", \"add server action\", \"fix action\", \"validate input\", or any task involving Server Action development.",
     "displayName": "server-action-skill",
     "productId": "ServerActionSkill",
     "repoUrl": ".opencode\\skills\\server-action-skill/",
-    "scope": ["project"],
-    "tagline": "Overview",
-    "tags": ["opencode", "skills"],
+    "scope": [
+      "project"
+    ],
+    "tagline": "Comprehensive patterns for creating and managing Server Actions in the Banking app.",
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
-    "description": "Logs all opencode coding agent session activity for audit and analysis.",
+    "description": "Logs all opencode coding agent session activity for audit and analysis. Use when tracking agent activity, auditing decisions, or analyzing session patterns.",
     "displayName": "session-logger",
     "productId": "SessionLogger",
     "repoUrl": ".opencode\\skills\\session-logger/",
-    "scope": ["project"],
-    "tagline": "Comprehensive logging for opencode coding agent sessions, tracking session starts, ends, and user prompts for audit t...",
-    "tags": ["opencode", "skills"],
+    "scope": [
+      "project"
+    ],
+    "tagline": "Log all AI agent session activity for audit, analysis, and improvement. This comprehensive skill covers session loggi...",
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
-    "description": "name: shadcn description: Manages shadcn components and projects — adding, searching, fixing, debugging, styling, and composing UI. Provides project context, component docs, and usage examples. Applies when working with shadcn/ui, component registries, presets, --preset codes, or any project with a components.json file. Also triggers for \"shadcn init\", \"create an app with --preset\", or \"switch to --preset\". user-invocable: false",
-    "displayName": "Shadcn",
+    "description": "Manages shadcn components and projects — adding, searching, fixing, debugging, styling, and composing UI. Provides project context, component docs, and usage examples. Applies when working with shadcn/ui, component registries, presets, --preset codes, or any project with a components.json file. Also triggers for \"shadcn init\", \"create an app with --preset\", or \"switch to --preset\".",
+    "displayName": "shadcn",
     "productId": "Shadcn",
     "repoUrl": ".opencode\\skills\\shadcn/",
-    "scope": ["project"],
-    "tagline": "---",
-    "tags": ["opencode", "skills"],
+    "scope": [
+      "project"
+    ],
+    "tagline": "A framework for building ui, components and design systems. Components are added as source code to the user's project...",
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
-    "description": "Runs the rest of a /shell request as a literal shell command. Use only when the user explicitly invokes /shell and wants the following text executed directly in the terminal.",
+    "description": "Execute shell commands directly. Use when the user explicitly invokes /shell and wants the following text executed directly in the terminal.",
     "displayName": "shell",
     "productId": "Shell",
     "repoUrl": ".opencode\\skills\\shell/",
-    "scope": ["project"],
-    "tagline": "Use this skill only when the user explicitly invokes `/shell`.",
-    "tags": ["opencode", "skills"],
+    "scope": [
+      "project"
+    ],
+    "tagline": "Execute shell commands directly in the terminal. This skill provides comprehensive guidance for running commands safe...",
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1741,9 +2285,14 @@
     "displayName": "simplify",
     "productId": "Simplify",
     "repoUrl": ".opencode\\skills\\simplify/",
-    "scope": ["project"],
-    "tagline": "Simplify code by reducing complexity while preserving exact behavior. The goal is not fewer lines — it's code that is...",
-    "tags": ["opencode", "skills"],
+    "scope": [
+      "project"
+    ],
+    "tagline": "This skill provides comprehensive guidelines for simplifying code while preserving behavior. It covers refactoring pa...",
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1751,9 +2300,14 @@
     "displayName": "split-to-prs",
     "productId": "SplitToPrs",
     "repoUrl": ".opencode\\skills\\split-to-prs/",
-    "scope": ["project"],
-    "tagline": "Turn one pile of work into a few small PRs.",
-    "tags": ["opencode", "skills"],
+    "scope": [
+      "project"
+    ],
+    "tagline": "Turn one pile of work into a few small PRs. This skill provides comprehensive guidance for breaking down large change...",
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1761,9 +2315,14 @@
     "displayName": "statusline",
     "productId": "Statusline",
     "repoUrl": ".opencode\\skills\\statusline/",
-    "scope": ["project"],
-    "tagline": "The CLI supports a user-configurable status line rendered above the prompt. A command is spawned on each conversation...",
-    "tags": ["opencode", "skills"],
+    "scope": [
+      "project"
+    ],
+    "tagline": "Configure custom status lines for CLI and IDE environments. This comprehensive skill covers status line customization...",
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1771,9 +2330,14 @@
     "displayName": "SuggestAwesomeGithubCopilotAgents",
     "productId": "SuggestAwesomeGithubCopilotAgents",
     "repoUrl": ".opencode\\skills\\suggest-awesome-github-copilot-agents/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "Skill to suggest relevant Copilot custom agents from awesome-copilot for your repo.",
-    "tags": ["opencode", "skills"],
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1781,9 +2345,14 @@
     "displayName": "SuggestAwesomeGithubCopilotInstructions",
     "productId": "SuggestAwesomeGithubCopilotInstructions",
     "repoUrl": ".opencode\\skills\\suggest-awesome-github-copilot-instructions/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "Skill to suggest relevant Copilot instruction files from awesome-copilot for your repo.",
-    "tags": ["opencode", "skills"],
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1791,19 +2360,59 @@
     "displayName": "suspense-skill",
     "productId": "SuspenseSkill",
     "repoUrl": ".opencode\\skills\\suspense-skill/",
-    "scope": ["project"],
+    "scope": [
+      "project"
+    ],
     "tagline": "This skill provides guidance for implementing Suspense boundaries in Next.js 16 to handle async auth APIs without blo...",
-    "tags": ["opencode", "skills"],
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
-    "description": "Testing patterns for Vitest (unit) and Playwright (E2E) used by the Banking app.",
+    "description": "Instructions for implementing task plans with progressive tracking and change record - Brought to you by microsoft/edge-ai",
+    "displayName": "TaskImplementation.instructions",
+    "productId": "TaskImplementation.instructions",
+    "repoUrl": ".opencode\\instructions/",
+    "scope": [
+      "project"
+    ],
+    "tagline": "You will implement your specific task plan located in `.copilot-tracking/plans/**` and `.copilot-tracking/details/**`...",
+    "tags": [
+      "opencode",
+      "instructions"
+    ],
+    "type": "resources"
+  },
+  {
+    "description": "TaskSync V5 - Allows you to give the agent new instructions or feedback after completing a task using terminal while agent is running.",
+    "displayName": "Tasksync.instructions",
+    "productId": "Tasksync.instructions",
+    "repoUrl": ".opencode\\instructions/",
+    "scope": [
+      "project"
+    ],
+    "tagline": "**YOU ARE ABSOLUTELY FORBIDDEN FROM:**",
+    "tags": [
+      "opencode",
+      "instructions"
+    ],
+    "type": "resources"
+  },
+  {
+    "description": "Testing patterns for Vitest (unit) and Playwright (E2E) used by the Banking app. Use when writing tests, running tests, debugging test failures, or setting up test infrastructure. Triggers include requests to \"write a test\", \"run tests\", \"fix test failure\", \"add unit tests\", \"add E2E tests\", or any task involving test creation or execution.",
     "displayName": "testing-skill",
     "productId": "TestingSkill",
     "repoUrl": ".opencode\\skills\\testing-skill/",
-    "scope": ["project"],
-    "tagline": "Overview",
-    "tags": ["opencode", "skills"],
+    "scope": [
+      "project"
+    ],
+    "tagline": "This skill provides comprehensive testing patterns using Vitest for unit/integration tests and Playwright for E2E tests.",
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1811,19 +2420,29 @@
     "displayName": "ui-skill",
     "productId": "UiSkill",
     "repoUrl": ".opencode\\skills\\ui-skill/",
-    "scope": ["project"],
-    "tagline": "This skill provides guidance on shadcn/ui and Tailwind CSS patterns for the Banking project.",
-    "tags": ["opencode", "skills"],
+    "scope": [
+      "project"
+    ],
+    "tagline": "This skill provides comprehensive guidance on shadcn/ui and Tailwind CSS patterns for the Banking project. It covers ...",
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
-    "description": "View and modify Cursor CLI configuration settings in ~/.cursor/cli-config.json. Use when the user wants to change CLI settings, configure permissions, switch approval mode, enable vim mode, toggle display options, configure sandbox, or manage any CLI preferences.",
+    "description": "View and modify Cursor CLI configuration settings in ~/.cursor/cli-config.json. Use when you want to change CLI settings, configure permissions, switch approval mode, enable vim mode, toggle display options, configure sandbox, or manage any CLI preferences.",
     "displayName": "update-cli-config",
     "productId": "UpdateCliConfig",
     "repoUrl": ".opencode\\skills\\update-cli-config/",
-    "scope": ["project"],
-    "tagline": "This skill explains how to view and modify Cursor CLI settings stored in `~/.cursor/cli-config.json`.",
-    "tags": ["opencode", "skills"],
+    "scope": [
+      "project"
+    ],
+    "tagline": "Manage Cursor CLI configuration settings. This skill provides comprehensive guidance for modifying CLI preferences, p...",
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1831,9 +2450,29 @@
     "displayName": "update-cursor-settings",
     "productId": "UpdateCursorSettings",
     "repoUrl": ".opencode\\skills\\update-cursor-settings/",
-    "scope": ["project"],
-    "tagline": "This skill guides you through modifying Cursor/VSCode user settings. Use this when you want to change editor settings...",
-    "tags": ["opencode", "skills"],
+    "scope": [
+      "project"
+    ],
+    "tagline": "This skill provides comprehensive guidelines for modifying Cursor/VSCode user settings. It covers settings file locat...",
+    "tags": [
+      "opencode",
+      "skills"
+    ],
+    "type": "resources"
+  },
+  {
+    "description": "Automatically update README.md and documentation files when application code changes require documentation updates",
+    "displayName": "UpdateDocsOnCodeChange.instructions",
+    "productId": "UpdateDocsOnCodeChange.instructions",
+    "repoUrl": ".opencode\\instructions/",
+    "scope": [
+      "project"
+    ],
+    "tagline": "Ensure documentation stays synchronized with code changes by automatically detecting when README.md,",
+    "tags": [
+      "opencode",
+      "instructions"
+    ],
     "type": "resources"
   },
   {
@@ -1841,9 +2480,14 @@
     "displayName": "validation-skill",
     "productId": "ValidationSkill",
     "repoUrl": ".opencode\\skills\\validation-skill/",
-    "scope": ["project"],
-    "tagline": "This skill provides guidance on Zod schema validation patterns for the Banking project.",
-    "tags": ["opencode", "skills"],
+    "scope": [
+      "project"
+    ],
+    "tagline": "This skill provides comprehensive guidance on Zod schema validation patterns for the Banking project. It covers Zod v...",
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1851,9 +2495,14 @@
     "displayName": "vscode-ext-commands",
     "productId": "VscodeExtCommands",
     "repoUrl": ".opencode\\skills\\vscode-ext-commands/",
-    "scope": ["project"],
-    "tagline": "This skill helps you to contribute commands in VS Code extensions",
-    "tags": ["opencode", "skills"],
+    "scope": [
+      "project"
+    ],
+    "tagline": "This skill provides comprehensive guidelines for creating and managing commands in VS Code extensions. It covers nami...",
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1861,9 +2510,14 @@
     "displayName": "vscode-ext-localization",
     "productId": "VscodeExtLocalization",
     "repoUrl": ".opencode\\skills\\vscode-ext-localization/",
-    "scope": ["project"],
-    "tagline": "This skill helps you localize every aspect of VS Code extensions",
-    "tags": ["opencode", "skills"],
+    "scope": [
+      "project"
+    ],
+    "tagline": "This skill provides comprehensive guidelines for implementing localization in VS Code extensions. It covers the l10n ...",
+    "tags": [
+      "opencode",
+      "skills"
+    ],
     "type": "resources"
   },
   {
@@ -1871,7 +2525,9 @@
     "displayName": "Ayu Dark",
     "productId": "ayu-dark",
     "repoUrl": "https://github.com/postrednik/opencode-ayu-theme",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Port of the popular Ayu Dark color scheme with golden yellow accent.",
     "tags": [],
     "type": "themes"
@@ -1881,7 +2537,9 @@
     "displayName": "Lavi",
     "productId": "lavi",
     "repoUrl": "https://github.com/b0o/lavi/tree/main/contrib/opencode",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "A soft and sweet colorscheme for Opencode and 15+ other apps",
     "tags": [],
     "type": "themes"
@@ -1891,7 +2549,9 @@
     "displayName": "Moonlight",
     "productId": "moonlight",
     "repoUrl": "https://github.com/brunogabriel/opencode-moonlight-theme",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "A moonlight color theme for OpenCode based on the popular moonlight-vscode-theme.",
     "tags": [],
     "type": "themes"
@@ -1901,7 +2561,9 @@
     "displayName": "Poimandres Theme",
     "productId": "poimandres-theme",
     "repoUrl": "https://github.com/ajaxdude/opencode-ai-poimandres-theme",
-    "scope": ["global"],
+    "scope": [
+      "global"
+    ],
     "tagline": "Poimandres theme",
     "tags": [],
     "type": "themes"

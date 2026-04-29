@@ -1,0 +1,14 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "font": {
+    "family": "'Public Sans Variable', sans-serif",
+    "provider": "google",
+    "import": "Public_Sans",
+    "variable": "--font-sans",
+    "subsets": ["latin"],
+    "dependency": "@fontsource-variable/public-sans"
+  },
+  "name": "font-public-sans",
+  "title": "Public Sans",
+  "type": "registry:font"
+}

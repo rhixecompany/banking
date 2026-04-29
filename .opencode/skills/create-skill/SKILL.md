@@ -2,6 +2,52 @@
 name: create-skill
 description: >-
   Guides users through creating effective Agent Skills for Cursor. Use when you want to create, write, or author a new skill, or asks about skill structure, best practices, or SKILL.md format.
+lastReviewed: 2026-04-29
+---
+
+## Agent Support
+
+| Agent | Integration | Usage |
+|-------|-------------|-------|
+| **OpenCode** | Direct skill invocation | `skill("create-skill")` when creating new skills |
+| **Cursor** | `.cursorrules` reference | Add to project rules for skill creation |
+| **Copilot** | `.github/copilot-instructions.md` | Reference for skill structure |
+
+### OpenCode Usage
+```
+# When creating a new skill
+Use create-skill to structure SKILL.md properly.
+
+# When authoring skill content
+Load create-skill for writing effective descriptions.
+```
+
+### Cursor Integration
+```json
+// .cursorrules - Add skill creation patterns
+{
+  "skills": {
+    "requireFrontmatter": true,
+    "maxLines": 500,
+    "storageLocation": ".cursor/skills/"
+  }
+}
+```
+
+### Copilot Integration
+```markdown
+<!-- .github/copilot-instructions.md -->
+## Skill Creation Patterns
+
+When creating new skills:
+- Required: name, description in frontmatter
+- Write descriptions in third person with trigger terms
+- Keep SKILL.md under 500 lines
+- Use progressive disclosure for detailed content
+
+See skills/create-skill for full format guide.
+```
+
 ---
 
 # Creating Skills in Cursor

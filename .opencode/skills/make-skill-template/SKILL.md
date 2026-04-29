@@ -1,9 +1,23 @@
 ---
 name: make-skill-template
 description: 'Create new Agent Skills for GitHub Copilot from prompts or by duplicating this template. Use when asked to "create a skill", "make a new skill", "scaffold a skill", or when building specialized AI capabilities with bundled resources. Generates SKILL.md files with proper frontmatter, directory structure, and optional scripts/references/assets folders.'
-lastReviewed: 2026-04-24
+lastReviewed: 2026-04-29
 applyTo: "**/*"
+platforms:
+  - opencode
+  - cursor
+  - copilot
 ---
+
+## Agent Support
+
+| Agent | Integration | Usage |
+|-------|-------------|-------|
+| **OpenCode** | Native `skill` tool | `skill load make-skill-template` |
+| **Cursor** | @mention or `.cursorrules` | `@make-skill-template create new skill` |
+| **Copilot** | `/make-skill` command | `/make-skill create workflow-skill` |
+
+## When to Use This Skill
 
 # Make Skill Template
 

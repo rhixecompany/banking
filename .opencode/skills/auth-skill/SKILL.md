@@ -2,8 +2,52 @@
 name: auth-skill
 description: >-
   NextAuth v4 authentication patterns, session helper, and protected route guidance. Use when implementing authentication, protecting routes, managing sessions, or working with user authorization. Triggers include requests to "add auth", "protect routes", "check session", "implement login/logout", or any authentication-related task.
-lastReviewed: 2026-04-24
+lastReviewed: 2026-04-29
 applyTo: "actions/**/*.{ts,tsx}"
+---
+
+## Agent Support
+
+| Agent | Integration | Usage |
+|-------|-------------|-------|
+| **OpenCode** | Direct skill invocation | `skill("auth-skill")` when implementing auth in Server Actions |
+| **Cursor** | `.cursorrules` reference | Add to project rules for auth patterns |
+| **Copilot** | `.github/copilot-instructions.md` | Reference for authentication implementation |
+
+### OpenCode Usage
+```
+# When adding authentication to a Server Action
+Use auth-skill to implement proper session checking and protected routes.
+
+# When protecting routes
+Load auth-skill for middleware and protected route patterns.
+```
+
+### Cursor Integration
+```json
+// .cursorrules - Add auth patterns
+{
+  "authentication": {
+    "requireAuth": true,
+    "sessionStrategy": "jwt",
+    "protectedPaths": ["/dashboard/*", "/settings/*"]
+  }
+}
+```
+
+### Copilot Integration
+```markdown
+<!-- .github/copilot-instructions.md -->
+## Authentication Patterns
+
+Use NextAuth v4 with JWT strategy:
+- Server Actions: Check auth() early, return { ok, error }
+- Protected routes: Middleware pattern
+- Session: JWT tokens with user id, email, isAdmin, isActive
+
+See skills/auth-skill for full implementation.
+```
+
 ---
 
 # Auth Skill — NextAuth v4 Patterns

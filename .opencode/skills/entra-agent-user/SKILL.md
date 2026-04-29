@@ -3,9 +3,21 @@ name: entra-agent-user
 description: Create Agent Users in Microsoft Entra ID from Agent Identities to enable agent-as-user scenarios.
 lastReviewed: 2026-04-24
 applyTo: "infra/**"
+platforms:
+  - opencode
+  - cursor
+  - copilot
 ---
 
 # SKILL: Creating Agent Users in Microsoft Entra Agent ID
+
+## Agent Support
+
+| Agent | Usage |
+|-------|-------|
+| **OpenCode** | Use MCP tools for Entra ID operations via `hostinger_*` or direct Graph API calls |
+| **Cursor** | Use `@entra-agent-user` for agent user creation guidance |
+| **Copilot** | Use `/entra agent-user` for Microsoft Entra ID agent user patterns |
 
 ## Overview
 

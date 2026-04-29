@@ -1,0 +1,16 @@
+{
+  "aliases": {
+    "utils": "~/lib/utils",
+    "components": "~/components",
+    "ui": "~/ui"
+  },
+  "rsc": false,
+  "style": "new-york",
+  "tailwind": {
+    "config": "tailwind.config.ts",
+    "css": "src/app/globals.css",
+    "baseColor": "zinc",
+    "cssVariables": true,
+    "prefix": "tw-"
+  }
+}

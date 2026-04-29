@@ -2,6 +2,52 @@
 name: babysit
 description: >-
   Keep a PR merge-ready by triaging comments, resolving clear conflicts, and fixing CI in a loop. Use when a PR needs ongoing maintenance, has failing checks, has merge conflicts, or needs comment resolution.
+lastReviewed: 2026-04-29
+---
+
+## Agent Support
+
+| Agent | Integration | Usage |
+|-------|-------------|-------|
+| **OpenCode** | Direct skill invocation | `skill("babysit")` when maintaining PR merge-ready |
+| **Cursor** | `.cursorrules` reference | Add to project rules for PR maintenance |
+| **Copilot** | `.github/copilot-instructions.md` | Reference for PR triage workflow |
+
+### OpenCode Usage
+```
+# When asked to babysit/watch a PR
+Use babysit skill to iterate until PR is merge-ready.
+
+# When fixing CI in a loop
+Load babysit skill for the systematic fix cycle.
+```
+
+### Cursor Integration
+```json
+// .cursorrules - Add babysit patterns
+{
+  "prMaintenance": {
+    "fixFirstThenPush": true,
+    "maxCycles": 5,
+    "categorizeComments": true
+  }
+}
+```
+
+### Copilot Integration
+```markdown
+<!-- .github/copilot-instructions.md -->
+## PR Babysit Workflow
+
+When keeping PR merge-ready:
+1. Check PR status - CI, conflicts, comments
+2. Triage: Type A (fix), Type B (ask), Type C (explain), Type D (ignore)
+3. Execute fixes - minimal changes, one at a time
+4. Push and re-watch - iterate until green
+
+See skills/babysit for full workflow.
+```
+
 ---
 
 # Babysit PR

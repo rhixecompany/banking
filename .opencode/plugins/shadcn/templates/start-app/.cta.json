@@ -1,0 +1,12 @@
+{
+  "addOnOptions": {},
+  "chosenAddOns": ["eslint", "nitro", "start"],
+  "framework": "react-cra",
+  "git": true,
+  "mode": "file-router",
+  "packageManager": "pnpm",
+  "projectName": "start-app",
+  "tailwind": true,
+  "typescript": true,
+  "version": 1
+}

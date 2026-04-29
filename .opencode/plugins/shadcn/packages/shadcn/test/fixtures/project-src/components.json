@@ -1,0 +1,7 @@
+{
+  "components": "src/components",
+  "styles": "src/styles/main.css",
+  "tailwindConfig": "tailwind.config.ts",
+  "ui": "src/ui",
+  "utils": "src/lib/cn.ts"
+}

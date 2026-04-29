@@ -32,6 +32,8 @@ This file provides a unified index of all instruction files across the Banking p
 | plan-workflow.md | Plan workflow standards | high |
 | morph-tools.md | morph_edit tool selection | high |
 
+| task-implementation.instructions.md | tasksync.instructions.md | update-docs-on-code-change.instructions.md
+
 ## .github/instructions/
 
 | File | Purpose | Priority |

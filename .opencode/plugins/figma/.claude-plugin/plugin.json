@@ -1,0 +1,8 @@
+{
+  "author": {
+    "name": "Figma"
+  },
+  "description": "Plugin that includes the Figma MCP server and Skills for common workflows",
+  "name": "figma",
+  "version": "2.1.26"
+}
