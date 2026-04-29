@@ -1,16 +1,12 @@
 {
-  "name": "docs-canvas",
-  "displayName": "Docs Canvas",
-  "version": "0.1.0",
-  "description": "Render documentation — architecture notes, API references, runbooks, and codebase walkthroughs — as a navigable Cursor Canvas with sections, table of contents, diagrams, and cross-references.",
   "author": {
     "name": "Cursor",
     "email": "plugins@cursor.com"
   },
+  "category": "developer-tools",
+  "description": "Render documentation — architecture notes, API references, runbooks, and codebase walkthroughs — as a navigable Cursor Canvas with sections, table of contents, diagrams, and cross-references.",
+  "displayName": "Docs Canvas",
   "homepage": "https://github.com/cursor/plugins/tree/main/docs-canvas",
-  "repository": "https://github.com/cursor/plugins",
-  "license": "MIT",
-  "logo": "assets/avatar.png",
   "keywords": [
     "cursor-plugin",
     "canvas",
@@ -19,11 +15,11 @@
     "architecture",
     "reference"
   ],
-  "category": "developer-tools",
-  "tags": [
-    "canvas",
-    "documentation",
-    "workflow"
-  ],
-  "skills": "./skills/"
+  "license": "MIT",
+  "logo": "assets/avatar.png",
+  "name": "docs-canvas",
+  "repository": "https://github.com/cursor/plugins",
+  "skills": "./skills/",
+  "tags": ["canvas", "documentation", "workflow"],
+  "version": "0.1.0"
 }

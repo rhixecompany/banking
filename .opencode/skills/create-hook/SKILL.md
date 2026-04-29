@@ -1,9 +1,9 @@
 ---
 name: create-hook
 description: >-
-  Create Cursor hooks. Use when you want to create a hook, write hooks.json, add
-  hook scripts, or automate behavior around agent events.
+  Create Cursor hooks. Use when you want to create a hook, write hooks.json, add hook scripts, or automate behavior around agent events.
 ---
+
 # Creating Cursor Hooks
 
 Create hooks when you want Cursor to run custom logic before or after agent events. Hooks are scripts or prompt-based checks that exchange JSON over stdin/stdout and can observe, block, modify, or follow up on behavior.
@@ -75,14 +75,14 @@ Create a `hooks.json` file with schema version 1:
 
 ```json
 {
-  "version": 1,
   "hooks": {
     "afterFileEdit": [
       {
         "command": ".cursor/hooks/format.sh"
       }
     ]
-  }
+  },
+  "version": 1
 }
 ```
 
@@ -130,7 +130,6 @@ Do not assume a binary exists just because it is common on your machine.
 
 ```json
 {
-  "version": 1,
   "hooks": {
     "beforeShellExecution": [
       {
@@ -139,7 +138,8 @@ Do not assume a binary exists just because it is common on your machine.
         "failClosed": true
       }
     ]
-  }
+  },
+  "version": 1
 }
 ```
 
@@ -175,7 +175,6 @@ Prompt hooks are useful when the policy is easier to describe than to script.
 
 ```json
 {
-  "version": 1,
   "hooks": {
     "beforeShellExecution": [
       {
@@ -184,7 +183,8 @@ Prompt hooks are useful when the policy is easier to describe than to script.
         "timeout": 10
       }
     ]
-  }
+  },
+  "version": 1
 }
 ```
 

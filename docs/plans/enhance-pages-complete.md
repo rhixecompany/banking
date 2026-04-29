@@ -1,7 +1,7 @@
 ---
 plan name: enhance-pages-complete
 plan description: Pages & scripts overhaul
-plan status: active
+plan status: done
 ---
 
 ## Idea

@@ -18,9 +18,9 @@ import type { CSSProperties, JSX } from "react";
 export type ChartTone = "success" | "danger" | "warning" | "info" | "neutral";
 /** A single labeled value, used by `PieChart`. */
 export type ChartDataPoint = {
-    label: string;
-    /** Non-negative numeric value. */
-    value: number;
+  label: string;
+  /** Non-negative numeric value. */
+  value: number;
 };
 /**
  * A named data series for `BarChart` and `LineChart`.
@@ -28,42 +28,44 @@ export type ChartDataPoint = {
  * If `tone` is omitted, a color is auto-assigned from the chart palette.
  */
 export type ChartSeries = {
-    name: string;
-    data: number[];
-    tone?: ChartTone;
+  name: string;
+  data: number[];
+  tone?: ChartTone;
 };
 export type BarChartProps = {
-    /** Category labels along the independent axis. */
-    categories: string[];
-    /** One or more data series. Values align by index with `categories`. */
-    series: ChartSeries[];
-    height?: number;
-    /** Stack series on top of each other instead of grouping side-by-side. */
-    stacked?: boolean;
-    /** Render horizontal bars instead of vertical columns. */
-    horizontal?: boolean;
-    /** Show as 100% stacked (implies `stacked`). */
-    normalized?: boolean;
-    /** Suffix for y-axis tick labels (e.g. "%"). */
-    valueSuffix?: string;
-    style?: CSSProperties;
+  /** Category labels along the independent axis. */
+  categories: string[];
+  /** One or more data series. Values align by index with `categories`. */
+  series: ChartSeries[];
+  height?: number;
+  /** Stack series on top of each other instead of grouping side-by-side. */
+  stacked?: boolean;
+  /** Render horizontal bars instead of vertical columns. */
+  horizontal?: boolean;
+  /** Show as 100% stacked (implies `stacked`). */
+  normalized?: boolean;
+  /** Suffix for y-axis tick labels (e.g. "%"). */
+  valueSuffix?: string;
+  style?: CSSProperties;
 };
 export type LineChartProps = {
-    categories: string[];
-    series: ChartSeries[];
-    height?: number;
-    /** Fill the area under each line with a soft tint. */
-    fill?: boolean;
-    valueSuffix?: string;
-    style?: CSSProperties;
+  categories: string[];
+  series: ChartSeries[];
+  height?: number;
+  /** Fill the area under each line with a soft tint. */
+  fill?: boolean;
+  valueSuffix?: string;
+  style?: CSSProperties;
 };
 export type PieChartProps = {
-    data: Array<ChartDataPoint & {
-        tone?: ChartTone;
-    }>;
-    size?: number;
-    donut?: boolean;
-    style?: CSSProperties;
+  data: Array<
+    ChartDataPoint & {
+      tone?: ChartTone;
+    }
+  >;
+  size?: number;
+  donut?: boolean;
+  style?: CSSProperties;
 };
 /**
  * Multi-series bar/column chart with optional stacking and normalization.
@@ -114,7 +116,16 @@ export type PieChartProps = {
  * />
  * ```
  */
-export declare function BarChart({ categories, series, height, stacked, horizontal, normalized, valueSuffix, style }: BarChartProps): JSX.Element;
+export declare function BarChart({
+  categories,
+  series,
+  height,
+  stacked,
+  horizontal,
+  normalized,
+  valueSuffix,
+  style,
+}: BarChartProps): JSX.Element;
 /**
  * Multi-series line chart with optional area fill. Distilled from the
  * portal-website Highcharts analytics charts.
@@ -159,7 +170,14 @@ export declare function BarChart({ categories, series, height, stacked, horizont
  * />
  * ```
  */
-export declare function LineChart({ categories, series, height, fill, valueSuffix, style }: LineChartProps): JSX.Element;
+export declare function LineChart({
+  categories,
+  series,
+  height,
+  fill,
+  valueSuffix,
+  style,
+}: LineChartProps): JSX.Element;
 /**
  * Pie (or donut) chart with hover highlighting. Distilled from the
  * portal-website Highcharts analytics charts.
@@ -196,5 +214,10 @@ export declare function LineChart({ categories, series, height, fill, valueSuffi
  * />
  * ```
  */
-export declare function PieChart({ data, size, donut, style }: PieChartProps): JSX.Element;
+export declare function PieChart({
+  data,
+  size,
+  donut,
+  style,
+}: PieChartProps): JSX.Element;
 //# sourceMappingURL=chart-primitives.d.ts.map

@@ -7,9 +7,9 @@ import { type CanvasAction } from "./internal/canvas-action-dispatch.js";
  * callers that prefer a namespaced form.
  */
 export interface CanvasHostTheme extends CanvasTokens {
-    readonly kind: string;
-    readonly tokens: CanvasTokens;
-    readonly palette: CanvasPalette;
+  readonly kind: string;
+  readonly tokens: CanvasTokens;
+  readonly palette: CanvasPalette;
 }
 /**
  * Returns the current host theme. Falls back to dark mode when no host
@@ -87,7 +87,10 @@ export type SetCanvasState<T> = (action: T | ((prev: T) => T)) => void;
  * }
  * ```
  */
-export declare function useCanvasState<T>(key: string, defaultValue: T): [T, SetCanvasState<T>];
+export declare function useCanvasState<T>(
+  key: string,
+  defaultValue: T,
+): [T, SetCanvasState<T>];
 export type { CanvasAction };
 /**
  * Returns a stable `dispatch` function for triggering IDE actions from

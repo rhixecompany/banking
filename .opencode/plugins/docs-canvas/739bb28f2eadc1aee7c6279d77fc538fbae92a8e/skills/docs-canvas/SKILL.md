@@ -1,22 +1,14 @@
 ---
 name: docs-canvas
 description: >-
-  Render a documentation-style Cursor Canvas that organizes architecture
-  notes, API references, walkthroughs, and how-tos into a navigable layout
-  with sections, tables of contents, and cross-references. Use when the
-  user asks for a docs canvas, documentation overview, architecture
-  walkthrough, API reference page, or wants to render structured
-  documentation as an interactive canvas.
+  Render a documentation-style Cursor Canvas that organizes architecture notes, API references, walkthroughs, and how-tos into a navigable layout with sections, tables of contents, and cross-references. Use when the user asks for a docs canvas, documentation overview, architecture walkthrough, API reference page, or wants to render structured documentation as an interactive canvas.
 ---
 
 # Docs Canvas
 
 Build a canvas that presents documentation — architecture notes, API references, design docs, runbooks, or codebase walkthroughs — as an interactive, navigable surface rather than as a flat markdown file.
 
-> **Status:** placeholder. The skill structure is in place so the canvas
-> welcome page can surface this plugin via the marketplace query, but the
-> full skill body still needs to be written. Treat the steps below as a
-> starting outline and refine as the docs canvas pattern matures.
+> **Status:** placeholder. The skill structure is in place so the canvas welcome page can surface this plugin via the marketplace query, but the full skill body still needs to be written. Treat the steps below as a starting outline and refine as the docs canvas pattern matures.
 
 ## Prerequisites
 

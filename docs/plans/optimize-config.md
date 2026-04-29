@@ -1,7 +1,7 @@
 ---
-description: Optimize and consolidate agent instruction files (AGENTS.md, instruction files)
-status: in-progress
-updated: 2026-04-24
+plan name: optimize-config
+plan description:
+plan status: done
 ---
 
 # Plan: optimize-config

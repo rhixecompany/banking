@@ -1,7 +1,7 @@
 ---
 plan name: enhanced-readme
 plan description: Sync code, docs, README
-plan status: active
+plan status: done
 ---
 
 ## Idea

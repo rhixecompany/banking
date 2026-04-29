@@ -1,7 +1,7 @@
 ---
 plan name: enhance-pages-v2
 plan description: Enhance pages & scripts
-plan status: active
+plan status: done
 ---
 
 ## Idea

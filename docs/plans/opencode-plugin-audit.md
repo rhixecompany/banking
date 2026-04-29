@@ -1,7 +1,7 @@
 ---
 plan name: opencode-plugin-audit
 plan description: Audit plugins and MCP auth
-plan status: active
+plan status: done
 ---
 
 ## Idea

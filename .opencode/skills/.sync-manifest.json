@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "lastInventoryAt": 1777461223109,
   "skills": {
     "babysit": {
       "lastSyncedAt": 1777461223109
@@ -38,5 +38,5 @@
       "lastSyncedAt": 1777461223109
     }
   },
-  "lastInventoryAt": 1777461223109
+  "version": 1
 }

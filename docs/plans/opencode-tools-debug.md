@@ -1,7 +1,7 @@
 ---
 plan name: opencode-tools-debug
 plan description: Stabilize agent tooling stack
-plan status: active
+plan status: done
 ---
 
 ## Idea

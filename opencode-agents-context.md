@@ -112,7 +112,7 @@ Generate concise, actionable meeting minutes with decisions and action items for
 
 ### 27. migrate-to-skills
 
-Convert 'Applied intelligently' Cursor rules (.cursor/rules/*.mdc) and slash commands (.cursor/commands/*.md) to Agent Skills format (.cursor/skills/). Use when you want to migrate rules or commands to skills, convert .mdc rules to SKILL.md format, or consolidate commands into the skills directory.
+Convert 'Applied intelligently' Cursor rules (.cursor/rules/_.mdc) and slash commands (.cursor/commands/_.md) to Agent Skills format (.cursor/skills/). Use when you want to migrate rules or commands to skills, convert .mdc rules to SKILL.md format, or consolidate commands into the skills directory.
 
 ### 28. mcp-cli
 
@@ -275,7 +275,7 @@ This SKILL provides detailed instructions on how to use the planning plugin tool
 Pre-defined implementation plans in the workspace:
 
 | Plan | Description |
-|------|-------------|
+| --- | --- |
 | cleanup-dead-code | Cleanup dead code and duplicate tests |
 | convert-scripts | Convert scripts to TypeScript |
 | docker-production-deploy | Deploy Banking app with Docker Compose to production server |
@@ -303,7 +303,7 @@ A comprehensive list of all available tools organized by category.
 ### File System Tools
 
 | Tool | Description |
-|------|-------------|
+| --- | --- |
 | `filesystem_read_file` | Read complete file contents (deprecated, use read_text_file) |
 | `filesystem_read_text_file` | Read complete file contents as text with encoding handling |
 | `filesystem_read_multiple_files` | Read multiple files simultaneously |
@@ -322,7 +322,7 @@ A comprehensive list of all available tools organized by category.
 ### Web Search and Fetch Tools
 
 | Tool | Description |
-|------|-------------|
+| --- | --- |
 | `webfetch` | Fetch content from URLs in various formats |
 | `websearch` | Search the web using Exa AI |
 | `exa_web_search_exa` | Search the web for topics |
@@ -334,7 +334,7 @@ A comprehensive list of all available tools organized by category.
 ### GitHub Tools
 
 | Tool | Description |
-|------|-------------|
+| --- | --- |
 | `github-agentic-workflows_create_or_update_file` | Create/update single file in repo |
 | `github-agentic-workflows_search_repositories` | Search GitHub repositories |
 | `github-agentic-workflows_create_repository` | Create new repository |
@@ -365,7 +365,7 @@ A comprehensive list of all available tools organized by category.
 ### Playwright Browser Tools
 
 | Tool | Description |
-|------|-------------|
+| --- | --- |
 | `playwright_browser_close` | Close page |
 | `playwright_browser_resize` | Resize browser window |
 | `playwright_browser_console_messages` | Get console messages |
@@ -392,7 +392,7 @@ A comprehensive list of all available tools organized by category.
 ### Next.js MCP Tools
 
 | Tool | Description |
-|------|-------------|
+| --- | --- |
 | `next-devtools_enable_cache_components` | Migrate to Cache Components mode |
 | `next-devtools_init` | Initialize Next.js DevTools MCP context |
 | `next-devtools_nextjs_docs` | Fetch Next.js official documentation |
@@ -403,7 +403,7 @@ A comprehensive list of all available tools organized by category.
 ### Hostinger VPS Tools
 
 | Tool | Description |
-|------|-------------|
+| --- | --- |
 | `hostinger_VPS_getVirtualMachinesV1` | Retrieve all available VPS instances |
 | `hostinger_VPS_getVirtualMachineDetailsV1` | Get detailed VPS information |
 | `hostinger_VPS_createNewProjectV1` | Deploy new Docker Compose project |
@@ -419,7 +419,7 @@ A comprehensive list of all available tools organized by category.
 ### Hostinger Hosting Tools
 
 | Tool | Description |
-|------|-------------|
+| --- | --- |
 | `hostinger_hosting_listOrdersV1` | List hosting orders |
 | `hostinger_hosting_listWebsitesV1` | List websites |
 | `hostinger_hosting_createWebsiteV1` | Create new website |
@@ -428,7 +428,7 @@ A comprehensive list of all available tools organized by category.
 ### Hostinger Domains Tools
 
 | Tool | Description |
-|------|-------------|
+| --- | --- |
 | `hostinger_domains_getDomainListV1` | List domains |
 | `hostinger_domains_checkDomainAvailabilityV1` | Check domain availability |
 | `hostinger_domains_purchaseNewDomainV1` | Purchase new domain |
@@ -438,42 +438,42 @@ A comprehensive list of all available tools organized by category.
 
 ### Hostinger DNS Tools
 
-| Tool | Description |
-|------|-------------|
-| `hostinger_DNS_getDNSRecordsV1` | Get DNS zone records |
-| `hostinger_DNS_updateDNSRecordsV1` | Update DNS records |
-| `hostinger_DNS_deleteDNSRecordsV1` | Delete DNS records |
+| Tool                                 | Description          |
+| ------------------------------------ | -------------------- |
+| `hostinger_DNS_getDNSRecordsV1`      | Get DNS zone records |
+| `hostinger_DNS_updateDNSRecordsV1`   | Update DNS records   |
+| `hostinger_DNS_deleteDNSRecordsV1`   | Delete DNS records   |
 | `hostinger_DNS_restoreDNSSnapshotV1` | Restore DNS snapshot |
 
 ### Hostinger Billing Tools
 
-| Tool | Description |
-|------|-------------|
-| `hostinger_billing_getSubscriptionListV1` | List subscriptions |
+| Tool                                       | Description          |
+| ------------------------------------------ | -------------------- |
+| `hostinger_billing_getSubscriptionListV1`  | List subscriptions   |
 | `hostinger_billing_getPaymentMethodListV1` | List payment methods |
 
 ### Hostinger Firewall Tools
 
-| Tool | Description |
-|------|-------------|
-| `hostinger_VPS_getFirewallListV1` | List firewalls |
-| `hostinger_VPS_createNewFirewallV1` | Create new firewall |
-| `hostinger_VPS_createFirewallRuleV1` | Add firewall rule |
-| `hostinger_VPS_activateFirewallV1` | Activate firewall on VPS |
+| Tool                                 | Description              |
+| ------------------------------------ | ------------------------ |
+| `hostinger_VPS_getFirewallListV1`    | List firewalls           |
+| `hostinger_VPS_createNewFirewallV1`  | Create new firewall      |
+| `hostinger_VPS_createFirewallRuleV1` | Add firewall rule        |
+| `hostinger_VPS_activateFirewallV1`   | Activate firewall on VPS |
 
 ### Hostinger Backup Tools
 
-| Tool | Description |
-|------|-------------|
-| `hostinger_VPS_getBackupsV1` | List backups |
-| `hostinger_VPS_restoreBackupV1` | Restore from backup |
-| `hostinger_VPS_createSnapshotV1` | Create snapshot |
-| `hostinger_VPS_restoreSnapshotV1` | Restore snapshot |
+| Tool                              | Description         |
+| --------------------------------- | ------------------- |
+| `hostinger_VPS_getBackupsV1`      | List backups        |
+| `hostinger_VPS_restoreBackupV1`   | Restore from backup |
+| `hostinger_VPS_createSnapshotV1`  | Create snapshot     |
+| `hostinger_VPS_restoreSnapshotV1` | Restore snapshot    |
 
 ### Hostinger Email (Reach) Tools
 
 | Tool | Description |
-|------|-------------|
+| --- | --- |
 | `hostinger_reach_listContactsV1` | List contacts |
 | `hostinger_reach_createANewContactV1` | Create contact |
 | `hostinger_reach_deleteAContactV1` | Delete contact |
@@ -483,7 +483,7 @@ A comprehensive list of all available tools organized by category.
 ### Shadcn UI Tools
 
 | Tool | Description |
-|------|-------------|
+| --- | --- |
 | `shadcn_get_project_registries` | Get configured registry names |
 | `shadcn_list_items_in_registries` | List items from registries |
 | `shadcn_search_items_in_registries` | Search components in registries |
@@ -494,47 +494,47 @@ A comprehensive list of all available tools organized by category.
 
 ### Knowledge Graph Tools
 
-| Tool | Description |
-|------|-------------|
-| `memory_create_entities` | Create entities in knowledge graph |
-| `memory_create_relations` | Create relations between entities |
-| `memory_add_observations` | Add observations to entities |
-| `memory_delete_entities` | Delete entities |
-| `memory_delete_observations` | Delete observations |
-| `memory_delete_relations` | Delete relations |
-| `memory_read_graph` | Read entire knowledge graph |
-| `memory_search_nodes` | Search nodes by query |
-| `memory_open_nodes` | Open specific nodes |
+| Tool                         | Description                        |
+| ---------------------------- | ---------------------------------- |
+| `memory_create_entities`     | Create entities in knowledge graph |
+| `memory_create_relations`    | Create relations between entities  |
+| `memory_add_observations`    | Add observations to entities       |
+| `memory_delete_entities`     | Delete entities                    |
+| `memory_delete_observations` | Delete observations                |
+| `memory_delete_relations`    | Delete relations                   |
+| `memory_read_graph`          | Read entire knowledge graph        |
+| `memory_search_nodes`        | Search nodes by query              |
+| `memory_open_nodes`          | Open specific nodes                |
 
 ### Session and Brainstorm Tools
 
-| Tool | Description |
-|------|-------------|
-| `start_session` | Start interactive octto session |
-| `end_session` | End interactive session |
-| `pick_one` | Ask user to select ONE option |
-| `pick_many` | Ask user to select MULTIPLE options |
-| `confirm` | Ask user for Yes/No confirmation |
-| `ask_text` | Ask user for text input |
-| `ask_image` | Ask user to upload image(s) |
-| `ask_file` | Ask user to upload file(s) |
-| `show_diff` | Show diff and ask for approval |
-| `show_plan` | Show plan for user review |
-| `show_options` | Show options with pros/cons |
-| `review_section` | Show content for review |
-| `thumbs` | Ask for thumbs up/down feedback |
-| `get_answer` | Get answer to specific question |
-| `get_next_answer` | Wait for any question answer |
-| `list_questions` | List all questions |
-| `push_question` | Push question to queue |
-| `create_brainstorm` | Create brainstorm session |
-| `await_brainstorm_complete` | Wait for brainstorm completion |
-| `end_brainstorm` | End brainstorm session |
+| Tool                        | Description                         |
+| --------------------------- | ----------------------------------- |
+| `start_session`             | Start interactive octto session     |
+| `end_session`               | End interactive session             |
+| `pick_one`                  | Ask user to select ONE option       |
+| `pick_many`                 | Ask user to select MULTIPLE options |
+| `confirm`                   | Ask user for Yes/No confirmation    |
+| `ask_text`                  | Ask user for text input             |
+| `ask_image`                 | Ask user to upload image(s)         |
+| `ask_file`                  | Ask user to upload file(s)          |
+| `show_diff`                 | Show diff and ask for approval      |
+| `show_plan`                 | Show plan for user review           |
+| `show_options`              | Show options with pros/cons         |
+| `review_section`            | Show content for review             |
+| `thumbs`                    | Ask for thumbs up/down feedback     |
+| `get_answer`                | Get answer to specific question     |
+| `get_next_answer`           | Wait for any question answer        |
+| `list_questions`            | List all questions                  |
+| `push_question`             | Push question to queue              |
+| `create_brainstorm`         | Create brainstorm session           |
+| `await_brainstorm_complete` | Wait for brainstorm completion      |
+| `end_brainstorm`            | End brainstorm session              |
 
 ### OpenCode Platform Tools
 
 | Tool | Description |
-|------|-------------|
+| --- | --- |
 | `opencode_sync` | Manage opencode config sync with GitHub |
 | `quota_status` | Diagnostics for toast, TUI, pricing |
 | `compress` | Collapse conversation into summary |
@@ -550,38 +550,38 @@ A comprehensive list of all available tools organized by category.
 
 ### Planning Tools
 
-| Tool | Description |
-|------|-------------|
-| `createPlan` | Create implementation plan |
-| `createSpec` | Create reusable spec |
-| `readPlan` | Read plan with linked spec |
-| `appendSpec` | Link spec to plan |
-| `markPlanDone` | Mark plan as done |
-| `submit_plan` | Submit plan for review |
-| `get_session_summary` | Get summary of branches |
+| Tool                  | Description                |
+| --------------------- | -------------------------- |
+| `createPlan`          | Create implementation plan |
+| `createSpec`          | Create reusable spec       |
+| `readPlan`            | Read plan with linked spec |
+| `appendSpec`          | Link spec to plan          |
+| `markPlanDone`        | Mark plan as done          |
+| `submit_plan`         | Submit plan for review     |
+| `get_session_summary` | Get summary of branches    |
 
 ### Memory Tools
 
-| Tool | Description |
-|------|-------------|
-| `memory_list` | List available memory blocks |
-| `memory_set` | Create/update memory block |
-| `memory_replace` | Replace text in memory block |
-| `memory_read_graph` | Read knowledge graph |
-| `memory_create_entities` | Create entities |
-| `memory_create_relations` | Create relations |
+| Tool                      | Description                  |
+| ------------------------- | ---------------------------- |
+| `memory_list`             | List available memory blocks |
+| `memory_set`              | Create/update memory block   |
+| `memory_replace`          | Replace text in memory block |
+| `memory_read_graph`       | Read knowledge graph         |
+| `memory_create_entities`  | Create entities              |
+| `memory_create_relations` | Create relations             |
 
 ### Context7 Documentation Tools
 
-| Tool | Description |
-|------|-------------|
+| Tool                          | Description                    |
+| ----------------------------- | ------------------------------ |
 | `context7_resolve-library-id` | Resolve library to Context7 ID |
-| `context7_query-docs` | Query Context7 documentation |
+| `context7_query-docs`         | Query Context7 documentation   |
 
 ### Exa Web Search Tools
 
 | Tool | Description |
-|------|-------------|
+| --- | --- |
 | `exa_web_search_exa` | Search web using Exa AI |
 | `exa_web_fetch_exa` | Read webpage as markdown |
 | `youtube-transcript_get_transcript` | Extract YouTube transcript |
@@ -591,7 +591,7 @@ A comprehensive list of all available tools organized by category.
 ### Other Utility Tools
 
 | Tool | Description |
-|------|-------------|
+| --- | --- |
 | `sequential-thinking_sequentialthinking` | Dynamic reflective problem-solving |
 | `bash` | Execute shell commands |
 | `skill` | Load specialized skills |

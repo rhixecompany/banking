@@ -32,9 +32,9 @@
  */
 import type { CSSProperties, JSX } from "react";
 export type DiffStatsProps = {
-    additions?: number;
-    deletions?: number;
-    style?: CSSProperties;
+  additions?: number;
+  deletions?: number;
+  style?: CSSProperties;
 };
 /**
  * Inline `+N` / `-N` glyph pair. Green additions, red deletions, with
@@ -53,45 +53,49 @@ export type DiffStatsProps = {
  * </Row>
  * ```
  */
-export declare function DiffStats({ additions, deletions, style }: DiffStatsProps): JSX.Element | null;
+export declare function DiffStats({
+  additions,
+  deletions,
+  style,
+}: DiffStatsProps): JSX.Element | null;
 export type DiffLineType = "added" | "removed" | "unchanged";
 export type DiffLineData = {
-    type: DiffLineType;
-    content: string;
-    lineNumber?: number;
+  type: DiffLineType;
+  content: string;
+  lineNumber?: number;
 };
 export type DiffViewProps = {
-    lines: DiffLineData[];
-    /**
-     * File path used to infer the syntax-highlighting language from the
-     * extension (e.g. `"src/utils.ts"` → `typescript`). The most ergonomic
-     * way to enable highlighting — pass the same path you show in the
-     * enclosing card header. Unknown extensions silently render as plain
-     * text.
-     *
-     * If both `path` and `language` are provided, `language` wins.
-     */
-    path?: string;
-    /**
-     * Explicit language override for syntax highlighting (e.g.
-     * `"typescript"`, `"python"`, `"tsx"`). Use this when no file path is
-     * available, when the path's extension is misleading, or when the
-     * content is a snippet rather than a real file. Accepts common
-     * aliases (`ts`, `py`, `rs`, `md`, etc.). Unknown languages silently
-     * fall back to plain text.
-     *
-     * Highlighting is applied per line, so multi-line constructs (block
-     * comments, template literals) may not colorize perfectly across line
-     * boundaries. For typical diff-sized inputs this is fine.
-     */
-    language?: string;
-    /** Show line numbers in the gutter. Default `true`. */
-    showLineNumbers?: boolean;
-    /** Color line numbers green/red for added/removed lines. Default `true`. */
-    coloredLineNumbers?: boolean;
-    /** Show a 3px accent strip on the left edge for changed lines. Default `true`. */
-    showAccentStrip?: boolean;
-    style?: CSSProperties;
+  lines: DiffLineData[];
+  /**
+   * File path used to infer the syntax-highlighting language from the
+   * extension (e.g. `"src/utils.ts"` → `typescript`). The most ergonomic
+   * way to enable highlighting — pass the same path you show in the
+   * enclosing card header. Unknown extensions silently render as plain
+   * text.
+   *
+   * If both `path` and `language` are provided, `language` wins.
+   */
+  path?: string;
+  /**
+   * Explicit language override for syntax highlighting (e.g.
+   * `"typescript"`, `"python"`, `"tsx"`). Use this when no file path is
+   * available, when the path's extension is misleading, or when the
+   * content is a snippet rather than a real file. Accepts common
+   * aliases (`ts`, `py`, `rs`, `md`, etc.). Unknown languages silently
+   * fall back to plain text.
+   *
+   * Highlighting is applied per line, so multi-line constructs (block
+   * comments, template literals) may not colorize perfectly across line
+   * boundaries. For typical diff-sized inputs this is fine.
+   */
+  language?: string;
+  /** Show line numbers in the gutter. Default `true`. */
+  showLineNumbers?: boolean;
+  /** Color line numbers green/red for added/removed lines. Default `true`. */
+  coloredLineNumbers?: boolean;
+  /** Show a 3px accent strip on the left edge for changed lines. Default `true`. */
+  showAccentStrip?: boolean;
+  style?: CSSProperties;
 };
 /**
  * Unified diff body renderer with monospaced type, colored line
@@ -126,5 +130,13 @@ export type DiffViewProps = {
  * </Card>
  * ```
  */
-export declare function DiffView({ lines, path, language, showLineNumbers, coloredLineNumbers, showAccentStrip, style }: DiffViewProps): JSX.Element;
+export declare function DiffView({
+  lines,
+  path,
+  language,
+  showLineNumbers,
+  coloredLineNumbers,
+  showAccentStrip,
+  style,
+}: DiffViewProps): JSX.Element;
 //# sourceMappingURL=diff-view.d.ts.map

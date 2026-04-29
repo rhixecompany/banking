@@ -1,11 +1,7 @@
 ---
 name: pr-review-canvas
 description: >-
-  Render a PR diff review as a Cursor Canvas that groups changes by
-  reviewer importance, separates boilerplate from core logic, and
-  highlights tricky or unexpected code. Use when reviewing a pull
-  request, summarizing a diff for review, or when the user asks for a
-  PR review canvas, diff walkthrough, or change-set overview.
+  Render a PR diff review as a Cursor Canvas that groups changes by reviewer importance, separates boilerplate from core logic, and highlights tricky or unexpected code. Use when reviewing a pull request, summarizing a diff for review, or when the user asks for a PR review canvas, diff walkthrough, or change-set overview.
 ---
 
 # PR Review Canvas
@@ -53,6 +49,7 @@ Reserve these callouts for genuinely tricky items — overuse destroys signal.
 ## Tone and content
 
 Write reviewer-facing commentary, not a changelog. Focus on:
+
 - **Why** something changed, not just what changed.
 - Interactions between files — e.g. "The new validator in `core.ts` is invoked by the route added in `routes.ts`."
 - Anything the diff alone doesn't make obvious.

@@ -1,12 +1,11 @@
+import eslintReact from "@eslint-react/eslint-plugin";
 import js from "@eslint/js";
 import markdown from "@eslint/markdown";
 import nextPlugin from "@next/eslint-plugin-next";
 import tsEslintParser from "@typescript-eslint/parser";
+import vitest from "@vitest/eslint-plugin";
 import prettier from "eslint-config-prettier";
 import betterTailwind from "eslint-plugin-better-tailwindcss";
-// @ts-expect-error - no bundled types for eslint-plugin-drizzle
-import eslintReact from "@eslint-react/eslint-plugin";
-import vitest from "@vitest/eslint-plugin";
 import drizzle from "eslint-plugin-drizzle";
 import importX from "eslint-plugin-import-x";
 import jest from "eslint-plugin-jest";

@@ -1,14 +1,21 @@
 {
-  "name": "redis-development",
-  "version": "1.0.0",
-  "description": "Redis development best practices — data structures, query engine, vector search, caching, and performance optimization",
   "author": {
     "name": "Redis",
     "email": "support@redis.com"
   },
+  "description": "Redis development best practices — data structures, query engine, vector search, caching, and performance optimization",
   "homepage": "https://redis.io",
-  "repository": "https://github.com/redis/agent-skills",
+  "keywords": [
+    "redis",
+    "database",
+    "caching",
+    "vector-search",
+    "performance",
+    "best-practices"
+  ],
   "license": "MIT",
-  "keywords": ["redis", "database", "caching", "vector-search", "performance", "best-practices"],
-  "logo": "assets/logo.png"
+  "logo": "assets/logo.png",
+  "name": "redis-development",
+  "repository": "https://github.com/redis/agent-skills",
+  "version": "1.0.0"
 }

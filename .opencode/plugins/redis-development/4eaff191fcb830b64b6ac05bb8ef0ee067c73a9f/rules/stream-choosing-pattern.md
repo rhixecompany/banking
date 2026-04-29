@@ -32,7 +32,7 @@ r.xack("orders:stream", "workers", message_id)
 ### When to Use Each
 
 | Requirement | Use |
-|-------------|-----|
+| --- | --- |
 | Real-time notifications, OK to miss messages | Pub/Sub |
 | Messages must not be lost | Streams |
 | Need to replay/reprocess messages | Streams |
@@ -41,4 +41,3 @@ r.xack("orders:stream", "workers", message_id)
 | Event sourcing or audit trail | Streams |
 
 Reference: [Redis Streams](https://redis.io/docs/latest/develop/data-types/streams/)
-

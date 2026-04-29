@@ -5,9 +5,11 @@ plan status: active
 ---
 
 ## Idea
+
 Read existing AGENTS.md and opencode-agents-context.md, enhance AGENTS.md with all available plugins, skills, and tools formatted with markdownlint
 
 ## Implementation
+
 - Read current AGENTS.md to understand existing structure and content
 - Read opencode-agents-context.md to get complete skills and tools listing
 - List .opencode/plugins directory to identify all available plugins
@@ -22,5 +24,6 @@ Read existing AGENTS.md and opencode-agents-context.md, enhance AGENTS.md with a
 - Fix any markdownlint violations
 
 ## Required Specs
+
 <!-- SPECS_START -->
 <!-- SPECS_END -->

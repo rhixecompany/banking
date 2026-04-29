@@ -1,10 +1,9 @@
 ---
 name: statusline
 description: >-
-  Configure a custom status line in the CLI. Use when the user mentions status
-  line, statusline, statusLine, CLI status bar, prompt footer customization, or
-  wants to add session context above the prompt.
+  Configure a custom status line in the CLI. Use when the user mentions status line, statusline, statusLine, CLI status bar, prompt footer customization, or wants to add session context above the prompt.
 ---
+
 # CLI Status Line
 
 The CLI supports a user-configurable status line rendered above the prompt. A command is spawned on each conversation update, receives a JSON payload on stdin describing the session, and its stdout is displayed as the status line. The spec is aligned with [Claude Code's status line](https://code.claude.com/docs/en/statusline).
@@ -26,7 +25,7 @@ Add a `statusLine` entry to `~/.cursor/cli-config.json`:
 The `command` field supports full paths, `~` expansion, and shell-style argument splitting. You can point it at a script file or use an inline command like `jq -r '...'`.
 
 | Field | Required | Default | Description |
-|-------|----------|---------|-------------|
+| --- | --- | --- | --- |
 | `type` | yes | — | Must be `"command"` |
 | `command` | yes | — | Path to an executable or inline command. `~` is expanded. |
 | `padding` | no | `0` | Horizontal inset (in characters) for the status line container. |
@@ -41,26 +40,6 @@ The command receives a JSON object on stdin. The TypeScript interface is `Status
 
 ```json
 {
-  "session_id": "abc123",
-  "session_name": "my session",
-  "transcript_path": "/path/to/transcript.jsonl",
-  "render_width_chars": 120,
-  "cwd": "/Users/me/project",
-  "model": {
-    "id": "claude-4-opus",
-    "display_name": "Claude 4 Opus",
-    "param_summary": "(Thinking)",
-    "max_mode": true
-  },
-  "workspace": {
-    "current_dir": "/Users/me/project",
-    "project_dir": "/Users/me/project/.cursor/transcripts",
-    "added_dirs": []
-  },
-  "version": "1.2.3",
-  "output_style": {
-    "name": "default"
-  },
   "context_window": {
     "total_input_tokens": 15234,
     "total_output_tokens": null,
@@ -69,8 +48,28 @@ The command receives a JSON object on stdin. The TypeScript interface is `Status
     "remaining_percentage": 65.5,
     "current_usage": null
   },
+  "cwd": "/Users/me/project",
+  "model": {
+    "id": "claude-4-opus",
+    "display_name": "Claude 4 Opus",
+    "param_summary": "(Thinking)",
+    "max_mode": true
+  },
+  "output_style": {
+    "name": "default"
+  },
+  "render_width_chars": 120,
+  "session_id": "abc123",
+  "session_name": "my session",
+  "transcript_path": "/path/to/transcript.jsonl",
+  "version": "1.2.3",
   "vim": {
     "mode": "NORMAL"
+  },
+  "workspace": {
+    "current_dir": "/Users/me/project",
+    "project_dir": "/Users/me/project/.cursor/transcripts",
+    "added_dirs": []
   },
   "worktree": {
     "name": "my-feature",
@@ -82,7 +81,7 @@ The command receives a JSON object on stdin. The TypeScript interface is `Status
 ### Available fields
 
 | Field | Description |
-|-------|-------------|
+| --- | --- |
 | `session_id` | Unique session identifier |
 | `session_name` | Custom session name. Absent if no name has been set |
 | `transcript_path` | Path to conversation transcript file |

@@ -1,21 +1,14 @@
 ---
 name: canvas
 description: >-
-  A Cursor Canvas is a live React app that the user can open beside the chat.
-  You MUST use a canvas when the agent produces a standalone analytical artifact
-  — quantitative analyses, billing investigations, security audits, architecture
-  reviews, data-heavy content, timelines, charts, tables, interactive
-  explorations, repeatable tools, or any response that benefits from visual
-  layout. Especially prefer a canvas when presenting results from MCP tools
-  (Datadog, Databricks, Linear, Sentry, Slack, etc.) where the data is the
-  deliverable — render it in a rich canvas rather than dumping it into a
-  markdown table or code block. If you catch yourself about to write a markdown
-  table, stop and use a canvas instead. You MUST also read this skill whenever
-  you create, edit, or debug any .canvas.tsx file.
+  A Cursor Canvas is a live React app that the user can open beside the chat. You MUST use a canvas when the agent produces a standalone analytical artifact — quantitative analyses, billing investigations, security audits, architecture reviews, data-heavy content, timelines, charts, tables, interactive explorations, repeatable tools, or any response that benefits from visual layout. Especially prefer a canvas when presenting results from MCP tools (Datadog, Databricks, Linear, Sentry, Slack, etc.) where the data is the deliverable — render it in a rich canvas rather than dumping it into a markdown table or code block. If you catch yourself about to write a markdown table, stop and use a canvas instead. You MUST also read this skill whenever you create, edit, or debug any .canvas.tsx file.
+
+
 metadata:
   surfaces:
     - ide
 ---
+
 A canvas is a single `.canvas.tsx` file the IDE compiles so the user can open it beside the chat. Follow the workflow below in order.
 
 ## Workflow
@@ -25,6 +18,7 @@ A canvas is a single `.canvas.tsx` file the IDE compiles so the user can open it
 The trigger is **user intent**, not response shape. Ask: would the user benefit from viewing this output as its **own standalone artifact**, separate from the chat? If the output is a means to an end (a drafted message, a code fix, a dashboard in another tool), skip the canvas.
 
 **Use a canvas when the agent produces new standalone analytical output:**
+
 - Quantitative analyses and metrics breakdowns (e.g. "send 500 requests and tell me how many fail")
 - Billing or account investigations that surface structured findings from database queries
 - Security audits or architecture reviews with categorized findings
@@ -34,6 +28,7 @@ The trigger is **user intent**, not response shape. Ask: would the user benefit 
 - Tables with more than a handful of rows that the user asked to see
 
 **Do NOT use a canvas when:**
+
 - The user asks for work in a **specific tool** — "create a Datadog dashboard" means give them a Datadog dashboard, not a canvas
 - The user has a **specific deliverable** — "draft a support response", "fix this code", "make this PR"
 - The user is **working within an existing artifact** — improving an HTML dashboard, editing an existing file
@@ -46,6 +41,7 @@ The trigger is **user intent**, not response shape. Ask: would the user benefit 
 **Location.** Canvases live at `/Users/<user>/.cursor/projects/<workspace>/canvases/<name>.canvas.tsx`. The IDE only detects canvases written directly inside that exact directory — subfolders, alternate extensions, and other locations are not picked up. For a new canvas, always use the write file tool to create the `.canvas.tsx` file at that exact path; do not stop after telling the user the path or showing code in chat. Treat that managed `canvases/` directory as pre-provisioned by Cursor itself: write the canvas file directly there and do **not** spend turns creating the directory with `mkdir` or checking whether it exists before writing. Listing its contents for other purposes (e.g. checking for existing canvases) is fine. If you can't determine the workspace directory from absolute paths already in your environment (terminals, transcripts, recently-viewed files), list `~/.cursor/projects/` rather than guessing. Use a descriptive kebab-case filename ending in `.canvas.tsx`; preserve acronym capitalization and lowercase the rest.
 
 **File rules:**
+
 - Exactly one `.canvas.tsx` file per canvas. Never create helper files, style files, or supporting modules.
 - Import **only** from `cursor/canvas`. No relative imports, no npm packages, no Node built-ins.
 - Default-export the top-level component.
@@ -80,6 +76,7 @@ These specific patterns produce low-quality output. If 2+ are present, redesign.
 ### Pre-delivery self-check
 
 Before returning canvas code, verify:
+
 1. Does the layout have visual hierarchy? One thing should stand out.
 2. Is there variety in the composition? Not just a single column of uniform blocks.
 3. Slop check: scan for the forbidden patterns above.
@@ -100,7 +97,16 @@ If a canvas appears blank or missing, the most common cause is that it was not w
 ## Good example
 
 ```tsx
-import { Divider, Grid, H1, H2, Stack, Stat, Table, Text } from 'cursor/canvas';
+import {
+  Divider,
+  Grid,
+  H1,
+  H2,
+  Stack,
+  Stat,
+  Table,
+  Text
+} from "cursor/canvas";
 
 export default function ServiceOverview() {
   return (
@@ -118,14 +124,18 @@ export default function ServiceOverview() {
         rows={[
           ["api-gateway", "Operational", "99.99%", "12ms"],
           ["auth-service", "Degraded", "99.2%", "340ms"],
-          ["billing", "Operational", "99.8%", "45ms"],
+          ["billing", "Operational", "99.8%", "45ms"]
         ]}
         rowTone={[undefined, "warning", undefined]}
       />
       <Divider />
       <H2>Recent Changes</H2>
-      <Text>Auth service latency increased after the 14:30 deploy.</Text>
-      <Text tone="secondary" size="small">Last checked: Apr 7, 2026 14:52 UTC</Text>
+      <Text>
+        Auth service latency increased after the 14:30 deploy.
+      </Text>
+      <Text tone="secondary" size="small">
+        Last checked: Apr 7, 2026 14:52 UTC
+      </Text>
     </Stack>
   );
 }

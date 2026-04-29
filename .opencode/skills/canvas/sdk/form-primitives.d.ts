@@ -11,13 +11,13 @@
  */
 import { type CSSProperties, type JSX, type ReactNode } from "react";
 export type TextInputProps = {
-    value?: string;
-    /** Called with the new string value on every keystroke. */
-    onChange?: (value: string) => void;
-    placeholder?: string;
-    disabled?: boolean;
-    type?: "text" | "email" | "password" | "number" | "url" | "search";
-    style?: CSSProperties;
+  value?: string;
+  /** Called with the new string value on every keystroke. */
+  onChange?: (value: string) => void;
+  placeholder?: string;
+  disabled?: boolean;
+  type?: "text" | "email" | "password" | "number" | "url" | "search";
+  style?: CSSProperties;
 };
 /**
  * Single-line text input (28px height). Use for names, titles, search
@@ -33,16 +33,23 @@ export type TextInputProps = {
  * <TextInput value={name} onChange={setName} placeholder="Task title…" />
  * ```
  */
-export declare function TextInput({ value, onChange, placeholder, disabled, type, style }: TextInputProps): JSX.Element;
+export declare function TextInput({
+  value,
+  onChange,
+  placeholder,
+  disabled,
+  type,
+  style,
+}: TextInputProps): JSX.Element;
 export type TextAreaProps = {
-    value?: string;
-    /** Called with the new string value on every keystroke. */
-    onChange?: (value: string) => void;
-    placeholder?: string;
-    disabled?: boolean;
-    /** Minimum visible rows. Defaults to 3. */
-    rows?: number;
-    style?: CSSProperties;
+  value?: string;
+  /** Called with the new string value on every keystroke. */
+  onChange?: (value: string) => void;
+  placeholder?: string;
+  disabled?: boolean;
+  /** Minimum visible rows. Defaults to 3. */
+  rows?: number;
+  style?: CSSProperties;
 };
 /**
  * Multi-line text input that auto-resizes to fit its content.
@@ -59,15 +66,22 @@ export type TextAreaProps = {
  * <TextArea value={notes} onChange={setNotes} placeholder="Add notes…" rows={4} />
  * ```
  */
-export declare function TextArea({ value, onChange, placeholder, disabled, rows, style }: TextAreaProps): JSX.Element;
+export declare function TextArea({
+  value,
+  onChange,
+  placeholder,
+  disabled,
+  rows,
+  style,
+}: TextAreaProps): JSX.Element;
 export type CheckboxProps = {
-    checked?: boolean;
-    /** Called with the new boolean value when toggled. */
-    onChange?: (checked: boolean) => void;
-    disabled?: boolean;
-    /** Optional label rendered beside the checkbox. Clicking the label toggles the checkbox. */
-    label?: ReactNode;
-    style?: CSSProperties;
+  checked?: boolean;
+  /** Called with the new boolean value when toggled. */
+  onChange?: (checked: boolean) => void;
+  disabled?: boolean;
+  /** Optional label rendered beside the checkbox. Clicking the label toggles the checkbox. */
+  label?: ReactNode;
+  style?: CSSProperties;
 };
 /**
  * Checkbox with optional label (accent blue when checked).
@@ -88,15 +102,21 @@ export type CheckboxProps = {
  * <Checkbox checked={item.done} onChange={(v) => toggleItem(item.id, v)} />
  * ```
  */
-export declare function Checkbox({ checked, onChange, disabled, label, style }: CheckboxProps): JSX.Element;
+export declare function Checkbox({
+  checked,
+  onChange,
+  disabled,
+  label,
+  style,
+}: CheckboxProps): JSX.Element;
 export type ToggleProps = {
-    checked?: boolean;
-    /** Called with the new boolean value when toggled. */
-    onChange?: (checked: boolean) => void;
-    disabled?: boolean;
-    /** `sm` = 16px track, `md` = 20px track (default `sm`). */
-    size?: "sm" | "md";
-    style?: CSSProperties;
+  checked?: boolean;
+  /** Called with the new boolean value when toggled. */
+  onChange?: (checked: boolean) => void;
+  disabled?: boolean;
+  /** `sm` = 16px track, `md` = 20px track (default `sm`). */
+  size?: "sm" | "md";
+  style?: CSSProperties;
 };
 /**
  * Boolean toggle switch. Uses the accent color for the "on" state and a
@@ -113,22 +133,28 @@ export type ToggleProps = {
  * </Row>
  * ```
  */
-export declare function Toggle({ checked, onChange, disabled, size, style }: ToggleProps): JSX.Element;
+export declare function Toggle({
+  checked,
+  onChange,
+  disabled,
+  size,
+  style,
+}: ToggleProps): JSX.Element;
 export type SelectOption = {
-    value: string;
-    label: string;
-    disabled?: boolean;
+  value: string;
+  label: string;
+  disabled?: boolean;
 };
 export type SelectProps = {
-    value?: string;
-    /** Called with the new selected value. */
-    onChange?: (value: string) => void;
-    /** List of options. Each must have a unique `value`. */
-    options: SelectOption[];
-    /** Placeholder shown when no value is selected. */
-    placeholder?: string;
-    disabled?: boolean;
-    style?: CSSProperties;
+  value?: string;
+  /** Called with the new selected value. */
+  onChange?: (value: string) => void;
+  /** List of options. Each must have a unique `value`. */
+  options: SelectOption[];
+  /** Placeholder shown when no value is selected. */
+  placeholder?: string;
+  disabled?: boolean;
+  style?: CSSProperties;
 };
 /**
  * Dropdown select (native `<select>` with themed styling).
@@ -151,22 +177,29 @@ export type SelectProps = {
  * />
  * ```
  */
-export declare function Select({ value, onChange, options, placeholder, disabled, style }: SelectProps): JSX.Element;
+export declare function Select({
+  value,
+  onChange,
+  options,
+  placeholder,
+  disabled,
+  style,
+}: SelectProps): JSX.Element;
 export type IconButtonProps = {
-    /** Icon content: an SVG element, emoji, or unicode character. */
-    children: ReactNode;
-    onClick?: () => void;
-    disabled?: boolean;
-    /** Tooltip text. Always provide for accessibility since there is no text label. */
-    title?: string;
-    /**
-     * `"default"` is transparent until hovered; `"circle"` has a permanent
-     * background fill.
-     */
-    variant?: "default" | "circle";
-    /** `sm` = 16px, `md` = 20px (default `md`). */
-    size?: "sm" | "md";
-    style?: CSSProperties;
+  /** Icon content: an SVG element, emoji, or unicode character. */
+  children: ReactNode;
+  onClick?: () => void;
+  disabled?: boolean;
+  /** Tooltip text. Always provide for accessibility since there is no text label. */
+  title?: string;
+  /**
+   * `"default"` is transparent until hovered; `"circle"` has a permanent
+   * background fill.
+   */
+  variant?: "default" | "circle";
+  /** `sm` = 16px, `md` = 20px (default `md`). */
+  size?: "sm" | "md";
+  style?: CSSProperties;
 };
 /**
  * Compact icon-only button for inline actions on list items (delete, edit,
@@ -190,5 +223,13 @@ export type IconButtonProps = {
  * </IconButton>
  * ```
  */
-export declare function IconButton({ children, onClick, disabled, title, variant, size, style }: IconButtonProps): JSX.Element;
+export declare function IconButton({
+  children,
+  onClick,
+  disabled,
+  title,
+  variant,
+  size,
+  style,
+}: IconButtonProps): JSX.Element;
 //# sourceMappingURL=form-primitives.d.ts.map

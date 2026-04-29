@@ -1,7 +1,7 @@
 ---
 plan name: enhance-pages
 plan description: Enhance pages, layouts, scripts, MCP
-plan status: active
+plan status: done
 ---
 
 ## Idea

@@ -73,11 +73,7 @@
       "type": "local"
     },
     "hostinger": {
-      "command": [
-        "bunx",
-        "-y",
-        "hostinger-api-mcp"
-      ],
+      "command": ["bunx", "-y", "hostinger-api-mcp"],
       "environment": {
         "DEBUG": "false"
       },
@@ -95,21 +91,13 @@
       "type": "local"
     },
     "next-devtools": {
-      "command": [
-        "bunx",
-        "-y",
-        "next-devtools-mcp@latest"
-      ],
+      "command": ["bunx", "-y", "next-devtools-mcp@latest"],
       "enabled": true,
       "timeout": 900000,
       "type": "local"
     },
     "playwright": {
-      "command": [
-        "bunx",
-        "-y",
-        "@playwright/mcp@latest"
-      ],
+      "command": ["bunx", "-y", "@playwright/mcp@latest"],
       "enabled": true,
       "timeout": 900000,
       "type": "local"
@@ -125,11 +113,7 @@
       "type": "local"
     },
     "shadcn": {
-      "command": [
-        "bunx",
-        "shadcn@latest",
-        "mcp"
-      ],
+      "command": ["bunx", "shadcn@latest", "mcp"],
       "enabled": true,
       "timeout": 900000,
       "type": "local"
@@ -173,12 +157,6 @@
     "octto"
   ],
   "watcher": {
-    "ignore": [
-      "node_modules",
-      ".next",
-      "dist",
-      ".git",
-      "*.log"
-    ]
+    "ignore": ["node_modules", ".next", "dist", ".git", "*.log"]
   }
 }

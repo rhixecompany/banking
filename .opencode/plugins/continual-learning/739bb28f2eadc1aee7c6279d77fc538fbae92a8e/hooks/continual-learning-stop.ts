@@ -1,12 +1,18 @@
 /// <reference types="bun-types-no-globals/lib/index.d.ts" />
 
-import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
-import { dirname, resolve } from "node:path";
 import { stdin } from "bun";
+import {
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  statSync,
+  writeFileSync,
+} from "node:fs";
+import { dirname, resolve } from "node:path";
 
 const STATE_PATH = resolve(".cursor/hooks/state/continual-learning.json");
 const INCREMENTAL_INDEX_PATH = resolve(
-  ".cursor/hooks/state/continual-learning-index.json"
+  ".cursor/hooks/state/continual-learning-index.json",
 );
 const DEFAULT_MIN_TURNS = 10;
 const DEFAULT_MIN_MINUTES = 120;
@@ -14,8 +20,7 @@ const TRIAL_DEFAULT_MIN_TURNS = 3;
 const TRIAL_DEFAULT_MIN_MINUTES = 15;
 const TRIAL_DEFAULT_DURATION_MINUTES = 24 * 60;
 
-const FOLLOWUP_MESSAGE =
-  `Run the \`continual-learning\` skill now. Use the \`agents-memory-updater\` subagent for the full memory update flow. Use incremental transcript processing with index file \`${INCREMENTAL_INDEX_PATH}\`: only consider transcripts not in the index or transcripts whose mtime is newer than indexed mtime. Have the subagent refresh index mtimes, remove entries for deleted transcripts, and update \`AGENTS.md\` only for high-signal recurring user corrections and durable workspace facts. Exclude one-off/transient details and secrets. If no meaningful updates exist, respond exactly: No high-signal memory updates.`;
+const FOLLOWUP_MESSAGE = `Run the \`continual-learning\` skill now. Use the \`agents-memory-updater\` subagent for the full memory update flow. Use incremental transcript processing with index file \`${INCREMENTAL_INDEX_PATH}\`: only consider transcripts not in the index or transcripts whose mtime is newer than indexed mtime. Have the subagent refresh index mtimes, remove entries for deleted transcripts, and update \`AGENTS.md\` only for high-signal recurring user corrections and durable workspace facts. Exclude one-off/transient details and secrets. If no meaningful updates exist, respond exactly: No high-signal memory updates.`;
 
 interface StopHookInput {
   conversation_id: string;
@@ -85,7 +90,8 @@ function loadState(): ContinuousLearningState {
     return {
       version: 1,
       lastRunAtMs:
-        typeof parsed.lastRunAtMs === "number" && Number.isFinite(parsed.lastRunAtMs)
+        typeof parsed.lastRunAtMs === "number" &&
+        Number.isFinite(parsed.lastRunAtMs)
           ? parsed.lastRunAtMs
           : 0,
       turnsSinceLastRun:
@@ -122,7 +128,9 @@ function saveState(state: ContinuousLearningState): void {
   writeFileSync(STATE_PATH, `${JSON.stringify(state, null, 2)}\n`, "utf-8");
 }
 
-function getTranscriptMtimeMs(transcriptPath: string | null | undefined): number | null {
+function getTranscriptMtimeMs(
+  transcriptPath: string | null | undefined,
+): number | null {
   if (!transcriptPath) {
     return null;
   }
@@ -148,7 +156,10 @@ async function main(): Promise<number> {
     const input = await parseHookInput<StopHookInput>();
     const state = loadState();
 
-    if (input.generation_id && input.generation_id === state.lastProcessedGenerationId) {
+    if (
+      input.generation_id &&
+      input.generation_id === state.lastProcessedGenerationId
+    ) {
       console.log(JSON.stringify({}));
       return 0;
     }
@@ -160,7 +171,10 @@ async function main(): Promise<number> {
     const now = Date.now();
 
     const trialEnabled = parseBoolean(
-      readEnvValue("CONTINUAL_LEARNING_TRIAL_MODE", "CONTINUOUS_LEARNING_TRIAL_MODE")
+      readEnvValue(
+        "CONTINUAL_LEARNING_TRIAL_MODE",
+        "CONTINUOUS_LEARNING_TRIAL_MODE",
+      ),
     );
     if (trialEnabled && countedTurn && state.trialStartedAtMs === null) {
       state.trialStartedAtMs = now;
@@ -169,23 +183,23 @@ async function main(): Promise<number> {
     const trialDurationMinutes = parsePositiveInt(
       readEnvValue(
         "CONTINUAL_LEARNING_TRIAL_DURATION_MINUTES",
-        "CONTINUOUS_LEARNING_TRIAL_DURATION_MINUTES"
+        "CONTINUOUS_LEARNING_TRIAL_DURATION_MINUTES",
       ),
-      TRIAL_DEFAULT_DURATION_MINUTES
+      TRIAL_DEFAULT_DURATION_MINUTES,
     );
     const trialMinTurns = parsePositiveInt(
       readEnvValue(
         "CONTINUAL_LEARNING_TRIAL_MIN_TURNS",
-        "CONTINUOUS_LEARNING_TRIAL_MIN_TURNS"
+        "CONTINUOUS_LEARNING_TRIAL_MIN_TURNS",
       ),
-      TRIAL_DEFAULT_MIN_TURNS
+      TRIAL_DEFAULT_MIN_TURNS,
     );
     const trialMinMinutes = parsePositiveInt(
       readEnvValue(
         "CONTINUAL_LEARNING_TRIAL_MIN_MINUTES",
-        "CONTINUOUS_LEARNING_TRIAL_MIN_MINUTES"
+        "CONTINUOUS_LEARNING_TRIAL_MIN_MINUTES",
       ),
-      TRIAL_DEFAULT_MIN_MINUTES
+      TRIAL_DEFAULT_MIN_MINUTES,
     );
     const inTrialWindow =
       trialEnabled &&
@@ -193,12 +207,18 @@ async function main(): Promise<number> {
       now - state.trialStartedAtMs < trialDurationMinutes * 60_000;
 
     const minTurns = parsePositiveInt(
-      readEnvValue("CONTINUAL_LEARNING_MIN_TURNS", "CONTINUOUS_LEARNING_MIN_TURNS"),
-      DEFAULT_MIN_TURNS
+      readEnvValue(
+        "CONTINUAL_LEARNING_MIN_TURNS",
+        "CONTINUOUS_LEARNING_MIN_TURNS",
+      ),
+      DEFAULT_MIN_TURNS,
     );
     const minMinutes = parsePositiveInt(
-      readEnvValue("CONTINUAL_LEARNING_MIN_MINUTES", "CONTINUOUS_LEARNING_MIN_MINUTES"),
-      DEFAULT_MIN_MINUTES
+      readEnvValue(
+        "CONTINUAL_LEARNING_MIN_MINUTES",
+        "CONTINUOUS_LEARNING_MIN_MINUTES",
+      ),
+      DEFAULT_MIN_MINUTES,
     );
 
     const effectiveMinTurns = inTrialWindow ? trialMinTurns : minTurns;
@@ -210,7 +230,8 @@ async function main(): Promise<number> {
     const transcriptMtimeMs = getTranscriptMtimeMs(input.transcript_path);
     const hasTranscriptAdvanced =
       transcriptMtimeMs !== null &&
-      (state.lastTranscriptMtimeMs === null || transcriptMtimeMs > state.lastTranscriptMtimeMs);
+      (state.lastTranscriptMtimeMs === null ||
+        transcriptMtimeMs > state.lastTranscriptMtimeMs);
 
     const shouldTrigger =
       countedTurn &&
@@ -227,7 +248,7 @@ async function main(): Promise<number> {
       console.log(
         JSON.stringify({
           followup_message: FOLLOWUP_MESSAGE,
-        })
+        }),
       );
       return 0;
     }

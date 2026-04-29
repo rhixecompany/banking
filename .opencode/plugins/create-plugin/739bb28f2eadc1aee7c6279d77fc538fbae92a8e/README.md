@@ -13,26 +13,26 @@ Meta workflows for creating Cursor plugins that are marketplace-ready.
 ### Skills
 
 | Skill | Description |
-|:------|:------------|
+| :-- | :-- |
 | `create-plugin-scaffold` | Scaffold a new plugin directory with manifest, components, and repository wiring |
 | `review-plugin-submission` | Run a pre-submission quality check against marketplace expectations |
 
 ### Rules
 
 | Rule | Description |
-|:-----|:------------|
+| :-- | :-- |
 | `plugin-quality-gates` | Keep plugin manifests, component metadata, and paths valid and consistent |
 
 ### Agents
 
 | Agent | Description |
-|:------|:------------|
+| :-- | :-- |
 | `plugin-architect` | Design plugin structure and component mix based on a concrete use case |
 
 ### Commands
 
 | Command | Description |
-|:--------|:------------|
+| :-- | :-- |
 | `create-plugin` | Build a new plugin scaffold with the right files and metadata |
 
 ## Typical flow

@@ -8,8 +8,7 @@ Guidelines for creating effective Redis best practice rules for AI agents and LL
 
 Show exact code transformations. Avoid abstract advice.
 
-**Good:** "Use `SCAN` instead of `KEYS *` for iteration"
-**Bad:** "Design efficient queries"
+**Good:** "Use `SCAN` instead of `KEYS *` for iteration" **Bad:** "Design efficient queries"
 
 ### 2. Problem-First Structure
 
@@ -29,8 +28,7 @@ Show the correct pattern first, then the incorrect one. This helps agents unders
 
 Include specific benefits. Helps agents prioritize.
 
-**Good:** "10x faster", "50% less memory", "Eliminates blocking"
-**Bad:** "Faster", "Better", "More efficient"
+**Good:** "10x faster", "50% less memory", "Eliminates blocking" **Bad:** "Faster", "Better", "More efficient"
 
 ### 4. Complete Examples
 
@@ -51,8 +49,7 @@ result = r.get('user:1001')
 
 Use meaningful names. Names carry intent for LLMs.
 
-**Good:** `user:1001:profile`, `order:items`, `cache:api:response`
-**Bad:** `key1`, `mykey`, `data`
+**Good:** `user:1001:profile`, `order:items`, `cache:api:response` **Bad:** `key1`, `mykey`, `data`
 
 ---
 
@@ -76,7 +73,7 @@ Use meaningful names. Names carry intent for LLMs.
 ## Impact Levels
 
 | Level | Improvement | Examples |
-|-------|-------------|----------|
+| --- | --- | --- |
 | **HIGH** | 5-100x | Missing indexes, connection issues, blocking commands |
 | **MEDIUM** | 2-5x | Suboptimal data structures, missing TTL |
 | **LOW** | Incremental | Advanced patterns, edge cases |

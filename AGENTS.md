@@ -73,7 +73,7 @@ This repo uses Cursor/opencode plugins for specialized agent capabilities.
 ### Installed Plugins
 
 | Plugin | Version | Description |
-|--------|---------|-------------|
+| --- | --- | --- |
 | `create-plugin` | 739bb28f | Meta workflows for creating Cursor plugins that are marketplace-ready |
 | `continual-learning` | 739bb28f | Automatically keeps `AGENTS.md` up to date from transcript changes |
 | `context7-plugin` | 58a36cea | Fetches current documentation directly from source repositories (Context7 MCP) |
@@ -92,7 +92,7 @@ This repo uses Cursor/opencode plugins for specialized agent capabilities.
 Superpowers provides the main agent workflow. Skills trigger automatically based on context:
 
 | Skill | Purpose |
-|-------|---------|
+| --- | --- |
 | `brainstorming` | Socratic design refinement before writing code |
 | `using-git-worktrees` | Creates isolated workspace on new branch |
 | `writing-plans` | Detailed implementation plans (2-5 min tasks) |
@@ -109,7 +109,7 @@ Superpowers provides the main agent workflow. Skills trigger automatically based
 ### Other Plugins
 
 | Plugin | Components |
-|--------|------------|
+| --- | --- |
 | `context7-plugin` | MCP server for Context7 docs, `docs-researcher` agent, `/context7:docs` command |
 | `create-plugin` | `plugin-architect` agent, `create-plugin-scaffold` skill, `create-plugin` command |
 
@@ -120,7 +120,7 @@ Skills provide specialized instructions for specific tasks. Use `skill` tool to 
 ### Banking App Skills
 
 | Skill | Purpose |
-|-------|---------|
+| --- | --- |
 | `agent-governance` | Governance patterns for AI agents (policy, trust scoring, audit trails) |
 | `agentic-eval` | Self-improvement through iterative evaluation and refinement |
 | `auth-skill` | NextAuth v4 patterns, session helper, protected routes |
@@ -165,8 +165,8 @@ Skills provide specialized instructions for specific tasks. Use `skill` tool to 
 
 ### Shell Skill
 
-| Skill | Purpose |
-|-------|---------|
+| Skill   | Purpose                         |
+| ------- | ------------------------------- |
 | `shell` | Execute shell commands directly |
 
 ## Tools
@@ -341,7 +341,7 @@ Tools organized by category. All tools are available in opencode.
 Implementation plans tracked in `.opencode/commands/`. Read with `readPlan` tool.
 
 | Plan | Description |
-|------|-------------|
+| --- | --- |
 | `cleanup-dead-code` | Cleanup dead code and duplicate tests |
 | `convert-scripts` | Convert scripts to TypeScript |
 | `docker-production-deploy` | Deploy Banking app with Docker Compose |
