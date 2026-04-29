@@ -1,7 +1,7 @@
 # Check for bugcheck/power-related events in System log
-Get-WinEvent -FilterHashtable @{LogName='System';Level=1,2} -MaxEvents 100 |
-    Where-Object {
-        $_.ProviderName -match 'BugCheck|Kernel-Power|Power-Troubleshooter|WHEA-Logger|microsoft-windows-kernel'
-    } |
-    Select-Object TimeCreated, ProviderName, Id, Message |
-    Format-List
+# Orchestrator - calls TypeScript implementation
+$ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$ProjectRoot = Split-Path (Split-Path $ScriptDir -Parent) -Parent
+
+Set-Location $ProjectRoot
+bunx tsx scripts/ts/utils/check-events.ts

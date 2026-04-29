@@ -19,6 +19,17 @@
 - Single Vitest file: `bun exec vitest run tests/path/to/file.test.ts --config=vitest.config.ts`
 - Single Playwright spec: `bunx playwright test tests/e2e/path/to/spec.ts --project=chromium`
 
+## Scripts Pattern
+
+Shell scripts in `scripts/` are **orchestrators** — they MUST only call TypeScript or CLI tools. All logic lives in `scripts/ts/`.
+
+Pattern:
+- Shell script: `bunx tsx scripts/ts/<path>.ts`
+- No embedded logic in shell scripts
+- package.json scripts reference TS directly: `bunx tsx scripts/ts/...`
+
+Cross-platform: Keep both `.sh` and `.ps1` for scripts that need both Unix/Windows.
+
 ## Non-Obvious Workflow Rules
 
 - If a change touches more than 7 files, add a plan under `.opencode/commands/` before implementation. `scripts/verify-rules.ts` and CI both enforce this with exit code 2 on violations.
