@@ -1,0 +1,49 @@
+{
+  "generated": "2026-04-29T15:04:23Z",
+  "groups": {
+    "(root)": {
+      "layout": "app/(root)/layout.tsx",
+      "pages": [
+        "app/(root)/my-wallets/page.tsx",
+        "app/(root)/dashboard/page.tsx",
+        "app/(root)/transaction-history/page.tsx",
+        "app/(root)/settings/page.tsx",
+        "app/(root)/payment-transfer/page.tsx"
+      ]
+    },
+    "(admin)": {
+      "layout": "app/(admin)/layout.tsx",
+      "pages": [
+        "app/(admin)/admin/page.tsx"
+      ]
+    },
+    "(auth)": {
+      "layout": "app/(auth)/layout.tsx",
+      "pages": [
+        "app/(auth)/sign-up/page.tsx",
+        "app/(auth)/sign-in/page.tsx"
+      ]
+    },
+    "(root-layout)": {
+      "layout": "app/layout.tsx",
+      "pages": [
+        "app/page.tsx"
+      ]
+    }
+  },
+  "apiRoutes": [
+    "app/__playwright__/set-cookie/route.ts",
+    "app/api/auth/local-validate/route.ts",
+    "app/api/auth/local-create/route.ts",
+    "app/api/health/route.ts",
+    "app/api/__playwright__/set-cookie/route.ts",
+    "app/api/dwolla/webhook/route.ts",
+    "app/api/auth/[...nextauth]/route.ts"
+  ],
+  "layouts": [
+    "app/(admin)/layout.tsx",
+    "app/(auth)/layout.tsx",
+    "app/(root)/layout.tsx",
+    "app/layout.tsx"
+  ]
+}
