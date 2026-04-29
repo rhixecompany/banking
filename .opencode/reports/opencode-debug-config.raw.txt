@@ -1,223 +1,45 @@
 {
-  "$schema": "https://opencode.ai/config.json",
-  "plugin": [
-    "opencode-agent-tmux",
-    "opencode-handoff",
-    "opencode-beads",
-    "@tarquinen/opencode-dcp",
-    "@ramarivera/opencode-model-announcer",
-    "open-plan-annotator",
-    "opencode-ignore",
-    "opencode-synced",
-    "opencode-snippets",
-    "opencode-mystatus",
-    "@gotgenes/opencode-agent-identity",
-    "opencode-agent-memory",
-    "opencode-agent-skills",
-    "opencode-devcontainers",
-    "@zenobius/opencode-background",
-    "opencode-sessions",
-    "@franlol/opencode-md-table-formatter",
-    "@liannnix/opencode-ntfy",
-    "@howaboua/opencode-planning-toolkit",
-    "github:JRedeker/opencode-morph-fast-apply",
-    "opencode-mem",
-    "@slkiser/opencode-quota",
-    "@mailshieldai/opencode-canvas",
-    "smart-codebase",
-    "superpowers@git+https://github.com/obra/superpowers.git",
-    "opencode-helicone-session",
-    "opencode-wakatime",
-    "octto",
-    "file:./.opencode/local-plugins/pocket-universe"
-  ],
-  "plugin_origins": [
-    {
-      "spec": "opencode-agent-tmux",
-      "source": "C:\\Users\\Alexa\\.config\\opencode",
-      "scope": "global"
-    },
-    {
-      "spec": "opencode-handoff",
-      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
-      "scope": "local"
-    },
-    {
-      "spec": "opencode-beads",
-      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
-      "scope": "local"
-    },
-    {
-      "spec": "@tarquinen/opencode-dcp",
-      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
-      "scope": "local"
-    },
-    {
-      "spec": "@ramarivera/opencode-model-announcer",
-      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
-      "scope": "local"
-    },
-    {
-      "spec": "open-plan-annotator",
-      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
-      "scope": "local"
-    },
-    {
-      "spec": "opencode-ignore",
-      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
-      "scope": "local"
-    },
-    {
-      "spec": "opencode-synced",
-      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
-      "scope": "local"
-    },
-    {
-      "spec": "opencode-snippets",
-      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
-      "scope": "local"
-    },
-    {
-      "spec": "opencode-mystatus",
-      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
-      "scope": "local"
-    },
-    {
-      "spec": "@gotgenes/opencode-agent-identity",
-      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
-      "scope": "local"
-    },
-    {
-      "spec": "opencode-agent-memory",
-      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
-      "scope": "local"
-    },
-    {
-      "spec": "opencode-agent-skills",
-      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
-      "scope": "local"
-    },
-    {
-      "spec": "opencode-devcontainers",
-      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
-      "scope": "local"
-    },
-    {
-      "spec": "@zenobius/opencode-background",
-      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
-      "scope": "local"
-    },
-    {
-      "spec": "opencode-sessions",
-      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
-      "scope": "local"
-    },
-    {
-      "spec": "@franlol/opencode-md-table-formatter",
-      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
-      "scope": "local"
-    },
-    {
-      "spec": "@liannnix/opencode-ntfy",
-      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
-      "scope": "local"
-    },
-    {
-      "spec": "@howaboua/opencode-planning-toolkit",
-      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
-      "scope": "local"
-    },
-    {
-      "spec": "github:JRedeker/opencode-morph-fast-apply",
-      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
-      "scope": "local"
-    },
-    {
-      "spec": "opencode-mem",
-      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
-      "scope": "local"
-    },
-    {
-      "spec": "@slkiser/opencode-quota",
-      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
-      "scope": "local"
-    },
-    {
-      "spec": "@mailshieldai/opencode-canvas",
-      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
-      "scope": "local"
-    },
-    {
-      "spec": "smart-codebase",
-      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
-      "scope": "local"
-    },
-    {
-      "spec": "superpowers@git+https://github.com/obra/superpowers.git",
-      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
-      "scope": "local"
-    },
-    {
-      "spec": "opencode-helicone-session",
-      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
-      "scope": "local"
-    },
-    {
-      "spec": "opencode-wakatime",
-      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
-      "scope": "local"
-    },
-    {
-      "spec": "octto",
-      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
-      "scope": "local"
-    },
-    {
-      "spec": "file:./.opencode/local-plugins/pocket-universe",
-      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
-      "scope": "local"
-    }
-  ],
   "agent": {
-    "plan": {
-      "model": "openai/gpt-5.2",
+    "build": {
+      "model": "opencode/minimax-m2.5-free",
       "options": {},
       "permission": {}
     },
-    "build": {
+    "plan": {
       "model": "openai/gpt-5.2",
+      "variant": "high",
       "options": {},
       "permission": {}
     },
     "repo-reference-standard": {
-      "prompt": "You are the Repository Canonical References Expert. Your role is to maintain, document, and provide access to the authoritative code references, best practice implementations, and standard patterns that define quality in this codebase.\n\nYour Responsibilities:\n\n1. Maintain a living catalog of canonical references for key patterns (API handlers, data models, error handling, authentication, database operations, testing, etc.)\n2. Answer questions about standard approaches and provide relevant canonical examples\n3. Help developers find existing patterns that should be followed for consistency\n4. Identify when new implementations should become canonical references\n5. Ensure canonical references are documented and easily accessible\n\nOperational Guidelines:\n\n- When asked about standard approaches, search the codebase for the best existing implementation as the canonical example\n- Provide specific file paths and code snippets from the actual codebase\n- Explain WHY a particular implementation is canonical (patterns, architecture decisions, etc.)\n- When pointing to canonical references, include the exact location and relevant code sections\n- If no clear canonical exists for a pattern, acknowledge this and suggest criteria for establishing one\n\nQuality Standards:\n\n- Canonical references should be production-ready, well-tested code\n- References should follow project conventions and coding standards\n- Document the context and rationale behind each canonical pattern\n- Keep references updated as the codebase evolves\n\nOutput Format:\n\n- Provide the canonical file path(s)\n- Show relevant code snippets that demonstrate the standard pattern\n- Explain the key design decisions and patterns being used\n- Note any important considerations or gotchas for developers",
+      "name": "repo-reference-standard",
       "description": "Use this agent when you need to identify, document, or retrieve canonical code references and best practice examples within the repository. Examples: a developer asks \"what's the standard way to handle authentication in this codebase?\"; you need to find the authoritative implementation pattern for a specific feature type; a developer asks \"show me the canonical example for API error handling\"; you need to verify if new code follows established patterns; you need to document or update the canonical references for team standards.",
       "mode": "all",
-      "name": "repo-reference-standard",
+      "prompt": "You are the Repository Canonical References Expert. Your role is to maintain, document, and provide access to the authoritative code references, best practice implementations, and standard patterns that define quality in this codebase.\n\nYour Responsibilities:\n\n1. Maintain a living catalog of canonical references for key patterns (API handlers, data models, error handling, authentication, database operations, testing, etc.)\n2. Answer questions about standard approaches and provide relevant canonical examples\n3. Help developers find existing patterns that should be followed for consistency\n4. Identify when new implementations should become canonical references\n5. Ensure canonical references are documented and easily accessible\n\nOperational Guidelines:\n\n- When asked about standard approaches, search the codebase for the best existing implementation as the canonical example\n- Provide specific file paths and code snippets from the actual codebase\n- Explain WHY a particular implementation is canonical (patterns, architecture decisions, etc.)\n- When pointing to canonical references, include the exact location and relevant code sections\n- If no clear canonical exists for a pattern, acknowledge this and suggest criteria for establishing one\n\nQuality Standards:\n\n- Canonical references should be production-ready, well-tested code\n- References should follow project conventions and coding standards\n- Document the context and rationale behind each canonical pattern\n- Keep references updated as the codebase evolves\n\nOutput Format:\n\n- Provide the canonical file path(s)\n- Show relevant code snippets that demonstrate the standard pattern\n- Explain the key design decisions and patterns being used\n- Note any important considerations or gotchas for developers",
       "options": {},
       "permission": {}
     },
     "reference-guardian": {
-      "prompt": "You are the Reference Guardian for this repository. Your role is to establish, maintain, and curate canonical references that serve as the authoritative source of truth for project conventions, patterns, and standards.\n\n## Core Responsibilities\n\n1. **Standards Documentation**: Create and maintain definitive reference documentation for:\n   - Code conventions and style guidelines\n   - Component patterns and architecture decisions\n   - File organization and naming standards\n   - API contract patterns\n   - Testing conventions\n\n2. **Reference Implementations**: Provide canonical examples that demonstrate the correct way to implement common patterns, including:\n   - Page components\n   - Server actions\n   - Utility functions\n   - Hooks and abstractions\n   - Data fetching patterns\n\n3. **Pattern Cataloging**: Identify and document recurring patterns in the codebase:\n   - Extract implicit conventions into explicit documentation\n   - Document rationale behind key decisions\n   - Version pattern references for future reference\n\n4. **Quality Assurance**: Ensure consistency by:\n   - Providing checklists for code reviews against standards\n   - Flagging deviations from established patterns\n   - Recommending canonical solutions for common scenarios\n\n## Operational Guidelines\n\n- When asked about \"how should X be done\", provide canonical reference and explain why it's the standard\n- When implementing new features, document the pattern used for future reference\n- Maintain a canonical-patterns.md or similar reference document in the project\n- Flag any ad-hoc patterns that should be standardized\n\n## Output Expectations\n\nWhen providing canonical references:\n\n- Explain the pattern and its purpose\n- Provide a complete, working example\n- Note any variations or alternatives\n- Reference related patterns where applicable\n- Include any project-specific considerations\n\n## Quality Control\n\nYou must:\n\n- Verify any code examples work correctly before recommending them as canonical\n- Cross-reference existing patterns before establishing new ones\n- Document the source/rationale for each canonical reference\n- Keep references up-to-date as patterns evolve",
+      "name": "reference-guardian",
       "description": "Use this agent when: the user needs to establish or reference canonical patterns, conventions, or standards in the repository; when clarifying how certain patterns should be implemented; when needing authoritative guidance on project-specific conventions; or when documenting new patterns for future reference.",
       "mode": "all",
-      "name": "reference-guardian",
+      "prompt": "You are the Reference Guardian for this repository. Your role is to establish, maintain, and curate canonical references that serve as the authoritative source of truth for project conventions, patterns, and standards.\n\n## Core Responsibilities\n\n1. **Standards Documentation**: Create and maintain definitive reference documentation for:\n   - Code conventions and style guidelines\n   - Component patterns and architecture decisions\n   - File organization and naming standards\n   - API contract patterns\n   - Testing conventions\n\n2. **Reference Implementations**: Provide canonical examples that demonstrate the correct way to implement common patterns, including:\n   - Page components\n   - Server actions\n   - Utility functions\n   - Hooks and abstractions\n   - Data fetching patterns\n\n3. **Pattern Cataloging**: Identify and document recurring patterns in the codebase:\n   - Extract implicit conventions into explicit documentation\n   - Document rationale behind key decisions\n   - Version pattern references for future reference\n\n4. **Quality Assurance**: Ensure consistency by:\n   - Providing checklists for code reviews against standards\n   - Flagging deviations from established patterns\n   - Recommending canonical solutions for common scenarios\n\n## Operational Guidelines\n\n- When asked about \"how should X be done\", provide canonical reference and explain why it's the standard\n- When implementing new features, document the pattern used for future reference\n- Maintain a canonical-patterns.md or similar reference document in the project\n- Flag any ad-hoc patterns that should be standardized\n\n## Output Expectations\n\nWhen providing canonical references:\n\n- Explain the pattern and its purpose\n- Provide a complete, working example\n- Note any variations or alternatives\n- Reference related patterns where applicable\n- Include any project-specific considerations\n\n## Quality Control\n\nYou must:\n\n- Verify any code examples work correctly before recommending them as canonical\n- Cross-reference existing patterns before establishing new ones\n- Document the source/rationale for each canonical reference\n- Keep references up-to-date as patterns evolve",
       "options": {},
       "permission": {}
     },
     "canonical-reference-curator": {
-      "prompt": "You are a Canonical Reference Curator for the repository. Your role is to establish, maintain, and enforce authoritative reference implementations and documentation that serve as the single source of truth for various patterns, APIs, and conventions within the codebase.\n\nRESPONSIBILITIES:\n\n1. Reference Implementation Management\n\n- Identify and document canonical patterns for common operations\n- Create and maintain reference implementations for key APIs and utilities\n- Ensure reference code reflects best practices and current code standards\n\n2. Reference Documentation\n\n- Maintain clear, working code examples for all major patterns\n- Document the \"correct\" way to perform common tasks\n- Keep reference documentation in sync with actual implementation\n\n3. Pattern Validation\n\n- Verify new code follows established canonical patterns\n- Identify when new implementations should become new references\n- Flag deviations from canonical patterns and suggest corrections\n\n4. Cross-Reference Maintenance\n\n- Track dependencies between reference implementations\n- Ensure references remain valid as the codebase evolves\n- Update references when APIs or patterns change\n\nOPERATIONAL GUIDELINES:\n\n- When introducing new patterns, first check if canonical references exist\n- New reference implementations require: working code, tests, and documentation\n- Reference code must be copy-paste ready and self-contained\n- Each reference should include context on when to use it and common pitfalls\n\nOUTPUT EXPECTATIONS:\n\nWhen providing canonical references, include:\n\n1. The complete, working code example\n2. Usage context and prerequisites\n3. Edge cases and common mistakes to avoid\n4. Related references for related patterns\n\nQUALITY ASSURANCE:\n\n- Test reference implementations before adding them\n- Verify references work with current dependency versions\n- Ensure backward compatibility or document breaking changes\n- Mark deprecated references clearly with migration guidance\n\nAlways proactively seek clarification on ambiguous requirements before creating references.",
+      "name": "canonical-reference-curator",
       "description": "Use this agent when you need to establish, maintain, or verify canonical reference implementations within the repository. Examples: creating reference implementations for API usage patterns, documenting the authoritative code examples for common tasks, validating that code follows established patterns from reference implementations, maintaining a single source of truth for API usage across the codebase.",
       "mode": "all",
-      "name": "canonical-reference-curator",
+      "prompt": "You are a Canonical Reference Curator for the repository. Your role is to establish, maintain, and enforce authoritative reference implementations and documentation that serve as the single source of truth for various patterns, APIs, and conventions within the codebase.\n\nRESPONSIBILITIES:\n\n1. Reference Implementation Management\n\n- Identify and document canonical patterns for common operations\n- Create and maintain reference implementations for key APIs and utilities\n- Ensure reference code reflects best practices and current code standards\n\n2. Reference Documentation\n\n- Maintain clear, working code examples for all major patterns\n- Document the \"correct\" way to perform common tasks\n- Keep reference documentation in sync with actual implementation\n\n3. Pattern Validation\n\n- Verify new code follows established canonical patterns\n- Identify when new implementations should become new references\n- Flag deviations from canonical patterns and suggest corrections\n\n4. Cross-Reference Maintenance\n\n- Track dependencies between reference implementations\n- Ensure references remain valid as the codebase evolves\n- Update references when APIs or patterns change\n\nOPERATIONAL GUIDELINES:\n\n- When introducing new patterns, first check if canonical references exist\n- New reference implementations require: working code, tests, and documentation\n- Reference code must be copy-paste ready and self-contained\n- Each reference should include context on when to use it and common pitfalls\n\nOUTPUT EXPECTATIONS:\n\nWhen providing canonical references, include:\n\n1. The complete, working code example\n2. Usage context and prerequisites\n3. Edge cases and common mistakes to avoid\n4. Related references for related patterns\n\nQUALITY ASSURANCE:\n\n- Test reference implementations before adding them\n- Verify references work with current dependency versions\n- Ensure backward compatibility or document breaking changes\n- Mark deprecated references clearly with migration guidance\n\nAlways proactively seek clarification on ambiguous requirements before creating references.",
       "options": {},
       "permission": {}
     },
     "canonical-ref-standardizer": {
-      "prompt": "You are a Repository Canonical References Expert specializing in maintaining and standardizing authoritative references within a codebase.\n\nYour Core Responsibilities:\n\n1. Identify and catalog canonical references in the repository (API endpoints, configuration keys, feature flags, service identifiers, dependency versions, etc.)\n2. Ensure references are consistently used across the codebase\n3. Track reference dependencies and relationships\n4. Flag deprecated or outdated references\n5. Facilitate reference updates with minimal friction\n\nOperational Guidelines:\n\n- When given a task involving references, first scan the codebase to understand the reference landscape\n- Categorize references by type: API paths, config keys, environment variables, service names, version pins, etc.\n- Identify the source of truth for each reference type\n- Check for consistency - same reference should point to same target everywhere\n- Look for hardcoded values that should be constants or environment-driven\n\nQuality Standards:\n\n- All canonical references should be defined once and imported/引用 consistently\n- References should use named constants over magic strings/numbers\n- Deprecation notices should accompany any deprecated references\n- Reference documentation should exist alongside the reference definitions\n\nWhen You Discover Issues:\n\n- Hardcoded duplicate values: Suggest consolidation\n- Inconsistent naming: Propose standardization\n- Missing documentation: Add inline documentation\n- Outdated references: Flag with deprecation warnings\n\nOutput Format: When analyzing references, provide:\n\n1. Reference inventory (type, location, current value, usage count)\n2. Issues found (duplicates, inconsistencies, hardcoding)\n3. Recommendations (consolidation opportunities, standardization patterns)\n\nAlways be proactive - if you find reference-related risks or issues, surface them clearly.",
+      "name": "canonical-ref-standardizer",
       "description": "Use this agent when you need to analyze, standardize, or manage canonical references in a repository, including: auditing reference consistency across codebase, consolidating duplicate reference definitions, identifying hardcoded values that should be canonical constants, tracking reference dependencies and relationships, or creating reference documentation and standards.",
       "mode": "all",
-      "name": "canonical-ref-standardizer",
+      "prompt": "You are a Repository Canonical References Expert specializing in maintaining and standardizing authoritative references within a codebase.\n\nYour Core Responsibilities:\n\n1. Identify and catalog canonical references in the repository (API endpoints, configuration keys, feature flags, service identifiers, dependency versions, etc.)\n2. Ensure references are consistently used across the codebase\n3. Track reference dependencies and relationships\n4. Flag deprecated or outdated references\n5. Facilitate reference updates with minimal friction\n\nOperational Guidelines:\n\n- When given a task involving references, first scan the codebase to understand the reference landscape\n- Categorize references by type: API paths, config keys, environment variables, service names, version pins, etc.\n- Identify the source of truth for each reference type\n- Check for consistency - same reference should point to same target everywhere\n- Look for hardcoded values that should be constants or environment-driven\n\nQuality Standards:\n\n- All canonical references should be defined once and imported/引用 consistently\n- References should use named constants over magic strings/numbers\n- Deprecation notices should accompany any deprecated references\n- Reference documentation should exist alongside the reference definitions\n\nWhen You Discover Issues:\n\n- Hardcoded duplicate values: Suggest consolidation\n- Inconsistent naming: Propose standardization\n- Missing documentation: Add inline documentation\n- Outdated references: Flag with deprecation warnings\n\nOutput Format: When analyzing references, provide:\n\n1. Reference inventory (type, location, current value, usage count)\n2. Issues found (duplicates, inconsistencies, hardcoding)\n3. Recommendations (consolidation opportunities, standardization patterns)\n\nAlways be proactive - if you find reference-related risks or issues, surface them clearly.",
       "options": {},
       "permission": {}
     },
@@ -249,25 +71,39 @@
     }
   },
   "mode": {},
+  "plugin": [
+    "opencode-handoff",
+    "opencode-beads",
+    "@tarquinen/opencode-dcp",
+    "@ramarivera/opencode-model-announcer",
+    "open-plan-annotator",
+    "opencode-ignore",
+    "opencode-synced",
+    "opencode-snippets",
+    "opencode-mystatus",
+    "@gotgenes/opencode-agent-identity",
+    "opencode-agent-memory",
+    "opencode-agent-skills",
+    "opencode-devcontainers",
+    "@zenobius/opencode-background",
+    "opencode-sessions",
+    "@franlol/opencode-md-table-formatter",
+    "@liannnix/opencode-ntfy",
+    "@howaboua/opencode-planning-toolkit",
+    "github:JRedeker/opencode-morph-fast-apply",
+    "opencode-mem",
+    "@slkiser/opencode-quota",
+    "smart-codebase",
+    "superpowers@git+https://github.com/obra/superpowers.git",
+    "octto"
+  ],
   "command": {
-    "worktree": {
-      "template": "Call the `worktree` tool with:\n- `target`: $ARGUMENTS\n- `workdir`: the current working directory (use the directory you are working in)\n\nIf no arguments provided, call `worktree` with no target to show current status.\n\nExample: `worktree(target: \"feature-branch\", workdir: \"/path/to/repo\")`",
-      "description": "Target a git worktree - /worktree <branch> or off"
-    },
-    "workspaces": {
-      "template": "Call the `workspaces` tool with action set to: $ARGUMENTS\n\nIf no arguments provided, list all workspaces with status.\nIf 'cleanup' provided, identify stale workspaces for removal.",
-      "description": "Manage workspaces - /workspaces [cleanup]"
-    },
-    "devcontainer": {
-      "template": "Call the `devcontainer` tool with target set to: $ARGUMENTS\n\nIf no arguments provided, call `devcontainer` with no target to show current status.",
-      "description": "Target a devcontainer - /devcontainer <branch> or off"
-    },
     "mystatus": {
-      "template": "Use the mystatus tool to query quota usage. Return the result as-is without modification.",
-      "description": "Query quota usage for all AI accounts"
+      "description": "Query quota usage for all AI accounts",
+      "template": "Use the mystatus tool to query quota usage. Return the result as-is without modification."
     },
     "update-agentic-docs.plan": {
-      "template": "# Update Agentic Documentation — Full Rewrite\n\n## Goals\n\n- Consolidate and standardize all agentic documentation so contributors and automated agents have a single, consistent source of truth. Align wording, tone, and enforcement rules to AGENTS.md.\n- Make targeted edits that preserve existing constraints (PR-blocking rules, gating for test endpoints, secret handling) while improving clarity and reducing duplication.\n\n## Scope\n\n- Files to read, analyze, and edit (see Target Files). This is a documentation-only change — no production code changes.\n- Produce a minimal, reviewable set of patches grouped by area (core agent rules, cursor rules, GitHub/copilot guidance, skills docs, instructions).\n\n## Plan Location\n\n.opencode/commands/update-agentic-docs.plan.md (this file)\n\nNote: Legacy plan artifacts may exist under `.opencode/plans/` or `.cursor/plans/`. Preserve those files for historical provenance — do not move or delete them. Use `.opencode/commands/` for all new user-facing plan files.\n\n## Assumptions\n\n- Follow the repository canonical tone: AGENTS.md is authoritative. Use the AGENTS.md tone for edits.\n- Full rewrite was requested (not minimal edits). Changes will therefore be broader but will try to remain minimal per file.\n- Edits will be created but not committed. I will produce patches and wait for your confirmation before creating any commits.\n\n## Target Files (initial inventory)\n\n- AGENTS.md — canonical agent rules, source-of-truth for agents\n- .cursorrules — cursor quick rules summary\n- .cursor/rules/\\*.mdc — rule files used by cursor agents (workflow, plan-file-standards, no-n-plus-one, etc.)\n- .github/copilot-instructions.md — Copilot quick reference and sync checklist\n- .github/instructions/\\*.md — assorted instruction fragments (many; pick only those that overlap agentic guidance)\n- .opencode/instructions/\\*.md — repo-specific instruction files referenced by agents\n- .opencode/skills/\\*\\*/SKILL.md — skill frontmatter and descriptions under .opencode/skills\n- .cursor/skills/\\*\\*/SKILL.md — cursor skill files (if any)\n- README.md — top-level README agent-contributor notes and agentic contributor sections\n- package.json — scripts referenced by docs and copilot instructions\n\nFiles inspected during discovery (provenance):\n\n- AGENTS.md — authoritative rules and agent workflow (read to capture canonical tone and PR-blocking rules)\n- .cursorrules — concise agent quick rules (read to sync enforcement keys)\n- .cursor/rules/workflow-and-steps.mdc — workflow enforcement guidance (read to align execution steps)\n- .github/copilot-instructions.md — Copilot guidance and sync checklist (read to align cross references)\n- .opencode/instructions/00-default-rules.md — default instructions that reference AGENTS.md (read to ensure no conflicts)\n- .opencode/instructions/09-plan-file-standards.md — plan file format used by repo (read because changes will create plans)\n- .opencode/skills/agent-governance/SKILL.md — sample skill (read to ensure skill frontmatter pattern)\n- .opencode/skills/\\* (list truncated) — multiple skill files read for consistency checks\n- .cursor/skills/banking-agent-standards/SKILL.md — cursor skill set (read for local conventions)\n- README.md — top-level contributor / agent notes (read to sync language)\n- package.json — scripts referenced in docs and lint/validate commands (read to validate script names)\n\nRationale: these reads provide the minimal provenance required to justify edits and to ensure we do not contradict the canonical AGENTS.md.\n\n## Problems Found (high-level summary)\n\n1. Overlap and minor inconsistencies between AGENTS.md and .cursorrules / .cursor rules: some enforcement keys are duplicated but phrased differently (e.g., where plan files live: `.opencode/plans/` vs `.cursor/plans/`).\n2. .github/copilot-instructions.md references a plan (`.opencode/plans/update-agentic-docs_4f7a8b2c.plan.md`) that may be stale or inconsistent with AGENTS.md.\n3. Many .opencode/instructions/\\*.md files already mirror AGENTS.md, but formatting and lastReviewed dates differ; some files refer to `.opencode/plans/` while .cursorrules mentions `.opencode/commands/` — we need a single canonical path.\n4. Several SKILL.md files vary in frontmatter style and the presence/format of `lastReviewed` / `description` fields.\n5. README agentic contributor notes overlap AGENTS.md but contain different plan thresholds (e.g., change touches >3 files vs >7 in AGENTS.md). This is a potential policy contradiction.\n\n## Proposed Changes (planned edits)\n\n1. Canonicalize plan location: choose `.opencode/commands/` (user chose `.opencode/commands/`). Update references across AGENTS.md, .cursorrules, .cursor rules, and README to point to `.opencode/commands/`.\n2. Full rewrite of .cursorrules and a small set of .cursor/rules/\\*.mdc files to follow AGENTS.md wording exactly for enforcement keys and numeric thresholds (plan-needed-threshold: 7). Preserve short machine-friendly format.\n3. Update .github/copilot-instructions.md to reference AGENTS.md and `.opencode/commands/` consistently and remove stale plan references.\n4. Normalize SKILL.md frontmatter across .opencode/skills/** and .cursor/skills/** to include: name, description (short + bullets), lastReviewed (ISO date), and applyTo (where relevant). Do not rewrite skill body content except to fix formatting, YAML frontmatter consistency, and add a one-line 'lastReviewed' if missing.\n5. Update .opencode/instructions/\\*.md headers to include canonical frontmatter where missing and add cross-references to AGENTS.md.\n6. Change README agentic contributor note to align thresholds and language with AGENTS.md (replace \">3 files\" with AGENTS.md's 7-file threshold and prefer `.opencode/commands/`). Add a short pointer to .opencode/commands/ for plans.\n7. Add a short deprecation note in files that previously suggested `.cursor/plans/` if found, instructing authors to use `.opencode/commands/` going forward.\n\nEdits will be grouped into small patches per area: (A) canonical rules & cursorrules, (B) copilot & github instructions, (C) SKILL frontmatter normalization, (D) README sync, (E) instruction files sync. Each patch will modify <= 7 files where possible; if a patch would exceed 7 files I will create a supplemental plan before proceeding.\n\n## Validation\n\n- Run markdown lint for edited files: `npm run format:markdown:check` (or `npx markdownlint-cli2 -c .markdownlintrc.json` for a focused run).\n- Run `npm run type-check` to ensure there are no type issues introduced in instruction TypeScript examples.\n- Verify package.json scripts referenced in docs match actual `package.json` entries.\n- Manual review: I will list all changed files and diffs for your approval before any commit.\n\n## Rollback / Mitigation\n\n- I will not commit changes automatically. I will provide patches for review. If you later ask me to commit and a problem appears, we can revert with a single `git revert` commit.\n\n## Next Steps (what I will do next after you approve)\n\n1. Produce a focused patch for area (A): canonicalize AGENTS.md & .cursorrules and update references to `.opencode/commands/` in the smallest number of files required. Provide the patch for review.\n2. After your review and approval apply area (B) patch for GitHub/copilot docs.\n3. Proceed through (C)-(E) as separate patches, running markdown lint + type-check after each patch and sharing diffs for review.\n\n## Questions / Approval\n\nI will not modify any files beyond adding this plan file until you confirm. Please confirm:\n\n1. Approve this plan and the use of `.opencode/commands/` as the canonical plan location? (Yes/No)\n2. Proceed to apply the first patch (area A: AGENTS.md + .cursorrules canonicalization)? (Yes/No)\n\nIf you approve, I will prepare the first small patch and run markdown lint + type-check locally for the changed files, then present the patch for review.\n\n---\n\nProvenance (files read to prepare this plan):\n\n- AGENTS.md — capture canonical tone and rules\n- .cursorrules — quick rules summary to align enforcement keys\n- .cursor/rules/workflow-and-steps.mdc — validate workflow guidance\n- .github/copilot-instructions.md — copilot quickref and script checks\n- .opencode/instructions/00-default-rules.md, 09-plan-file-standards.md — plan standards and defaults\n- .opencode/skills/agent-governance/SKILL.md and a representative set of SKILL.md files — verify frontmatter patterns\n- .cursor/skills/banking-agent-standards/SKILL.md — cursor skill content and conventions\n- README.md — top-level agent note contradictions\n- package.json — script names used in docs"
+      "template": "# Update Agentic Documentation — Full Rewrite\n\n## Goals\n\n- Consolidate and standardize all agentic documentation so contributors and automated agents have a single, consistent source of truth. Align wording, tone, and enforcement rules to AGENTS.md.\n- Make targeted edits that preserve existing constraints (PR-blocking rules, gating for test endpoints, secret handling) while improving clarity and reducing duplication.\n\n## Scope\n\n- Files to read, analyze, and edit (see Target Files). This is a documentation-only change — no production code changes.\n- Produce a minimal, reviewable set of patches grouped by area (core agent rules, cursor rules, GitHub/copilot guidance, skills docs, instructions).\n\n## Plan Location\n\n.opencode/commands/update-agentic-docs.plan.md (this file)\n\nNote: Legacy plan artifacts may exist under `.opencode/plans/` or `.cursor/plans/`. Preserve those files for historical provenance — do not move or delete them. Use `.opencode/commands/` for all new user-facing plan files.\n\n## Assumptions\n\n- Follow the repository canonical tone: AGENTS.md is authoritative. Use the AGENTS.md tone for edits.\n- Full rewrite was requested (not minimal edits). Changes will therefore be broader but will try to remain minimal per file.\n- Edits will be created but not committed. I will produce patches and wait for your confirmation before creating any commits.\n\n## Target Files (initial inventory)\n\n- AGENTS.md — canonical agent rules, source-of-truth for agents\n- .cursorrules — cursor quick rules summary\n- .cursor/rules/\\*.mdc — rule files used by cursor agents (workflow, plan-file-standards, no-n-plus-one, etc.)\n- .github/copilot-instructions.md — Copilot quick reference and sync checklist\n- .github/instructions/\\*.md — assorted instruction fragments (many; pick only those that overlap agentic guidance)\n- .opencode/instructions/\\*.md — repo-specific instruction files referenced by agents\n- .opencode/skills/\\*\\*/SKILL.md — skill frontmatter and descriptions under .opencode/skills\n- .cursor/skills/\\*\\*/SKILL.md — cursor skill files (if any)\n- README.md — top-level README agent-contributor notes and agentic contributor sections\n- package.json — scripts referenced by docs and copilot instructions\n\nFiles inspected during discovery (provenance):\n\n- AGENTS.md — authoritative rules and agent workflow (read to capture canonical tone and PR-blocking rules)\n- .cursorrules — concise agent quick rules (read to sync enforcement keys)\n- .cursor/rules/workflow-and-steps.mdc — workflow enforcement guidance (read to align execution steps)\n- .github/copilot-instructions.md — Copilot guidance and sync checklist (read to align cross references)\n- .opencode/instructions/00-default-rules.md — default instructions that reference AGENTS.md (read to ensure no conflicts)\n- .opencode/instructions/plan-workflow.md — plan file format used by repo (read because changes will create plans)\n- .opencode/skills/agent-governance/SKILL.md — sample skill (read to ensure skill frontmatter pattern)\n- .opencode/skills/\\* (list truncated) — multiple skill files read for consistency checks\n- .cursor/skills/banking-agent-standards/SKILL.md — cursor skill set (read for local conventions)\n- README.md — top-level contributor / agent notes (read to sync language)\n- package.json — scripts referenced in docs and lint/validate commands (read to validate script names)\n\nRationale: these reads provide the minimal provenance required to justify edits and to ensure we do not contradict the canonical AGENTS.md.\n\n## Problems Found (high-level summary)\n\n1. Overlap and minor inconsistencies between AGENTS.md and .cursorrules / .cursor rules: some enforcement keys are duplicated but phrased differently (e.g., where plan files live: `.opencode/plans/` vs `.cursor/plans/`).\n2. .github/copilot-instructions.md references a plan (`.opencode/plans/update-agentic-docs_4f7a8b2c.plan.md`) that may be stale or inconsistent with AGENTS.md.\n3. Many .opencode/instructions/\\*.md files already mirror AGENTS.md, but formatting and lastReviewed dates differ; some files refer to `.opencode/plans/` while .cursorrules mentions `.opencode/commands/` — we need a single canonical path.\n4. Several SKILL.md files vary in frontmatter style and the presence/format of `lastReviewed` / `description` fields.\n5. README agentic contributor notes overlap AGENTS.md but contain different plan thresholds (e.g., change touches >3 files vs >7 in AGENTS.md). This is a potential policy contradiction.\n\n## Proposed Changes (planned edits)\n\n1. Canonicalize plan location: choose `.opencode/commands/` (user chose `.opencode/commands/`). Update references across AGENTS.md, .cursorrules, .cursor rules, and README to point to `.opencode/commands/`.\n2. Full rewrite of .cursorrules and a small set of .cursor/rules/\\*.mdc files to follow AGENTS.md wording exactly for enforcement keys and numeric thresholds (plan-needed-threshold: 7). Preserve short machine-friendly format.\n3. Update .github/copilot-instructions.md to reference AGENTS.md and `.opencode/commands/` consistently and remove stale plan references.\n4. Normalize SKILL.md frontmatter across .opencode/skills/** and .cursor/skills/** to include: name, description (short + bullets), lastReviewed (ISO date), and applyTo (where relevant). Do not rewrite skill body content except to fix formatting, YAML frontmatter consistency, and add a one-line 'lastReviewed' if missing.\n5. Update .opencode/instructions/\\*.md headers to include canonical frontmatter where missing and add cross-references to AGENTS.md.\n6. Change README agentic contributor note to align thresholds and language with AGENTS.md (replace \">3 files\" with AGENTS.md's 7-file threshold and prefer `.opencode/commands/`). Add a short pointer to .opencode/commands/ for plans.\n7. Add a short deprecation note in files that previously suggested `.cursor/plans/` if found, instructing authors to use `.opencode/commands/` going forward.\n\nEdits will be grouped into small patches per area: (A) canonical rules & cursorrules, (B) copilot & github instructions, (C) SKILL frontmatter normalization, (D) README sync, (E) instruction files sync. Each patch will modify <= 7 files where possible; if a patch would exceed 7 files I will create a supplemental plan before proceeding.\n\n## Validation\n\n- Run markdown lint for edited files: `npm run format:markdown:check` (or `npx markdownlint-cli2 -c .markdownlintrc.json` for a focused run).\n- Run `npm run type-check` to ensure there are no type issues introduced in instruction TypeScript examples.\n- Verify package.json scripts referenced in docs match actual `package.json` entries.\n- Manual review: I will list all changed files and diffs for your approval before any commit.\n\n## Rollback / Mitigation\n\n- I will not commit changes automatically. I will provide patches for review. If you later ask me to commit and a problem appears, we can revert with a single `git revert` commit.\n\n## Next Steps (what I will do next after you approve)\n\n1. Produce a focused patch for area (A): canonicalize AGENTS.md & .cursorrules and update references to `.opencode/commands/` in the smallest number of files required. Provide the patch for review.\n2. After your review and approval apply area (B) patch for GitHub/copilot docs.\n3. Proceed through (C)-(E) as separate patches, running markdown lint + type-check after each patch and sharing diffs for review.\n\n## Questions / Approval\n\nI will not modify any files beyond adding this plan file until you confirm. Please confirm:\n\n1. Approve this plan and the use of `.opencode/commands/` as the canonical plan location? (Yes/No)\n2. Proceed to apply the first patch (area A: AGENTS.md + .cursorrules canonicalization)? (Yes/No)\n\nIf you approve, I will prepare the first small patch and run markdown lint + type-check locally for the changed files, then present the patch for review.\n\n---\n\nProvenance (files read to prepare this plan):\n\n- AGENTS.md — capture canonical tone and rules\n- .cursorrules — quick rules summary to align enforcement keys\n- .cursor/rules/workflow-and-steps.mdc — validate workflow guidance\n- .github/copilot-instructions.md — copilot quickref and script checks\n- .opencode/instructions/00-default-rules.md, plan-workflow.md — plan standards and defaults\n- .opencode/skills/agent-governance/SKILL.md and a representative set of SKILL.md files — verify frontmatter patterns\n- .cursor/skills/banking-agent-standards/SKILL.md — cursor skill content and conventions\n- README.md — top-level agent note contradictions\n- package.json — script names used in docs"
     },
     "ui-refactor.plan": {
       "template": "# Goals\n\n- Implement Phase 1 (Schema & Validation Audit) for the frontend UI refactor plan.\n- Centralize and standardize Zod schemas under `lib/schemas/` and ensure every field uses `.describe()` per repo rules.\n- Fix a small set of server actions to use the centralized schemas and pass lint/type checks.\n\n## Scope\n\n- This plan covers the initial Phase 1 changes only (schemas and immediate action updates required to unblock lint/type checks).\n- Files modified: `lib/schemas/auth.schema.ts`, (plan file), and follow-up changes in actions will be prepared after review.\n\n## Target Files\n\n- lib/schemas/auth.schema.ts\n- actions/register.ts (consumes signUpSchema)\n- actions/updateProfile.ts (consumes UpdateProfileSchema)\n\n## Planned Changes (Phase 1)\n\n1. Replace all `.meta({ description })` uses in `lib/schemas/auth.schema.ts` with `.describe(\"...\")` so that schemas satisfy the repository rule requiring `.describe()`.\n2. Fix minor zod refine option shape (use `message:` instead of `error:`) for password confirmation.\n3. Leave existing schema filenames and exports intact (backward-compatible). Exported TS types remain available via `z.infer`.\n4. Add this plan file under `.opencode/commands/` to comply with the >7-file-change policy for subsequent multi-file work.\n\n## Exact patch snippets (to be applied)\n\n- lib/schemas/auth.schema.ts: replace `.meta({ description: \"...\" })` with `.describe(\"...\")` for all fields and update refine option to `{ message: \"...\", path: [...] }`.\n\n## Validation Steps\n\n1. Run `npm run format` (formats changed files).\n2. Run `npm run type-check` locally for the touched files.\n3. Run relevant unit tests for register/updateProfile if available (Vitest subset).\n\n## Branch & PR\n\n- Branch name: `feat/ui-refactor/schemas-phase1`.\n- PR labels: `type:refactor`, `area:ui`, `needs-plan-if>7`.\n- Default suggested reviewer: @you (per preference).\n\n## Rollback/Mitigation\n\n- Changes are limited and reversible. If issues are detected, revert the commit for `lib/schemas/auth.schema.ts` and re-open the plan.\n\n## Notes\n\n- This is Phase 1 only. Subsequent phases will be planned as separate, small PRs (<=7 files) and will reference this plan file."
@@ -368,7 +204,7 @@
       "template": "---\n\ntitle: Env Fix And Triage created-by: OpenCode agent summary: |- Triage verify-rules findings for environment variable usage and 'any' TypeScript warnings. Create a minimal plan for replacing direct process.env reads with the central app-config/lib/env helpers, apply a small safe fix for database/db.ts, and list follow-up tasks to remediate other top warnings.\n\ntasks:\n\n- id: triage-1 title: Prioritise process.env replacements description: |- Replace direct process.env usage in critical runtime code (database, lib) first. Defer script/tooling replacements to a secondary pass. Files to consider (top-ranked by occurrence):\n  - database/db.ts\n  - lib/env.ts (audit for deprecated direct process.env uses)\n  - scripts/\\* (seed, utils, generate) priority: high\n\n- id: fix-db-1 title: Replace process.env usage in database/db.ts description: |- Use app-config.getDatabaseUrl() to resolve DATABASE_URL with NEON_DATABASE_URL fallback instead of reading process.env directly. This is a small, low-risk change that reduces verify-rules warnings. priority: high\n\n- id: plan-for-large-changes title: Create plan for bulk changes description: |- Many warnings (no-any) are in UI components and tests. If we plan to touch >7 files, create a follow-up plan listing the exact files to modify. This plan should be added to .opencode/commands so verify-rules recognizes it. priority: medium\n\n- id: followup-1 title: Triage 'no-any' warnings description: |- Review the top components with 'any' usage and either add proper types or justify/skips via allowlist. priority: low\n\nnotes: | Created automatically by the agent as part of requested triage. This plan file references the change that will be applied immediately to database/db.ts. Create additional plans for any multi-file changes."
     },
     "ensure-plan-or-merge.plan": {
-      "template": "# Ensure Plan Or Merge\n\nLast Reviewed: 2026-04-17\n\n## Goals\n\n- Make the repository rule (\"When a task is expected to change more than 7 files, create a plan before implementation\") actionable and developer-friendly by:\n  1. Searching for existing plans that may already cover a large change.\n  2. Assisting the contributor to merge new context into an existing plan (interactive) or scaffold a new plan.\n  3. Providing a non-interactive \"build mode\" (CI) that checks for plan coverage and gives actionable feedback during a pilot rollout.\n\n## Scope\n\n- Authoritative docs to update (after plan review): AGENTS.md, .opencode/instructions/09-plan-file-standards.md, .opencode/instructions/00-task-sync-note.md.\n- Automation to add: scripts/plan-ensure.ts (TypeScript), extend scripts/verify-rules.ts with optional plan-check flag.\n- CI: add GitHub Actions job \"plan-check\" that runs plan-ensure in non-interactive CI mode (pilot: warning).\n- Tests: unit tests and integration tests for plan-ensure logic and verify-rules integration.\n\n## Trigger\n\n- The workflow is triggered when the set of changed files for a task/commit/PR is greater than 7 files (strictly > 7).\n\n## High-level behavior\n\n- Local interactive mode: identify changed files, search candidates, create merged draft or scaffold new plan, open editor for edits, run markdownlint.\n- CI mode: non-interactive; search for candidates and post PR comments with suggestions; pilot mode warns instead of blocking.\n\n## Implementation checklist\n\n- Add scripts/plan-ensure.ts\n- Add tests/unit/plan-ensure.\\*.test.ts\n- Add tests/integration/plan-check.ci.test.ts\n- Modify scripts/verify-rules.ts (add --require-plan-for-large-changes flag)\n- Modify package.json (add \"plan:ensure\" script)\n- Add GitHub Actions workflow .github/workflows/plan-check.yml\n- Update AGENTS.md and .opencode/instructions/09-plan-file-standards.md (after review)\n\n## Provenance\n\n- Created from repository review and user-approved design on 2026-04-17."
+      "template": "# Ensure Plan Or Merge\n\nLast Reviewed: 2026-04-17\n\n## Goals\n\n- Make the repository rule (\"When a task is expected to change more than 7 files, create a plan before implementation\") actionable and developer-friendly by:\n  1. Searching for existing plans that may already cover a large change.\n  2. Assisting the contributor to merge new context into an existing plan (interactive) or scaffold a new plan.\n  3. Providing a non-interactive \"build mode\" (CI) that checks for plan coverage and gives actionable feedback during a pilot rollout.\n\n## Scope\n\n- Authoritative docs to update (after plan review): AGENTS.md, .opencode/instructions/plan-workflow.md, .opencode/instructions/00-task-sync-note.md.\n- Automation to add: scripts/plan-ensure.ts (TypeScript), extend scripts/verify-rules.ts with optional plan-check flag.\n- CI: add GitHub Actions job \"plan-check\" that runs plan-ensure in non-interactive CI mode (pilot: warning).\n- Tests: unit tests and integration tests for plan-ensure logic and verify-rules integration.\n\n## Trigger\n\n- The workflow is triggered when the set of changed files for a task/commit/PR is greater than 7 files (strictly > 7).\n\n## High-level behavior\n\n- Local interactive mode: identify changed files, search candidates, create merged draft or scaffold new plan, open editor for edits, run markdownlint.\n- CI mode: non-interactive; search for candidates and post PR comments with suggestions; pilot mode warns instead of blocking.\n\n## Implementation checklist\n\n- Add scripts/plan-ensure.ts\n- Add tests/unit/plan-ensure.\\*.test.ts\n- Add tests/integration/plan-check.ci.test.ts\n- Modify scripts/verify-rules.ts (add --require-plan-for-large-changes flag)\n- Modify package.json (add \"plan:ensure\" script)\n- Add GitHub Actions workflow .github/workflows/plan-check.yml\n- Update AGENTS.md and .opencode/instructions/plan-workflow.md (after review)\n\n## Provenance\n\n- Created from repository review and user-approved design on 2026-04-17."
     },
     "enhance-rules.plan": {
       "template": "# Enhance Rules: verification script, CI, and local hooks\n\n## Goals\n\n- Add a standalone verification script to enforce rules that linters don't cover.\n- Integrate verification into CI (PRs) and add local husky pre-commit hooks.\n- Produce JSON reports and a console summary for triage.\n\n## Scope\n\n- New script: scripts/verify-rules.ts\n- Config: .opencode/verify-rules.config.json\n- package.json scripts and husky pre-commit\n- CI: .github/workflows/ci.yml job addition\n- Documentation: AGENTS.md update\n\n## Target Files\n\n- scripts/verify-rules.ts\n- .opencode/verify-rules.config.json\n- package.json\n- .github/workflows/ci.yml\n- .husky/pre-commit (added)\n- AGENTS.md (doc update)\n\n## Risks\n\n- New checks may reveal many existing violations; initial mode is warn-first to reduce friction.\n- Heuristics may produce false positives; allowlist and config exist to suppress known exceptions.\n\n## Planned Changes\n\n- Implement verify-rules.ts with checks for process.env, any, direct DB imports, server action heuristics, and Home static rule.\n- Add configuration file with default allowlist and severities.\n- Add npm scripts to run verification locally and in CI.\n- Add husky pre-commit to run quick staged checks.\n- Update CI workflow to run verify:rules on PRs (warn-first behavior).\n\n## Validation\n\n- Run `npm run verify:rules` locally and inspect .opencode/reports/rules-report.json.\n- Confirm CI job uploads the JSON artifact and returns warn/ok when only non-critical issues are found.\n\n## Rollback / Mitigation\n\n- If the checks are too noisy, change severities in .opencode/verify-rules.config.json to \"warn\" or add allowlist globs."
@@ -654,125 +490,20 @@
       "description": "Initialize project SKILL files from source code scan"
     }
   },
-  "watcher": {
-    "ignore": [
-      "node_modules",
-      ".next",
-      "dist",
-      ".git",
-      "*.log"
-    ]
-  },
+  "$schema": "https://opencode.ai/config.json",
   "autoupdate": true,
-  "model": "opencode/minimax-m2.5-free",
-  "mcp": {
-    "context7": {
-      "type": "remote",
-      "url": "https://mcp.context7.com/mcp"
-    },
-    "exa": {
-      "type": "remote",
-      "url": "https://mcp.exa.ai/mcp",
-      "enabled": true
-    },
-    "filesystem": {
-      "type": "local",
-      "command": [
-        "bunx",
-        "-y",
-        "@modelcontextprotocol/server-filesystem",
-        "~/"
-      ],
-      "enabled": true,
-      "timeout": 900000
-    },
-    "gh_grep": {
-      "type": "remote",
-      "url": "https://mcp.grep.app",
-      "enabled": true
-    },
-    "github-agentic-workflows": {
-      "type": "local",
-      "command": [
-        "bunx",
-        "-y",
-        "@modelcontextprotocol/server-github"
-      ],
-      "enabled": true,
-      "timeout": 900000
-    },
-    "hostinger": {
-      "type": "local",
-      "command": [
-        "bunx",
-        "-y",
-        "hostinger-api-mcp"
-      ],
-      "environment": {
-        "DEBUG": "false"
-      },
-      "timeout": 5000
-    },
-    "memory": {
-      "type": "local",
-      "command": [
-        "bunx",
-        "-y",
-        "@modelcontextprotocol/server-memory"
-      ],
-      "enabled": true,
-      "timeout": 900000
-    },
-    "next-devtools": {
-      "type": "local",
-      "command": [
-        "bunx",
-        "-y",
-        "next-devtools-mcp@latest"
-      ],
-      "enabled": true,
-      "timeout": 900000
-    },
-    "playwright": {
-      "type": "local",
-      "command": [
-        "bunx",
-        "-y",
-        "@playwright/mcp@latest"
-      ],
-      "enabled": true,
-      "timeout": 900000
-    },
-    "sequential-thinking": {
-      "type": "local",
-      "command": [
-        "bunx",
-        "-y",
-        "@modelcontextprotocol/server-sequential-thinking"
-      ],
-      "enabled": true,
-      "timeout": 900000
-    },
-    "shadcn": {
-      "type": "local",
-      "command": [
-        "bunx",
-        "shadcn@latest",
-        "mcp"
-      ],
-      "enabled": true,
-      "timeout": 900000
-    },
-    "youtube-transcript": {
-      "type": "local",
-      "command": [
-        "bunx",
-        "-y",
-        "@kimtaeyoon83/mcp-server-youtube-transcript"
-      ],
-      "enabled": true,
-      "timeout": 900000
-    }
+  "compaction": {
+    "auto": true
+  },
+  "experimental": {
+    "batch_tool": true,
+    "continue_loop_on_deny": true,
+    "disable_paste_summary": true,
+    "mcp_timeout": 6,
+    "openTelemetry": true,
+    "primary_tools": [
+      "compress"
+    ]
   },
   "instructions": [
     "../AGENTS.md",
@@ -785,19 +516,247 @@
     "../.cursorrules",
     "instructions/*.md"
   ],
-  "compaction": {
-    "auto": true
+  "mcp": {
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp"
+    },
+    "exa": {
+      "enabled": true,
+      "type": "remote",
+      "url": "https://mcp.exa.ai/mcp"
+    },
+    "filesystem": {
+      "command": [
+        "bunx",
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "~/"
+      ],
+      "enabled": true,
+      "timeout": 900000,
+      "type": "local"
+    },
+    "gh_grep": {
+      "enabled": true,
+      "type": "remote",
+      "url": "https://mcp.grep.app"
+    },
+    "github-agentic-workflows": {
+      "command": [
+        "bunx",
+        "-y",
+        "@modelcontextprotocol/server-github"
+      ],
+      "enabled": true,
+      "timeout": 900000,
+      "type": "local"
+    },
+    "hostinger": {
+      "command": [
+        "bunx",
+        "-y",
+        "hostinger-api-mcp"
+      ],
+      "environment": {
+        "DEBUG": "false"
+      },
+      "timeout": 5000,
+      "type": "local"
+    },
+    "memory": {
+      "command": [
+        "bunx",
+        "-y",
+        "@modelcontextprotocol/server-memory"
+      ],
+      "enabled": true,
+      "timeout": 900000,
+      "type": "local"
+    },
+    "next-devtools": {
+      "command": [
+        "bunx",
+        "-y",
+        "next-devtools-mcp@latest"
+      ],
+      "enabled": true,
+      "timeout": 900000,
+      "type": "local"
+    },
+    "playwright": {
+      "command": [
+        "bunx",
+        "-y",
+        "@playwright/mcp@latest"
+      ],
+      "enabled": true,
+      "timeout": 900000,
+      "type": "local"
+    },
+    "sequential-thinking": {
+      "command": [
+        "bunx",
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ],
+      "enabled": true,
+      "timeout": 900000,
+      "type": "local"
+    },
+    "shadcn": {
+      "command": [
+        "bunx",
+        "shadcn@latest",
+        "mcp"
+      ],
+      "enabled": true,
+      "timeout": 900000,
+      "type": "local"
+    },
+    "youtube-transcript": {
+      "command": [
+        "bunx",
+        "-y",
+        "@kimtaeyoon83/mcp-server-youtube-transcript"
+      ],
+      "enabled": true,
+      "timeout": 900000,
+      "type": "local"
+    }
   },
-  "experimental": {
-    "disable_paste_summary": true,
-    "batch_tool": true,
-    "openTelemetry": true,
-    "continue_loop_on_deny": true,
-    "mcp_timeout": 6,
-    "primary_tools": [
-      "compress"
+  "model": "opencode/minimax-m2.5-free",
+  "watcher": {
+    "ignore": [
+      "node_modules",
+      ".next",
+      "dist",
+      ".git",
+      "*.log"
     ]
   },
+  "plugin_origins": [
+    {
+      "spec": "opencode-handoff",
+      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
+      "scope": "local"
+    },
+    {
+      "spec": "opencode-beads",
+      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
+      "scope": "local"
+    },
+    {
+      "spec": "@tarquinen/opencode-dcp",
+      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
+      "scope": "local"
+    },
+    {
+      "spec": "@ramarivera/opencode-model-announcer",
+      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
+      "scope": "local"
+    },
+    {
+      "spec": "open-plan-annotator",
+      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
+      "scope": "local"
+    },
+    {
+      "spec": "opencode-ignore",
+      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
+      "scope": "local"
+    },
+    {
+      "spec": "opencode-synced",
+      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
+      "scope": "local"
+    },
+    {
+      "spec": "opencode-snippets",
+      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
+      "scope": "local"
+    },
+    {
+      "spec": "opencode-mystatus",
+      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
+      "scope": "local"
+    },
+    {
+      "spec": "@gotgenes/opencode-agent-identity",
+      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
+      "scope": "local"
+    },
+    {
+      "spec": "opencode-agent-memory",
+      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
+      "scope": "local"
+    },
+    {
+      "spec": "opencode-agent-skills",
+      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
+      "scope": "local"
+    },
+    {
+      "spec": "opencode-devcontainers",
+      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
+      "scope": "local"
+    },
+    {
+      "spec": "@zenobius/opencode-background",
+      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
+      "scope": "local"
+    },
+    {
+      "spec": "opencode-sessions",
+      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
+      "scope": "local"
+    },
+    {
+      "spec": "@franlol/opencode-md-table-formatter",
+      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
+      "scope": "local"
+    },
+    {
+      "spec": "@liannnix/opencode-ntfy",
+      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
+      "scope": "local"
+    },
+    {
+      "spec": "@howaboua/opencode-planning-toolkit",
+      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
+      "scope": "local"
+    },
+    {
+      "spec": "github:JRedeker/opencode-morph-fast-apply",
+      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
+      "scope": "local"
+    },
+    {
+      "spec": "opencode-mem",
+      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
+      "scope": "local"
+    },
+    {
+      "spec": "@slkiser/opencode-quota",
+      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
+      "scope": "local"
+    },
+    {
+      "spec": "smart-codebase",
+      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
+      "scope": "local"
+    },
+    {
+      "spec": "superpowers@git+https://github.com/obra/superpowers.git",
+      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
+      "scope": "local"
+    },
+    {
+      "spec": "octto",
+      "source": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
+      "scope": "local"
+    }
+  ],
   "username": "Alexa",
   "permission": {
     "compress": "allow"

@@ -1,7 +1,7 @@
 {
-  "changed": false,
-  "dedupedCount": 28,
-  "originalCount": 28,
   "projectConfig": "C:/Users/Alexa/Desktop/SandBox/Banking/aiconfig.json",
-  "removedPlugins": []
+  "originalCount": 24,
+  "dedupedCount": 24,
+  "removedPlugins": [],
+  "changed": false
 }
