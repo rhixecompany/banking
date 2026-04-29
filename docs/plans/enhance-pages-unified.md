@@ -1,7 +1,7 @@
 ---
 plan name: enhance-pages-unified
 plan description: Unified Pages & Scripts Enhancement
-plan status: active
+plan status: done
 ---
 
 ## Idea

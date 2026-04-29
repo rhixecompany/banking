@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-29T14:15:39.715Z",
+  "generatedAt": "2026-04-29T15:11:56.403Z",
   "results": [
     {
       "check": "process.env-usage",
@@ -903,6 +903,13 @@
     },
     {
       "check": "no-any",
+      "file": "tests/utils/serverWrapperTestUtils.ts",
+      "line": 27,
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
       "file": "tests/unit/auth-form.layout.test.tsx",
       "line": 21,
       "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
@@ -1051,13 +1058,6 @@
     {
       "check": "no-any",
       "file": "tests/unit/wallets-overview.test.tsx",
-      "line": 27,
-      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "tests/utils/serverWrapperTestUtils.ts",
       "line": 27,
       "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
       "severity": "warn"
@@ -1283,13 +1283,6 @@
     },
     {
       "check": "no-any",
-      "file": "app/api/dwolla/webhook/route.ts",
-      "line": 27,
-      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
       "file": "app/api/auth/local-create/route.ts",
       "line": 20,
       "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
@@ -1300,6 +1293,13 @@
       "file": "app/api/auth/local-validate/route.ts",
       "line": 20,
       "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "app/api/dwolla/webhook/route.ts",
+      "line": 27,
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
       "severity": "warn"
     }
   ]

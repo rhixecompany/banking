@@ -16,8 +16,8 @@
 - Unit tests: `bun run test:browser`
 - E2E tests: `bun run test:ui`
 - Full validation: `bun run validate`
-- Single Vitest file: `npm exec vitest run tests/path/to/file.test.ts --config=vitest.config.ts`
-- Single Playwright spec: `npx playwright test tests/e2e/path/to/spec.ts --project=chromium`
+- Single Vitest file: `bun exec vitest run tests/path/to/file.test.ts --config=vitest.config.ts`
+- Single Playwright spec: `bunx playwright test tests/e2e/path/to/spec.ts --project=chromium`
 
 ## Non-Obvious Workflow Rules
 
@@ -49,8 +49,8 @@ if ($pids) { $pids | ForEach-Object { Stop-Process -Id $_ -Force } }
 ```
 
 - `vitest.config.ts` only includes `tests/unit/**/*.test.{ts,tsx,js,jsx}`.
-- Playwright is stateful here: `workers: 1`, `fullyParallel: false`, and it starts the app through `npm run dev` from `playwright.config.ts`. Do not casually rewrite those script invocations to Bun without checking test behavior.
-- `bun run test:ui` sets `PLAYWRIGHT_PREPARE_DB=true`. `tests/e2e/global-setup.ts` will then run `npm run db:push` and `npm run db:seed -- --reset` if the DB is not prepared.
+- Playwright is stateful here: `workers: 1`, `fullyParallel: false`, and it starts the app through `bun run dev` from `playwright.config.ts`. Do not casually rewrite those script invocations to Bun without checking test behavior.
+- `bun run test:ui` sets `PLAYWRIGHT_PREPARE_DB=true`. `tests/e2e/global-setup.ts` will then run `bun run db:push` and `bun run db:seed -- --reset` if the DB is not prepared.
 - E2E requires a reachable Postgres `DATABASE_URL`, plus `ENCRYPTION_KEY` and `NEXTAUTH_SECRET`. Seeded auth uses `seed-user@example.com` / `password123`.
 
 ## Verification Order

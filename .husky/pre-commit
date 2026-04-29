@@ -2,5 +2,5 @@
 # .husky/pre-commit
 # Run staged lint-staged checks
 echo "Running Lint-staged checks..."
-#bun run lint-staged
+bun run lint-staged
 exit 0
