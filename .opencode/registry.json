@@ -1502,7 +1502,7 @@
     "scope": [
       "project"
     ],
-    "tagline": "Patterns for self-improvement through iterative evaluation and refinement.",
+    "tagline": "| Agent | Integration | Usage |",
     "tags": [
       "opencode",
       "skills"
@@ -1517,7 +1517,7 @@
     "scope": [
       "project"
     ],
-    "tagline": "Comprehensive authentication patterns for the Banking app using NextAuth v4 with JWT strategy.",
+    "tagline": "| Agent | Integration | Usage |",
     "tags": [
       "opencode",
       "skills"
@@ -1532,7 +1532,7 @@
     "scope": [
       "project"
     ],
-    "tagline": "Your job is to get this PR to a merge-ready state. This is a loop-based skill - you repeat the cycle until the PR is ...",
+    "tagline": "| Agent | Integration | Usage |",
     "tags": [
       "opencode",
       "skills"
@@ -1562,7 +1562,7 @@
     "scope": [
       "project"
     ],
-    "tagline": "You help users understand and map repositories by creating hierarchical codemaps.",
+    "tagline": "| Agent | Integration | Usage |",
     "tags": [
       "opencode",
       "skills"
@@ -1577,7 +1577,7 @@
     "scope": [
       "project"
     ],
-    "tagline": "**Role:** Principal Engineer for all **Internal Logic & Data Flow** — applies to backend, React components, hooks, st...",
+    "tagline": "| Agent | Integration | Usage |",
     "tags": [
       "opencode",
       "skills"
@@ -1592,7 +1592,7 @@
     "scope": [
       "project"
     ],
-    "tagline": "Systematic code review across 4 layers with severity classification. Only report findings with ≥80% confidence. Inclu...",
+    "tagline": "| Agent | Integration | Usage |",
     "tags": [
       "opencode",
       "skills"
@@ -1622,7 +1622,7 @@
     "scope": [
       "project"
     ],
-    "tagline": "This skill provides comprehensive guidelines for creating and managing Cursor hooks. It covers hook types, events, ma...",
+    "tagline": "| Agent | Integration | Usage |",
     "tags": [
       "opencode",
       "skills"
@@ -1637,7 +1637,7 @@
     "scope": [
       "project"
     ],
-    "tagline": "Create project rules in `.cursor/rules/` to provide persistent context for the AI agent.",
+    "tagline": "| Agent | Integration | Usage |",
     "tags": [
       "opencode",
       "skills"
@@ -1652,7 +1652,7 @@
     "scope": [
       "project"
     ],
-    "tagline": "This skill guides you through creating effective Agent Skills for Cursor. Skills are markdown files that teach the ag...",
+    "tagline": "| Agent | Integration | Usage |",
     "tags": [
       "opencode",
       "skills"
@@ -1667,7 +1667,7 @@
     "scope": [
       "project"
     ],
-    "tagline": "This skill guides you through creating custom subagents for Cursor. Subagents are specialized AI assistants that run ...",
+    "tagline": "| Agent | Integration | Usage |",
     "tags": [
       "opencode",
       "skills"
@@ -1682,7 +1682,7 @@
     "scope": [
       "project"
     ],
-    "tagline": "This skill provides comprehensive reference materials and best practices for creating web forms. It covers HTML synta...",
+    "tagline": "| Agent | Integration | Usage |",
     "tags": [
       "opencode",
       "skills"
@@ -1697,7 +1697,7 @@
     "scope": [
       "project"
     ],
-    "tagline": "The DAL (Data Access Layer) is the mandatory pattern for all database operations in the Banking app. All DB access mu...",
+    "tagline": "| Agent | Integration | Usage |",
     "tags": [
       "opencode",
       "skills"
@@ -1712,7 +1712,7 @@
     "scope": [
       "project"
     ],
-    "tagline": "This skill provides comprehensive guidance on Drizzle ORM patterns for the Banking project. It covers schema definiti...",
+    "tagline": "| Agent | Integration | Usage |",
     "tags": [
       "opencode",
       "skills"
@@ -1784,7 +1784,7 @@
     "scope": [
       "project"
     ],
-    "tagline": "An **agent user** is a specialized user identity in Microsoft Entra ID that enables AI agents to act as digital worke...",
+    "tagline": "| Agent | Usage |",
     "tags": [
       "opencode",
       "skills"
@@ -1901,7 +1901,7 @@
     "scope": [
       "project"
     ],
-    "tagline": "A meta-skill for creating new Agent Skills. Use this skill when you need to scaffold a new skill folder, generate a S...",
+    "tagline": "| Agent | Integration | Usage |",
     "tags": [
       "opencode",
       "skills"
@@ -2371,14 +2371,14 @@
     "type": "resources"
   },
   {
-    "description": "Instructions for implementing task plans with progressive tracking and change record - Brought to you by microsoft/edge-ai",
+    "description": "Instructions for implementing task plans with progressive tracking and change record",
     "displayName": "TaskImplementation.instructions",
     "productId": "TaskImplementation.instructions",
     "repoUrl": ".opencode\\instructions/",
     "scope": [
       "project"
     ],
-    "tagline": "You will implement your specific task plan located in `.copilot-tracking/plans/**` and `.copilot-tracking/details/**`...",
+    "tagline": "You will implement your specific task plan located in `.opencode/commands/**` and `docs/**`. Your goal is to progress...",
     "tags": [
       "opencode",
       "instructions"
@@ -2468,7 +2468,7 @@
     "scope": [
       "project"
     ],
-    "tagline": "Ensure documentation stays synchronized with code changes by automatically detecting when README.md,",
+    "tagline": "Ensure documentation stays synchronized with code changes by automatically detecting when README.md, API documentatio...",
     "tags": [
       "opencode",
       "instructions"

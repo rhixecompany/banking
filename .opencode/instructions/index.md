@@ -30,9 +30,9 @@ This file provides a unified index of all instruction files across the Banking p
 | philosophy.md | Load skills before implementation | high |
 | personas-list.md | Personas for plans and PRs | medium |
 | plan-workflow.md | Plan workflow standards | high |
-| morph-tools.md | morph_edit tool selection | high |
-
-| task-implementation.instructions.md | tasksync.instructions.md | update-docs-on-code-change.instructions.md
+| task-implementation.instructions.md | Instructions for implementing task plans with progressive tracking and change record | high |
+| tasksync.instructions.md | Allows you to give the agent new instructions or feedback after completing a task using terminal while agent is running | high |
+| update-docs-on-code-change.instructions.md | Automatically update README.md and documentation files when application code changes require documentation updates | high |
 
 ## .github/instructions/
 

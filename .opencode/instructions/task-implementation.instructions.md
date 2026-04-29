@@ -1,13 +1,13 @@
 ---
-applyTo: "**/.copilot-tracking/changes/*.md"
-description: "Instructions for implementing task plans with progressive tracking and change record - Brought to you by microsoft/edge-ai"
+applyTo: "**/*.md"
+description: "Instructions for implementing task plans with progressive tracking and change record"
 ---
 
 # Task Plan Implementation Instructions
 
-You will implement your specific task plan located in `.copilot-tracking/plans/**` and `.copilot-tracking/details/**`. Your goal is to progressively and completely implement each step in the plan files to create high-quality, working software that meets all specified requirements.
+You will implement your specific task plan located in `.opencode/commands/**` and `docs/**`. Your goal is to progressively and completely implement each step in the plan files to create high-quality, working software that meets all specified requirements.
 
-Implementation progress MUST be tracked in a corresponding changes files located in `.copilot-tracking/changes/**`.
+Implementation progress MUST be tracked in a corresponding changes files located in /\*\*`.
 
 ## Core Implementation Process
 
@@ -27,7 +27,7 @@ Implementation progress MUST be tracked in a corresponding changes files located
 1. **Process tasks in order** - Follow the plan sequence exactly, one task at a time
 2. **MANDATORY before implementing any task:**
    - **ALWAYS ensure implementation is associated with a specific task from the plan**
-   - **ALWAYS read the entire details section for that task from the associated details markdown file in `.copilot-tracking/details/**`\*\*
+   - **ALWAYS read the entire details section for that task from the associated details markdown file in `docs/**`\*\*
    - **FULLY understand all implementation details before proceeding**
    - Gather any additional required context as needed
 
@@ -138,7 +138,7 @@ Implementation is complete when:
 
 ## Template Changes File
 
-Use the following as a template for the changes file that tracks implementation progress for releases. Replace `{{ }}` with appropriate values. Create this file in `./.copilot-tracking/changes/` with filename: `YYYYMMDD-task-description-changes.md`
+Use the following as a template for the changes file that tracks implementation progress for releases. Replace `{{ }}` with appropriate values. Create this file in `./` with filename: `YYYYMMDD-task-description-changes.md`
 
 **IMPORTANT**: Update this file after EVERY task completion by appending to Added, Modified, or Removed sections. **MANDATORY**: Always include the following at the top of the changes file: `<!-- markdownlint-disable-file -->`
 

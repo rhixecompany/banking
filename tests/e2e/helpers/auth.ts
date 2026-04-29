@@ -43,6 +43,90 @@ export async function ensureAdminIsSeeded() {
  * Sign in with the seeded credentials. The app navigates directly to `/dashboard` after success.
  */
 export async function signInWithSeedUser(page: Page): Promise<void> {
+  const authResponses: Array<{
+    url: string;
+    status: number;
+    contentType: string | null;
+    bodyPreview: string;
+  }> = [];
+
+  const authRequests: Array<{
+    url: string;
+    method: string;
+    postDataPreview: string;
+    contentType: string | null;
+    csrfCookieTokenPartFromHeader: string | null;
+  }> = [];
+
+  const onResponse = async (resp: Parameters<Page["on"]>[1] extends (
+    event: "response",
+    listener: infer L,
+  ) => any
+    ? L
+    : never) => {
+    // Only capture NextAuth-related traffic to avoid log spam.
+    const url = resp.url();
+    if (!url.includes("/api/auth/")) return;
+
+    try {
+      const contentType = resp.headers()["content-type"] ?? null;
+      const text = await resp.text();
+      authResponses.push({
+        url,
+        status: resp.status(),
+        contentType,
+        bodyPreview: text.slice(0, 500),
+      });
+    } catch {
+      // Ignore response body read errors (e.g. already consumed/stream issues).
+      authResponses.push({
+        url,
+        status: resp.status(),
+        contentType: resp.headers()["content-type"] ?? null,
+        bodyPreview: "<unavailable>",
+      });
+    }
+  };
+
+  const onRequest = (req: Parameters<Page["on"]>[1] extends (
+    event: "request",
+    listener: infer L,
+  ) => any
+    ? L
+    : never) => {
+    const url = req.url();
+    if (!url.includes("/api/auth/")) return;
+
+    const headers = req.headers();
+
+    let csrfCookieTokenPartFromHeader: string | null = null;
+    if (url.includes("/api/auth/callback/credentials")) {
+      const cookieHeader = headers["cookie"];
+      if (cookieHeader) {
+        const match = cookieHeader.match(/(?:^|;\s*)next-auth\.csrf-token=([^;]+)/);
+        if (match?.[1]) {
+          try {
+            const decoded = decodeURIComponent(match[1]);
+            csrfCookieTokenPartFromHeader = decoded.split("|")[0] ?? null;
+          } catch {
+            csrfCookieTokenPartFromHeader = "<decode-failed>";
+          }
+        }
+      }
+    }
+
+    authRequests.push({
+      url,
+      method: req.method(),
+      contentType: headers["content-type"] ?? null,
+      postDataPreview: (req.postData() ?? "").slice(0, 800),
+      csrfCookieTokenPartFromHeader,
+    });
+  };
+
+  page.on("request", onRequest);
+  page.on("response", onResponse);
+
   await page.goto("/sign-in");
   await page.waitForLoadState("domcontentloaded");
 
@@ -51,14 +135,68 @@ export async function signInWithSeedUser(page: Page): Promise<void> {
   await page.getByPlaceholder(/enter your password/i).fill(SEED_USER.password);
   await page.getByRole("button", { name: /sign in/i }).click();
 
-  // Wait for navigation to dashboard after successful sign-in.
-  // Accept either the URL change OR a stable dashboard element.
   const timeout = 40_000;
-  await Promise.any([
-    page.waitForURL(/\/dashboard/, { timeout }),
-    page.getByRole("heading", { name: /dashboard/i }).waitFor({ timeout }),
-    page.getByRole("navigation").first().waitFor({ timeout }),
-  ]);
+
+  try {
+    // Fast-path: the app navigates to /dashboard after successful sign-in.
+    await page.waitForURL(/\/dashboard/, { timeout });
+    return;
+  } catch {
+    // Fall through to diagnostics.
+  } finally {
+    page.off("request", onRequest);
+    page.off("response", onResponse);
+  }
+
+  const toastTexts = await page
+    .locator("[data-sonner-toast]")
+    .allInnerTexts()
+    .catch(() => []);
+
+  const cookies = await page.context().cookies();
+  const cookieNames = cookies.map((c) => c.name).sort();
+  const authCookies = cookieNames.filter((n) => n.includes("next-auth"));
+
+  const csrfCookie = cookies.find((c) => c.name === "next-auth.csrf-token");
+  const decodedCsrfCookieValue = csrfCookie?.value
+    ? decodeURIComponent(csrfCookie.value)
+    : undefined;
+  const csrfCookieTokenPart = decodedCsrfCookieValue?.split("|")[0];
+  const csrfCookiePreview = decodedCsrfCookieValue
+    ? `${csrfCookieTokenPart ?? ""}|<hash>`
+    : undefined;
+
+  // Include the last few auth responses (most recent are usually most relevant).
+  const recentAuthResponses = authResponses.slice(-5);
+  const recentAuthRequests = authRequests.slice(-8);
+
+  throw new Error(
+    [
+      `Seed user sign-in did not reach /dashboard within ${timeout}ms.`,
+      `Current URL: ${page.url()}`,
+      `Auth cookies present: ${authCookies.length ? authCookies.join(", ") : "<none>"}`,
+      `CSRF cookie token part: ${csrfCookieTokenPart ?? "<none>"}`,
+      `CSRF cookie preview: ${csrfCookiePreview ?? "<none>"}`,
+      `Sonner toasts: ${toastTexts.length ? toastTexts.join(" | ") : "<none>"}`,
+      `Recent /api/auth responses: ${recentAuthResponses.length ? "" : "<none>"}`,
+      ...recentAuthResponses.map((r) =>
+        [
+          `- ${r.status} ${r.url}`,
+          `  content-type: ${r.contentType ?? "<none>"}`,
+          `  body: ${r.bodyPreview.replaceAll("\n", " ")}`,
+        ].join("\n"),
+      ),
+      `Recent /api/auth requests: ${recentAuthRequests.length ? "" : "<none>"}`,
+      ...recentAuthRequests.map((r) =>
+        [
+          `- ${r.method} ${r.url}`,
+          `  content-type: ${r.contentType ?? "<none>"}`,
+          `  csrfCookieTokenPart(from header): ${r.csrfCookieTokenPartFromHeader ?? "<none>"}`,
+          `  postData: ${r.postDataPreview.replaceAll("\n", " ") || "<none>"}`,
+        ].join("\n"),
+      ),
+    ].join("\n"),
+  );
 }
 
 // NOTE: This helper deliberately keeps hard-coded seed credentials for E2E

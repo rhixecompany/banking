@@ -2,29 +2,36 @@
   "$schema": "https://opencode.ai/config.json",
   "agent": {
     "build": {
-      "model": "opencode/minimax-m2.5-free"
+      "model": "opencode/minimax-m2.5-free",
+      "variant": "high"
     },
     "compaction": {
-      "model": "opencode/minimax-m2.5-free"
+      "model": "opencode/minimax-m2.5-free",
+      "variant": "high"
     },
     "explore": {
-      "model": "opencode/minimax-m2.5-free"
+      "model": "opencode/minimax-m2.5-free",
+      "variant": "high"
     },
     "general": {
-      "model": "opencode/minimax-m2.5-free"
+      "model": "opencode/minimax-m2.5-free",
+      "variant": "high"
     },
-    "Octto": {
-      "model": "opencode/minimax-m2.5-free"
+    "octto": {
+      "model": "opencode/minimax-m2.5-free",
+      "variant": "high"
     },
     "plan": {
-      "model": "github-copilot/gpt-5-mini",
+      "model": "opencode/minimax-m2.5-free",
       "variant": "high"
     },
     "summary": {
-      "model": "opencode/minimax-m2.5-free"
+      "model": "opencode/minimax-m2.5-free",
+      "variant": "high"
     },
     "title": {
-      "model": "opencode/minimax-m2.5-free"
+      "model": "opencode/minimax-m2.5-free",
+      "variant": "high"
     }
   },
   "autoupdate": true,
@@ -169,7 +176,6 @@
     "@franlol/opencode-md-table-formatter",
     "@liannnix/opencode-ntfy",
     "@howaboua/opencode-planning-toolkit",
-    "github:JRedeker/opencode-morph-fast-apply",
     "opencode-mem",
     "@slkiser/opencode-quota",
     "smart-codebase",
