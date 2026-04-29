@@ -63,3 +63,5 @@ opencode plugin opencode-handoff
                      opencode plugin @howaboua/opencode-planning-toolkit
 
  opencode plugin micode
+
+list,triage and read  .opencode\agent\*.md files the identify any inconsitency with the repo fix all then enhance them for the repo
