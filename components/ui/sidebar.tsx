@@ -25,122 +25,25 @@ import {
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @type {"sidebar_state"}
- */
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @type {number}
- */
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @type {"16rem"}
- */
 const SIDEBAR_WIDTH = "16rem";
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @type {"18rem"}
- */
 const SIDEBAR_WIDTH_MOBILE = "18rem";
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @type {"3rem"}
- */
 const SIDEBAR_WIDTH_ICON = "3rem";
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @type {"b"}
- */
 const SIDEBAR_KEYBOARD_SHORTCUT = "b";
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @interface SidebarContextProps
- * @typedef {SidebarContextProps}
- */
-interface SidebarContextProps {
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {("collapsed" | "expanded")}
-   */
-  state: "collapsed" | "expanded";
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {boolean}
-   */
+type SidebarContextProps = {
+  state: "expanded" | "collapsed";
   open: boolean;
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {(open: boolean) => void}
-   */
   setOpen: (open: boolean) => void;
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {boolean}
-   */
   openMobile: boolean;
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {(open: boolean) => void}
-   */
   setOpenMobile: (open: boolean) => void;
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {boolean}
-   */
   isMobile: boolean;
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {() => void}
-   */
   toggleSidebar: () => void;
-}
+};
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @type {*}
- */
-const SidebarContext = React.createContext<null | SidebarContextProps>(null);
+const SidebarContext = React.createContext<SidebarContextProps | null>(null);
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @returns {*}
- */
 function useSidebar() {
   const context = React.useContext(SidebarContext);
   if (!context) {
@@ -150,37 +53,19 @@ function useSidebar() {
   return context;
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {({
- *   defaultOpen?: boolean;
- *   open?: boolean;
- *   onOpenChange?: (open: boolean) => void;
- * } & React.ComponentProps<"div">)} param0
- * @param {*} param0.children
- * @param {*} param0.className
- * @param {*} [param0.defaultOpen=true]
- * @param {*} param0.onOpenChange: setOpenProp
- * @param {*} param0.open: openProp
- * @param {*} param0.style
- * @param {*} param0....props
- * @returns {ReactJSX.Element}
- */
 function SidebarProvider({
-  children,
-  className,
   defaultOpen = true,
-  onOpenChange: setOpenProp,
   open: openProp,
+  onOpenChange: setOpenProp,
+  className,
   style,
+  children,
   ...props
-}: {
+}: React.ComponentProps<"div"> & {
   defaultOpen?: boolean;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
-} & React.ComponentProps<"div">) {
+}) {
   const isMobile = useIsMobile();
   const [openMobile, setOpenMobile] = React.useState(false);
 
@@ -189,7 +74,7 @@ function SidebarProvider({
   const [_open, _setOpen] = React.useState(defaultOpen);
   const open = openProp ?? _open;
   const setOpen = React.useCallback(
-    (value: ((value: boolean) => boolean) | boolean) => {
+    (value: boolean | ((value: boolean) => boolean)) => {
       const openState = typeof value === "function" ? value(open) : value;
       if (setOpenProp) {
         setOpenProp(openState);
@@ -230,12 +115,12 @@ function SidebarProvider({
 
   const contextValue = React.useMemo<SidebarContextProps>(
     () => ({
-      isMobile,
-      open,
-      openMobile,
-      setOpen,
-      setOpenMobile,
       state,
+      open,
+      setOpen,
+      isMobile,
+      openMobile,
+      setOpenMobile,
       toggleSidebar,
     }),
     [state, open, setOpen, isMobile, openMobile, setOpenMobile, toggleSidebar],
@@ -266,36 +151,19 @@ function SidebarProvider({
   );
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {({
- *   side?: "left" | "right";
- *   variant?: "floating" | "inset" | "sidebar";
- *   collapsible?: "icon" | "none" | "offcanvas";
- * } & React.ComponentProps<"div">)} param0
- * @param {*} param0.children
- * @param {*} param0.className
- * @param {*} [param0.collapsible="offcanvas"]
- * @param {*} [param0.side="left"]
- * @param {*} [param0.variant="sidebar"]
- * @param {*} param0....props
- * @returns {ReactJSX.Element}
- */
 function Sidebar({
-  children,
-  className,
-  collapsible = "offcanvas",
   side = "left",
   variant = "sidebar",
+  collapsible = "offcanvas",
+  className,
+  children,
   ...props
-}: {
+}: React.ComponentProps<"div"> & {
   side?: "left" | "right";
-  variant?: "floating" | "inset" | "sidebar";
-  collapsible?: "icon" | "none" | "offcanvas";
-} & React.ComponentProps<"div">) {
-  const { isMobile, openMobile, setOpenMobile, state } = useSidebar();
+  variant?: "sidebar" | "floating" | "inset";
+  collapsible?: "offcanvas" | "icon" | "none";
+}) {
+  const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
 
   if (collapsible === "none") {
     return (
@@ -331,7 +199,7 @@ function Sidebar({
             <SheetTitle>Sidebar</SheetTitle>
             <SheetDescription>Displays the mobile sidebar.</SheetDescription>
           </SheetHeader>
-          <div className="flex size-full  flex-col">{children}</div>
+          <div className="flex h-full w-full flex-col">{children}</div>
         </SheetContent>
       </Sheet>
     );
@@ -376,7 +244,7 @@ function Sidebar({
         <div
           data-sidebar="sidebar"
           data-slot="sidebar-inner"
-          className="flex size-full  flex-col bg-sidebar group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:border-sidebar-border group-data-[variant=floating]:shadow-sm"
+          className="flex h-full w-full flex-col bg-sidebar group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:border-sidebar-border group-data-[variant=floating]:shadow-sm"
         >
           {children}
         </div>
@@ -385,16 +253,6 @@ function Sidebar({
   );
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {React.ComponentProps<typeof Button>} param0
- * @param {React.ComponentProps<any>} param0.className
- * @param {React.ComponentProps<any>} param0.onClick
- * @param {React.ComponentProps<any>} param0....props
- * @returns {ReactJSX.Element}
- */
 function SidebarTrigger({
   className,
   onClick,
@@ -421,15 +279,6 @@ function SidebarTrigger({
   );
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {React.ComponentProps<"button">} param0
- * @param {React.ComponentProps<"button">} param0.className
- * @param {React.ComponentProps<"button">} param0....props
- * @returns {ReactJSX.Element}
- */
 function SidebarRail({ className, ...props }: React.ComponentProps<"button">) {
   const { toggleSidebar } = useSidebar();
 
@@ -442,10 +291,10 @@ function SidebarRail({ className, ...props }: React.ComponentProps<"button">) {
       onClick={toggleSidebar}
       title="Toggle Sidebar"
       className={cn(
-        "absolute inset-y-0 z-20 hidden w-4 -translate-x-1/2 transition-all ease-linear group-data-[side=left]:-right-4 group-data-[side=right]:left-0 after:absolute after:inset-y-0 after:start-1/2 after:w-[2px] hover:after:bg-sidebar-border sm:flex rtl:translate-x-1/2",
-        "in-data-[side=left]:cursor-w-resize in-data-[side=right]:cursor-e-resize rtl:in-data-[side=left]:cursor-e-resize rtl:in-data-[side=right]:cursor-w-resize",
+        "absolute inset-y-0 z-20 hidden w-4 -translate-x-1/2 rtl:translate-x-1/2 transition-all ease-linear group-data-[side=left]:-right-4 group-data-[side=right]:left-0 after:absolute after:inset-y-0 after:start-1/2 after:w-[2px] hover:after:bg-sidebar-border sm:flex",
+        "in-data-[side=left]:cursor-w-resize rtl:in-data-[side=left]:cursor-e-resize in-data-[side=right]:cursor-e-resize rtl:in-data-[side=right]:cursor-w-resize",
         "[[data-side=left][data-state=collapsed]_&]:cursor-e-resize rtl:[[data-side=left][data-state=collapsed]_&]:cursor-w-resize [[data-side=right][data-state=collapsed]_&]:cursor-w-resize rtl:[[data-side=right][data-state=collapsed]_&]:cursor-e-resize",
-        "group-data-[collapsible=offcanvas]:translate-x-0 group-data-[collapsible=offcanvas]:after:start-full hover:group-data-[collapsible=offcanvas]:bg-sidebar rtl:group-data-[collapsible=offcanvas]:-translate-x-0",
+        "group-data-[collapsible=offcanvas]:translate-x-0 rtl:group-data-[collapsible=offcanvas]:-translate-x-0 group-data-[collapsible=offcanvas]:after:start-full hover:group-data-[collapsible=offcanvas]:bg-sidebar",
         "[[data-side=left][data-collapsible=offcanvas]_&]:-end-2",
         "[[data-side=right][data-collapsible=offcanvas]_&]:-start-2",
         className,
@@ -455,15 +304,6 @@ function SidebarRail({ className, ...props }: React.ComponentProps<"button">) {
   );
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {React.ComponentProps<"main">} param0
- * @param {React.ComponentProps<"main">} param0.className
- * @param {React.ComponentProps<"main">} param0....props
- * @returns {ReactJSX.Element}
- */
 function SidebarInset({ className, ...props }: React.ComponentProps<"main">) {
   return (
     <main
@@ -478,15 +318,6 @@ function SidebarInset({ className, ...props }: React.ComponentProps<"main">) {
   );
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {React.ComponentProps<typeof Input>} param0
- * @param {React.ComponentProps<any>} param0.className
- * @param {React.ComponentProps<any>} param0....props
- * @returns {ReactJSX.Element}
- */
 function SidebarInput({
   className,
   ...props
@@ -501,15 +332,6 @@ function SidebarInput({
   );
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {React.ComponentProps<"div">} param0
- * @param {React.ComponentProps<"div">} param0.className
- * @param {React.ComponentProps<"div">} param0....props
- * @returns {ReactJSX.Element}
- */
 function SidebarHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -521,15 +343,6 @@ function SidebarHeader({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {React.ComponentProps<"div">} param0
- * @param {React.ComponentProps<"div">} param0.className
- * @param {React.ComponentProps<"div">} param0....props
- * @returns {ReactJSX.Element}
- */
 function SidebarFooter({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -541,15 +354,6 @@ function SidebarFooter({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {React.ComponentProps<typeof Separator>} param0
- * @param {React.ComponentProps<any>} param0.className
- * @param {React.ComponentProps<any>} param0....props
- * @returns {ReactJSX.Element}
- */
 function SidebarSeparator({
   className,
   ...props
@@ -564,15 +368,6 @@ function SidebarSeparator({
   );
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {React.ComponentProps<"div">} param0
- * @param {React.ComponentProps<"div">} param0.className
- * @param {React.ComponentProps<"div">} param0....props
- * @returns {ReactJSX.Element}
- */
 function SidebarContent({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -587,15 +382,6 @@ function SidebarContent({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {React.ComponentProps<"div">} param0
- * @param {React.ComponentProps<"div">} param0.className
- * @param {React.ComponentProps<"div">} param0....props
- * @returns {ReactJSX.Element}
- */
 function SidebarGroup({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -607,21 +393,11 @@ function SidebarGroup({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {({ asChild?: boolean } & React.ComponentProps<"div">)} param0
- * @param {*} [param0.asChild=false]
- * @param {*} param0.className
- * @param {*} param0....props
- * @returns {ReactJSX.Element}
- */
 function SidebarGroupLabel({
-  asChild = false,
   className,
+  asChild = false,
   ...props
-}: { asChild?: boolean } & React.ComponentProps<"div">) {
+}: React.ComponentProps<"div"> & { asChild?: boolean }) {
   const Comp = asChild ? Slot.Root : "div";
 
   return (
@@ -638,21 +414,11 @@ function SidebarGroupLabel({
   );
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {({ asChild?: boolean } & React.ComponentProps<"button">)} param0
- * @param {*} [param0.asChild=false]
- * @param {*} param0.className
- * @param {*} param0....props
- * @returns {ReactJSX.Element}
- */
 function SidebarGroupAction({
-  asChild = false,
   className,
+  asChild = false,
   ...props
-}: { asChild?: boolean } & React.ComponentProps<"button">) {
+}: React.ComponentProps<"button"> & { asChild?: boolean }) {
   const Comp = asChild ? Slot.Root : "button";
 
   return (
@@ -660,7 +426,7 @@ function SidebarGroupAction({
       data-slot="sidebar-group-action"
       data-sidebar="group-action"
       className={cn(
-        "absolute end-3 top-3.5 flex aspect-square w-5 items-center justify-center rounded-md p-0 text-sidebar-foreground ring-sidebar-ring outline-hidden transition-transform hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
+        "absolute top-3.5 end-3 flex aspect-square w-5 items-center justify-center rounded-md p-0 text-sidebar-foreground ring-sidebar-ring outline-hidden transition-transform hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
         // Increases the hit area of the button on mobile.
         "after:absolute after:-inset-2 md:after:hidden",
         "group-data-[collapsible=icon]:hidden",
@@ -671,15 +437,6 @@ function SidebarGroupAction({
   );
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {React.ComponentProps<"div">} param0
- * @param {React.ComponentProps<"div">} param0.className
- * @param {React.ComponentProps<"div">} param0....props
- * @returns {ReactJSX.Element}
- */
 function SidebarGroupContent({
   className,
   ...props
@@ -694,15 +451,6 @@ function SidebarGroupContent({
   );
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {React.ComponentProps<"ul">} param0
- * @param {React.ComponentProps<"ul">} param0.className
- * @param {React.ComponentProps<"ul">} param0....props
- * @returns {ReactJSX.Element}
- */
 function SidebarMenu({ className, ...props }: React.ComponentProps<"ul">) {
   return (
     <ul
@@ -714,15 +462,6 @@ function SidebarMenu({ className, ...props }: React.ComponentProps<"ul">) {
   );
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {React.ComponentProps<"li">} param0
- * @param {React.ComponentProps<"li">} param0.className
- * @param {React.ComponentProps<"li">} param0....props
- * @returns {ReactJSX.Element}
- */
 function SidebarMenuItem({ className, ...props }: React.ComponentProps<"li">) {
   return (
     <li
@@ -734,67 +473,41 @@ function SidebarMenuItem({ className, ...props }: React.ComponentProps<"li">) {
   );
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @type {*}
- */
 const sidebarMenuButtonVariants = cva(
   "peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-start text-sm ring-sidebar-ring outline-hidden transition-[width,height,padding] group-has-data-[sidebar=menu-action]/menu-item:pe-8 group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
   {
-    defaultVariants: {
-      size: "default",
-      variant: "default",
-    },
     variants: {
-      size: {
-        default: "h-8 text-sm",
-        lg: "h-12 text-sm group-data-[collapsible=icon]:p-0!",
-        sm: "h-7 text-xs",
-      },
       variant: {
         default: "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
         outline:
           "bg-background shadow-[0_0_0_1px_hsl(var(--sidebar-border))] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground hover:shadow-[0_0_0_1px_hsl(var(--sidebar-accent))]",
       },
+      size: {
+        default: "h-8 text-sm",
+        sm: "h-7 text-xs",
+        lg: "h-12 text-sm group-data-[collapsible=icon]:p-0!",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
     },
   },
 );
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {{
- *   asChild?: boolean;
- *   isActive?: boolean;
- *   tooltip?: React.ComponentProps<typeof TooltipContent> | string;
- * } & React.ComponentProps<"button"> &
- *   VariantProps<typeof sidebarMenuButtonVariants>} param0
- * @param {*} [param0.asChild=false]
- * @param {*} param0.className
- * @param {*} [param0.isActive=false]
- * @param {*} [param0.size="default"]
- * @param {*} param0.tooltip
- * @param {*} [param0.variant="default"]
- * @param {*} param0....props
- * @returns {ReactJSX.Element}
- */
 function SidebarMenuButton({
   asChild = false,
-  className,
   isActive = false,
+  variant = "default",
   size = "default",
   tooltip,
-  variant = "default",
+  className,
   ...props
-}: {
+}: React.ComponentProps<"button"> & {
   asChild?: boolean;
   isActive?: boolean;
-  tooltip?: React.ComponentProps<typeof TooltipContent> | string;
-} & React.ComponentProps<"button"> &
-  VariantProps<typeof sidebarMenuButtonVariants>) {
+  tooltip?: string | React.ComponentProps<typeof TooltipContent>;
+} & VariantProps<typeof sidebarMenuButtonVariants>) {
   const Comp = asChild ? Slot.Root : "button";
   const { isMobile, state } = useSidebar();
 
@@ -804,7 +517,7 @@ function SidebarMenuButton({
       data-sidebar="menu-button"
       data-size={size}
       data-active={isActive}
-      className={cn(sidebarMenuButtonVariants({ size, variant }), className)}
+      className={cn(sidebarMenuButtonVariants({ variant, size }), className)}
       {...props}
     />
   );
@@ -832,29 +545,15 @@ function SidebarMenuButton({
   );
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {({
- *   asChild?: boolean;
- *   showOnHover?: boolean;
- * } & React.ComponentProps<"button">)} param0
- * @param {*} [param0.asChild=false]
- * @param {*} param0.className
- * @param {*} [param0.showOnHover=false]
- * @param {*} param0....props
- * @returns {ReactJSX.Element}
- */
 function SidebarMenuAction({
-  asChild = false,
   className,
+  asChild = false,
   showOnHover = false,
   ...props
-}: {
+}: React.ComponentProps<"button"> & {
   asChild?: boolean;
   showOnHover?: boolean;
-} & React.ComponentProps<"button">) {
+}) {
   const Comp = asChild ? Slot.Root : "button";
 
   return (
@@ -862,7 +561,7 @@ function SidebarMenuAction({
       data-slot="sidebar-menu-action"
       data-sidebar="menu-action"
       className={cn(
-        "absolute end-1 top-1.5 flex aspect-square w-5 items-center justify-center rounded-md p-0 text-sidebar-foreground ring-sidebar-ring outline-hidden transition-transform peer-hover/menu-button:text-sidebar-accent-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
+        "absolute top-1.5 end-1 flex aspect-square w-5 items-center justify-center rounded-md p-0 text-sidebar-foreground ring-sidebar-ring outline-hidden transition-transform peer-hover/menu-button:text-sidebar-accent-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
         // Increases the hit area of the button on mobile.
         "after:absolute after:-inset-2 md:after:hidden",
         "peer-data-[size=sm]/menu-button:top-1",
@@ -878,15 +577,6 @@ function SidebarMenuAction({
   );
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {React.ComponentProps<"div">} param0
- * @param {React.ComponentProps<"div">} param0.className
- * @param {React.ComponentProps<"div">} param0....props
- * @returns {ReactJSX.Element}
- */
 function SidebarMenuBadge({
   className,
   ...props
@@ -909,25 +599,13 @@ function SidebarMenuBadge({
   );
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {({
- *   showIcon?: boolean;
- * } & React.ComponentProps<"div">)} param0
- * @param {*} param0.className
- * @param {*} [param0.showIcon=false]
- * @param {*} param0....props
- * @returns {ReactJSX.Element}
- */
 function SidebarMenuSkeleton({
   className,
   showIcon = false,
   ...props
-}: {
+}: React.ComponentProps<"div"> & {
   showIcon?: boolean;
-} & React.ComponentProps<"div">) {
+}) {
   // Random width between 50 to 90%.
   const width = React.useMemo(() => {
     return `${Math.floor(Math.random() * 40) + 50}%`;
@@ -959,22 +637,13 @@ function SidebarMenuSkeleton({
   );
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {React.ComponentProps<"ul">} param0
- * @param {React.ComponentProps<"ul">} param0.className
- * @param {React.ComponentProps<"ul">} param0....props
- * @returns {ReactJSX.Element}
- */
 function SidebarMenuSub({ className, ...props }: React.ComponentProps<"ul">) {
   return (
     <ul
       data-slot="sidebar-menu-sub"
       data-sidebar="menu-sub"
       className={cn(
-        "mx-3.5 flex min-w-0 translate-x-px flex-col gap-1 border-s border-sidebar-border px-2.5 py-0.5 rtl:-translate-x-px",
+        "mx-3.5 flex min-w-0 translate-x-px rtl:-translate-x-px flex-col gap-1 border-s border-sidebar-border px-2.5 py-0.5",
         "group-data-[collapsible=icon]:hidden",
         className,
       )}
@@ -983,15 +652,6 @@ function SidebarMenuSub({ className, ...props }: React.ComponentProps<"ul">) {
   );
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {React.ComponentProps<"li">} param0
- * @param {React.ComponentProps<"li">} param0.className
- * @param {React.ComponentProps<"li">} param0....props
- * @returns {ReactJSX.Element}
- */
 function SidebarMenuSubItem({
   className,
   ...props
@@ -1006,33 +666,17 @@ function SidebarMenuSubItem({
   );
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {({
- *   asChild?: boolean;
- *   size?: "md" | "sm";
- *   isActive?: boolean;
- * } & React.ComponentProps<"a">)} param0
- * @param {*} [param0.asChild=false]
- * @param {*} param0.className
- * @param {*} [param0.isActive=false]
- * @param {*} [param0.size="md"]
- * @param {*} param0....props
- * @returns {ReactJSX.Element}
- */
 function SidebarMenuSubButton({
   asChild = false,
-  className,
-  isActive = false,
   size = "md",
+  isActive = false,
+  className,
   ...props
-}: {
+}: React.ComponentProps<"a"> & {
   asChild?: boolean;
-  size?: "md" | "sm";
+  size?: "sm" | "md";
   isActive?: boolean;
-} & React.ComponentProps<"a">) {
+}) {
   const Comp = asChild ? Slot.Root : "a";
 
   return (
@@ -1042,7 +686,7 @@ function SidebarMenuSubButton({
       data-size={size}
       data-active={isActive}
       className={cn(
-        "flex h-7 min-w-0 -translate-x-px items-center gap-2 overflow-hidden rounded-md px-2 text-sidebar-foreground ring-sidebar-ring outline-hidden hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 rtl:translate-x-px [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:text-sidebar-accent-foreground",
+        "flex h-7 min-w-0 -translate-x-px rtl:translate-x-px items-center gap-2 overflow-hidden rounded-md px-2 text-sidebar-foreground ring-sidebar-ring outline-hidden hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:text-sidebar-accent-foreground",
         "data-[active=true]:bg-sidebar-accent data-[active=true]:text-sidebar-accent-foreground",
         size === "sm" && "text-xs",
         size === "md" && "text-sm",

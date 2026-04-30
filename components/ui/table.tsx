@@ -4,15 +4,6 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {React.ComponentProps<"table">} param0
- * @param {React.ComponentProps<"table">} param0.className
- * @param {React.ComponentProps<"table">} param0....props
- * @returns {ReactJSX.Element}
- */
 function Table({ className, ...props }: React.ComponentProps<"table">) {
   return (
     <div
@@ -28,15 +19,6 @@ function Table({ className, ...props }: React.ComponentProps<"table">) {
   );
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {React.ComponentProps<"thead">} param0
- * @param {React.ComponentProps<"thead">} param0.className
- * @param {React.ComponentProps<"thead">} param0....props
- * @returns {ReactJSX.Element}
- */
 function TableHeader({ className, ...props }: React.ComponentProps<"thead">) {
   return (
     <thead
@@ -47,15 +29,6 @@ function TableHeader({ className, ...props }: React.ComponentProps<"thead">) {
   );
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {React.ComponentProps<"tbody">} param0
- * @param {React.ComponentProps<"tbody">} param0.className
- * @param {React.ComponentProps<"tbody">} param0....props
- * @returns {ReactJSX.Element}
- */
 function TableBody({ className, ...props }: React.ComponentProps<"tbody">) {
   return (
     <tbody
@@ -66,15 +39,6 @@ function TableBody({ className, ...props }: React.ComponentProps<"tbody">) {
   );
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {React.ComponentProps<"tfoot">} param0
- * @param {React.ComponentProps<"tfoot">} param0.className
- * @param {React.ComponentProps<"tfoot">} param0....props
- * @returns {ReactJSX.Element}
- */
 function TableFooter({ className, ...props }: React.ComponentProps<"tfoot">) {
   return (
     <tfoot
@@ -88,15 +52,6 @@ function TableFooter({ className, ...props }: React.ComponentProps<"tfoot">) {
   );
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {React.ComponentProps<"tr">} param0
- * @param {React.ComponentProps<"tr">} param0.className
- * @param {React.ComponentProps<"tr">} param0....props
- * @returns {ReactJSX.Element}
- */
 function TableRow({ className, ...props }: React.ComponentProps<"tr">) {
   return (
     <tr
@@ -110,15 +65,6 @@ function TableRow({ className, ...props }: React.ComponentProps<"tr">) {
   );
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {React.ComponentProps<"th">} param0
- * @param {React.ComponentProps<"th">} param0.className
- * @param {React.ComponentProps<"th">} param0....props
- * @returns {ReactJSX.Element}
- */
 function TableHead({ className, ...props }: React.ComponentProps<"th">) {
   return (
     <th
@@ -132,15 +78,6 @@ function TableHead({ className, ...props }: React.ComponentProps<"th">) {
   );
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {React.ComponentProps<"td">} param0
- * @param {React.ComponentProps<"td">} param0.className
- * @param {React.ComponentProps<"td">} param0....props
- * @returns {ReactJSX.Element}
- */
 function TableCell({ className, ...props }: React.ComponentProps<"td">) {
   return (
     <td
@@ -154,15 +91,6 @@ function TableCell({ className, ...props }: React.ComponentProps<"td">) {
   );
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {React.ComponentProps<"caption">} param0
- * @param {React.ComponentProps<"caption">} param0.className
- * @param {React.ComponentProps<"caption">} param0....props
- * @returns {ReactJSX.Element}
- */
 function TableCaption({
   className,
   ...props

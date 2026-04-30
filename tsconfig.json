@@ -38,6 +38,7 @@
     "strict": true,
     "target": "es2025",
     "types": [
+      "bun",
       "node",
       "react",
       "react-dom",

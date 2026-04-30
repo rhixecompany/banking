@@ -2,8 +2,36 @@ import CtaGetStarted from "@/components/layouts/cta-get-started";
 import FeaturesGrid from "@/components/layouts/features-grid";
 import HomeFooter from "@/components/layouts/home-footer";
 import TotalBalanceLayout from "@/components/layouts/total-balance";
-import HeroSection from "@/components/shadcn-studio/blocks/hero-section-41/hero-section-41";
+import HeroSection, {
+  type MenuData,
+} from "@/components/shadcn-studio/blocks/hero-section-41/hero-section-41";
 import { Container } from "@/components/ui/container";
+
+const sampleMenudata: MenuData[] = [
+  {
+    id: 1,
+    img: "https://cdn.shadcnstudio.com/ss-assets/template/landing-page/bistro/image-18.png",
+    imgAlt: "plate-1",
+    userAvatar: "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-56.png",
+    userComment:
+      "The ambiance is perfect and the food is absolutely delicious.",
+  },
+  {
+    id: 2,
+    img: "https://cdn.shadcnstudio.com/ss-assets/template/landing-page/bistro/image-19.png",
+    imgAlt: "plate-2",
+    userAvatar: "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-46.png",
+    userComment: "Best dining experience in town. The staff is friendly.",
+  },
+  {
+    id: 3,
+    img: "https://cdn.shadcnstudio.com/ss-assets/template/landing-page/bistro/image-20.png",
+    imgAlt: "plate-3",
+    userAvatar: "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-57.png",
+    userComment:
+      "Every dish is crafted with care. This place never disappoints!",
+  },
+];
 
 /**
  * Landing page component — publicly accessible, no auth required.
@@ -15,7 +43,7 @@ export function HomeServerWrapper(): JSX.Element {
   return (
     <div className="flex min-h-screen flex-col">
       <main className="flex-1 pt-17.5">
-        <HeroSection />
+        <HeroSection menudata={sampleMenudata} />
 
         <FeaturesGrid />
 

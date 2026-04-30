@@ -1,85 +1,34 @@
 "use client";
 
-import type { TooltipValueType } from "recharts";
-
 import * as React from "react";
+import type { TooltipValueType } from "recharts";
 import * as RechartsPrimitive from "recharts";
 
 import { cn } from "@/lib/utils";
 
 // Format: { THEME_NAME: CSS_SELECTOR }
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @type {{ readonly dark: ".dark"; readonly light: ""; }}
- */
-const THEMES = { dark: ".dark", light: "" } as const;
+const THEMES = { light: "", dark: ".dark" } as const;
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @type {{ readonly height: 200; readonly width: 320; }}
- */
-const INITIAL_DIMENSION = { height: 200, width: 320 } as const;
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @typedef {TooltipNameType}
- */
+const INITIAL_DIMENSION = { width: 320, height: 200 } as const;
 type TooltipNameType = number | string;
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @export
- * @typedef {ChartConfig}
- */
 export type ChartConfig = Record<
   string,
-  (
-    | { color?: never; theme: Record<keyof typeof THEMES, string> }
-    | { color?: string; theme?: never }
-  ) & {
+  {
     label?: React.ReactNode;
     icon?: React.ComponentType;
-  }
+  } & (
+    | { color?: string; theme?: never }
+    | { color?: never; theme: Record<keyof typeof THEMES, string> }
+  )
 >;
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @interface ChartContextProps
- * @typedef {ChartContextProps}
- */
-interface ChartContextProps {
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {ChartConfig}
-   */
+type ChartContextProps = {
   config: ChartConfig;
-}
+};
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @type {*}
- */
 const ChartContext = React.createContext<ChartContextProps | null>(null);
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @returns {*}
- */
 function useChart() {
   const context = React.useContext(ChartContext);
 
@@ -90,36 +39,14 @@ function useChart() {
   return context;
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {{
- *   config: ChartConfig;
- *   children: React.ComponentProps<
- *     typeof RechartsPrimitive.ResponsiveContainer
- *   >["children"];
- *   initialDimension?: {
- *     width: number;
- *     height: number;
- *   };
- * } & React.ComponentProps<"div">} param0
- * @param {*} param0.children
- * @param {*} param0.className
- * @param {*} param0.config
- * @param {*} param0.id
- * @param {*} [param0.initialDimension=INITIAL_DIMENSION]
- * @param {*} param0....props
- * @returns {ReactJSX.Element}
- */
 function ChartContainer({
-  children,
-  className,
-  config,
   id,
+  className,
+  children,
+  config,
   initialDimension = INITIAL_DIMENSION,
   ...props
-}: {
+}: React.ComponentProps<"div"> & {
   config: ChartConfig;
   children: React.ComponentProps<
     typeof RechartsPrimitive.ResponsiveContainer
@@ -128,9 +55,9 @@ function ChartContainer({
     width: number;
     height: number;
   };
-} & React.ComponentProps<"div">) {
+}) {
   const uniqueId = React.useId();
-  const chartId = `chart-${id ?? uniqueId.replaceAll(":", "")}`;
+  const chartId = `chart-${id ?? uniqueId.replace(/:/g, "")}`;
 
   return (
     <ChartContext.Provider value={{ config }}>
@@ -154,16 +81,7 @@ function ChartContainer({
   );
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {{ id: string; config: ChartConfig }} param0
- * @param {(Record<string, ({ color?: never; theme: Record<"dark" | "light", string>; } | { color?: string; theme?: never; }) & { label?: React.ReactNode; icon?: React.ComponentType; }>)} param0.config
- * @param {string} param0.id
- * @returns {*}
- */
-const ChartStyle = ({ config, id }: { id: string; config: ChartConfig }) => {
+const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
   const colorConfig = Object.entries(config).filter(
     ([, config]) => config.theme ?? config.color,
   );
@@ -196,77 +114,36 @@ ${colorConfig
   );
 };
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @type {*}
- */
 const ChartTooltip = RechartsPrimitive.Tooltip;
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {{
- *   hideLabel?: boolean;
- *   hideIndicator?: boolean;
- *   indicator?: "dashed" | "dot" | "line";
- *   nameKey?: string;
- *   labelKey?: string;
- * } & Omit<
- *   RechartsPrimitive.DefaultTooltipContentProps<
- *     TooltipValueType,
- *     TooltipNameType
- *   >,
- *   "accessibilityLayer"
- * > &
- *   React.ComponentProps<"div"> &
- *   React.ComponentProps<typeof RechartsPrimitive.Tooltip>} param0
- * @param {*} param0.active
- * @param {*} param0.className
- * @param {*} param0.color
- * @param {*} param0.formatter
- * @param {*} [param0.hideIndicator=false]
- * @param {*} [param0.hideLabel=false]
- * @param {*} [param0.indicator="dot"]
- * @param {*} param0.label
- * @param {*} param0.labelClassName
- * @param {*} param0.labelFormatter
- * @param {*} param0.labelKey
- * @param {*} param0.nameKey
- * @param {*} param0.payload
- * @returns {*}
- */
 function ChartTooltipContent({
   active,
-  className,
-  color,
-  formatter,
-  hideIndicator = false,
-  hideLabel = false,
-  indicator = "dot",
-  label,
-  labelClassName,
-  labelFormatter,
-  labelKey,
-  nameKey,
   payload,
-}: {
-  hideLabel?: boolean;
-  hideIndicator?: boolean;
-  indicator?: "dashed" | "dot" | "line";
-  nameKey?: string;
-  labelKey?: string;
-} & Omit<
-  RechartsPrimitive.DefaultTooltipContentProps<
-    TooltipValueType,
-    TooltipNameType
-  >,
-  "accessibilityLayer"
-> &
-  React.ComponentProps<"div"> &
-  React.ComponentProps<typeof RechartsPrimitive.Tooltip>) {
+  className,
+  indicator = "dot",
+  hideLabel = false,
+  hideIndicator = false,
+  label,
+  labelFormatter,
+  labelClassName,
+  formatter,
+  color,
+  nameKey,
+  labelKey,
+}: React.ComponentProps<typeof RechartsPrimitive.Tooltip> &
+  React.ComponentProps<"div"> & {
+    hideLabel?: boolean;
+    hideIndicator?: boolean;
+    indicator?: "line" | "dot" | "dashed";
+    nameKey?: string;
+    labelKey?: string;
+  } & Omit<
+    RechartsPrimitive.DefaultTooltipContentProps<
+      TooltipValueType,
+      TooltipNameType
+    >,
+    "accessibilityLayer"
+  >) {
   const { config } = useChart();
 
   const tooltipLabel = React.useMemo(() => {
@@ -331,7 +208,7 @@ function ChartTooltipContent({
               <div
                 key={index}
                 className={cn(
-                  "flex w-full flex-wrap items-stretch gap-2 [&>svg]:size-2.5  [&>svg]:text-muted-foreground",
+                  "flex w-full flex-wrap items-stretch gap-2 [&>svg]:h-2.5 [&>svg]:w-2.5 [&>svg]:text-muted-foreground",
                   indicator === "dot" && "items-center",
                 )}
               >
@@ -348,10 +225,10 @@ function ChartTooltipContent({
                             "shrink-0 rounded-[2px] border-(--color-border) bg-(--color-bg)",
                             {
                               "h-2.5 w-2.5": indicator === "dot",
-                              "my-0.5": nestLabel && indicator === "dashed",
+                              "w-1": indicator === "line",
                               "w-0 border-[1.5px] border-dashed bg-transparent":
                                 indicator === "dashed",
-                              "w-1": indicator === "line",
+                              "my-0.5": nestLabel && indicator === "dashed",
                             },
                           )}
                           style={
@@ -375,7 +252,7 @@ function ChartTooltipContent({
                           {itemConfig?.label ?? item.name}
                         </span>
                       </div>
-                      {item.value !== null && item.value !== undefined && (
+                      {item.value != null && (
                         <span className="font-mono font-medium text-foreground tabular-nums">
                           {typeof item.value === "number"
                             ? item.value.toLocaleString()
@@ -393,41 +270,18 @@ function ChartTooltipContent({
   );
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @type {*}
- */
 const ChartLegend = RechartsPrimitive.Legend;
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {{
- *   hideIcon?: boolean;
- *   nameKey?: string;
- * } & React.ComponentProps<"div"> &
- *   RechartsPrimitive.DefaultLegendContentProps} param0
- * @param {*} param0.className
- * @param {*} [param0.hideIcon=false]
- * @param {*} param0.nameKey
- * @param {*} param0.payload
- * @param {*} [param0.verticalAlign="bottom"]
- * @returns {*}
- */
 function ChartLegendContent({
   className,
   hideIcon = false,
-  nameKey,
   payload,
   verticalAlign = "bottom",
-}: {
+  nameKey,
+}: React.ComponentProps<"div"> & {
   hideIcon?: boolean;
   nameKey?: string;
-} & React.ComponentProps<"div"> &
-  RechartsPrimitive.DefaultLegendContentProps) {
+} & RechartsPrimitive.DefaultLegendContentProps) {
   const { config } = useChart();
 
   if (!payload?.length) {
@@ -452,14 +306,14 @@ function ChartLegendContent({
             <div
               key={index}
               className={cn(
-                "flex items-center gap-1.5 [&>svg]:size-3  [&>svg]:text-muted-foreground",
+                "flex items-center gap-1.5 [&>svg]:h-3 [&>svg]:w-3 [&>svg]:text-muted-foreground",
               )}
             >
               {itemConfig?.icon && !hideIcon ? (
                 <itemConfig.icon />
               ) : (
                 <div
-                  className="size-2  shrink-0 rounded-[2px]"
+                  className="h-2 w-2 shrink-0 rounded-[2px]"
                   style={{
                     backgroundColor: item.color,
                   }}
@@ -474,15 +328,6 @@ function ChartLegendContent({
 }
 
 // Helper to extract item config from a payload.
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {ChartConfig} config
- * @param {unknown} payload
- * @param {string} key
- * @returns {*}
- */
 function getPayloadConfigFromPayload(
   config: ChartConfig,
   payload: unknown,

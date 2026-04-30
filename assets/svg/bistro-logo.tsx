@@ -1,12 +1,5 @@
 import type { SVGAttributes } from "react";
 
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @param {SVGAttributes<SVGElement>} props
- * @returns {ReactJSX.Element}
- */
 const BistroLogo = (props: SVGAttributes<SVGElement>) => {
   return (
     <svg

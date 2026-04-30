@@ -34,8 +34,9 @@ Fix E2E test failures by starting with the integration flow test `tests/e2e/inte
 | --- | --- | --- |
 | Start with the integration spec under `tests/e2e/integration/` | This is the intended link + transfer end-to-end flow and includes DB assertions | `tests/e2e/integration/link-and-transfer.spec.ts` |
 | Run targeted specs first | Faster iteration and higher-quality evidence than running the entire suite | User requirement |
-| “No Plaid-related console warnings at all” is a hard requirement | Prevents hiding regressions behind non-fatal warnings | User instruction (2026-04-29) |
+| "No Plaid-related console warnings at all" is a hard requirement | Prevents hiding regressions behind non-fatal warnings | User instruction (2026-04-29) |
 | Use Playwright `globalSetup` / `webServer` as the DB/app strategy | Keeps local + CI consistent; avoids ad-hoc DB setup | `playwright.config.ts`, `tests/e2e/global-setup.ts` |
+| Investigate TWO PlaidProvider files separately | `plaid-context.tsx` uses react-plaid-link hook (auto-loader); `plaid-provider.tsx` injects script directly | `components/plaid-context/plaid-context.tsx`, `components/layouts/plaid-provider.tsx` |
 
 ## Phase 1: Root Cause Investigation [IN PROGRESS]
 
@@ -64,10 +65,34 @@ Fix E2E test failures by starting with the integration flow test `tests/e2e/inte
   - Run:
     - `bunx rg "plaid\\.com/link|link-initialize\\.js|react-plaid-link|usePlaidLink|PlaidProvider|plaid-link-script" -n`
   - Output should be a short list of exact files/lines that can inject or trigger Plaid Link script loading.
+  - **CRITICAL**: There are TWO PlaidProvider components:
+    - `components/plaid-context/plaid-context.tsx` — Used in app layout, does NOT inject script directly, uses `usePlaidLink` hook
+    - `components/layouts/plaid-provider.tsx` — Exports as `PlaidProviderCompat`, DOES inject script directly (line 131-136)
+  - Run:
+    - `bunx rg "usePlaidLink" components/plaid-context/plaid-context.tsx -n`
+    - Verify that `react-plaid-link` hook automatically loads the script when invoked
+
+- [ ] 1.6 Clarify actual script-loading mechanism
+  - Run test with browser console message capture:
+    - `PLAYWRIGHT_PREPARE_DB=true bunx playwright test tests/e2e/specs/plaid-script.spec.ts --project=chromium --retries=0`
+  - Capture any network requests to `cdn.plaid.com/link/v2/stable/link-initialize.js`
+  - Identify if warnings come from:
+    - Direct `<script src>` tag injection
+    - `react-plaid-link` internal script loader (automatic)
+    - Network retry attempts or CORS issues
 
 ## Phase 2: Fix Implementation (After Root Cause) [PENDING]
 
 - [ ] 2.1 Fix Plaid duplicate script injection at the source
+  - **CRITICAL**: The fix depends on the script-loading mechanism identified in Phase 1.
+  - Scenario A: If direct `<script src>` tag (from `components/layouts/plaid-provider.tsx`) is the culprit:
+    - Remove the `<script>` tag at lines 131-136 in `components/layouts/plaid-provider.tsx`
+    - Let `react-plaid-link` handle script loading via its internal loader
+  - Scenario B: If `react-plaid-link` internal loader is the culprit:
+    - The hook loads `link-initialize.js` automatically when invoked
+    - Fix may require: wrapping with `useEffect` guard, using a singleton pattern, or mocking at network level
+  - Scenario C: If the problem is network-level (CORS, multiple fetches):
+    - Fix may require: server-side proxy, caching headers, or test mock configuration
   - Target outcome:
     - Only one `https://cdn.plaid.com/link/v2/stable/link-initialize.js` script element is ever present.
     - No Plaid-related console warnings (including duplicate-script warnings).

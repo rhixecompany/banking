@@ -5,15 +5,10 @@ import { Bar, BarChart } from "recharts";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { type ChartConfig, ChartContainer } from "@/components/ui/chart";
 import { Separator } from "@/components/ui/separator";
+
 import { cn } from "@/lib/utils";
 
 // Product reached data
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @type {{}}
- */
 const productReachChartData = [
   { month: "January", reached: 168 },
   { month: "February", reached: 305 },
@@ -22,26 +17,14 @@ const productReachChartData = [
   { month: "May", reached: 305 },
 ];
 
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @type {ChartConfig}
- */
 const productReachChartConfig = {
   reached: {
-    color: "var(--primary)",
     label: "Reached",
+    color: "var(--primary)",
   },
 } satisfies ChartConfig;
 
 // Order placed data
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @type {{}}
- */
 const orderPlacedChartData = [
   { month: "January", orders: 168 },
   { month: "February", orders: 305 },
@@ -50,34 +33,20 @@ const orderPlacedChartData = [
   { month: "May", orders: 305 },
 ];
 
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @type {ChartConfig}
- */
 const orderPlacedChartConfig = {
   orders: {
-    color: "color-mix(in oklab, var(--primary) 10%, transparent)",
     label: "Orders",
+    color: "color-mix(in oklab, var(--primary) 10%, transparent)",
   },
 } satisfies ChartConfig;
 
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @param {{ className?: string }} param0
- * @param {string} param0.className
- * @returns {ReactJSX.Element}
- */
 const ProductInsightsCard = ({ className }: { className?: string }) => {
   return (
     <Card className={cn("gap-4", className)}>
       <CardHeader className="flex justify-between">
         <div className="flex flex-col gap-1">
           <span className="text-lg font-semibold">Product insight</span>
-          <span className="text-sm text-muted-foreground">
+          <span className="text-muted-foreground text-sm">
             Published on 12 MAY 2025 - 6:10 PM
           </span>
         </div>

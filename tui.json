@@ -1,5 +1,9 @@
 {
   "$schema": "https://opencode.ai/tui.json",
-  "plugin": ["opencode-snippets", "@slkiser/opencode-quota"],
+  "plugin": [
+    "opencode-snippets",
+    "@slkiser/opencode-quota",
+    "oh-my-opencode-slim"
+  ],
   "theme": "ayu-dark"
 }

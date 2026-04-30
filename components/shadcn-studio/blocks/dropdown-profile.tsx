@@ -1,5 +1,3 @@
-"use client";
-
 import type { ReactNode } from "react";
 
 import {
@@ -23,103 +21,35 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @interface Props
- * @typedef {Props}
- */
-interface Props {
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {ReactNode}
-   */
+type Props = {
   trigger: ReactNode;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {string}
-   */
-  name: string;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {string}
-   */
-  email: string;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {?(null | string)}
-   */
-  image?: null | string;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {?boolean}
-   */
   defaultOpen?: boolean;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {?("center" | "end" | "start")}
-   */
-  align?: "center" | "end" | "start";
-}
+  align?: "start" | "center" | "end";
+};
 
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @param {Props} param0
- * @param {("center" | "end" | "start")} [param0.align="end"]
- * @param {boolean} param0.defaultOpen
- * @param {string} param0.email
- * @param {string} param0.image
- * @param {string} param0.name
- * @param {ReactNode} param0.trigger
- * @returns {React.JSX.Element}
- */
-const ProfileDropdown = ({
-  align = "end",
-  defaultOpen,
-  email,
-  image,
-  name,
-  trigger,
-}: Props): React.JSX.Element => {
-  const initials = name
-    .split(" ")
-    .map((n) => n[0])
-    .join("")
-    .toUpperCase()
-    .slice(0, 2);
-
+const ProfileDropdown = ({ trigger, defaultOpen, align = "end" }: Props) => {
   return (
     <DropdownMenu defaultOpen={defaultOpen}>
       <DropdownMenuTrigger asChild>{trigger}</DropdownMenuTrigger>
-      <DropdownMenuContent className="w-80" align={align}>
+      <DropdownMenuContent className="w-80" align={align || "end"}>
         <DropdownMenuLabel className="flex items-center gap-4 px-4 py-2.5 font-normal">
           <div className="relative">
             <Avatar className="size-10">
-              {image && <AvatarImage src={image} alt={name} />}
-              <AvatarFallback>{initials}</AvatarFallback>
+              <AvatarImage
+                src="https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-1.png"
+                alt="John Doe"
+              />
+              <AvatarFallback>JD</AvatarFallback>
             </Avatar>
-            <span className="absolute end-0 bottom-0 block size-2 rounded-full bg-green-600 ring-2 ring-card" />
+            <span className="ring-card absolute end-0 bottom-0 block size-2 rounded-full bg-green-600 ring-2" />
           </div>
           <div className="flex flex-1 flex-col items-start">
-            <span className="text-lg font-semibold text-foreground">
-              {name}
+            <span className="text-foreground text-lg font-semibold">
+              John Doe
             </span>
-            <span className="text-base text-muted-foreground">{email}</span>
+            <span className="text-muted-foreground text-base">
+              john.doe@example.com
+            </span>
           </div>
         </DropdownMenuLabel>
 
@@ -127,15 +57,15 @@ const ProfileDropdown = ({
 
         <DropdownMenuGroup>
           <DropdownMenuItem className="px-4 py-2.5 text-base">
-            <UserIcon className="size-5 text-foreground" />
+            <UserIcon className="text-foreground size-5" />
             <span>My account</span>
           </DropdownMenuItem>
           <DropdownMenuItem className="px-4 py-2.5 text-base">
-            <SettingsIcon className="size-5 text-foreground" />
+            <SettingsIcon className="text-foreground size-5" />
             <span>Settings</span>
           </DropdownMenuItem>
           <DropdownMenuItem className="px-4 py-2.5 text-base">
-            <CreditCardIcon className="size-5 text-foreground" />
+            <CreditCardIcon className="text-foreground size-5" />
             <span>Billing</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
@@ -144,15 +74,15 @@ const ProfileDropdown = ({
 
         <DropdownMenuGroup>
           <DropdownMenuItem className="px-4 py-2.5 text-base">
-            <UsersIcon className="size-5 text-foreground" />
+            <UsersIcon className="text-foreground size-5" />
             <span>Manage team</span>
           </DropdownMenuItem>
           <DropdownMenuItem className="px-4 py-2.5 text-base">
-            <SquarePenIcon className="size-5 text-foreground" />
+            <SquarePenIcon className="text-foreground size-5" />
             <span>Customization</span>
           </DropdownMenuItem>
           <DropdownMenuItem className="px-4 py-2.5 text-base">
-            <CirclePlusIcon className="size-5 text-foreground" />
+            <CirclePlusIcon className="text-foreground size-5" />
             <span>Add team account</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>

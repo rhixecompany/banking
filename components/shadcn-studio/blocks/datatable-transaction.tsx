@@ -1,7 +1,14 @@
 "use client";
 
-import type { ColumnDef } from "@tanstack/react-table";
+import { useState } from "react";
 
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  EllipsisVerticalIcon,
+} from "lucide-react";
+
+import type { ColumnDef, PaginationState } from "@tanstack/react-table";
 import {
   flexRender,
   getCoreRowModel,
@@ -10,16 +17,6 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  EllipsisVerticalIcon,
-  FilterIcon,
-  SearchIcon,
-} from "lucide-react";
-import { useCallback } from "react";
-
-import type { TransactionStatus } from "@/stores/create-filter-store";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -31,20 +28,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
 import {
   Pagination,
   PaginationContent,
   PaginationEllipsis,
   PaginationItem,
 } from "@/components/ui/pagination";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -53,85 +42,24 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+
 import { usePagination } from "@/hooks/use-pagination";
-import { useFilterStore } from "@/stores/filter-store";
 
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @export
- * @interface Item
- * @typedef {Item}
- */
-export interface Item {
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {string}
-   */
+export type Item = {
   id: string;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {string}
-   */
   avatar: string;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {string}
-   */
   avatarFallback: string;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {string}
-   */
   name: string;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {string}
-   */
   email: string;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {number}
-   */
   amount: number;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {("failed" | "paid" | "pending" | "processing")}
-   */
-  status: "failed" | "paid" | "pending" | "processing";
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {("mastercard" | "visa")}
-   */
+  status: "pending" | "processing" | "paid" | "failed";
   paidBy: "mastercard" | "visa";
-}
+};
 
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @type {ColumnDef<Item>[]}
- */
 export const columns: ColumnDef<Item>[] = [
   {
     accessorKey: "name",
+    header: "Customer",
     cell: ({ row }) => (
       <div className="flex items-center gap-2">
         <Avatar className="size-9">
@@ -141,40 +69,40 @@ export const columns: ColumnDef<Item>[] = [
           </AvatarFallback>
         </Avatar>
         <div className="flex flex-col text-sm">
-          <span className="font-medium text-card-foreground">
+          <span className="text-card-foreground font-medium">
             {row.getValue("name")}
           </span>
           <span className="text-muted-foreground">{row.original.email}</span>
         </div>
       </div>
     ),
-    header: "Customer",
   },
   {
     accessorKey: "amount",
+    header: "Amount",
     cell: ({ row }) => {
-      const amount = Number.parseFloat(row.getValue("amount"));
+      const amount = parseFloat(row.getValue("amount"));
 
       const formatted = new Intl.NumberFormat("en-US", {
-        currency: "USD",
         style: "currency",
+        currency: "USD",
       }).format(amount);
 
       return <span>{formatted}</span>;
     },
-    header: "Amount",
   },
   {
     accessorKey: "status",
+    header: "Status",
     cell: ({ row }) => (
-      <Badge className="rounded-sm bg-primary/10 px-1.5 text-primary capitalize">
+      <Badge className="bg-primary/10 text-primary rounded-sm px-1.5 capitalize">
         {row.getValue("status")}
       </Badge>
     ),
-    header: "Status",
   },
   {
     accessorKey: "paidBy",
+    header: () => <span className="w-fit">Paid by</span>,
     cell: ({ row }) => (
       <img
         src={
@@ -186,105 +114,45 @@ export const columns: ColumnDef<Item>[] = [
         className="w-10.5"
       />
     ),
-    header: () => <span className="w-fit">Paid by</span>,
   },
   {
-    cell: () => <RowActions />,
-    enableHiding: false,
-    header: () => "Actions",
     id: "actions",
+    header: () => "Actions",
+    cell: () => <RowActions />,
     size: 60,
+    enableHiding: false,
   },
 ];
 
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @param {{ data: Item[] }} param0
- * @param {{}} param0.data
- * @returns {ReactJSX.Element}
- */
 const TransactionDatatable = ({ data }: { data: Item[] }) => {
-  const searchQuery = useFilterStore((s) => s.searchQuery);
-  const setSearchQuery = useFilterStore((s) => s.setSearchQuery);
-  const status = useFilterStore((s) => s.status);
-  const setStatus = useFilterStore((s) => s.setStatus);
+  const pageSize = 5;
 
-  const handleSearch = useCallback(
-    (value: string) => {
-      setSearchQuery(value);
-    },
-    [setSearchQuery],
-  );
-
-  // Client-side filter: apply searchQuery across name, email, and amount fields
-  const filteredData = data.filter((item) => {
-    // Status filter
-    if (status && item.status !== status) return false;
-
-    // Search filter
-    if (!searchQuery.trim()) return true;
-    const q = searchQuery.toLowerCase();
-    return (
-      item.name.toLowerCase().includes(q) ||
-      item.email.toLowerCase().includes(q) ||
-      String(item.amount).includes(q)
-    );
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: pageSize,
   });
 
   const table = useReactTable({
+    data,
     columns,
-    data: filteredData,
     getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    onPaginationChange: setPagination,
+    state: {
+      pagination,
+    },
   });
 
   const { pages, showLeftEllipsis, showRightEllipsis } = usePagination({
     currentPage: table.getState().pagination.pageIndex + 1,
-    paginationItemsToDisplay: 2,
     totalPages: table.getPageCount(),
+    paginationItemsToDisplay: 2,
   });
 
   return (
     <div className="w-full">
-      <div className="flex items-center gap-2 border-b px-4 py-3 ps-4">
-        <SearchIcon
-          className="size-4 text-muted-foreground"
-          aria-hidden="true"
-        />
-        <Input
-          aria-label="Search transactions"
-          className="h-8 w-full max-w-xs border-0 shadow-none focus-visible:ring-0"
-          placeholder="Search by name, email, or amount..."
-          value={searchQuery}
-          onChange={(e) => handleSearch(e.currentTarget.value)}
-        />
-        <div className="flex items-center gap-2">
-          <FilterIcon
-            className="size-4 text-muted-foreground"
-            aria-hidden="true"
-          />
-          <Select
-            value={status}
-            onValueChange={(value) => setStatus(value as TransactionStatus)}
-          >
-            <SelectTrigger className="h-8 w-32" aria-label="Filter by status">
-              <SelectValue placeholder="All statuses" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="">All statuses</SelectItem>
-              <SelectItem value="paid">Paid</SelectItem>
-              <SelectItem value="pending">Pending</SelectItem>
-              <SelectItem value="processing">Processing</SelectItem>
-              <SelectItem value="failed">Failed</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-      </div>
-
       <div className="border-b">
         <Table>
           <TableHeader>
@@ -294,7 +162,7 @@ const TransactionDatatable = ({ data }: { data: Item[] }) => {
                   return (
                     <TableHead
                       key={header.id}
-                      className="h-14 text-muted-foreground first:ps-4"
+                      className="text-muted-foreground h-14 first:ps-4"
                     >
                       {header.isPlaceholder
                         ? null
@@ -341,7 +209,7 @@ const TransactionDatatable = ({ data }: { data: Item[] }) => {
 
       <div className="flex items-center justify-between gap-3 px-6 py-4 max-sm:flex-col md:max-lg:flex-col">
         <p
-          className="text-sm whitespace-nowrap text-muted-foreground"
+          className="text-muted-foreground text-sm whitespace-nowrap"
           aria-live="polite"
         >
           Showing{" "}
@@ -431,12 +299,6 @@ const TransactionDatatable = ({ data }: { data: Item[] }) => {
 
 export default TransactionDatatable;
 
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @returns {ReactJSX.Element}
- */
 function RowActions() {
   return (
     <DropdownMenu>

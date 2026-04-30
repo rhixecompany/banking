@@ -5,33 +5,16 @@
       "model": "opencode/minimax-m2.5-free",
       "variant": "high"
     },
-    "compaction": {
-      "model": "opencode/minimax-m2.5-free",
-      "variant": "high"
-    },
-    "explore": {
-      "model": "opencode/minimax-m2.5-free",
-      "variant": "high"
-    },
-    "general": {
-      "model": "opencode/minimax-m2.5-free",
-      "variant": "high"
-    },
-    "octto": {
-      "model": "opencode/minimax-m2.5-free",
-      "variant": "high"
-    },
+
     "plan": {
       "model": "opencode/minimax-m2.5-free",
       "variant": "high"
     },
-    "summary": {
-      "model": "opencode/minimax-m2.5-free",
-      "variant": "high"
+    "explore": {
+      "disable": true
     },
-    "title": {
-      "model": "opencode/minimax-m2.5-free",
-      "variant": "high"
+    "general": {
+      "disable": true
     }
   },
   "autoupdate": true,
@@ -45,6 +28,7 @@
     "auto": true
   },
   "instructions": ["./.opencode/instructions/index.md"],
+  "lsp": true,
   "mcp": {
     "context7": {
       "type": "remote",
@@ -162,7 +146,8 @@
     "@slkiser/opencode-quota",
     "smart-codebase",
     "superpowers@git+https://github.com/obra/superpowers.git",
-    "octto"
+    "octto",
+    "oh-my-opencode-slim"
   ],
   "watcher": {
     "ignore": ["node_modules", ".next", ".git"]

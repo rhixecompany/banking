@@ -17,39 +17,15 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @export
- * @interface NavigationItem
- * @typedef {NavigationItem}
- */
-export interface NavigationItem {
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {string}
-   */
+export type NavigationItem = {
   title: string;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {string}
-   */
   href: string;
-}
+};
 
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @export
- * @typedef {NavigationSection}
- */
-export type NavigationSection = (
+export type NavigationSection = {
+  title: string;
+  icon?: ReactNode;
+} & (
   | {
       items: NavigationItem[];
       href?: never;
@@ -58,53 +34,15 @@ export type NavigationSection = (
       items?: never;
       href: string;
     }
-) & {
-  title: string;
-  icon?: ReactNode;
+);
+
+type Props = {
+  trigger: ReactNode;
+  navigationData: NavigationSection[];
+  align?: "center" | "end" | "start";
 };
 
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @interface Props
- * @typedef {Props}
- */
-interface Props {
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {ReactNode}
-   */
-  trigger: ReactNode;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {NavigationSection[]}
-   */
-  navigationData: NavigationSection[];
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {?("center" | "end" | "start")}
-   */
-  align?: "center" | "end" | "start";
-}
-
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @param {Props} param0
- * @param {("center" | "end" | "start")} [param0.align="start"]
- * @param {{}} param0.navigationData
- * @param {ReactNode} param0.trigger
- * @returns {ReactJSX.Element}
- */
-const MenuDropdown = ({ align = "start", navigationData, trigger }: Props) => {
+const MenuDropdown = ({ trigger, navigationData, align = "start" }: Props) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>{trigger}</DropdownMenuTrigger>

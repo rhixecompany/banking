@@ -9,41 +9,18 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+
 import { cn } from "@/lib/utils";
 
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @export
- * @interface NavigationItem
- * @typedef {NavigationItem}
- */
-export interface NavigationItem {
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {string}
-   */
+export type NavigationItem = {
   title: string;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {string}
-   */
   href: string;
-}
+};
 
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @export
- * @typedef {NavigationSection}
- */
-export type NavigationSection = (
+export type NavigationSection = {
+  title: string;
+  icon?: ReactNode;
+} & (
   | {
       items: NavigationItem[];
       href?: never;
@@ -52,47 +29,16 @@ export type NavigationSection = (
       items?: never;
       href: string;
     }
-) & {
-  title: string;
-  icon?: ReactNode;
+);
+
+type MenuNavigationProps = {
+  navigationData: NavigationSection[];
+  className?: string;
 };
 
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @interface MenuNavigationProps
- * @typedef {MenuNavigationProps}
- */
-interface MenuNavigationProps {
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {NavigationSection[]}
-   */
-  navigationData: NavigationSection[];
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {?string}
-   */
-  className?: string;
-}
-
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @param {MenuNavigationProps} param0
- * @param {string} param0.className
- * @param {{}} param0.navigationData
- * @returns {ReactJSX.Element}
- */
-const MenuNavigation = ({ className, navigationData }: MenuNavigationProps) => {
+const MenuNavigation = ({ navigationData, className }: MenuNavigationProps) => {
   return (
-    <NavigationMenu className={className}>
+    <NavigationMenu viewport={false} className={className}>
       <NavigationMenuList className="flex-wrap justify-start gap-0">
         {navigationData.map((navItem) => {
           if (navItem.href) {
@@ -103,7 +49,7 @@ const MenuNavigation = ({ className, navigationData }: MenuNavigationProps) => {
                   href={navItem.href}
                   className={cn(
                     navigationMenuTriggerStyle(),
-                    "bg-transparent px-3 py-1.5 text-base! text-muted-foreground hover:text-primary dark:hover:bg-accent/50",
+                    "text-muted-foreground hover:text-primary dark:hover:bg-accent/50 bg-transparent px-3 py-1.5 text-base!",
                   )}
                 >
                   {navItem.title}
@@ -115,10 +61,10 @@ const MenuNavigation = ({ className, navigationData }: MenuNavigationProps) => {
           // Section with dropdown
           return (
             <NavigationMenuItem key={navItem.title}>
-              <NavigationMenuTrigger className="bg-transparent px-3 py-1.5 text-base text-muted-foreground hover:text-primary dark:hover:bg-accent/50 dark:data-[state=open]:hover:bg-accent/50 [&>svg]:size-4">
+              <NavigationMenuTrigger className="dark:data-[state=open]:hover:bg-accent/50 text-muted-foreground hover:text-primary dark:hover:bg-accent/50 bg-transparent px-3 py-1.5 text-base [&>svg]:size-4">
                 {navItem.title}
               </NavigationMenuTrigger>
-              <NavigationMenuContent className="absolute w-auto data-[motion=from-end]:slide-in-from-right-30! data-[motion=from-start]:slide-in-from-left-30! data-[motion=to-end]:slide-out-to-right-30! data-[motion=to-start]:slide-out-to-left-30!">
+              <NavigationMenuContent className="data-[motion=from-start]:slide-in-from-left-30! data-[motion=to-start]:slide-out-to-left-30! data-[motion=from-end]:slide-in-from-right-30! data-[motion=to-end]:slide-out-to-right-30! absolute w-auto">
                 <ul className="grid w-38 gap-4">
                   <li>
                     {navItem.items?.map((item) => (

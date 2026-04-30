@@ -4,6 +4,8 @@ description: >-
   Execute shell commands directly. Use when the user explicitly invokes /shell and wants the following text executed directly in the terminal.
 
 
+lastReviewed: 2026-04-30
+applyTo: "**/*"
 metadata:
   surfaces:
     - cli

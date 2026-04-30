@@ -16,69 +16,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Progress } from "@/components/ui/progress";
 
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @type {{}}
- */
 const listItems = ["Share", "Update", "Refresh"];
 
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @interface Props
- * @typedef {Props}
- */
-interface Props {
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {string}
-   */
+type Props = {
   title: string;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {number}
-   */
   earning: number;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {("down" | "up")}
-   */
-  trend: "down" | "up";
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {number}
-   */
+  trend: "up" | "down";
   percentage: number;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {string}
-   */
   comparisonText: string;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {{
-   *     img: string;
-   *     platform: string;
-   *     technologies: string;
-   *     earnings: string;
-   *     progressPercentage: number;
-   *   }[]}
-   */
   earningData: {
     img: string;
     platform: string;
@@ -86,37 +31,17 @@ interface Props {
     earnings: string;
     progressPercentage: number;
   }[];
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {?string}
-   */
   className?: string;
-}
+};
 
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @param {Props} param0
- * @param {string} param0.className
- * @param {string} param0.comparisonText
- * @param {number} param0.earning
- * @param {{}} param0.earningData
- * @param {number} param0.percentage
- * @param {string} param0.title
- * @param {("down" | "up")} param0.trend
- * @returns {ReactJSX.Element}
- */
 const TotalEarningCard = ({
-  className,
-  comparisonText,
-  earning,
   earningData,
-  percentage,
   title,
+  earning,
   trend,
+  percentage,
+  comparisonText,
+  className,
 }: Props) => {
   return (
     <Card className={className}>
@@ -127,7 +52,7 @@ const TotalEarningCard = ({
             <Button
               variant="ghost"
               size="icon"
-              className="size-6 rounded-full text-muted-foreground"
+              className="text-muted-foreground size-6 rounded-full"
             >
               <EllipsisVerticalIcon />
               <span className="sr-only">Menu</span>
@@ -155,7 +80,7 @@ const TotalEarningCard = ({
               <span className="text-sm">{percentage}%</span>
             </span>
           </div>
-          <span className="text-sm text-muted-foreground">
+          <span className="text-muted-foreground text-sm">
             {comparisonText}
           </span>
         </div>
@@ -167,7 +92,7 @@ const TotalEarningCard = ({
             >
               <div className="flex items-center justify-between gap-2.5">
                 <Avatar className="size-11 rounded-sm">
-                  <AvatarFallback className="shrink-0 rounded-sm bg-primary/10">
+                  <AvatarFallback className="bg-primary/10 shrink-0 rounded-sm">
                     <img
                       src={earning.img}
                       alt={earning.platform}
@@ -177,7 +102,7 @@ const TotalEarningCard = ({
                 </Avatar>
                 <div className="flex flex-col gap-1">
                   <span className="font-medium">{earning.platform}</span>
-                  <span className="text-sm text-muted-foreground">
+                  <span className="text-muted-foreground text-sm">
                     {earning.technologies}
                   </span>
                 </div>

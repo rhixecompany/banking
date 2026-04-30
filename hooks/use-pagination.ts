@@ -1,80 +1,19 @@
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @interface UsePaginationProps
- * @typedef {UsePaginationProps}
- */
-interface UsePaginationProps {
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {number}
-   */
+type UsePaginationProps = {
   currentPage: number;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {number}
-   */
   totalPages: number;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {number}
-   */
   paginationItemsToDisplay: number;
-}
+};
 
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @interface UsePaginationReturn
- * @typedef {UsePaginationReturn}
- */
-interface UsePaginationReturn {
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {number[]}
-   */
+type UsePaginationReturn = {
   pages: number[];
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {boolean}
-   */
   showLeftEllipsis: boolean;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {boolean}
-   */
   showRightEllipsis: boolean;
-}
+};
 
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @export
- * @param {UsePaginationProps} param0
- * @param {number} param0.currentPage
- * @param {number} param0.paginationItemsToDisplay
- * @param {number} param0.totalPages
- * @returns {UsePaginationReturn}
- */
 export function usePagination({
   currentPage,
-  paginationItemsToDisplay,
   totalPages,
+  paginationItemsToDisplay,
 }: UsePaginationProps): UsePaginationReturn {
   function calculatePaginationRange(): number[] {
     if (totalPages <= paginationItemsToDisplay) {
@@ -84,13 +23,13 @@ export function usePagination({
     const halfDisplay = Math.floor(paginationItemsToDisplay / 2);
 
     const initialRange = {
-      end: currentPage + halfDisplay,
       start: currentPage - halfDisplay,
+      end: currentPage + halfDisplay,
     };
 
     const adjustedRange = {
-      end: Math.min(totalPages, initialRange.end),
       start: Math.max(1, initialRange.start),
+      end: Math.min(totalPages, initialRange.end),
     };
 
     if (adjustedRange.start === 1) {
@@ -117,8 +56,8 @@ export function usePagination({
 
   const showRightEllipsis =
     pages.length > 0 &&
-    (pages.at(-1) ?? 0) < totalPages &&
-    (pages.at(-1) ?? 0) < totalPages - 1;
+    pages[pages.length - 1] < totalPages &&
+    pages[pages.length - 1] < totalPages - 1;
 
   return {
     pages,

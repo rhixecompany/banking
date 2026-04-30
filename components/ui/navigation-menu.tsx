@@ -5,27 +5,14 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {({
- *   viewport?: boolean;
- * } & React.ComponentProps<typeof NavigationMenuPrimitive.Root>)} param0
- * @param {*} param0.children
- * @param {*} param0.className
- * @param {*} [param0.viewport=true]
- * @param {*} param0....props
- * @returns {ReactJSX.Element}
- */
 function NavigationMenu({
-  children,
   className,
+  children,
   viewport = true,
   ...props
-}: {
+}: React.ComponentProps<typeof NavigationMenuPrimitive.Root> & {
   viewport?: boolean;
-} & React.ComponentProps<typeof NavigationMenuPrimitive.Root>) {
+}) {
   return (
     <NavigationMenuPrimitive.Root
       data-slot="navigation-menu"
@@ -42,15 +29,6 @@ function NavigationMenu({
   );
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {React.ComponentProps<typeof NavigationMenuPrimitive.List>} param0
- * @param {React.ComponentProps<any>} param0.className
- * @param {React.ComponentProps<any>} param0....props
- * @returns {ReactJSX.Element}
- */
 function NavigationMenuList({
   className,
   ...props
@@ -67,15 +45,6 @@ function NavigationMenuList({
   );
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {React.ComponentProps<typeof NavigationMenuPrimitive.Item>} param0
- * @param {React.ComponentProps<any>} param0.className
- * @param {React.ComponentProps<any>} param0....props
- * @returns {ReactJSX.Element}
- */
 function NavigationMenuItem({
   className,
   ...props
@@ -89,29 +58,13 @@ function NavigationMenuItem({
   );
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @type {*}
- */
 const navigationMenuTriggerStyle = cva(
   "group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-[color,box-shadow] outline-none hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1 disabled:pointer-events-none disabled:opacity-50 data-[state=open]:bg-accent/50 data-[state=open]:text-accent-foreground data-[state=open]:hover:bg-accent data-[state=open]:focus:bg-accent",
 );
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {React.ComponentProps<typeof NavigationMenuPrimitive.Trigger>} param0
- * @param {React.ComponentProps<any>} param0.children
- * @param {React.ComponentProps<any>} param0.className
- * @param {React.ComponentProps<any>} param0....props
- * @returns {ReactJSX.Element}
- */
 function NavigationMenuTrigger({
-  children,
   className,
+  children,
   ...props
 }: React.ComponentProps<typeof NavigationMenuPrimitive.Trigger>) {
   return (
@@ -129,15 +82,6 @@ function NavigationMenuTrigger({
   );
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {React.ComponentProps<typeof NavigationMenuPrimitive.Content>} param0
- * @param {React.ComponentProps<any>} param0.className
- * @param {React.ComponentProps<any>} param0....props
- * @returns {ReactJSX.Element}
- */
 function NavigationMenuContent({
   className,
   ...props
@@ -146,8 +90,8 @@ function NavigationMenuContent({
     <NavigationMenuPrimitive.Content
       data-slot="navigation-menu-content"
       className={cn(
-        "start-0 top-0 w-full p-2 pe-2.5 data-[motion=from-end]:slide-in-from-right-52 data-[motion=from-start]:slide-in-from-left-52 data-[motion=to-end]:slide-out-to-right-52 data-[motion=to-start]:slide-out-to-left-52 data-[motion^=from-]:animate-in data-[motion^=from-]:fade-in data-[motion^=to-]:animate-out data-[motion^=to-]:fade-out md:absolute md:w-auto",
-        "group-data-[viewport=false]/navigation-menu:top-full group-data-[viewport=false]/navigation-menu:mt-1.5 group-data-[viewport=false]/navigation-menu:overflow-hidden group-data-[viewport=false]/navigation-menu:rounded-md group-data-[viewport=false]/navigation-menu:border group-data-[viewport=false]/navigation-menu:bg-popover group-data-[viewport=false]/navigation-menu:text-popover-foreground group-data-[viewport=false]/navigation-menu:shadow-sm group-data-[viewport=false]/navigation-menu:duration-200 **:data-[slot=navigation-menu-link]:focus:ring-0 **:data-[slot=navigation-menu-link]:focus:outline-none group-data-[viewport=false]/navigation-menu:data-[state=closed]:animate-out group-data-[viewport=false]/navigation-menu:data-[state=closed]:fade-out-0 group-data-[viewport=false]/navigation-menu:data-[state=closed]:zoom-out-95 group-data-[viewport=false]/navigation-menu:data-[state=open]:animate-in group-data-[viewport=false]/navigation-menu:data-[state=open]:fade-in-0 group-data-[viewport=false]/navigation-menu:data-[state=open]:zoom-in-95",
+        "top-0 start-0 w-full p-2 pe-2.5 data-[motion=from-end]:slide-in-from-right-52 data-[motion=from-start]:slide-in-from-left-52 data-[motion=to-end]:slide-out-to-right-52 data-[motion=to-start]:slide-out-to-left-52 data-[motion^=from-]:animate-in data-[motion^=from-]:fade-in data-[motion^=to-]:animate-out data-[motion^=to-]:fade-out md:absolute md:w-auto",
+        "group-data-[viewport=false]/navigation-menu:top-full group-data-[viewport=false]/navigation-menu:mt-1.5 group-data-[viewport=false]/navigation-menu:overflow-hidden group-data-[viewport=false]/navigation-menu:rounded-md group-data-[viewport=false]/navigation-menu:border group-data-[viewport=false]/navigation-menu:bg-popover group-data-[viewport=false]/navigation-menu:text-popover-foreground group-data-[viewport=false]/navigation-menu:shadow group-data-[viewport=false]/navigation-menu:duration-200 **:data-[slot=navigation-menu-link]:focus:ring-0 **:data-[slot=navigation-menu-link]:focus:outline-none group-data-[viewport=false]/navigation-menu:data-[state=closed]:animate-out group-data-[viewport=false]/navigation-menu:data-[state=closed]:fade-out-0 group-data-[viewport=false]/navigation-menu:data-[state=closed]:zoom-out-95 group-data-[viewport=false]/navigation-menu:data-[state=open]:animate-in group-data-[viewport=false]/navigation-menu:data-[state=open]:fade-in-0 group-data-[viewport=false]/navigation-menu:data-[state=open]:zoom-in-95",
         className,
       )}
       {...props}
@@ -155,15 +99,6 @@ function NavigationMenuContent({
   );
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {React.ComponentProps<typeof NavigationMenuPrimitive.Viewport>} param0
- * @param {React.ComponentProps<any>} param0.className
- * @param {React.ComponentProps<any>} param0....props
- * @returns {ReactJSX.Element}
- */
 function NavigationMenuViewport({
   className,
   ...props
@@ -171,13 +106,13 @@ function NavigationMenuViewport({
   return (
     <div
       className={cn(
-        "absolute start-0 top-full isolate z-50 flex justify-center",
+        "absolute top-full start-0 isolate z-50 flex justify-center",
       )}
     >
       <NavigationMenuPrimitive.Viewport
         data-slot="navigation-menu-viewport"
         className={cn(
-          "origin-top-center relative mt-1.5 h-[var(--radix-navigation-menu-viewport-height)] w-full overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-sm data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:zoom-in-90 md:w-[var(--radix-navigation-menu-viewport-width)]",
+          "origin-top-center relative mt-1.5 h-[var(--radix-navigation-menu-viewport-height)] w-full overflow-hidden rounded-md border bg-popover text-popover-foreground shadow data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:zoom-in-90 md:w-[var(--radix-navigation-menu-viewport-width)]",
           className,
         )}
         {...props}
@@ -186,15 +121,6 @@ function NavigationMenuViewport({
   );
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {React.ComponentProps<typeof NavigationMenuPrimitive.Link>} param0
- * @param {React.ComponentProps<any>} param0.className
- * @param {React.ComponentProps<any>} param0....props
- * @returns {ReactJSX.Element}
- */
 function NavigationMenuLink({
   className,
   ...props
@@ -211,15 +137,6 @@ function NavigationMenuLink({
   );
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {React.ComponentProps<typeof NavigationMenuPrimitive.Indicator>} param0
- * @param {React.ComponentProps<any>} param0.className
- * @param {React.ComponentProps<any>} param0....props
- * @returns {ReactJSX.Element}
- */
 function NavigationMenuIndicator({
   className,
   ...props
@@ -233,7 +150,7 @@ function NavigationMenuIndicator({
       )}
       {...props}
     >
-      <div className="relative top-[60%] size-2  rotate-45 rounded-ss-sm bg-border shadow-md" />
+      <div className="relative top-[60%] h-2 w-2 rotate-45 rounded-ss-sm bg-border shadow-md" />
     </NavigationMenuPrimitive.Indicator>
   );
 }

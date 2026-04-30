@@ -5,21 +5,10 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {React.ComponentProps<typeof SeparatorPrimitive.Root>} param0
- * @param {React.ComponentProps<any>} param0.className
- * @param {React.ComponentProps<any>} [param0.decorative=true]
- * @param {React.ComponentProps<any>} [param0.orientation="horizontal"]
- * @param {React.ComponentProps<any>} param0....props
- * @returns {ReactJSX.Element}
- */
 function Separator({
   className,
-  decorative = true,
   orientation = "horizontal",
+  decorative = true,
   ...props
 }: React.ComponentProps<typeof SeparatorPrimitive.Root>) {
   return (
