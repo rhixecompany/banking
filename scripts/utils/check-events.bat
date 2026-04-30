@@ -1,3 +1,4 @@
 @echo off
-powershell -ExecutionPolicy Bypass -File "%~dp0check-events.ps1"
+cd /d %~dp0..
+bunx tsx scripts/ts/utils/check-events.ts
 pause

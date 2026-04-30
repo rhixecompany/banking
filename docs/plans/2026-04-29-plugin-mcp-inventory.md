@@ -8,13 +8,15 @@
 
 ## Executive Summary
 
-This document inventories all configured OpenCode plugins (26) and MCP servers (14) from the Banking project's OpenCode configuration. Each entry includes the configuration source, authentication requirements, and exact installation steps for reproducible setup on Windows.
+This document inventories all configured OpenCode plugins (22) and MCP servers (11) from the Banking project's OpenCode configuration. Each entry includes the configuration source, authentication requirements, and exact installation steps for reproducible setup on Windows.
 
 ---
 
-## Part 1: Configured Plugins (26 Total)
+## Part 1: Configured Plugins (22 Actual)
 
 Located in `.opencode/opencode.json` under `plugin` array.
+
+> **CORRECTION (2026-04-29):** Plan previously claimed 26 plugins. Actual count is 22. Corrections applied below.
 
 | # | Plugin Name | Source Repository | Description | Auth Required |
 | --- | --- | --- | --- | --- |
@@ -39,17 +41,17 @@ Located in `.opencode/opencode.json` under `plugin` array.
 | 19 | github:JRedeker/opencode-morph-fast-apply | github:JRedeker/opencode-morph-fast-apply | 10,500+ tokens/sec code editing via Morph Fast Apply API | Yes - Morph API key |
 | 20 | opencode-mem | github:tickernelz/opencode-mem | Persistent memory with vector database | No |
 | 21 | @slkiser/opencode-quota | github:slkiser/opencode-quota | Quota toasts and token tracking | No |
-| 22 | smart-codebase | (inline skill) | smart-codebase skill for codebase exploration | No |
-| 23 | superpowers | git+https://github.com/obra/superpowers.git | Complete software dev workflow with skills (brainstorming, TDD, plans) | No |
-| 24 | octto | (project) | Interactive browser UI for AI brainstorming | No |
-| 25 | opencode-snip | github:VincentHardouin/opencode-snip | Prefixes shell commands with snip to reduce token consumption 60-90% | No |
-| 26 | (additional implicit) | Various | Skills loaded from .opencode/skills/ directory | Varies |
+| 22 | superpowers | git+https://github.com/obra/superpowers.git | Complete software dev workflow with skills (brainstorming, TDD, plans) | No |
+
+**Note:** "octto" is referenced in plan but appears as a project definition, not an active plugin in opencode.json.
 
 ---
 
-## Part 2: Configured MCP Servers (14 Total)
+## Part 2: Configured MCP Servers (11 Actual)
 
 Located in `.opencode/opencode.json` under `mcp` object.
+
+> **CORRECTION (2026-04-29):** Plan previously claimed 14 MCP servers. Actual count is 11. Corrections applied below.
 
 ### 2.1 Local MCP Servers (Execute via bunx)
 
@@ -63,8 +65,6 @@ Located in `.opencode/opencode.json` under `mcp` object.
 | 6 | shadcn | `bunx shadcn@latest mcp` | 900000 | No (uses local shadcn config) |
 | 7 | youtube-transcript | `bunx -y @kimtaeyoon83/mcp-server-youtube-transcript` | 900000 | No |
 | 8 | github-agentic-workflows | `bunx -y @modelcontextprotocol/server-github` | 900000 | Yes - GITHUB_TOKEN |
-| 9 | gh_grep | (remote) `https://mcp.grep.app` | - | Yes - API key |
-| 10 | hostinger | `bunx -y hostinger-api-mcp` | 5000 | Yes - Hostinger credentials |
 
 ### 2.2 Remote MCP Servers (HTTP)
 
@@ -72,6 +72,11 @@ Located in `.opencode/opencode.json` under `mcp` object.
 | --- | --- | --- | --- |
 | 1 | context7 | `https://mcp.context7.com/mcp` | No (free tier) |
 | 2 | exa | `https://mcp.exa.ai/mcp` | Yes - EXA_API_KEY |
+| 3 | gh_grep | `https://mcp.grep.app` | Yes - API key |
+
+### Removed from Plan
+
+- **hostinger**: Command exists in opencode.json but is likely not installed (`hostinger-api-mcp` not available in npm registry)
 
 ---
 
@@ -89,7 +94,7 @@ These work out of the box after `bun install`:
 - @zenobius/opencode-background, opencode-sessions
 - @franlol/opencode-md-table-formatter, @howaboua/opencode-planning-toolkit
 - opencode-mem, @slkiser/opencode-quota
-- superpowers, octto, smart-codebase, opencode-snip
+- superpowers
 
 All local MCP servers (filesystem, playwright, memory, next-devtools, sequential-thinking, shadcn, youtube-transcript).
 
@@ -104,7 +109,6 @@ Remote: context7 (free tier available).
 | github-agentic-workflows | GitHub token | GITHUB_TOKEN | Requires repo scope |
 | gh_grep | API key | GREP_API_KEY | Get from https://grep.app |
 | exa | API key | EXA_API_KEY | Get from https://exa.ai |
-| hostinger | Credentials | HOSTINGER_API_KEY | Hostinger account |
 
 ---
 
@@ -126,16 +130,11 @@ bun --version
 # Clone/fork the repo, then:
 cd C:\Users\Alexa\Desktop\SandBox\Banking
 
-# Install all local MCP server dependencies
-bun add -g @modelcontextprotocol/server-filesystem
-bun add -g @modelcontextprotocol/server-memory
-bun add -g @modelcontextprotocol/server-sequential-thinking
-bun add -g @playwright/mcp
-bun add -g next-devtools-mcp
-bun add -g hostinger-api-mcp
+# Install Bun if not present
+iwr https://bun.sh/install.ps1 | iex
 
-# Install plugins (automatic via opencode.json)
-# Just ensure .opencode/opencode.json has plugin entries
+# Local MCP servers are executed via bunx at runtime - no pre-install needed
+# Plugins load automatically from opencode.json entries
 ```
 
 ### 4.3 Optional: Auth-Required Components
@@ -174,14 +173,6 @@ $env:NTFY_URL = "https://ntfy.sh/your-topic"
 # Or self-hosted: https://ntfy.sh/docs/install/
 ```
 
-**For Hostinger:**
-
-```powershell
-$env:HOSTINGER_API_KEY = "your-key"
-
-# Get from Hostinger account
-```
-
 ---
 
 ## Part 5: Verification Commands
@@ -210,19 +201,17 @@ opencode mcp invoke filesystem --args '{}'
 
 ## Appendix: Quick Reference Table
 
-| Component     | Type         | Auth | Env Vars          |
-| ------------- | ------------ | ---- | ----------------- |
-| superpowers   | Plugin       | No   | None              |
-| octto         | Plugin       | No   | None              |
-| context7      | MCP (remote) | No\* | None (free tier)  |
-| exa           | MCP (remote) | Yes  | EXA_API_KEY       |
-| filesystem    | MCP (local)  | No   | None              |
-| playwright    | MCP (local)  | No   | None              |
-| github        | MCP (local)  | Yes  | GITHUB_TOKEN      |
-| hostinger     | MCP (local)  | Yes  | HOSTINGER_API_KEY |
-| next-devtools | MCP (local)  | No   | None              |
+| Component     | Type         | Auth | Env Vars         |
+| ------------- | ------------ | ---- | ---------------- |
+| superpowers   | Plugin       | No   | None             |
+| context7      | MCP (remote) | No\* | None (free tier) |
+| exa           | MCP (remote) | Yes  | EXA_API_KEY      |
+| filesystem    | MCP (local)  | No   | None             |
+| playwright    | MCP (local)  | No   | None             |
+| github        | MCP (local)  | Yes  | GITHUB_TOKEN     |
+| next-devtools | MCP (local)  | No   | None             |
 
-\*context7 free tier has rate limits; paid tiers available for higher usage.
+**Note:** Additional MCP servers configured: memory, sequential-thinking, shadcn, youtube-transcript, gh_grep (remote)
 
 ---
 

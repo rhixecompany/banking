@@ -1,0 +1,11 @@
+{
+  "author": {
+    "name": "Figma",
+    "url": "https://www.figma.com"
+  },
+  "description": "Plugin that includes the Figma MCP server and Skills for common workflows.",
+  "homepage": "https://github.com/figma/mcp-server-guide",
+  "keywords": ["figma", "design", "mcp", "ui", "code-connect"],
+  "name": "figma",
+  "version": "2.1.26"
+}

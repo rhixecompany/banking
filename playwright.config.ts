@@ -172,7 +172,7 @@ export default defineConfig({
 
         return {
           // Start Next.js directly to avoid predev clean overhead during E2E.
-          command: "npx next dev --webpack",
+          command: "bun run dev",
           // Forward a small set of test flags to the spawned dev server process so
           // test-only endpoints (like /__playwright__/set-cookie) are enabled when
           // Playwright starts the application. We avoid forwarding the whole

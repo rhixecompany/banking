@@ -1,0 +1,12 @@
+{
+  "author": {
+    "name": "Sentry"
+  },
+  "description": "Sentry Plugin for Cursor to help with debugging including MCP, commands, and skill capabilities.",
+  "keywords": ["sentry", "debugging", "monitoring", "error-tracking"],
+  "license": "MIT",
+  "logo": "assets/logo.svg",
+  "name": "sentry",
+  "repository": "https://github.com/getsentry/sentry-for-ai",
+  "version": "1.0.0"
+}

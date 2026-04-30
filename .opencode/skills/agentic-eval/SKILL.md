@@ -8,8 +8,58 @@ description: |
   - Designing rubric-based or LLM-as-judge evaluation systems
   - Adding iterative improvement to agent outputs (code, reports, analysis)
   - Measuring and improving agent response quality
-lastReviewed: 2026-04-24
+lastReviewed: 2026-04-29
 applyTo: "**/*"
+---
+
+## Agent Support
+
+| Agent | Integration | Usage |
+| --- | --- | --- |
+| **OpenCode** | Direct skill invocation | `skill("agentic-eval")` when implementing self-improvement loops |
+| **Cursor** | `.cursorrules` reference | Add to project rules for evaluation patterns |
+| **Copilot** | `.github/copilot-instructions.md` | Reference for evaluation workflow guidance |
+
+### OpenCode Usage
+
+```
+# When implementing evaluation/feedback loops
+Use agentic-eval patterns to build self-critique into code generation.
+
+# When building evaluator-optimizer pipelines
+Load the agentic-eval skill for pattern examples.
+```
+
+### Cursor Integration
+
+```json
+// .cursorrules - Add evaluation patterns
+{
+  "evaluation": {
+    "useReflectionLoops": true,
+    "maxIterations": 3,
+    "scoreThreshold": 0.8
+  }
+}
+```
+
+### Copilot Integration
+
+```markdown
+<!-- .github/copilot-instructions.md -->
+
+## Evaluation Patterns
+
+When building self-improving systems, use:
+
+- Basic reflection with structured critique
+- Evaluator-optimizer separation
+- Test-driven code refinement
+- LLM-as-judge for output comparison
+
+See skills/agentic-eval for full patterns.
+```
+
 ---
 
 # Agentic Evaluation Patterns

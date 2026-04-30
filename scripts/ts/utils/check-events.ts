@@ -1,32 +1,42 @@
 #!/usr/bin/env ts-node
 /**
- * Description: Lightweight port of scripts/utils/check-events.sh/.ps1
- * CreatedBy: convert-scripts
- * TODO: Add structured output and filters
+ * Check for bugcheck/power-related events in System log
+ * Cross-platform implementation for Windows Event Viewer
  */
 import { spawnSync } from "child_process";
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @type {"scripts/utils/check-events.sh"}
- */
-const scriptSh = "scripts/utils/check-events.sh";
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @type {"scripts/utils/check-events.ps1"}
- */
-const scriptPs1 = "scripts/utils/check-events.ps1";
+const PROVIDERS = [
+  "BugCheck",
+  "Kernel-Power",
+  "Power-Troubleshooter",
+  "WHEA-Logger",
+  "microsoft-windows-kernel",
+];
 
-if (process.platform === "win32") {
-  spawnSync(
-    "powershell",
-    ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", scriptPs1],
-    { stdio: "inherit" },
-  );
-} else {
-  spawnSync("bash", [scriptSh], { stdio: "inherit" });
+const MAX_EVENTS = 100;
+
+function checkWindowsEvents(): void {
+  const psScript = `
+Get-WinEvent -FilterHashtable @{LogName='System';Level=1,2} -MaxEvents ${MAX_EVENTS} |
+    Where-Object {
+        $_.ProviderName -match 'BugCheck|Kernel-Power|Power-Troubleshooter|WHEA-Logger|microsoft-windows-kernel'
+    } |
+    Select-Object TimeCreated, ProviderName, Id, Message |
+    Format-List
+`;
+
+  const result = spawnSync("powershell", ["-NoProfile", "-Command", psScript], {
+    stdio: "inherit",
+  });
+
+  process.exit(result.status);
+}
+
+if (require.main === module) {
+  if (process.platform === "win32") {
+    checkWindowsEvents();
+  } else {
+    console.error("This script is only supported on Windows");
+    process.exit(1);
+  }
 }

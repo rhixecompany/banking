@@ -1,17 +1,13 @@
 "use client";
 
 import {
-  BanknoteIcon,
   CircleCheckIcon,
   CircleDashedIcon,
-  LinkIcon,
-  SendIcon,
+  ImportIcon,
+  LogIn,
+  PlusIcon,
 } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
-
-/** Route path to the My Wallets page. */
-const MY_WALLETS_PATH = "/my-wallets" as const;
 
 import {
   Accordion,
@@ -28,78 +24,48 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @type {{}}
- */
 const items = [
   {
-    content:
-      "Connect your bank securely using Plaid. We support thousands of financial institutions across the US.",
-    icon: LinkIcon,
-    label: "Link Bank",
-    title: "Link your first bank account",
+    content: `To get started, log in with your organization account from your company.`,
+    icon: LogIn,
+    label: "Sign up",
+    title: "Sign up and create an account",
   },
   {
     content:
-      "Once your bank is connected, your transactions will sync automatically so you can track spending in real time.",
-    icon: BanknoteIcon,
-    label: "View Transactions",
-    title: "Review your transactions",
+      "Connect your database to the new workspace by using one of 20+ database connectors.",
+    icon: ImportIcon,
+    label: "Import",
+    title: "Import your data",
   },
   {
     content:
-      "Send money to friends or pay bills using ACH bank transfers — fast, free, and secure.",
-    icon: SendIcon,
-    label: "Transfer",
-    title: "Make your first transfer",
+      "Use our drag-and-drop report builder to create your first report and share it with your team.",
+    icon: PlusIcon,
+    label: "Create",
+    title: "Create your first report",
   },
 ];
 
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @interface OnboardingFeedProps
- * @typedef {OnboardingFeedProps}
- */
-interface OnboardingFeedProps {
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {string}
-   */
-  name: string;
-}
-
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @param {OnboardingFeedProps} param0
- * @param {string} param0.name
- * @returns {JSX.Element}
- */
-function OnboardingFeed({ name }: OnboardingFeedProps): JSX.Element {
-  const router = useRouter();
+function OnboardingFeed() {
   const [active, setActive] = useState<string>("item-1");
   const [completed, setCompleted] = useState<Set<number>>(new Set());
 
-  const handleOpenChange = (val: string): void => {
+  const handleOpenChange = (val: string) => {
     setActive(val);
   };
 
-  const handleComplete = (index: number): void => {
+  const handleComplete = (index: number) => {
     setCompleted((prev) => {
       const next = new Set(prev);
+
       next.add(index);
+
       return next;
     });
 
     const nextIndex = index + 1;
+
     if (nextIndex < items.length) {
       setActive(`item-${nextIndex + 1}`);
     } else {
@@ -110,9 +76,9 @@ function OnboardingFeed({ name }: OnboardingFeedProps): JSX.Element {
   return (
     <Card className="w-full max-w-lg">
       <CardHeader>
-        <CardTitle>Hello, {name}!</CardTitle>
+        <CardTitle>Hello, John !</CardTitle>
         <CardDescription>
-          Let&apos;s get your banking set up in a few quick steps
+          Let&apos;s set up your first data workspace
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4 text-sm">
@@ -161,18 +127,10 @@ function OnboardingFeed({ name }: OnboardingFeedProps): JSX.Element {
           })}
         </Accordion>
         <div className="flex justify-end gap-2">
-          <Button
-            className="flex-1 max-sm:w-full"
-            variant="outline"
-            onClick={() => router.push("/dashboard")}
-          >
+          <Button className="flex-1 max-sm:w-full" variant="outline">
             Cancel
           </Button>
-          <Button
-            className="flex-1 max-sm:w-full"
-            type="button"
-            onClick={() => router.push(MY_WALLETS_PATH)}
-          >
+          <Button className="flex-1 max-sm:w-full" type="submit">
             Continue
           </Button>
         </div>

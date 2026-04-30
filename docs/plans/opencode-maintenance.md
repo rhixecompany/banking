@@ -1,7 +1,7 @@
 ---
 plan name: opencode-maintenance
 plan description: OpenCode Tooling Maintenance
-plan status: active
+plan status: done
 ---
 
 ## Idea

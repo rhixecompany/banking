@@ -1,8 +1,12 @@
 ---
 name: meeting-minutes
 description: Generate concise, actionable meeting minutes with decisions and action items for internal meetings.
-lastReviewed: 2026-04-24
+lastReviewed: 2026-04-29
 applyTo: "docs/meetings/**"
+platforms:
+  - opencode
+  - cursor
+  - copilot
 ---
 
 # Meeting Minutes Skill — Short Internal Meetings
@@ -235,3 +239,109 @@ A generated minutes document is acceptable if:
 - All significant decisions are captured with at least 1-line rationale.
 - Attachments or references are listed or explicitly marked `None`.
 - The document is factual; uncertain items are labeled `TBD`.
+
+---
+
+## Multi-Agent Support
+
+### OpenCode
+
+In OpenCode, use this skill when:
+
+- Transcribing meeting recordings or transcripts
+- Converting meeting notes into structured formats
+- Creating action items from discussions
+
+```bash
+# Example: OpenCode prompt
+Generate meeting minutes from this transcript. Meeting was a design review
+for the new payment system. Duration: 45 minutes.
+```
+
+### Cursor
+
+In Cursor IDE:
+
+- Use with `.cursorrules` for team-specific minute formats
+- Integrate with task management for action item tracking
+- Link minutes to related design documents
+
+```json
+// .cursorrules - Meeting minutes integration
+{
+  "meetings": {
+    "template": "strict",
+    "actionItemFormat": "github-issue"
+  }
+}
+```
+
+### GitHub Copilot
+
+In Copilot CLI:
+
+- Reference meeting context for code suggestions
+- Use action items to guide implementation planning
+
+```bash
+# Example: Copilot prompt
+Based on the meeting minutes from last week's planning session,
+create a task list for implementing the authentication feature.
+```
+
+---
+
+## Cross-References
+
+This skill works well with:
+
+| Related Skill   | Use Case                                       |
+| --------------- | ---------------------------------------------- |
+| `prd`           | Capture requirements from stakeholder meetings |
+| `github-issues` | Convert action items to GitHub issues          |
+| `git-commit`    | Reference meeting context in commit messages   |
+| `testing-skill` | Plan testing based on meeting decisions        |
+
+---
+
+## Troubleshooting
+
+| Issue | Solution |
+| --- | --- |
+| Missing attendee list | Mark as "TBD - request from organizer" |
+| No transcript available | Use "ad-hoc notes" as source and note potential gaps |
+| Unclear decisions | Mark as "Pending clarification" and note who to confirm with |
+| Action items without owners | Assign to meeting organizer or mark as "TBD - needs assignment" |
+| Too many action items | Prioritize by: must do (MVP) / should do (v1) / could do (v2) |
+
+---
+
+## Best Practices
+
+### Meeting Minute Quality
+
+1. **Capture decisions, not discussions** - Focus on what was decided, not every comment made.
+
+2. **Make action items actionable** - Each action should have a clear deliverable and deadline.
+
+3. **Link to artifacts** - Always reference related documents, tickets, or recordings.
+
+4. **Review within 24 hours** - Send draft to organizer while context is fresh.
+
+5. **Follow up on stale items** - Review action items from previous meetings in subsequent meetings.
+
+### Minute Archive Management
+
+- Store minutes in consistent location (e.g., `docs/meetings/YYYY-MM/`)
+- Use consistent naming convention: `YYYY-MM-DD-topic.md`
+- Include meeting type in metadata for filtering
+- Archive older minutes but keep searchable index
+
+---
+
+## Notes
+
+- Minutes are historical records - write for clarity, not brevity
+- Always include who was responsible for each decision
+- Use ISO 8601 dates for machine readability
+- Consider accessibility - avoid relying solely on color for meaning

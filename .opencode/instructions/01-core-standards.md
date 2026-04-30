@@ -8,8 +8,8 @@ lastReviewed: 2026-04-23
 
 # Core Standards
 
-- Use `npm run format` before committing.
-- Type-check: `npm run type-check` and fix all TypeScript errors.
-- Lint strictly: `npm run lint:strict` — zero warnings allowed for PRs.
+- Use `bun run format` before committing.
+- Type-check: `bun run type-check` and fix all TypeScript errors.
+- Lint strictly: `bun run lint:strict` — zero warnings allowed for PRs.
 - Avoid `any`; prefer `unknown` with guards.
 - Zod schemas must include `.describe()` for each field and explicit error messages.

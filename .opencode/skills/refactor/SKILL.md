@@ -2,8 +2,12 @@
 name: refactor
 description: Surgical code refactoring guidance to improve maintainability without changing behavior.
 license: MIT
-lastReviewed: 2026-04-24
+lastReviewed: 2026-04-29
 applyTo: "src/**/*.{ts,tsx,js,jsx}"
+platforms:
+  - opencode
+  - cursor
+  - copilot
 ---
 
 # Refactor
@@ -645,3 +649,126 @@ Use this skill when:
 | Introduce Null Object | Eliminate null checks |
 | Replace Type Code with Class/Enum | Strong typing |
 | Replace Inheritance with Delegation | Composition over inheritance |
+
+---
+
+## Multi-Agent Refactoring Workflows
+
+### Parallel Refactoring with Specialized Agents
+
+When refactoring large codebases, dispatch multiple specialized agents to work on different areas simultaneously:
+
+```bash
+# Agent 1: Refactor data layer
+task --agent explore --prompt "Find all database query functions in dal/ that could benefit from N+1 prevention patterns"
+
+# Agent 2: Refactor UI components
+task --agent explore --prompt "Find all components in components/ that directly import database clients (violation)"
+
+# Agent 3: Refactor server actions
+task --agent explore --prompt "Find all server actions in actions/ that lack proper auth() validation"
+```
+
+### Agent Coordination Pattern
+
+For coordinated refactoring across boundaries:
+
+1. **Survey Agent** - Maps the codebase, identifies refactoring targets
+2. **Plan Agent** - Creates refactoring plan with dependency ordering
+3. **Execute Agents** - Parallel workers on independent modules
+4. **Integration Agent** - Verifies cross-module compatibility
+
+### Refactoring Validation Chain
+
+```bash
+# After refactoring, validate with multiple agents in sequence
+task --agent code-review --prompt "Review refactored dal/user.dal.ts for:
+- N+1 query patterns eliminated
+- Type safety improved
+- No behavioral changes"
+
+task --agent code-review --prompt "Review refactored components/Dashboard.tsx for:
+- No direct DB imports
+- Proper DAL usage
+- Type-safe props"
+```
+
+### Agent Handoff for Complex Refactoring
+
+For complex refactoring requiring multiple phases:
+
+```bash
+# Phase 1: Analysis (explore agent)
+task --agent explore --prompt "Analyze lib/auth.ts for:
+- Function complexity
+- Repeated logic
+- Type safety gaps"
+
+# Phase 2: Planning (general agent)
+# Based on analysis, create refactoring plan
+
+# Phase 3: Execution (build agent)
+# Implement refactoring with test-driven approach
+
+# Phase 4: Verification (code-review agent)
+# Validate changes preserve behavior
+```
+
+---
+
+## Cross-References
+
+### Related Skills
+
+- **simplify** - For code simplification without refactoring
+- **code-review** - For reviewing refactored code
+- **testing-skill** - For writing tests before refactoring
+- **dal-skill** - For database-specific refactoring patterns
+- **server-action-skill** - For server action refactoring
+
+### Reference Files
+
+- `scripts/verify-rules.ts` - Policy enforcement for refactored code
+- `dal/transaction.dal.ts` - Reference implementation for DAL patterns
+
+### Related Concepts
+
+- SOLID principles (Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, Dependency Inversion)
+- Clean Code principles
+- Test-Driven Development
+
+---
+
+## Best Practices
+
+### Before Refactoring
+
+1. **Ensure test coverage exists** - Write tests before refactoring
+2. **Commit current state** - Save working version in version control
+3. **Create feature branch** - Isolate refactoring from other changes
+4. **Understand the code** - Document what the code does before changing
+5. **Plan the refactoring** - Identify specific code smells to address
+
+### During Refactoring
+
+1. **Take small steps** - Make one change at a time
+2. **Run tests after each change** - Verify behavior preserved
+3. **Commit frequently** - Save working states
+4. **Don't mix refactoring with features** - Mixes concerns
+5. **Use linters and formatters** - Maintain code style consistency
+
+### After Refactoring
+
+1. **Run full test suite** - Verify all tests pass
+2. **Review changes** - Check for unintended modifications
+3. **Update documentation** - Keep docs in sync with code
+4. **Verify performance** - Ensure no regressions
+5. **Final commit** - Document refactoring in commit message
+
+### Anti-Patterns to Avoid
+
+- **Refactoring without tests** - You're editing, not refactoring
+- **Big bang refactoring** - Too many changes at once
+- **Refactoring and feature work together** - Mixes concerns
+- **Ignoring test failures** - Tests are your safety net
+- **Skipping documentation updates** - Leaves codebase inconsistent

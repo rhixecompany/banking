@@ -2,8 +2,12 @@
 name: prd
 description: Generate high-quality Product Requirements Documents (PRDs) including user stories, technical specs, and risk analysis.
 license: MIT
-lastReviewed: 2026-04-24
+lastReviewed: 2026-04-29
 applyTo: "docs/**"
+platforms:
+  - opencode
+  - cursor
+  - copilot
 ---
 
 # Product Requirements Document (PRD)
@@ -141,3 +145,115 @@ You **MUST** follow this exact structure for the output:
 
 - **Benchmark**: Test with 50 common developer questions.
 - **Pass Rate**: 90% must match expected citations.
+
+---
+
+## Multi-Agent Support
+
+### OpenCode
+
+In OpenCode, use the PRD skill when:
+
+- Creating documentation for new features
+- Planning technical implementations
+- Defining acceptance criteria for complex features
+
+```bash
+# Example: Ask OpenCode to generate a PRD
+Create a PRD for a new payment processing feature that integrates with Stripe.
+Include user stories, technical requirements, and success metrics.
+```
+
+### Cursor
+
+In Cursor IDE:
+
+- Use with `.cursorrules` for project-specific requirements
+- Integrate with code generation for feature planning
+- Link PRDs to implementation tasks
+
+```json
+// .cursorrules - PRD integration
+{
+  "features": {
+    "requirePRD": true,
+    "prdTemplate": "strict"
+  }
+}
+```
+
+### GitHub Copilot
+
+In Copilot CLI or Copilot Chat:
+
+- Reference PRDs for context-aware code generation
+- Use user stories to guide implementation suggestions
+
+```bash
+# Example: Copilot prompt
+Based on the PRD for the checkout feature, generate the API endpoints
+for processing payments and handling webhooks.
+```
+
+---
+
+## Cross-References
+
+This skill works well with:
+
+| Related Skill | Use Case |
+| --- | --- |
+| `meeting-minutes` | Capture requirements from stakeholder meetings |
+| `refactor` | Improve PRD-specified features during implementation |
+| `validation-skill` | Validate acceptance criteria are testable |
+| `testing-skill` | Plan test strategies based on PRD requirements |
+
+---
+
+## Troubleshooting
+
+| Issue | Solution |
+| --- | --- |
+| User provides vague requirements | Ask clarifying questions: "What problem does this solve?", "Who are the users?", "What defines success?" |
+| Scope creep in PRD | Clearly define Non-Goals section; use MoSCoW method (Must/Should/Could/Won't) |
+| Technical details missing | Mark as `TBD` and suggest specific technical investigations |
+| Success metrics undefined | Work backward from business goals: "How do we know this succeeded?" |
+| PRD too long | Focus on MVP first; defer v2.0 details to separate documents |
+
+---
+
+## Best Practices
+
+### Writing Effective PRDs
+
+1. **Start with the problem, not the solution** - Understand why you're building something before defining what to build.
+
+2. **Make metrics measurable** - "Improve user experience" is not a metric. "Reduce checkout abandonment by 15%" is.
+
+3. **Keep user stories independent** - Each story should deliver value without depending on other stories.
+
+4. **Define acceptance criteria as tests** - Write AC that can be verified automatically or manually.
+
+5. **Review with stakeholders** - PRD is a contract between business and engineering; both must agree.
+
+### PRD Review Checklist
+
+- [ ] Problem statement is clear and specific
+- [ ] Success criteria are measurable (numeric thresholds)
+- [ ] User personas are defined and realistic
+- [ ] User stories follow the template: As a... I want... So that...
+- [ ] Acceptance criteria are testable
+- [ ] Non-Goals explicitly exclude out-of-scope items
+- [ ] Technical requirements are feasible
+- [ ] Risks are identified with mitigation plans
+- [ ] Roadmap has clear phases with milestones
+- [ ] Dependencies are documented
+
+---
+
+## Notes
+
+- PRDs should be living documents - update as understanding evolves
+- For AI features, always include evaluation criteria
+- Link PRDs to implementation plans and test strategies
+- Store PRDs in version control alongside code

@@ -17,6 +17,46 @@ applyTo: "**/*"
 
 Patterns for adding safety, trust, and policy enforcement to AI agent systems.
 
+## Agent Support
+
+This skill supports all major AI coding agents:
+
+| Agent | Integration Method |
+| --- | --- |
+| **OpenCode** | Use directly in prompts: "Use agent-governance to add safety controls to this agent" |
+| **GitHub Copilot** | Add to `.github/copilot-instructions.md` for workspace-wide governance |
+| **Cursor** | Add to `.cursorrules` or create rule via `create-rule` skill |
+
+### OpenCode Usage
+
+```markdown
+Use agent-governance skill to implement governance controls for this agent. Include: policy-based tool restrictions, intent classification, audit trail
+```
+
+### GitHub Copilot Integration
+
+Add to workspace instructions (`.github/copilot-instructions.md`):
+
+```markdown
+# Agent Governance
+
+- Use governance patterns for all agents with tool access
+- Implement intent classification before tool execution
+- Maintain audit trail for compliance
+- Set trust scores for multi-agent delegations
+```
+
+### Cursor Integration
+
+Create a Cursor rule:
+
+```bash
+Use create-rule skill to add:
+- Governance policy enforcement
+- Intent classification
+- Audit logging
+```
+
 ## Overview
 
 Governance patterns ensure AI agents operate within defined boundaries — controlling which tools they can call, what content they can process, how much they can do, and maintaining accountability through audit trails.

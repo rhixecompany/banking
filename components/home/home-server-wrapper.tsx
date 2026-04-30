@@ -1,45 +1,9 @@
-import type { MenuData } from "@/components/shadcn-studio/blocks/hero-section-41/hero-section-41";
-import type { NavigationSection } from "@/components/shadcn-studio/blocks/menu-navigation";
-
 import CtaGetStarted from "@/components/layouts/cta-get-started";
 import FeaturesGrid from "@/components/layouts/features-grid";
 import HomeFooter from "@/components/layouts/home-footer";
 import TotalBalanceLayout from "@/components/layouts/total-balance";
-import Header from "@/components/shadcn-studio/blocks/hero-section-41/header";
 import HeroSection from "@/components/shadcn-studio/blocks/hero-section-41/hero-section-41";
 import { Container } from "@/components/ui/container";
-
-const navigationData: NavigationSection[] = [];
-
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @type {MenuData[]}
- */
-const bankingMenuData: MenuData[] = [
-  {
-    id: 1,
-    img: "https://picsum.photos/seed/banking1/480/480",
-    imgAlt: "Secure online banking dashboard",
-    userAvatar: "https://picsum.photos/seed/avatar1/80/80",
-    userComment: "Horizon makes managing my finances effortless.",
-  },
-  {
-    id: 2,
-    img: "https://picsum.photos/seed/banking2/480/480",
-    imgAlt: "Instant money transfers",
-    userAvatar: "https://picsum.photos/seed/avatar2/80/80",
-    userComment: "Instant transfers with zero fees — game changer!",
-  },
-  {
-    id: 3,
-    img: "https://picsum.photos/seed/banking3/480/480",
-    imgAlt: "Track spending and transactions",
-    userAvatar: "https://picsum.photos/seed/avatar3/80/80",
-    userComment: "I love seeing all my accounts in one place.",
-  },
-];
 
 /**
  * Landing page component — publicly accessible, no auth required.
@@ -50,10 +14,8 @@ const bankingMenuData: MenuData[] = [
 export function HomeServerWrapper(): JSX.Element {
   return (
     <div className="flex min-h-screen flex-col">
-      <Header navigationData={navigationData} />
-
       <main className="flex-1 pt-17.5">
-        <HeroSection menudata={bankingMenuData} />
+        <HeroSection />
 
         <FeaturesGrid />
 

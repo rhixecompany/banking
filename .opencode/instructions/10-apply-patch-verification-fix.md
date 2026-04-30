@@ -12,9 +12,9 @@ Short checklist
 
 - When making text edits via automation, always read the file with the `read` tool before calling `apply_patch`. This prevents mismatches and avoids blind edits.
 - After applying patches run:
-  - npm run format
-  - npm run type-check
-  - npm run verify:rules to surface formatting, type, and repository-rule issues immediately.
+  - bun run format
+  - bun run type-check
+  - bun run verify:rules to surface formatting, type, and repository-rule issues immediately.
 
 This file documents a specific, common wrapper error (and how to debug it), and it adds concrete, cross-platform commands you can run locally to bypass the wrapper and re-run the repository verification script.
 
@@ -56,11 +56,11 @@ When to open an issue against the wrapper
 
 ## Canonical commands to run the project's verify-rules script
 
-The repository provides both an npm script and a direct `tsx` invocation.
+The repository provides both an bun script and a direct `tsx` invocation.
 
 Notes:
 
-- The repo has two useful npm scripts:
+- The repo has two useful bun scripts:
   - verify:rules — runs the script interactively (prints output)
   - verify:rules:ci — runs with CI mode and writes JSON output to .opencode/reports/rules-report.json
 - You can pass `--ci` and `--output <path>` to the script to enable CI behavior and specify the output path. The canonical CI JSON path used by CI is: .opencode/reports/rules-report.json
@@ -68,22 +68,22 @@ Notes:
 Bash examples
 
 - Run the default interactive check:
-  - npm run verify:rules
+  - bun run verify:rules
 - Run in CI mode and write JSON output to the default path:
-  - npm run verify:rules -- --ci --output .opencode/reports/rules-report.json
+  - bun run verify:rules -- --ci --output .opencode/reports/rules-report.json
   - or use the convenience script:
-    - npm run verify:rules:ci
-- Direct tsx invocation (bypasses npm):
+    - bun run verify:rules:ci
+- Direct tsx invocation (bypasses bun):
   - npx tsx scripts/verify-rules.ts --ci --output .opencode/reports/rules-report.json
 
 PowerShell examples
 
 - Run the default interactive check:
-  - npm run verify:rules
+  - bun run verify:rules
 - Run in CI mode and write JSON output:
-  - npm run verify:rules -- --ci --output .opencode/reports/rules-report.json
+  - bun run verify:rules -- --ci --output .opencode/reports/rules-report.json
   - or
-    - npm run verify:rules:ci
+    - bun run verify:rules:ci
 - Direct tsx invocation:
   - npx tsx scripts/verify-rules.ts --ci --output .opencode\reports\rules-report.json
 
@@ -96,7 +96,7 @@ Inspect generated report (PowerShell)
 
 - Get-Content .\opencode\reports\rules-report.json -Raw | ConvertFrom-Json
 
-Note: if you run `npm run verify:rules` without `--ci` the script prints findings to stdout; CI mode (`--ci`) is used when you want machine-readable JSON output.
+Note: if you run `bun run verify:rules` without `--ci` the script prints findings to stdout; CI mode (`--ci`) is used when you want machine-readable JSON output.
 
 ---
 
@@ -143,7 +143,7 @@ Bash (Linux / macOS / Git Bash / WSL)
   - test -f scripts/verify-rules.ts && echo "verify-rules.ts exists" || echo "verify-rules.ts missing"
   - sed -n '1,120p' scripts/verify-rules.ts
 - Run verification (bypass wrapper)
-  - npm run verify:rules -- --ci --output .opencode/reports/rules-report.json
+  - bun run verify:rules -- --ci --output .opencode/reports/rules-report.json
   - or
   - npx tsx scripts/verify-rules.ts --ci --output .opencode/reports/rules-report.json
 - Inspect output
@@ -169,7 +169,7 @@ PowerShell (Windows)
   - Test-Path .\scripts\verify-rules.ts
   - Get-Content .\scripts\verify-rules.ts -TotalCount 120
 - Run verification (bypass wrapper)
-  - npm run verify:rules -- --ci --output .opencode\reports\rules-report.json
+  - bun run verify:rules -- --ci --output .opencode\reports\rules-report.json
   - or
   - npx tsx scripts/verify-rules.ts --ci --output .opencode\reports\rules-report.json
 - Inspect output
@@ -183,7 +183,7 @@ Collect these outputs and include them when filing a wrapper/agent bug. They wil
 ## Quick triage flow (recommended)
 
 1. Agent run fails with wrapper validation error.
-2. Reproduce the failing verify-rules invocation locally (use the exact `npx tsx` or `npm run` command above).
+2. Reproduce the failing verify-rules invocation locally (use the exact `npx tsx` or `bun run` command above).
 3. If the local run succeeds, inspect the wrapper caller code (the place where the agent invoked `bash` or the tooling wrapper) for undefined workdir/path arguments.
 4. If local run fails too, capture the script stdout/stderr and open an issue — include the verify-rules output (.opencode/reports/rules-report.json when run with --ci) and the other diagnostics above.
 5. If you must continue work immediately, manually run the verify:rules command locally and proceed after triaging the issues it reports.
@@ -193,6 +193,6 @@ Collect these outputs and include them when filing a wrapper/agent bug. They wil
 ## Notes / repository rules reminders
 
 - Before opening a PR, run:
-  - npm run format && npm run type-check && npm run lint:strict && npm run verify:rules
+  - bun run format && bun run type-check && bun run lint:strict && bun run verify:rules
 - Keep automated edits small — if you will touch more than 5 files, create a plan under .opencode/commands/ as required by repository policy.
 - Do NOT commit secrets (.env, tokens). Use app-config.ts / lib/env.ts helpers rather than direct process.env reads when updating code.

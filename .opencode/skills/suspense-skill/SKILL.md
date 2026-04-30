@@ -1,11 +1,15 @@
 ---
 name: suspense-skill
 description: Guidance for implementing Suspense boundaries in Next.js 16 to handle async auth APIs without blocking route rendering.
-lastReviewed: 2026-04-24
+lastReviewed: 2026-04-29
 applyTo: "app/**/*.{tsx,ts,md}"
+platforms:
+  - opencode
+  - cursor
+  - copilot
 ---
 
-# suspense-skill
+# Suspense Boundary Implementation
 
 This skill provides guidance for implementing Suspense boundaries in Next.js 16 to handle async auth APIs without blocking route rendering.
 
@@ -131,13 +135,104 @@ Error: Route "/": Runtime data such as `cookies()`, `headers()`,
 2. Move auth check to layout level
 3. Use `useEffect` for client-side checks when possible
 
+---
+
+## Multi-Agent Support
+
+### OpenCode
+
+In OpenCode, use this skill when:
+
+- Creating protected routes with Suspense boundaries
+- Implementing auth checks in Server Components
+- Adding loading states for async operations
+
+```bash
+# Example: OpenCode prompt
+Create a protected dashboard route with Suspense boundary.
+The page should check authentication and redirect to sign-in if not authenticated.
+```
+
+### Cursor
+
+In Cursor IDE:
+
+- Use with `.cursorrules` for Next.js Suspense patterns
+- Integrate with code generation for proper async handling
+- Apply to new route creation automatically
+
+```json
+// .cursorrules - Suspense configuration
+{
+  "nextjs": {
+    "suspenseRequired": true,
+    "loadingSkeleton": true
+  }
+}
+```
+
+### GitHub Copilot
+
+In Copilot CLI:
+
+- Reference Suspense patterns for auth implementation
+- Suggest Suspense boundaries for async operations
+
+```bash
+# Example: Copilot prompt
+Generate a protected route component that uses Suspense
+for the authentication check.
+```
+
+---
+
+## Cross-References
+
+This skill works well with:
+
+| Related Skill         | Use Case                           |
+| --------------------- | ---------------------------------- |
+| `auth-skill`          | Combine with NextAuth v4 patterns  |
+| `ui-skill`            | Create loading skeletons           |
+| `server-action-skill` | Handle async operations in actions |
+| `testing-skill`       | Test Suspense boundaries           |
+
+---
+
+## Troubleshooting
+
+| Issue | Solution |
+| --- | --- |
+| "Route accessed without Suspense" | Wrap async Server Components in `<Suspense>` boundary |
+| Slow initial page load | Add loading skeleton; move auth to layout level |
+| Flash of unstyled content | Use consistent loading skeleton design |
+| Redirect not working in Suspense | Move redirect logic inside async component, not in fallback |
+| Multiple Suspense boundaries needed | Break into smaller components, each with own Suspense |
+
+---
+
 ## Best Practices
 
-1. **Always wrap async Server Components** in Suspense
-2. **Provide meaningful loading skeletons**, not spinners
-3. **Handle redirects inside async components**, not in Suspense fallback
-4. **Keep Suspense boundaries as high as possible** in the tree
-5. **Test with slow network** to ensure loading states work
+### Suspense Implementation
+
+1. **Always wrap async Server Components** in Suspense - Required in Next.js 16 for streaming.
+
+2. **Provide meaningful loading skeletons**, not spinners - Skeletons reduce perceived load time.
+
+3. **Handle redirects inside async components**, not in Suspense fallback - Fallback is for UI states.
+
+4. **Keep Suspense boundaries as high as possible** in the tree - Enables earlier streaming.
+
+5. **Test with slow network** to ensure loading states work - Use Chrome DevTools throttling.
+
+### Performance Optimization
+
+- Use `loading.tsx` files for automatic Suspense boundaries
+- Design skeletons to match actual content layout
+- Consider `lazy()` for code splitting with Suspense
+- Profile with React DevTools to verify streaming behavior
+
+---
 
 ## Example Prompts for This Skill
 
@@ -145,3 +240,12 @@ Error: Route "/": Runtime data such as `cookies()`, `headers()`,
 - "Add loading skeleton for the dashboard"
 - "Fix the blocking route error on the sign-in page"
 - "Implement auth check with Suspense for the admin layout"
+
+---
+
+## Notes
+
+- Next.js 16 requires Suspense for all async Server Components
+- Streaming starts when Suspense boundary resolves
+- Use `notFound()` and `redirect()` from `next/navigation` inside async components
+- Client Components don't need Suspense - they're already non-blocking

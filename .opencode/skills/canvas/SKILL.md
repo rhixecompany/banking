@@ -1,155 +1,586 @@
 ---
 name: canvas
 description: >-
-  A Cursor Canvas is a live React app that the user can open beside the chat. You MUST use a canvas when the agent produces a standalone analytical artifact — quantitative analyses, billing investigations, security audits, architecture reviews, data-heavy content, timelines, charts, tables, interactive explorations, repeatable tools, or any response that benefits from visual layout. Especially prefer a canvas when presenting results from MCP tools (Datadog, Databricks, Linear, Sentry, Slack, etc.) where the data is the deliverable — render it in a rich canvas rather than dumping it into a markdown table or code block. If you catch yourself about to write a markdown table, stop and use a canvas instead. You MUST also read this skill whenever you create, edit, or debug any .canvas.tsx file.
+  A Cursor Canvas is a live React app that the user can open beside the chat. You MUST use a canvas when the agent produces a standalone analytical artifact — quantitative analyses, billing investigations, security audits, architecture reviews, data-heavy content, timelines, charts, tables, interactive explorations, repeatable tools, or any response that benefits from visual layout. Especially prefer a canvas when presenting results from MCP tools (Datadog, Databricks, Linear, Sentry, Slack, etc.) where the data is the deliverable — render it in a rich canvas rather than dumping it into a markdown table or code block.
 
 
 metadata:
   surfaces:
+    - cli
     - ide
+    - chat
 ---
 
-A canvas is a single `.canvas.tsx` file the IDE compiles so the user can open it beside the chat. Follow the workflow below in order.
+# Canvas - Interactive Visual Artifacts
 
-## Workflow
+Create rich, interactive visual artifacts using Cursor Canvas. This skill provides comprehensive guidance for building analytical artifacts, data visualizations, and interactive tools across all AI agent platforms (OpenCode, Cursor, GitHub Copilot).
 
-### 1. Decide whether to use a canvas
+## When to Use This Skill
 
-The trigger is **user intent**, not response shape. Ask: would the user benefit from viewing this output as its **own standalone artifact**, separate from the chat? If the output is a means to an end (a drafted message, a code fix, a dashboard in another tool), skip the canvas.
+- Creating quantitative analyses
+- Building billing investigations
+- Conducting security audits
+- Architecture reviews
+- Data-heavy content
+- Timelines and charts
+- Tables and interactive explorations
+- Repeatable tools
+- Presenting MCP tool results (Datadog, Sentry, Slack, etc.)
 
-**Use a canvas when the agent produces new standalone analytical output:**
+## Platform-Specific Considerations
 
-- Quantitative analyses and metrics breakdowns (e.g. "send 500 requests and tell me how many fail")
-- Billing or account investigations that surface structured findings from database queries
-- Security audits or architecture reviews with categorized findings
-- Cross-system data analyses and overlap reports
-- Structured data from MCP tools (Databricks, Datadog, etc.) where the data IS the deliverable
-- Financial analyses, margin decompositions, usage trend reports
-- Tables with more than a handful of rows that the user asked to see
+### OpenCode
 
-**Do NOT use a canvas when:**
+In OpenCode:
 
-- The user asks for work in a **specific tool** — "create a Datadog dashboard" means give them a Datadog dashboard, not a canvas
-- The user has a **specific deliverable** — "draft a support response", "fix this code", "make this PR"
-- The user is **working within an existing artifact** — improving an HTML dashboard, editing an existing file
-- The user is doing **targeted debugging** or active development, even if structured findings emerge along the way
-- Short factual answers, one-off file edits, or quick clarifying questions
-- MCP tools are queried as an **intermediate step** for a different deliverable (e.g. querying Stripe to draft a support reply)
+- Canvas files use `.canvas.tsx` extension
+- Render as standalone React applications
+- Can use data visualization libraries
+- Support interactive components
 
-### 2. Write the canvas
+### Cursor
 
-**Location.** Canvases live at `/Users/<user>/.cursor/projects/<workspace>/canvases/<name>.canvas.tsx`. The IDE only detects canvases written directly inside that exact directory — subfolders, alternate extensions, and other locations are not picked up. For a new canvas, always use the write file tool to create the `.canvas.tsx` file at that exact path; do not stop after telling the user the path or showing code in chat. Treat that managed `canvases/` directory as pre-provisioned by Cursor itself: write the canvas file directly there and do **not** spend turns creating the directory with `mkdir` or checking whether it exists before writing. Listing its contents for other purposes (e.g. checking for existing canvases) is fine. If you can't determine the workspace directory from absolute paths already in your environment (terminals, transcripts, recently-viewed files), list `~/.cursor/projects/` rather than guessing. Use a descriptive kebab-case filename ending in `.canvas.tsx`; preserve acronym capitalization and lowercase the rest.
+In Cursor IDE:
 
-**File rules:**
+- Use the Canvas feature for visual outputs
+- Render charts and graphs
+- Create interactive tables
+- Build data exploration tools
 
-- Exactly one `.canvas.tsx` file per canvas. Never create helper files, style files, or supporting modules.
-- Import **only** from `cursor/canvas`. No relative imports, no npm packages, no Node built-ins.
-- Default-export the top-level component.
-- Embed all data inline. **No `fetch()`, no network calls.**
+### GitHub Copilot
 
-**Component discovery:** prefer built-in `cursor/canvas` components over hand-rolled markup. The full public surface (components, hooks, prop types, tokens) is declared in `~/.cursor/skills-cursor/canvas/sdk/index.d.ts` and its sibling `.d.ts` files — read them when you need exact exports, prop shapes, or hook signatures rather than guessing. Referencing an export that does not exist is the most common runtime error.
+In Copilot CLI or VS Code:
 
-Apply the Canvas generation policy below as you write, and complete its pre-delivery self-check (section 6) before returning the canvas.
+- Create VS Code webviews for visual output
+- Use Dataframe visualization
+- Build interactive notebooks
 
-## Design guidance
+## 1. Canvas File Structure
 
-Be creative. The SDK gives you expressive building blocks — use them in whatever combination best serves the content. But avoid slop: no gradients, no emojis, no box-shadows, no rainbow coloring. Cursor canvases are flat, minimal, and purposeful.
-
-### Visual hierarchy
-
-Not everything deserves equal treatment. Primary content gets more space, larger headings, and accent color. Supporting content stays compact. Squint test: blur your eyes — can you tell what matters?
-
-**Color.** All colors from `useHostTheme()` tokens — read its JSDoc in the SDK declarations for the return shape and usage pattern. No hardcoded hex. Use accent color deliberately, not on everything.
-
-### Slop patterns — forbidden
-
-These specific patterns produce low-quality output. If 2+ are present, redesign.
-
-- **Gradients** — no `linear-gradient`, `radial-gradient`, `background-clip: text`.
-- **Emojis** — no emoji as icons, status indicators, bullets, or section markers.
-- **Box shadows** — no `box-shadow`. Flat surfaces only.
-- **Wall of identical cards** — every section wrapped in the same card style with no variation. Mix open sections with cards.
-- **Rainbow coloring** — a different color on every element. Most elements are neutral; color is used sparingly with purpose.
-- **Giant text** — font sizes above H1 (24px), or bold text stuffed in CardHeader.
-- **Decorative borders** — colored borders on every element. Borders are structural (subtle stroke tokens), not decorative.
-
-### Pre-delivery self-check
-
-Before returning canvas code, verify:
-
-1. Does the layout have visual hierarchy? One thing should stand out.
-2. Is there variety in the composition? Not just a single column of uniform blocks.
-3. Slop check: scan for the forbidden patterns above.
-
-## Introducing the canvas
-
-When you create a canvas, add a short note in your chat response telling the user you created a canvas they can open beside the chat:
-
-- **First canvas** — if no other `.canvas.tsx` files exist in the workspace's `canvases/` directory, include one sentence explaining what a canvas is.
-- **Unsolicited canvas** — if the user didn't ask for a canvas, include one sentence explaining why you chose it over plain text.
-
-Both can apply at once; one or two sentences total is enough. Skip the intro for subsequent canvases.
-
-## Troubleshooting
-
-If a canvas appears blank or missing, the most common cause is that it was not written under `/Users/<user>/.cursor/projects/<workspace>/canvases/` exactly — re-save it to that path. Do not debug this by trying to create the managed directory manually; focus on correcting the file path instead. Users can click the canvas file path in the response to open it, just like any other file path in Cursor. When present, the canvas server writes a `<name>.canvas.status.json` sidecar after each build with `status`, `diagnostics`, or `error` fields you can read; the file is best-effort and may not exist, so don't block on it.
-
-## Good example
+### Basic Canvas Template
 
 ```tsx
-import {
-  Divider,
-  Grid,
-  H1,
-  H2,
-  Stack,
-  Stat,
-  Table,
-  Text
-} from "cursor/canvas";
+// File: components/canvas/example.canvas.tsx
 
-export default function ServiceOverview() {
+import { useMemo } from "react";
+
+export default function ExampleCanvas() {
+  // Your canvas implementation
   return (
-    <Stack gap={20}>
-      <H1>Service Overview</H1>
-      <Grid columns={3} gap={16}>
-        <Stat value="6" label="Total Services" />
-        <Stat value="5" label="Healthy" tone="success" />
-        <Stat value="1" label="Degraded" tone="warning" />
-      </Grid>
-      <Divider />
-      <H2>Service Status</H2>
-      <Table
-        headers={["Service", "Status", "Uptime", "Latency"]}
-        rows={[
-          ["api-gateway", "Operational", "99.99%", "12ms"],
-          ["auth-service", "Degraded", "99.2%", "340ms"],
-          ["billing", "Operational", "99.8%", "45ms"]
-        ]}
-        rowTone={[undefined, "warning", undefined]}
-      />
-      <Divider />
-      <H2>Recent Changes</H2>
-      <Text>
-        Auth service latency increased after the 14:30 deploy.
-      </Text>
-      <Text tone="secondary" size="small">
-        Last checked: Apr 7, 2026 14:52 UTC
-      </Text>
-    </Stack>
+    <div className="p-4">
+      <h1 className="text-2xl font-bold">Example Canvas</h1>
+    </div>
   );
 }
 ```
 
-Stats in a Grid, Table directly under H2, text sections without cards.
-
-## Bad example — do not imitate
+### Canvas with Data
 
 ```tsx
-// BAD — every section wrapped in Card, no hierarchy, Table unnecessarily boxed
-<Stack gap={12}>
-  <Card><CardHeader>Summary</CardHeader><CardBody><Text>6 services.</Text></CardBody></Card>
-  <Card><CardHeader>Status</CardHeader><CardBody><Table headers={[...]} rows={[...]} /></CardBody></Card>
-  <Card><CardHeader>Changes</CardHeader><CardBody><Text>Latency increased.</Text></CardBody></Card>
-</Stack>
+// Canvas with analytical data
+interface DataPoint {
+  label: string;
+  value: number;
+  timestamp: string;
+}
+
+export default function DataCanvas() {
+  const data: DataPoint[] = useMemo(
+    () => [
+      { label: "Q1", value: 100, timestamp: "2026-01" },
+      { label: "Q2", value: 150, timestamp: "2026-02" },
+      { label: "Q3", value: 200, timestamp: "2026-03" }
+    ],
+    []
+  );
+
+  return (
+    <div className="p-6">
+      <h1 className="text-xl font-bold mb-4">Quarterly Analysis</h1>
+      {/* Render data */}
+    </div>
+  );
+}
 ```
+
+## 2. When to Use Canvas
+
+### Use Canvas For
+
+| Scenario | Example | Why Canvas |
+| --- | --- | --- |
+| **Quantitative analysis** | Revenue breakdown by category | Visual hierarchy, charts |
+| **Billing investigation** | Invoice line items | Tables with sorting |
+| **Security audit** | Vulnerability report | Severity indicators |
+| **Architecture review** | System diagram | Visual component tree |
+| **Data-heavy content** | API response analysis | Interactive filtering |
+| **Timeline** | Project milestones | Visual timeline |
+| **Charts** | Performance metrics | Visual representation |
+| **Interactive tools** | Query builder | Real-time interaction |
+| **MCP results** | Datadog metrics | Rich visualization |
+
+### Don't Use Canvas For
+
+| Scenario             | Use Instead  |
+| -------------------- | ------------ |
+| Simple text response | Markdown     |
+| Code snippets        | Code block   |
+| Quick status update  | Chat message |
+| Single metric        | Inline text  |
+
+## 3. Canvas Components
+
+### Data Tables
+
+```tsx
+// Interactive data table
+export function DataTable({ data, columns }: TableProps) {
+  const [sortField, setSortField] = useState<string | null>(null);
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">(
+    "asc"
+  );
+
+  const sortedData = useMemo(() => {
+    if (!sortField) return data;
+    return [...data].sort((a, b) => {
+      const aVal = a[sortField];
+      const bVal = b[sortField];
+      return sortDirection === "asc"
+        ? aVal > bVal
+          ? 1
+          : -1
+        : aVal < bVal
+          ? 1
+          : -1;
+    });
+  }, [data, sortField, sortDirection]);
+
+  return (
+    <table className="w-full">
+      <thead>
+        <tr>
+          {columns.map(col => (
+            <th
+              key={col.key}
+              onClick={() => {
+                if (sortField === col.key) {
+                  setSortDirection(d =>
+                    d === "asc" ? "desc" : "asc"
+                  );
+                } else {
+                  setSortField(col.key);
+                  setSortDirection("asc");
+                }
+              }}
+              className="cursor-pointer"
+            >
+              {col.label}
+              {sortField === col.key &&
+                (sortDirection === "asc" ? " ↑" : " ↓")}
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {sortedData.map((row, i) => (
+          <tr key={i}>
+            {columns.map(col => (
+              <td key={col.key}>{row[col.key]}</td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
+```
+
+### Charts and Graphs
+
+```tsx
+// Bar chart component
+export function BarChart({ data }: { data: ChartData[] }) {
+  const maxValue = Math.max(...data.map(d => d.value));
+
+  return (
+    <div className="flex items-end gap-2 h-64">
+      {data.map((item, i) => (
+        <div key={i} className="flex-1 flex flex-col items-center">
+          <div
+            className="bg-blue-500 w-full"
+            style={{ height: `${(item.value / maxValue) * 100}%` }}
+          />
+          <span className="text-sm mt-2">{item.label}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+```
+
+### Timeline Component
+
+```tsx
+// Interactive timeline
+interface TimelineEvent {
+  date: string;
+  title: string;
+  description: string;
+  type: "milestone" | "task" | "issue";
+}
+
+export function Timeline({ events }: { events: TimelineEvent[] }) {
+  return (
+    <div className="relative">
+      <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-gray-300" />
+      {events.map((event, i) => (
+        <div key={i} className="relative pl-8 pb-8">
+          <div
+            className={`absolute left-2 w-4 h-4 rounded-full ${
+              event.type === "milestone"
+                ? "bg-green-500"
+                : event.type === "task"
+                  ? "bg-blue-500"
+                  : "bg-red-500"
+            }`}
+          />
+          <div className="text-sm text-gray-500">{event.date}</div>
+          <div className="font-semibold">{event.title}</div>
+          <div className="text-gray-600">{event.description}</div>
+        </div>
+      ))}
+    </div>
+  );
+}
+```
+
+### Metrics Dashboard
+
+```tsx
+// Metrics dashboard
+interface Metric {
+  label: string;
+  value: number;
+  change: number;
+  unit?: string;
+}
+
+export function MetricsDashboard({ metrics }: { metrics: Metric[] }) {
+  return (
+    <div className="grid grid-cols-3 gap-4">
+      {metrics.map((metric, i) => (
+        <div key={i} className="p-4 border rounded">
+          <div className="text-gray-500 text-sm">{metric.label}</div>
+          <div className="text-2xl font-bold">
+            {metric.value}
+            {metric.unit}
+          </div>
+          <div
+            className={`text-sm ${metric.change >= 0 ? "text-green-500" : "text-red-500"}`}
+          >
+            {metric.change >= 0 ? "↑" : "↓"} {Math.abs(metric.change)}
+            %
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+```
+
+## 4. Canvas Patterns
+
+### Pattern 1: MCP Data Visualization
+
+When receiving data from MCP tools (Datadog, Sentry, etc.), render as canvas:
+
+```tsx
+// Render MCP data as interactive canvas
+export function MCPCanvas({ mcpData }) {
+  // Transform MCP data to visualization
+  const metrics = transformMetrics(mcpData);
+  const alerts = transformAlerts(mcpData);
+
+  return (
+    <div className="space-y-6">
+      <MetricsDashboard metrics={metrics} />
+      <AlertList alerts={alerts} />
+    </div>
+  );
+}
+```
+
+### Pattern 2: Interactive Explorer
+
+Build data exploration tools:
+
+```tsx
+// Interactive data explorer
+export function DataExplorer({ data }) {
+  const [filters, setFilters] = useState<FilterState>({});
+  const [search, setSearch] = useState("");
+
+  const filteredData = useMemo(() => {
+    return data.filter(row => {
+      const matchesSearch =
+        !search ||
+        Object.values(row).some(v =>
+          String(v).toLowerCase().includes(search.toLowerCase())
+        );
+      const matchesFilters = Object.entries(filters).every(
+        ([key, value]) => !value || row[key] === value
+      );
+      return matchesSearch && matchesFilters;
+    });
+  }, [data, filters, search]);
+
+  return (
+    <div className="space-y-4">
+      <SearchInput value={search} onChange={setSearch} />
+      <FilterBar filters={filters} onChange={setFilters} />
+      <DataTable data={filteredData} />
+    </div>
+  );
+}
+```
+
+### Pattern 3: Comparison View
+
+Show before/after or comparison data:
+
+```tsx
+// Comparison canvas
+export function ComparisonCanvas({ before, after }) {
+  const differences = useMemo(() => {
+    return compareData(before, after);
+  }, [before, after]);
+
+  return (
+    <div className="grid grid-cols-2 gap-4">
+      <div>
+        <h3 className="font-bold mb-2">Before</h3>
+        <DataSummary data={before} />
+      </div>
+      <div>
+        <h3 className="font-bold mb-2">After</h3>
+        <DataSummary data={after} />
+      </div>
+      <div className="col-span-2">
+        <h3 className="font-bold mb-2">Differences</h3>
+        <DiffHighlight differences={differences} />
+      </div>
+    </div>
+  );
+}
+```
+
+## 5. Styling Guidelines
+
+### Use Tailwind Classes
+
+```tsx
+// Consistent styling
+<div className="p-4 border rounded-lg shadow-sm">
+  <h2 className="text-lg font-semibold mb-2">Title</h2>
+  <p className="text-gray-600">Description</p>
+</div>
+```
+
+### Color Coding
+
+```tsx
+// Status colors
+const statusColors = {
+  success: "bg-green-100 text-green-800",
+  warning: "bg-yellow-100 text-yellow-800",
+  error: "bg-red-100 text-red-800",
+  info: "bg-blue-100 text-blue-800"
+};
+```
+
+### Responsive Design
+
+```tsx
+// Responsive grid
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+  {/* Cards */}
+</div>
+```
+
+## 6. Canvas Best Practices
+
+### Do
+
+- Use canvas for data-heavy, analytical content
+- Make canvases interactive where possible
+- Include clear titles and descriptions
+- Use consistent styling with Tailwind
+- Add filtering and sorting for large datasets
+
+### Don't
+
+- Use canvas for simple text responses
+- Create overly complex single-page canvases
+- Skip error handling for data transformations
+- Forget to handle empty data states
+
+## 7. Common Canvas Types
+
+### Audit Canvas
+
+```tsx
+// Security audit results
+export function SecurityAuditCanvas({ audit }) {
+  return (
+    <div className="space-y-4">
+      <div className="flex justify-between items-center">
+        <h2>Security Audit: {audit.target}</h2>
+        <Badge type={audit.severity}>{audit.severity}</Badge>
+      </div>
+      <FindingList findings={audit.findings} />
+      <RecommendationList recommendations={audit.recommendations} />
+    </div>
+  );
+}
+```
+
+### Billing Canvas
+
+```tsx
+// Billing investigation
+export function BillingCanvas({ invoice }) {
+  return (
+    <div className="space-y-4">
+      <MetricsDashboard metrics={invoice.summary} />
+      <LineItems items={invoice.lineItems} />
+      <DiscrepancyAlert discrepancies={invoice.discrepancies} />
+    </div>
+  );
+}
+```
+
+### Architecture Canvas
+
+```tsx
+// Architecture review
+export function ArchitectureCanvas({ architecture }) {
+  return (
+    <div className="space-y-4">
+      <ComponentDiagram components={architecture.components} />
+      <DataFlow flows={architecture.dataFlows} />
+      <DependencyList dependencies={architecture.dependencies} />
+    </div>
+  );
+}
+```
+
+## 8. Testing Canvas Components
+
+```tsx
+// Test canvas rendering
+import { render, screen } from "@testing-library/react";
+
+test("renders canvas title", () => {
+  render(<ExampleCanvas />);
+  expect(screen.getByText("Example Canvas")).toBeInTheDocument();
+});
+
+test("displays data correctly", () => {
+  render(<DataTable data={testData} columns={testColumns} />);
+  expect(screen.getByText("Row 1")).toBeInTheDocument();
+});
+```
+
+## 9. Performance Considerations
+
+### Memoization
+
+```tsx
+// Use useMemo for expensive computations
+const processedData = useMemo(() => {
+  return expensiveOperation(rawData);
+}, [rawData]);
+
+// Use useCallback for event handlers
+const handleSort = useCallback((field: string) => {
+  setSortField(field);
+}, []);
+```
+
+### Virtualization
+
+```tsx
+// For large datasets, use virtualization
+import { useVirtualizer } from "@tanstack/react-virtual";
+
+const rowVirtualizer = useVirtualizer({
+  count: data.length,
+  getScrollElement: () => parentRef.current,
+  estimateSize: () => 35
+});
+```
+
+## 10. Troubleshooting
+
+### Issue: Canvas not rendering
+
+**Solution:**
+
+1. Check file extension is `.canvas.tsx`
+2. Verify React component is default export
+3. Check for console errors
+
+### Issue: Data not displaying
+
+**Solution:**
+
+1. Verify data structure matches component expectations
+2. Check for null/undefined values
+3. Add loading and empty states
+
+### Issue: Performance issues
+
+**Solution:**
+
+1. Add memoization for expensive operations
+2. Implement pagination for large datasets
+3. Use virtualization for long lists
+
+## Cross-Platform Implementation
+
+### OpenCode Canvas
+
+```typescript
+// OpenCode: Create .canvas.tsx files
+// Located in components/canvas/
+// Use standard React patterns
+```
+
+### Cursor Canvas
+
+```typescript
+// Cursor: Use built-in Canvas feature
+// Render from chat with /canvas command
+// Or create .canvas.tsx files
+```
+
+### Copilot Visualization
+
+```typescript
+// Copilot: Use VS Code webviews
+// Or Dataframe visualization
+// Create custom webview for complex visuals
+```
+
+## Related Skills
+
+- `code-review` - For reviewing canvas artifacts
+- `ui-skill` - For UI component patterns
+- `shadcn` - For component styling
+
+## Notes
+
+- Always use canvas for analytical artifacts
+- Prefer rich visualization over markdown tables
+- Make canvases interactive when possible
+- Test with various data sizes

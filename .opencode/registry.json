@@ -1092,7 +1092,7 @@
     "productId": "01CoreStandards",
     "repoUrl": ".opencode\\instructions/",
     "scope": ["project"],
-    "tagline": "- Use `npm run format` before committing.",
+    "tagline": "- Use `bun run format` before committing.",
     "tags": ["opencode", "instructions"],
     "type": "resources"
   },
@@ -1192,7 +1192,7 @@
     "productId": "AgentBrowser",
     "repoUrl": ".opencode\\skills\\agent-browser/",
     "scope": ["project"],
-    "tagline": "Fast browser automation CLI for AI agents. Chrome/Chromium via CDP with",
+    "tagline": "Fast browser automation CLI for AI agents using Chrome/Chromium via CDP with accessibility-tree snapshots and compact...",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },
@@ -1212,27 +1212,27 @@
     "productId": "AgenticEval",
     "repoUrl": ".opencode\\skills\\agentic-eval/",
     "scope": ["project"],
-    "tagline": "Patterns for self-improvement through iterative evaluation and refinement.",
+    "tagline": "| Agent | Integration | Usage |",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },
   {
-    "description": "NextAuth v4 authentication patterns, session helper, and protected route guidance.",
+    "description": "NextAuth v4 authentication patterns, session helper, and protected route guidance. Use when implementing authentication, protecting routes, managing sessions, or working with user authorization. Triggers include requests to \"add auth\", \"protect routes\", \"check session\", \"implement login/logout\", or any authentication-related task.",
     "displayName": "auth-skill",
     "productId": "AuthSkill",
     "repoUrl": ".opencode\\skills\\auth-skill/",
     "scope": ["project"],
-    "tagline": "Overview",
+    "tagline": "| Agent | Integration | Usage |",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },
   {
-    "description": "Keep a PR merge-ready by triaging comments, resolving clear conflicts, and fixing CI in a loop.",
+    "description": "Keep a PR merge-ready by triaging comments, resolving clear conflicts, and fixing CI in a loop. Use when a PR needs ongoing maintenance, has failing checks, has merge conflicts, or needs comment resolution.",
     "displayName": "babysit",
     "productId": "Babysit",
     "repoUrl": ".opencode\\skills\\babysit/",
     "scope": ["project"],
-    "tagline": "Your job is to get this PR to a merge-ready state.",
+    "tagline": "| Agent | Integration | Usage |",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },
@@ -1242,7 +1242,7 @@
     "productId": "Canvas",
     "repoUrl": ".opencode\\skills\\canvas/",
     "scope": ["project"],
-    "tagline": "A canvas is a single `.canvas.tsx` file the IDE compiles so the user can open it beside the chat. Follow the workflow...",
+    "tagline": "Create rich, interactive visual artifacts using Cursor Canvas. This skill provides comprehensive guidance for buildin...",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },
@@ -1252,7 +1252,7 @@
     "productId": "Cartography",
     "repoUrl": ".opencode\\skills\\cartography/",
     "scope": ["project"],
-    "tagline": "You help users understand and map repositories by creating hierarchical codemaps.",
+    "tagline": "| Agent | Integration | Usage |",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },
@@ -1262,7 +1262,7 @@
     "productId": "CodePhilosophy",
     "repoUrl": ".opencode\\skills\\code-philosophy/",
     "scope": ["project"],
-    "tagline": "**Role:** Principal Engineer for all **Internal Logic & Data Flow** — applies to backend, React components, hooks, st...",
+    "tagline": "| Agent | Integration | Usage |",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },
@@ -1272,7 +1272,7 @@
     "productId": "CodeReview",
     "repoUrl": ".opencode\\skills\\code-review/",
     "scope": ["project"],
-    "tagline": "Systematic code review across 4 layers with severity classification. Only report findings with ≥80% confidence. Inclu...",
+    "tagline": "| Agent | Integration | Usage |",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },
@@ -1292,7 +1292,7 @@
     "productId": "CreateHook",
     "repoUrl": ".opencode\\skills\\create-hook/",
     "scope": ["project"],
-    "tagline": "Create hooks when you want Cursor to run custom logic before or after agent events. Hooks are scripts or prompt-based...",
+    "tagline": "| Agent | Integration | Usage |",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },
@@ -1302,7 +1302,7 @@
     "productId": "CreateRule",
     "repoUrl": ".opencode\\skills\\create-rule/",
     "scope": ["project"],
-    "tagline": "Create project rules in `.cursor/rules/` to provide persistent context for the AI agent.",
+    "tagline": "| Agent | Integration | Usage |",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },
@@ -1312,7 +1312,7 @@
     "productId": "CreateSkill",
     "repoUrl": ".opencode\\skills\\create-skill/",
     "scope": ["project"],
-    "tagline": "This skill guides you through creating effective Agent Skills for Cursor. Skills are markdown files that teach the ag...",
+    "tagline": "| Agent | Integration | Usage |",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },
@@ -1322,7 +1322,7 @@
     "productId": "CreateSubagent",
     "repoUrl": ".opencode\\skills\\create-subagent/",
     "scope": ["project"],
-    "tagline": "This skill guides you through creating custom subagents for Cursor. Subagents are specialized AI assistants that run ...",
+    "tagline": "| Agent | Integration | Usage |",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },
@@ -1332,7 +1332,7 @@
     "productId": "CreateWebForm",
     "repoUrl": ".opencode\\skills\\create-web-form/",
     "scope": ["project"],
-    "tagline": "This skill provides comprehensive reference materials and best practices for creating web forms. It covers HTML synta...",
+    "tagline": "| Agent | Integration | Usage |",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },
@@ -1342,7 +1342,7 @@
     "productId": "DalSkill",
     "repoUrl": ".opencode\\skills\\dal-skill/",
     "scope": ["project"],
-    "tagline": "Overview",
+    "tagline": "| Agent | Integration | Usage |",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },
@@ -1352,7 +1352,7 @@
     "productId": "DbSkill",
     "repoUrl": ".opencode\\skills\\db-skill/",
     "scope": ["project"],
-    "tagline": "This skill provides guidance on Drizzle ORM patterns for the Banking project.",
+    "tagline": "| Agent | Integration | Usage |",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },
@@ -1372,7 +1372,7 @@
     "productId": "DeploymentSkill",
     "repoUrl": ".opencode\\skills\\deployment-skill/",
     "scope": ["project"],
-    "tagline": "Overview",
+    "tagline": "This skill provides comprehensive deployment patterns for the Banking app across Vercel, Railway, and Docker platform...",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },
@@ -1392,7 +1392,7 @@
     "productId": "DwollaSkill",
     "repoUrl": ".opencode\\skills\\dwolla-skill/",
     "scope": ["project"],
-    "tagline": "Overview",
+    "tagline": "This skill provides comprehensive patterns for integrating with the Dwolla API for ACH transfers, funding source mana...",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },
@@ -1402,7 +1402,7 @@
     "productId": "EntraAgentUser",
     "repoUrl": ".opencode\\skills\\entra-agent-user/",
     "scope": ["project"],
-    "tagline": "An **agent user** is a specialized user identity in Microsoft Entra ID that enables AI agents to act as digital worke...",
+    "tagline": "| Agent | Usage |",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },
@@ -1412,7 +1412,7 @@
     "productId": "FrontendPhilosophy",
     "repoUrl": ".opencode\\skills\\frontend-philosophy/",
     "scope": ["project"],
-    "tagline": "**Role:** Design Director for all **Visual & Aesthetic decisions** — applies to styling, layout, colors, typography, ...",
+    "tagline": "This skill establishes the visual and UI philosophy for the Banking project. It covers the 5 Pillars of Intentional U...",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },
@@ -1432,7 +1432,7 @@
     "productId": "GitCommit",
     "repoUrl": ".opencode\\skills\\git-commit/",
     "scope": ["project"],
-    "tagline": "Create standardized, semantic git commits using the Conventional Commits specification. Analyze the actual diff to de...",
+    "tagline": "This skill provides comprehensive guidelines for creating conventional git commits. It covers commit message format, ...",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },
@@ -1442,7 +1442,7 @@
     "productId": "GithubIssues",
     "repoUrl": ".opencode\\skills\\github-issues/",
     "scope": ["project"],
-    "tagline": "Manage GitHub issues using the `@modelcontextprotocol/server-github` MCP server.",
+    "tagline": "This skill provides comprehensive guidelines for creating and managing GitHub issues using MCP tools. It covers issue...",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },
@@ -1458,11 +1458,11 @@
   },
   {
     "description": "Scans opencode agent prompts for threat signals and logs governance events",
-    "displayName": "Governance Audit",
+    "displayName": "governance-audit",
     "productId": "GovernanceAudit",
     "repoUrl": ".opencode\\skills\\governance-audit/",
     "scope": ["project"],
-    "tagline": "Real-time threat detection and audit logging for opencode coding agent sessions. Scans user prompts for dangerous pat...",
+    "tagline": "This skill provides patterns and techniques for adding governance, safety, and trust controls to AI agent systems. It...",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },
@@ -1482,7 +1482,7 @@
     "productId": "MakeSkillTemplate",
     "repoUrl": ".opencode\\skills\\make-skill-template/",
     "scope": ["project"],
-    "tagline": "A meta-skill for creating new Agent Skills. Use this skill when you need to scaffold a new skill folder, generate a S...",
+    "tagline": "| Agent | Integration | Usage |",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },
@@ -1492,7 +1492,7 @@
     "productId": "McpCli",
     "repoUrl": ".opencode\\skills\\mcp-cli/",
     "scope": ["project"],
-    "tagline": "Access MCP servers through the command line. MCP enables interaction with external systems like GitHub, filesystems, ...",
+    "tagline": "This skill provides comprehensive guidelines for working with MCP (Model Context Protocol) servers and their CLI tool...",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },
@@ -1512,7 +1512,7 @@
     "productId": "MigrateToSkills",
     "repoUrl": ".opencode\\skills\\migrate-to-skills/",
     "scope": ["project"],
-    "tagline": "Convert Cursor rules (\"Applied intelligently\") and slash commands to Agent Skills format.",
+    "tagline": "Convert legacy Cursor rules and commands to the Agent Skills format. This comprehensive guide covers migration patter...",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },
@@ -1532,7 +1532,7 @@
     "productId": "NugetManager",
     "repoUrl": ".opencode\\skills\\nuget-manager/",
     "scope": ["project"],
-    "tagline": "This skill ensures consistent and safe management of NuGet packages across .NET projects. It prioritizes using the `d...",
+    "tagline": "This skill provides comprehensive guidelines for managing NuGet packages in .NET projects. It covers safe update work...",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },
@@ -1567,7 +1567,7 @@
     "type": "resources"
   },
   {
-    "description": "name: plaid-skill description: Plaid API integration for bank account linking, transaction retrieval, and balance fetching. lastReviewed: 2026-04-24 applyTo: \"lib/plaid.ts\", \"actions/**/*.{ts,tsx}\" --- Overview Guidance for safely integrating Plaid Link, exchanging public tokens, and storing access tokens (encrypted). Use Server Actions for sensitive operations and `dal/` for DB access. This skill references the repo's actual DAL structure: `wallet.dal.ts` for Plaid item storage. When to use",
+    "description": "name: plaid-skill description: >- Plaid API integration for bank account linking, transaction retrieval, and balance fetching. Use when implementing bank connections, linking accounts, fetching transactions, or managing Plaid integration. Triggers include requests to \"link bank\", \"connect account\", \"fetch transactions\", \"get balance\", or any Plaid-related task. lastReviewed: 2026-04-24 applyTo: \"lib/plaid.ts\", \"actions/**/*.{ts,tsx}\" ---",
     "displayName": "PlaidSkill",
     "productId": "PlaidSkill",
     "repoUrl": ".opencode\\skills\\plaid-skill/",
@@ -1692,47 +1692,47 @@
     "productId": "SecuritySkill",
     "repoUrl": ".opencode\\skills\\security-skill/",
     "scope": ["project"],
-    "tagline": "Overview",
+    "tagline": "This skill provides comprehensive security patterns for the Banking app, covering encryption, environment handling, s...",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },
   {
-    "description": "Patterns and examples for Next.js Server Actions in the Banking app.",
+    "description": "Patterns and examples for Next.js Server Actions in the Banking app. Use when creating, modifying, or debugging Server Actions. Triggers include requests to \"create action\", \"add server action\", \"fix action\", \"validate input\", or any task involving Server Action development.",
     "displayName": "server-action-skill",
     "productId": "ServerActionSkill",
     "repoUrl": ".opencode\\skills\\server-action-skill/",
     "scope": ["project"],
-    "tagline": "Overview",
+    "tagline": "Comprehensive patterns for creating and managing Server Actions in the Banking app.",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },
   {
-    "description": "Logs all opencode coding agent session activity for audit and analysis.",
+    "description": "Logs all opencode coding agent session activity for audit and analysis. Use when tracking agent activity, auditing decisions, or analyzing session patterns.",
     "displayName": "session-logger",
     "productId": "SessionLogger",
     "repoUrl": ".opencode\\skills\\session-logger/",
     "scope": ["project"],
-    "tagline": "Comprehensive logging for opencode coding agent sessions, tracking session starts, ends, and user prompts for audit t...",
+    "tagline": "Log all AI agent session activity for audit, analysis, and improvement. This comprehensive skill covers session loggi...",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },
   {
-    "description": "name: shadcn description: Manages shadcn components and projects — adding, searching, fixing, debugging, styling, and composing UI. Provides project context, component docs, and usage examples. Applies when working with shadcn/ui, component registries, presets, --preset codes, or any project with a components.json file. Also triggers for \"shadcn init\", \"create an app with --preset\", or \"switch to --preset\". user-invocable: false",
-    "displayName": "Shadcn",
+    "description": "Manages shadcn components and projects — adding, searching, fixing, debugging, styling, and composing UI. Provides project context, component docs, and usage examples. Applies when working with shadcn/ui, component registries, presets, --preset codes, or any project with a components.json file. Also triggers for \"shadcn init\", \"create an app with --preset\", or \"switch to --preset\".",
+    "displayName": "shadcn",
     "productId": "Shadcn",
     "repoUrl": ".opencode\\skills\\shadcn/",
     "scope": ["project"],
-    "tagline": "---",
+    "tagline": "A framework for building ui, components and design systems. Components are added as source code to the user's project...",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },
   {
-    "description": "Runs the rest of a /shell request as a literal shell command. Use only when the user explicitly invokes /shell and wants the following text executed directly in the terminal.",
+    "description": "Execute shell commands directly. Use when the user explicitly invokes /shell and wants the following text executed directly in the terminal.",
     "displayName": "shell",
     "productId": "Shell",
     "repoUrl": ".opencode\\skills\\shell/",
     "scope": ["project"],
-    "tagline": "Use this skill only when the user explicitly invokes `/shell`.",
+    "tagline": "Execute shell commands directly in the terminal. This skill provides comprehensive guidance for running commands safe...",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },
@@ -1742,7 +1742,7 @@
     "productId": "Simplify",
     "repoUrl": ".opencode\\skills\\simplify/",
     "scope": ["project"],
-    "tagline": "Simplify code by reducing complexity while preserving exact behavior. The goal is not fewer lines — it's code that is...",
+    "tagline": "This skill provides comprehensive guidelines for simplifying code while preserving behavior. It covers refactoring pa...",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },
@@ -1752,7 +1752,7 @@
     "productId": "SplitToPrs",
     "repoUrl": ".opencode\\skills\\split-to-prs/",
     "scope": ["project"],
-    "tagline": "Turn one pile of work into a few small PRs.",
+    "tagline": "Turn one pile of work into a few small PRs. This skill provides comprehensive guidance for breaking down large change...",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },
@@ -1762,7 +1762,7 @@
     "productId": "Statusline",
     "repoUrl": ".opencode\\skills\\statusline/",
     "scope": ["project"],
-    "tagline": "The CLI supports a user-configurable status line rendered above the prompt. A command is spawned on each conversation...",
+    "tagline": "Configure custom status lines for CLI and IDE environments. This comprehensive skill covers status line customization...",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },
@@ -1797,12 +1797,32 @@
     "type": "resources"
   },
   {
-    "description": "Testing patterns for Vitest (unit) and Playwright (E2E) used by the Banking app.",
+    "description": "Instructions for implementing task plans with progressive tracking and change record",
+    "displayName": "TaskImplementation.instructions",
+    "productId": "TaskImplementation.instructions",
+    "repoUrl": ".opencode\\instructions/",
+    "scope": ["project"],
+    "tagline": "You will implement your specific task plan located in `.opencode/commands/**` and `docs/**`. Your goal is to progress...",
+    "tags": ["opencode", "instructions"],
+    "type": "resources"
+  },
+  {
+    "description": "TaskSync V5 - Allows you to give the agent new instructions or feedback after completing a task using terminal while agent is running.",
+    "displayName": "Tasksync.instructions",
+    "productId": "Tasksync.instructions",
+    "repoUrl": ".opencode\\instructions/",
+    "scope": ["project"],
+    "tagline": "**YOU ARE ABSOLUTELY FORBIDDEN FROM:**",
+    "tags": ["opencode", "instructions"],
+    "type": "resources"
+  },
+  {
+    "description": "Testing patterns for Vitest (unit) and Playwright (E2E) used by the Banking app. Use when writing tests, running tests, debugging test failures, or setting up test infrastructure. Triggers include requests to \"write a test\", \"run tests\", \"fix test failure\", \"add unit tests\", \"add E2E tests\", or any task involving test creation or execution.",
     "displayName": "testing-skill",
     "productId": "TestingSkill",
     "repoUrl": ".opencode\\skills\\testing-skill/",
     "scope": ["project"],
-    "tagline": "Overview",
+    "tagline": "This skill provides comprehensive testing patterns using Vitest for unit/integration tests and Playwright for E2E tests.",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },
@@ -1812,17 +1832,17 @@
     "productId": "UiSkill",
     "repoUrl": ".opencode\\skills\\ui-skill/",
     "scope": ["project"],
-    "tagline": "This skill provides guidance on shadcn/ui and Tailwind CSS patterns for the Banking project.",
+    "tagline": "This skill provides comprehensive guidance on shadcn/ui and Tailwind CSS patterns for the Banking project. It covers ...",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },
   {
-    "description": "View and modify Cursor CLI configuration settings in ~/.cursor/cli-config.json. Use when the user wants to change CLI settings, configure permissions, switch approval mode, enable vim mode, toggle display options, configure sandbox, or manage any CLI preferences.",
+    "description": "View and modify Cursor CLI configuration settings in ~/.cursor/cli-config.json. Use when you want to change CLI settings, configure permissions, switch approval mode, enable vim mode, toggle display options, configure sandbox, or manage any CLI preferences.",
     "displayName": "update-cli-config",
     "productId": "UpdateCliConfig",
     "repoUrl": ".opencode\\skills\\update-cli-config/",
     "scope": ["project"],
-    "tagline": "This skill explains how to view and modify Cursor CLI settings stored in `~/.cursor/cli-config.json`.",
+    "tagline": "Manage Cursor CLI configuration settings. This skill provides comprehensive guidance for modifying CLI preferences, p...",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },
@@ -1832,8 +1852,18 @@
     "productId": "UpdateCursorSettings",
     "repoUrl": ".opencode\\skills\\update-cursor-settings/",
     "scope": ["project"],
-    "tagline": "This skill guides you through modifying Cursor/VSCode user settings. Use this when you want to change editor settings...",
+    "tagline": "This skill provides comprehensive guidelines for modifying Cursor/VSCode user settings. It covers settings file locat...",
     "tags": ["opencode", "skills"],
+    "type": "resources"
+  },
+  {
+    "description": "Automatically update README.md and documentation files when application code changes require documentation updates",
+    "displayName": "UpdateDocsOnCodeChange.instructions",
+    "productId": "UpdateDocsOnCodeChange.instructions",
+    "repoUrl": ".opencode\\instructions/",
+    "scope": ["project"],
+    "tagline": "Ensure documentation stays synchronized with code changes by automatically detecting when README.md, API documentatio...",
+    "tags": ["opencode", "instructions"],
     "type": "resources"
   },
   {
@@ -1842,7 +1872,7 @@
     "productId": "ValidationSkill",
     "repoUrl": ".opencode\\skills\\validation-skill/",
     "scope": ["project"],
-    "tagline": "This skill provides guidance on Zod schema validation patterns for the Banking project.",
+    "tagline": "This skill provides comprehensive guidance on Zod schema validation patterns for the Banking project. It covers Zod v...",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },
@@ -1852,7 +1882,7 @@
     "productId": "VscodeExtCommands",
     "repoUrl": ".opencode\\skills\\vscode-ext-commands/",
     "scope": ["project"],
-    "tagline": "This skill helps you to contribute commands in VS Code extensions",
+    "tagline": "This skill provides comprehensive guidelines for creating and managing commands in VS Code extensions. It covers nami...",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },
@@ -1862,7 +1892,7 @@
     "productId": "VscodeExtLocalization",
     "repoUrl": ".opencode\\skills\\vscode-ext-localization/",
     "scope": ["project"],
-    "tagline": "This skill helps you localize every aspect of VS Code extensions",
+    "tagline": "This skill provides comprehensive guidelines for implementing localization in VS Code extensions. It covers the l10n ...",
     "tags": ["opencode", "skills"],
     "type": "resources"
   },

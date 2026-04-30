@@ -1,66 +1,343 @@
 ---
 name: nuget-manager
 description: Manage NuGet packages safely using the `dotnet` CLI and prescribed update workflows.
-lastReviewed: 2026-04-24
-applyTo: "**/*.{csproj,props,sln}"
+lastReviewed: 2026-04-29
+applyTo: "**/*.csproj"
+platforms:
+  - opencode
+  - cursor
+  - copilot
 ---
 
-# NuGet Manager
+# NuGet Package Manager - Banking Project Guidelines
 
 ## Overview
 
-This skill ensures consistent and safe management of NuGet packages across .NET projects. It prioritizes using the `dotnet` CLI to maintain project integrity and enforces a strict verification and restoration workflow for version updates.
+This skill provides comprehensive guidelines for managing NuGet packages in .NET projects. It covers safe update workflows, dependency resolution, and best practices for the Banking project.
 
-## Prerequisites
+## Multi-Agent Commands
 
-- .NET SDK installed (typically .NET 8.0 SDK or later, or a version compatible with the target solution).
-- `dotnet` CLI available on your `PATH`.
-- `jq` (JSON processor) OR PowerShell (for version verification using `dotnet package search`).
+### OpenCode
 
-## Core Rules
+```bash
+# List outdated packages
+dotnet list package --outdated
 
-1.  **NEVER** directly edit `.csproj`, `.props`, or `Directory.Packages.props` files to **add** or **remove** packages. Always use `dotnet add package` and `dotnet remove package` commands.
-2.  **DIRECT EDITING** is ONLY permitted for **changing versions** of existing packages.
-3.  **VERSION UPDATES** must follow the mandatory workflow:
-    - Verify the target version exists on NuGet.
-    - Determine if versions are managed per-project (`.csproj`) or centrally (`Directory.Packages.props`).
-    - Update the version string in the appropriate file.
-    - Immediately run `dotnet restore` to verify compatibility.
+# Add package
+dotnet add package <package-name>
 
-## Workflows
+# Update package
+dotnet add package <package-name> --version <version>
+```
 
-### Adding a Package
+### Cursor
 
-Use `dotnet add [<PROJECT>] package <PACKAGE_NAME> [--version <VERSION>]`. Example: `dotnet add src/MyProject/MyProject.csproj package Newtonsoft.Json`
+```
+@nuget-manager
+Update the banking SDK to latest version
+```
 
-### Removing a Package
+### Copilot
 
-Use `dotnet remove [<PROJECT>] package <PACKAGE_NAME>`. Example: `dotnet remove src/MyProject/MyProject.csproj package Newtonsoft.Json`
+```
+/nuget add Newtonsoft.Json
+```
 
-### Updating Package Versions
+## Package Management Basics
 
-When updating a version, follow these steps:
+### Listing Packages
 
-1.  **Verify Version Existence**: Check if the version exists using the `dotnet package search` command with exact match and JSON formatting. Using `jq`: `dotnet package search <PACKAGE_NAME> --exact-match --format json | jq -e '.searchResult[].packages[] | select(.version == "<VERSION>")'` Using PowerShell: `(dotnet package search <PACKAGE_NAME> --exact-match --format json | ConvertFrom-Json).searchResult.packages | Where-Object { $_.version -eq "<VERSION>" }`
-2.  **Determine Version Management**:
-    - Search for `Directory.Packages.props` in the solution root. If present, versions should be managed there via `<PackageVersion Include="Package.Name" Version="1.2.3" />`.
-    - If absent, check individual `.csproj` files for `<PackageReference Include="Package.Name" Version="1.2.3" />`.
+```bash
+# List all packages in project
+dotnet list package
 
-3.  **Apply Changes**: Modify the identified file with the new version string.
+# List outdated packages
+dotnet list package --outdated
 
-4.  **Verify Stability**: Run `dotnet restore` on the project or solution. If errors occur, revert the change and investigate.
+# List transitive packages
+dotnet list package --include-transitive
+```
 
-## Examples
+### Adding Packages
 
-### User: "Add Serilog to the WebApi project"
+```bash
+# Add latest version
+dotnet add package Newtonsoft.Json
 
-**Action**: Execute `dotnet add src/WebApi/WebApi.csproj package Serilog`.
+# Add specific version
+dotnet add package Newtonsoft.Json --version 13.0.3
 
-### User: "Update Newtonsoft.Json to 13.0.3 in the whole solution"
+# Add with source
+dotnet add package Newtonsoft.Json --source https://api.nuget.org/v3/index.json
+```
 
-**Action**:
+### Removing Packages
 
-1. Verify 13.0.3 exists: `dotnet package search Newtonsoft.Json --exact-match --format json` (and parse output to confirm "13.0.3" is present).
-2. Find where it's defined (e.g., `Directory.Packages.props`).
-3. Edit the file to update the version.
-4. Run `dotnet restore`.
+```bash
+# Remove package
+dotnet remove package Newtonsoft.Json
+```
+
+## Safe Update Workflow
+
+### Step 1: Audit Current State
+
+```bash
+# Check for outdated packages
+dotnet list package --outdated
+
+# Check for vulnerabilities
+dotnet nuget trust list  # List trusted sources
+```
+
+### Step 2: Review Breaking Changes
+
+```bash
+# Check package release notes
+dotnet package search <package-name> --take 5
+
+# View changelog
+# Visit: https://github.com/<owner>/<repo>/blob/main/CHANGELOG.md
+```
+
+### Step 3: Update in Isolation
+
+```bash
+# Update single package
+dotnet add package <package-name> --version <new-version>
+
+# Build to verify
+dotnet build --no-restore
+
+# Run tests
+dotnet test
+```
+
+### Step 4: Commit and Verify
+
+```bash
+# Stage changes
+git add *.csproj
+
+# Commit
+git commit -m "chore: update <package> to v<version>"
+```
+
+## Dependency Resolution
+
+### Version Constraints
+
+```xml
+<!-- Exact version -->
+<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+
+<!-- Minimum version -->
+<PackageReference Include="Newtonsoft.Json" Version="13.0.0" />
+
+<!-- Range -->
+<PackageReference Include="Newtonsoft.Json" Version="[13.0.0,14.0.0)" />
+
+<!-- Floating -->
+<PackageReference Include="Newtonsoft.Json" Version="13.*" />
+```
+
+### Recommended Constraints
+
+```xml
+<!-- Banking project - prefer stable versions -->
+<PackageReference Include="Dapper" Version="2.1.35" />
+<PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
+<PackageReference Include="Serilog" Version="4.0.2" />
+```
+
+### Transitive Dependencies
+
+```bash
+# View dependency tree
+dotnet msbuild /t:Restore /p:ShowAllProjects /p:ShowTargets=PrintDependencies
+
+# Or use dotnet-outdated-tool
+dotnet tool install --global dotnet-outdated
+dotnet outdated --upgrade
+```
+
+## Vulnerability Scanning
+
+### Check for Vulnerabilities
+
+```bash
+# Scan for vulnerabilities
+dotnet nuget list source
+
+# Use GitHub Advisory Database
+dotnet audit
+
+# Check specific package
+dotnet nuget search <package-name> --take 5
+```
+
+### Remediate Vulnerabilities
+
+```xml
+<!-- Update vulnerable package -->
+<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+
+<!-- Or add vulnerability bypass (temporary) -->
+<PackageReference Include="Vulnerable.Package" Version="1.0.0">
+  <NoWarn>NU1701</NoWarn>
+</PackageReference>
+```
+
+## Version Management
+
+### Semantic Versioning
+
+- **Major**: Breaking changes
+- **Minor**: New features (backward compatible)
+- **Patch**: Bug fixes (backward compatible)
+
+### Update Strategies
+
+```bash
+# Patch update (safe)
+dotnet add package Newtonsoft.Json --version 13.0.2
+
+# Minor update (review changelog)
+dotnet add package Newtonsoft.Json --version 13.1.0
+
+# Major update (full testing required)
+dotnet add package Newtonsoft.Json --version 14.0.0
+```
+
+### Lock Files
+
+```json
+// Directory.Build.props
+<PropertyGroup>
+  <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+  <DisablePackageDowngrades>true</DisablePackageDowngrades>
+</PropertyGroup>
+```
+
+## Banking Project Packages
+
+### Core Dependencies
+
+```xml
+<Project>
+  <ItemGroup>
+    <!-- Database -->
+    <PackageReference Include="Dapper" Version="2.1.35" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
+    <PackageReference Include="Drizzle.Orm" Version="1.0.0" />
+
+    <!-- Logging -->
+    <PackageReference Include="Serilog" Version="4.0.2" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+
+    <!-- Configuration -->
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
+  </ItemGroup>
+</Project>
+```
+
+### Security Packages
+
+```xml
+<ItemGroup>
+  <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
+  <PackageReference Include="FluentValidation" Version="11.9.0" />
+  <PackageReference Include="Cryptography" Version="8.0.0" />
+</ItemGroup>
+```
+
+## Troubleshooting
+
+### Package Restore Fails
+
+**Problem**: `Unable to find package` **Solutions**:
+
+1. Check nuget source configuration
+2. Verify package name and version
+3. Clear cache: `dotnet nuget locals all --clear`
+
+### Version Conflict
+
+**Problem**: `Package X version Y is not compatible with` **Solutions**:
+
+1. Check framework compatibility
+2. Use version ranges instead of exact versions
+3. Add binding redirects
+
+### Lock File Issues
+
+**Problem**: `Package lock file is out of sync` **Solutions**:
+
+1. Delete `packages.lock.json`
+2. Run `dotnet restore`
+3. Commit new lock file
+
+## Best Practices
+
+### 1. Use Lock Files
+
+```xml
+<PropertyGroup>
+  <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+</PropertyGroup>
+```
+
+### 2. Pin Major Versions
+
+```xml
+<!-- Prefer exact or constrained versions -->
+<PackageReference Include="Serilog" Version="[4.0.0,5.0.0)" />
+```
+
+### 3. Audit Regularly
+
+```bash
+# Weekly audit
+dotnet list package --outdated
+
+# Monthly vulnerability check
+dotnet audit
+```
+
+### 4. Test After Updates
+
+```bash
+# Build and test
+dotnet build
+dotnet test --no-build
+```
+
+## Cross-References
+
+- **security-skill**: For security package management
+- **code-philosophy**: For dependency philosophy
+- **agent-governance**: For package governance
+
+## Validation Commands
+
+```bash
+# Check for outdated packages
+dotnet list package --outdated
+
+# Verify package versions
+dotnet list package
+
+# Audit for vulnerabilities
+dotnet audit
+
+# Check restore
+dotnet restore --verbosity detailed
+```
+
+## Performance Tips
+
+1. Use parallel restore: `dotnet restore --parallel`
+2. Configure HTTP cache
+3. Use local NuGet feed for internal packages
+4. Avoid restoring during build with lock files

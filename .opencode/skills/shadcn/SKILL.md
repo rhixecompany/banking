@@ -238,3 +238,115 @@ npx shadcn@latest view @shadcn/button
 - [rules/base-vs-radix.md](./rules/base-vs-radix.md) — asChild vs render, Select, ToggleGroup, Slider, Accordion
 - [cli.md](./cli.md) — Commands, flags, presets, templates
 - [customization.md](./customization.md) — Theming, CSS variables, extending components
+
+## Troubleshooting
+
+### Component Not Installing
+
+**Problem**: `npx shadcn@latest add button` fails **Solutions**:
+
+1. Check `components.json` exists in project root
+2. Verify Node.js version (18+ required)
+3. Run `npx shadcn@latest init` first if not initialized
+4. Check network connectivity to shadcn registry
+
+### Import Errors
+
+**Problem**: Cannot find component imports **Solutions**:
+
+1. Verify component was added: `npx shadcn@latest info`
+2. Check resolved paths in project context
+3. Ensure correct alias prefix (from `aliases` field)
+4. Run `npx shadcn@latest add <component>` if missing
+
+### Style Not Applying
+
+**Problem**: Tailwind classes not working **Solutions**:
+
+1. Verify tailwind.config.ts includes component paths
+2. Check `tailwindCssFile` from project context
+3. Ensure `@tailwind` directives in global CSS
+4. For v4: verify `@theme inline` blocks present
+
+### Dark Mode Not Working
+
+**Problem**: Dark mode toggle has no effect **Solutions**:
+
+1. Verify `next-themes` provider wraps app
+2. Check `useTheme()` hook usage
+3. Ensure semantic tokens used (bg-background, not bg-white)
+4. Verify `dark` class on html element
+
+### Hydration Mismatch
+
+**Problem**: Server/client content differs **Solutions**:
+
+1. Use dynamic imports: `dynamic(() => import(...), { ssr: false })`
+2. Add "use client" for components with random values
+3. Use `useEffect` for client-only logic
+4. Check for date/time operations in renders
+
+### Third-Party Registry Imports
+
+**Problem**: Community component has wrong imports **Solutions**:
+
+1. Read added files and identify hardcoded paths
+2. Rewrite imports to match project aliases
+3. Replace icon library imports if different
+4. Verify all sub-components imported correctly
+
+## Cross-References
+
+- **ui-skill**: Banking-specific UI component patterns
+- **validation-skill**: Zod schema patterns for forms
+- **server-action-skill**: Form submission handling
+- **testing-skill**: Component testing patterns
+
+## Multi-Agent Examples
+
+### OpenCode
+
+```bash
+# Add component
+npx shadcn@latest add button dialog
+
+# Search registry
+npx shadcn@latest search @shadcn -q "form"
+
+# Get docs
+npx shadcn@latest docs button
+```
+
+### Cursor
+
+```
+@shadcn
+Add a login form with email and password fields
+```
+
+### Copilot
+
+```
+/shadcn add button card form
+```
+
+## Performance Tips
+
+1. Use `dynamic` imports for heavy components (Charts, Maps)
+2. Implement virtual scrolling for large lists
+3. Use Skeleton for loading states instead of spinners
+4. Lazy load dialogs with `dynamic(() => import("@/components/ui/dialog"), { ssr: false })`
+5. Use `useMemo` for expensive column definitions in tables
+
+## Validation
+
+```bash
+# Check project status
+npx shadcn@latest info
+
+# Verify component installation
+npx shadcn@latest add button --dry-run
+
+# Preview changes
+npx shadcn@latest add button --diff
+```

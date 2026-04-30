@@ -1,15 +1,46 @@
 ---
 name: ui-skill
 description: shadcn/ui component patterns and Tailwind CSS styling for the Banking app. Use when building forms, tables, dialogs, or UI components.
-lastReviewed: 2026-04-24
+lastReviewed: 2026-04-29
 applyTo: "app/**/*.{tsx,ts}"
+platforms:
+  - opencode
+  - cursor
+  - copilot
 ---
 
 # UISkill - Banking UI Components
 
 ## Overview
 
-This skill provides guidance on shadcn/ui and Tailwind CSS patterns for the Banking project.
+This skill provides comprehensive guidance on shadcn/ui and Tailwind CSS patterns for the Banking project. It covers forms, tables, dialogs, loading states, and responsive design patterns.
+
+## Multi-Agent Commands
+
+### OpenCode
+
+```bash
+# Add UI component
+npx shadcn@latest add button
+
+# Add form component
+npx shadcn@latest add form
+
+# Add dialog
+npx shadcn@latest add dialog
+```
+
+### Cursor
+
+```
+@ui-skill
+```
+
+### Copilot
+
+```
+/ui button form dialog
+```
 
 ## Available Components
 
@@ -166,6 +197,149 @@ export default function DashboardPage() {
 }
 ```
 
+## Advanced Patterns
+
+### Dialog/Modal Pattern
+
+```typescript
+// components/dialogs/confirm-dialog.tsx
+"use client";
+
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+
+interface ConfirmDialogProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  title: string;
+  description: string;
+  onConfirm: () => void;
+  confirmLabel?: string;
+  cancelLabel?: string;
+}
+
+export function ConfirmDialog({
+  open,
+  onOpenChange,
+  title,
+  description,
+  onConfirm,
+  confirmLabel = "Confirm",
+  cancelLabel = "Cancel",
+}: ConfirmDialogProps) {
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{title}</DialogTitle>
+          <DialogDescription>{description}</DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <Button variant="outline" onClick={() => onOpenChange(false)}>
+            {cancelLabel}
+          </Button>
+          <Button onClick={onConfirm}>{confirmLabel}</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+```
+
+### Select/Dropdown Pattern
+
+```typescript
+// components/forms/currency-select.tsx
+"use client";
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+const currencies = [
+  { value: "USD", label: "US Dollar" },
+  { value: "EUR", label: "Euro" },
+  { value: "GBP", label: "British Pound" },
+];
+
+interface CurrencySelectProps {
+  value: string;
+  onChange: (value: string) => void;
+  placeholder?: string;
+}
+
+export function CurrencySelect({
+  value,
+  onChange,
+  placeholder = "Select currency",
+}: CurrencySelectProps) {
+  return (
+    <Select value={value} onValueChange={onChange}>
+      <SelectTrigger>
+        <SelectValue placeholder={placeholder} />
+      </SelectTrigger>
+      <SelectContent>
+        {currencies.map((currency) => (
+          <SelectItem key={currency.value} value={currency.value}>
+            {currency.label}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  );
+}
+```
+
+### Avatar with Fallback
+
+```typescript
+// components/user-avatar.tsx
+"use client";
+
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
+interface UserAvatarProps {
+  src?: string | null;
+  name?: string | null;
+  size?: "sm" | "md" | "lg";
+}
+
+const sizeClasses = {
+  sm: "h-8 w-8",
+  md: "h-10 w-10",
+  lg: "h-12 w-12",
+};
+
+export function UserAvatar({ src, name, size = "md" }: UserAvatarProps) {
+  const initials = name
+    ? name
+        .split(" ")
+        .map((n) => n[0])
+        .join("")
+        .toUpperCase()
+        .slice(0, 2)
+    : "?";
+
+  return (
+    <Avatar className={sizeClasses[size]}>
+      <AvatarImage src={src ?? undefined} alt={name ?? "User"} />
+      <AvatarFallback>{initials}</AvatarFallback>
+    </Avatar>
+  );
+}
+```
+
 ## Tailwind Patterns
 
 ### Responsive Design
@@ -186,12 +360,113 @@ export default function DashboardPage() {
 </div>
 ```
 
+### Semantic Colors
+
+```typescript
+// Use semantic tokens instead of raw colors
+<div className="bg-primary text-primary-foreground" />
+<div className="bg-secondary text-secondary-foreground" />
+<div className="bg-muted text-muted-foreground" />
+<div className="bg-destructive text-destructive-foreground" />
+```
+
+### Spacing
+
+```typescript
+// Use gap instead of space-x/y
+<div className="flex flex-col gap-4">
+  {/* gap-4 = space-y-4 for flex-col */}
+</div>
+
+<div className="flex gap-4">
+  {/* gap-4 = space-x-4 for flex-row */}
+</div>
+```
+
 ## Validation
 
 Run: `bun run lint:strict`
 
-## Common Issues
+## Common Issues and Solutions
 
-1. **Component not found** - Add via: `npx shadcn@latest add [component]`
-2. **Form state** - Use `form.formState.errors` for error display
-3. **Loading states** - Always wrap async content in Suspense
+### 1. Component Not Found
+
+**Problem**: Component import fails **Solution**: Add via: `npx shadcn@latest add [component]`
+
+### 2. Form State Errors
+
+**Problem**: Not displaying validation errors **Solution**: Use `form.formState.errors` for error display
+
+```typescript
+{form.formState.errors.amount && (
+  <p className="text-sm text-destructive">
+    {form.formState.errors.amount.message}
+  </p>
+)}
+```
+
+### 3. Loading States
+
+**Problem**: Content flashes before data loads **Solution**: Wrap async content in Suspense
+
+```typescript
+<Suspense fallback={<Skeleton />}>
+  <DataComponent />
+</Suspense>
+```
+
+### 4. Hydration Mismatch
+
+**Problem**: Server/client HTML mismatch **Solution**: Use dynamic imports or client-side rendering for components with random values
+
+```typescript
+import dynamic from "next/dynamic";
+
+const ClientOnlyChart = dynamic(
+  () => import("@/components/chart"),
+  { ssr: false, loading: () => <Skeleton /> }
+);
+```
+
+### 5. Tailwind Classes Not Applying
+
+**Problem**: Custom styles not working **Solution**: Check tailwind.config.ts includes content paths
+
+```typescript
+// tailwind.config.ts
+export default {
+  content: [
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}"
+  ]
+  // ...
+};
+```
+
+## Cross-References
+
+- **shadcn-skill**: For detailed component usage and CLI commands
+- **validation-skill**: For Zod schema patterns
+- **server-action-skill**: For form submission handling
+- **testing-skill**: For component testing patterns
+
+## Validation Commands
+
+```bash
+# Type check
+bun run type-check
+
+# Lint strict
+bun run lint:strict
+
+# Format
+bun run format
+```
+
+## Performance Tips
+
+1. Use `useMemo` for expensive column definitions in tables
+2. Lazy load non-critical components with `next/dynamic`
+3. Use `Skeleton` for loading states instead of spinners
+4. Implement virtual scrolling for large lists
+5. Use `Image` component for optimized images

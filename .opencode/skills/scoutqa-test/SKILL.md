@@ -1,8 +1,12 @@
 ---
 name: scoutqa-test
 description: Automated exploratory and accessibility testing for web apps using the ScoutQA CLI.
-lastReviewed: 2026-04-24
+lastReviewed: 2026-04-29
 applyTo: "tests/**"
+platforms:
+  - opencode
+  - cursor
+  - copilot
 ---
 
 # ScoutQA Testing Skill
@@ -313,3 +317,163 @@ ScoutQA tests run remotely on ScoutQA's infrastructure. After starting a test wi
 | Auth expired / unauthorized | Run `scoutqa auth login` |
 | Test hangs or needs input | Use `scoutqa send-message --execution-id` |
 | Check test results | Visit browser URL or `scoutqa get-execution --execution-id` |
+
+---
+
+## Multi-Agent Testing Workflows
+
+### Parallel Test Execution
+
+For comprehensive test coverage, dispatch multiple ScoutQA agents simultaneously to test different aspects of the application:
+
+```bash
+# Agent 1: Authentication testing
+scoutqa --url "https://app.example.com" --prompt "
+Test authentication flows: login, logout, password reset, session handling,
+and security edge cases like SQL injection attempts.
+" &
+
+# Agent 2: Core functionality testing (runs in parallel)
+scoutqa --url "https://app.example.com" --prompt "
+Test core features: dashboard loading, data CRUD operations, search functionality,
+and API integrations.
+" &
+
+# Agent 3: Accessibility testing (runs in parallel)
+scoutqa --url "https://app.example.com" --prompt "
+Conduct accessibility audit: WCAG 2.1 AA compliance, keyboard navigation,
+screen reader compatibility, color contrast, and semantic HTML structure.
+" &
+
+# Agent 4: Performance testing (runs in parallel)
+scoutqa --url "https://app.example.com" --prompt "
+Test performance: page load times, lazy loading, image optimization,
+and responsiveness under load.
+"
+```
+
+### Agent Coordination Pattern
+
+For coordinated testing across application boundaries:
+
+1. **Discovery Agent** - Maps application structure and identifies test targets
+2. **Execution Agents** - Parallel workers on different functional areas
+3. **Consolidation Agent** - Aggregates findings, removes duplicates
+4. **Verification Agent** - Re-tests fixed issues
+
+### Test Handoff for Complex Scenarios
+
+For complex testing requiring multiple phases:
+
+```bash
+# Phase 1: Exploration (explore agent)
+scoutqa --url "https://app.example.com" --prompt "
+Explore the application structure. Identify main features, navigation patterns,
+and potential problem areas. Report the application map.
+"
+
+# Phase 2: Deep testing (based on exploration findings)
+scoutqa --url "https://app.example.com" --prompt "
+Based on the exploration findings, focus on:
+- Checkout flow edge cases
+- Form validation on all input fields
+- Error handling for API failures
+"
+
+# Phase 3: Regression testing (after fixes)
+scoutqa --url "https://app.example.com" --prompt "
+Verify the following issues were fixed:
+- Login form validation error
+- Cart total calculation
+- Mobile navigation menu
+"
+```
+
+### Cross-Agent Validation
+
+After one agent finds issues, use another to verify fixes:
+
+```bash
+# Agent A: Finds issues
+scoutqa --url "https://app.example.com" --prompt "Find accessibility issues"
+
+# Agent B: Verifies fixes (after developer fixes)
+scoutqa --url "https://app.example.com" --prompt "
+Verify these accessibility issues are fixed:
+- Missing alt text on logo
+- Button contrast ratio
+- Form label associations
+"
+```
+
+---
+
+## Cross-References
+
+### Related Skills
+
+- **agent-browser** - For direct browser automation and testing
+- **testing-skill** - For unit and E2E testing patterns
+- **code-review** - For reviewing test findings
+- **scoutqa-test** - This skill (for exploratory testing)
+
+### Testing Tools in the Banking App
+
+- **Vitest** (`bun run test:browser`) - Unit tests
+- **Playwright** (`bun run test:ui`) - E2E tests
+- **ScoutQA** - Exploratory and accessibility testing
+
+### Reference Files
+
+- `tests/e2e/helpers/plaid.mock.ts` - Mock patterns for testing
+- `playwright.config.ts` - E2E test configuration
+
+---
+
+## Best Practices
+
+### Before Testing
+
+1. **Define clear test scope** - Know what to test before starting
+2. **Prepare test data** - Ensure test accounts and data are ready
+3. **Set up monitoring** - Note the execution ID for result tracking
+4. **Communicate with user** - Inform them testing has started
+
+### During Testing
+
+1. **Use parallel agents** - Cover more ground simultaneously
+2. **Focus on goals** - Describe what to test, not how
+3. **Trust the agent** - Let ScoutQA explore autonomously
+4. **Handle stuck executions** - Use `send-message` to provide guidance
+
+### After Testing
+
+1. **Present results clearly** - Use the format in "Presenting Results"
+2. **Categorize findings** - Group by severity and category
+3. **Verify fixes** - Re-test after issues are addressed
+4. **Document patterns** - Note recurring issues for future reference
+
+### Proactive Testing Workflow
+
+After implementing any web feature:
+
+```bash
+# Immediately after feature implementation
+scoutqa --url "http://localhost:3000/feature" --prompt "
+Verify the new feature works correctly:
+- Core functionality
+- Error handling
+- Edge cases
+- Integration with existing features
+"
+```
+
+This catches issues immediately while the implementation is fresh in context.
+
+### Anti-Patterns to Avoid
+
+- **Testing without clear goals** - Vague prompts lead to shallow results
+- **Single test for everything** - Too broad, misses details
+- **Ignoring accessibility** - Often overlooked but critical
+- **No follow-up testing** - Issues may resurface after fixes
+- **Skipping parallel execution** - Misses coverage opportunities

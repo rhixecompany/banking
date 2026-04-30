@@ -1,8 +1,12 @@
 ---
 name: gh-cli
 description: Comprehensive GitHub CLI (gh) reference for repositories, issues, PRs, Actions, and other GitHub operations.
-lastReviewed: 2026-04-24
+lastReviewed: 2026-04-29
 applyTo: "**/*"
+platforms:
+  - opencode
+  - cursor
+  - copilot
 ---
 
 # GitHub CLI (gh)
@@ -10,6 +14,14 @@ applyTo: "**/*"
 Comprehensive reference for GitHub CLI (gh) - work seamlessly with GitHub from the command line.
 
 **Version:** 2.85.0 (current as of January 2026)
+
+## Agent Support
+
+| Agent | Usage |
+| --- | --- |
+| **OpenCode** | Use GitHub MCP tools: `github_agentic_workflows_*` for all GitHub operations |
+| **Cursor** | Use `@gh-cli` for GitHub CLI patterns and GitHub MCP integration |
+| **Copilot** | Use `/gh` or `/github` commands for GitHub integration |
 
 ## Prerequisites
 
