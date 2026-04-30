@@ -2,6 +2,8 @@
 name: auth-skill
 description: >-
   NextAuth v4 authentication patterns, session helper, and protected route guidance. Use when implementing authentication, protecting routes, managing sessions, or working with user authorization. Triggers include requests to "add auth", "protect routes", "check session", "implement login/logout", or any authentication-related task.
+
+
 lastReviewed: 2026-04-29
 applyTo: "actions/**/*.{ts,tsx}"
 ---
@@ -9,12 +11,13 @@ applyTo: "actions/**/*.{ts,tsx}"
 ## Agent Support
 
 | Agent | Integration | Usage |
-|-------|-------------|-------|
+| --- | --- | --- |
 | **OpenCode** | Direct skill invocation | `skill("auth-skill")` when implementing auth in Server Actions |
 | **Cursor** | `.cursorrules` reference | Add to project rules for auth patterns |
 | **Copilot** | `.github/copilot-instructions.md` | Reference for authentication implementation |
 
 ### OpenCode Usage
+
 ```
 # When adding authentication to a Server Action
 Use auth-skill to implement proper session checking and protected routes.
@@ -24,6 +27,7 @@ Load auth-skill for middleware and protected route patterns.
 ```
 
 ### Cursor Integration
+
 ```json
 // .cursorrules - Add auth patterns
 {
@@ -36,11 +40,14 @@ Load auth-skill for middleware and protected route patterns.
 ```
 
 ### Copilot Integration
+
 ```markdown
 <!-- .github/copilot-instructions.md -->
+
 ## Authentication Patterns
 
 Use NextAuth v4 with JWT strategy:
+
 - Server Actions: Check auth() early, return { ok, error }
 - Protected routes: Middleware pattern
 - Session: JWT tokens with user id, email, isAdmin, isActive
@@ -65,6 +72,7 @@ Comprehensive authentication patterns for the Banking app using NextAuth v4 with
 ## Multi-Agent Commands
 
 ### OpenCode / Cursor / Copilot
+
 ```bash
 # Check auth configuration
 cat lib/auth-options.ts
@@ -81,12 +89,12 @@ bun run test:browser
 
 ### Core Files
 
-| File | Purpose |
-|------|---------|
-| `lib/auth-options.ts` | NextAuth configuration |
-| `lib/auth.ts` | Server-side session helper |
-| `app/api/auth/[...nextauth]/route.ts` | Auth API route |
-| `database/schema.ts` | User table definition |
+| File                                  | Purpose                    |
+| ------------------------------------- | -------------------------- |
+| `lib/auth-options.ts`                 | NextAuth configuration     |
+| `lib/auth.ts`                         | Server-side session helper |
+| `app/api/auth/[...nextauth]/route.ts` | Auth API route             |
+| `database/schema.ts`                  | User table definition      |
 
 ### Session Strategy
 
@@ -199,7 +207,7 @@ import { z } from "zod";
 const RegisterSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
-  name: z.string().min(1),
+  name: z.string().min(1)
 });
 
 export async function registerAction(input: unknown) {
@@ -220,7 +228,7 @@ export async function registerAction(input: unknown) {
   const user = await userDal.create({
     email,
     name,
-    passwordHash: await hashPassword(password),
+    passwordHash: await hashPassword(password)
   });
 
   return { ok: true, userId: user.id };
@@ -238,7 +246,7 @@ import { z } from "zod";
 
 const LoginSchema = z.object({
   email: z.string().email(),
-  password: z.string(),
+  password: z.string()
 });
 
 export async function loginAction(input: unknown) {
@@ -298,7 +306,7 @@ export const authOptions: NextAuthOptions = {
       name: "Credentials",
       credentials: {
         email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" },
+        password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
@@ -323,14 +331,14 @@ export const authOptions: NextAuthOptions = {
           email: user.email,
           name: user.name,
           isAdmin: user.isAdmin,
-          isActive: user.isActive,
+          isActive: user.isActive
         };
-      },
-    }),
+      }
+    })
   ],
   session: {
     strategy: "jwt",
-    maxAge: 30 * 24 * 60 * 60, // 30 days
+    maxAge: 30 * 24 * 60 * 60 // 30 days
   },
   callbacks: {
     async jwt({ token, user }) {
@@ -348,12 +356,12 @@ export const authOptions: NextAuthOptions = {
         session.user.isActive = token.isActive as boolean;
       }
       return session;
-    },
+    }
   },
   pages: {
     signIn: "/login",
-    error: "/login",
-  },
+    error: "/login"
+  }
 };
 ```
 
@@ -362,37 +370,47 @@ export const authOptions: NextAuthOptions = {
 ### Testing Protected Actions
 
 ```typescript
-import { describe, it, expect, vi } from 'vitest';
-import { protectedAction } from '@/actions/protected';
-import { auth } from '@/lib/auth';
+import { describe, it, expect, vi } from "vitest";
+import { protectedAction } from "@/actions/protected";
+import { auth } from "@/lib/auth";
 
-vi.mock('@/lib/auth', () => ({
+vi.mock("@/lib/auth", () => ({
   auth: vi.fn()
 }));
 
-describe('protectedAction', () => {
-  it('should return error for unauthenticated user', async () => {
+describe("protectedAction", () => {
+  it("should return error for unauthenticated user", async () => {
     vi.mocked(auth).mockResolvedValue(null);
     const result = await protectedAction({});
     expect(result.ok).toBe(false);
-    expect(result.error).toBe('Unauthorized');
+    expect(result.error).toBe("Unauthorized");
   });
 
-  it('should allow authenticated user', async () => {
+  it("should allow authenticated user", async () => {
     vi.mocked(auth).mockResolvedValue({
-      user: { id: '1', email: 'test@test.com', isAdmin: false, isActive: true }
+      user: {
+        id: "1",
+        email: "test@test.com",
+        isAdmin: false,
+        isActive: true
+      }
     });
     const result = await protectedAction({});
     expect(result.ok).toBe(true);
   });
 
-  it('should return error for inactive user', async () => {
+  it("should return error for inactive user", async () => {
     vi.mocked(auth).mockResolvedValue({
-      user: { id: '1', email: 'test@test.com', isAdmin: false, isActive: false }
+      user: {
+        id: "1",
+        email: "test@test.com",
+        isAdmin: false,
+        isActive: false
+      }
     });
     const result = await protectedAction({});
     expect(result.ok).toBe(false);
-    expect(result.error).toBe('AccountDeactivated');
+    expect(result.error).toBe("AccountDeactivated");
   });
 });
 ```
@@ -400,23 +418,23 @@ describe('protectedAction', () => {
 ### E2E Auth Testing
 
 ```typescript
-import { test, expect } from '@playwright/test';
+import { test, expect } from "@playwright/test";
 
-test.describe('Authentication', () => {
-  test('should login successfully', async ({ page }) => {
-    await page.goto('/login');
-    await page.fill('[name="email"]', 'seed-user@example.com');
-    await page.fill('[name="password"]', 'password123');
+test.describe("Authentication", () => {
+  test("should login successfully", async ({ page }) => {
+    await page.goto("/login");
+    await page.fill('[name="email"]', "seed-user@example.com");
+    await page.fill('[name="password"]', "password123");
     await page.click('button[type="submit"]');
-    await expect(page).toHaveURL('/dashboard');
+    await expect(page).toHaveURL("/dashboard");
   });
 
-  test('should reject invalid credentials', async ({ page }) => {
-    await page.goto('/login');
-    await page.fill('[name="email"]', 'wrong@test.com');
-    await page.fill('[name="password"]', 'wrongpass');
+  test("should reject invalid credentials", async ({ page }) => {
+    await page.goto("/login");
+    await page.fill('[name="email"]', "wrong@test.com");
+    await page.fill('[name="password"]', "wrongpass");
     await page.click('button[type="submit"]');
-    await expect(page.locator('.error')).toContainText('Invalid');
+    await expect(page.locator(".error")).toContainText("Invalid");
   });
 });
 ```
@@ -431,12 +449,12 @@ test.describe('Authentication', () => {
 
 ## Troubleshooting
 
-| Issue | Solution |
-|-------|----------|
-| Session not persisting | Check JWT strategy configuration |
+| Issue                  | Solution                                  |
+| ---------------------- | ----------------------------------------- |
+| Session not persisting | Check JWT strategy configuration          |
 | User not authenticated | Verify auth() is called in Server Actions |
-| Login failing | Check credentials provider configuration |
-| Redirect loops | Check middleware path patterns |
+| Login failing          | Check credentials provider configuration  |
+| Redirect loops         | Check middleware path patterns            |
 
 ## Cross-References
 

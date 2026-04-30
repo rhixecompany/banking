@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-29T15:11:56.403Z",
+  "generatedAt": "2026-04-30T00:22:04.307Z",
   "results": [
     {
       "check": "process.env-usage",
@@ -768,6 +768,22 @@
     },
     {
       "check": "process.env-usage",
+      "file": "scripts/ts/opencode-plugin-verify.ts",
+      "line": 23,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
+    },
+    {
+      "check": "process.env-usage",
+      "file": "scripts/ts/opencode-plugin-verify.ts",
+      "line": 24,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
+    },
+    {
+      "check": "process.env-usage",
       "file": "scripts/utils/get-connection-string.ts",
       "line": 24,
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
@@ -900,13 +916,6 @@
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
       "severity": "warn",
       "snippet": "process.env"
-    },
-    {
-      "check": "no-any",
-      "file": "tests/utils/serverWrapperTestUtils.ts",
-      "line": 27,
-      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
-      "severity": "warn"
     },
     {
       "check": "no-any",
@@ -1064,6 +1073,13 @@
     },
     {
       "check": "no-any",
+      "file": "tests/utils/serverWrapperTestUtils.ts",
+      "line": 27,
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
       "file": "tests/verify-rules/verify-rules.test.ts",
       "line": 20,
       "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
@@ -1091,13 +1107,6 @@
       "severity": "warn"
     },
     {
-      "check": "no-any",
-      "file": "scripts/ts/cleanup/cleanup-docs.ts",
-      "line": 168,
-      "message": "Found 'any' type usage (3 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
       "check": "process.env-usage",
       "file": "scripts/ts/deploy/deploy.ts",
       "line": 71,
@@ -1118,6 +1127,13 @@
       "file": "scripts/ts/deploy/generate-htpasswd.ts",
       "line": 47,
       "message": "Found 'any' type usage (6 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "scripts/ts/cleanup/cleanup-docs.ts",
+      "line": 168,
+      "message": "Found 'any' type usage (3 occurrences). Avoid using any.",
       "severity": "warn"
     },
     {
@@ -1229,6 +1245,13 @@
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
       "severity": "warn",
       "snippet": "process.env"
+    },
+    {
+      "check": "no-any",
+      "file": "tests/e2e/helpers/auth.ts",
+      "line": 64,
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
+      "severity": "warn"
     },
     {
       "check": "process.env-usage",

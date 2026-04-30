@@ -15,12 +15,13 @@ applyTo: "**/*"
 ## Agent Support
 
 | Agent | Integration | Usage |
-|-------|-------------|-------|
+| --- | --- | --- |
 | **OpenCode** | Direct skill invocation | `skill("agentic-eval")` when implementing self-improvement loops |
 | **Cursor** | `.cursorrules` reference | Add to project rules for evaluation patterns |
 | **Copilot** | `.github/copilot-instructions.md` | Reference for evaluation workflow guidance |
 
 ### OpenCode Usage
+
 ```
 # When implementing evaluation/feedback loops
 Use agentic-eval patterns to build self-critique into code generation.
@@ -30,6 +31,7 @@ Load the agentic-eval skill for pattern examples.
 ```
 
 ### Cursor Integration
+
 ```json
 // .cursorrules - Add evaluation patterns
 {
@@ -42,11 +44,14 @@ Load the agentic-eval skill for pattern examples.
 ```
 
 ### Copilot Integration
+
 ```markdown
 <!-- .github/copilot-instructions.md -->
+
 ## Evaluation Patterns
 
 When building self-improving systems, use:
+
 - Basic reflection with structured critique
 - Evaluator-optimizer separation
 - Test-driven code refinement

@@ -27,6 +27,7 @@ Manage Cursor CLI configuration settings. This skill provides comprehensive guid
 ### OpenCode
 
 In OpenCode, the CLI config is managed through:
+
 - Direct file editing of `~/.cursor/cli-config.json`
 - Using the `update-cli-config` tool when available
 - Environment variables for some settings
@@ -34,6 +35,7 @@ In OpenCode, the CLI config is managed through:
 ### Cursor
 
 In Cursor IDE:
+
 - Use the Settings UI for some options
 - Direct config file editing for advanced settings
 - Terminal for command-line configuration
@@ -41,6 +43,7 @@ In Cursor IDE:
 ### GitHub Copilot
 
 In Copilot CLI:
+
 - Settings managed via `copilot config` commands
 - Environment variables for additional options
 - Config file at `~/.copilot/config.json`
@@ -64,17 +67,17 @@ cat ~/.cursor/cli-config.json
 
 ```typescript
 // Use read to inspect config
-read({ filePath: "~/.cursor/cli-config.json" })
+read({ filePath: "~/.cursor/cli-config.json" });
 
 // Use glob to find config files
-glob({ pattern: "~/.cursor/*.json" })
+glob({ pattern: "~/.cursor/*.json" });
 ```
 
 ### Cursor Tool Usage
 
 ```typescript
 // Use terminal to read config
-await terminal.exec("cat ~/.cursor/cli-config.json")
+await terminal.exec("cat ~/.cursor/cli-config.json");
 ```
 
 ## 2. Understand Configuration Structure
@@ -83,34 +86,34 @@ The CLI config typically contains:
 
 ```json
 {
-  "version": "1.0",
+  "approvalMode": "prompt",
+  "display": {
+    "showTokens": true,
+    "showTimestamps": true
+  },
   "permissions": {
     "allowBash": true,
     "allowFileWrite": true,
     "allowFileRead": true
   },
-  "approvalMode": "prompt",
-  "vimMode": false,
-  "display": {
-    "showTokens": true,
-    "showTimestamps": true
-  },
   "sandbox": {
     "enabled": false,
     "allowedPaths": []
-  }
+  },
+  "version": "1.0",
+  "vimMode": false
 }
 ```
 
 ### Configuration Sections
 
-| Section | Purpose |
-|---------|---------|
-| `permissions` | Controls what operations are allowed |
+| Section        | Purpose                                     |
+| -------------- | ------------------------------------------- |
+| `permissions`  | Controls what operations are allowed        |
 | `approvalMode` | How to handle operations requiring approval |
-| `vimMode` | Enable vim keybindings |
-| `display` | UI display preferences |
-| `sandbox` | Sandboxed execution settings |
+| `vimMode`      | Enable vim keybindings                      |
+| `display`      | UI display preferences                      |
+| `sandbox`      | Sandboxed execution settings                |
 
 ## 3. Modify Permissions
 
@@ -133,7 +136,7 @@ Configure what operations the CLI can perform:
 ### Permission Types
 
 | Permission | Description | Default |
-|------------|-------------|---------|
+| --- | --- | --- |
 | `allowBash` | Allow shell command execution | true |
 | `allowFileWrite` | Allow file creation/modification | true |
 | `allowFileRead` | Allow file reading | true |
@@ -143,6 +146,7 @@ Configure what operations the CLI can perform:
 ### Platform-Specific Permissions
 
 **OpenCode:**
+
 ```json
 {
   "permissions": {
@@ -154,6 +158,7 @@ Configure what operations the CLI can perform:
 ```
 
 **Cursor:**
+
 ```json
 {
   "permissions": {
@@ -170,12 +175,12 @@ Set how the CLI handles operations requiring user approval:
 
 ### Approval Modes
 
-| Mode | Behavior |
-|------|----------|
+| Mode     | Behavior                               |
+| -------- | -------------------------------------- |
 | `prompt` | Ask for approval before each operation |
-| `auto` | Approve automatically |
-| `reject` | Reject without asking |
-| `ask` | Ask once, remember decision |
+| `auto`   | Approve automatically                  |
+| `reject` | Reject without asking                  |
+| `ask`    | Ask once, remember decision            |
 
 ### Configuration Example
 
@@ -229,15 +234,16 @@ Configure vim keybindings:
 
 ### Vim Mode Features
 
-| Feature | Description |
-|---------|-------------|
-| `insertModeKey` | Key to enter insert mode |
-| `leaderKey` | Leader key for custom mappings |
-| `relativeLineNumbers` | Use relative line numbers |
+| Feature               | Description                    |
+| --------------------- | ------------------------------ |
+| `insertModeKey`       | Key to enter insert mode       |
+| `leaderKey`           | Leader key for custom mappings |
+| `relativeLineNumbers` | Use relative line numbers      |
 
 ### Platform-Specific Vim
 
 **Cursor:**
+
 ```json
 {
   "vimMode": true,
@@ -246,10 +252,11 @@ Configure vim keybindings:
 ```
 
 **OpenCode:**
+
 ```json
 {
-  "vimMode": true,
-  "vimEnableNeovimIntegration": false
+  "vimEnableNeovimIntegration": false,
+  "vimMode": true
 }
 ```
 
@@ -273,13 +280,13 @@ Customize the CLI display:
 
 ### Display Options
 
-| Option | Description | Values |
-|--------|-------------|--------|
-| `showTokens` | Show token usage | true/false |
-| `showTimestamps` | Show timestamps | true/false |
-| `showModel` | Show model name | true/false |
-| `colorMode` | Color output | auto/dark/light/none |
-| `verbose` | Verbose output | true/false |
+| Option           | Description      | Values               |
+| ---------------- | ---------------- | -------------------- |
+| `showTokens`     | Show token usage | true/false           |
+| `showTimestamps` | Show timestamps  | true/false           |
+| `showModel`      | Show model name  | true/false           |
+| `colorMode`      | Color output     | auto/dark/light/none |
+| `verbose`        | Verbose output   | true/false           |
 
 ### Custom Themes
 
@@ -316,17 +323,18 @@ Set up sandboxed execution:
 
 ### Sandbox Options
 
-| Option | Description | Default |
-|--------|-------------|---------|
-| `enabled` | Enable sandbox mode | false |
-| `allowedPaths` | Paths that can be accessed | [] |
-| `blockedPaths` | Paths that are blocked | [] |
-| `maxMemoryMB` | Maximum memory usage | 1024 |
-| `maxTimeout` | Maximum execution time (seconds) | 300 |
+| Option         | Description                      | Default |
+| -------------- | -------------------------------- | ------- |
+| `enabled`      | Enable sandbox mode              | false   |
+| `allowedPaths` | Paths that can be accessed       | []      |
+| `blockedPaths` | Paths that are blocked           | []      |
+| `maxMemoryMB`  | Maximum memory usage             | 1024    |
+| `maxTimeout`   | Maximum execution time (seconds) | 300     |
 
 ### Platform-Specific Sandbox
 
 **OpenCode:**
+
 ```json
 {
   "sandbox": {
@@ -338,6 +346,7 @@ Set up sandboxed execution:
 ```
 
 **Cursor:**
+
 ```json
 {
   "sandbox": {
@@ -394,7 +403,10 @@ cursor-cli --validate-config
 
 ```typescript
 // Use bash to validate
-bash({ command: "cat ~/.cursor/cli-config.json | jq .", description: "Validate config JSON" })
+bash({
+  command: "cat ~/.cursor/cli-config.json | jq .",
+  description: "Validate config JSON"
+});
 ```
 
 ### Testing Changes
@@ -416,16 +428,16 @@ cursor-cli --show-config
 
 ```json
 {
+  "approvalMode": "auto",
+  "display": {
+    "verbose": true,
+    "showTokens": true
+  },
   "permissions": {
     "allowBash": true,
     "allowFileWrite": true,
     "allowFileRead": true,
     "allowNetworkAccess": true
-  },
-  "approvalMode": "auto",
-  "display": {
-    "verbose": true,
-    "showTokens": true
   }
 }
 ```
@@ -434,13 +446,13 @@ cursor-cli --show-config
 
 ```json
 {
+  "approvalMode": "prompt",
   "permissions": {
     "allowBash": false,
     "allowFileWrite": false,
     "allowFileRead": true,
     "allowNetworkAccess": false
   },
-  "approvalMode": "prompt",
   "sandbox": {
     "enabled": true
   }
@@ -451,13 +463,13 @@ cursor-cli --show-config
 
 ```json
 {
+  "approvalMode": "reject",
   "permissions": {
     "allowBash": false,
     "allowFileWrite": false,
     "allowFileRead": true,
     "allowNetworkAccess": false
   },
-  "approvalMode": "reject",
   "sandbox": {
     "enabled": true,
     "allowedPaths": ["/home/user/readonly"]
@@ -470,6 +482,7 @@ cursor-cli --show-config
 ### Issue: Config changes not applied
 
 **Solution:**
+
 1. Restart the CLI/application
 2. Check for syntax errors in JSON
 3. Verify file permissions
@@ -477,6 +490,7 @@ cursor-cli --show-config
 ### Issue: Permission denied
 
 **Solution:**
+
 1. Check file ownership: `ls -la ~/.cursor/cli-config.json`
 2. Fix permissions: `chmod 644 ~/.cursor/cli-config.json`
 3. Verify JSON is valid
@@ -484,6 +498,7 @@ cursor-cli --show-config
 ### Issue: Sandbox not working
 
 **Solution:**
+
 1. Verify sandbox is enabled in config
 2. Check allowed paths are correct
 3. Ensure sandbox feature is supported
@@ -491,6 +506,7 @@ cursor-cli --show-config
 ### Issue: Vim mode not working
 
 **Solution:**
+
 1. Check vimMode is set to true
 2. Restart the application
 3. Verify no conflicting keybindings
@@ -546,11 +562,11 @@ cursor-cli --show-config
 
 ## Cross-Platform Commands
 
-| Platform | Command |
-|----------|---------|
+| Platform | Command                                   |
+| -------- | ----------------------------------------- |
 | OpenCode | Edit `~/.cursor/cli-config.json` directly |
-| Cursor | Use Settings UI or direct file edit |
-| Copilot | Use `copilot config` commands |
+| Cursor   | Use Settings UI or direct file edit       |
+| Copilot  | Use `copilot config` commands             |
 
 ## Related Skills
 

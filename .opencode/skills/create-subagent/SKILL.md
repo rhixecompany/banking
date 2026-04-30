@@ -11,12 +11,13 @@ lastReviewed: 2026-04-29
 ## Agent Support
 
 | Agent | Integration | Usage |
-|-------|-------------|-------|
+| --- | --- | --- |
 | **OpenCode** | Direct skill invocation | `skill("create-subagent")` when creating subagents |
 | **Cursor** | `.cursorrules` reference | Add to project rules for subagent config |
 | **Copilot** | `.github/copilot-instructions.md` | Reference for subagent patterns |
 
 ### OpenCode Usage
+
 ```
 # When creating a custom subagent
 Use create-subagent to define agent prompts and descriptions.
@@ -26,6 +27,7 @@ Load create-subagent for location and format guidance.
 ```
 
 ### Cursor Integration
+
 ```json
 // .cursorrules - Add subagent patterns
 {
@@ -38,11 +40,14 @@ Load create-subagent for location and format guidance.
 ```
 
 ### Copilot Integration
+
 ```markdown
 <!-- .github/copilot-instructions.md -->
+
 ## Subagent Patterns
 
 When creating custom subagents:
+
 - Location: .cursor/agents/ (project) or ~/.cursor/agents/ (user)
 - Format: .md file with YAML frontmatter
 - Description: Include trigger terms and "use proactively"
@@ -308,6 +313,7 @@ description: Full-stack development specialist. Handles both frontend and backen
 You are a full-stack developer with access to specialized subagents.
 
 When invoked:
+
 1. Analyze the task requirements
 2. Determine if frontend, backend, or both is needed
 3. Delegate to appropriate subagents:
@@ -331,12 +337,14 @@ description: Maintains project context across sessions. Use to maintain awarenes
 You are a project context specialist that maintains awareness of project architecture.
 
 Maintain a persistent context including:
+
 - Current project structure
 - Recent decisions and their rationale
 - Active issues and technical debt
 - Team conventions and patterns
 
 When invoked:
+
 1. Update context with any new information
 2. Reference context when providing recommendations
 3. Ask clarifying questions if context is unclear
@@ -357,12 +365,14 @@ description: Deep architecture analysis. Use for complex architectural decisions
 You are an architecture specialist for in-depth technical analysis.
 
 When invoked:
+
 1. First, gather requirements and constraints
 2. Analyze trade-offs and options
 3. Provide recommendations with rationale
 4. Be prepared for follow-up questions
 
 Structure responses with:
+
 - Executive summary
 - Detailed analysis
 - Trade-offs considered

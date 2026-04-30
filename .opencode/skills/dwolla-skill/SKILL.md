@@ -16,6 +16,7 @@ This skill provides comprehensive patterns for integrating with the Dwolla API f
 ## Multi-Agent Support
 
 ### OpenCode
+
 ```bash
 # Dwolla API operations
 lib/dwolla/client.ts dwollaClient createCustomer createTransfer
@@ -28,6 +29,7 @@ actions/dwolla.actions.ts createFundingSource initiateTransfer
 ```
 
 ### Cursor
+
 ```typescript
 // Import Dwolla client
 import { dwollaClient } from "@/lib/dwolla";
@@ -54,6 +56,7 @@ const transfer = await dwollaClient.post("transfers", {
 ```
 
 ### GitHub Copilot
+
 ```typescript
 // Copilot suggests Dwolla API calls
 // Create a funding source for bank account verification
@@ -75,13 +78,14 @@ const environment = process.env.DWOLLA_ENV || "sandbox";
 export const dwollaClient = new Dwolla({
   key: appKey,
   secret: appSecret,
-  environment: environment  // "sandbox" or "production"
+  environment: environment // "sandbox" or "production"
 });
 
 // Base URL for API calls
-export const dwollaBaseUrl = environment === "sandbox"
-  ? "https://api-sandbox.dwolla.com"
-  : "https://api.dwolla.com";
+export const dwollaBaseUrl =
+  environment === "sandbox"
+    ? "https://api-sandbox.dwolla.com"
+    : "https://api.dwolla.com";
 ```
 
 ### Environment Variables
@@ -115,11 +119,13 @@ interface CreateCustomerInput {
   firstName: string;
   lastName: string;
   email: string;
-  ssn?: string;  // For ID verification
+  ssn?: string; // For ID verification
   dateOfBirth?: string;
 }
 
-export async function createDwollaCustomer(input: CreateCustomerInput) {
+export async function createDwollaCustomer(
+  input: CreateCustomerInput
+) {
   const session = await auth();
   if (!session?.user) {
     return { ok: false, error: "Unauthorized" };
@@ -130,7 +136,7 @@ export async function createDwollaCustomer(input: CreateCustomerInput) {
       firstName: input.firstName,
       lastName: input.lastName,
       email: input.email,
-      type: "personal",
+      type: "personal"
       // For full account verification, include:
       // ssn: input.ssn,
       // dateOfBirth: input.dateOfBirth
@@ -139,7 +145,10 @@ export async function createDwollaCustomer(input: CreateCustomerInput) {
     const customerUrl = response.headers.get("location");
 
     // Store customer URL in database
-    await recipientDal.updateDwollaCustomerId(session.user.id, customerUrl!);
+    await recipientDal.updateDwollaCustomerId(
+      session.user.id,
+      customerUrl!
+    );
 
     return { ok: true, customerUrl };
   } catch (error) {
@@ -198,11 +207,11 @@ import { auth } from "@/lib/auth";
 import { walletDal } from "@/dal";
 
 interface AddBankAccountInput {
-  customerId: string;  // Dwolla customer URL
+  customerId: string; // Dwolla customer URL
   routingNumber: string;
   accountNumber: string;
   accountType: "checking" | "savings";
-  name: string;  // Label for the account
+  name: string; // Label for the account
 }
 
 export async function addFundingSource(input: AddBankAccountInput) {
@@ -214,13 +223,16 @@ export async function addFundingSource(input: AddBankAccountInput) {
   try {
     // Create funding source using IAV (Instant Account Verification)
     // or micro-deposits
-    const response = await dwollaClient.post(`${input.customerId}/funding-sources`, {
-      routingNumber: input.routingNumber,
-      accountNumber: input.accountNumber,
-      type: input.accountType,
-      name: input.name,
-      channel: "ach"
-    });
+    const response = await dwollaClient.post(
+      `${input.customerId}/funding-sources`,
+      {
+        routingNumber: input.routingNumber,
+        accountNumber: input.accountNumber,
+        type: input.accountType,
+        name: input.name,
+        channel: "ach"
+      }
+    );
 
     const fundingSourceUrl = response.headers.get("location");
 
@@ -249,8 +261,8 @@ export async function addFundingSource(input: AddBankAccountInput) {
 // actions/dwolla.actions.ts
 export async function verifyMicroDeposits(input: {
   fundingSourceUrl: string;
-  amount1: string;  // e.g., "0.10"
-  amount2: string;  // e.g., "0.25"
+  amount1: string; // e.g., "0.10"
+  amount2: string; // e.g., "0.25"
 }) {
   try {
     const response = await dwollaClient.post(
@@ -262,7 +274,7 @@ export async function verifyMicroDeposits(input: {
     );
 
     // Check if verification succeeded
-    const status = response.body.status;  // "verified" or "failed"
+    const status = response.body.status; // "verified" or "failed"
     return { ok: true, status };
   } catch (error) {
     return { ok: false, error: "Micro-deposit verification failed" };
@@ -285,7 +297,7 @@ import { encrypt } from "@/lib/encryption";
 interface TransferInput {
   fromFundingSourceUrl: string;
   toFundingSourceUrl: string;
-  amount: number;  // In dollars
+  amount: number; // In dollars
   note?: string;
 }
 
@@ -297,7 +309,9 @@ export async function initiateTransfer(input: TransferInput) {
 
   try {
     // Verify sender has sufficient balance
-    const wallet = await walletDal.findByFundingSourceUrl(input.fromFundingSourceUrl);
+    const wallet = await walletDal.findByFundingSourceUrl(
+      input.fromFundingSourceUrl
+    );
     if (!wallet || wallet.balance < input.amount) {
       return { ok: false, error: "Insufficient funds" };
     }
@@ -351,7 +365,7 @@ export async function getTransferStatus(transferUrl: string) {
 
     return {
       id: transfer.id,
-      status: transfer.status,  // "pending", "processed", "failed", "cancelled"
+      status: transfer.status, // "pending", "processed", "failed", "cancelled"
       amount: transfer.amount.value,
       createdAt: transfer.created
     };
@@ -379,7 +393,10 @@ export async function POST(request: NextRequest) {
     // Verify webhook signature
     const signature = request.headers.get("x-dwolla-signature");
     if (!signature) {
-      return NextResponse.json({ error: "Missing signature" }, { status: 401 });
+      return NextResponse.json(
+        { error: "Missing signature" },
+        { status: 401 }
+      );
     }
 
     const body = await request.text();
@@ -389,7 +406,10 @@ export async function POST(request: NextRequest) {
       .digest("hex");
 
     if (signature !== expectedSignature) {
-      return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
+      return NextResponse.json(
+        { error: "Invalid signature" },
+        { status: 401 }
+      );
     }
 
     const event = JSON.parse(body);
@@ -419,7 +439,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ received: true });
   } catch (error) {
     console.error("Webhook processing error:", error);
-    return NextResponse.json({ error: "Processing failed" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Processing failed" },
+      { status: 500 }
+    );
   }
 }
 
@@ -428,7 +451,10 @@ async function handleTransferCompleted(event: any) {
   const transfer = event.resource;
 
   // Update transaction status
-  await transactionDal.updateStatusByDwollaId(transferUrl, "completed");
+  await transactionDal.updateStatusByDwollaId(
+    transferUrl,
+    "completed"
+  );
 
   // Update wallet balances
   const amount = parseFloat(transfer.amount.value);
@@ -531,7 +557,10 @@ try {
       case "RoutableAccountRequired":
         return { ok: false, error: "Account not routable" };
       default:
-        return { ok: false, error: errors[0]?.message || "Transfer failed" };
+        return {
+          ok: false,
+          error: errors[0]?.message || "Transfer failed"
+        };
     }
   }
 
@@ -547,7 +576,7 @@ import { RateLimiter } from "@/lib/rate-limiter";
 
 const dwollaRateLimiter = new RateLimiter({
   maxRequests: 100,
-  windowMs: 60 * 1000  // Per minute
+  windowMs: 60 * 1000 // Per minute
 });
 
 export async function dwollaRateLimitedRequest<T>(
@@ -577,13 +606,21 @@ curl -X POST https://your-domain.com/api/webhooks/dwolla \
 ## Common Issues
 
 ### 1. Invalid API Keys
+
 ```typescript
 // Check environment variables are set correctly
-console.log("Dwolla Key:", process.env.DWOLLA_KEY ? "set" : "MISSING");
-console.log("Dwolla Secret:", process.env.DWOLLA_SECRET ? "set" : "MISSING");
+console.log(
+  "Dwolla Key:",
+  process.env.DWOLLA_KEY ? "set" : "MISSING"
+);
+console.log(
+  "Dwolla Secret:",
+  process.env.DWOLLA_SECRET ? "set" : "MISSING"
+);
 ```
 
 ### 2. Sandbox vs Production
+
 ```typescript
 // Ensure you're using correct environment
 const isSandbox = process.env.DWOLLA_ENV === "sandbox";
@@ -591,18 +628,26 @@ const isSandbox = process.env.DWOLLA_ENV === "sandbox";
 ```
 
 ### 3. Webhook Verification
+
 ```typescript
 // Always verify webhook signatures
 const isValid = verifyDwollaWebhook(body, signature, WEBHOOK_SECRET);
 if (!isValid) {
-  return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
+  return NextResponse.json(
+    { error: "Invalid signature" },
+    { status: 401 }
+  );
 }
 ```
 
 ### 4. Transfer Status Polling
+
 ```typescript
 // Don't rely on webhooks alone - poll for status
-const status = await pollTransferStatus(transferUrl, maxAttempts = 5);
+const status = await pollTransferStatus(
+  transferUrl,
+  (maxAttempts = 5)
+);
 ```
 
 ## Cross-References
@@ -615,6 +660,7 @@ const status = await pollTransferStatus(transferUrl, maxAttempts = 5);
 ## Multi-Agent Examples
 
 ### OpenCode: Dwolla Operations
+
 ```bash
 # Test Dwolla API connection
 curl -H "Authorization: $DWOLLA_KEY:$DWOLLA_SECRET" \
@@ -622,12 +668,14 @@ curl -H "Authorization: $DWOLLA_KEY:$DWOLLA_SECRET" \
 ```
 
 ### Cursor: Webhook Handler
+
 ```typescript
 // Cursor suggests webhook implementation
 // Handle Dwolla webhook events
 ```
 
 ### Copilot: Transfer Logic
+
 ```typescript
 // Write comment for transfer suggestions
 // Implement ACH transfer with balance check

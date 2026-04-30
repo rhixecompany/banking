@@ -14,12 +14,13 @@ platforms:
 ## Agent Support
 
 | Agent | Integration | Usage |
-|-------|-------------|-------|
+| --- | --- | --- |
 | **OpenCode** | Direct skill invocation | `skill("db-skill")` for schema and migrations |
 | **Cursor** | `.cursorrules` reference | Add to project rules for Drizzle patterns |
 | **Copilot** | `.github/copilot-instructions.md` | Reference for database operations |
 
 ### OpenCode Usage
+
 ```
 # When working with database schema
 Use db-skill for Drizzle ORM patterns.
@@ -29,6 +30,7 @@ Load db-skill for migration commands.
 ```
 
 ### Cursor Integration
+
 ```json
 // .cursorrules - Add database patterns
 {
@@ -41,11 +43,14 @@ Load db-skill for migration commands.
 ```
 
 ### Copilot Integration
+
 ```markdown
 <!-- .github/copilot-instructions.md -->
+
 ## Database Patterns
 
 Drizzle ORM for the Banking app:
+
 - Schema: 10 tables + enums in database/schema.ts
 - Migrations: bun run db:generate, db:push
 - N+1 prevention: Use eager loading with JOINs
@@ -63,6 +68,7 @@ This skill provides comprehensive guidance on Drizzle ORM patterns for the Banki
 ## Multi-Agent Commands
 
 ### OpenCode
+
 ```bash
 # Generate migration
 bun run db:generate
@@ -81,11 +87,13 @@ bun run db:reset
 ```
 
 ### Cursor
+
 ```
 @db-skill
 ```
 
 ### Copilot
+
 ```
 /db schema migration dal
 ```
@@ -171,14 +179,18 @@ export const transactions = pgTable("transactions", {
   senderWalletId: text("sender_wallet_id")
     .notNull()
     .references(() => wallets.id, { onDelete: "cascade" }),
-  recipientWalletId: text("recipient_wallet_id")
-    .references(() => wallets.id, { onDelete: "set null" }),
+  recipientWalletId: text("recipient_wallet_id").references(
+    () => wallets.id,
+    { onDelete: "set null" }
+  ),
   recipientEmail: varchar("recipient_email", { length: 255 }),
   amount: numeric("amount", { precision: 12, scale: 2 }).notNull(),
   type: transactionType("type").notNull(),
   status: transactionStatus("status").default("pending").notNull(),
   description: text("description"),
-  plaidTransactionId: varchar("plaid_transaction_id", { length: 255 }),
+  plaidTransactionId: varchar("plaid_transaction_id", {
+    length: 255
+  }),
   dwollaTransferId: varchar("dwolla_transfer_id", { length: 255 }),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at")
@@ -209,11 +221,7 @@ export class UserDal {
   }
 
   async findById(id: string) {
-    return db
-      .select()
-      .from(users)
-      .where(eq(users.id, id))
-      .limit(1);
+    return db.select().from(users).where(eq(users.id, id)).limit(1);
   }
 
   async create(
@@ -328,21 +336,19 @@ await db.transaction(async tx => {
       accountId: accountId,
       institutionId: institutionId,
       institutionName: institutionName,
-      sharableId: generateSharableId(),
+      sharableId: generateSharableId()
     })
     .returning();
 
   // Create initial balance transaction
-  await tx
-    .insert(transactions)
-    .values({
-      userId: userId,
-      senderWalletId: wallet.id,
-      amount: "0.00",
-      type: "deposit",
-      status: "completed",
-      description: "Account linked",
-    });
+  await tx.insert(transactions).values({
+    userId: userId,
+    senderWalletId: wallet.id,
+    amount: "0.00",
+    type: "deposit",
+    status: "completed",
+    description: "Account linked"
+  });
 
   return wallet;
 });
@@ -372,10 +378,9 @@ async function findActiveWallets(userId: string) {
   return db
     .select()
     .from(wallets)
-    .where(and(
-      eq(wallets.userId, userId),
-      isNull(wallets.deletedAt)
-    ));
+    .where(
+      and(eq(wallets.userId, userId), isNull(wallets.deletedAt))
+    );
 }
 ```
 
@@ -400,14 +405,14 @@ async function paginateTransactions(
     db
       .select({ count: count() })
       .from(transactions)
-      .where(eq(transactions.userId, userId)),
+      .where(eq(transactions.userId, userId))
   ]);
 
   return {
     data,
     total: total[0].count,
     page,
-    totalPages: Math.ceil(total[0].count / limit),
+    totalPages: Math.ceil(total[0].count / limit)
   };
 }
 ```
@@ -423,12 +428,14 @@ async function updateTransactionStatus(
     .update(transactions)
     .set({
       status,
-      updatedAt: new Date(),
+      updatedAt: new Date()
     })
-    .where(and(
-      eq(transactions.id, id),
-      eq(transactions.status, "pending") // Only update pending transactions
-    ));
+    .where(
+      and(
+        eq(transactions.id, id),
+        eq(transactions.status, "pending") // Only update pending transactions
+      )
+    );
 }
 ```
 
@@ -436,33 +443,27 @@ async function updateTransactionStatus(
 
 ### 1. Circular Imports
 
-**Problem**: Import errors between modules
-**Solution**: Use `@/database/db` and `@/database/schema` imports consistently
+**Problem**: Import errors between modules **Solution**: Use `@/database/db` and `@/database/schema` imports consistently
 
 ### 2. Type Errors After Schema Changes
 
-**Problem**: TypeScript errors after modifying schema
-**Solution**: Run `bun run db:push` after schema changes to sync types
+**Problem**: TypeScript errors after modifying schema **Solution**: Run `bun run db:push` after schema changes to sync types
 
 ### 3. Migration Conflicts
 
-**Problem**: Multiple migrations with same name
-**Solution**: Ensure unique migration names with timestamps or descriptive prefixes
+**Problem**: Multiple migrations with same name **Solution**: Ensure unique migration names with timestamps or descriptive prefixes
 
 ### 4. Table Name Confusion
 
-**Problem**: Can't find the banks table
-**Solution**: The table is `wallets`, not `banks` (was renamed in a previous migration)
+**Problem**: Can't find the banks table **Solution**: The table is `wallets`, not `banks` (was renamed in a previous migration)
 
 ### 5. Drizzle Rules
 
-**Problem**: Lint errors in DAL files
-**Solution**: Drizzle rules `drizzle/enforce-delete-with-where` and `drizzle/enforce-update-with-where` are `error` only in `database/**/*.ts` and `dal/**/*.ts` files
+**Problem**: Lint errors in DAL files **Solution**: Drizzle rules `drizzle/enforce-delete-with-where` and `drizzle/enforce-update-with-where` are `error` only in `database/**/*.ts` and `dal/**/*.ts` files
 
 ### 6. Transaction Rollback
 
-**Problem**: Need to handle partial failures
-**Solution**: Use try/catch with transaction rollback
+**Problem**: Need to handle partial failures **Solution**: Use try/catch with transaction rollback
 
 ```typescript
 try {

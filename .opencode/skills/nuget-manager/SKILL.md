@@ -18,6 +18,7 @@ This skill provides comprehensive guidelines for managing NuGet packages in .NET
 ## Multi-Agent Commands
 
 ### OpenCode
+
 ```bash
 # List outdated packages
 dotnet list package --outdated
@@ -30,12 +31,14 @@ dotnet add package <package-name> --version <version>
 ```
 
 ### Cursor
+
 ```
 @nuget-manager
 Update the banking SDK to latest version
 ```
 
 ### Copilot
+
 ```
 /nuget add Newtonsoft.Json
 ```
@@ -253,24 +256,24 @@ dotnet add package Newtonsoft.Json --version 14.0.0
 
 ### Package Restore Fails
 
-**Problem**: `Unable to find package`
-**Solutions**:
+**Problem**: `Unable to find package` **Solutions**:
+
 1. Check nuget source configuration
 2. Verify package name and version
 3. Clear cache: `dotnet nuget locals all --clear`
 
 ### Version Conflict
 
-**Problem**: `Package X version Y is not compatible with`
-**Solutions**:
+**Problem**: `Package X version Y is not compatible with` **Solutions**:
+
 1. Check framework compatibility
 2. Use version ranges instead of exact versions
 3. Add binding redirects
 
 ### Lock File Issues
 
-**Problem**: `Package lock file is out of sync`
-**Solutions**:
+**Problem**: `Package lock file is out of sync` **Solutions**:
+
 1. Delete `packages.lock.json`
 2. Run `dotnet restore`
 3. Commit new lock file

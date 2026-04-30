@@ -8,12 +8,13 @@ applyTo: "web/**/*"
 ## Agent Support
 
 | Agent | Integration | Usage |
-|-------|-------------|-------|
+| --- | --- | --- |
 | **OpenCode** | Direct skill invocation | `skill("create-web-form")` when building forms |
 | **Cursor** | `.cursorrules` reference | Add to project rules for form patterns |
 | **Copilot** | `.github/copilot-instructions.md` | Reference for web form creation |
 
 ### OpenCode Usage
+
 ```
 # When creating a web form
 Use create-web-form for HTML structure and validation.
@@ -23,6 +24,7 @@ Load create-web-form for ARIA patterns and best practices.
 ```
 
 ### Cursor Integration
+
 ```json
 // .cursorrules - Add form patterns
 {
@@ -35,11 +37,14 @@ Load create-web-form for ARIA patterns and best practices.
 ```
 
 ### Copilot Integration
+
 ```markdown
 <!-- .github/copilot-instructions.md -->
+
 ## Web Form Patterns
 
 When creating forms:
+
 - Progressive enhancement: work without JS
 - Defense in depth: validate on client AND server
 - Accessibility: labels, ARIA, keyboard navigation
@@ -59,6 +64,7 @@ This skill provides comprehensive reference materials and best practices for cre
 ## When to Use This Skill
 
 Use this skill when:
+
 - User asks to "create a form", "build a web form", "add a contact form"
 - Building signup/login forms
 - Creating data entry forms
@@ -67,6 +73,7 @@ Use this skill when:
 - Any HTML form with data handling
 
 Do NOT use this skill when:
+
 - Creating non-form UI components (use ui-skill instead)
 - Building API endpoints (use server-action-skill for Next.js)
 - Database operations (use db-skill or dal-skill)
@@ -93,16 +100,18 @@ Forms should work even without JavaScript:
 ```html
 <!-- ✅ Works without JS -->
 <form action="/submit" method="POST">
-  <input type="email" name="email" required>
+  <input type="email" name="email" required />
   <button type="submit">Subscribe</button>
 </form>
 
 <!-- JS enhances the experience but isn't required -->
 <script>
-  document.querySelector("form").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    // Add AJAX submission, validation, etc.
-  });
+  document
+    .querySelector("form")
+    .addEventListener("submit", async e => {
+      e.preventDefault();
+      // Add AJAX submission, validation, etc.
+    });
 </script>
 ```
 
@@ -130,11 +139,17 @@ Every form control must be accessible:
 
 ```html
 <!-- ❌ BAD: No association, no labels -->
-<input type="email" placeholder="Email">
+<input type="email" placeholder="Email" />
 
 <!-- ✅ GOOD: Proper labels and associations -->
 <label for="email">Email address</label>
-<input type="email" id="email" name="email" required aria-describedby="email-help">
+<input
+  type="email"
+  id="email"
+  name="email"
+  required
+  aria-describedby="email-help"
+/>
 <span id="email-help">We'll never share your email.</span>
 ```
 
@@ -155,7 +170,7 @@ Every form control must be accessible:
       minlength="2"
       maxlength="100"
       autocomplete="name"
-    >
+    />
   </div>
 
   <!-- Email Input -->
@@ -167,7 +182,7 @@ Every form control must be accessible:
       name="email"
       required
       autocomplete="email"
-    >
+    />
   </div>
 
   <!-- Select Dropdown -->
@@ -183,7 +198,7 @@ Every form control must be accessible:
   <!-- Checkbox -->
   <div class="form-group">
     <label>
-      <input type="checkbox" name="newsletter" value="yes">
+      <input type="checkbox" name="newsletter" value="yes" />
       Subscribe to newsletter
     </label>
   </div>
@@ -195,22 +210,22 @@ Every form control must be accessible:
 
 ### Form Attributes
 
-| Attribute | Purpose | Example |
-|-----------|---------|---------|
-| `action` | URL to send data to | `/api/submit` |
-| `method` | HTTP method | `POST`, `GET` |
-| `enctype` | Data encoding type | `multipart/form-data` |
-| `novalidate` | Skip browser validation | `novalidate` |
+| Attribute    | Purpose                 | Example               |
+| ------------ | ----------------------- | --------------------- |
+| `action`     | URL to send data to     | `/api/submit`         |
+| `method`     | HTTP method             | `POST`, `GET`         |
+| `enctype`    | Data encoding type      | `multipart/form-data` |
+| `novalidate` | Skip browser validation | `novalidate`          |
 
 ## Validation Strategies
 
 ### HTML5 Validation (Built-in)
 
 ```html
-<input type="email" required pattern="[a-z]+@[a-z]+\.[a-z]+">
-<input type="number" min="0" max="100" step="1">
-<input type="text" minlength="5" maxlength="50">
-<input type="url" required>
+<input type="email" required pattern="[a-z]+@[a-z]+\.[a-z]+" />
+<input type="number" min="0" max="100" step="1" />
+<input type="text" minlength="5" maxlength="50" />
+<input type="url" required />
 ```
 
 ### JavaScript Validation
@@ -274,17 +289,17 @@ input.addEventListener("input", () => {
 ```html
 <!-- Required fields -->
 <label for="email">Email <span aria-hidden="true">*</span></label>
-<input id="email" aria-required="true">
+<input id="email" aria-required="true" />
 
 <!-- Error states -->
-<input aria-invalid="true" aria-describedby="email-error">
+<input aria-invalid="true" aria-describedby="email-error" />
 <div id="email-error" role="alert">Invalid email</div>
 
 <!-- Disabled state -->
-<input disabled aria-disabled="true">
+<input disabled aria-disabled="true" />
 
 <!-- Help text -->
-<input aria-describedby="password-help">
+<input aria-describedby="password-help" />
 <span id="password-help">Must be 8+ characters</span>
 ```
 
@@ -302,11 +317,11 @@ input.addEventListener("input", () => {
 <fieldset>
   <legend>Payment Method</legend>
   <label>
-    <input type="radio" name="payment" value="card">
+    <input type="radio" name="payment" value="card" />
     Credit Card
   </label>
   <label>
-    <input type="radio" name="payment" value="paypal">
+    <input type="radio" name="payment" value="paypal" />
     PayPal
   </label>
 </fieldset>
@@ -374,11 +389,11 @@ def submit():
 ```javascript
 // Never trust user input
 function sanitizeInput(input) {
-  if (typeof input !== 'string') return '';
+  if (typeof input !== "string") return "";
   return input
-    .replace(/[<>]/g, '')  // Remove angle brackets
+    .replace(/[<>]/g, "") // Remove angle brackets
     .trim()
-    .slice(0, 10000);     // Limit length
+    .slice(0, 10000); // Limit length
 }
 ```
 
@@ -386,7 +401,7 @@ function sanitizeInput(input) {
 
 ```html
 <!-- Include CSRF token -->
-<input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+<input type="hidden" name="csrf_token" value="{{ csrf_token }}" />
 ```
 
 ```javascript

@@ -2,6 +2,8 @@
 name: statusline
 description: >-
   Configure a custom status line in the CLI. Use when the user mentions status line, statusline, statusLine, CLI status bar, prompt footer customization, or wants to add session context above the prompt.
+
+
 metadata:
   surfaces:
     - cli
@@ -25,6 +27,7 @@ Configure custom status lines for CLI and IDE environments. This comprehensive s
 ### OpenCode
 
 In OpenCode:
+
 - Configure via `~/.opencode/config.json`
 - Use environment variables for dynamic content
 - Support for prompt customization
@@ -33,6 +36,7 @@ In OpenCode:
 ### Cursor
 
 In Cursor IDE:
+
 - Use `.cursorrules` for status customization
 - Configure via Settings > Terminal
 - Support for Powerline-style prompts
@@ -41,6 +45,7 @@ In Cursor IDE:
 ### GitHub Copilot
 
 In Copilot CLI or VS Code:
+
 - Customize terminal prompt
 - Use Oh My Zsh themes
 - Configure Powerline
@@ -176,14 +181,14 @@ PS1="$(powerline_segments)"
 
 ### Color Scheme
 
-| Element | Color Code | Description |
-|---------|------------|--------------|
-| User | 32 (green) | Current user |
-| Host | 32 (green) | Hostname |
-| Path | 34 (blue) | Working directory |
-| Git branch | 33 (yellow) | Current branch |
-| Git status | 31 (red) | Uncommitted changes |
-| Error | 31 (red) | Last command failed |
+| Element    | Color Code  | Description         |
+| ---------- | ----------- | ------------------- |
+| User       | 32 (green)  | Current user        |
+| Host       | 32 (green)  | Hostname            |
+| Path       | 34 (blue)   | Working directory   |
+| Git branch | 33 (yellow) | Current branch      |
+| Git status | 31 (red)    | Uncommitted changes |
+| Error      | 31 (red)    | Last command failed |
 
 ## 4. Platform-Specific Configuration
 
@@ -526,6 +531,7 @@ cache_git_status() {
 ### Issue: Prompt not displaying correctly
 
 **Solution:**
+
 1. Check terminal supports ANSI codes
 2. Verify escape sequences are properly wrapped
 3. Test with simple prompt first
@@ -533,6 +539,7 @@ cache_git_status() {
 ### Issue: Slow prompt rendering
 
 **Solution:**
+
 1. Cache expensive commands
 2. Use async/prompt delay
 3. Simplify git status checks
@@ -540,6 +547,7 @@ cache_git_status() {
 ### Issue: Colors not showing
 
 **Solution:**
+
 1. Check terminal supports 256 colors
 2. Use correct color codes
 3. Verify TERM setting
@@ -547,19 +555,20 @@ cache_git_status() {
 ### Issue: Git branch not showing
 
 **Solution:**
+
 1. Check git is installed
 2. Verify in git repository
 3. Check git command works manually
 
 ## 12. Cross-Platform Reference
 
-| Platform | Config Location | Format |
-|----------|-----------------|--------|
-| OpenCode | `~/.opencode/config.json` | JSON |
-| Cursor | `.cursorrules` | JSON |
-| Bash | `~/.bashrc` | Shell |
-| Zsh | `~/.zshrc` | Shell |
-| PowerShell | `$PROFILE` | PowerShell |
+| Platform   | Config Location           | Format     |
+| ---------- | ------------------------- | ---------- |
+| OpenCode   | `~/.opencode/config.json` | JSON       |
+| Cursor     | `.cursorrules`            | JSON       |
+| Bash       | `~/.bashrc`               | Shell      |
+| Zsh        | `~/.zshrc`                | Shell      |
+| PowerShell | `$PROFILE`                | PowerShell |
 
 ## Related Skills
 

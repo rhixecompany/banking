@@ -3,7 +3,7 @@
 This file provides an overview of all available skills in `.opencode/skills/`.
 
 | Skill | Description | Priority |
-| ----- | ----------- | --------- |
+| --- | --- | --- |
 | agent-browser | Browser automation CLI for AI agents | high |
 | agent-governance | Governance patterns for AI agents | high |
 | agentic-eval | Self-improvement through iterative evaluation | medium |

@@ -18,6 +18,7 @@ This skill provides comprehensive guidelines for implementing localization in VS
 ## Multi-Agent Commands
 
 ### OpenCode
+
 ```bash
 # Extract strings for translation
 npx vscode-l10n-extract
@@ -30,12 +31,14 @@ ls -la out/nls/
 ```
 
 ### Cursor
+
 ```
 @vscode-ext-localization
 Add Japanese localization to the banking extension
 ```
 
 ### Copilot
+
 ```
 /localize add command labels
 ```
@@ -63,7 +66,6 @@ src/
 
 ```json
 {
-  "l10n": "./out/nls.metadata.json",
   "contributes": {
     "localizations": [
       {
@@ -77,7 +79,8 @@ src/
         "translations": "./out/nls/ja/bundle.l10n.json"
       }
     ]
-  }
+  },
+  "l10n": "./out/nls.metadata.json"
 }
 ```
 
@@ -86,23 +89,23 @@ src/
 ### Inline Strings
 
 ```typescript
-import { localize } from '@vscode/l10n';
+import { localize } from "@vscode/l10n";
 
 // Simple string
-const message = localize('connectWallet', 'Connecting wallet...');
+const message = localize("connectWallet", "Connecting wallet...");
 
 // With plural
 const count = localize(
-  'transactionCount',
-  '{0} transaction found',
-  '{0} transactions found',
+  "transactionCount",
+  "{0} transaction found",
+  "{0} transactions found",
   transactions.length
 );
 
 // With arguments
 const amount = localize(
-  'transferAmount',
-  'Transferring {0} to {1}',
+  "transferAmount",
+  "Transferring {0} to {1}",
   amount.toFixed(2),
   recipientName
 );
@@ -127,18 +130,18 @@ const amount = localize(
 ### Basic Usage
 
 ```typescript
-import { localize, getLocalization } from '@vscode/l10n';
+import { localize, getLocalization } from "@vscode/l10n";
 
 // Get current locale
 const locale = getLocalization();
 
 // Simple localization
-const msg = localize('key', 'Default message');
+const msg = localize("key", "Default message");
 
 // With substitutions
 const msg = localize(
-  'balance',
-  'Your balance is {0}',
+  "balance",
+  "Your balance is {0}",
   balance.toFixed(2)
 );
 ```
@@ -146,7 +149,7 @@ const msg = localize(
 ### Dynamic Locale Loading
 
 ```typescript
-import { loadMessageBundle } from '@vscode/l10n';
+import { loadMessageBundle } from "@vscode/l10n";
 
 async function loadCustomLocale(locale: string) {
   const bundle = await loadMessageBundle(
@@ -163,26 +166,26 @@ async function loadCustomLocale(locale: string) {
 ```typescript
 // Wallet operations
 const WALLET_STRINGS = {
-  connect: localize('wallet.connect', 'Connect Wallet'),
-  disconnect: localize('wallet.disconnect', 'Disconnect Wallet'),
-  sync: localize('wallet.sync', 'Sync Wallet'),
-  viewBalance: localize('wallet.viewBalance', 'View Balance'),
+  connect: localize("wallet.connect", "Connect Wallet"),
+  disconnect: localize("wallet.disconnect", "Disconnect Wallet"),
+  sync: localize("wallet.sync", "Sync Wallet"),
+  viewBalance: localize("wallet.viewBalance", "View Balance")
 };
 
 // Transaction operations
 const TRANSACTION_STRINGS = {
-  transfer: localize('transaction.transfer', 'Transfer'),
-  viewHistory: localize('transaction.viewHistory', 'View History'),
-  export: localize('transaction.export', 'Export'),
-  filter: localize('transaction.filter', 'Filter'),
+  transfer: localize("transaction.transfer", "Transfer"),
+  viewHistory: localize("transaction.viewHistory", "View History"),
+  export: localize("transaction.export", "Export"),
+  filter: localize("transaction.filter", "Filter")
 };
 
 // Error messages
 const ERROR_STRINGS = {
-  connectionFailed: localize('error.connection', 'Connection failed'),
-  insufficientFunds: localize('error.funds', 'Insufficient funds'),
-  invalidAccount: localize('error.account', 'Invalid account'),
-  networkError: localize('error.network', 'Network error'),
+  connectionFailed: localize("error.connection", "Connection failed"),
+  insufficientFunds: localize("error.funds", "Insufficient funds"),
+  invalidAccount: localize("error.account", "Invalid account"),
+  networkError: localize("error.network", "Network error")
 };
 ```
 
@@ -193,13 +196,9 @@ export class WalletService {
   async connect(accessToken: string): Promise<void> {
     try {
       await this.plaidClient.linkToken(accessToken);
-      vscode.window.showInformationMessage(
-        WALLET_STRINGS.connect
-      );
+      vscode.window.showInformationMessage(WALLET_STRINGS.connect);
     } catch (error) {
-      vscode.window.showErrorMessage(
-        ERROR_STRINGS.connectionFailed
-      );
+      vscode.window.showErrorMessage(ERROR_STRINGS.connectionFailed);
     }
   }
 }
@@ -212,9 +211,9 @@ export class WalletService {
 ```typescript
 // English: 1 = singular, other = plural
 const message = localize(
-  'transactionCount',
-  '{0} transaction',
-  '{0} transactions',
+  "transactionCount",
+  "{0} transaction",
+  "{0} transactions",
   count
 );
 ```
@@ -224,9 +223,9 @@ const message = localize(
 ```typescript
 // For languages with multiple plural forms
 const message = localize(
-  'balanceUpdate',
-  '{0} new transaction',
-  '{0} new transactions',
+  "balanceUpdate",
+  "{0} new transaction",
+  "{0} new transactions",
   count
 );
 ```
@@ -238,18 +237,18 @@ const message = localize(
 ```typescript
 // Currency
 const amount = localize(
-  'amount',
-  'Amount: {0}',
+  "amount",
+  "Amount: {0}",
   new Intl.NumberFormat(locale, {
-    style: 'currency',
-    currency: 'USD'
+    style: "currency",
+    currency: "USD"
   }).format(value)
 );
 
 // Percentage
 const percent = localize(
-  'fee',
-  'Fee: {0}%',
+  "fee",
+  "Fee: {0}%",
   (feeRate * 100).toFixed(2)
 );
 ```
@@ -258,11 +257,11 @@ const percent = localize(
 
 ```typescript
 const date = localize(
-  'lastSync',
-  'Last synced: {0}',
+  "lastSync",
+  "Last synced: {0}",
   new Intl.DateTimeFormat(locale, {
-    dateStyle: 'medium',
-    timeStyle: 'short'
+    dateStyle: "medium",
+    timeStyle: "short"
   }).format(lastSyncDate)
 );
 ```
@@ -272,18 +271,18 @@ const date = localize(
 ### Unit Test
 
 ```typescript
-import { localize } from '@vscode/l10n';
-import * as assert from 'assert';
+import { localize } from "@vscode/l10n";
+import * as assert from "assert";
 
-suite('Localization', () => {
-  it('should return default for missing key', () => {
-    const result = localize('missing', 'Default');
-    assert.strictEqual(result, 'Default');
+suite("Localization", () => {
+  it("should return default for missing key", () => {
+    const result = localize("missing", "Default");
+    assert.strictEqual(result, "Default");
   });
 
-  it('should substitute arguments', () => {
-    const result = localize('amount', 'Amount: {0}', '100.00');
-    assert.strictEqual(result, 'Amount: 100.00');
+  it("should substitute arguments", () => {
+    const result = localize("amount", "Amount: {0}", "100.00");
+    assert.strictEqual(result, "Amount: 100.00");
   });
 });
 ```
@@ -291,8 +290,8 @@ suite('Localization', () => {
 ### Integration Test
 
 ```typescript
-it('should display localized message', async () => {
-  await vscode.commands.executeCommand('wallet.connect');
+it("should display localized message", async () => {
+  await vscode.commands.executeCommand("wallet.connect");
   const message = await vscode.window.showInformationMessage();
   assert.ok(message);
 });
@@ -302,8 +301,8 @@ it('should display localized message', async () => {
 
 ### Missing Translations
 
-**Problem**: Translation key shows instead of value
-**Solutions**:
+**Problem**: Translation key shows instead of value **Solutions**:
+
 1. Check bundle.l10n.json exists
 2. Verify key matches exactly
 3. Run extraction command
@@ -311,8 +310,8 @@ it('should display localized message', async () => {
 
 ### Locale Not Loading
 
-**Problem**: Wrong locale displayed
-**Solutions**:
+**Problem**: Wrong locale displayed **Solutions**:
+
 1. Check VS Code locale setting
 2. Verify localization files exist
 3. Check package.json localization config
@@ -320,8 +319,8 @@ it('should display localized message', async () => {
 
 ### Placeholder Not Replaced
 
-**Problem**: `{0}` shows in output
-**Solutions**:
+**Problem**: `{0}` shows in output **Solutions**:
+
 1. Check argument count matches placeholders
 2. Verify arguments are strings
 3. Use correct placeholder format
@@ -332,19 +331,19 @@ it('should display localized message', async () => {
 
 ```typescript
 // Good
-localize('wallet.connect.success', 'Wallet connected successfully');
+localize("wallet.connect.success", "Wallet connected successfully");
 
 // Bad
-localize('msg1', 'Wallet connected');
+localize("msg1", "Wallet connected");
 ```
 
 ### 2. Add Comments for Translators
 
 ```typescript
 localize(
-  'transfer.pending',
-  'Transfer pending',
-  'Status shown when transfer is being processed'
+  "transfer.pending",
+  "Transfer pending",
+  "Status shown when transfer is being processed"
 );
 ```
 
@@ -352,21 +351,21 @@ localize(
 
 ```typescript
 // Use prefixes
-'wallet.connect'      // Connect action
-'wallet.disconnect'   // Disconnect action
-'wallet.sync'         // Sync action
+"wallet.connect"; // Connect action
+"wallet.disconnect"; // Disconnect action
+"wallet.sync"; // Sync action
 
-'wallet.error.connect'    // Connect error
-'wallet.error.timeout'    // Timeout error
+"wallet.error.connect"; // Connect error
+"wallet.error.timeout"; // Timeout error
 ```
 
 ### 4. Test All Locales
 
 ```typescript
 // Test each locale
-for (const locale of ['en', 'ja', 'es', 'de']) {
+for (const locale of ["en", "ja", "es", "de"]) {
   await setLocale(locale);
-  await testCommand('wallet.connect');
+  await testCommand("wallet.connect");
 }
 ```
 

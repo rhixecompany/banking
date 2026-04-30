@@ -58,12 +58,14 @@ export async function signInWithSeedUser(page: Page): Promise<void> {
     csrfCookieTokenPartFromHeader: string | null;
   }> = [];
 
-  const onResponse = async (resp: Parameters<Page["on"]>[1] extends (
-    event: "response",
-    listener: infer L,
-  ) => any
-    ? L
-    : never) => {
+  const onResponse = async (
+    resp: Parameters<Page["on"]>[1] extends (
+      event: "response",
+      listener: infer L,
+    ) => any
+      ? L
+      : never,
+  ) => {
     // Only capture NextAuth-related traffic to avoid log spam.
     const url = resp.url();
     if (!url.includes("/api/auth/")) return;
@@ -88,12 +90,14 @@ export async function signInWithSeedUser(page: Page): Promise<void> {
     }
   };
 
-  const onRequest = (req: Parameters<Page["on"]>[1] extends (
-    event: "request",
-    listener: infer L,
-  ) => any
-    ? L
-    : never) => {
+  const onRequest = (
+    req: Parameters<Page["on"]>[1] extends (
+      event: "request",
+      listener: infer L,
+    ) => any
+      ? L
+      : never,
+  ) => {
     const url = req.url();
     if (!url.includes("/api/auth/")) return;
 
@@ -103,7 +107,9 @@ export async function signInWithSeedUser(page: Page): Promise<void> {
     if (url.includes("/api/auth/callback/credentials")) {
       const cookieHeader = headers["cookie"];
       if (cookieHeader) {
-        const match = cookieHeader.match(/(?:^|;\s*)next-auth\.csrf-token=([^;]+)/);
+        const match = cookieHeader.match(
+          /(?:^|;\s*)next-auth\.csrf-token=([^;]+)/,
+        );
         if (match?.[1]) {
           try {
             const decoded = decodeURIComponent(match[1]);

@@ -1,4 +1,11 @@
 {
+  "config": {
+    "logDirectory": "logs/opencode",
+    "retentionDays": 30,
+    "enableAnalytics": true,
+    "enableDetailedToolLogging": true,
+    "enableFileChangeTracking": true
+  },
   "hooks": {
     "sessionStart": [
       {
@@ -70,12 +77,5 @@
       }
     ]
   },
-  "version": 2,
-  "config": {
-    "logDirectory": "logs/opencode",
-    "retentionDays": 30,
-    "enableAnalytics": true,
-    "enableDetailedToolLogging": true,
-    "enableFileChangeTracking": true
-  }
+  "version": 2
 }

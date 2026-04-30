@@ -16,6 +16,7 @@ This skill provides comprehensive security patterns for the Banking app, coverin
 ## Multi-Agent Support
 
 ### OpenCode
+
 ```bash
 # Encryption utilities
 lib/encryption.ts encrypt decrypt encryptField decryptField
@@ -29,6 +30,7 @@ bun run verify:rules  # Check for security violations
 ```
 
 ### Cursor
+
 ```typescript
 // Import encryption
 import { encrypt, decrypt } from "@/lib/encryption";
@@ -38,18 +40,19 @@ import { appConfig } from "@/lib/app-config";
 const dbUrl = appConfig.database.url;
 
 // Never log secrets
-console.log("User logged in");  // CORRECT
-console.log("Token: " + token);  // WRONG
+console.log("User logged in"); // CORRECT
+console.log("Token: " + token); // WRONG
 ```
 
 ### GitHub Copilot
+
 ```typescript
 // Copilot suggests secure patterns
 // Encrypt sensitive data before storing
 const encryptedToken = encrypt(accessToken);
 
 // Validate environment on startup
-const config = appConfig;  // Already validated
+const config = appConfig; // Already validated
 ```
 
 ## Encryption Patterns
@@ -70,7 +73,13 @@ const KEY_LENGTH = 32;
 const ITERATIONS = 100000;
 
 function getKey(salt: Buffer): Buffer {
-  return crypto.pbkdf2Sync(process.env.ENCRYPTION_KEY!, salt, ITERATIONS, KEY_LENGTH, "sha512");
+  return crypto.pbkdf2Sync(
+    process.env.ENCRYPTION_KEY!,
+    salt,
+    ITERATIONS,
+    KEY_LENGTH,
+    "sha512"
+  );
 }
 
 export function encrypt(text: string): string {
@@ -79,11 +88,16 @@ export function encrypt(text: string): string {
   const key = getKey(salt);
 
   const cipher = crypto.createCipheriv(ALGORITHM, key, iv);
-  const encrypted = Buffer.concat([cipher.update(text, "utf8"), cipher.final()]);
+  const encrypted = Buffer.concat([
+    cipher.update(text, "utf8"),
+    cipher.final()
+  ]);
   const authTag = cipher.getAuthTag();
 
   // Format: salt + iv + authTag + encrypted
-  return Buffer.concat([salt, iv, authTag, encrypted]).toString("base64");
+  return Buffer.concat([salt, iv, authTag, encrypted]).toString(
+    "base64"
+  );
 }
 
 export function decrypt(encryptedText: string): string {
@@ -91,8 +105,13 @@ export function decrypt(encryptedText: string): string {
 
   const salt = data.subarray(0, SALT_LENGTH);
   const iv = data.subarray(SALT_LENGTH, SALT_LENGTH + IV_LENGTH);
-  const authTag = data.subarray(SALT_LENGTH + IV_LENGTH, SALT_LENGTH + IV_LENGTH + AUTH_TAG_LENGTH);
-  const encrypted = data.subarray(SALT_LENGTH + IV_LENGTH + AUTH_TAG_LENGTH);
+  const authTag = data.subarray(
+    SALT_LENGTH + IV_LENGTH,
+    SALT_LENGTH + IV_LENGTH + AUTH_TAG_LENGTH
+  );
+  const encrypted = data.subarray(
+    SALT_LENGTH + IV_LENGTH + AUTH_TAG_LENGTH
+  );
 
   const key = getKey(salt);
   const decipher = crypto.createDecipheriv(ALGORITHM, key, iv);
@@ -113,7 +132,9 @@ interface SensitiveWalletData {
   accountId: string;
 }
 
-export function encryptWalletData(data: SensitiveWalletData): EncryptedWalletData {
+export function encryptWalletData(
+  data: SensitiveWalletData
+): EncryptedWalletData {
   return {
     accessToken: encrypt(data.accessToken),
     accountId: encrypt(data.accountId),
@@ -122,7 +143,9 @@ export function encryptWalletData(data: SensitiveWalletData): EncryptedWalletDat
   };
 }
 
-export function decryptWalletData(data: EncryptedWalletData): SensitiveWalletData {
+export function decryptWalletData(
+  data: EncryptedWalletData
+): SensitiveWalletData {
   return {
     accessToken: decrypt(data.accessToken),
     accountId: decrypt(data.accountId),
@@ -141,11 +164,14 @@ export class WalletDal {
   async create(data: CreateWalletInput): Promise<Wallet> {
     const encryptedData = {
       ...data,
-      accessToken: encrypt(data.accessToken),  // Encrypt before storage
+      accessToken: encrypt(data.accessToken), // Encrypt before storage
       accountId: data.accountId ? encrypt(data.accountId) : null
     };
 
-    const [wallet] = await db.insert(wallets).values(encryptedData).returning();
+    const [wallet] = await db
+      .insert(wallets)
+      .values(encryptedData)
+      .returning();
     return this.decryptWallet(wallet);
   }
 
@@ -171,28 +197,35 @@ import { z } from "zod";
 const envSchema = z.object({
   // Required variables
   DATABASE_URL: z.string().url(),
-  ENCRYPTION_KEY: z.string().length(64),  // 256-bit key in hex
+  ENCRYPTION_KEY: z.string().length(64), // 256-bit key in hex
   NEXTAUTH_SECRET: z.string().min(32),
   NEXTAUTH_URL: z.string().url().optional(),
 
   // Optional with defaults
-  NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
+  NODE_ENV: z
+    .enum(["development", "production", "test"])
+    .default("development"),
 
   // Provider-specific
   PLAID_CLIENT_ID: z.string().optional(),
   PLAID_SECRET: z.string().optional(),
-  PLAID_ENV: z.enum(["sandbox", "development", "production"]).default("sandbox"),
+  PLAID_ENV: z
+    .enum(["sandbox", "development", "production"])
+    .default("sandbox"),
 
   DWOLLA_KEY: z.string().optional(),
   DWOLLA_SECRET: z.string().optional(),
-  DWOLLA_ENV: z.enum(["sandbox", "production"]).default("sandbox"),
+  DWOLLA_ENV: z.enum(["sandbox", "production"]).default("sandbox")
 });
 
 // Parse and validate at startup
 const _env = envSchema.safeParse(process.env);
 
 if (!_env.success) {
-  console.error("Invalid environment variables:", _env.error.format());
+  console.error(
+    "Invalid environment variables:",
+    _env.error.format()
+  );
   throw new Error("Invalid environment configuration");
 }
 
@@ -213,7 +246,10 @@ export function getRequired(key: string): string {
   return value;
 }
 
-export function getOptional(key: string, defaultValue?: string): string | undefined {
+export function getOptional(
+  key: string,
+  defaultValue?: string
+): string | undefined {
   return process.env[key] || defaultValue;
 }
 
@@ -249,14 +285,14 @@ const db = new Client(appConfig.database.url);
 
 // For Plaid tokens stored in DB
 interface StoredPlaidToken {
-  accessToken: string;  // Encrypted
-  itemId: string;       // Plain - not sensitive
+  accessToken: string; // Encrypted
+  itemId: string; // Plain - not sensitive
   institutionId: string; // Plain
 }
 
 // For Dwolla keys - use env vars, never store in DB
 const dwollaClient = new Dwolla({
-  key: appConfig.dwolla.key,      // From environment
+  key: appConfig.dwolla.key, // From environment
   secret: appConfig.dwolla.secret // From environment
 });
 ```
@@ -265,9 +301,9 @@ const dwollaClient = new Dwolla({
 
 ```typescript
 // NEVER log secrets
-console.log("User logged in");  // CORRECT
-console.log("Token: " + token);  // WRONG - exposes token
-console.log({ userId, action: "login" });  // CORRECT - no secrets
+console.log("User logged in"); // CORRECT
+console.log("Token: " + token); // WRONG - exposes token
+console.log({ userId, action: "login" }); // CORRECT - no secrets
 
 // Use structured logging for debugging
 logger.info("Transfer initiated", {
@@ -321,7 +357,10 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
-        const isValid = await verifyPassword(credentials.password, user.password);
+        const isValid = await verifyPassword(
+          credentials.password,
+          user.password
+        );
         if (!isValid) {
           return null;
         }
@@ -337,7 +376,7 @@ export const authOptions: NextAuthOptions = {
   ],
   session: {
     strategy: "jwt",
-    maxAge: 30 * 24 * 60 * 60, // 30 days
+    maxAge: 30 * 24 * 60 * 60 // 30 days
   },
   callbacks: {
     async jwt({ token, user }) {
@@ -370,26 +409,38 @@ import bcrypt from "bcryptjs";
 
 const SALT_ROUNDS = 12;
 
-export async function hashPassword(password: string): Promise<string> {
+export async function hashPassword(
+  password: string
+): Promise<string> {
   return bcrypt.hash(password, SALT_ROUNDS);
 }
 
-export async function verifyPassword(password: string, hash: string): Promise<boolean> {
+export async function verifyPassword(
+  password: string,
+  hash: string
+): Promise<boolean> {
   return bcrypt.compare(password, hash);
 }
 
 // Password requirements
-export function validatePassword(password: string): { valid: boolean; errors: string[] } {
+export function validatePassword(password: string): {
+  valid: boolean;
+  errors: string[];
+} {
   const errors: string[] = [];
 
   if (password.length < 8) {
     errors.push("Password must be at least 8 characters");
   }
   if (!/[A-Z]/.test(password)) {
-    errors.push("Password must contain at least one uppercase letter");
+    errors.push(
+      "Password must contain at least one uppercase letter"
+    );
   }
   if (!/[a-z]/.test(password)) {
-    errors.push("Password must contain at least one lowercase letter");
+    errors.push(
+      "Password must contain at least one lowercase letter"
+    );
   }
   if (!/[0-9]/.test(password)) {
     errors.push("Password must contain at least one number");
@@ -486,9 +537,7 @@ export const TransferSchema = z.object({
     .number({ invalid_type_error: "Amount must be a number" })
     .positive("Amount must be positive")
     .max(10000, "Amount cannot exceed $10,000"),
-  recipientWalletId: z
-    .string()
-    .uuid("Invalid wallet ID"),
+  recipientWalletId: z.string().uuid("Invalid wallet ID"),
   note: z
     .string()
     .max(200, "Note cannot exceed 200 characters")
@@ -521,7 +570,10 @@ export function middleware(request: NextRequest) {
   // Security headers
   response.headers.set("X-Frame-Options", "DENY");
   response.headers.set("X-Content-Type-Options", "nosniff");
-  response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  response.headers.set(
+    "Referrer-Policy",
+    "strict-origin-when-cross-origin"
+  );
   response.headers.set(
     "Content-Security-Policy",
     "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'"
@@ -554,6 +606,7 @@ grep -r "process.env\." --include="*.ts" --include="*.tsx" app/ actions/ compone
 ## Common Issues
 
 ### 1. Storing Plain Text Secrets
+
 ```typescript
 // WRONG
 const token = "sk_live_abc123";
@@ -565,6 +618,7 @@ await db.insert(wallets).values({ accessToken: encrypt(token) });
 ```
 
 ### 2. Logging Sensitive Data
+
 ```typescript
 // WRONG
 console.log("Payment processed", { cardNumber: "4111111111111111" });
@@ -574,6 +628,7 @@ console.log("Payment processed", { last4: "1111" });
 ```
 
 ### 3. Weak Password Hashing
+
 ```typescript
 // WRONG
 const hash = crypto.createHash("sha256").update(password).digest();
@@ -583,12 +638,13 @@ const hash = await bcrypt.hash(password, 12);
 ```
 
 ### 4. Missing Environment Validation
+
 ```typescript
 // WRONG
-const dbUrl = process.env.DATABASE_URL;  // Could be undefined
+const dbUrl = process.env.DATABASE_URL; // Could be undefined
 
 // CORRECT
-const dbUrl = appConfig.database.url;  // Validated at startup
+const dbUrl = appConfig.database.url; // Validated at startup
 ```
 
 ## Cross-References
@@ -601,6 +657,7 @@ const dbUrl = appConfig.database.url;  // Validated at startup
 ## Multi-Agent Examples
 
 ### OpenCode: Security Audit
+
 ```bash
 # Scan for potential secrets in code
 grep -rn "password\|secret\|token\|key" --include="*.ts" lib/ | grep -v "env\|.env"
@@ -610,12 +667,14 @@ grep -n "encrypt(" dal/
 ```
 
 ### Cursor: Secure Code Suggestions
+
 ```typescript
 // Type this comment for suggestions
 // TODO: Add input validation and encryption to wallet creation
 ```
 
 ### Copilot: Security Patterns
+
 ```typescript
 // Write this comment, Copilot suggests secure implementation
 // Create a function to securely store Plaid access token

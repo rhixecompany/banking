@@ -18,6 +18,7 @@ This skill provides comprehensive guidelines for creating conventional git commi
 ## Multi-Agent Commands
 
 ### OpenCode
+
 ```bash
 # Stage and commit with conventional message
 git commit -m "feat: add wallet connection"
@@ -30,12 +31,14 @@ git log --oneline -20
 ```
 
 ### Cursor
+
 ```
 @git-commit
 Commit the banking feature changes
 ```
 
 ### Copilot
+
 ```
 /git commit add login feature
 ```
@@ -54,17 +57,17 @@ Commit the banking feature changes
 
 ### Types
 
-| Type | Description |
-|------|-------------|
-| `feat` | New feature |
-| `fix` | Bug fix |
-| `docs` | Documentation |
-| `style` | Formatting |
+| Type       | Description      |
+| ---------- | ---------------- |
+| `feat`     | New feature      |
+| `fix`      | Bug fix          |
+| `docs`     | Documentation    |
+| `style`    | Formatting       |
 | `refactor` | Code refactoring |
-| `test` | Adding tests |
-| `chore` | Maintenance |
-| `perf` | Performance |
-| `ci` | CI/CD changes |
+| `test`     | Adding tests     |
+| `chore`    | Maintenance      |
+| `perf`     | Performance      |
+| `ci`       | CI/CD changes    |
 
 ### Examples
 
@@ -348,8 +351,8 @@ git rebase --abort
 
 ### Large Commit
 
-**Problem**: Commit is too large
-**Solutions**:
+**Problem**: Commit is too large **Solutions**:
+
 1. Split into smaller commits: `git rebase -i`
 2. Use partial staging: `git add -p`
 3. Split by directory: `git add src/feature-a/ && git commit`

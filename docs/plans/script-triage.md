@@ -5,10 +5,12 @@ plan status: done
 ---
 
 ## Idea
+
 Catalog and convert all shell scripts in scripts/ directory to orchestrator pattern - shell scripts only call TypeScript or CLI tools, move all logic to TS, clean up duplicates, update docs
 
 ## Implementation
-- Survey all scripts in scripts/ directory - glob for *.sh, *.ps1, *.bat files and categorize each as orchestrator (OK), has embedded logic, missing TS version, or duplicate
+
+- Survey all scripts in scripts/ directory - glob for _.sh, _.ps1, \*.bat files and categorize each as orchestrator (OK), has embedded logic, missing TS version, or duplicate
 - Inventory all existing TypeScript scripts in scripts/ts/ and scripts/ root - map shell to corresponding TS versions
 - Score each script by issue count (embedded logic > missing TS > duplicate > orchestrator OK)
 - Create high-level categorization: Top-level entry points (.sh/.ps1/.bat in scripts/ root), Utility scripts (scripts/utils/), Deployment scripts (scripts/deploy/, scripts/docker/, scripts/server/)
@@ -21,7 +23,9 @@ Catalog and convert all shell scripts in scripts/ directory to orchestrator patt
 - Final verification: run all converted scripts to ensure they still work, check no regressions in package.json scripts
 
 ## Required Specs
+
 <!-- SPECS_START -->
+
 - enhance-pages-spec
 - enhance-pages-v2
 - root-tests

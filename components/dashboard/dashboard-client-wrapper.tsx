@@ -63,7 +63,7 @@ export function DashboardClientWrapper({
   if (showOnboarding) {
     return (
       <section className="flex min-h-[60vh] items-center justify-center py-12">
-        <OnboardingFeed name={userName} />
+        <OnboardingFeed />
       </section>
     );
   }

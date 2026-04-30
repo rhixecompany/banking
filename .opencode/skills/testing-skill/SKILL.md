@@ -2,6 +2,8 @@
 name: testing-skill
 description: >-
   Testing patterns for Vitest (unit) and Playwright (E2E) used by the Banking app. Use when writing tests, running tests, debugging test failures, or setting up test infrastructure. Triggers include requests to "write a test", "run tests", "fix test failure", "add unit tests", "add E2E tests", or any task involving test creation or execution.
+
+
 lastReviewed: 2026-04-24
 applyTo: "tests/**"
 ---
@@ -21,6 +23,7 @@ This skill provides comprehensive testing patterns using Vitest for unit/integra
 ## Multi-Agent Commands
 
 ### OpenCode / Cursor / Copilot
+
 ```bash
 # Run all tests (E2E first, then unit)
 bun run test
@@ -42,11 +45,11 @@ bunx playwright test tests/e2e/auth.spec.ts --project=chromium
 
 ### Test Runners
 
-| Runner | Purpose | Command |
-|--------|---------|---------|
-| Vitest | Unit & integration tests | `bun run test:browser` |
-| Playwright | E2E tests | `bun run test:ui` |
-| Both | Full test suite | `bun run test` |
+| Runner     | Purpose                  | Command                |
+| ---------- | ------------------------ | ---------------------- |
+| Vitest     | Unit & integration tests | `bun run test:browser` |
+| Playwright | E2E tests                | `bun run test:ui`      |
+| Both       | Full test suite          | `bun run test`         |
 
 ### Test File Patterns
 
@@ -71,20 +74,20 @@ tests/
 ### Basic Test Structure
 
 ```typescript
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach } from "vitest";
 
-describe('Auth Module', () => {
+describe("Auth Module", () => {
   beforeEach(() => {
     // Reset state between tests
   });
 
-  it('should validate email format', () => {
-    const result = validateEmail('invalid-email');
+  it("should validate email format", () => {
+    const result = validateEmail("invalid-email");
     expect(result.valid).toBe(false);
   });
 
-  it('should accept valid email', () => {
-    const result = validateEmail('user@example.com');
+  it("should accept valid email", () => {
+    const result = validateEmail("user@example.com");
     expect(result.valid).toBe(true);
   });
 });
@@ -93,18 +96,18 @@ describe('Auth Module', () => {
 ### Testing Server Actions
 
 ```typescript
-import { describe, it, expect, vi } from 'vitest';
-import { registerAction } from '@/actions/register';
+import { describe, it, expect, vi } from "vitest";
+import { registerAction } from "@/actions/register";
 
-vi.mock('@/lib/auth', () => ({
+vi.mock("@/lib/auth", () => ({
   auth: vi.fn()
 }));
 
-describe('registerAction', () => {
-  it('should return error for unauthenticated user', async () => {
-    const result = await registerAction({ email: 'test@test.com' });
+describe("registerAction", () => {
+  it("should return error for unauthenticated user", async () => {
+    const result = await registerAction({ email: "test@test.com" });
     expect(result.ok).toBe(false);
-    expect(result.error).toBe('Unauthorized');
+    expect(result.error).toBe("Unauthorized");
   });
 });
 ```
@@ -112,29 +115,29 @@ describe('registerAction', () => {
 ### Mocking Dependencies
 
 ```typescript
-import { vi, describe, it, expect } from 'vitest';
+import { vi, describe, it, expect } from "vitest";
 
 // Mock a module
-vi.mock('@/lib/plaid', () => ({
+vi.mock("@/lib/plaid", () => ({
   plaidClient: {
     itemPublicTokenExchange: vi.fn().mockResolvedValue({
-      data: { access_token: 'mock-access-token' }
+      data: { access_token: "mock-access-token" }
     })
   }
 }));
 
 // Mock a function
-vi.spyOn(console, 'error').mockImplementation(() => {});
+vi.spyOn(console, "error").mockImplementation(() => {});
 ```
 
 ### Testing with Database
 
 ```typescript
-import { describe, it, expect, beforeAll, afterAll } from 'vitest';
-import { db } from '@/database';
-import { userDal } from '@/dal/user.dal';
+import { describe, it, expect, beforeAll, afterAll } from "vitest";
+import { db } from "@/database";
+import { userDal } from "@/dal/user.dal";
 
-describe('User DAL', () => {
+describe("User DAL", () => {
   beforeAll(async () => {
     // Setup test database
   });
@@ -143,12 +146,12 @@ describe('User DAL', () => {
     // Cleanup
   });
 
-  it('should create a user', async () => {
+  it("should create a user", async () => {
     const user = await userDal.create({
-      email: 'test@example.com',
-      name: 'Test User'
+      email: "test@example.com",
+      name: "Test User"
     });
-    expect(user.email).toBe('test@example.com');
+    expect(user.email).toBe("test@example.com");
   });
 });
 ```
@@ -158,25 +161,27 @@ describe('User DAL', () => {
 ### Basic E2E Test
 
 ```typescript
-import { test, expect } from '@playwright/test';
+import { test, expect } from "@playwright/test";
 
-test.describe('Authentication', () => {
-  test('should login successfully', async ({ page }) => {
-    await page.goto('/login');
-    await page.fill('[name="email"]', 'seed-user@example.com');
-    await page.fill('[name="password"]', 'password123');
+test.describe("Authentication", () => {
+  test("should login successfully", async ({ page }) => {
+    await page.goto("/login");
+    await page.fill('[name="email"]', "seed-user@example.com");
+    await page.fill('[name="password"]', "password123");
     await page.click('button[type="submit"]');
 
-    await expect(page).toHaveURL('/dashboard');
+    await expect(page).toHaveURL("/dashboard");
   });
 
-  test('should show error for invalid credentials', async ({ page }) => {
-    await page.goto('/login');
-    await page.fill('[name="email"]', 'wrong@test.com');
-    await page.fill('[name="password"]', 'wrongpass');
+  test("should show error for invalid credentials", async ({
+    page
+  }) => {
+    await page.goto("/login");
+    await page.fill('[name="email"]', "wrong@test.com");
+    await page.fill('[name="password"]', "wrongpass");
     await page.click('button[type="submit"]');
 
-    await expect(page.locator('.error')).toContainText('Invalid');
+    await expect(page.locator(".error")).toContainText("Invalid");
   });
 });
 ```
@@ -184,24 +189,24 @@ test.describe('Authentication', () => {
 ### Testing Protected Routes
 
 ```typescript
-import { test, expect } from '@playwright/test';
+import { test, expect } from "@playwright/test";
 
-test.describe('Protected Routes', () => {
-  test('should redirect unauthenticated users', async ({ page }) => {
-    await page.goto('/dashboard');
-    await expect(page).toHaveURL('/login');
+test.describe("Protected Routes", () => {
+  test("should redirect unauthenticated users", async ({ page }) => {
+    await page.goto("/dashboard");
+    await expect(page).toHaveURL("/login");
   });
 
-  test('should allow authenticated users', async ({ page }) => {
+  test("should allow authenticated users", async ({ page }) => {
     // Login first
-    await page.goto('/login');
-    await page.fill('[name="email"]', 'seed-user@example.com');
-    await page.fill('[name="password"]', 'password123');
+    await page.goto("/login");
+    await page.fill('[name="email"]', "seed-user@example.com");
+    await page.fill('[name="password"]', "password123");
     await page.click('button[type="submit"]');
 
     // Should access dashboard
-    await page.goto('/dashboard');
-    await expect(page.locator('h1')).toContainText('Dashboard');
+    await page.goto("/dashboard");
+    await expect(page.locator("h1")).toContainText("Dashboard");
   });
 });
 ```
@@ -210,7 +215,7 @@ test.describe('Protected Routes', () => {
 
 ```typescript
 // tests/e2e/pages/Dashboard.ts
-import { Page, Locator } from '@playwright/test';
+import { Page, Locator } from "@playwright/test";
 
 export class DashboardPage {
   readonly page: Page;
@@ -219,12 +224,12 @@ export class DashboardPage {
 
   constructor(page: Page) {
     this.page = page;
-    this.heading = page.locator('h1');
+    this.heading = page.locator("h1");
     this.balance = page.locator('[data-testid="balance"]');
   }
 
   async goto() {
-    await this.page.goto('/dashboard');
+    await this.page.goto("/dashboard");
   }
 
   async getBalance() {
@@ -233,26 +238,26 @@ export class DashboardPage {
 }
 
 // Usage in tests
-import { test, expect } from '@playwright/test';
-import { DashboardPage } from '../pages/Dashboard';
+import { test, expect } from "@playwright/test";
+import { DashboardPage } from "../pages/Dashboard";
 
-test('dashboard shows balance', async ({ page }) => {
+test("dashboard shows balance", async ({ page }) => {
   const dashboard = new DashboardPage(page);
   await dashboard.goto();
-  await expect(dashboard.heading).toContainText('Dashboard');
+  await expect(dashboard.heading).toContainText("Dashboard");
 });
 ```
 
 ### API Testing with Playwright
 
 ```typescript
-import { test, expect } from '@playwright/test';
+import { test, expect } from "@playwright/test";
 
-test.describe('API Tests', () => {
-  test('should fetch transactions', async ({ request }) => {
-    const response = await request.get('/api/transactions', {
+test.describe("API Tests", () => {
+  test("should fetch transactions", async ({ request }) => {
+    const response = await request.get("/api/transactions", {
       headers: {
-        Authorization: 'Bearer seed-token-123'
+        Authorization: "Bearer seed-token-123"
       }
     });
 
@@ -272,9 +277,9 @@ The app uses `isMockAccessToken()` in `lib/plaid.ts` to detect test tokens:
 export function isMockAccessToken(token: string): boolean {
   const t = token.toLowerCase();
   return (
-    t.startsWith('seed-') ||
-    t.startsWith('mock-') ||
-    t.startsWith('mock_')
+    t.startsWith("seed-") ||
+    t.startsWith("mock-") ||
+    t.startsWith("mock_")
   );
 }
 ```
@@ -283,18 +288,18 @@ export function isMockAccessToken(token: string): boolean {
 
 ```typescript
 // Vitest unit test
-const mockToken = 'seed-access-token-123';
+const mockToken = "seed-access-token-123";
 if (isMockAccessToken(mockToken)) {
   // Skip actual Plaid API calls in tests
 }
 
 // E2E test with mock Plaid
-import { test, expect } from '@playwright/test';
-import { setupPlaidMock } from '../helpers/plaid.mock';
+import { test, expect } from "@playwright/test";
+import { setupPlaidMock } from "../helpers/plaid.mock";
 
-test('should link bank account with mock', async ({ page }) => {
+test("should link bank account with mock", async ({ page }) => {
   await setupPlaidMock(page);
-  await page.goto('/settings/bank-accounts');
+  await page.goto("/settings/bank-accounts");
   await page.click('button:has-text("Add Bank")');
   // Mock Plaid Link handles the flow
 });
@@ -304,7 +309,7 @@ test('should link bank account with mock', async ({ page }) => {
 
 ```typescript
 // tests/e2e/helpers/plaid.mock.ts
-import { Page } from '@playwright/test';
+import { Page } from "@playwright/test";
 
 export async function setupPlaidMock(page: Page) {
   await page.addInitScript(() => {
@@ -313,7 +318,7 @@ export async function setupPlaidMock(page: Page) {
 }
 
 export function createMockPublicToken(): string {
-  return 'MOCK_PUBLIC_TOKEN_' + Date.now();
+  return "MOCK_PUBLIC_TOKEN_" + Date.now();
 }
 ```
 
@@ -338,15 +343,15 @@ The project includes a test runner guard that always clears port 3000 before tes
 
 ```typescript
 // vitest.config.ts
-import { defineConfig } from 'vitest/config';
+import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   test: {
-    include: ['tests/unit/**/*.test.{ts,tsx,js,jsx}'],
-    environment: 'node',
+    include: ["tests/unit/**/*.test.{ts,tsx,js,jsx}"],
+    environment: "node",
     globals: true,
-    setupFiles: ['tests/unit/setup.ts'],
-  },
+    setupFiles: ["tests/unit/setup.ts"]
+  }
 });
 ```
 
@@ -354,19 +359,19 @@ export default defineConfig({
 
 ```typescript
 // playwright.config.ts
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
-  testDir: './tests/e2e',
-  fullyParallel: false,  // Tests are stateful
+  testDir: "./tests/e2e",
+  fullyParallel: false, // Tests are stateful
   workers: 1,
   use: {
-    baseURL: 'http://localhost:3000',
-    trace: 'on-first-retry',
+    baseURL: "http://localhost:3000",
+    trace: "on-first-retry"
   },
   projects: [
-    { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
-  ],
+    { name: "chromium", use: { ...devices["Desktop Chrome"] } }
+  ]
 });
 ```
 
@@ -374,15 +379,15 @@ export default defineConfig({
 
 ### Commands
 
-| Command | Description |
-|---------|-------------|
-| `bun run test` | Run E2E then unit tests |
-| `bun run test:browser` | Run Vitest unit tests |
-| `bun run test:ui` | Run Playwright E2E tests |
-| `bun exec vitest run` | Run all Vitest tests |
-| `bun exec vitest run --watch` | Watch mode |
-| `bunx playwright test` | Run all Playwright tests |
-| `bunx playwright test --ui` | Playwright UI mode |
+| Command                       | Description              |
+| ----------------------------- | ------------------------ |
+| `bun run test`                | Run E2E then unit tests  |
+| `bun run test:browser`        | Run Vitest unit tests    |
+| `bun run test:ui`             | Run Playwright E2E tests |
+| `bun exec vitest run`         | Run all Vitest tests     |
+| `bun exec vitest run --watch` | Watch mode               |
+| `bunx playwright test`        | Run all Playwright tests |
+| `bunx playwright test --ui`   | Playwright UI mode       |
 
 ### Running Specific Tests
 
@@ -438,7 +443,7 @@ bunx playwright show-trace
 ## Troubleshooting
 
 | Issue | Solution |
-|-------|----------|
+| --- | --- |
 | Port 3000 in use | Run port cleanup script |
 | E2E tests fail on first run | Run dev server first: `bun run dev` |
 | Flaky tests | Check for race conditions, add waits |

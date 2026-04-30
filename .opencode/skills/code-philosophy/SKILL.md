@@ -8,12 +8,13 @@ applyTo: "**/*.{ts,tsx,js,jsx}"
 ## Agent Support
 
 | Agent | Integration | Usage |
-|-------|-------------|-------|
+| --- | --- | --- |
 | **OpenCode** | Direct skill invocation | `skill("code-philosophy")` when writing or reviewing logic |
 | **Cursor** | `.cursorrules` reference | Add to project rules for code quality |
 | **Copilot** | `.github/copilot-instructions.md` | Reference for internal logic patterns |
 
 ### OpenCode Usage
+
 ```
 # When writing TypeScript/JavaScript code
 Use code-philosophy to apply the 5 Laws of Elegant Defense.
@@ -23,6 +24,7 @@ Load code-philosophy for the 5 laws assessment.
 ```
 
 ### Cursor Integration
+
 ```json
 // .cursorrules - Add code philosophy rules
 {
@@ -37,8 +39,10 @@ Load code-philosophy for the 5 laws assessment.
 ```
 
 ### Copilot Integration
+
 ```markdown
 <!-- .github/copilot-instructions.md -->
+
 ## Code Philosophy - 5 Laws of Elegant Defense
 
 1. Law of Early Exit - Handle edge cases at top
@@ -61,6 +65,7 @@ See skills/code-philosophy for full details.
 ## When to Use This Skill
 
 Use this skill when:
+
 - Writing or reviewing any TypeScript/JavaScript code
 - Designing functions, classes, or modules
 - Implementing business logic or data transformations
@@ -69,6 +74,7 @@ Use this skill when:
 - Refactoring existing code for clarity
 
 Do NOT use this skill when:
+
 - Writing pure UI markup (HTML/CSS) without logic
 - Writing configuration files
 - Writing documentation or comments (though the principles apply)
@@ -117,6 +123,7 @@ function processUser(user: User | null): string {
 #### Application in Different Contexts
 
 **In React Components:**
+
 ```typescript
 // ❌ BAD: Nested conditions in render
 function UserProfile({ user }) {
@@ -140,6 +147,7 @@ function UserProfile({ user }) {
 ```
 
 **In API Handlers:**
+
 ```typescript
 // ❌ BAD: Nested validation
 async function handler(req: Request) {
@@ -201,39 +209,44 @@ function calculateTotal(items: CartItem[]): number {
 
 // ✅ GOOD: Parse once at boundary, trust inside
 type ValidCartItem = {
-  price: number;  // Already validated as positive number
-  quantity: number;  // Already validated as positive integer
+  price: number; // Already validated as positive number
+  quantity: number; // Already validated as positive integer
 };
 
 function calculateTotal(items: ValidCartItem[]): number {
-  return items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  return items.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
 }
 ```
 
 #### Parsing Patterns
 
 **Using Zod for Input Validation:**
+
 ```typescript
 import { z } from "zod";
 
 const UserSchema = z.object({
   id: z.string().uuid(),
   email: z.string().email(),
-  age: z.number().int().positive().max(150),
+  age: z.number().int().positive().max(150)
 });
 
 // Parse at the boundary - this is the ONLY place validation happens
 function createUser(input: unknown): User {
-  return UserSchema.parse(input);  // Throws if invalid
+  return UserSchema.parse(input); // Throws if invalid
 }
 
 // Internal logic trusts the type - no defensive checks needed
 function getUserDisplayName(user: User): string {
-  return user.email.split("@")[0];  // Safe - we know email is valid
+  return user.email.split("@")[0]; // Safe - we know email is valid
 }
 ```
 
 **Using Discriminated Unions:**
+
 ```typescript
 // ❌ BAD: Using optional properties
 type Order =
@@ -243,7 +256,7 @@ type Order =
   | { status: "cancelled"; cancelledAt: Date; reason: string };
 
 // Problem: Can someone have status="completed" without completedAt?
-const badOrder: Order = { status: "completed" };  // TypeScript allows this!
+const badOrder: Order = { status: "completed" }; // TypeScript allows this!
 
 // ✅ GOOD: Discriminated union forces all required fields
 type Order =
@@ -256,9 +269,9 @@ type Order =
 function processOrder(order: Order) {
   switch (order.status) {
     case "completed":
-      return order.completedAt;  // TypeScript knows this exists
+      return order.completedAt; // TypeScript knows this exists
     case "cancelled":
-      return order.reason;  // TypeScript knows this exists
+      return order.reason; // TypeScript knows this exists
   }
 }
 ```
@@ -311,8 +324,8 @@ function getUserCached(id: string): User {
   if (cache.has(id)) {
     return cache.get(id)!;
   }
-  const user = fetchUserFromDb(id);  // Side effect!
-  cache.set(id, user);  // Mutation!
+  const user = fetchUserFromDb(id); // Side effect!
+  cache.set(id, user); // Mutation!
   return user;
 }
 
@@ -323,7 +336,10 @@ function getUserCached(id: string): User {
 // - Cache can grow unbounded
 
 // ✅ PURE: No side effects, same input = same output
-function getUserCached(id: string, cache: Map<string, User>): User | null {
+function getUserCached(
+  id: string,
+  cache: Map<string, User>
+): User | null {
   return cache.get(id) ?? null;
 }
 
@@ -338,7 +354,7 @@ function getUserCached(id: string, cache: Map<string, User>): User | null {
 ```typescript
 // ❌ BAD: Mutating input
 function addItemToCart(cart: Cart, item: Item): void {
-  cart.items.push(item);  // Mutates original!
+  cart.items.push(item); // Mutates original!
   cart.total += item.price;
 }
 
@@ -351,7 +367,7 @@ addItemToCart(myCart, newItem);
 function addItemToCart(cart: Cart, item: Item): Cart {
   return {
     items: [...cart.items, item],
-    total: cart.total + item.price,
+    total: cart.total + item.price
   };
 }
 
@@ -364,6 +380,7 @@ const newCart = addItemToCart(myCart, newItem);
 #### When Impurity Is Necessary
 
 Some operations inherently require side effects:
+
 - Database writes
 - API calls
 - File system operations
@@ -373,7 +390,9 @@ For these, use the "Command Query Separation" pattern:
 
 ```typescript
 // Commands: Execute action, return void or result object
-async function createUser(data: UserData): Promise<{ ok: boolean; userId?: string; error?: string }> {
+async function createUser(
+  data: UserData
+): Promise<{ ok: boolean; userId?: string; error?: string }> {
   try {
     const userId = await db.users.create(data);
     return { ok: true, userId };
@@ -406,18 +425,20 @@ When code continues running with invalid state, the error manifests far from the
 // ❌ BAD: Silent failure / default values
 function divide(a: number, b: number): number {
   if (b === 0) {
-    return 0;  // Silent failure! Caller doesn't know something is wrong
+    return 0; // Silent failure! Caller doesn't know something is wrong
   }
   return a / b;
 }
 
-const result = divide(10, 0);  // Returns 0 - is this correct or an error?
+const result = divide(10, 0); // Returns 0 - is this correct or an error?
 // Caller can't distinguish between divide(10, 0) and divide(0, 0)!
 
 // ✅ GOOD: Fail loud with descriptive error
 function divide(a: number, b: number): number {
   if (b === 0) {
-    throw new Error("Cannot divide by zero. Received: " + JSON.stringify({ a, b }));
+    throw new Error(
+      "Cannot divide by zero. Received: " + JSON.stringify({ a, b })
+    );
   }
   return a / b;
 }
@@ -426,7 +447,7 @@ function divide(a: number, b: number): number {
 try {
   const result = divide(10, 0);
 } catch (e) {
-  console.error(e.message);  // Clear error message
+  console.error(e.message); // Clear error message
 }
 ```
 
@@ -439,7 +460,9 @@ function processOrder(order: Order) {
   // but TypeScript doesn't
   if (order.status === "completed") {
     // Assert the invariant - fail fast if we're wrong
-    const completedAt = order.completedAt ?? assertFailed("Completed orders must have completedAt");
+    const completedAt =
+      order.completedAt ??
+      assertFailed("Completed orders must have completedAt");
     return { ...order, processedAt: completedAt };
   }
 }
@@ -454,14 +477,16 @@ function assertFailed(message: string): never {
 ```typescript
 // ❌ BAD: Cryptic errors
 function getUser(id: string): User {
-  throw new Error("Not found");  // What wasn't found? Where?
+  throw new Error("Not found"); // What wasn't found? Where?
 }
 
 // ✅ GOOD: Descriptive errors
 function getUser(id: string): User {
   const user = db.users.find(id);
   if (!user) {
-    throw new Error(`User not found: id=${id} (looking up in users table)`);
+    throw new Error(
+      `User not found: id=${id} (looking up in users table)`
+    );
   }
   return user;
 }
@@ -561,9 +586,11 @@ function getUserDisplay(user: any) {
 // 1. Parse at boundary (Law 2)
 const UserDisplayData = z.object({
   name: z.string().min(1),
-  profile: z.object({
-    image: z.string().nullable(),
-  }).nullable(),
+  profile: z
+    .object({
+      image: z.string().nullable()
+    })
+    .nullable()
 });
 
 type ValidUserDisplayData = z.infer<typeof UserDisplayData>;
@@ -607,7 +634,7 @@ Before completing your task, verify:
 ## Troubleshooting
 
 | Issue | Solution |
-|-------|----------|
+| --- | --- |
 | Code has many nested ifs | Apply Law 1: Extract guard clauses |
 | Same validation repeated | Apply Law 2: Parse once at boundary |
 | Tests are flaky | Apply Law 3: Make functions pure |

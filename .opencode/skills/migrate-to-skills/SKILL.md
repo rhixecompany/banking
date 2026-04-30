@@ -25,6 +25,7 @@ Convert legacy Cursor rules and commands to the Agent Skills format. This compre
 ### OpenCode
 
 In OpenCode, skills are stored in `.opencode/skills/` directory:
+
 - Skills use `SKILL.md` format
 - Can include `scripts/`, `references/`, `assets/` subdirectories
 - Use the native `skill` tool to load and use skills
@@ -32,6 +33,7 @@ In OpenCode, skills are stored in `.opencode/skills/` directory:
 ### Cursor
 
 In Cursor IDE:
+
 - Skills go in `.cursor/skills/` directory
 - Use the `Skill` tool to invoke skills
 - Skills can include code snippets and examples
@@ -39,6 +41,7 @@ In Cursor IDE:
 ### GitHub Copilot
 
 In Copilot CLI or VS Code:
+
 - Skills are loaded via the skill system
 - Use Copilot Chat to discover and use skills
 - Skills provide persistent guidance
@@ -63,19 +66,19 @@ ls -la .cursor/commands/
 
 ```typescript
 // Use glob to find rule files
-glob({ pattern: ".cursor/rules/**/*.mdc" })
-glob({ pattern: ".cursor/commands/**/*.md" })
+glob({ pattern: ".cursor/rules/**/*.mdc" });
+glob({ pattern: ".cursor/commands/**/*.md" });
 
 // Use grep to find specific patterns
-grep({ pattern: "Applied intelligently", include: "*.mdc" })
+grep({ pattern: "Applied intelligently", include: "*.mdc" });
 ```
 
 ### Cursor Tool Usage
 
 ```typescript
 // Use file system tools to find rules
-await glob("**/*.mdc")
-await glob("**/*.md")
+await glob("**/*.mdc");
+await glob("**/*.md");
 ```
 
 ## 2. Analyze Each Rule
@@ -95,19 +98,23 @@ For each rule or command, extract:
 ### File: .cursor/rules/typescript.mdc
 
 **Trigger Patterns:**
+
 - File matches: `*.ts`, `*.tsx`
 - Context: TypeScript files
 
 **Content Summary:**
+
 - Enforces strict TypeScript
 - Requires JSDoc comments
 - Enforces naming conventions
 
 **Purpose:**
+
 - Maintain code quality
 - Ensure consistent TypeScript patterns
 
 **Dependencies:**
+
 - None
 ```
 
@@ -121,9 +128,9 @@ Transform legacy rules into proper SKILL.md format:
 ---
 name: typescript-guidance
 description: >-
-  TypeScript coding standards and best practices for this project.
-  Use when writing TypeScript code, creating type definitions, or
-  working with TypeScript files.
+  TypeScript coding standards and best practices for this project. Use when writing TypeScript code, creating type definitions, or working with TypeScript files.
+
+
 metadata:
   surfaces:
     - cli
@@ -138,13 +145,12 @@ metadata:
 
 ### SKILL.md Content Structure
 
-```markdown
+````markdown
 # TypeScript Guidance
 
 ## Purpose
 
-This skill provides TypeScript coding standards and best practices
-for the Banking application. Use when writing any TypeScript code.
+This skill provides TypeScript coding standards and best practices for the Banking application. Use when writing any TypeScript code.
 
 ## When to Use
 
@@ -170,6 +176,7 @@ function calculateTotal(items) {
   return items.reduce((sum, item) => sum + item.price, 0);
 }
 ```
+````
 
 ### 2. Type Safety
 
@@ -185,14 +192,17 @@ Document complex functions with JSDoc comments.
 
 ```typescript
 // Use bash tool for TypeScript checking
-bash({ command: "npx tsc --noEmit", description: "Type check TypeScript" })
+bash({
+  command: "npx tsc --noEmit",
+  description: "Type check TypeScript"
+});
 ```
 
 ### Cursor
 
 ```typescript
 // Use terminal for type checking
-await terminal.exec("npx tsc --noEmit")
+await terminal.exec("npx tsc --noEmit");
 ```
 
 ### Copilot
@@ -220,7 +230,8 @@ npm run lint:strict
 - `code-review` - For reviewing TypeScript code
 - `create-skill` - For creating new skills
 - `validation-skill` - For TypeScript validation patterns
-```
+
+````
 
 ## 4. Migration Patterns
 
@@ -232,15 +243,17 @@ Convert a basic rule with triggers and content:
 ```markdown
 Applied intelligently: Format code using Prettier
 When: *.ts, *.tsx, *.js files
-```
+````
 
 **After (.cursor/skills/formatting/SKILL.md):**
+
 ```yaml
 ---
 name: formatting
 description: >-
-  Code formatting standards using Prettier. Use when formatting
-  TypeScript, JavaScript, or other supported file types.
+  Code formatting standards using Prettier. Use when formatting TypeScript, JavaScript, or other supported file types.
+
+
 ---
 ```
 
@@ -249,19 +262,20 @@ description: >-
 Convert a rule with multiple examples and exceptions:
 
 **Before (.cursor/rules/testing.mdc):**
+
 ```markdown
-Applied intelligently: Write tests before code (TDD)
-When: *.test.ts, *.spec.ts files
-Includes: Unit tests, integration tests
+Applied intelligently: Write tests before code (TDD) When: _.test.ts, _.spec.ts files Includes: Unit tests, integration tests
 ```
 
 **After (.cursor/skills/test-driven-development/SKILL.md):**
+
 ```yaml
 ---
 name: test-driven-development
 description: >-
-  Test-driven development workflow. Use when implementing
-  features or fixing bugs to ensure test coverage.
+  Test-driven development workflow. Use when implementing features or fixing bugs to ensure test coverage.
+
+
 ---
 ```
 
@@ -270,6 +284,7 @@ description: >-
 Convert slash commands to skills:
 
 **Before (.cursor/commands/refactor.md):**
+
 ```markdown
 # Refactor Command
 
@@ -279,12 +294,14 @@ Refactors the selected code using best practices.
 ```
 
 **After (.cursor/skills/refactor/SKILL.md):**
+
 ```yaml
 ---
 name: refactor
 description: >-
-  Code refactoring guidance. Use when improving code structure
-  without changing behavior.
+  Code refactoring guidance. Use when improving code structure without changing behavior.
+
+
 triggers:
   - command: "/refactor"
 ---
@@ -297,11 +314,13 @@ When multiple rules serve a similar purpose, combine them:
 ### Consolidation Example
 
 **Before:**
+
 - `.cursor/rules/ts-basics.mdc`
 - `.cursor/rules/ts-advanced.mdc`
 - `.cursor/rules/ts-types.mdc`
 
 **After:**
+
 - `.cursor/skills/typescript/SKILL.md` (unified)
 
 ### Consolidation Criteria
@@ -345,13 +364,15 @@ After migration, update project files:
 # .cursorrules
 
 ## Skills
-Skills are the primary way to get guidance in this project.
-Use the Skill tool to load skills from .cursor/skills/
+
+Skills are the primary way to get guidance in this project. Use the Skill tool to load skills from .cursor/skills/
 
 ## Deprecated
+
 The following are deprecated - use skills instead:
-- .cursor/rules/*.mdc (converted to .cursor/skills/)
-- .cursor/commands/*.md (converted to .cursor/skills/)
+
+- .cursor/rules/\*.mdc (converted to .cursor/skills/)
+- .cursor/commands/\*.md (converted to .cursor/skills/)
 ```
 
 ### Update AGENTS.md
@@ -370,6 +391,7 @@ This project uses Agent Skills for persistent AI guidance.
 ### Using Skills
 
 Use the Skill tool to load skills:
+
 - `skill load typescript-guidance`
 - `skill load testing-patterns`
 - `skill load code-review`
@@ -398,6 +420,8 @@ Enhance skills with rich metadata:
 name: typescript-guidance
 description: >-
   TypeScript coding standards and best practices.
+
+
 metadata:
   surfaces:
     - cli
@@ -472,12 +496,12 @@ ls -la .cursor/skills/
 
 ## Tool Mapping
 
-| Legacy Tool | Skill Equivalent |
-|-------------|------------------|
-| `.cursor/rules/*.mdc` | `.cursor/skills/*/SKILL.md` |
+| Legacy Tool             | Skill Equivalent            |
+| ----------------------- | --------------------------- |
+| `.cursor/rules/*.mdc`   | `.cursor/skills/*/SKILL.md` |
 | `.cursor/commands/*.md` | `.cursor/skills/*/SKILL.md` |
-| `Skill` tool | Native skill loading |
-| Rule triggers | Skill metadata triggers |
+| `Skill` tool            | Native skill loading        |
+| Rule triggers           | Skill metadata triggers     |
 
 ## Related Skills
 

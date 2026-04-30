@@ -18,6 +18,7 @@ This skill provides comprehensive guidance on shadcn/ui and Tailwind CSS pattern
 ## Multi-Agent Commands
 
 ### OpenCode
+
 ```bash
 # Add UI component
 npx shadcn@latest add button
@@ -30,11 +31,13 @@ npx shadcn@latest add dialog
 ```
 
 ### Cursor
+
 ```
 @ui-skill
 ```
 
 ### Copilot
+
 ```
 /ui button form dialog
 ```
@@ -388,13 +391,11 @@ Run: `bun run lint:strict`
 
 ### 1. Component Not Found
 
-**Problem**: Component import fails
-**Solution**: Add via: `npx shadcn@latest add [component]`
+**Problem**: Component import fails **Solution**: Add via: `npx shadcn@latest add [component]`
 
 ### 2. Form State Errors
 
-**Problem**: Not displaying validation errors
-**Solution**: Use `form.formState.errors` for error display
+**Problem**: Not displaying validation errors **Solution**: Use `form.formState.errors` for error display
 
 ```typescript
 {form.formState.errors.amount && (
@@ -406,8 +407,7 @@ Run: `bun run lint:strict`
 
 ### 3. Loading States
 
-**Problem**: Content flashes before data loads
-**Solution**: Wrap async content in Suspense
+**Problem**: Content flashes before data loads **Solution**: Wrap async content in Suspense
 
 ```typescript
 <Suspense fallback={<Skeleton />}>
@@ -417,8 +417,7 @@ Run: `bun run lint:strict`
 
 ### 4. Hydration Mismatch
 
-**Problem**: Server/client HTML mismatch
-**Solution**: Use dynamic imports or client-side rendering for components with random values
+**Problem**: Server/client HTML mismatch **Solution**: Use dynamic imports or client-side rendering for components with random values
 
 ```typescript
 import dynamic from "next/dynamic";
@@ -431,18 +430,17 @@ const ClientOnlyChart = dynamic(
 
 ### 5. Tailwind Classes Not Applying
 
-**Problem**: Custom styles not working
-**Solution**: Check tailwind.config.ts includes content paths
+**Problem**: Custom styles not working **Solution**: Check tailwind.config.ts includes content paths
 
 ```typescript
 // tailwind.config.ts
 export default {
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
+    "./components/**/*.{js,ts,jsx,tsx,mdx}"
+  ]
   // ...
-}
+};
 ```
 
 ## Cross-References

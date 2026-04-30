@@ -2,6 +2,8 @@
 name: create-rule
 description: >-
   Create Cursor rules for persistent AI guidance. Use when you want to create a rule, add coding standards, set up project conventions, configure file-specific patterns, create RULE.md files, or asks about .cursor/rules/ or AGENTS.md.
+
+
 lastReviewed: 2026-04-29
 applyTo: "**/*.{ts,tsx,md}"
 agents:
@@ -16,12 +18,13 @@ minLines: 300
 ## Agent Support
 
 | Agent | Integration | Usage |
-|-------|-------------|-------|
+| --- | --- | --- |
 | **OpenCode** | Direct skill invocation | `skill("create-rule")` when creating rules |
 | **Cursor** | `.cursorrules` reference | Add to project rules for rule config |
 | **Copilot** | `.github/copilot-instructions.md` | Reference for rule patterns |
 
 ### OpenCode Usage
+
 ```
 # When creating project rules
 Use create-rule to structure .mdc files in .cursor/rules/.
@@ -31,6 +34,7 @@ Load create-rule for glob patterns and frontmatter.
 ```
 
 ### Cursor Integration
+
 ```json
 // .cursorrules - Add rule patterns
 {
@@ -43,14 +47,17 @@ Load create-rule for glob patterns and frontmatter.
 ```
 
 ### Copilot Integration
+
 ```markdown
 <!-- .github/copilot-instructions.md -->
+
 ## Cursor Rules Patterns
 
 When creating project rules:
+
 - Format: .mdc files with YAML frontmatter
 - Fields: description, globs, alwaysApply
-- Globs: **/*.ts, **/*.tsx for file-specific rules
+- Globs: **/\*.ts, **/\*.tsx for file-specific rules
 - Keep under 500 lines
 
 See skills/create-rule for full format guide.
@@ -133,7 +140,7 @@ Your rule content here...
 ### Glob Pattern Examples
 
 | Pattern | Matches | Doesn't Match |
-|---------|---------|---------------|
+| --- | --- | --- |
 | `**/*.ts` | All TypeScript files | .js, .tsx files |
 | `**/*.tsx` | React component files | Plain .ts files |
 | `src/**/*.ts` | TypeScript in src folder | Files outside src |
@@ -156,6 +163,7 @@ alwaysApply: true
 ```
 
 Use this for:
+
 - General coding standards
 - Git conventions
 - Documentation requirements
@@ -174,6 +182,7 @@ alwaysApply: false
 ```
 
 Use this for:
+
 - Language-specific standards
 - Framework conventions
 - File-type-specific patterns
@@ -202,9 +211,11 @@ Organize rule content logically:
 # Rule Title
 
 ## Overview
+
 Brief description of what this rule covers.
 
 ## Key Principles
+
 - Principle 1
 - Principle 2
 - Principle 3
@@ -212,16 +223,15 @@ Brief description of what this rule covers.
 ## Examples
 
 ### Good Example
-\`\`\`typescript
-// Code here
-\`\`\`
+
+\`\`\`typescript // Code here \`\`\`
 
 ### Bad Example
-\`\`\`typescript
-// Code here
-\`\`\`
+
+\`\`\`typescript // Code here \`\`\`
 
 ## Common Mistakes
+
 - Mistake 1
 - Mistake 2
 ```
@@ -229,6 +239,7 @@ Brief description of what this rule covers.
 ### Writing Effective Rules
 
 **DO:**
+
 - Keep content under 500 lines
 - Use clear, actionable language
 - Provide concrete examples
@@ -236,6 +247,7 @@ Brief description of what this rule covers.
 - Focus on one concern per rule
 
 **DON'T:**
+
 - Write essays - be concise
 - Include vague guidelines
 - Skip examples
@@ -261,37 +273,17 @@ alwaysApply: false
 
 Always include context in error messages:
 
-\`\`\`typescript
-// ❌ BAD
-try {
-  await fetchData();
-} catch (e) {
-  throw new Error("Failed");
-}
+\`\`\`typescript // ❌ BAD try { await fetchData(); } catch (e) { throw new Error("Failed"); }
 
-// ✅ GOOD
-try {
-  await fetchData();
-} catch (e) {
-  throw new Error(\`Failed to fetch user data: \${e.message}\`, { cause: e });
-}
-\`\`\`
+// ✅ GOOD try { await fetchData(); } catch (e) { throw new Error(\`Failed to fetch user data: \${e.message}\`, { cause: e }); } \`\`\`
 
 ## Type Safety
 
 Avoid `any` - use proper types:
 
-\`\`\`typescript
-// ❌ BAD
-function process(data: any): any { ... }
+\`\`\`typescript // ❌ BAD function process(data: any): any { ... }
 
-// ✅ GOOD
-interface UserData {
-  id: string;
-  name: string;
-}
-function process(data: UserData): string { ... }
-\`\`\`
+// ✅ GOOD interface UserData { id: string; name: string; } function process(data: UserData): string { ... } \`\`\`
 ```
 
 ### React Patterns
@@ -309,45 +301,23 @@ alwaysApply: false
 
 Use functional components with explicit prop types:
 
-\`\`\`typescript
-// ✅ GOOD
-interface ButtonProps {
-  label: string;
-  onClick: () => void;
-  variant?: "primary" | "secondary";
-}
+\`\`\`typescript // ✅ GOOD interface ButtonProps { label: string; onClick: () => void; variant?: "primary" | "secondary"; }
 
-export function Button({ label, onClick, variant = "primary" }: ButtonProps) {
-  return <button className={variant}>{label}</button>;
-}
-\`\`\`
+export function Button({ label, onClick, variant = "primary" }: ButtonProps) { return <button className={variant}>{label}</button>; } \`\`\`
 
 ## State Management
 
 Prefer useState for simple state, useReducer for complex state:
 
-\`\`\`typescript
-// Simple state - useState
-const [count, setCount] = useState(0);
+\`\`\`typescript // Simple state - useState const [count, setCount] = useState(0);
 
-// Complex state - useReducer
-const [state, dispatch] = useReducer(reducer, initialState);
-\`\`\`
+// Complex state - useReducer const [state, dispatch] = useReducer(reducer, initialState); \`\`\`
 
 ## Custom Hooks
 
 Extract reusable logic into custom hooks:
 
-\`\`\`typescript
-// ✅ GOOD
-function useUser(userId: string) {
-  const [user, setUser] = useState<User | null>(null);
-  useEffect(() => {
-    fetchUser(userId).then(setUser);
-  }, [userId]);
-  return user;
-}
-\`\`\`
+\`\`\`typescript // ✅ GOOD function useUser(userId: string) { const [user, setUser] = useState<User | null>(null); useEffect(() => { fetchUser(userId).then(setUser); }, [userId]); return user; } \`\`\`
 ```
 
 ### API Conventions
@@ -365,33 +335,17 @@ alwaysApply: false
 
 Always return consistent response structure:
 
-\`\`\`typescript
-// ✅ GOOD
-function json<T>(data: T, status = 200) {
-  return Response.json({ success: true, data }, { status });
-}
+\`\`\`typescript // ✅ GOOD function json<T>(data: T, status = 200) { return Response.json({ success: true, data }, { status }); }
 
-function error(message: string, status = 400) {
-  return Response.json({ success: false, error: message }, { status });
-}
-\`\`\`
+function error(message: string, status = 400) { return Response.json({ success: false, error: message }, { status }); } \`\`\`
 
 ## Error Handling
 
 Don't leak internal details in errors:
 
-\`\`\`typescript
-// ❌ BAD - exposes internal details
-catch (e) {
-  return error(e.stack);  // Security risk!
-}
+\`\`\`typescript // ❌ BAD - exposes internal details catch (e) { return error(e.stack); // Security risk! }
 
-// ✅ GOOD - user-friendly message
-catch (e) {
-  console.error(e);  // Log internally
-  return error("An unexpected error occurred");
-}
-\`\`\`
+// ✅ GOOD - user-friendly message catch (e) { console.error(e); // Log internally return error("An unexpected error occurred"); } \`\`\`
 ```
 
 ---
@@ -411,8 +365,7 @@ alwaysApply: false
 
 # Testing Patterns
 
-This rule complements the TypeScript standards rule.
-When writing tests, follow both this rule and the TypeScript standards.
+This rule complements the TypeScript standards rule. When writing tests, follow both this rule and the TypeScript standards.
 ```
 
 ### Combining with AGENTS.md
@@ -431,8 +384,7 @@ alwaysApply: false
 
 # Component Testing
 
-This rule supplements AGENTS.md with React Testing Library patterns.
-See AGENTS.md for general testing requirements.
+This rule supplements AGENTS.md with React Testing Library patterns. See AGENTS.md for general testing requirements.
 ```
 
 ---
@@ -446,6 +398,7 @@ When using OpenCode, rules from `.cursor/rules/` are automatically loaded when e
 ### Cursor
 
 Cursor IDE provides:
+
 - Rule picker in the AI panel
 - Automatic rule loading based on file type
 - Real-time rule suggestions
@@ -453,6 +406,7 @@ Cursor IDE provides:
 ### Copilot
 
 GitHub Copilot respects project rules when:
+
 - Editing files that match glob patterns
 - Generating code that follows rule conventions
 - Providing context-aware suggestions
@@ -462,7 +416,7 @@ GitHub Copilot respects project rules when:
 ## Troubleshooting
 
 | Issue | Solution |
-|-------|----------|
+| --- | --- |
 | Rule not loading | Check file is `.mdc` format in `.cursor/rules/` |
 | Rule not applying | Verify glob pattern matches the file |
 | Rule conflicting with another | Split into separate rules or adjust scope |
@@ -476,6 +430,7 @@ GitHub Copilot respects project rules when:
 **Problem:** Created rule doesn't appear in Cursor rule picker.
 
 **Solution:**
+
 - Verify file extension is `.mdc` not `.md`
 - Check frontmatter has valid `description` field
 - Ensure file is in `.cursor/rules/` directory
@@ -485,6 +440,7 @@ GitHub Copilot respects project rules when:
 **Problem:** Rule doesn't apply to expected files.
 
 **Solution:**
+
 - Test glob pattern with online glob tester
 - Ensure pattern uses forward slashes
 - Check for typos in pattern
@@ -494,6 +450,7 @@ GitHub Copilot respects project rules when:
 **Problem:** Two rules provide conflicting guidance.
 
 **Solution:**
+
 - Merge into single comprehensive rule
 - Adjust scope/globs to avoid overlap
 - Use `alwaysApply: false` for more specific rules
@@ -503,6 +460,7 @@ GitHub Copilot respects project rules when:
 **Problem:** Rule exceeds 500 lines, hard to maintain.
 
 **Solution:**
+
 - Split into multiple focused rules
 - Use references to external documentation
 - Focus on most important patterns only

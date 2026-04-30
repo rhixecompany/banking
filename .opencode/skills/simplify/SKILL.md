@@ -18,6 +18,7 @@ This skill provides comprehensive guidelines for simplifying code while preservi
 ## Multi-Agent Commands
 
 ### OpenCode
+
 ```bash
 # Find complex functions
 grep -r "function.*(" --include="*.ts" | wc -l
@@ -27,12 +28,14 @@ npx complexity-reporter src/
 ```
 
 ### Cursor
+
 ```
 @simplify
 Simplify the transaction service
 ```
 
 ### Copilot
+
 ```
 /simplify refactor auth module
 ```
@@ -103,11 +106,11 @@ function getUser(id: string) {
 ```typescript
 // BEFORE - Complex inline logic
 function calculateFee(amount: number, type: string) {
-  if (type === 'transfer') {
+  if (type === "transfer") {
     if (amount < 1000) return amount * 0.01;
     else if (amount < 5000) return amount * 0.005;
     else return amount * 0.001;
-  } else if (type === 'withdraw') {
+  } else if (type === "withdraw") {
     if (amount < 500) return 5;
     else return amount * 0.01;
   }
@@ -134,12 +137,12 @@ function calculateWithdrawFee(amount: number): number {
 ```typescript
 // BEFORE - Cryptic names
 function p(u: string) {
-  return u.split('@')[0];
+  return u.split("@")[0];
 }
 
 // AFTER - Descriptive names
 function getUsernameFromEmail(email: string): string {
-  return email.split('@')[0];
+  return email.split("@")[0];
 }
 ```
 
@@ -165,15 +168,21 @@ function processData(data: Data): ProcessedData {
 
 ```typescript
 // BEFORE - Complex boolean
-if (user.isActive && user.hasVerifiedEmail && (!user.isBlocked || user.isAdmin)) {
+if (
+  user.isActive &&
+  user.hasVerifiedEmail &&
+  (!user.isBlocked || user.isAdmin)
+) {
   // Do something
 }
 
 // AFTER - Extracted with clear name
 function canAccessSystem(user: User): boolean {
-  return user.isActive &&
+  return (
+    user.isActive &&
     user.hasVerifiedEmail &&
-    (user.isAdmin || !user.isBlocked);
+    (user.isAdmin || !user.isBlocked)
+  );
 }
 
 if (canAccessSystem(user)) {
@@ -188,10 +197,10 @@ if (canAccessSystem(user)) {
 ```typescript
 // BEFORE - Complex transaction logic
 async function processTransaction(tx: Transaction) {
-  if (tx.type === 'transfer') {
+  if (tx.type === "transfer") {
     if (tx.amount > 0) {
       if (tx.fromUserId === tx.toUserId) {
-        return { error: 'Cannot transfer to self' };
+        return { error: "Cannot transfer to self" };
       }
       const fromWallet = await getWallet(tx.fromUserId);
       if (fromWallet.balance >= tx.amount) {
@@ -199,9 +208,9 @@ async function processTransaction(tx: Transaction) {
         await addBalance(tx.toUserId, tx.amount);
         return { success: true };
       }
-      return { error: 'Insufficient funds' };
+      return { error: "Insufficient funds" };
     }
-    return { error: 'Invalid amount' };
+    return { error: "Invalid amount" };
   }
   // ... more types
 }
@@ -209,28 +218,33 @@ async function processTransaction(tx: Transaction) {
 // AFTER - Simplified with clear functions
 async function processTransaction(tx: Transaction): Promise<Result> {
   if (!isValidAmount(tx.amount)) {
-    return { error: 'Invalid amount' };
+    return { error: "Invalid amount" };
   }
 
-  if (tx.type === 'transfer') {
+  if (tx.type === "transfer") {
     return await processTransfer(tx);
   }
 
-  if (tx.type === 'withdraw') {
+  if (tx.type === "withdraw") {
     return await processWithdraw(tx);
   }
 
-  return { error: 'Unknown transaction type' };
+  return { error: "Unknown transaction type" };
 }
 
-async function processTransfer(tx: TransferTransaction): Promise<Result> {
+async function processTransfer(
+  tx: TransferTransaction
+): Promise<Result> {
   if (isSameUser(tx.fromUserId, tx.toUserId)) {
-    return { error: 'Cannot transfer to self' };
+    return { error: "Cannot transfer to self" };
   }
 
-  const hasSufficientFunds = await checkSufficientFunds(tx.fromUserId, tx.amount);
+  const hasSufficientFunds = await checkSufficientFunds(
+    tx.fromUserId,
+    tx.amount
+  );
   if (!hasSufficientFunds) {
-    return { error: 'Insufficient funds' };
+    return { error: "Insufficient funds" };
   }
 
   await executeTransfer(tx);
@@ -258,12 +272,15 @@ async function connectWallet(userId: string, publicToken: string) {
 }
 
 // AFTER - Flat async/await
-async function connectWallet(userId: string, publicToken: string): Promise<Wallet> {
+async function connectWallet(
+  userId: string,
+  publicToken: string
+): Promise<Wallet> {
   const accessToken = await exchangeToken(publicToken);
-  if (!accessToken) throw new Error('Token exchange failed');
+  if (!accessToken) throw new Error("Token exchange failed");
 
   const account = await getAccountInfo(accessToken);
-  if (!account) throw new Error('Account not found');
+  if (!account) throw new Error("Account not found");
 
   const wallet = await createWallet(userId, accessToken, account);
   await syncTransactions(wallet.id);
@@ -297,9 +314,9 @@ if (amount > MAX_TRANSFER_AMOUNT) { ... }
 
 ```typescript
 // BEFORE - Callback hell
-getData((data) => {
-  processData(data, (result) => {
-    saveData(result, (saved) => {
+getData(data => {
+  processData(data, result => {
+    saveData(result, saved => {
       // More nesting
     });
   });
@@ -316,20 +333,20 @@ const saved = await saveData(result);
 ```typescript
 // BEFORE - Repeated logic
 function validateUser(user: User) {
-  if (!user.email.includes('@')) return false;
+  if (!user.email.includes("@")) return false;
   if (!user.name) return false;
   return true;
 }
 
 function validateAdmin(admin: Admin) {
-  if (!admin.email.includes('@')) return false;
+  if (!admin.email.includes("@")) return false;
   if (!admin.name) return false;
   return true;
 }
 
 // AFTER - Shared validation
 function validateEmail(email: string): boolean {
-  return email.includes('@');
+  return email.includes("@");
 }
 
 function validatePerson(person: Person): boolean {
@@ -343,22 +360,22 @@ function validatePerson(person: Person): boolean {
 
 ```typescript
 // Ensure simplified code produces same results
-describe('simplified processTransaction', () => {
-  it('should return error for invalid amount', async () => {
+describe("simplified processTransaction", () => {
+  it("should return error for invalid amount", async () => {
     const result = await processTransaction({
       amount: -100,
-      type: 'transfer'
+      type: "transfer"
     });
-    expect(result.error).toBe('Invalid amount');
+    expect(result.error).toBe("Invalid amount");
   });
 
-  it('should return error for insufficient funds', async () => {
+  it("should return error for insufficient funds", async () => {
     const result = await processTransaction({
       amount: 10000,
-      type: 'transfer',
-      fromUserId: 'user1'
+      type: "transfer",
+      fromUserId: "user1"
     });
-    expect(result.error).toBe('Insufficient funds');
+    expect(result.error).toBe("Insufficient funds");
   });
 });
 ```

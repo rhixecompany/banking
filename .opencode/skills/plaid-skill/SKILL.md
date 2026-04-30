@@ -22,6 +22,7 @@ Comprehensive patterns for integrating Plaid API in the Banking app.
 ## Multi-Agent Commands
 
 ### OpenCode / Cursor / Copilot
+
 ```bash
 # Check Plaid configuration
 cat lib/plaid.ts
@@ -39,17 +40,17 @@ bun run test:browser
 
 ```typescript
 // lib/plaid.ts
-import { Configuration, PlaidApi, PlaidEnvironments } from 'plaid';
-import { appConfig } from './app-config';
+import { Configuration, PlaidApi, PlaidEnvironments } from "plaid";
+import { appConfig } from "./app-config";
 
 const configuration = new Configuration({
   basePath: PlaidEnvironments[appConfig.plaidEnv], // sandbox/development/production
   baseOptions: {
     headers: {
-      'PLAID-CLIENT-ID': appConfig.plaidClientId,
-      'PLAID-SECRET': appConfig.plaidSecret,
-    },
-  },
+      "PLAID-CLIENT-ID": appConfig.plaidClientId,
+      "PLAID-SECRET": appConfig.plaidSecret
+    }
+  }
 });
 
 export const plaidClient = new PlaidApi(configuration);
@@ -64,9 +65,9 @@ The app uses mock tokens to skip Plaid API calls in tests:
 export function isMockAccessToken(token: string): boolean {
   const t = token.toLowerCase();
   return (
-    t.startsWith('seed-') ||
-    t.startsWith('mock-') ||
-    t.startsWith('mock_')
+    t.startsWith("seed-") ||
+    t.startsWith("mock-") ||
+    t.startsWith("mock_")
   );
 }
 ```
@@ -92,7 +93,7 @@ export async function createLinkTokenAction() {
       client_name: "Banking App",
       products: ["transactions", "auth"],
       country_codes: ["US"],
-      language: "en",
+      language: "en"
     });
 
     return { ok: true, linkToken: response.data.link_token };
@@ -115,7 +116,9 @@ import { walletDal } from "@/dal/wallet.dal";
 import { encrypt } from "@/lib/encryption";
 import { isMockAccessToken } from "@/lib/plaid";
 
-export async function exchangePublicToken(input: { publicToken: string }) {
+export async function exchangePublicToken(input: {
+  publicToken: string;
+}) {
   const session = await auth();
   if (!session?.user) {
     return { ok: false, error: "Unauthorized" };
@@ -129,7 +132,7 @@ export async function exchangePublicToken(input: { publicToken: string }) {
       accessToken = input.publicToken;
     } else {
       const response = await plaidClient.itemPublicTokenExchange({
-        public_token: input.publicToken,
+        public_token: input.publicToken
       });
       accessToken = response.data.access_token;
     }
@@ -138,7 +141,7 @@ export async function exchangePublicToken(input: { publicToken: string }) {
     let accountId: string | undefined;
     if (!isMockAccessToken(accessToken)) {
       const authResponse = await plaidClient.authGet({
-        access_token: accessToken,
+        access_token: accessToken
       });
       accountId = authResponse.data.accounts[0]?.account_id;
     }
@@ -147,7 +150,7 @@ export async function exchangePublicToken(input: { publicToken: string }) {
     await walletDal.create({
       userId: session.user.id,
       accessToken: encrypt(accessToken),
-      accountId,
+      accountId
     });
 
     return { ok: true };
@@ -197,7 +200,7 @@ export async function syncTransactionsAction() {
 
     try {
       const response = await plaidClient.transactionsSync({
-        access_token: accessToken,
+        access_token: accessToken
       });
 
       // Save transactions to database
@@ -208,7 +211,7 @@ export async function syncTransactionsAction() {
           amount: transaction.amount,
           date: new Date(transaction.date),
           name: transaction.name,
-          category: transaction.category?.[0],
+          category: transaction.category?.[0]
         });
       }
 
@@ -216,10 +219,13 @@ export async function syncTransactionsAction() {
         walletId: wallet.id,
         added: response.data.added.length,
         modified: response.data.modified.length,
-        removed: response.data.removed.length,
+        removed: response.data.removed.length
       });
     } catch (error) {
-      console.error(`Transaction sync failed for wallet ${wallet.id}:`, error);
+      console.error(
+        `Transaction sync failed for wallet ${wallet.id}:`,
+        error
+      );
       results.push({ walletId: wallet.id, error: true });
     }
   }
@@ -255,16 +261,16 @@ export async function getBalancesAction() {
     if (isMockAccessToken(accessToken)) {
       balances.push({
         walletId: wallet.id,
-        available: 1000.00,
-        current: 1000.00,
-        mock: true,
+        available: 1000.0,
+        current: 1000.0,
+        mock: true
       });
       continue;
     }
 
     try {
       const response = await plaidClient.accountsBalanceGet({
-        access_token: accessToken,
+        access_token: accessToken
       });
 
       const account = response.data.accounts[0];
@@ -272,10 +278,13 @@ export async function getBalancesAction() {
         walletId: wallet.id,
         available: account.balances.available,
         current: account.balances.current,
-        currency: account.balances.iso_currency_code,
+        currency: account.balances.iso_currency_code
       });
     } catch (error) {
-      console.error(`Balance fetch failed for wallet ${wallet.id}:`, error);
+      console.error(
+        `Balance fetch failed for wallet ${wallet.id}:`,
+        error
+      );
       balances.push({ walletId: wallet.id, error: true });
     }
   }
@@ -296,7 +305,9 @@ import { walletDal } from "@/dal/wallet.dal";
 import { decrypt } from "@/lib/encryption";
 import { isMockAccessToken } from "@/lib/plaid";
 
-export async function unlinkAccountAction(input: { walletId: string }) {
+export async function unlinkAccountAction(input: {
+  walletId: string;
+}) {
   const session = await auth();
   if (!session?.user) {
     return { ok: false, error: "Unauthorized" };
@@ -313,7 +324,7 @@ export async function unlinkAccountAction(input: { walletId: string }) {
   if (!isMockAccessToken(accessToken)) {
     try {
       await plaidClient.itemRemove({
-        access_token: accessToken,
+        access_token: accessToken
       });
     } catch (error) {
       console.error("Plaid item removal failed:", error);
@@ -336,14 +347,22 @@ Always encrypt access tokens before storing:
 
 ```typescript
 // lib/encryption.ts
-import { createCipheriv, createDecipheriv, randomBytes } from "crypto";
+import {
+  createCipheriv,
+  createDecipheriv,
+  randomBytes
+} from "crypto";
 
 const ALGORITHM = "aes-256-gcm";
 const KEY = process.env.ENCRYPTION_KEY!;
 
 export function encrypt(text: string): string {
   const iv = randomBytes(16);
-  const cipher = createCipheriv(ALGORITHM, Buffer.from(KEY, "hex"), iv);
+  const cipher = createCipheriv(
+    ALGORITHM,
+    Buffer.from(KEY, "hex"),
+    iv
+  );
   let encrypted = cipher.update(text, "utf8", "hex");
   encrypted += cipher.final("hex");
   const authTag = cipher.getAuthTag();
@@ -354,7 +373,11 @@ export function decrypt(encrypted: string): string {
   const [ivHex, authTagHex, encryptedText] = encrypted.split(":");
   const iv = Buffer.from(ivHex, "hex");
   const authTag = Buffer.from(authTagHex, "hex");
-  const decipher = createDecipheriv(ALGORITHM, Buffer.from(KEY, "hex"), iv);
+  const decipher = createDecipheriv(
+    ALGORITHM,
+    Buffer.from(KEY, "hex"),
+    iv
+  );
   decipher.setAuthTag(authTag);
   let decrypted = decipher.update(encryptedText, "hex", "utf8");
   decrypted += decipher.final("utf8");
@@ -373,22 +396,22 @@ export function decrypt(encrypted: string): string {
 ### Unit Test Pattern
 
 ```typescript
-import { describe, it, expect, vi } from 'vitest';
-import { exchangePublicTokenAction } from '@/actions/plaid';
+import { describe, it, expect, vi } from "vitest";
+import { exchangePublicTokenAction } from "@/actions/plaid";
 
-vi.mock('@/lib/plaid', () => ({
+vi.mock("@/lib/plaid", () => ({
   plaidClient: {
     itemPublicTokenExchange: vi.fn().mockResolvedValue({
-      data: { access_token: 'mock-access-token' }
+      data: { access_token: "mock-access-token" }
     })
   },
   isMockAccessToken: vi.fn().mockReturnValue(false)
 }));
 
-describe('exchangePublicTokenAction', () => {
-  it('should exchange token successfully', async () => {
+describe("exchangePublicTokenAction", () => {
+  it("should exchange token successfully", async () => {
     const result = await exchangePublicTokenAction({
-      publicToken: 'public-token-123'
+      publicToken: "public-token-123"
     });
     expect(result.ok).toBe(true);
   });
@@ -408,13 +431,13 @@ if (isMockAccessToken(mockToken)) {
 
 ## Error Handling
 
-| Error Code | Meaning |
-|------------|---------|
-| `LinkTokenFailed` | Failed to create Plaid Link token |
-| `ExchangeFailed` | Failed to exchange public token |
-| `SyncFailed` | Failed to sync transactions |
-| `BalanceFailed` | Failed to fetch balances |
-| `NoLinkedAccounts` | User has no linked bank accounts |
+| Error Code         | Meaning                           |
+| ------------------ | --------------------------------- |
+| `LinkTokenFailed`  | Failed to create Plaid Link token |
+| `ExchangeFailed`   | Failed to exchange public token   |
+| `SyncFailed`       | Failed to sync transactions       |
+| `BalanceFailed`    | Failed to fetch balances          |
+| `NoLinkedAccounts` | User has no linked bank accounts  |
 
 ## Cross-References
 

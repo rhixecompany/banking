@@ -16,6 +16,7 @@ This skill provides comprehensive deployment patterns for the Banking app across
 ## Multi-Agent Support
 
 ### OpenCode
+
 ```bash
 # Build commands
 bun run build          # Production build
@@ -31,6 +32,7 @@ curl https://your-domain.com/api/health
 ```
 
 ### Cursor
+
 ```typescript
 // Environment variables in deployment
 // Vercel: Project Settings → Environment Variables
@@ -38,13 +40,14 @@ curl https://your-domain.com/api/health
 // Docker: docker-compose.yml env section
 
 // Required vars
-DATABASE_URL="postgres://..."
-ENCRYPTION_KEY="256-bit-hex-key"
-NEXTAUTH_SECRET="min-32-char-secret"
-NEXTAUTH_URL="https://your-domain.com"
+DATABASE_URL = "postgres://...";
+ENCRYPTION_KEY = "256-bit-hex-key";
+NEXTAUTH_SECRET = "min-32-char-secret";
+NEXTAUTH_URL = "https://your-domain.com";
 ```
 
 ### GitHub Copilot
+
 ```yaml
 # Docker Compose configuration
 # Copilot suggests optimized docker-compose.yml
@@ -76,7 +79,10 @@ const nextConfig: NextConfig = {
         headers: [
           { key: "X-Frame-Options", value: "DENY" },
           { key: "X-Content-Type-Options", value: "nosniff" },
-          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" }
+          {
+            key: "Referrer-Policy",
+            value: "strict-origin-when-cross-origin"
+          }
         ]
       }
     ];
@@ -91,7 +97,7 @@ export default nextConfig;
 Required environment variables in Vercel Project Settings:
 
 | Variable | Description | Required |
-| --- | --- | :---: |
+| --- | --- | :-: |
 | `DATABASE_URL` | PostgreSQL connection string | Yes |
 | `ENCRYPTION_KEY` | 256-bit hex key for encryption | Yes |
 | `NEXTAUTH_SECRET` | Secret for JWT signing (min 32 chars) | Yes |
@@ -145,16 +151,18 @@ vercel env add NEXTAUTH_URL production
 # railway.json
 {
   "$schema": "https://railway.app/schema.json",
-  "build": {
-    "builder": "NIXPACKS",
-    "buildCommand": "bun run build",
-    "startCommand": "bun run start"
-  },
-  "deploy": {
-    "numReplicas": 1,
-    "restartPolicyType": "ON_FAILURE",
-    "restartPolicyMaxRetries": 10
-  }
+  "build":
+    {
+      "builder": "NIXPACKS",
+      "buildCommand": "bun run build",
+      "startCommand": "bun run start"
+    },
+  "deploy":
+    {
+      "numReplicas": 1,
+      "restartPolicyType": "ON_FAILURE",
+      "restartPolicyMaxRetries": 10
+    }
 }
 ```
 
@@ -412,7 +420,9 @@ export async function GET() {
 ```typescript
 // lib/app-config.ts
 const envSchema = z.object({
-  NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
+  NODE_ENV: z
+    .enum(["development", "production", "test"])
+    .default("development")
   // ... other fields
 });
 
@@ -485,6 +495,7 @@ curl -f http://localhost:3000/api/health || exit 1
 ## Multi-Agent Examples
 
 ### OpenCode: Deploy Commands
+
 ```bash
 # Deploy to Vercel
 vercel --prod
@@ -497,12 +508,14 @@ docker-compose up -d --build
 ```
 
 ### Cursor: Environment Setup
+
 ```typescript
 // Cursor suggests environment configuration
 // Set up environment variables for production deployment
 ```
 
 ### Copilot: Dockerfile Generation
+
 ```yaml
 # Write comment for Dockerfile suggestions
 # Create an optimized Dockerfile for Next.js app

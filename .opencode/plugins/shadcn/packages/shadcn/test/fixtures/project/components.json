@@ -1,8 +1,0 @@
-{
-  "importPaths": {
-    "styles": "~/styles/globals.css",
-    "utils:cn": "~/lib/cn.ts",
-    "components:ui": "~/components/ui"
-  },
-  "tailwindConfig": "./tailwind.config.ts"
-}

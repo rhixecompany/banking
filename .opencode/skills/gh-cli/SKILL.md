@@ -18,7 +18,7 @@ Comprehensive reference for GitHub CLI (gh) - work seamlessly with GitHub from t
 ## Agent Support
 
 | Agent | Usage |
-|-------|-------|
+| --- | --- |
 | **OpenCode** | Use GitHub MCP tools: `github_agentic_workflows_*` for all GitHub operations |
 | **Cursor** | Use `@gh-cli` for GitHub CLI patterns and GitHub MCP integration |
 | **Copilot** | Use `/gh` or `/github` commands for GitHub integration |

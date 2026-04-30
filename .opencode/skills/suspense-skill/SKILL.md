@@ -142,6 +142,7 @@ Error: Route "/": Runtime data such as `cookies()`, `headers()`,
 ### OpenCode
 
 In OpenCode, use this skill when:
+
 - Creating protected routes with Suspense boundaries
 - Implementing auth checks in Server Components
 - Adding loading states for async operations
@@ -155,6 +156,7 @@ The page should check authentication and redirect to sign-in if not authenticate
 ### Cursor
 
 In Cursor IDE:
+
 - Use with `.cursorrules` for Next.js Suspense patterns
 - Integrate with code generation for proper async handling
 - Apply to new route creation automatically
@@ -172,6 +174,7 @@ In Cursor IDE:
 ### GitHub Copilot
 
 In Copilot CLI:
+
 - Reference Suspense patterns for auth implementation
 - Suggest Suspense boundaries for async operations
 
@@ -187,19 +190,19 @@ for the authentication check.
 
 This skill works well with:
 
-| Related Skill | Use Case |
-|---------------|----------|
-| `auth-skill` | Combine with NextAuth v4 patterns |
-| `ui-skill` | Create loading skeletons |
+| Related Skill         | Use Case                           |
+| --------------------- | ---------------------------------- |
+| `auth-skill`          | Combine with NextAuth v4 patterns  |
+| `ui-skill`            | Create loading skeletons           |
 | `server-action-skill` | Handle async operations in actions |
-| `testing-skill` | Test Suspense boundaries |
+| `testing-skill`       | Test Suspense boundaries           |
 
 ---
 
 ## Troubleshooting
 
 | Issue | Solution |
-|-------|----------|
+| --- | --- |
 | "Route accessed without Suspense" | Wrap async Server Components in `<Suspense>` boundary |
 | Slow initial page load | Add loading skeleton; move auth to layout level |
 | Flash of unstyled content | Use consistent loading skeleton design |

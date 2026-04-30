@@ -8,12 +8,13 @@ applyTo: "**/*.{ts,tsx,js,jsx}"
 ## Agent Support
 
 | Agent | Integration | Usage |
-|-------|-------------|-------|
+| --- | --- | --- |
 | **OpenCode** | Direct skill invocation | `skill("code-review")` when conducting code reviews |
 | **Cursor** | `.cursorrules` reference | Add to project rules for review standards |
 | **Copilot** | `.github/copilot-instructions.md` | Reference for review methodology |
 
 ### OpenCode Usage
+
 ```
 # When reviewing code changes
 Use code-review skill to apply severity classification.
@@ -23,6 +24,7 @@ Load code-review for reviewer guidance.
 ```
 
 ### Cursor Integration
+
 ```json
 // .cursorrules - Add code review standards
 {
@@ -35,17 +37,21 @@ Load code-review for reviewer guidance.
 ```
 
 ### Copilot Integration
+
 ```markdown
 <!-- .github/copilot-instructions.md -->
+
 ## Code Review Standards
 
 Severity classification:
+
 - Critical: Security, data loss, complete breakage
 - Major: Significant bug, performance issue, major confusion
 - Minor: Code clarity, small improvements
 - Nitpick: Style, formatting, preferences
 
 Confidence thresholds:
+
 - 100%: Absolutely certain, can fix without asking
 - 80-99%: Confident, suggest with rationale
 - 60-79%: Question, ask instead of assume
@@ -85,6 +91,7 @@ Systematic code review across 4 layers with severity classification. Only report
 - Error propagation correctness
 
 **What to look for:**
+
 - Does the code do what it's supposed to do?
 - Are there edge cases not handled?
 - What happens with empty arrays, null values, negative numbers?
@@ -103,6 +110,7 @@ Systematic code review across 4 layers with severity classification. Only report
 - Rate limiting considerations
 
 **What to look for:**
+
 - Any hardcoded passwords, API keys, tokens?
 - Are user inputs validated before use?
 - Could this code be exploited for injection attacks?
@@ -120,6 +128,7 @@ Systematic code review across 4 layers with severity classification. Only report
 - Bundle size concerns (frontend)
 
 **What to look for:**
+
 - Are there repeated database calls in loops?
 - Is there unnecessary re-rendering in React?
 - Could caching improve performance?
@@ -137,6 +146,7 @@ Systematic code review across 4 layers with severity classification. Only report
 - Import organization
 
 **What to look for:**
+
 - Does the code follow project conventions?
 - Is there repeated code that could be extracted?
 - Are functions too complex (too many responsibilities)?
@@ -154,6 +164,7 @@ Systematic code review across 4 layers with severity classification. Only report
 ### Examples of Each Severity
 
 **Critical (🔴):**
+
 ```typescript
 // SQL Injection vulnerability
 const query = `SELECT * FROM users WHERE id = ${userId}`;
@@ -163,15 +174,16 @@ const apiKey = "sk-1234567890abcdef";
 
 // No authentication check
 async function deleteUser(req: Request) {
-  await db.users.delete(req.params.id);  // Anyone can delete!
+  await db.users.delete(req.params.id); // Anyone can delete!
 }
 ```
 
 **Major (🟠):**
+
 ```typescript
 // N+1 query pattern
 for (const order of orders) {
-  const customer = await db.customers.get(order.customerId);  // Query per order!
+  const customer = await db.customers.get(order.customerId); // Query per order!
 }
 
 // Memory leak in React
@@ -182,6 +194,7 @@ useEffect(() => {
 ```
 
 **Minor (🟡):**
+
 ```typescript
 // Magic numbers without constants
 if (user.age > 18) { ... }  // What is 18?
@@ -191,6 +204,7 @@ function validateEmail(email: string) { ... }  // Exists in another file too
 ```
 
 **Nitpick (🟢):**
+
 ```typescript
 // Prefer const over let when value doesn't change
 let count = 0;  // Could be const
@@ -238,6 +252,7 @@ const result = items.filter(i => i.active).map(i => i.id);
 ### Step 2: Deep Analysis
 
 For each file, apply all 4 layers:
+
 - Read the entire file, not just the diff
 - Check how the changes interact with existing code
 - Look for patterns that violate the 4 layers
@@ -252,6 +267,7 @@ For each file, apply all 4 layers:
 ### Step 4: Philosophy Check
 
 Apply the 5 Laws from code-philosophy:
+
 - Law 1: Early exits for edge cases
 - Law 2: Parse at boundaries, trust internally
 - Law 3: Pure, predictable functions
@@ -280,7 +296,7 @@ Structure your review as:
 
 ### Example Output
 
-```
+````
 ## Files Reviewed
 - src/services/user.service.ts
 - src/api/users.ts
@@ -296,41 +312,45 @@ The implementation has a security vulnerability and a performance issue that mus
    User input directly interpolated into SQL query without parameterization.
    ```typescript
    const query = `SELECT * FROM users WHERE name = '${name}'`;
-   ```
-   Use parameterized queries or an ORM's query builder instead.
+````
 
-2. **Missing Authentication** - `src/api/users.ts:15`
-   Delete endpoint has no authentication check - anyone can delete any user.
+Use parameterized queries or an ORM's query builder instead.
+
+2. **Missing Authentication** - `src/api/users.ts:15` Delete endpoint has no authentication check - anyone can delete any user.
 
 ## Major Issues (🟠)
-1. **N+1 Query** - `src/services/user.service.ts:67`
-   Looping through orders causes a database query per order.
+
+1. **N+1 Query** - `src/services/user.service.ts:67` Looping through orders causes a database query per order.
+
    ```typescript
    for (const order of orders) {
      const customer = await db.customers.get(order.customerId);
    }
    ```
+
    Use eager loading or batch query instead.
 
-2. **Missing Error Handling** - `src/api/users.ts:23`
-   Promise rejection not caught - will result in unhandled rejection.
+2. **Missing Error Handling** - `src/api/users.ts:23` Promise rejection not caught - will result in unhandled rejection.
 
 ## Minor Issues (🟡)
-1. **Magic Number** - `src/services/user.service.ts:89`
-   `if (user.age > 18)` - extract to named constant MAX_AGE
+
+1. **Magic Number** - `src/services/user.service.ts:89` `if (user.age > 18)` - extract to named constant MAX_AGE
 
 ## Positive Observations (🟢)
+
 - Good use of TypeScript types throughout
 - Consistent naming conventions match project style
 - Error messages are descriptive and helpful
 - Tests cover main functionality
 
 ## Philosophy Compliance
+
 - [x] Guard clauses used in user.service.ts
 - [ ] Input parsing - needs validation at API boundary
 - [x] Pure functions in test helpers
 - [x] Fail-fast error handling in service layer
 - [x] Clear function names throughout
+
 ```
 
 ## What NOT to Do
@@ -361,3 +381,4 @@ Before completing a review, verify:
 - [code-philosophy](./code-philosophy) - The 5 Laws to verify compliance
 - [refactor](./refactor) - Apply fixes to issues found
 - [testing-skill](./testing-skill) - Verify tests are adequate
+```

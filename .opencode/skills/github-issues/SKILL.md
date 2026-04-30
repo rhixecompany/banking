@@ -18,6 +18,7 @@ This skill provides comprehensive guidelines for creating and managing GitHub is
 ## Multi-Agent Commands
 
 ### OpenCode
+
 ```bash
 # Create issue
 gh issue create --title "Bug: Login fails" --body "Description"
@@ -30,12 +31,14 @@ gh issue list --search "wallet+label:bug"
 ```
 
 ### Cursor
+
 ```
 @github-issues
 Create a bug report for the transaction issue
 ```
 
 ### Copilot
+
 ```
 /issue create wallet bug
 ```
@@ -58,12 +61,12 @@ gh issue create --title "Bug" --label "bug" --label "priority:high"
 ### Programmatic Creation
 
 ```typescript
-import { github_agentic_workflows_create_issue } from '@modelcontextprotocol/github';
+import { github_agentic_workflows_create_issue } from "@modelcontextprotocol/github";
 
 const issue = await github_agentic_workflows_create_issue({
-  owner: 'rhixecompany',
-  repo: 'banking',
-  title: 'Bug: Transaction fails for large amounts',
+  owner: "rhixecompany",
+  repo: "banking",
+  title: "Bug: Transaction fails for large amounts",
   body: `## Description
 Transaction amounts over $10,000 fail with error.
 
@@ -82,8 +85,8 @@ Error: "Amount exceeds limit"
 - App version: 2.1.0
 - Browser: Chrome 120
 `,
-  labels: ['bug', 'priority:high'],
-  assignees: ['developer']
+  labels: ["bug", "priority:high"],
+  assignees: ["developer"]
 });
 ```
 
@@ -199,34 +202,34 @@ gh issue list --unassigned
 
 ### Type Labels
 
-| Label | Description |
-|-------|-------------|
-| `feature` | New feature request |
-| `bug` | Bug report |
-| `enhancement` | Improvement to existing |
-| `documentation` | Docs-related |
-| `question` | Question from user |
+| Label           | Description             |
+| --------------- | ----------------------- |
+| `feature`       | New feature request     |
+| `bug`           | Bug report              |
+| `enhancement`   | Improvement to existing |
+| `documentation` | Docs-related            |
+| `question`      | Question from user      |
 
 ### Priority Labels
 
-| Label | Description |
-|-------|-------------|
+| Label               | Description          |
+| ------------------- | -------------------- |
 | `priority:critical` | Must fix immediately |
-| `priority:high` | High importance |
-| `priority:medium` | Normal priority |
-| `priority:low` | Low priority |
+| `priority:high`     | High importance      |
+| `priority:medium`   | Normal priority      |
+| `priority:low`      | Low priority         |
 
 ### Area Labels
 
-| Label | Description |
-|-------|-------------|
-| `area:auth` | Authentication |
-| `area:wallet` | Wallet operations |
-| `area:transaction` | Transactions |
-| `area:plaid` | Plaid integration |
-| `area:dwolla` | Dwolla integration |
-| `area:ui` | User interface |
-| `area:api` | API endpoints |
+| Label              | Description        |
+| ------------------ | ------------------ |
+| `area:auth`        | Authentication     |
+| `area:wallet`      | Wallet operations  |
+| `area:transaction` | Transactions       |
+| `area:plaid`       | Plaid integration  |
+| `area:dwolla`      | Dwolla integration |
+| `area:ui`          | User interface     |
+| `area:api`         | API endpoints      |
 
 ## Issue Templates
 
@@ -234,28 +237,35 @@ gh issue list --unassigned
 
 ```markdown
 ## Bug Description
+
 [Description of the issue]
 
 ## Steps to Reproduce
+
 1. [Step 1]
 2. [Step 2]
 3. [Step 3]
 
 ## Expected Behavior
+
 [What should happen]
 
 ## Actual Behavior
+
 [What actually happens]
 
 ## Environment
+
 - App version:
 - OS:
 - Browser:
 
 ## Screenshots
+
 [If applicable]
 
 ## Additional Context
+
 [Any other information]
 ```
 
@@ -263,18 +273,23 @@ gh issue list --unassigned
 
 ```markdown
 ## Feature Summary
+
 [Short description]
 
 ## Problem Solved
+
 [What problem does this solve]
 
 ## Proposed Solution
+
 [How should it work]
 
 ## Alternatives Considered
+
 [Other solutions considered]
 
 ## Additional Context
+
 [Any mockups, examples, or notes]
 ```
 
@@ -287,14 +302,20 @@ gh issue list --unassigned
 async function autoLabel(issue: GitHubIssue) {
   const labels: string[] = [];
 
-  if (issue.title.includes('bug') || issue.body.includes('error')) {
-    labels.push('bug');
+  if (issue.title.includes("bug") || issue.body.includes("error")) {
+    labels.push("bug");
   }
-  if (issue.title.includes('feature') || issue.title.includes('add')) {
-    labels.push('feature');
+  if (
+    issue.title.includes("feature") ||
+    issue.title.includes("add")
+  ) {
+    labels.push("feature");
   }
-  if (issue.body.includes('critical') || issue.body.includes('urgent')) {
-    labels.push('priority:critical');
+  if (
+    issue.body.includes("critical") ||
+    issue.body.includes("urgent")
+  ) {
+    labels.push("priority:critical");
   }
 
   if (labels.length > 0) {
@@ -312,8 +333,8 @@ async function autoLabel(issue: GitHubIssue) {
 // Daily triage
 async function triageIssues() {
   const issues = await github_agentic_workflows_list_issues({
-    state: 'open',
-    labels: 'needs-triage'
+    state: "open",
+    labels: "needs-triage"
   });
 
   for (const issue of issues) {
@@ -340,13 +361,16 @@ gh issue create --title "Bug: Wallet balance not updating after transfer"
 
 ```markdown
 ## Problem
+
 Explain what you're trying to achieve
 
 ## What you've tried
+
 - Approach 1
 - Approach 2
 
 ## Current workaround
+
 Temporary solution if any
 ```
 

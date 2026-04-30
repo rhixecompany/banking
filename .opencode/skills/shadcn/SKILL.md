@@ -243,8 +243,8 @@ npx shadcn@latest view @shadcn/button
 
 ### Component Not Installing
 
-**Problem**: `npx shadcn@latest add button` fails
-**Solutions**:
+**Problem**: `npx shadcn@latest add button` fails **Solutions**:
+
 1. Check `components.json` exists in project root
 2. Verify Node.js version (18+ required)
 3. Run `npx shadcn@latest init` first if not initialized
@@ -252,8 +252,8 @@ npx shadcn@latest view @shadcn/button
 
 ### Import Errors
 
-**Problem**: Cannot find component imports
-**Solutions**:
+**Problem**: Cannot find component imports **Solutions**:
+
 1. Verify component was added: `npx shadcn@latest info`
 2. Check resolved paths in project context
 3. Ensure correct alias prefix (from `aliases` field)
@@ -261,8 +261,8 @@ npx shadcn@latest view @shadcn/button
 
 ### Style Not Applying
 
-**Problem**: Tailwind classes not working
-**Solutions**:
+**Problem**: Tailwind classes not working **Solutions**:
+
 1. Verify tailwind.config.ts includes component paths
 2. Check `tailwindCssFile` from project context
 3. Ensure `@tailwind` directives in global CSS
@@ -270,8 +270,8 @@ npx shadcn@latest view @shadcn/button
 
 ### Dark Mode Not Working
 
-**Problem**: Dark mode toggle has no effect
-**Solutions**:
+**Problem**: Dark mode toggle has no effect **Solutions**:
+
 1. Verify `next-themes` provider wraps app
 2. Check `useTheme()` hook usage
 3. Ensure semantic tokens used (bg-background, not bg-white)
@@ -279,8 +279,8 @@ npx shadcn@latest view @shadcn/button
 
 ### Hydration Mismatch
 
-**Problem**: Server/client content differs
-**Solutions**:
+**Problem**: Server/client content differs **Solutions**:
+
 1. Use dynamic imports: `dynamic(() => import(...), { ssr: false })`
 2. Add "use client" for components with random values
 3. Use `useEffect` for client-only logic
@@ -288,8 +288,8 @@ npx shadcn@latest view @shadcn/button
 
 ### Third-Party Registry Imports
 
-**Problem**: Community component has wrong imports
-**Solutions**:
+**Problem**: Community component has wrong imports **Solutions**:
+
 1. Read added files and identify hardcoded paths
 2. Rewrite imports to match project aliases
 3. Replace icon library imports if different
@@ -305,6 +305,7 @@ npx shadcn@latest view @shadcn/button
 ## Multi-Agent Examples
 
 ### OpenCode
+
 ```bash
 # Add component
 npx shadcn@latest add button dialog
@@ -317,12 +318,14 @@ npx shadcn@latest docs button
 ```
 
 ### Cursor
+
 ```
 @shadcn
 Add a login form with email and password fields
 ```
 
 ### Copilot
+
 ```
 /shadcn add button card form
 ```

@@ -18,6 +18,7 @@ This skill provides comprehensive guidelines for working with MCP (Model Context
 ## Multi-Agent Commands
 
 ### OpenCode
+
 ```bash
 # List available MCP servers
 mcp list
@@ -30,12 +31,14 @@ mcp invoke <server>.<tool> <args>
 ```
 
 ### Cursor
+
 ```
 @mcp-cli
 Connect to the banking MCP server
 ```
 
 ### Copilot
+
 ```
 /mcp servers list
 ```
@@ -233,26 +236,26 @@ mcp invoke transaction.transfer --from <wallet-id> --to <wallet-id> --amount 100
 
 ### Error Codes
 
-| Code | Description |
-|------|-------------|
-| `TOOL_NOT_FOUND` | Tool doesn't exist |
-| `INVALID_PARAMS` | Wrong parameters |
-| `SERVER_ERROR` | Server threw error |
-| `TIMEOUT` | Request timed out |
-| `AUTH_REQUIRED` | Authentication needed |
+| Code             | Description           |
+| ---------------- | --------------------- |
+| `TOOL_NOT_FOUND` | Tool doesn't exist    |
+| `INVALID_PARAMS` | Wrong parameters      |
+| `SERVER_ERROR`   | Server threw error    |
+| `TIMEOUT`        | Request timed out     |
+| `AUTH_REQUIRED`  | Authentication needed |
 
 ### Handling Errors
 
 ```typescript
 try {
-  const result = await mcp.invoke('banking.getUser', { id: '123' });
+  const result = await mcp.invoke("banking.getUser", { id: "123" });
   if (!result.success) {
-    console.error('Error:', result.error.message);
+    console.error("Error:", result.error.message);
     return;
   }
-  console.log('User:', result.result);
+  console.log("User:", result.result);
 } catch (error) {
-  console.error('Network error:', error);
+  console.error("Network error:", error);
 }
 ```
 
@@ -262,15 +265,15 @@ try {
 
 ```json
 {
+  "defaults": {
+    "timeout": 30000,
+    "retries": 3
+  },
   "servers": {
     "banking-api": {
       "command": "bun",
       "args": ["run", "scripts/mcp-runner.ts"]
     }
-  },
-  "defaults": {
-    "timeout": 30000,
-    "retries": 3
   }
 }
 ```
@@ -305,10 +308,14 @@ interface BankingTool {
 ### 2. Handle Timeouts
 
 ```typescript
-const result = await mcp.invoke('banking.getUser', { id: '123' }, {
-  timeout: 5000,
-  retries: 3
-});
+const result = await mcp.invoke(
+  "banking.getUser",
+  { id: "123" },
+  {
+    timeout: 5000,
+    retries: 3
+  }
+);
 ```
 
 ### 3. Cache Results
@@ -320,7 +327,7 @@ async function getUser(id: string) {
   const key = `user:${id}`;
   if (cache.has(key)) return cache.get(key);
 
-  const result = await mcp.invoke('banking.getUser', { id });
+  const result = await mcp.invoke("banking.getUser", { id });
   cache.set(key, result);
   return result;
 }
@@ -331,10 +338,10 @@ async function getUser(id: string) {
 ```typescript
 function validateParams(params: unknown): params is UserParams {
   return (
-    typeof params === 'object' &&
+    typeof params === "object" &&
     params !== null &&
-    'id' in params &&
-    typeof (params as any).id === 'string'
+    "id" in params &&
+    typeof (params as any).id === "string"
   );
 }
 ```
@@ -344,19 +351,19 @@ function validateParams(params: unknown): params is UserParams {
 ### Unit Test
 
 ```typescript
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi } from "vitest";
 
-vi.mock('mcp', () => ({
+vi.mock("mcp", () => ({
   invoke: vi.fn().mockResolvedValue({
     success: true,
-    result: { id: '123', name: 'Test' }
+    result: { id: "123", name: "Test" }
   })
 }));
 
-describe('Banking MCP', () => {
-  it('should get user', async () => {
-    const user = await getUser('123');
-    expect(user.name).toBe('Test');
+describe("Banking MCP", () => {
+  it("should get user", async () => {
+    const user = await getUser("123");
+    expect(user.name).toBe("Test");
   });
 });
 ```
@@ -364,9 +371,9 @@ describe('Banking MCP', () => {
 ### Integration Test
 
 ```typescript
-it('should list transactions', async () => {
-  const result = await mcp.invoke('transaction.list', {
-    walletId: 'wallet-123',
+it("should list transactions", async () => {
+  const result = await mcp.invoke("transaction.list", {
+    walletId: "wallet-123",
     limit: 10
   });
 
@@ -379,8 +386,8 @@ it('should list transactions', async () => {
 
 ### Server Not Starting
 
-**Problem**: Server fails to start
-**Solutions**:
+**Problem**: Server fails to start **Solutions**:
+
 1. Check command and args
 2. Verify dependencies installed
 3. Check port availability
@@ -388,16 +395,16 @@ it('should list transactions', async () => {
 
 ### Tool Not Found
 
-**Problem**: `Tool not found` error
-**Solutions**:
+**Problem**: `Tool not found` error **Solutions**:
+
 1. List available tools: `mcp tools`
 2. Check server is running
 3. Verify tool name format (server.tool)
 
 ### Timeout Errors
 
-**Problem**: Request times out
-**Solutions**:
+**Problem**: Request times out **Solutions**:
+
 1. Increase timeout in config
 2. Check server performance
 3. Reduce request size

@@ -2,6 +2,8 @@
 name: session-logger
 description: >-
   Logs all opencode coding agent session activity for audit and analysis. Use when tracking agent activity, auditing decisions, or analyzing session patterns.
+
+
 metadata:
   surfaces:
     - cli
@@ -26,6 +28,7 @@ Log all AI agent session activity for audit, analysis, and improvement. This com
 ### OpenCode
 
 In OpenCode:
+
 - Use built-in session logging features
 - Access logs via session management tools
 - Export session data for analysis
@@ -34,6 +37,7 @@ In OpenCode:
 ### Cursor
 
 In Cursor IDE:
+
 - Use the Activity Log panel
 - Access session history in the sidebar
 - Export session data via settings
@@ -42,6 +46,7 @@ In Cursor IDE:
 ### GitHub Copilot
 
 In Copilot CLI or VS Code:
+
 - Use VS Code's Output panel for logs
 - Access Copilot chat history
 - Configure telemetry settings
@@ -51,26 +56,26 @@ In Copilot CLI or VS Code:
 
 ### What to Log
 
-| Category | Examples | Importance |
-|----------|----------|------------|
-| **Actions** | File reads, writes, edits | High |
-| **Decisions** | Code choices, refactoring | High |
-| **Errors** | Failures, exceptions | Critical |
-| **Tool Usage** | Commands, API calls | Medium |
-| **Context** | User requests, clarifications | High |
-| **Outcomes** | Results, completions | High |
+| Category       | Examples                      | Importance |
+| -------------- | ----------------------------- | ---------- |
+| **Actions**    | File reads, writes, edits     | High       |
+| **Decisions**  | Code choices, refactoring     | High       |
+| **Errors**     | Failures, exceptions          | Critical   |
+| **Tool Usage** | Commands, API calls           | Medium     |
+| **Context**    | User requests, clarifications | High       |
+| **Outcomes**   | Results, completions          | High       |
 
 ### Log Entry Structure
 
 ```json
 {
-  "timestamp": "2026-04-29T12:00:00Z",
-  "sessionId": "session-123",
   "action": "file_read",
-  "target": "src/app/page.tsx",
   "context": "User requested homepage update",
+  "duration": 150,
   "outcome": "success",
-  "duration": 150
+  "sessionId": "session-123",
+  "target": "src/app/page.tsx",
+  "timestamp": "2026-04-29T12:00:00Z"
 }
 ```
 
@@ -189,7 +194,7 @@ interface ExtendedMetadata extends SessionMetadata {
 ### Storage Options
 
 | Storage Type | Use Case | Pros | Cons |
-|--------------|----------|------|------|
+| --- | --- | --- | --- |
 | **Local Files** | Single sessions | Simple, private | No sharing |
 | **Database** | Long-term storage | Searchable, scalable | Setup required |
 | **Cloud Storage** | Team sharing | Accessible, backup | Privacy concerns |
@@ -241,7 +246,9 @@ function analyzeSessionDuration(logs: LogEntry[]): DurationStats {
 
 ```typescript
 // Count action types
-function analyzeActionFrequency(logs: LogEntry[]): Record<string, number> {
+function analyzeActionFrequency(
+  logs: LogEntry[]
+): Record<string, number> {
   return logs.reduce((acc, log) => {
     acc[log.action] = (acc[log.action] || 0) + 1;
     return acc;
@@ -279,11 +286,11 @@ async function replaySession(logs: LogEntry[]): Promise<void> {
 
 ### Replay Options
 
-| Option | Description |
-|--------|-------------|
-| `real-time` | Replay at original speed |
-| `fast` | Skip delays, show key moments |
-| `step` | Manual stepping through logs |
+| Option      | Description                   |
+| ----------- | ----------------------------- |
+| `real-time` | Replay at original speed      |
+| `fast`      | Skip delays, show key moments |
+| `step`      | Manual stepping through logs  |
 
 ## 7. Audit Trail
 
@@ -495,6 +502,7 @@ async function exportSession(
 ### Issue: Logs not being created
 
 **Solution:**
+
 1. Check log level configuration
 2. Verify file/DB permissions
 3. Check disk space
@@ -502,6 +510,7 @@ async function exportSession(
 ### Issue: Large log files
 
 **Solution:**
+
 1. Enable log rotation
 2. Compress old logs
 3. Set retention policy
@@ -510,6 +519,7 @@ async function exportSession(
 ### Issue: Privacy concerns
 
 **Solution:**
+
 1. Enable sanitization
 2. Hash user identifiers
 3. Exclude sensitive paths
@@ -543,18 +553,19 @@ function compareSessions(
   return {
     durationDiff: sessionB.duration - sessionA.duration,
     actionCountDiff: sessionB.logs.length - sessionA.logs.length,
-    errorRateDiff: calculateErrorRate(sessionB) - calculateErrorRate(sessionA)
+    errorRateDiff:
+      calculateErrorRate(sessionB) - calculateErrorRate(sessionA)
   };
 }
 ```
 
 ## Cross-Platform Commands
 
-| Platform | Command |
-|----------|---------|
+| Platform | Command                      |
+| -------- | ---------------------------- |
 | OpenCode | Use session management tools |
-| Cursor | Use Activity Log panel |
-| Copilot | Use Output panel |
+| Cursor   | Use Activity Log panel       |
+| Copilot  | Use Output panel             |
 
 ## Related Skills
 

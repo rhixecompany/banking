@@ -49,6 +49,7 @@ Convert all shell scripts (`.sh`, `.ps1`, `.bat`) in `scripts/` directory to orc
 ## Test Scenarios
 
 ### Orchestrator Pattern Test
+
 - Verify each `.sh`, `.ps1`, `.bat` in scripts/ only contains:
   - `#!/usr/bin/env` or shebang
   - Comments and documentation
@@ -56,14 +57,17 @@ Convert all shell scripts (`.sh`, `.ps1`, `.bat`) in `scripts/` directory to orc
   - NO: embedded logic, complex conditionals, direct file operations
 
 ### Cross-Platform Test
+
 - Verify both `.sh` and `.ps1`/`.bat` versions of same script exist
 - Verify both are orchestrators (call same TS or CLI)
 
 ### Package.json Test
+
 - Run `npm run` to see all available scripts - all should work
 - Verify no scripts reference deleted shell wrappers
 
 ### Documentation Test
+
 - Check AGENTS.md mentions orchestrator pattern for scripts/
 - Check SCRIPTING_STANDARDS.md exists and documents the pattern
 - Check codemap.md includes scripts/ section
@@ -73,7 +77,7 @@ Convert all shell scripts (`.sh`, `.ps1`, `.bat`) in `scripts/` directory to orc
 ### High Priority (Embedded Logic - Needs Conversion)
 
 | Shell Script | Issue | Action |
-|--------------|-------|--------|
+| --- | --- | --- |
 | scripts/utils/check-events.ps1 | Embedded PowerShell logic | Convert to TS, create orchestrator |
 | scripts/utils/check-events.sh | Embedded bash logic | Convert to TS, create orchestrator |
 | scripts/utils/check-events-detail.ps1 | Embedded PowerShell logic | Convert to TS, create orchestrator |
@@ -86,7 +90,7 @@ Convert all shell scripts (`.sh`, `.ps1`, `.bat`) in `scripts/` directory to orc
 ### Medium Priority (Missing TS Version - Needs Creation)
 
 | Shell Script | Missing | Action |
-|--------------|---------|--------|
+| --- | --- | --- |
 | scripts/opencode-plugin-verify.sh | No TS version | Create TS wrapper |
 | scripts/opencode-plugin-repair.sh | No TS version | Create TS wrapper |
 | scripts/diagnose-and-fix-git.sh | No TS version | Create TS wrapper |
@@ -97,7 +101,7 @@ Convert all shell scripts (`.sh`, `.ps1`, `.bat`) in `scripts/` directory to orc
 ### Low Priority (Already Orchestrators - Verify OK)
 
 | Shell Script | Status | Notes |
-|--------------|--------|-------|
+| --- | --- | --- |
 | scripts/utils/disable-extensions.sh | OK | Already orchestrator calling tsx |
 | scripts/utils/fix-line-endings.sh | OK | Already orchestrator |
 | scripts/utils/fix-line-endings.ps1 | OK | Already orchestrator |
@@ -113,7 +117,7 @@ Convert all shell scripts (`.sh`, `.ps1`, `.bat`) in `scripts/` directory to orc
 ### Package.json Updates Required
 
 | Old Script Reference | New TS Reference |
-|---------------------|------------------|
+| --- | --- |
 | bash scripts/utils/fix-line-endings.sh | bunx tsx scripts/ts/utils/fix-line-endings.ts |
 | bash scripts/server/gen-certs.sh | bunx tsx scripts/ts/server/gen-certs.ts |
 | bash scripts/server/server-setup.sh | bunx tsx scripts/ts/server/server-setup.ts |

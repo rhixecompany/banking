@@ -20,11 +20,16 @@ interface VerifyReport {
 }
 
 const REPO_ROOT = path.resolve(__dirname, "..");
-const PROJECT_CONFIG = process.env.PROJECT_CONFIG || path.join(REPO_ROOT, "aiconfig.json");
-const REPORT_DIR = process.env.REPORT_DIR || path.join(REPO_ROOT, ".opencode/reports");
+const PROJECT_CONFIG =
+  process.env.PROJECT_CONFIG || path.join(REPO_ROOT, "aiconfig.json");
+const REPORT_DIR =
+  process.env.REPORT_DIR || path.join(REPO_ROOT, ".opencode/reports");
 
 const RAW_REPORT = path.join(REPORT_DIR, "opencode-debug-config.raw.txt");
-const RUNTIME_REPORT = path.join(REPORT_DIR, "opencode-debug-config.runtime.json");
+const RUNTIME_REPORT = path.join(
+  REPORT_DIR,
+  "opencode-debug-config.runtime.json",
+);
 const VERIFY_REPORT = path.join(REPORT_DIR, "opencode-plugin-verify.json");
 
 function log(msg: string): void {
@@ -123,10 +128,16 @@ async function main(): Promise<void> {
 
   // Load and compare configs
   const projectConfig = JSON.parse(fs.readFileSync(PROJECT_CONFIG, "utf-8"));
-  const runtimeConfigData = JSON.parse(fs.readFileSync(RUNTIME_REPORT, "utf-8"));
+  const runtimeConfigData = JSON.parse(
+    fs.readFileSync(RUNTIME_REPORT, "utf-8"),
+  );
 
-  const projectPlugins = Array.isArray(projectConfig.plugin) ? projectConfig.plugin : [];
-  const runtimePlugins = Array.isArray(runtimeConfigData.plugin) ? runtimeConfigData.plugin : [];
+  const projectPlugins = Array.isArray(projectConfig.plugin)
+    ? projectConfig.plugin
+    : [];
+  const runtimePlugins = Array.isArray(runtimeConfigData.plugin)
+    ? runtimeConfigData.plugin
+    : [];
 
   const expected = dedupe(projectPlugins);
   const runtime = dedupe(runtimePlugins);
@@ -136,7 +147,10 @@ async function main(): Promise<void> {
   const projectDuplicates = findDuplicates(projectPlugins);
   const runtimeDuplicates = findDuplicates(runtimePlugins);
 
-  const ok = missing.length === 0 && projectDuplicates.length === 0 && runtimeDuplicates.length === 0;
+  const ok =
+    missing.length === 0 &&
+    projectDuplicates.length === 0 &&
+    runtimeDuplicates.length === 0;
 
   const summary: VerifyReport = {
     ok,

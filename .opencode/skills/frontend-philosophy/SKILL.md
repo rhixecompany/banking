@@ -18,6 +18,7 @@ This skill establishes the visual and UI philosophy for the Banking project. It 
 ## Multi-Agent Commands
 
 ### OpenCode
+
 ```bash
 # Check component patterns
 grep -r "cn(" components/ --include="*.tsx"
@@ -27,12 +28,14 @@ grep -r "bg-" app/ --include="*.tsx" | head -20
 ```
 
 ### Cursor
+
 ```
 @frontend-philosophy
 Design a login form following intentional UI principles
 ```
 
 ### Copilot
+
 ```
 /ui philosophy dashboard
 ```
@@ -135,32 +138,32 @@ Accessibility is not an afterthought.
 
 ```typescript
 // Use semantic tokens, not hardcoded colors
-bg-background    // Page background
-bg-card         // Card background
-bg-popover      // Popover background
-bg-muted        // Muted/secondary background
-bg-primary      // Primary brand color
+bg - background; // Page background
+bg - card; // Card background
+bg - popover; // Popover background
+bg - muted; // Muted/secondary background
+bg - primary; // Primary brand color
 ```
 
 ### Text Colors
 
 ```typescript
 // Semantic text colors
-text-foreground    // Primary text
-text-muted         // Secondary text
-text-muted-foreground  // Muted text
-text-destructive   // Error/destructive
-text-success       // Success state
+text - foreground; // Primary text
+text - muted; // Secondary text
+text - muted - foreground; // Muted text
+text - destructive; // Error/destructive
+text - success; // Success state
 ```
 
 ### Border Colors
 
 ```typescript
 // Semantic borders
-border             // Default border
-border-input       // Input borders
-border-ring        // Focus rings
-border-destructive // Error borders
+border; // Default border
+border - input; // Input borders
+border - ring; // Focus rings
+border - destructive; // Error borders
 ```
 
 ## Banking-Specific Patterns

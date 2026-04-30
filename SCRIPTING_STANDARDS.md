@@ -17,6 +17,7 @@ All shell scripts (`.sh`, `.ps1`, `.bat`) in `scripts/` MUST be orchestrators th
 ### Definition
 
 An orchestrator is a shell script that:
+
 - Only contains shebang, comments, and parameter parsing
 - Delegates to a TypeScript implementation via `bunx tsx`, `npx tsx`, or `node`
 - Contains NO embedded business logic
@@ -57,6 +58,7 @@ done
 ### Phase 1: Identify
 
 Categorize each script:
+
 - **Orchestrator (OK)**: Only calls TS/CLI
 - **Has embedded logic**: Contains code that should be TS
 - **Missing TS**: Shell exists but no TS version
@@ -74,17 +76,17 @@ Categorize each script:
 // Before
 "deploy:run": "bash scripts/deploy/deploy.sh"
 
-// After  
+// After
 "deploy:run": "bunx tsx scripts/ts/deploy/deploy.ts"
 ```
 
 ## Cross-Platform Guidelines
 
-| Platform | Tool | Command |
-| ----------| ---- |---------|
-| Unix | bun | `bunx tsx scripts/ts/...` |
-| Windows | bun | `bunx tsx scripts/ts/...-windows.ts` |
-| Both | node | `node scripts/ts/...` |
+| Platform | Tool | Command                              |
+| -------- | ---- | ------------------------------------ |
+| Unix     | bun  | `bunx tsx scripts/ts/...`            |
+| Windows  | bun  | `bunx tsx scripts/ts/...-windows.ts` |
+| Both     | node | `node scripts/ts/...`                |
 
 ### File Naming
 
@@ -95,6 +97,7 @@ Categorize each script:
 ## Exceptions
 
 Scripts that CAN contain embedded shell logic:
+
 - `fix-line-endings.sh` - uses `sed`/`find` (unavailable in cross-platform TS)
 - `diagnose-and-fix-git.sh` - git porcelain commands
 - `server/vps-setup.sh` - system-level installation

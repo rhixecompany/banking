@@ -2,6 +2,8 @@
 name: canvas
 description: >-
   A Cursor Canvas is a live React app that the user can open beside the chat. You MUST use a canvas when the agent produces a standalone analytical artifact — quantitative analyses, billing investigations, security audits, architecture reviews, data-heavy content, timelines, charts, tables, interactive explorations, repeatable tools, or any response that benefits from visual layout. Especially prefer a canvas when presenting results from MCP tools (Datadog, Databricks, Linear, Sentry, Slack, etc.) where the data is the deliverable — render it in a rich canvas rather than dumping it into a markdown table or code block.
+
+
 metadata:
   surfaces:
     - cli
@@ -30,6 +32,7 @@ Create rich, interactive visual artifacts using Cursor Canvas. This skill provid
 ### OpenCode
 
 In OpenCode:
+
 - Canvas files use `.canvas.tsx` extension
 - Render as standalone React applications
 - Can use data visualization libraries
@@ -38,6 +41,7 @@ In OpenCode:
 ### Cursor
 
 In Cursor IDE:
+
 - Use the Canvas feature for visual outputs
 - Render charts and graphs
 - Create interactive tables
@@ -46,6 +50,7 @@ In Cursor IDE:
 ### GitHub Copilot
 
 In Copilot CLI or VS Code:
+
 - Create VS Code webviews for visual output
 - Use Dataframe visualization
 - Build interactive notebooks
@@ -80,11 +85,14 @@ interface DataPoint {
 }
 
 export default function DataCanvas() {
-  const data: DataPoint[] = useMemo(() => [
-    { label: "Q1", value: 100, timestamp: "2026-01" },
-    { label: "Q2", value: 150, timestamp: "2026-02" },
-    { label: "Q3", value: 200, timestamp: "2026-03" },
-  ], []);
+  const data: DataPoint[] = useMemo(
+    () => [
+      { label: "Q1", value: 100, timestamp: "2026-01" },
+      { label: "Q2", value: 150, timestamp: "2026-02" },
+      { label: "Q3", value: 200, timestamp: "2026-03" }
+    ],
+    []
+  );
 
   return (
     <div className="p-6">
@@ -100,7 +108,7 @@ export default function DataCanvas() {
 ### Use Canvas For
 
 | Scenario | Example | Why Canvas |
-|----------|---------|------------|
+| --- | --- | --- |
 | **Quantitative analysis** | Revenue breakdown by category | Visual hierarchy, charts |
 | **Billing investigation** | Invoice line items | Tables with sorting |
 | **Security audit** | Vulnerability report | Severity indicators |
@@ -113,12 +121,12 @@ export default function DataCanvas() {
 
 ### Don't Use Canvas For
 
-| Scenario | Use Instead |
-|----------|-------------|
-| Simple text response | Markdown |
-| Code snippets | Code block |
-| Quick status update | Chat message |
-| Single metric | Inline text |
+| Scenario             | Use Instead  |
+| -------------------- | ------------ |
+| Simple text response | Markdown     |
+| Code snippets        | Code block   |
+| Quick status update  | Chat message |
+| Single metric        | Inline text  |
 
 ## 3. Canvas Components
 
@@ -128,7 +136,9 @@ export default function DataCanvas() {
 // Interactive data table
 export function DataTable({ data, columns }: TableProps) {
   const [sortField, setSortField] = useState<string | null>(null);
-  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">(
+    "asc"
+  );
 
   const sortedData = useMemo(() => {
     if (!sortField) return data;
@@ -136,8 +146,12 @@ export function DataTable({ data, columns }: TableProps) {
       const aVal = a[sortField];
       const bVal = b[sortField];
       return sortDirection === "asc"
-        ? aVal > bVal ? 1 : -1
-        : aVal < bVal ? 1 : -1;
+        ? aVal > bVal
+          ? 1
+          : -1
+        : aVal < bVal
+          ? 1
+          : -1;
     });
   }, [data, sortField, sortDirection]);
 
@@ -150,7 +164,9 @@ export function DataTable({ data, columns }: TableProps) {
               key={col.key}
               onClick={() => {
                 if (sortField === col.key) {
-                  setSortDirection(d => d === "asc" ? "desc" : "asc");
+                  setSortDirection(d =>
+                    d === "asc" ? "desc" : "asc"
+                  );
                 } else {
                   setSortField(col.key);
                   setSortDirection("asc");
@@ -159,7 +175,8 @@ export function DataTable({ data, columns }: TableProps) {
               className="cursor-pointer"
             >
               {col.label}
-              {sortField === col.key && (sortDirection === "asc" ? " ↑" : " ↓")}
+              {sortField === col.key &&
+                (sortDirection === "asc" ? " ↑" : " ↓")}
             </th>
           ))}
         </tr>
@@ -218,10 +235,15 @@ export function Timeline({ events }: { events: TimelineEvent[] }) {
       <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-gray-300" />
       {events.map((event, i) => (
         <div key={i} className="relative pl-8 pb-8">
-          <div className={`absolute left-2 w-4 h-4 rounded-full ${
-            event.type === "milestone" ? "bg-green-500" :
-            event.type === "task" ? "bg-blue-500" : "bg-red-500"
-          }`} />
+          <div
+            className={`absolute left-2 w-4 h-4 rounded-full ${
+              event.type === "milestone"
+                ? "bg-green-500"
+                : event.type === "task"
+                  ? "bg-blue-500"
+                  : "bg-red-500"
+            }`}
+          />
           <div className="text-sm text-gray-500">{event.date}</div>
           <div className="font-semibold">{event.title}</div>
           <div className="text-gray-600">{event.description}</div>
@@ -250,10 +272,14 @@ export function MetricsDashboard({ metrics }: { metrics: Metric[] }) {
         <div key={i} className="p-4 border rounded">
           <div className="text-gray-500 text-sm">{metric.label}</div>
           <div className="text-2xl font-bold">
-            {metric.value}{metric.unit}
+            {metric.value}
+            {metric.unit}
           </div>
-          <div className={`text-sm ${metric.change >= 0 ? "text-green-500" : "text-red-500"}`}>
-            {metric.change >= 0 ? "↑" : "↓"} {Math.abs(metric.change)}%
+          <div
+            className={`text-sm ${metric.change >= 0 ? "text-green-500" : "text-red-500"}`}
+          >
+            {metric.change >= 0 ? "↑" : "↓"} {Math.abs(metric.change)}
+            %
           </div>
         </div>
       ))}
@@ -296,11 +322,13 @@ export function DataExplorer({ data }) {
 
   const filteredData = useMemo(() => {
     return data.filter(row => {
-      const matchesSearch = !search || Object.values(row).some(v =>
-        String(v).toLowerCase().includes(search.toLowerCase())
-      );
-      const matchesFilters = Object.entries(filters).every(([key, value]) =>
-        !value || row[key] === value
+      const matchesSearch =
+        !search ||
+        Object.values(row).some(v =>
+          String(v).toLowerCase().includes(search.toLowerCase())
+        );
+      const matchesFilters = Object.entries(filters).every(
+        ([key, value]) => !value || row[key] === value
       );
       return matchesSearch && matchesFilters;
     });
@@ -488,7 +516,7 @@ import { useVirtualizer } from "@tanstack/react-virtual";
 const rowVirtualizer = useVirtualizer({
   count: data.length,
   getScrollElement: () => parentRef.current,
-  estimateSize: () => 35,
+  estimateSize: () => 35
 });
 ```
 
@@ -497,6 +525,7 @@ const rowVirtualizer = useVirtualizer({
 ### Issue: Canvas not rendering
 
 **Solution:**
+
 1. Check file extension is `.canvas.tsx`
 2. Verify React component is default export
 3. Check for console errors
@@ -504,6 +533,7 @@ const rowVirtualizer = useVirtualizer({
 ### Issue: Data not displaying
 
 **Solution:**
+
 1. Verify data structure matches component expectations
 2. Check for null/undefined values
 3. Add loading and empty states
@@ -511,6 +541,7 @@ const rowVirtualizer = useVirtualizer({
 ### Issue: Performance issues
 
 **Solution:**
+
 1. Add memoization for expensive operations
 2. Implement pagination for large datasets
 3. Use virtualization for long lists

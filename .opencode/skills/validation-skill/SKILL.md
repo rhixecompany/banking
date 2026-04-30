@@ -62,7 +62,10 @@ export const signUpSchema = z.object({
     .min(8, "Password must be at least 8 characters")
     .regex(/[A-Z]/, "Must contain at least one uppercase letter")
     .regex(/[0-9]/, "Must contain at least one number")
-    .regex(/[^a-zA-Z0-9]/, "Must contain at least one special character")
+    .regex(
+      /[^a-zA-Z0-9]/,
+      "Must contain at least one special character"
+    )
     .meta({ description: "User password for account security" })
 });
 ```
@@ -108,7 +111,10 @@ export const createWalletSchema = z.object({
     .string()
     .min(1, "Wallet name is required")
     .max(50, "Wallet name cannot exceed 50 characters")
-    .regex(/^[a-zA-Z0-9\s\-_]+$/, "Wallet name contains invalid characters")
+    .regex(
+      /^[a-zA-Z0-9\s\-_]+$/,
+      "Wallet name contains invalid characters"
+    )
     .meta({ description: "Name for the new wallet" }),
   type: z
     .enum(["checking", "savings", "investment"], {
@@ -126,42 +132,53 @@ export const createWalletSchema = z.object({
 #### Transaction Filter Schema
 
 ```typescript
-export const transactionFilterSchema = z.object({
-  startDate: z
-    .string()
-    .regex(/^\d{4}-\d{2}-\d{2}$/, "Date must be in YYYY-MM-DD format")
-    .optional()
-    .meta({ description: "Filter transactions from this date" }),
-  endDate: z
-    .string()
-    .regex(/^\d{4}-\d{2}-\d{2}$/, "Date must be in YYYY-MM-DD format")
-    .optional()
-    .meta({ description: "Filter transactions until this date" }),
-  type: z
-    .enum(["debit", "credit", "transfer"], {
-      errorMap: () => ({ message: "Invalid transaction type" })
-    })
-    .optional()
-    .meta({ description: "Filter by transaction type" }),
-  minAmount: z.coerce
-    .number()
-    .positive()
-    .optional()
-    .meta({ description: "Minimum transaction amount" }),
-  maxAmount: z.coerce
-    .number()
-    .positive()
-    .optional()
-    .meta({ description: "Maximum transaction amount" })
-}).refine(data => {
-  if (data.startDate && data.endDate) {
-    return new Date(data.startDate) <= new Date(data.endDate);
-  }
-  return true;
-}, {
-  message: "Start date must be before end date",
-  path: ["startDate"]
-});
+export const transactionFilterSchema = z
+  .object({
+    startDate: z
+      .string()
+      .regex(
+        /^\d{4}-\d{2}-\d{2}$/,
+        "Date must be in YYYY-MM-DD format"
+      )
+      .optional()
+      .meta({ description: "Filter transactions from this date" }),
+    endDate: z
+      .string()
+      .regex(
+        /^\d{4}-\d{2}-\d{2}$/,
+        "Date must be in YYYY-MM-DD format"
+      )
+      .optional()
+      .meta({ description: "Filter transactions until this date" }),
+    type: z
+      .enum(["debit", "credit", "transfer"], {
+        errorMap: () => ({ message: "Invalid transaction type" })
+      })
+      .optional()
+      .meta({ description: "Filter by transaction type" }),
+    minAmount: z.coerce
+      .number()
+      .positive()
+      .optional()
+      .meta({ description: "Minimum transaction amount" }),
+    maxAmount: z.coerce
+      .number()
+      .positive()
+      .optional()
+      .meta({ description: "Maximum transaction amount" })
+  })
+  .refine(
+    data => {
+      if (data.startDate && data.endDate) {
+        return new Date(data.startDate) <= new Date(data.endDate);
+      }
+      return true;
+    },
+    {
+      message: "Start date must be before end date",
+      path: ["startDate"]
+    }
+  );
 ```
 
 ### Form Integration
@@ -455,10 +472,10 @@ const paymentMethod = z.discriminatedUnion("type", [
 
 ```typescript
 // ❌ Wrong
-name: z.string().min(2)
+name: z.string().min(2);
 
 // ✅ Correct
-name: z.string().min(2).meta({ description: "User's display name" })
+name: z.string().min(2).meta({ description: "User's display name" });
 ```
 
 #### 5. Missing error messages
@@ -469,10 +486,10 @@ name: z.string().min(2).meta({ description: "User's display name" })
 
 ```typescript
 // ❌ Wrong
-email: z.string().email()
+email: z.string().email();
 
 // ✅ Correct
-email: z.string().email("Please enter a valid email address")
+email: z.string().email("Please enter a valid email address");
 ```
 
 #### 6. Form input not converting to number
@@ -483,10 +500,10 @@ email: z.string().email("Please enter a valid email address")
 
 ```typescript
 // ❌ Wrong - will fail for form input "100"
-amount: z.number().min(0)
+amount: z.number().min(0);
 
 // ✅ Correct - coerces "100" to 100
-amount: z.coerce.number().min(0)
+amount: z.coerce.number().min(0);
 ```
 
 #### 7. Custom validation not working
@@ -522,6 +539,7 @@ When using OpenCode, validation skills are automatically loaded when working wit
 ### Cursor
 
 Cursor IDE users can leverage the validation skill for:
+
 - Real-time ESLint feedback on Zod schemas
 - Auto-completion for Zod methods
 - Quick fixes for missing `.meta()` and error messages
@@ -529,6 +547,7 @@ Cursor IDE users can leverage the validation skill for:
 ### Copilot
 
 GitHub Copilot suggestions include:
+
 - Schema templates based on context
 - Proper error message formatting
 - Type inference patterns

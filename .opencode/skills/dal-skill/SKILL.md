@@ -10,12 +10,13 @@ applyTo: "dal/**"
 ## Agent Support
 
 | Agent | Integration | Usage |
-|-------|-------------|-------|
+| --- | --- | --- |
 | **OpenCode** | Direct skill invocation | `skill("dal-skill")` when accessing database |
 | **Cursor** | `.cursorrules` reference | Add to project rules for DAL patterns |
 | **Copilot** | `.github/copilot-instructions.md` | Reference for data access patterns |
 
 ### OpenCode Usage
+
 ```
 # When querying the database
 Use dal-skill for type-safe DAL patterns.
@@ -25,6 +26,7 @@ Load dal-skill for eager loading patterns.
 ```
 
 ### Cursor Integration
+
 ```json
 // .cursorrules - Add DAL patterns
 {
@@ -37,11 +39,14 @@ Load dal-skill for eager loading patterns.
 ```
 
 ### Copilot Integration
+
 ```markdown
 <!-- .github/copilot-instructions.md -->
+
 ## DAL Patterns
 
 All DB access must go through dal/ classes:
+
 - Never query directly from Server Actions
 - Prevent N+1 with eager loading
 - Use transactions for multi-step operations
@@ -61,6 +66,7 @@ The DAL (Data Access Layer) is the mandatory pattern for all database operations
 ## Multi-Agent Support
 
 ### OpenCode
+
 ```bash
 # Query patterns
 dal/user.dal.ts findByEmail findById create update delete
@@ -71,6 +77,7 @@ dal/wallet.dal.ts findByUserIdWithTransactions
 ```
 
 ### Cursor
+
 ```typescript
 // Import pattern
 import { userDal } from "@/dal";
@@ -78,14 +85,16 @@ import { transactionDal } from "@/dal";
 
 // Use class methods
 const user = await userDal.findByEmail("user@example.com");
-const transactions = await transactionDal.findByUserIdWithWallets(userId);
+const transactions =
+  await transactionDal.findByUserIdWithWallets(userId);
 ```
 
 ### GitHub Copilot
+
 ```typescript
 // Tab completion for DAL methods
-userDal.findById(id)    // autocomplete shows available methods
-transactionDal.create(data)  // type-safe inserts
+userDal.findById(id); // autocomplete shows available methods
+transactionDal.create(data); // type-safe inserts
 ```
 
 ## Core Principles
@@ -93,15 +102,20 @@ transactionDal.create(data)  // type-safe inserts
 ### 1. Never Query Directly from Actions/Pages
 
 **INCORRECT:**
+
 ```typescript
 // actions/transfer.ts - DON'T DO THIS
 import { db } from "@/database/db";
 import { wallets } from "@/database/schema";
 
-const wallet = await db.select().from(wallets).where(eq(wallets.id, id));
+const wallet = await db
+  .select()
+  .from(wallets)
+  .where(eq(wallets.id, id));
 ```
 
 **CORRECT:**
+
 ```typescript
 // actions/transfer.ts - DO THIS
 import { walletDal } from "@/dal";
@@ -112,17 +126,20 @@ const wallet = await walletDal.findById(id);
 ### 2. Prevent N+1 Queries (CRITICAL)
 
 **INCORRECT — N+1 Pattern:**
+
 ```typescript
 // BAD: Causes N+1 queries
 const wallets = await walletDal.findByUserId(userId);
 for (const wallet of wallets) {
-  const txns = await db.select()
+  const txns = await db
+    .select()
     .from(transactions)
     .where(eq(transactions.senderWalletId, wallet.id));
 }
 ```
 
 **CORRECT — Eager Loading:**
+
 ```typescript
 // GOOD: Single query with JOIN
 const wallets = await walletDal.findByUserIdWithTransactions(userId);
@@ -136,13 +153,16 @@ import { db } from "@/database/db";
 import { walletDal } from "@/dal";
 import { transactionDal } from "@/dal";
 
-await db.transaction(async (tx) => {
+await db.transaction(async tx => {
   await walletDal.updateBalance(walletId, amount, tx);
-  await transactionDal.create({
-    senderWalletId: walletId,
-    amount,
-    type: "transfer"
-  }, tx);
+  await transactionDal.create(
+    {
+      senderWalletId: walletId,
+      amount,
+      type: "transfer"
+    },
+    tx
+  );
 });
 ```
 
@@ -187,15 +207,20 @@ export class UserDal {
     return user;
   }
 
-  async create(data: Omit<typeof users.$inferInsert, "id" | "createdAt" | "updatedAt">): Promise<User> {
-    const [user] = await db
-      .insert(users)
-      .values(data)
-      .returning();
+  async create(
+    data: Omit<
+      typeof users.$inferInsert,
+      "id" | "createdAt" | "updatedAt"
+    >
+  ): Promise<User> {
+    const [user] = await db.insert(users).values(data).returning();
     return user;
   }
 
-  async update(id: string, data: Partial<typeof users.$inferInsert>): Promise<User | undefined> {
+  async update(
+    id: string,
+    data: Partial<typeof users.$inferInsert>
+  ): Promise<User | undefined> {
     const [user] = await db
       .update(users)
       .set(data)
@@ -205,9 +230,7 @@ export class UserDal {
   }
 
   async delete(id: string): Promise<boolean> {
-    const result = await db
-      .delete(users)
-      .where(eq(users.id, id));
+    const result = await db.delete(users).where(eq(users.id, id));
     return result.rowCount > 0;
   }
 }
@@ -225,7 +248,11 @@ import { eq, desc } from "drizzle-orm";
 
 export const transactionDal = {
   async findById(id: string) {
-    return db.select().from(transactions).where(eq(transactions.id, id)).limit(1);
+    return db
+      .select()
+      .from(transactions)
+      .where(eq(transactions.id, id))
+      .limit(1);
   },
 
   async findByUserIdWithWallets(userId: string) {
@@ -252,8 +279,10 @@ export const transactionDal = {
     // Map wallets back to transactions
     return userWallets.map(wallet => ({
       wallet,
-      transactions: txns.filter(t =>
-        t.senderWalletId === wallet.id || t.recipientWalletId === wallet.id
+      transactions: txns.filter(
+        t =>
+          t.senderWalletId === wallet.id ||
+          t.recipientWalletId === wallet.id
       )
     }));
   }
@@ -386,13 +415,15 @@ grep -r "for.*of.*await" dal/ || echo "No N+1 patterns found"
 ## Common Issues
 
 ### 1. Circular Imports
+
 ```typescript
 // Use @/database/db and @/database/schema imports
-import { db } from "@/database/db";  // CORRECT
-import { db } from "../../database/db";  // AVOID
+import { db } from "@/database/db"; // CORRECT
+import { db } from "../../database/db"; // AVOID
 ```
 
 ### 2. Missing Transaction Parameter
+
 ```typescript
 // Always add optional tx parameter for composable DAL
 async updateBalance(id: string, amount: number, tx?: typeof db) {
@@ -402,6 +433,7 @@ async updateBalance(id: string, amount: number, tx?: typeof db) {
 ```
 
 ### 3. Forgetting to Return
+
 ```typescript
 // Always return the result
 async create(data) {
@@ -411,6 +443,7 @@ async create(data) {
 ```
 
 ### 4. Type Inference Issues
+
 ```typescript
 // Use $inferSelect for return types
 type User = typeof users.$inferSelect;
@@ -426,12 +459,14 @@ type User = typeof users.$inferSelect;
 ## Multi-Agent Examples
 
 ### OpenCode: Query Execution
+
 ```bash
 # Run DAL method
 bunx tsx -e "import { userDal } from './dal/user.dal'; console.log(await userDal.findByEmail('test@example.com'))"
 ```
 
 ### Cursor: Inline Help
+
 ```typescript
 // Type comment for suggestions
 // TODO: Implement findByIdWithProfile method
@@ -439,6 +474,7 @@ const user = await userDal. // autocomplete suggests methods
 ```
 
 ### Copilot: Code Generation
+
 ```typescript
 // Write comment, Copilot suggests implementation
 // Create a DAL method to find user with wallet and transactions

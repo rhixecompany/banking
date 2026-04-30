@@ -11,12 +11,13 @@ platforms:
 ## Agent Support
 
 | Agent | Integration | Usage |
-|-------|-------------|-------|
+| --- | --- | --- |
 | **OpenCode** | Direct skill invocation | `skill("cartography")` when mapping unfamiliar repositories |
 | **Cursor** | `.cursorrules` reference | Add to project rules for codemap generation |
 | **Copilot** | `.github/copilot-instructions.md` | Reference for repository mapping |
 
 ### OpenCode Usage
+
 ```
 # When asked to understand/map a repository
 Use cartography skill to generate hierarchical codemaps.
@@ -26,6 +27,7 @@ Load cartography for systematic exploration workflow.
 ```
 
 ### Cursor Integration
+
 ```json
 // .cursorrules - Add cartography configuration
 {
@@ -38,11 +40,14 @@ Load cartography for systematic exploration workflow.
 ```
 
 ### Copilot Integration
+
 ```markdown
 <!-- .github/copilot-instructions.md -->
+
 ## Cartography Patterns
 
 When mapping repositories:
+
 1. Check for existing .slim/cartography.json
 2. Initialize or detect changes
 3. Generate codemaps per directory
@@ -226,6 +231,7 @@ A high-performance, low-latency agent orchestration plugin for OpenCode, focusin
 ### OpenCode
 
 In OpenCode, use this skill when:
+
 - User explicitly asks to understand a new codebase
 - Starting work on unfamiliar repository
 - Creating documentation for existing project
@@ -239,6 +245,7 @@ Focus on understanding the architecture and data flow.
 ### Cursor
 
 In Cursor IDE:
+
 - Use with `.cursorrules` for project documentation standards
 - Integrate with code generation for understanding context
 - Apply to new project setup
@@ -256,6 +263,7 @@ In Cursor IDE:
 ### GitHub Copilot
 
 In Copilot CLI:
+
 - Reference codemaps for context-aware suggestions
 - Use for understanding unfamiliar code
 
@@ -271,19 +279,19 @@ integrates with the API layer.
 
 This skill works well with:
 
-| Related Skill | Use Case |
-|---------------|----------|
-| `code-review` | Use codemaps to understand code context |
-| `refactor` | Understand structure before refactoring |
-| `testing-skill` | Map test structure to source code |
-| `prd | Document architecture from codemaps |
+| Related Skill   | Use Case                                |
+| --------------- | --------------------------------------- |
+| `code-review`   | Use codemaps to understand code context |
+| `refactor`      | Understand structure before refactoring |
+| `testing-skill` | Map test structure to source code       |
+| `prd            | Document architecture from codemaps     |
 
 ---
 
 ## Troubleshooting
 
 | Issue | Solution |
-|-------|----------|
+| --- | --- |
 | Large repository takes too long | Use incremental updates with `changes` command |
 | Too many directories to map | Focus on core directories first; skip utilities |
 | Codemap becomes outdated | Set up periodic updates or trigger on major changes |

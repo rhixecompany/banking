@@ -2,6 +2,8 @@
 name: shell
 description: >-
   Execute shell commands directly. Use when the user explicitly invokes /shell and wants the following text executed directly in the terminal.
+
+
 metadata:
   surfaces:
     - cli
@@ -26,6 +28,7 @@ Execute shell commands directly in the terminal. This skill provides comprehensi
 ### OpenCode
 
 In OpenCode, use the native `bash` tool:
+
 - Execute commands via `bash` tool
 - Commands run in persistent shell session
 - Can chain commands with `&&` or `;`
@@ -34,6 +37,7 @@ In OpenCode, use the native `bash` tool:
 ### Cursor
 
 In Cursor IDE:
+
 - Use integrated terminal
 - Leverage Cmd/Ctrl+` for quick terminal access
 - Can use terminal in chat context
@@ -41,6 +45,7 @@ In Cursor IDE:
 ### GitHub Copilot
 
 In Copilot CLI or VS Code:
+
 - Use VS Code's integrated terminal
 - Leverage terminal commands in chat
 - Use `!` prefix for shell commands
@@ -73,11 +78,20 @@ ls path/ && rm -r path/
 
 ```typescript
 // Safe: Check before executing
-bash({ command: "ls -la path/", description: "List directory contents" })
-bash({ command: "rm -f specific-file.txt", description: "Remove specific file" })
+bash({
+  command: "ls -la path/",
+  description: "List directory contents"
+});
+bash({
+  command: "rm -f specific-file.txt",
+  description: "Remove specific file"
+});
 
 // Unsafe without approval - will prompt
-bash({ command: "rm -rf node_modules/", description: "Remove node_modules" })
+bash({
+  command: "rm -rf node_modules/",
+  description: "Remove node_modules"
+});
 ```
 
 ## 2. Command Chaining
@@ -154,10 +168,17 @@ rm -rf directory              # Remove directory and contents
 
 ```typescript
 // Use workdir parameter instead of cd
-bash({ command: "npm install", workdir: "/project", description: "Install dependencies" })
+bash({
+  command: "npm install",
+  workdir: "/project",
+  description: "Install dependencies"
+});
 
 // Or use absolute paths
-bash({ command: "ls -la /project/src", description: "List project source" })
+bash({
+  command: "ls -la /project/src",
+  description: "List project source"
+});
 ```
 
 ## 4. File Operations
@@ -523,6 +544,7 @@ free -h
 ### Issue: Command not found
 
 **Solution:**
+
 1. Check PATH: `echo $PATH`
 2. Use full path: `/usr/local/bin/command`
 3. Install missing package
@@ -530,6 +552,7 @@ free -h
 ### Issue: Permission denied
 
 **Solution:**
+
 1. Check file permissions: `ls -la file`
 2. Use sudo for system files: `sudo command`
 3. Fix permissions: `chmod +x script.sh`
@@ -537,6 +560,7 @@ free -h
 ### Issue: Command hangs
 
 **Solution:**
+
 1. Press Ctrl+C to cancel
 2. Check if process is running: `ps aux | grep command`
 3. Kill if needed: `kill PID`
@@ -544,6 +568,7 @@ free -h
 ### Issue: Working directory not found
 
 **Solution:**
+
 1. Use absolute paths
 2. Check directory exists: `ls -la /path`
 3. Use workdir parameter in OpenCode

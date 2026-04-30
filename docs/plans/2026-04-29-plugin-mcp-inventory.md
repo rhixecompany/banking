@@ -21,7 +21,7 @@ Located in `.opencode/opencode.json` under `plugin` array.
 | # | Plugin Name | Source Repository | Description | Auth Required |
 | --- | --- | --- | --- | --- |
 | 1 | opencode-handoff | github:malhashemi/opencode-handoff | Creates focused handoff prompts for continuing work in a new session | No |
-| 2 | opencode-beads | github:joshuadavidthomas/opencode-beads | Integration for Steve Yegge's beads issue tracker with /bd-* commands | No |
+| 2 | opencode-beads | github:joshuadavidthomas/opencode-beads | Integration for Steve Yegge's beads issue tracker with /bd-\* commands | No |
 | 3 | @tarquinen/opencode-dcp | github:Tarquinen/opencode-dcp | Dynamic Context Pruning - optimizes token usage by pruning obsolete tool outputs | No |
 | 4 | @ramarivera/opencode-model-announcer | github:ramarivera/opencode-model-announcer | Automatically injects the current model name into the chat context | No |
 | 5 | open-plan-annotator | github:ndom91/open-plan-annotator | Annotate LLM plans like a Google Doc - strikethrough, replace, insert | No |
@@ -201,15 +201,15 @@ opencode mcp invoke filesystem --args '{}'
 
 ## Appendix: Quick Reference Table
 
-| Component     | Type         | Auth | Env Vars          |
-| ------------- | ------------ | ---- | ----------------- |
-| superpowers   | Plugin       | No   | None              |
-| context7     | MCP (remote) | No* | None (free tier)  |
-| exa          | MCP (remote) | Yes  | EXA_API_KEY       |
-| filesystem   | MCP (local)  | No   | None              |
-| playwright   | MCP (local)  | No   | None              |
-| github       | MCP (local)  | Yes  | GITHUB_TOKEN     |
-| next-devtools | MCP (local)  | No   | None              |
+| Component     | Type         | Auth | Env Vars         |
+| ------------- | ------------ | ---- | ---------------- |
+| superpowers   | Plugin       | No   | None             |
+| context7      | MCP (remote) | No\* | None (free tier) |
+| exa           | MCP (remote) | Yes  | EXA_API_KEY      |
+| filesystem    | MCP (local)  | No   | None             |
+| playwright    | MCP (local)  | No   | None             |
+| github        | MCP (local)  | Yes  | GITHUB_TOKEN     |
+| next-devtools | MCP (local)  | No   | None             |
 
 **Note:** Additional MCP servers configured: memory, sequential-thinking, shadcn, youtube-transcript, gh_grep (remote)
 

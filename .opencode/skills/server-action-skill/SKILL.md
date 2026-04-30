@@ -2,6 +2,8 @@
 name: server-action-skill
 description: >-
   Patterns and examples for Next.js Server Actions in the Banking app. Use when creating, modifying, or debugging Server Actions. Triggers include requests to "create action", "add server action", "fix action", "validate input", or any task involving Server Action development.
+
+
 lastReviewed: 2026-04-24
 applyTo: "app/**/*.{ts,tsx}"
 ---
@@ -22,6 +24,7 @@ Comprehensive patterns for creating and managing Server Actions in the Banking a
 ## Multi-Agent Commands
 
 ### OpenCode / Cursor / Copilot
+
 ```bash
 # Run type check
 bun run type-check
@@ -46,8 +49,12 @@ import { z } from "zod";
 
 // Input validation schema
 const Schema = z.object({
-  name: z.string().min(1).max(100).meta({ description: "Display name" }),
-  email: z.string().email().meta({ description: "User email" }),
+  name: z
+    .string()
+    .min(1)
+    .max(100)
+    .meta({ description: "Display name" }),
+  email: z.string().email().meta({ description: "User email" })
 });
 
 // Action function
@@ -98,15 +105,15 @@ return { ok: false, error: "ErrorCode" };
 
 Use consistent error codes:
 
-| Code | Meaning |
-|------|---------|
-| `Unauthorized` | User not authenticated |
-| `Forbidden` | User lacks permission |
-| `AccountDeactivated` | User account inactive |
-| `InvalidInput` | Validation failed |
-| `NotFound` | Resource not found |
-| `AlreadyExists` | Duplicate resource |
-| `OperationFailed` | General failure |
+| Code                 | Meaning                |
+| -------------------- | ---------------------- |
+| `Unauthorized`       | User not authenticated |
+| `Forbidden`          | User lacks permission  |
+| `AccountDeactivated` | User account inactive  |
+| `InvalidInput`       | Validation failed      |
+| `NotFound`           | Resource not found     |
+| `AlreadyExists`      | Duplicate resource     |
+| `OperationFailed`    | General failure        |
 
 ## Input Validation with Zod
 
@@ -116,43 +123,50 @@ Use consistent error codes:
 const UserSchema = z.object({
   name: z.string().min(1).max(100),
   email: z.string().email(),
-  age: z.number().min(18).optional(),
+  age: z.number().min(18).optional()
 });
 ```
 
 ### Advanced Validation
 
 ```typescript
-const RegisterSchema = z.object({
-  email: z.string()
-    .email("Invalid email format")
-    .transform(val => val.toLowerCase()),
-  password: z.string()
-    .min(8, "Password must be at least 8 characters")
-    .regex(/[A-Z]/, "Password must contain uppercase")
-    .regex(/[0-9]/, "Password must contain number"),
-  confirmPassword: z.string(),
-}).refine(data => data.password === data.confirmPassword, {
-  message: "Passwords don't match",
-  path: ["confirmPassword"],
-});
+const RegisterSchema = z
+  .object({
+    email: z
+      .string()
+      .email("Invalid email format")
+      .transform(val => val.toLowerCase()),
+    password: z
+      .string()
+      .min(8, "Password must be at least 8 characters")
+      .regex(/[A-Z]/, "Password must contain uppercase")
+      .regex(/[0-9]/, "Password must contain number"),
+    confirmPassword: z.string()
+  })
+  .refine(data => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"]
+  });
 ```
 
 ### Metadata for Forms
 
 ```typescript
 const FormSchema = z.object({
-  amount: z.number()
+  amount: z
+    .number()
     .positive("Amount must be positive")
     .max(10000, "Maximum amount is $10,000")
     .meta({ description: "Transfer amount in USD" }),
-  recipientId: z.string()
+  recipientId: z
+    .string()
     .uuid("Invalid recipient ID")
     .meta({ description: "Recipient user ID" }),
-  note: z.string()
+  note: z
+    .string()
     .max(500, "Note too long")
     .optional()
-    .meta({ description: "Optional transfer note" }),
+    .meta({ description: "Optional transfer note" })
 });
 ```
 
@@ -214,7 +228,7 @@ import { z } from "zod";
 
 const TransactionSchema = z.object({
   amount: z.number().positive(),
-  description: z.string().max(500),
+  description: z.string().max(500)
 });
 
 export async function createTransaction(input: unknown) {
@@ -232,7 +246,7 @@ export async function createTransaction(input: unknown) {
   const transaction = await transactionDal.create({
     userId: session.user.id,
     amount: parsed.data.amount,
-    description: parsed.data.description,
+    description: parsed.data.description
   });
 
   revalidatePath("/dashboard");
@@ -249,14 +263,17 @@ import { db } from "@/database";
 import { userDal } from "@/dal/user.dal";
 import { walletDal } from "@/dal/wallet.dal";
 
-export async function transferFunds(input: { to: string; amount: number }) {
+export async function transferFunds(input: {
+  to: string;
+  amount: number;
+}) {
   const session = await auth();
   if (!session?.user) {
     return { ok: false, error: "Unauthorized" };
   }
 
   // Use transaction for atomic operations
-  await db.transaction(async (tx) => {
+  await db.transaction(async tx => {
     await userDal.decrementBalance(session.user.id, input.amount, tx);
     await userDal.incrementBalance(input.to, input.amount, tx);
   });
@@ -402,28 +419,28 @@ export function Form() {
 ## Testing Server Actions
 
 ```typescript
-import { describe, it, expect, vi } from 'vitest';
-import { updateProfileAction } from '@/actions/profile';
+import { describe, it, expect, vi } from "vitest";
+import { updateProfileAction } from "@/actions/profile";
 
-vi.mock('@/lib/auth', () => ({
+vi.mock("@/lib/auth", () => ({
   auth: vi.fn()
 }));
 
-describe('updateProfileAction', () => {
-  it('should update profile successfully', async () => {
+describe("updateProfileAction", () => {
+  it("should update profile successfully", async () => {
     vi.mocked(auth).mockResolvedValue({
-      user: { id: '1', email: 'test@test.com' }
+      user: { id: "1", email: "test@test.com" }
     });
 
-    const result = await updateProfileAction({ name: 'New Name' });
+    const result = await updateProfileAction({ name: "New Name" });
     expect(result.ok).toBe(true);
   });
 
-  it('should reject unauthenticated users', async () => {
+  it("should reject unauthenticated users", async () => {
     vi.mocked(auth).mockResolvedValue(null);
-    const result = await updateProfileAction({ name: 'Name' });
+    const result = await updateProfileAction({ name: "Name" });
     expect(result.ok).toBe(false);
-    expect(result.error).toBe('Unauthorized');
+    expect(result.error).toBe("Unauthorized");
   });
 });
 ```

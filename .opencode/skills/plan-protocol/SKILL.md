@@ -355,12 +355,12 @@ bun run type-check
 
 #### Platform-Specific Notes
 
-| Platform     | Shell/Environment           | Notes                                    |
-| ----------- | --------------------------- | ---------------------------------------- |
-| macOS       | Terminal                   | Use Bun directly                         |
-| Linux       | Terminal                   | Use Bun directly                         |
-| WSL         | Bash in WSL                 | Use Bun directly                         |
-| Windows     | PowerShell / Git Bash       | Use Bun - abstracts platform differences |
+| Platform | Shell/Environment | Notes |
+| --- | --- | --- |
+| macOS | Terminal | Use Bun directly |
+| Linux | Terminal | Use Bun directly |
+| WSL | Bash in WSL | Use Bun directly |
+| Windows | PowerShell / Git Bash | Use Bun - abstracts platform differences |
 
 #### Avoiding Platform Errors
 
@@ -374,12 +374,14 @@ This error occurs when tools try to detect the platform directly. To avoid:
 4. **Use npm scripts** defined in package.json (verified working)
 
 **Example - Preferred:**
+
 ```bash
 bun run build          # Bun handles all platform details
 bun exec vitest run   # Use bun exec for direct CLI tools
 ```
 
 **Example - Avoid:**
+
 ```bash
 npm run build        # Works but Bun is preferred for consistency
 ./node_modules/.bin/X  # Direct path can fail on Windows
@@ -387,10 +389,10 @@ npm run build        # Works but Bun is preferred for consistency
 
 #### Path Handling
 
-| Platform     | Path Separator | Example                          |
-| ------------ | ------------- | -------------------------------- |
-| All          | `/` (forward) | `tests/unit/foo.test.ts`         |
-| Windows      | `\` also works| `tests\unit\foo.test.ts`        |
+| Platform | Path Separator | Example                  |
+| -------- | -------------- | ------------------------ |
+| All      | `/` (forward)  | `tests/unit/foo.test.ts` |
+| Windows  | `\` also works | `tests\unit\foo.test.ts` |
 
 Both separators work in most contexts. Use forward slashes for readability.
 
@@ -398,13 +400,13 @@ Both separators work in most contexts. Use forward slashes for readability.
 
 These npm scripts are verified to exist in the Banking project:
 
-| Script        | Command                   | Purpose          |
-| ------------- | ------------------------- | ---------------- |
-| `build`       | `bun run build`           | Production build |
-| `lint:strict` | `bun run lint:strict`     | Strict linting   |
-| `test`        | `bun run test`            | Run all tests    |
-| `format`      | `bun run format`          | Format code      |
-| `type-check`  | `bun run type-check`      | Type check       |
+| Script        | Command               | Purpose          |
+| ------------- | --------------------- | ---------------- |
+| `build`       | `bun run build`       | Production build |
+| `lint:strict` | `bun run lint:strict` | Strict linting   |
+| `test`        | `bun run test`        | Run all tests    |
+| `format`      | `bun run format`      | Format code      |
+| `type-check`  | `bun run type-check`  | Type check       |
 
 > **Note:** Always use `bun run` (not `npm run`) - Bun handles platform abstraction and avoids "win32-x64" errors.
 
@@ -426,22 +428,28 @@ Before calling `createPlan`, verify:
 - [ ] **Verification:** Is there a completion checklist?
 
 ---
+
 ## Platform Compatibility
 
 ### Supported Platforms
+
 This skill works on all platforms where Bun is available:
+
 - macOS (x64 and arm64)
 - Linux (x64 and arm64)
 - Windows (x64) via PowerShell, Git Bash, or WSL
 - WSL (Linux environment on Windows)
 
 ### Platform Detection
+
 The skill uses the following approach for platform compatibility:
+
 1. **Primary:** Use `bun run` for all scripts (handles platform abstraction)
 2. **Secondary:** Use `bun exec` for direct CLI tool invocations
 3. **Avoid:** Direct Node.js binary paths, platform-specific shell commands
 
 ### Windows-Specific Notes
+
 On Windows (win32), the following patterns help avoid "Unsupported platform win32-x64":
 
 | Pattern | Use | Avoid |

@@ -5,9 +5,11 @@ plan status: active
 ---
 
 ## Idea
+
 Fix E2E tests and standardize canonical references for the Banking app - combine link-and-transfer test fixes with seed constants consolidation
 
 ## Implementation
+
 - 1. Run Phase 1 root cause: execute link-and-transfer.spec.ts to capture first failure, stack trace, ECONNRESET messages, and Plaid console warnings
 - 2. Run Phase 1 re-run to detect flake - execute link-and-transfer.spec.ts again and compare results
 - 3. Run plaid-script.spec.ts to verify Plaid duplicate script detection and console warnings
@@ -24,7 +26,9 @@ Fix E2E tests and standardize canonical references for the Banking app - combine
 - 14. Run full E2E suite (bun run test:ui) to identify remaining failures and apply same root-cause-first approach
 
 ## Required Specs
+
 <!-- SPECS_START -->
+
 - enhance-pages-spec
 - enhance-pages-v2
 - root-tests

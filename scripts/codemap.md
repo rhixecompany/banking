@@ -59,6 +59,7 @@ scripts/
 ### Orchestrators (call TS versions)
 
 Scripts that delegate to TypeScript in `scripts/ts/`:
+
 - `check-events.ps1` → `ts/utils/check-events.ts`
 - `deploy.ps1` → `ts/deploy/deploy-windows.ts`
 - `cleanup-docker.sh` → `ts/cleanup/cleanup-docker.ts`
@@ -69,6 +70,7 @@ Scripts that delegate to TypeScript in `scripts/ts/`:
 ### Utilities (embedded shell)
 
 These stay as shell scripts due to embedded shell logic:
+
 - `fix-line-endings.sh` - uses find/sed
 - `diagnose-and-fix-git.sh` - git diagnostics
 - `delete-gone-branches.sh` - branch management
@@ -78,6 +80,7 @@ These stay as shell scripts due to embedded shell logic:
 ### Already TypeScript
 
 Scripts already in TypeScript:
+
 - `generate/` - code generation scripts
 - `seed/` - database seeding
 - `verify-rules.ts` - policy enforcement

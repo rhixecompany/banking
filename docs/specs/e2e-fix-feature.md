@@ -17,7 +17,7 @@ Fix E2E test failures in the Banking app by addressing link-and-transfer test is
 ## Goals
 
 | Goal | Success Criteria |
-|------|------------------|
+| --- | --- |
 | Link-and-transfer test passes | Runs twice in a row with no failures |
 | No Plaid console warnings | Zero warnings containing "plaid", "Plaid", or "link-initialize" |
 | Canonical references consolidated | Single source of truth for seed constants |
@@ -31,16 +31,19 @@ Fix E2E test failures in the Banking app by addressing link-and-transfer test is
 // tests/fixtures/seed-constants.ts
 export const SEED_USER_EMAIL = "seed-user@example.com" as const;
 export const SEED_USER_PASSWORD = "password123" as const;
-export const SEED_USER_ID = "00000000-0000-4000-8000-000000000003" as const;
+export const SEED_USER_ID =
+  "00000000-0000-4000-8000-000000000003" as const;
 export const RECIPIENT_EMAIL = "recipient.seed@example.com" as const;
-export const SEED_SHAREABLE_CHECKING = "seed-share-checking-001" as const;
-export const SEED_SHAREABLE_SAVINGS = "seed-share-savings-002" as const;
+export const SEED_SHAREABLE_CHECKING =
+  "seed-share-checking-001" as const;
+export const SEED_SHAREABLE_SAVINGS =
+  "seed-share-savings-002" as const;
 ```
 
 ### 2. Files to Update
 
 | File | Change |
-|------|--------|
+| --- | --- |
 | `tests/e2e/helpers/auth.ts` | Import from seed-constants.ts |
 | `tests/e2e/integration/link-and-transfer.spec.ts` | Use constants |
 | `tests/e2e/payment-transfer.spec.ts` | Use constants |
@@ -84,7 +87,7 @@ bun run test:ui
 ## Risks
 
 | Risk | Mitigation |
-|------|------------|
+| --- | --- |
 | Test still flaky after fixes | Add more detailed logs, increase timeouts |
 | Plaid script still duplicated | Trace all injection paths, remove at source |
 | Seed data not matching DB | Verify seed-data.ts matches seed-constants.ts |

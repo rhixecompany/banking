@@ -12,12 +12,13 @@ platforms:
 ## Agent Support
 
 | Agent | Integration | Usage |
-|-------|-------------|-------|
+| --- | --- | --- |
 | **OpenCode** | Direct skill invocation | `skill("create-hook")` when creating Cursor hooks |
 | **Cursor** | `.cursorrules` reference | Add to project rules for hook patterns |
 | **Copilot** | `.github/copilot-instructions.md` | Reference for hook automation |
 
 ### OpenCode Usage
+
 ```
 # When creating a hook for Cursor
 Use create-hook skill to implement hook scripts.
@@ -27,23 +28,32 @@ Load create-hook for event types and implementation patterns.
 ```
 
 ### Cursor Integration
+
 ```json
 // .cursorrules - Add hook patterns
 {
   "hooks": {
     "requireHooks": false,
     "hooksDir": ".cursor/hooks",
-    "events": ["preToolUse", "postToolUse", "sessionStart", "sessionEnd"]
+    "events": [
+      "preToolUse",
+      "postToolUse",
+      "sessionStart",
+      "sessionEnd"
+    ]
   }
 }
 ```
 
 ### Copilot Integration
+
 ```markdown
 <!-- .github/copilot-instructions.md -->
+
 ## Cursor Hooks
 
 When automating behavior around agent events:
+
 - sessionStart: Set up session, initialize logging
 - preToolUse: Gate or modify tool calls
 - postToolUse: Add context after success
@@ -63,6 +73,7 @@ This skill provides comprehensive guidelines for creating and managing Cursor ho
 ## Multi-Agent Commands
 
 ### OpenCode
+
 ```bash
 # Create hook directory
 mkdir -p .cursor/hooks
@@ -72,12 +83,14 @@ cat .cursor/hooks.json
 ```
 
 ### Cursor
+
 ```
 @create-hook
 Create a hook to validate shell commands
 ```
 
 ### Copilot
+
 ```
 /hook create pre-tool-use validation
 ```
@@ -96,6 +109,7 @@ Hooks are scripts or prompt-based logic that Cursor runs before or after agent e
 ### When to Use Hooks
 
 Use hooks when you need to:
+
 - Enforce coding standards before commits
 - Validate shell commands for safety
 - Add context to file operations
@@ -147,32 +161,32 @@ Before creating a hook, determine:
 
 ### Common Agent Events
 
-| Event | Use Case |
-|-------|----------|
-| `sessionStart` | Set up session, initialize logging |
-| `sessionEnd` | Audit session, cleanup |
-| `preToolUse` | Gate or modify tool calls |
-| `postToolUse` | Add context after tool success |
-| `postToolUseFailure` | Handle errors, log failures |
-| `subagentStart` | Control subagent execution |
-| `subagentStop` | Chain subagent workflows |
-| `beforeShellExecution` | Gate terminal commands |
-| `afterShellExecution` | Audit command output |
-| `beforeMCPExecution` | Protect MCP tool calls |
-| `beforeSubmitPrompt` | Validate prompts for policy |
+| Event                  | Use Case                           |
+| ---------------------- | ---------------------------------- |
+| `sessionStart`         | Set up session, initialize logging |
+| `sessionEnd`           | Audit session, cleanup             |
+| `preToolUse`           | Gate or modify tool calls          |
+| `postToolUse`          | Add context after tool success     |
+| `postToolUseFailure`   | Handle errors, log failures        |
+| `subagentStart`        | Control subagent execution         |
+| `subagentStop`         | Chain subagent workflows           |
+| `beforeShellExecution` | Gate terminal commands             |
+| `afterShellExecution`  | Audit command output               |
+| `beforeMCPExecution`   | Protect MCP tool calls             |
+| `beforeSubmitPrompt`   | Validate prompts for policy        |
 
 ### Event Quick Reference
 
-| Goal | Event |
-|------|-------|
+| Goal                           | Event                  |
+| ------------------------------ | ---------------------- |
 | Block dangerous shell commands | `beforeShellExecution` |
-| Audit shell output | `afterShellExecution` |
-| Format files after edits | `afterFileEdit` |
-| Block/rewrite specific tools | `preToolUse` |
-| Add context after success | `postToolUse` |
-| Control subagents | `subagentStart` |
-| Chain subagent loops | `subagentStop` |
-| Check for secrets in prompts | `beforeSubmitPrompt` |
+| Audit shell output             | `afterShellExecution`  |
+| Format files after edits       | `afterFileEdit`        |
+| Block/rewrite specific tools   | `preToolUse`           |
+| Add context after success      | `postToolUse`          |
+| Control subagents              | `subagentStart`        |
+| Chain subagent loops           | `subagentStop`         |
+| Check for secrets in prompts   | `beforeSubmitPrompt`   |
 
 ## Hooks File Format
 
@@ -219,14 +233,14 @@ Before creating a hook, determine:
 
 ### Configuration Fields
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `command` | string | Shell command or script path |
-| `type` | string | `"command"` or `"prompt"` |
-| `timeout` | number | Timeout in seconds |
-| `matcher` | string | Regex to filter events |
-| `failClosed` | boolean | Block on failure if true |
-| `loop_limit` | number | Max follow-up iterations |
+| Field        | Type    | Description                  |
+| ------------ | ------- | ---------------------------- |
+| `command`    | string  | Shell command or script path |
+| `type`       | string  | `"command"` or `"prompt"`    |
+| `timeout`    | number  | Timeout in seconds           |
+| `matcher`    | string  | Regex to filter events       |
+| `failClosed` | boolean | Block on failure if true     |
+| `loop_limit` | number  | Max follow-up iterations     |
 
 ## Matchers
 
@@ -265,6 +279,7 @@ Command hooks receive JSON on stdin and return JSON on stdout. They are the defa
 ### Prerequisites
 
 Before using command hooks, verify:
+
 1. Script has valid shebang and is executable
 2. All dependencies are installed and on `$PATH`
 3. Repo-local CLIs are explicitly available
@@ -304,11 +319,11 @@ exit 0
 
 ### Exit Code Behavior
 
-| Exit Code | Behavior |
-|-----------|----------|
-| 0 | Success, allow action |
-| 2 | Block the action |
-| Other | Fail open (unless `failClosed: true`) |
+| Exit Code | Behavior                              |
+| --------- | ------------------------------------- |
+| 0         | Success, allow action                 |
+| 2         | Block the action                      |
+| Other     | Fail open (unless `failClosed: true`) |
 
 ### Banking-Specific Hook Example
 
@@ -322,13 +337,13 @@ action=$(echo "$input" | jq -r '.name // empty')
 case "$action" in
   "Write"|"Edit")
     file=$(echo "$input" | jq -r '.arguments.path // empty')
-    
+
     # Block .env files
     if [[ "$file" == *".env"* ]]; then
       echo '{"permission": "deny", "user_message": "Cannot write .env files directly"}'
       exit 2
     fi
-    
+
     # Warn on database migrations
     if [[ "$file" == *"migrations"* ]]; then
       echo '{"permission": "ask", "user_message": "This is a migration file. Continue?"}'
@@ -534,7 +549,7 @@ echo '{"command": "echo test"}' | .cursor/hooks/validate-shell.sh
 ```json
 {
   "command": ".cursor/hooks/security.sh",
-  "failClosed": true  // Block on any error
+  "failClosed": true // Block on any error
 }
 ```
 

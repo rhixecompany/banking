@@ -12,7 +12,7 @@ platforms:
 ## Agent Support
 
 | Agent | Integration | Usage |
-|-------|-------------|-------|
+| --- | --- | --- |
 | **OpenCode** | Native `skill` tool | `skill load make-skill-template` |
 | **Cursor** | @mention or `.cursorrules` | `@make-skill-template create new skill` |
 | **Copilot** | `/make-skill` command | `/make-skill create workflow-skill` |
@@ -163,61 +163,78 @@ my-awesome-skill/
 Skills can be categorized by their purpose:
 
 ### Category 1: Process Skills
+
 Guide HOW to approach tasks (workflow enforcement):
+
 - brainstorming, debugging, TDD, code-review
 - Characteristics: Rigid, enforce specific workflows
 
 ### Category 2: Implementation Skills
+
 Guide WHAT to build (domain-specific):
+
 - frontend-philosophy, db-skill, auth-skill
 - Characteristics: Flexible, adapt to context
 
 ### Category 3: Tool Skills
+
 Provide access to external capabilities:
+
 - agent-browser, shadcn, gh-cli
 - Characteristics: Enable specific tool usage
 
 ### Category 4: Meta Skills
+
 Create other skills or manage agent behavior:
+
 - make-skill-template, create-rule, create-hook
 - Characteristics: Recursive, build agent infrastructure
 
 ## Advanced: Frontmatter Field Deep Dive
 
 ### name Field
+
 ```yaml
 name: my-awesome-skill
 ```
+
 - Must match folder name exactly (case-sensitive)
 - Used for skill discovery and invocation
 - 1-64 characters: lowercase letters, numbers, hyphens
 - No consecutive hyphens, no leading/trailing hyphens
 
 ### description Field
+
 The most critical field for skill discovery. Structure:
+
 ```
 "<What it does>. Use when <specific triggers, scenarios, keywords users might say>."
 ```
 
 **Components:**
+
 1. **What it does** (1-2 sentences): Core capability
 2. **When to use** (1-3 sentences): Triggers, scenarios, keywords
 
 **Trigger Patterns:**
+
 - Direct requests: "Use when asked to..."
 - Context triggers: "Use when working with..."
-- File triggers: "Use when editing *.tsx files"
+- File triggers: "Use when editing \*.tsx files"
 - Command triggers: "Use with /command-name"
 
 ### allowed-tools Field (Experimental)
+
 ```yaml
 allowed-tools: Bash(npm run *), Bash(git *), Read
 ```
+
 - Space-delimited list of tool permissions
 - Format: `ToolName(pattern)` or just `ToolName`
 - Supports glob patterns for command matching
 
 ### metadata Field
+
 ```yaml
 metadata:
   version: "1.0.0"
@@ -231,6 +248,7 @@ metadata:
 ## Advanced: Writing Effective Skill Content
 
 ### Section: Title
+
 ```markdown
 # Skill Name
 
@@ -238,53 +256,62 @@ Brief one-line description of what this skill provides.
 ```
 
 ### Section: When to Use This Skill
+
 ```markdown
 ## When to Use This Skill
 
 Use this skill when:
+
 - User asks to [specific action]
 - Working with [specific file types/technologies]
 - Need to [specific outcome]
 
 Do NOT use when:
+
 - [contrary scenarios]
 ```
 
 ### Section: Prerequisites
+
 ```markdown
 ## Prerequisites
 
 Before using this skill, ensure:
+
 - [ ] Tool X is installed
 - [ ] Environment variables are configured
 - [ ] Access to resource Y is available
 
 Required knowledge:
+
 - Basic understanding of [technology]
 - Familiarity with [pattern]
 ```
 
 ### Section: Step-by-Step Workflows
-```markdown
+
+````markdown
 ## Step-by-Step Workflows
 
 ### Workflow 1: [Name]
 
 For [scenario], follow these steps:
 
-**Step 1: [Action]**
-Description of what to do and why.
+**Step 1: [Action]** Description of what to do and why.
 
-**Step 2: [Action]**
-Description with code example:
+**Step 2: [Action]** Description with code example:
+
 ```typescript
 // Example code here
 ```
+````
 
 **Verification:**
+
 - [ ] Check that [expected outcome]
 - [ ] Confirm [validation point]
-```
+
+````
 
 ### Section: Troubleshooting
 ```markdown
@@ -301,9 +328,10 @@ Description with code example:
 **Symptoms:** ...
 **Cause:** ...
 **Solution:** ...
-```
+````
 
 ### Section: References
+
 ```markdown
 ## References
 
@@ -315,28 +343,33 @@ Description with code example:
 ## Advanced: Skill Composition Patterns
 
 ### Pattern 1: Skill Chaining
+
 One skill invokes another:
+
 ```markdown
-This skill builds on [other-skill]. After completing Step 3,
-use the other-skill for additional processing.
+This skill builds on [other-skill]. After completing Step 3, use the other-skill for additional processing.
 ```
 
 ### Pattern 2: Skill Delegation
+
 Skill defers to specialized skill:
+
 ```markdown
 For [edge case], use [specialized-skill] instead.
 ```
 
 ### Pattern 3: Skill Prerequisites
+
 Skill requires another skill to be loaded first:
+
 ```markdown
-Prerequisite: Load [prerequisite-skill] for core functionality.
-This skill extends it with [specific capability].
+Prerequisite: Load [prerequisite-skill] for core functionality. This skill extends it with [specific capability].
 ```
 
 ## Advanced: Validation and Testing
 
 ### Local Validation
+
 ```bash
 # Validate skill structure
 bun run skill:validate
@@ -346,6 +379,7 @@ grep -o "when\|use\|asked\|working" SKILL.md | wc -l
 ```
 
 ### Testing a New Skill
+
 1. Create minimal SKILL.md
 2. Test with: `skill load <skill-name>`
 3. Verify triggers work
@@ -355,7 +389,7 @@ grep -o "when\|use\|asked\|working" SKILL.md | wc -l
 ### Common Validation Errors
 
 | Error | Cause | Fix |
-|-------|-------|-----|
+| --- | --- | --- |
 | "name must match folder" | Mismatch between folder and name field | Ensure exact match |
 | "description too short" | Less than 10 characters | Add more triggers/keywords |
 | "invalid frontmatter" | YAML syntax error | Validate YAML structure |
@@ -364,7 +398,9 @@ grep -o "when\|use\|asked\|working" SKILL.md | wc -l
 ## Advanced: Bundled Resources
 
 ### scripts/ Directory
+
 Executables that the skill can run:
+
 ```
 scripts/
 ├── setup.sh           # Initialization script
@@ -373,12 +409,15 @@ scripts/
 ```
 
 **Requirements:**
+
 - Must be executable (chmod +x on Unix)
 - Should have proper shebang
 - Return meaningful exit codes
 
 ### references/ Directory
+
 Documentation for the agent to read:
+
 ```
 references/
 ├── api-reference.md   # API documentation
@@ -387,12 +426,15 @@ references/
 ```
 
 **Guidelines:**
+
 - Use clear headings and code blocks
 - Include real examples from project
 - Keep under 10,000 lines per file
 
 ### assets/ Directory
+
 Static files used as-is:
+
 ```
 assets/
 ├── diagram.png        # Architecture diagram
@@ -401,12 +443,15 @@ assets/
 ```
 
 **Guidelines:**
+
 - Keep files under 5MB each
 - Use standard formats (PNG, SVG, JSON)
 - Reference with relative paths
 
 ### templates/ Directory
+
 Starter code that gets modified:
+
 ```
 templates/
 ├── component.tsx     # React component scaffold
@@ -415,6 +460,7 @@ templates/
 ```
 
 **Guidelines:**
+
 - Include placeholder comments `[TODO: fill in]`
 - Provide sensible defaults
 - Document required modifications

@@ -18,6 +18,7 @@ This skill provides patterns and techniques for adding governance, safety, and t
 ## Multi-Agent Commands
 
 ### OpenCode
+
 ```bash
 # Run governance scan
 bun run scripts/governance-scan.ts
@@ -30,12 +31,14 @@ bun run verify:policies
 ```
 
 ### Cursor
+
 ```
 @governance-audit
 Add governance to the banking agent
 ```
 
 ### Copilot
+
 ```
 /governance enable audit
 ```
@@ -66,16 +69,16 @@ User Prompt → Threat Detector → Policy Engine → Agent Action → Audit Log
 type Policy = {
   id: string;
   name: string;
-  type: 'allow' | 'block' | 'rate_limit';
+  type: "allow" | "block" | "rate_limit";
   condition: (prompt: string) => boolean;
-  action: 'block' | 'flag' | 'log';
+  action: "block" | "flag" | "log";
 };
 
 // Rate limiting
 type RateLimit = {
   windowMs: number;
   maxRequests: number;
-  scope: 'user' | 'agent';
+  scope: "user" | "agent";
 };
 ```
 
@@ -84,25 +87,28 @@ type RateLimit = {
 ```typescript
 const policies: Policy[] = [
   {
-    id: 'no-system-override',
-    name: 'Block system prompt override',
-    type: 'block',
-    condition: (prompt) => /ignore (previous|all) (instructions|prompts)/i.test(prompt),
-    action: 'block'
+    id: "no-system-override",
+    name: "Block system prompt override",
+    type: "block",
+    condition: prompt =>
+      /ignore (previous|all) (instructions|prompts)/i.test(prompt),
+    action: "block"
   },
   {
-    id: 'no-credential-access',
-    name: 'Block credential access',
-    type: 'block',
-    condition: (prompt) => /show (me )?(password|secret|token|key)/i.test(prompt),
-    action: 'block'
+    id: "no-credential-access",
+    name: "Block credential access",
+    type: "block",
+    condition: prompt =>
+      /show (me )?(password|secret|token|key)/i.test(prompt),
+    action: "block"
   },
   {
-    id: 'sensitive-data-flag',
-    name: 'Flag sensitive data queries',
-    type: 'allow',
-    condition: (prompt) => /(ssn|social security|credit card|bank account)/i.test(prompt),
-    action: 'flag'
+    id: "sensitive-data-flag",
+    name: "Flag sensitive data queries",
+    type: "allow",
+    condition: prompt =>
+      /(ssn|social security|credit card|bank account)/i.test(prompt),
+    action: "flag"
   }
 ];
 ```
@@ -113,7 +119,7 @@ const policies: Policy[] = [
 
 ```typescript
 interface ThreatClassification {
-  category: 'injection' | 'extraction' | 'bypass' | 'none';
+  category: "injection" | "extraction" | "bypass" | "none";
   confidence: number; // 0-1
   signals: string[];
 }
@@ -122,21 +128,21 @@ function classifyThreat(prompt: string): ThreatClassification {
   const signals: string[] = [];
 
   // Injection patterns
-  if (prompt.includes('ignore') && prompt.includes('instructions')) {
-    signals.push('instruction_override_detected');
+  if (prompt.includes("ignore") && prompt.includes("instructions")) {
+    signals.push("instruction_override_detected");
   }
 
   // Extraction patterns
   if (prompt.match(/show\s+(all|every)\s+(file|secret)/i)) {
-    signals.push('bulk_extraction_detected');
+    signals.push("bulk_extraction_detected");
   }
 
   // Bypass patterns
-  if (prompt.includes('jailbreak') || prompt.includes(' DAN ')) {
-    signals.push('bypass_attempt_detected');
+  if (prompt.includes("jailbreak") || prompt.includes(" DAN ")) {
+    signals.push("bypass_attempt_detected");
   }
 
-  const category = signals.length > 0 ? 'injection' : 'none';
+  const category = signals.length > 0 ? "injection" : "none";
   const confidence = signals.length > 0 ? 0.8 : 0.0;
 
   return { category, confidence, signals };
@@ -146,19 +152,20 @@ function classifyThreat(prompt: string): ThreatClassification {
 ### Intent Classification
 
 ```typescript
-type Intent = 'read' | 'write' | 'execute' | 'admin' | 'unknown';
+type Intent = "read" | "write" | "execute" | "admin" | "unknown";
 
 function classifyIntent(prompt: string): Intent {
   const writePatterns = /(delete|remove|update|modify|create)/i;
   const executePatterns = /(run|execute|install|deploy)/i;
   const adminPatterns = /(admin|root|sudo|grant)/i;
 
-  if (adminPatterns.test(prompt)) return 'admin';
-  if (executePatterns.test(prompt)) return 'execute';
-  if (writePatterns.test(prompt)) return 'write';
-  if (prompt.includes('get') || prompt.includes('show')) return 'read';
+  if (adminPatterns.test(prompt)) return "admin";
+  if (executePatterns.test(prompt)) return "execute";
+  if (writePatterns.test(prompt)) return "write";
+  if (prompt.includes("get") || prompt.includes("show"))
+    return "read";
 
-  return 'unknown';
+  return "unknown";
 }
 ```
 
@@ -168,7 +175,7 @@ function classifyIntent(prompt: string): Intent {
 
 ```typescript
 interface TrustScore {
-  overall: number;        // 0-100
+  overall: number; // 0-100
   components: {
     intent: number;
     history: number;
@@ -186,9 +193,9 @@ function calculateTrustScore(
 
   // Intent-based scoring
   const intent = classifyIntent(prompt);
-  if (intent === 'admin') score -= 30;
-  if (intent === 'execute') score -= 20;
-  if (intent === 'unknown') score -= 10;
+  if (intent === "admin") score -= 30;
+  if (intent === "execute") score -= 20;
+  if (intent === "unknown") score -= 10;
 
   // History-based scoring
   const userHistory = getUserHistory(userId);
@@ -197,16 +204,16 @@ function calculateTrustScore(
 
   // Context-based scoring
   if (context.ipChanged) score -= 20;
-  if (context.timeOfDay === 'suspicious') score -= 10;
+  if (context.timeOfDay === "suspicious") score -= 10;
 
   return {
     overall: Math.max(0, score),
     components: {
-      intent: intent === 'read' ? 100 : 50,
+      intent: intent === "read" ? 100 : 50,
       history: Math.max(0, 100 - violationCount * 20),
       context: context.trusted ? 100 : 60
     },
-    factors: ['intent_check', 'history_check', 'context_check']
+    factors: ["intent_check", "history_check", "context_check"]
   };
 }
 ```
@@ -219,13 +226,13 @@ function calculateTrustScore(
 interface GovernanceEvent {
   id: string;
   timestamp: Date;
-  eventType: 'prompt' | 'action' | 'response' | 'violation';
+  eventType: "prompt" | "action" | "response" | "violation";
   userId: string;
   agentId: string;
   prompt?: string;
   action?: string;
   response?: string;
-  threatLevel: 'none' | 'low' | 'medium' | 'high';
+  threatLevel: "none" | "low" | "medium" | "high";
   trustScore: number;
   metadata: Record<string, unknown>;
 }
@@ -245,7 +252,7 @@ async function logEvent(event: GovernanceEvent): Promise<void> {
   await db.governanceLogs.insert(logEntry);
 
   // Alert on high severity
-  if (event.threatLevel === 'high') {
+  if (event.threatLevel === "high") {
     await alertSecurityTeam(event);
   }
 }
@@ -276,7 +283,10 @@ class RateLimiter {
 
   async check(userId: string, scope: string): Promise<boolean> {
     const key = `${userId}:${scope}`;
-    const state = this.limits.get(key) || { count: 0, windowStart: Date.now() };
+    const state = this.limits.get(key) || {
+      count: 0,
+      windowStart: Date.now()
+    };
 
     const windowMs = 60000; // 1 minute
     const maxRequests = 10;
@@ -291,10 +301,10 @@ class RateLimiter {
 
     if (state.count > maxRequests) {
       await logEvent({
-        eventType: 'violation',
+        eventType: "violation",
         userId,
-        threatLevel: 'medium',
-        action: 'rate_limit_exceeded'
+        threatLevel: "medium",
+        action: "rate_limit_exceeded"
       });
       return false;
     }
@@ -311,18 +321,20 @@ class RateLimiter {
 ```typescript
 const financialPolicies: Policy[] = [
   {
-    id: 'large-transfer-approval',
-    name: 'Require approval for large transfers',
-    type: 'allow',
-    condition: (prompt) => /transfer.*(\$|amount).*(10000|10k)/i.test(prompt),
-    action: 'flag'
+    id: "large-transfer-approval",
+    name: "Require approval for large transfers",
+    type: "allow",
+    condition: prompt =>
+      /transfer.*(\$|amount).*(10000|10k)/i.test(prompt),
+    action: "flag"
   },
   {
-    id: 'bulk-export-restrict',
-    name: 'Restrict bulk data export',
-    type: 'block',
-    condition: (prompt) => /export.*(all|every|bulk).*(transaction|user)/i.test(prompt),
-    action: 'block'
+    id: "bulk-export-restrict",
+    name: "Restrict bulk data export",
+    type: "block",
+    condition: prompt =>
+      /export.*(all|every|bulk).*(transaction|user)/i.test(prompt),
+    action: "block"
   }
 ];
 ```
@@ -332,11 +344,12 @@ const financialPolicies: Policy[] = [
 ```typescript
 const dataPolicies: Policy[] = [
   {
-    id: 'pii-access-log',
-    name: 'Log all PII access',
-    type: 'allow',
-    condition: (prompt) => /(ssn|address|phone|email).*(get|show|list)/i.test(prompt),
-    action: 'log'
+    id: "pii-access-log",
+    name: "Log all PII access",
+    type: "allow",
+    condition: prompt =>
+      /(ssn|address|phone|email).*(get|show|list)/i.test(prompt),
+    action: "log"
   }
 ];
 ```
@@ -348,7 +361,7 @@ const dataPolicies: Policy[] = [
 ```typescript
 function enforcePolicy(prompt: string): PolicyResult {
   for (const policy of policies) {
-    if (policy.condition(prompt) && policy.type === 'block') {
+    if (policy.condition(prompt) && policy.type === "block") {
       return { allowed: false, reason: policy.name };
     }
   }
@@ -361,7 +374,7 @@ function enforcePolicy(prompt: string): PolicyResult {
 ```typescript
 // Always log, even allowed actions
 await logEvent({
-  eventType: 'prompt',
+  eventType: "prompt",
   prompt: prompt.substring(0, 1000), // Truncate long prompts
   allowed: true
 });
@@ -378,7 +391,7 @@ async function generateDailyReport(): Promise<AuditReport> {
 
   return {
     totalEvents: events.length,
-    violations: events.filter(e => e.threatLevel !== 'none').length,
+    violations: events.filter(e => e.threatLevel !== "none").length,
     topThreats: getTopThreats(events),
     recommendations: generateRecommendations(events)
   };

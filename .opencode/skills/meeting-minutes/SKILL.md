@@ -247,6 +247,7 @@ A generated minutes document is acceptable if:
 ### OpenCode
 
 In OpenCode, use this skill when:
+
 - Transcribing meeting recordings or transcripts
 - Converting meeting notes into structured formats
 - Creating action items from discussions
@@ -260,6 +261,7 @@ for the new payment system. Duration: 45 minutes.
 ### Cursor
 
 In Cursor IDE:
+
 - Use with `.cursorrules` for team-specific minute formats
 - Integrate with task management for action item tracking
 - Link minutes to related design documents
@@ -277,6 +279,7 @@ In Cursor IDE:
 ### GitHub Copilot
 
 In Copilot CLI:
+
 - Reference meeting context for code suggestions
 - Use action items to guide implementation planning
 
@@ -292,19 +295,19 @@ create a task list for implementing the authentication feature.
 
 This skill works well with:
 
-| Related Skill | Use Case |
-|---------------|----------|
-| `prd` | Capture requirements from stakeholder meetings |
-| `github-issues` | Convert action items to GitHub issues |
-| `git-commit` | Reference meeting context in commit messages |
-| `testing-skill` | Plan testing based on meeting decisions |
+| Related Skill   | Use Case                                       |
+| --------------- | ---------------------------------------------- |
+| `prd`           | Capture requirements from stakeholder meetings |
+| `github-issues` | Convert action items to GitHub issues          |
+| `git-commit`    | Reference meeting context in commit messages   |
+| `testing-skill` | Plan testing based on meeting decisions        |
 
 ---
 
 ## Troubleshooting
 
 | Issue | Solution |
-|-------|----------|
+| --- | --- |
 | Missing attendee list | Mark as "TBD - request from organizer" |
 | No transcript available | Use "ad-hoc notes" as source and note potential gaps |
 | Unclear decisions | Mark as "Pending clarification" and note who to confirm with |

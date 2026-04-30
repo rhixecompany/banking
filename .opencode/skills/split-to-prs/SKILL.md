@@ -25,6 +25,7 @@ Turn one pile of work into a few small PRs. This skill provides comprehensive gu
 ### OpenCode
 
 In OpenCode, use the native git tools:
+
 - Use `bash` tool for git commands
 - Create branches via `gh pr create` after pushing
 - Track progress with todo items
@@ -32,6 +33,7 @@ In OpenCode, use the native git tools:
 ### Cursor
 
 In Cursor IDE:
+
 - Use the terminal integration for git operations
 - Leverage Cmd/Ctrl+Shift+P for git commands
 - Can use the built-in GitHub integration for PRs
@@ -39,6 +41,7 @@ In Cursor IDE:
 ### GitHub Copilot
 
 In Copilot CLI or VS Code:
+
 - Use VS Code's built-in Git tooling
 - Leverage Copilot chat for explaining git concepts
 - Use extension features for PR management
@@ -67,16 +70,22 @@ git diff -- path/to/file
 
 ```typescript
 // Use bash tool to inspect state
-bash({ command: "git status --short", description: "Check git status" })
-bash({ command: "git diff --stat", description: "View change statistics" })
+bash({
+  command: "git status --short",
+  description: "Check git status"
+});
+bash({
+  command: "git diff --stat",
+  description: "View change statistics"
+});
 ```
 
 ### Cursor Tool Usage
 
 ```typescript
 // Use terminal for git commands
-await terminal.exec("git status")
-await terminal.exec("git diff main...HEAD --stat")
+await terminal.exec("git status");
+await terminal.exec("git diff main...HEAD --stat");
 ```
 
 ## 2. Propose the Split
@@ -91,14 +100,14 @@ Ask for approval before starting.
 
 Use conventional commit format for PR titles:
 
-| Type | Example |
-|------|---------|
-| feat | feat: add user authentication |
-| fix | fix: resolve login timeout issue |
-| refactor | refactor: simplify payment logic |
-| docs | docs: update API documentation |
-| test | test: add unit tests for auth module |
-| chore | chore: update dependencies |
+| Type     | Example                              |
+| -------- | ------------------------------------ |
+| feat     | feat: add user authentication        |
+| fix      | fix: resolve login timeout issue     |
+| refactor | refactor: simplify payment logic     |
+| docs     | docs: update API documentation       |
+| test     | test: add unit tests for auth module |
+| chore    | chore: update dependencies           |
 
 ### Mermaid Diagram Example
 
@@ -191,34 +200,35 @@ main
 
 ### Pattern: New Feature
 
-| PR | Contents |
-| --- | --- |
-| #1 Schema & Types | Database schema, TypeScript interfaces |
+| PR                | Contents                                  |
+| ----------------- | ----------------------------------------- |
+| #1 Schema & Types | Database schema, TypeScript interfaces    |
 | #2 Business Logic | Service layer, validation, core functions |
-| #3 API Endpoints | Route handlers, controllers |
-| #4 UI Components | React components, pages |
+| #3 API Endpoints  | Route handlers, controllers               |
+| #4 UI Components  | React components, pages                   |
 
 ### Pattern: Bug Fix
 
-| PR | Contents |
-| --- | --- |
-| #1 Root Cause | Core fix, no UI changes |
-| #2 Tests | Test case that catches the bug |
-| #3 UI (if needed) | Any visual changes |
+| PR                | Contents                       |
+| ----------------- | ------------------------------ |
+| #1 Root Cause     | Core fix, no UI changes        |
+| #2 Tests          | Test case that catches the bug |
+| #3 UI (if needed) | Any visual changes             |
 
 ### Pattern: Refactoring
 
-| PR | Contents |
-| --- | --- |
-| #1 Infrastructure | New patterns, utilities |
-| #2 Migration | Update call sites incrementally |
-| #3 Cleanup | Remove old code after migration |
+| PR                | Contents                        |
+| ----------------- | ------------------------------- |
+| #1 Infrastructure | New patterns, utilities         |
+| #2 Migration      | Update call sites incrementally |
+| #3 Cleanup        | Remove old code after migration |
 
 ## Handling Special Cases
 
 ### Case: Mixed Changes
 
 When work includes multiple unrelated changes:
+
 1. Identify each independent piece
 2. Propose separate PRs for each
 3. Mark one as the "main" PR if needed
@@ -226,6 +236,7 @@ When work includes multiple unrelated changes:
 ### Case: Large Feature
 
 For features with many files:
+
 1. Break into logical milestones
 2. Each milestone = one PR
 3. Use feature flags to disable incomplete features
@@ -233,6 +244,7 @@ For features with many files:
 ### Case: Work-in-Progress
 
 If some changes are incomplete:
+
 1. Ship complete PRs first
 2. Mark incomplete work as "WIP" or draft
 3. Keep WIP branches until ready
@@ -274,27 +286,27 @@ Before presenting the split plan:
 
 ### Git Status
 
-| Platform | Command |
-|----------|---------|
+| Platform | Command                           |
+| -------- | --------------------------------- |
 | OpenCode | `bash({ command: "git status" })` |
-| Cursor | Terminal: `git status` |
-| Copilot | Terminal: `git status` |
+| Cursor   | Terminal: `git status`            |
+| Copilot  | Terminal: `git status`            |
 
 ### Create Branch
 
-| Platform | Command |
-|----------|---------|
+| Platform | Command                                            |
+| -------- | -------------------------------------------------- |
 | OpenCode | `bash({ command: "git checkout -b branch-name" })` |
-| Cursor | Terminal: `git checkout -b branch-name` |
-| Copilot | Terminal: `git checkout -b branch-name` |
+| Cursor   | Terminal: `git checkout -b branch-name`            |
+| Copilot  | Terminal: `git checkout -b branch-name`            |
 
 ### Stage Files
 
-| Platform | Command |
-|----------|---------|
+| Platform | Command                                     |
+| -------- | ------------------------------------------- |
 | OpenCode | `bash({ command: "git add path/to/file" })` |
-| Cursor | Terminal: `git add path/to/file` |
-| Copilot | Terminal: `git add path/to/file` |
+| Cursor   | Terminal: `git add path/to/file`            |
+| Copilot  | Terminal: `git add path/to/file`            |
 
 ## Troubleshooting
 

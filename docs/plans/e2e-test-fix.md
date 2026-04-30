@@ -16,11 +16,11 @@ Fix E2E test failures by starting with the integration flow test `tests/e2e/inte
 
 ## Personas
 
-| Persona     | Role                                |
-| ----------- | ----------------------------------- |
+| Persona     | Role                                         |
+| ----------- | -------------------------------------------- |
 | IMPLEMENTER | Identifies root cause and fixes test failure |
-| REVIEWER    | Reviews fixes for correctness        |
-| QA_ENGINEER | Runs targeted E2E test to verify fix |
+| REVIEWER    | Reviews fixes for correctness                |
+| QA_ENGINEER | Runs targeted E2E test to verify fix         |
 
 ## Goal
 
@@ -31,7 +31,7 @@ Fix E2E test failures by starting with the integration flow test `tests/e2e/inte
 ## Context & Decisions
 
 | Decision | Rationale | Source |
-| -------- | --------- | ------ |
+| --- | --- | --- |
 | Start with the integration spec under `tests/e2e/integration/` | This is the intended link + transfer end-to-end flow and includes DB assertions | `tests/e2e/integration/link-and-transfer.spec.ts` |
 | Run targeted specs first | Faster iteration and higher-quality evidence than running the entire suite | User requirement |
 | “No Plaid-related console warnings at all” is a hard requirement | Prevents hiding regressions behind non-fatal warnings | User instruction (2026-04-29) |

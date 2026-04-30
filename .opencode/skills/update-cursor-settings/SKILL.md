@@ -18,6 +18,7 @@ This skill provides comprehensive guidelines for modifying Cursor/VSCode user se
 ## Multi-Agent Commands
 
 ### OpenCode
+
 ```bash
 # Find settings file
 ls -la ~/.cursor/settings.json
@@ -27,12 +28,14 @@ cat ~/.cursor/settings.json
 ```
 
 ### Cursor
+
 ```
 @update-cursor-settings
 Change font size to 16
 ```
 
 ### Copilot
+
 ```
 /settings update editor.fontSize 16
 ```
@@ -41,11 +44,11 @@ Change font size to 16
 
 ### By Operating System
 
-| OS | Path |
-|----|------|
-| macOS | ~/Library/Application Support/Cursor/User/settings.json |
-| Linux | ~/.config/Cursor/User/settings.json |
-| Windows | %APPDATA%\Cursor\User\settings.json |
+| OS      | Path                                                    |
+| ------- | ------------------------------------------------------- |
+| macOS   | ~/Library/Application Support/Cursor/User/settings.json |
+| Linux   | ~/.config/Cursor/User/settings.json                     |
+| Windows | %APPDATA%\Cursor\User\settings.json                     |
 
 ### Workspace Settings
 
@@ -74,7 +77,7 @@ Change font size to 16
 ### Editor Settings
 
 | User Request | Setting | Example Value |
-|--------------|---------|---------------|
+| --- | --- | --- |
 | Bigger/smaller font | `editor.fontSize` | 16 |
 | Change tab size | `editor.tabSize` | 2 |
 | Format on save | `editor.formatOnSave` | true |
@@ -89,7 +92,7 @@ Change font size to 16
 ### Workbench Settings
 
 | User Request | Setting | Example Value |
-|--------------|---------|---------------|
+| --- | --- | --- |
 | Change theme | `workbench.colorTheme` | "Default Dark Modern" |
 | Icon theme | `workbench.iconTheme` | "vs-seti" |
 | Sidebar location | `workbench.sideBar.location` | "left" |
@@ -98,16 +101,16 @@ Change font size to 16
 ### Files Settings
 
 | User Request | Setting | Example Value |
-|--------------|---------|---------------|
+| --- | --- | --- |
 | Auto save | `files.autoSave` | "afterDelay" |
 | Auto save delay | `files.autoSaveDelay` | 1000 |
-| Exclude patterns | `files.exclude` | {"**/node_modules": true} |
-| File associations | `files.associations` | {"*.json": "jsonc"} |
+| Exclude patterns | `files.exclude` | {"\*\*/node_modules": true} |
+| File associations | `files.associations` | {"\*.json": "jsonc"} |
 
 ### Terminal Settings
 
 | User Request | Setting | Example Value |
-|--------------|---------|---------------|
+| --- | --- | --- |
 | Font size | `terminal.integrated.fontSize` | 14 |
 | Shell (macOS) | `terminal.integrated.shell.osx` | "/bin/zsh" |
 | Shell (Linux) | `terminal.integrated.shell.linux` | "/bin/bash" |
@@ -116,7 +119,7 @@ Change font size to 16
 ### Cursor-Specific Settings
 
 | Setting | Description | Example Value |
-|---------|-------------|---------------|
+| --- | --- | --- |
 | `cursor.agent.useMcp` | Enable MCP for agents | true |
 | `cursor.agent.mcpServers` | Configure MCP servers | {...} |
 | `aipopup.enabled` | Enable AI popup suggestions | true |
@@ -145,8 +148,8 @@ Common setting categories:
 - **Editor**: fontSize, tabSize, wordWrap, formatOnSave
 - **Workbench**: colorTheme, iconTheme, sideBar.location
 - **Files**: autoSave, exclude, associations
-- **Terminal**: integrated.fontSize, integrated.shell.*
-- **Cursor-specific**: cursor.*, aipopup.*
+- **Terminal**: integrated.fontSize, integrated.shell.\*
+- **Cursor-specific**: cursor._, aipopup._
 
 ### Step 3: Update the Setting
 
@@ -161,8 +164,8 @@ When modifying settings.json:
 
 ```json
 {
-  "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true
 }
 ```
 
@@ -199,6 +202,7 @@ When modifying settings.json:
 ### JSON with Comments
 
 VSCode/Cursor settings.json supports comments:
+
 - Line comments: `// comment`
 - Block comments: `/* comment */`
 
@@ -206,13 +210,13 @@ When reading, be aware comments may exist. When writing, preserve comments if po
 
 ### Restart Requirements
 
-| Setting Type | Restart Needed |
-|--------------|----------------|
-| Theme | No |
-| Font size | No |
-| Tab size | No |
-| Shell configuration | Yes |
-| Extension settings | Yes |
+| Setting Type        | Restart Needed |
+| ------------------- | -------------- |
+| Theme               | No             |
+| Font size           | No             |
+| Tab size            | No             |
+| Shell configuration | Yes            |
+| Extension settings  | Yes            |
 
 ### Workspace vs User Settings
 
@@ -222,6 +226,7 @@ When reading, be aware comments may exist. When writing, preserve comments if po
 ### Attribution Settings
 
 When user asks about commit attribution:
+
 - **CLI agent**: Modify `~/.cursor/cli-config.json`
 - **IDE agent**: Configure from UI at **Cursor Settings > Agent > Attribution**
 
@@ -231,11 +236,11 @@ When user asks about commit attribution:
 
 ```json
 {
-  "editor.quickSuggestions": true,
-  "editor.suggestOnTriggerCharacters": true,
   "editor.acceptSuggestionOnEnter": "on",
   "editor.inlineSuggest.enabled": true,
-  "editor.suggest.preview": true
+  "editor.quickSuggestions": true,
+  "editor.suggest.preview": true,
+  "editor.suggestOnTriggerCharacters": true
 }
 ```
 
@@ -243,11 +248,11 @@ When user asks about commit attribution:
 
 ```json
 {
-  "cursor.agent.useMcp": true,
-  "cursor.agent.autoApprove": false,
-  "aipopup.enabled": true,
   "aipopup.autoSuggest": true,
-  "aipopup.maxTokens": 4000
+  "aipopup.enabled": true,
+  "aipopup.maxTokens": 4000,
+  "cursor.agent.autoApprove": false,
+  "cursor.agent.useMcp": true
 }
 ```
 
@@ -266,23 +271,23 @@ When user asks about commit attribution:
 
 ```json
 {
-  "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit",
-    "source.organizeImports": "explicit"
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "typescript.updateImportsOnFileRename.enabled": "always",
-  "javascript.updateImportsOnFileRename.enabled": "always",
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "explicit"
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "javascript.updateImportsOnFileRename.enabled": "always",
+  "typescript.updateImportsOnFileRename.enabled": "always"
 }
 ```
 
@@ -306,6 +311,16 @@ When user asks about commit attribution:
 
 ```json
 {
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2
+  },
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true,
@@ -315,16 +330,6 @@ When user asks about commit attribution:
     }
   },
   "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true,
-    "editor.tabSize": 2
-  },
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true,
-    "editor.tabSize": 2
-  },
-  "[javascriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true,
     "editor.tabSize": 2
@@ -409,6 +414,7 @@ jq '.editor' ~/.cursor/settings.json
 **Problem**: Changes don't take effect
 
 **Solutions**:
+
 1. Check JSON syntax - invalid JSON prevents all settings
 2. Restart Cursor - some settings require restart
 3. Check workspace settings - `.vscode/settings.json` may override
@@ -419,6 +425,7 @@ jq '.editor' ~/.cursor/settings.json
 **Problem**: Settings revert unexpectedly
 
 **Solutions**:
+
 1. Check for extensions that modify settings
 2. Look for workspace settings overriding user settings
 3. Verify file wasn't corrupted
@@ -429,6 +436,7 @@ jq '.editor' ~/.cursor/settings.json
 **Problem**: Invalid JSON syntax
 
 **Solutions**:
+
 1. Remove comments if causing issues
 2. Check for trailing commas
 3. Verify all brackets are matched
@@ -439,6 +447,7 @@ jq '.editor' ~/.cursor/settings.json
 **Problem**: Theme doesn't apply
 
 **Solutions**:
+
 1. Verify theme is installed
 2. Check theme name is correct
 3. Restart Cursor
@@ -494,8 +503,8 @@ cp ~/.cursor/settings.json.bak ~/.cursor/settings.json
 ```json
 {
   "editor.fontSize": 14,
-  "editor.tabSize": 2,
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "editor.tabSize": 2
 }
 ```
 

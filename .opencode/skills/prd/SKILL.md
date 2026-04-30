@@ -153,6 +153,7 @@ You **MUST** follow this exact structure for the output:
 ### OpenCode
 
 In OpenCode, use the PRD skill when:
+
 - Creating documentation for new features
 - Planning technical implementations
 - Defining acceptance criteria for complex features
@@ -166,6 +167,7 @@ Include user stories, technical requirements, and success metrics.
 ### Cursor
 
 In Cursor IDE:
+
 - Use with `.cursorrules` for project-specific requirements
 - Integrate with code generation for feature planning
 - Link PRDs to implementation tasks
@@ -183,6 +185,7 @@ In Cursor IDE:
 ### GitHub Copilot
 
 In Copilot CLI or Copilot Chat:
+
 - Reference PRDs for context-aware code generation
 - Use user stories to guide implementation suggestions
 
@@ -199,7 +202,7 @@ for processing payments and handling webhooks.
 This skill works well with:
 
 | Related Skill | Use Case |
-|---------------|----------|
+| --- | --- |
 | `meeting-minutes` | Capture requirements from stakeholder meetings |
 | `refactor` | Improve PRD-specified features during implementation |
 | `validation-skill` | Validate acceptance criteria are testable |
@@ -210,7 +213,7 @@ This skill works well with:
 ## Troubleshooting
 
 | Issue | Solution |
-|-------|----------|
+| --- | --- |
 | User provides vague requirements | Ask clarifying questions: "What problem does this solve?", "Who are the users?", "What defines success?" |
 | Scope creep in PRD | Clearly define Non-Goals section; use MoSCoW method (Must/Should/Could/Won't) |
 | Technical details missing | Mark as `TBD` and suggest specific technical investigations |

@@ -1,4 +1,13 @@
 {
+  "apiRoutes": [
+    "app/__playwright__/set-cookie/route.ts",
+    "app/api/auth/local-validate/route.ts",
+    "app/api/auth/local-create/route.ts",
+    "app/api/health/route.ts",
+    "app/api/__playwright__/set-cookie/route.ts",
+    "app/api/dwolla/webhook/route.ts",
+    "app/api/auth/[...nextauth]/route.ts"
+  ],
   "generated": "2026-04-29T15:04:23Z",
   "groups": {
     "(root)": {
@@ -13,9 +22,7 @@
     },
     "(admin)": {
       "layout": "app/(admin)/layout.tsx",
-      "pages": [
-        "app/(admin)/admin/page.tsx"
-      ]
+      "pages": ["app/(admin)/admin/page.tsx"]
     },
     "(auth)": {
       "layout": "app/(auth)/layout.tsx",
@@ -26,20 +33,9 @@
     },
     "(root-layout)": {
       "layout": "app/layout.tsx",
-      "pages": [
-        "app/page.tsx"
-      ]
+      "pages": ["app/page.tsx"]
     }
   },
-  "apiRoutes": [
-    "app/__playwright__/set-cookie/route.ts",
-    "app/api/auth/local-validate/route.ts",
-    "app/api/auth/local-create/route.ts",
-    "app/api/health/route.ts",
-    "app/api/__playwright__/set-cookie/route.ts",
-    "app/api/dwolla/webhook/route.ts",
-    "app/api/auth/[...nextauth]/route.ts"
-  ],
   "layouts": [
     "app/(admin)/layout.tsx",
     "app/(auth)/layout.tsx",

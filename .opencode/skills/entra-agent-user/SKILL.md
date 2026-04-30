@@ -14,7 +14,7 @@ platforms:
 ## Agent Support
 
 | Agent | Usage |
-|-------|-------|
+| --- | --- |
 | **OpenCode** | Use MCP tools for Entra ID operations via `hostinger_*` or direct Graph API calls |
 | **Cursor** | Use `@entra-agent-user` for agent user creation guidance |
 | **Copilot** | Use `/entra agent-user` for Microsoft Entra ID agent user patterns |
