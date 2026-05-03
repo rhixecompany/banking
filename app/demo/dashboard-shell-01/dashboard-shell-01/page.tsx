@@ -19,6 +19,15 @@ import {
   UsersIcon,
 } from "lucide-react";
 
+import SalesMetricsCard from "@/components/shadcn-studio/blocks/chart-sales-metrics";
+import TransactionDatatable, {
+  type Item,
+} from "@/components/shadcn-studio/blocks/datatable-transaction";
+import LanguageDropdown from "@/components/shadcn-studio/blocks/dropdown-language";
+import ProfileDropdown from "@/components/shadcn-studio/blocks/dropdown-profile";
+import StatisticsCard from "@/components/shadcn-studio/blocks/statistics-card-01";
+import ProductInsightsCard from "@/components/shadcn-studio/blocks/widget-product-insights";
+import TotalEarningCard from "@/components/shadcn-studio/blocks/widget-total-earning";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Breadcrumb,
@@ -45,307 +54,297 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 
-import SalesMetricsCard from "@/components/shadcn-studio/blocks/chart-sales-metrics";
-import TransactionDatatable, {
-  type Item,
-} from "@/components/shadcn-studio/blocks/datatable-transaction";
-import LanguageDropdown from "@/components/shadcn-studio/blocks/dropdown-language";
-import ProfileDropdown from "@/components/shadcn-studio/blocks/dropdown-profile";
-import StatisticsCard from "@/components/shadcn-studio/blocks/statistics-card-01";
-import ProductInsightsCard from "@/components/shadcn-studio/blocks/widget-product-insights";
-import TotalEarningCard from "@/components/shadcn-studio/blocks/widget-total-earning";
-
 // Statistics card data
 const StatisticsCardData = [
   {
-    icon: <TruckIcon className="size-4" />,
-    value: "42",
-    title: "Shipped Orders",
     changePercentage: "+18.2%",
+    icon: <TruckIcon className="size-4" />,
+    title: "Shipped Orders",
+    value: "42",
   },
   {
-    icon: <TriangleAlertIcon className="size-4" />,
-    value: "8",
-    title: "Damaged Returns",
     changePercentage: "-8.7%",
+    icon: <TriangleAlertIcon className="size-4" />,
+    title: "Damaged Returns",
+    value: "8",
   },
   {
-    icon: <CalendarX2Icon className="size-4" />,
-    value: "27",
-    title: "Missed Delivery Slots",
     changePercentage: "+4.3%",
+    icon: <CalendarX2Icon className="size-4" />,
+    title: "Missed Delivery Slots",
+    value: "27",
   },
 ];
 
 // Earning data for Total Earning card
 const earningData = [
   {
+    earnings: "-$23,569.26",
     img: "https://cdn.shadcnstudio.com/ss-assets/blocks/dashboard-application/widgets/zipcar.png",
     platform: "Zipcar",
-    technologies: "Vuejs & HTML",
-    earnings: "-$23,569.26",
     progressPercentage: 75,
+    technologies: "Vuejs & HTML",
   },
   {
+    earnings: "-$12,650.31",
     img: "https://cdn.shadcnstudio.com/ss-assets/blocks/dashboard-application/widgets/bitbank.png",
     platform: "Bitbank",
-    technologies: "Figma & React",
-    earnings: "-$12,650.31",
     progressPercentage: 25,
+    technologies: "Figma & React",
   },
 ];
 
 // Transaction table data
 const transactionData: Item[] = [
   {
-    id: "1",
+    amount: 316.0,
     avatar: "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-1.png",
     avatarFallback: "JA",
-    name: "Jack Alfredo",
-    amount: 316.0,
-    status: "paid",
     email: "jack@shadcnstudio.com",
+    id: "1",
+    name: "Jack Alfredo",
     paidBy: "mastercard",
+    status: "paid",
   },
   {
-    id: "2",
+    amount: 253.4,
     avatar: "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-2.png",
     avatarFallback: "MG",
-    name: "Maria Gonzalez",
-    amount: 253.4,
-    status: "pending",
     email: "maria.g@shadcnstudio.com",
+    id: "2",
+    name: "Maria Gonzalez",
     paidBy: "visa",
+    status: "pending",
   },
   {
-    id: "3",
+    amount: 852.0,
     avatar: "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-3.png",
     avatarFallback: "JD",
-    name: "John Doe",
-    amount: 852.0,
-    status: "paid",
     email: "john.doe@shadcnstudio.com",
+    id: "3",
+    name: "John Doe",
     paidBy: "mastercard",
+    status: "paid",
   },
   {
-    id: "4",
+    amount: 889.0,
     avatar: "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-4.png",
     avatarFallback: "EC",
-    name: "Emily Carter",
-    amount: 889.0,
-    status: "pending",
     email: "emily.carter@shadcnstudio.com",
+    id: "4",
+    name: "Emily Carter",
     paidBy: "visa",
+    status: "pending",
   },
   {
-    id: "5",
+    amount: 723.16,
     avatar: "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-5.png",
     avatarFallback: "DL",
-    name: "David Lee",
-    amount: 723.16,
-    status: "paid",
     email: "david.lee@shadcnstudio.com",
+    id: "5",
+    name: "David Lee",
     paidBy: "mastercard",
+    status: "paid",
   },
   {
-    id: "6",
+    amount: 612.0,
     avatar: "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-6.png",
     avatarFallback: "SP",
-    name: "Sophia Patel",
-    amount: 612.0,
-    status: "failed",
     email: "sophia.patel@shadcnstudio.com",
+    id: "6",
+    name: "Sophia Patel",
     paidBy: "mastercard",
+    status: "failed",
   },
   {
-    id: "7",
+    amount: 445.25,
     avatar: "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-7.png",
     avatarFallback: "RW",
-    name: "Robert Wilson",
-    amount: 445.25,
-    status: "paid",
     email: "robert.wilson@shadcnstudio.com",
+    id: "7",
+    name: "Robert Wilson",
     paidBy: "visa",
+    status: "paid",
   },
   {
-    id: "8",
+    amount: 297.8,
     avatar: "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-8.png",
     avatarFallback: "LM",
-    name: "Lisa Martinez",
-    amount: 297.8,
-    status: "processing",
     email: "lisa.martinez@shadcnstudio.com",
+    id: "8",
+    name: "Lisa Martinez",
     paidBy: "mastercard",
+    status: "processing",
   },
   {
-    id: "9",
+    amount: 756.9,
     avatar: "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-9.png",
     avatarFallback: "MT",
-    name: "Michael Thompson",
-    amount: 756.9,
-    status: "paid",
     email: "michael.thompson@shadcnstudio.com",
+    id: "9",
+    name: "Michael Thompson",
     paidBy: "visa",
+    status: "paid",
   },
   {
-    id: "10",
+    amount: 189.5,
     avatar: "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-10.png",
     avatarFallback: "AJ",
-    name: "Amanda Johnson",
-    amount: 189.5,
-    status: "pending",
     email: "amanda.johnson@shadcnstudio.com",
+    id: "10",
+    name: "Amanda Johnson",
     paidBy: "mastercard",
+    status: "pending",
   },
   {
-    id: "11",
+    amount: 1024.75,
     avatar: "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-11.png",
     avatarFallback: "KB",
-    name: "Kevin Brown",
-    amount: 1024.75,
-    status: "paid",
     email: "kevin.brown@shadcnstudio.com",
+    id: "11",
+    name: "Kevin Brown",
     paidBy: "visa",
+    status: "paid",
   },
   {
-    id: "12",
+    amount: 367.2,
     avatar: "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-12.png",
     avatarFallback: "SD",
-    name: "Sarah Davis",
-    amount: 367.2,
-    status: "failed",
     email: "sarah.davis@shadcnstudio.com",
+    id: "12",
+    name: "Sarah Davis",
     paidBy: "mastercard",
+    status: "failed",
   },
   {
-    id: "13",
+    amount: 598.45,
     avatar: "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-13.png",
     avatarFallback: "CG",
-    name: "Christopher Garcia",
-    amount: 598.45,
-    status: "processing",
     email: "christopher.garcia@shadcnstudio.com",
+    id: "13",
+    name: "Christopher Garcia",
     paidBy: "visa",
+    status: "processing",
   },
   {
-    id: "14",
+    amount: 821.3,
     avatar: "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-14.png",
     avatarFallback: "JR",
-    name: "Jennifer Rodriguez",
-    amount: 821.3,
-    status: "paid",
     email: "jennifer.rodriguez@shadcnstudio.com",
+    id: "14",
+    name: "Jennifer Rodriguez",
     paidBy: "mastercard",
+    status: "paid",
   },
   {
-    id: "15",
+    amount: 156.75,
     avatar: "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-15.png",
     avatarFallback: "DM",
-    name: "Daniel Miller",
-    amount: 156.75,
-    status: "pending",
     email: "daniel.miller@shadcnstudio.com",
+    id: "15",
+    name: "Daniel Miller",
     paidBy: "visa",
+    status: "pending",
   },
   {
-    id: "16",
+    amount: 934.1,
     avatar: "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-16.png",
     avatarFallback: "NW",
-    name: "Nicole White",
-    amount: 934.1,
-    status: "paid",
     email: "nicole.white@shadcnstudio.com",
+    id: "16",
+    name: "Nicole White",
     paidBy: "mastercard",
+    status: "paid",
   },
   {
-    id: "17",
+    amount: 412.85,
     avatar: "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-17.png",
     avatarFallback: "AL",
-    name: "Anthony Lopez",
-    amount: 412.85,
-    status: "failed",
     email: "anthony.lopez@shadcnstudio.com",
+    id: "17",
+    name: "Anthony Lopez",
     paidBy: "visa",
+    status: "failed",
   },
   {
-    id: "18",
+    amount: 675.5,
     avatar: "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-18.png",
     avatarFallback: "MH",
-    name: "Michelle Harris",
-    amount: 675.5,
-    status: "processing",
     email: "michelle.harris@shadcnstudio.com",
+    id: "18",
+    name: "Michelle Harris",
     paidBy: "mastercard",
+    status: "processing",
   },
   {
-    id: "19",
+    amount: 289.95,
     avatar: "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-19.png",
     avatarFallback: "JC",
-    name: "James Clark",
-    amount: 289.95,
-    status: "paid",
     email: "james.clark@shadcnstudio.com",
+    id: "19",
+    name: "James Clark",
     paidBy: "visa",
+    status: "paid",
   },
   {
-    id: "20",
+    amount: 1156.25,
     avatar: "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-20.png",
     avatarFallback: "RL",
-    name: "Rachel Lewis",
-    amount: 1156.25,
-    status: "pending",
     email: "rachel.lewis@shadcnstudio.com",
+    id: "20",
+    name: "Rachel Lewis",
     paidBy: "mastercard",
+    status: "pending",
   },
   {
-    id: "21",
+    amount: 543.6,
     avatar: "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-21.png",
     avatarFallback: "TY",
-    name: "Thomas Young",
-    amount: 543.6,
-    status: "paid",
     email: "thomas.young@shadcnstudio.com",
+    id: "21",
+    name: "Thomas Young",
     paidBy: "visa",
+    status: "paid",
   },
   {
-    id: "22",
+    amount: 789.3,
     avatar: "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-22.png",
     avatarFallback: "SB",
-    name: "Stephanie Brown",
-    amount: 789.3,
-    status: "processing",
     email: "stephanie.brown@shadcnstudio.com",
+    id: "22",
+    name: "Stephanie Brown",
     paidBy: "mastercard",
+    status: "processing",
   },
   {
-    id: "23",
+    amount: 425.75,
     avatar: "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-23.png",
     avatarFallback: "BM",
-    name: "Brandon Moore",
-    amount: 425.75,
-    status: "failed",
     email: "brandon.moore@shadcnstudio.com",
+    id: "23",
+    name: "Brandon Moore",
     paidBy: "visa",
+    status: "failed",
   },
   {
-    id: "24",
+    amount: 1203.5,
     avatar: "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-24.png",
     avatarFallback: "KT",
-    name: "Kelly Taylor",
-    amount: 1203.5,
-    status: "paid",
     email: "kelly.taylor@shadcnstudio.com",
+    id: "24",
+    name: "Kelly Taylor",
     paidBy: "mastercard",
+    status: "paid",
   },
   {
-    id: "25",
+    amount: 356.2,
     avatar: "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-25.png",
     avatarFallback: "MA",
-    name: "Mark Anderson",
-    amount: 356.2,
-    status: "pending",
     email: "mark.anderson@shadcnstudio.com",
+    id: "25",
+    name: "Mark Anderson",
     paidBy: "visa",
+    status: "pending",
   },
 ];
 
@@ -365,7 +364,7 @@ const DashboardShell = () => {
                         <span>Dashboard</span>
                       </a>
                     </SidebarMenuButton>
-                    <SidebarMenuBadge className="bg-primary/10 rounded-full">
+                    <SidebarMenuBadge className="rounded-full bg-primary/10">
                       5
                     </SidebarMenuBadge>
                   </SidebarMenuItem>
@@ -407,7 +406,7 @@ const DashboardShell = () => {
                         <span>Hashtag Performance</span>
                       </a>
                     </SidebarMenuButton>
-                    <SidebarMenuBadge className="bg-primary/10 rounded-full">
+                    <SidebarMenuBadge className="rounded-full bg-primary/10">
                       3
                     </SidebarMenuBadge>
                   </SidebarMenuItem>
@@ -496,7 +495,7 @@ const DashboardShell = () => {
           </SidebarContent>
         </Sidebar>
         <div className="flex flex-1 flex-col">
-          <header className="bg-card sticky top-0 z-50 border-b">
+          <header className="sticky top-0 z-50 border-b bg-card">
             <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-2 sm:px-6">
               <div className="flex items-center gap-4">
                 <SidebarTrigger className="[&_svg]:!size-5" />
@@ -580,7 +579,7 @@ const DashboardShell = () => {
             </div>
           </main>
           <footer>
-            <div className="text-muted-foreground mx-auto flex size-full max-w-7xl items-center justify-between gap-3 px-4 py-3 max-sm:flex-col sm:gap-6 sm:px-6">
+            <div className="mx-auto flex size-full max-w-7xl items-center justify-between gap-3 px-4 py-3 text-muted-foreground max-sm:flex-col sm:gap-6 sm:px-6">
               <p className="text-sm text-balance max-sm:text-center">
                 {`©${new Date().getFullYear()}`}{" "}
                 <a href="#" className="text-primary">

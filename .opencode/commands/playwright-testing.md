@@ -18,27 +18,31 @@ Generate and review Playwright tests for the Banking app.
 ## Banking App Test Setup
 
 ### Seed User
+
 - Email: `seed-user@example.com`
 - Password: `password123`
 
 ### Mock Tokens
+
 Use tokens starting with `seed-`, `mock-`, or `mock_` to skip Plaid/Dwolla API calls:
+
 - `seed-access-token` - Mock bank connection
 - No real API calls made
 
 ### Test Helpers
+
 - `tests/e2e/helpers/plaid.mock.ts` - Mock Plaid Link
 - `tests/e2e/helpers/auth.ts` - Auth helpers
 
 ## Test Pattern
 
 ```typescript
-import { test, expect } from '@playwright/test';
-import { addMockPlaidInitScript } from '@/tests/e2e/helpers/plaid.mock';
+import { test, expect } from "@playwright/test";
+import { addMockPlaidInitScript } from "@/tests/e2e/helpers/plaid.mock";
 
-test('test name', async ({ page }) => {
+test("test name", async ({ page }) => {
   await addMockPlaidInitScript(page);
-  await page.goto('/dashboard');
+  await page.goto("/dashboard");
   // Test steps...
 });
 ```

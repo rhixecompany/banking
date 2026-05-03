@@ -1,7 +1,5 @@
 "use client";
 
-import { useState } from "react";
-
 import {
   CircleCheckIcon,
   CircleDashedIcon,
@@ -9,6 +7,7 @@ import {
   LogIn,
   PlusIcon,
 } from "lucide-react";
+import { useState } from "react";
 
 import {
   Accordion,
@@ -27,24 +26,24 @@ import {
 
 const items = [
   {
-    title: "Sign up and create an account",
     content: `To get started, log in with your organization account from your company.`,
     icon: LogIn,
     label: "Sign up",
+    title: "Sign up and create an account",
   },
   {
-    title: "Import your data",
     content:
       "Connect your database to the new workspace by using one of 20+ database connectors.",
     icon: ImportIcon,
     label: "Import",
+    title: "Import your data",
   },
   {
-    title: "Create your first report",
     content:
       "Use our drag-and-drop report builder to create your first report and share it with your team.",
     icon: PlusIcon,
     label: "Create",
+    title: "Create your first report",
   },
 ];
 
@@ -110,7 +109,7 @@ function OnboardingFeed() {
                     <span>{item.title}</span>
                   </span>
                 </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground flex flex-col items-start gap-2 px-5">
+                <AccordionContent className="flex flex-col items-start gap-2 px-5 text-muted-foreground">
                   {item.content}
                   <Button
                     size="sm"

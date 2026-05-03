@@ -153,14 +153,14 @@ async function main(): Promise<void> {
     runtimeDuplicates.length === 0;
 
   const summary: VerifyReport = {
+    expectedCount: expected.length,
+    extras,
+    missing,
     ok,
     projectConfig: PROJECT_CONFIG,
-    runtimeConfig: RUNTIME_REPORT,
-    expectedCount: expected.length,
-    runtimeCount: runtime.length,
-    missing,
-    extras,
     projectDuplicates,
+    runtimeConfig: RUNTIME_REPORT,
+    runtimeCount: runtime.length,
     runtimeDuplicates,
   };
 

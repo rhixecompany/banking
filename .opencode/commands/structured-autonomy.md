@@ -18,16 +18,19 @@ Guide for autonomous agent work on the Banking app.
 ## Workflow Steps
 
 ### 1. Understand Requirements
+
 - Read relevant docs (AGENTS.md, exemplars.md)
 - Check existing patterns in codebase
 - Clarify any ambiguities before starting
 
 ### 2. Plan Execution
+
 - Break into independent tasks
 - Identify dependencies
 - Determine order of execution
 
 ### 3. Implement
+
 - Follow AGENTS.md conventions:
   - Server Actions for mutations
   - DAL helpers for DB access
@@ -36,6 +39,7 @@ Guide for autonomous agent work on the Banking app.
   - No `any` types
 
 ### 4. Verify
+
 - Run format, typecheck, lint
 - Test locally if possible
 - Check for regressions
@@ -50,6 +54,7 @@ Guide for autonomous agent work on the Banking app.
 ## For This Project
 
 Follow constraints from AGENTS.md:
+
 - Skip `./components/ui/`
 - Shell scripts = orchestrators only
 - Server Actions return `{ ok: boolean; error?: string; ... }`

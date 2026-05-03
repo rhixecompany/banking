@@ -17,15 +17,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export type NavigationItem = {
+export interface NavigationItem {
   title: string;
   href: string;
-};
+}
 
-export type NavigationSection = {
-  title: string;
-  icon?: ReactNode;
-} & (
+export type NavigationSection = (
   | {
       items: NavigationItem[];
       href?: never;
@@ -34,15 +31,18 @@ export type NavigationSection = {
       items?: never;
       href: string;
     }
-);
+) & {
+  title: string;
+  icon?: ReactNode;
+};
 
-type Props = {
+interface Props {
   trigger: ReactNode;
   navigationData: NavigationSection[];
   align?: "center" | "end" | "start";
-};
+}
 
-const MenuDropdown = ({ trigger, navigationData, align = "start" }: Props) => {
+const MenuDropdown = ({ align = "start", navigationData, trigger }: Props) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>{trigger}</DropdownMenuTrigger>

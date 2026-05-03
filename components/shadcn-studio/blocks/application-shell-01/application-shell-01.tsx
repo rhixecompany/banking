@@ -17,36 +17,36 @@ import { cn } from "@/lib/utils";
 
 const sidebarNavItems = [
   {
+    items: [
+      { href: "#introduction", title: "Introduction" },
+      { href: "#installation", title: "Installation" },
+      { href: "#quick-start", title: "Quick Start" },
+    ],
     title: "Getting Started",
-    items: [
-      { title: "Introduction", href: "#introduction" },
-      { title: "Installation", href: "#installation" },
-      { title: "Quick Start", href: "#quick-start" },
-    ],
   },
   {
+    items: [
+      { href: "#architecture", title: "Architecture" },
+      { href: "#components", title: "Components" },
+      { href: "#theming", title: "Theming" },
+    ],
     title: "Core Concepts",
-    items: [
-      { title: "Architecture", href: "#architecture" },
-      { title: "Components", href: "#components" },
-      { title: "Theming", href: "#theming" },
-    ],
   },
   {
-    title: "API Reference",
     items: [
-      { title: "Overview", href: "#api-overview" },
-      { title: "Authentication", href: "#authentication" },
-      { title: "Endpoints", href: "#endpoints" },
+      { href: "#api-overview", title: "Overview" },
+      { href: "#authentication", title: "Authentication" },
+      { href: "#endpoints", title: "Endpoints" },
     ],
+    title: "API Reference",
   },
 ];
 
 const mainNavItems = [
-  { title: "Dashboard", href: "#dashboard" },
-  { title: "Projects", href: "#projects" },
-  { title: "Team", href: "#team" },
-  { title: "Calendar", href: "#calendar" },
+  { href: "#dashboard", title: "Dashboard" },
+  { href: "#projects", title: "Projects" },
+  { href: "#team", title: "Team" },
+  { href: "#calendar", title: "Calendar" },
 ];
 
 function ApplicationShell() {
@@ -57,13 +57,13 @@ function ApplicationShell() {
       {/* Sidebar */}
       <aside
         className={cn(
-          "fixed left-0 top-0 z-40 h-screen w-64 border-r bg-card transition-transform",
+          "fixed top-0 left-0 z-40 h-screen w-64 border-r bg-card transition-transform",
           sidebarOpen ? "translate-x-0" : "-translate-x-full",
         )}
       >
         <div className="flex h-16 items-center border-b px-6">
           <div className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-lg bg-primary" />
+            <div className="size-8  rounded-lg bg-primary" />
             <span className="text-lg font-semibold">App</span>
           </div>
         </div>
@@ -121,7 +121,7 @@ function ApplicationShell() {
             </svg>
           </Button>
 
-          <nav className="hidden md:flex items-center gap-6">
+          <nav className="hidden items-center gap-6 md:flex">
             {mainNavItems.map((item) => (
               <a
                 key={item.href}
@@ -155,15 +155,15 @@ function ApplicationShell() {
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="ghost"
-                  className="relative h-8 w-8 rounded-full"
+                  className="relative size-8  rounded-full"
                 >
-                  <div className="h-8 w-8 rounded-full bg-primary/20" />
+                  <div className="size-8  rounded-full bg-primary/20" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56" align="end" forceMount>
                 <DropdownMenuLabel className="font-normal">
                   <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-medium leading-none">John Doe</p>
+                    <p className="text-sm leading-none font-medium">John Doe</p>
                     <p className="text-xs leading-none text-muted-foreground">
                       john@example.com
                     </p>
@@ -212,7 +212,7 @@ function ApplicationShell() {
                 <h2 className="text-2xl font-semibold tracking-tight">
                   Key Features
                 </h2>
-                <ul className="mt-4 list-disc pl-6 space-y-2 text-muted-foreground">
+                <ul className="mt-4 list-disc space-y-2 pl-6 text-muted-foreground">
                   <li>Fast and responsive UI components</li>
                   <li>Comprehensive documentation</li>
                   <li>Active community support</li>

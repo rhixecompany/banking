@@ -16,19 +16,23 @@ description: Key context for Banking app AI agents
 ## Key Conventions
 
 ### Environment
+
 - Use `app-config.ts` - never `process.env` directly
 - Exceptions: `proxy.ts`, `scripts/seed/run.ts`
 
 ### Database
+
 - Use DAL helpers - never import DB in `app/` or `components/`
 - Batch queries to avoid N+1
 
 ### Server Actions
+
 - Return shape: `{ ok: boolean; error?: string; ...payload }`
 - Validate with Zod
 - Use for all mutations (not API routes)
 
 ### Home Page
+
 - `app/page.tsx` must be static + public (no auth/DB/env access)
 
 ## Commands Reference

@@ -21,13 +21,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-type Props = {
+interface Props {
   trigger: ReactNode;
   defaultOpen?: boolean;
-  align?: "start" | "center" | "end";
-};
+  align?: "center" | "end" | "start";
+}
 
-const ProfileDropdown = ({ trigger, defaultOpen, align = "end" }: Props) => {
+const ProfileDropdown = ({ align = "end", defaultOpen, trigger }: Props) => {
   return (
     <DropdownMenu defaultOpen={defaultOpen}>
       <DropdownMenuTrigger asChild>{trigger}</DropdownMenuTrigger>
@@ -41,13 +41,13 @@ const ProfileDropdown = ({ trigger, defaultOpen, align = "end" }: Props) => {
               />
               <AvatarFallback>JD</AvatarFallback>
             </Avatar>
-            <span className="ring-card absolute end-0 bottom-0 block size-2 rounded-full bg-green-600 ring-2" />
+            <span className="absolute end-0 bottom-0 block size-2 rounded-full bg-green-600 ring-2 ring-card" />
           </div>
           <div className="flex flex-1 flex-col items-start">
-            <span className="text-foreground text-lg font-semibold">
+            <span className="text-lg font-semibold text-foreground">
               John Doe
             </span>
-            <span className="text-muted-foreground text-base">
+            <span className="text-base text-muted-foreground">
               john.doe@example.com
             </span>
           </div>
@@ -57,15 +57,15 @@ const ProfileDropdown = ({ trigger, defaultOpen, align = "end" }: Props) => {
 
         <DropdownMenuGroup>
           <DropdownMenuItem className="px-4 py-2.5 text-base">
-            <UserIcon className="text-foreground size-5" />
+            <UserIcon className="size-5 text-foreground" />
             <span>My account</span>
           </DropdownMenuItem>
           <DropdownMenuItem className="px-4 py-2.5 text-base">
-            <SettingsIcon className="text-foreground size-5" />
+            <SettingsIcon className="size-5 text-foreground" />
             <span>Settings</span>
           </DropdownMenuItem>
           <DropdownMenuItem className="px-4 py-2.5 text-base">
-            <CreditCardIcon className="text-foreground size-5" />
+            <CreditCardIcon className="size-5 text-foreground" />
             <span>Billing</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
@@ -74,15 +74,15 @@ const ProfileDropdown = ({ trigger, defaultOpen, align = "end" }: Props) => {
 
         <DropdownMenuGroup>
           <DropdownMenuItem className="px-4 py-2.5 text-base">
-            <UsersIcon className="text-foreground size-5" />
+            <UsersIcon className="size-5 text-foreground" />
             <span>Manage team</span>
           </DropdownMenuItem>
           <DropdownMenuItem className="px-4 py-2.5 text-base">
-            <SquarePenIcon className="text-foreground size-5" />
+            <SquarePenIcon className="size-5 text-foreground" />
             <span>Customization</span>
           </DropdownMenuItem>
           <DropdownMenuItem className="px-4 py-2.5 text-base">
-            <CirclePlusIcon className="text-foreground size-5" />
+            <CirclePlusIcon className="size-5 text-foreground" />
             <span>Add team account</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>

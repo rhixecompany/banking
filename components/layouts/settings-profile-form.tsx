@@ -1,4 +1,6 @@
 "use client";
+import type { UseFormReturn } from "react-hook-form";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -16,7 +18,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import type { FieldValues, UseFormReturn } from "react-hook-form";
 
 /**
  * Description placeholder

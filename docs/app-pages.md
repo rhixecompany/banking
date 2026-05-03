@@ -1,9 +1,6 @@
 # App Pages Documentation
 
-**Date:** 2026-05-03
-**Scope:** All pages in `./app/`
-**Status:** COMPLETE (Refreshed)
-**Verification:** ✅ All 9 main routes + 7 demo routes verified
+**Date:** 2026-05-03 **Scope:** All pages in `./app/` **Status:** COMPLETE (Refreshed) **Verification:** ✅ All 9 main routes + 7 demo routes verified
 
 ---
 
@@ -77,23 +74,25 @@ export default function HomePage(): JSX.Element {
 }
 ```
 
-| Aspect | Details |
-| --- | --- |
-| **Route** | `/` (public) |
-| **Component Type** | Server Component (static) |
-| **Auth** | None required |
-| **Layout** | None (full-page components) |
-| **DAL Access** | None |
-| **Server Actions** | None |
-| **Metadata** | Title: "Home \| Horizon Banking" |
-| **Status** | Static — no dynamic data, fully cacheable |
+| Aspect             | Details                                   |
+| ------------------ | ----------------------------------------- |
+| **Route**          | `/` (public)                              |
+| **Component Type** | Server Component (static)                 |
+| **Auth**           | None required                             |
+| **Layout**         | None (full-page components)               |
+| **DAL Access**     | None                                      |
+| **Server Actions** | None                                      |
+| **Metadata**       | Title: "Home \| Horizon Banking"          |
+| **Status**         | Static — no dynamic data, fully cacheable |
 
 **Benefits:**
+
 - Fast page load (no auth or DB calls)
 - Fully cacheable by CDN
 - Good SEO performance
 
 **Key Components:**
+
 - `HeroSection` — Hero banner with CTA
 - `FeaturesGrid` — Feature highlights
 - `TotalBalanceLayout` — Demo balance widget
@@ -143,6 +142,7 @@ export async function SignInServerWrapper(): Promise<JSX.Element> {
 | **Status** | Static — form-only page |
 
 **Data Flow:**
+
 1. User enters credentials in `AuthPageWrapper` (client component)
 2. Form submits to `/api/auth/local-validate`
 3. NextAuth validates and creates session
@@ -191,6 +191,7 @@ export async function SignUpServerWrapper(): Promise<JSX.Element> {
 | **Status** | Static — form-only page |
 
 **Data Flow:**
+
 1. User enters details in `AuthPageWrapper` (client component)
 2. Form submits to `/api/auth/local-create`
 3. Creates new user in database
@@ -262,6 +263,7 @@ export async function DashboardServerWrapper(): Promise<JSX.Element> {
 | **Status** | Dynamic — fetches per request, no ISR |
 
 **Data Flow:**
+
 1. `auth()` — Verify user session
 2. Parallel fetch (no N+1):
    - `getUserWallets()` → lists user's bank connections
@@ -271,6 +273,7 @@ export async function DashboardServerWrapper(): Promise<JSX.Element> {
 4. Render dashboard with wallets, accounts, balance overview
 
 **DAL Pattern:**
+
 - `getUserWallets()` → wallets table + balance calculations
 - `getAllAccounts()` → Plaid accounts (via plaid_accounts)
 - `getRecentTransactions()` → transactions table with N+1 prevention (batched wallet lookup)
@@ -333,12 +336,14 @@ export async function MyWalletsServerWrapper(): Promise<JSX.Element> {
 | **Status** | Dynamic — fetches per request |
 
 **Data Flow:**
+
 1. `auth()` — Verify user session
 2. `getAllWalletsWithDetails()` → wallets + balances + recent txn counts
 3. Pass to `MyWalletsClientWrapper`
 4. Render wallet list with disconnect buttons
 
 **DAL Pattern:**
+
 - `walletDal.findByUserId()` → list wallets
 - Balance aggregation (sum of all transactions or API call)
 - Single query (no N+1)
@@ -404,6 +409,7 @@ export async function PaymentTransferServerWrapper(): Promise<JSX.Element> {
 | **Status** | Dynamic — fetches per request |
 
 **Data Flow:**
+
 1. `auth()` — Verify user session
 2. Parallel fetch:
    - `getUserWallets()` → source accounts
@@ -413,6 +419,7 @@ export async function PaymentTransferServerWrapper(): Promise<JSX.Element> {
 5. `createTransfer()` → Dwolla API → creates transaction + local ledger entry
 
 **DAL Pattern:**
+
 - `walletDal.findByUserId()` → list wallets
 - `recipientDal.findByUserId()` → list recipients
 - Parallel fetch (no N+1)
@@ -465,12 +472,14 @@ export async function TransactionHistoryServerWrapper(): Promise<JSX.Element> {
 | **Status** | Dynamic — paginated, fetches per request |
 
 **Data Flow:**
+
 1. `auth()` — Verify user session
 2. `getTransactionHistory(1, 50)` → paginated transactions with wallets (batched lookup)
 3. Pass to `TransactionHistoryClientWrapper`
 4. Render paginated transaction table
 
 **DAL Pattern (N+1 Prevention):**
+
 ```
 1. Fetch transactions for user (page 1, 50 per page)
 2. Collect unique wallet IDs from sender/receiver fields
@@ -540,6 +549,7 @@ export async function SettingsServerWrapper(): Promise<JSX.Element> {
 | **Status** | Dynamic — fetches per request |
 
 **Data Flow:**
+
 1. `auth()` — Verify user session
 2. `getUserWithProfile()` → user + profile data
 3. Guard: redirect if user not found
@@ -548,6 +558,7 @@ export async function SettingsServerWrapper(): Promise<JSX.Element> {
 6. `updateProfile()` → updates users/profiles tables
 
 **DAL Pattern:**
+
 - `userDal.findByIdWithProfile()` → single query (join users + user_profiles)
 - `userDal.updateProfile()` → update both tables as transaction
 
@@ -624,6 +635,7 @@ export async function AdminDashboardServerWrapper() {
 | **Status** | Dynamic — fetches per request |
 
 **Data Flow:**
+
 1. `auth()` — Verify user session
 2. Guard: redirect if not admin
 3. Parallel fetch (4 requests):
@@ -635,6 +647,7 @@ export async function AdminDashboardServerWrapper() {
 5. Render admin dashboard with charts and metrics
 
 **DAL Pattern:**
+
 - `adminDal.getStats()` → count queries (users, transactions)
 - `transactionDal.findByStatusStats()` → group by status
 - `transactionDal.findByTypeStats()` → group by type
@@ -671,10 +684,10 @@ page.tsx (Server Component)
 
 ### Shared Components
 
-| Component | Purpose | Used By |
-| --- | --- | --- |
-| `LoadingSpinner` | Suspense fallback | All pages |
-| `Skeleton` | Admin skeleton | Admin dashboard |
+| Component         | Purpose           | Used By          |
+| ----------------- | ----------------- | ---------------- |
+| `LoadingSpinner`  | Suspense fallback | All pages        |
+| `Skeleton`        | Admin skeleton    | Admin dashboard  |
 | `AuthPageWrapper` | Auth form wrapper | Sign-in, Sign-up |
 
 ---
@@ -686,6 +699,7 @@ page.tsx (Server Component)
 **Routes:** `/dashboard`, `/my-wallets`, `/payment-transfer`, `/transaction-history`, `/settings`
 
 **Auth Check:**
+
 ```typescript
 const session = await auth();
 if (!session?.user?.id) {
@@ -700,6 +714,7 @@ if (!session?.user?.id) {
 **Routes:** `/admin`
 
 **Auth Check:**
+
 ```typescript
 const session = await auth();
 if (!session?.user?.id) {
@@ -717,6 +732,7 @@ if (!session.user.isAdmin) {
 **Routes:** `/`, `/sign-in`, `/sign-up`
 
 **Behavior:**
+
 - Home page: Accessible to all
 - Sign-in/Sign-up: Redirect authenticated users to `/dashboard`
 
@@ -967,7 +983,7 @@ if (walletIds.size > 0) {
 const enrichedTxns = txns.map(txn => ({
   ...txn,
   senderWallet: walletsMap.get(txn.senderWalletId) ?? null,
-  receiverWallet: walletsMap.get(txn.receiverWalletId) ?? null,
+  receiverWallet: walletsMap.get(txn.receiverWalletId) ?? null
 }));
 
 return enrichedTxns;

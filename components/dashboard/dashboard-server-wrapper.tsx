@@ -7,6 +7,7 @@ import { getAllAccounts } from "@/actions/plaid.actions";
 import { getRecentTransactions } from "@/actions/transaction.actions";
 import { getUserWallets } from "@/actions/wallet.actions";
 import { auth } from "@/lib/auth";
+
 import { DashboardClientWrapper } from "./dashboard-client-wrapper";
 
 /**

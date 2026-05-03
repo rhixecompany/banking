@@ -5,7 +5,6 @@ import { Bar, BarChart } from "recharts";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { type ChartConfig, ChartContainer } from "@/components/ui/chart";
 import { Separator } from "@/components/ui/separator";
-
 import { cn } from "@/lib/utils";
 
 // Product reached data
@@ -19,8 +18,8 @@ const productReachChartData = [
 
 const productReachChartConfig = {
   reached: {
-    label: "Reached",
     color: "var(--primary)",
+    label: "Reached",
   },
 } satisfies ChartConfig;
 
@@ -35,8 +34,8 @@ const orderPlacedChartData = [
 
 const orderPlacedChartConfig = {
   orders: {
-    label: "Orders",
     color: "color-mix(in oklab, var(--primary) 10%, transparent)",
+    label: "Orders",
   },
 } satisfies ChartConfig;
 
@@ -46,7 +45,7 @@ const ProductInsightsCard = ({ className }: { className?: string }) => {
       <CardHeader className="flex justify-between">
         <div className="flex flex-col gap-1">
           <span className="text-lg font-semibold">Product insight</span>
-          <span className="text-muted-foreground text-sm">
+          <span className="text-sm text-muted-foreground">
             Published on 12 MAY 2025 - 6:10 PM
           </span>
         </div>

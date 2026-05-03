@@ -5,9 +5,11 @@ plan status: active
 ---
 
 ## Idea
+
 Migrate .github/instructions (11 files) and .github/prompts (~100+ relevant) to .opencode/rules and .opencode/commands with frontmatter tags and verification
 
 ## Implementation
+
 - 1. List and catalog all 11 instruction files from .github/instructions/ with metadata (size, date, purpose)
 - 2. List and catalog all 168 prompt files from .github/prompts/, filtering to Banking-relevant (~100 files)
 - 3. Copy 11 instruction files to .opencode/rules/ with frontmatter tags (category, source, tags, date)
@@ -18,7 +20,9 @@ Migrate .github/instructions (11 files) and .github/prompts (~100+ relevant) to 
 - 8. Spot-check 3-5 random files from each destination to confirm content integrity
 
 ## Required Specs
+
 <!-- SPECS_START -->
+
 - enhance-pages-spec
 - enhance-pages-v2
 - root-tests

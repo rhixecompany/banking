@@ -148,10 +148,10 @@ Capture conventions for custom components that are referenced directly by pages,
 | ------------------------ | ----- | ------------------ |
 | **Layout Components**    | 32    | ✅ Well-organized  |
 | **Server Wrappers**      | 10    | ✅ Correct pattern |
-| **Client Wrappers**     | 10    | ✅ Presentational  |
-| **Feature Components**  | 14    | ✅ Clean           |
-| **shadcn-studio (Demo)** | 14    | ⚠️ Non-production |
-| **Total Custom**        | ~80   | ✅ Good shape     |
+| **Client Wrappers**      | 10    | ✅ Presentational  |
+| **Feature Components**   | 14    | ✅ Clean           |
+| **shadcn-studio (Demo)** | 14    | ⚠️ Non-production  |
+| **Total Custom**         | ~80   | ✅ Good shape      |
 
 ---
 

@@ -119,7 +119,7 @@ export const schema = z.object({
  * Drag handle component for table rows
  * Provides visual indicator and drag functionality for reordering
  *
- * @param {Object} props - Component props
+ * @param {object} props - Component props
  * @param {number} props.id - Unique identifier for the draggable item
  * @returns {JSX.Element} Drag handle button
  */
@@ -327,7 +327,7 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
  * Draggable table row component
  * Integrates with @dnd-kit for drag and drop functionality
  *
- * @param {Object} props - Component props
+ * @param {object} props - Component props
  * @param {Row<z.infer<typeof schema>>} props.row - Table row data
  * @returns {JSX.Element} Draggable table row
  */
@@ -359,7 +359,7 @@ function DraggableRow({ row }: { row: Row<z.infer<typeof schema>> }) {
 /**
  * Main data table component with drag-and-drop, sorting, filtering, and pagination
  *
- * @param {Object} props - Component props
+ * @param {object} props - Component props
  * @param {z.infer<typeof schema>[]} props.data - Initial data for the table
  * @returns {JSX.Element} Complete data table with all features
  */
@@ -694,7 +694,7 @@ const chartConfig = {
  * Table cell viewer component with expandable sheet
  * Shows detailed view and edit form for table row items
  *
- * @param {Object} props - Component props
+ * @param {object} props - Component props
  * @param {z.infer<typeof schema>} props.item - Table row data
  * @returns {JSX.Element} Expandable table cell with sheet overlay
  */

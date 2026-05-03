@@ -18,10 +18,10 @@ import { Progress } from "@/components/ui/progress";
 
 const listItems = ["Share", "Update", "Refresh"];
 
-type Props = {
+interface Props {
   title: string;
   earning: number;
-  trend: "up" | "down";
+  trend: "down" | "up";
   percentage: number;
   comparisonText: string;
   earningData: {
@@ -32,16 +32,16 @@ type Props = {
     progressPercentage: number;
   }[];
   className?: string;
-};
+}
 
 const TotalEarningCard = ({
-  earningData,
-  title,
-  earning,
-  trend,
-  percentage,
-  comparisonText,
   className,
+  comparisonText,
+  earning,
+  earningData,
+  percentage,
+  title,
+  trend,
 }: Props) => {
   return (
     <Card className={className}>
@@ -52,7 +52,7 @@ const TotalEarningCard = ({
             <Button
               variant="ghost"
               size="icon"
-              className="text-muted-foreground size-6 rounded-full"
+              className="size-6 rounded-full text-muted-foreground"
             >
               <EllipsisVerticalIcon />
               <span className="sr-only">Menu</span>
@@ -80,7 +80,7 @@ const TotalEarningCard = ({
               <span className="text-sm">{percentage}%</span>
             </span>
           </div>
-          <span className="text-muted-foreground text-sm">
+          <span className="text-sm text-muted-foreground">
             {comparisonText}
           </span>
         </div>
@@ -92,7 +92,7 @@ const TotalEarningCard = ({
             >
               <div className="flex items-center justify-between gap-2.5">
                 <Avatar className="size-11 rounded-sm">
-                  <AvatarFallback className="bg-primary/10 shrink-0 rounded-sm">
+                  <AvatarFallback className="shrink-0 rounded-sm bg-primary/10">
                     <img
                       src={earning.img}
                       alt={earning.platform}
@@ -102,7 +102,7 @@ const TotalEarningCard = ({
                 </Avatar>
                 <div className="flex flex-col gap-1">
                   <span className="font-medium">{earning.platform}</span>
-                  <span className="text-muted-foreground text-sm">
+                  <span className="text-sm text-muted-foreground">
                     {earning.technologies}
                   </span>
                 </div>

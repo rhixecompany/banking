@@ -26,8 +26,8 @@ function AccordionItem({
 }
 
 function AccordionTrigger({
-  className,
   children,
+  className,
   ...props
 }: React.ComponentProps<typeof AccordionPrimitive.Trigger>) {
   return (
@@ -48,8 +48,8 @@ function AccordionTrigger({
 }
 
 function AccordionContent({
-  className,
   children,
+  className,
   ...props
 }: React.ComponentProps<typeof AccordionPrimitive.Content>) {
   return (

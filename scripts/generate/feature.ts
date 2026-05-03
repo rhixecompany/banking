@@ -517,8 +517,12 @@ async function main(): Promise<void> {
 
     // If feature name not provided and auto-accept mode, exit gracefully
     if (!featureName && yes) {
-      console.warn("No feature name provided (required in non-interactive mode)");
-      console.warn("Usage: tsx scripts/generate/feature.ts <featureName> [--dry-run] [--yes]");
+      console.warn(
+        "No feature name provided (required in non-interactive mode)",
+      );
+      console.warn(
+        "Usage: tsx scripts/generate/feature.ts <featureName> [--dry-run] [--yes]",
+      );
       process.exit(0);
     }
 

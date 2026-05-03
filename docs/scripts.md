@@ -44,8 +44,8 @@ Scripts follow the **thin wrapper pattern**: shell scripts (`*.sh`, `*.ps1`, `*.
 
 #### Root Level (.bat)
 
-| Script | Type | Purpose |
-| --- | --- | --- |
+| Script                     | Type              | Purpose       |
+| -------------------------- | ----------------- | ------------- |
 | `scripts/opencode-mcp.bat` | Thin Orchestrator | Batch version |
 | `scripts/orchestrator.bat` | Thin Orchestrator | Batch version |
 
@@ -128,20 +128,20 @@ Scripts follow the **thin wrapper pattern**: shell scripts (`*.sh`, `*.ps1`, `*.
 
 #### Root Level (`scripts/*.ts`)
 
-| Script | Purpose |
-| --- | --- |
-| `scripts/validate.ts` | Validation orchestrator |
-| `scripts/verify-rules.ts` | Policy enforcement |
-| `scripts/plan-ensure.ts` | Plan validation logic |
-| `scripts/orchestrator.ts` | Main orchestration |
-| `scripts/mcp-runner.ts` | MCP server runner |
-| `scripts/generate-readme.ts` | README generation |
-| `scripts/export-json.ts` | JSON export |
-| `scripts/export-data.ts` | Data export |
-| `scripts/debug-pw.ts` | Playwright debug |
-| `scripts/verify-agent-iterations.ts` | Iteration verification |
-| `scripts/report-parser.ts` | Report parsing |
-| `scripts/mcp-runner-lib.ts` | MCP library |
+| Script                               | Purpose                 |
+| ------------------------------------ | ----------------------- |
+| `scripts/validate.ts`                | Validation orchestrator |
+| `scripts/verify-rules.ts`            | Policy enforcement      |
+| `scripts/plan-ensure.ts`             | Plan validation logic   |
+| `scripts/orchestrator.ts`            | Main orchestration      |
+| `scripts/mcp-runner.ts`              | MCP server runner       |
+| `scripts/generate-readme.ts`         | README generation       |
+| `scripts/export-json.ts`             | JSON export             |
+| `scripts/export-data.ts`             | Data export             |
+| `scripts/debug-pw.ts`                | Playwright debug        |
+| `scripts/verify-agent-iterations.ts` | Iteration verification  |
+| `scripts/report-parser.ts`           | Report parsing          |
+| `scripts/mcp-runner-lib.ts`          | MCP library             |
 
 #### Validation (`scripts/validate/*.ts`)
 
@@ -242,17 +242,17 @@ Scripts follow the **thin wrapper pattern**: shell scripts (`*.sh`, `*.ps1`, `*.
 
 #### Build (`scripts/ts/build.ts`)
 
-| Script | Purpose |
-| --- | --- |
-| `scripts/ts/build.ts` | Build process |
+| Script                        | Purpose       |
+| ----------------------------- | ------------- |
+| `scripts/ts/build.ts`         | Build process |
 | `scripts/ts/build-windows.ts` | Windows build |
 
 #### Deploy (`scripts/ts/deploy/*.ts`)
 
-| Script | Purpose |
-| --- | --- |
-| `scripts/ts/deploy/deploy.ts` | Unix deployment |
-| `scripts/ts/deploy/deploy-windows.ts` | Windows deployment |
+| Script                                   | Purpose             |
+| ---------------------------------------- | ------------------- |
+| `scripts/ts/deploy/deploy.ts`            | Unix deployment     |
+| `scripts/ts/deploy/deploy-windows.ts`    | Windows deployment  |
 | `scripts/ts/deploy/generate-htpasswd.ts` | htpasswd generation |
 
 #### Docker (`scripts/ts/docker/*.ts`)
@@ -293,8 +293,8 @@ Scripts follow the **thin wrapper pattern**: shell scripts (`*.sh`, `*.ps1`, `*.
 
 #### Docs (`scripts/ts/docs/*.ts`)
 
-| Script | Purpose |
-| --- | --- |
+| Script                                         | Purpose          |
+| ---------------------------------------------- | ---------------- |
 | `scripts/ts/docs/generate-markdown-catalog.ts` | Markdown catalog |
 
 #### Tools (`scripts/ts/tools/*.ts`)
@@ -388,13 +388,13 @@ Complex orchestrators may include additional logic for multi-step operations.
 
 ## Script Counts
 
-| Category | Count |
-| --- | --- |
-| Shell Scripts (.sh) | 14 |
-| PowerShell Scripts (.ps1) | 23 |
-| Batch Scripts (.bat) | 20 |
-| TypeScript Logic (root `scripts/*.ts`) | 40+ |
-| TypeScript Logic (`scripts/ts/*.ts`) | 54+ |
+| Category                               | Count |
+| -------------------------------------- | ----- |
+| Shell Scripts (.sh)                    | 14    |
+| PowerShell Scripts (.ps1)              | 23    |
+| Batch Scripts (.bat)                   | 20    |
+| TypeScript Logic (root `scripts/*.ts`) | 40+   |
+| TypeScript Logic (`scripts/ts/*.ts`)   | 54+   |
 
 ---
 

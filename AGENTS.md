@@ -1015,7 +1015,7 @@ Then commit normally.
 3. **Implement with patterns** — Use Server Actions, DAL helpers, Zod validation.
 4. **Test thoroughly** — Run unit and E2E tests locally.
 5. **Pre-PR validation** — `bun run format && bun run type-check && bun run lint:strict && bun run verify:rules`
-6. **Commit with provenance** — Include `Co-authored-by: Claude <copilot@opencode>` if AI-assisted.
+6. **Commit cleanly** — Follow commit message rules in `.opencode/rules/commit-messages.md`.
 7. **Push & open PR** — CI will run full validation.
 
 ---
@@ -1038,6 +1038,7 @@ Then commit normally.
 | **.cursorrules** | Cursor.ai-specific rules (largely superseded by AGENTS.md) |
 | `.opencode/commands/` | Implementation plans for large changes |
 | `.opencode/skills/` | Agent skill definitions |
+| `.opencode/rules/` | Commit, code, and workflow rules |
 
 ---
 

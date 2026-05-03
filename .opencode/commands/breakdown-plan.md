@@ -36,12 +36,12 @@ Create a structured breakdown with:
 
 ## Priority Matrix
 
-| Priority | Value | Criteria |
-|----------|-------|----------|
-| P0 | Critical | Blocking release |
-| P1 | High | Core user-facing |
-| P2 | Medium | Important but not blocking |
-| P3 | Low | Nice to have, tech debt |
+| Priority | Value    | Criteria                   |
+| -------- | -------- | -------------------------- |
+| P0       | Critical | Blocking release           |
+| P1       | High     | Core user-facing           |
+| P2       | Medium   | Important but not blocking |
+| P3       | Low      | Nice to have, tech debt    |
 
 ## Example Output Structure
 
@@ -49,14 +49,17 @@ Create a structured breakdown with:
 # Feature: {Feature Name}
 
 ## User Stories
+
 - [ ] Story 1: As a user, I want to... (3 pts)
 - [ ] Story 2: As a user, I want to... (5 pts)
 
 ## Technical Enablers
+
 - Database schema changes
 - API endpoint creation
 
 ## Dependencies
+
 - Blocks: {other features}
 - Blocked by: {prerequisites}
 ```

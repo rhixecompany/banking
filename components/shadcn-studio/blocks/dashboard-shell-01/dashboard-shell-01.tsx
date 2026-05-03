@@ -1,6 +1,17 @@
 "use client";
 
 import { useState } from "react";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 import {
   Card,
@@ -19,18 +30,6 @@ import {
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
-
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Line,
-  LineChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
 
 // Mock data for charts
 const revenueData = [
@@ -54,45 +53,44 @@ const salesData = [
 
 const recentOrders = [
   {
-    id: "ORD-001",
-    customer: "John Smith",
     amount: "$125.00",
-    status: "Completed",
+    customer: "John Smith",
     date: "2024-01-15",
+    id: "ORD-001",
+    status: "Completed",
   },
   {
-    id: "ORD-002",
-    customer: "Sarah Johnson",
     amount: "$89.99",
-    status: "Processing",
+    customer: "Sarah Johnson",
     date: "2024-01-15",
+    id: "ORD-002",
+    status: "Processing",
   },
   {
-    id: "ORD-003",
-    customer: "Mike Brown",
     amount: "$245.50",
-    status: "Completed",
+    customer: "Mike Brown",
     date: "2024-01-14",
+    id: "ORD-003",
+    status: "Completed",
   },
   {
-    id: "ORD-004",
-    customer: "Emily Davis",
     amount: "$67.00",
-    status: "Pending",
+    customer: "Emily Davis",
     date: "2024-01-14",
+    id: "ORD-004",
+    status: "Pending",
   },
   {
-    id: "ORD-005",
-    customer: "Alex Wilson",
     amount: "$189.99",
-    status: "Completed",
+    customer: "Alex Wilson",
     date: "2024-01-13",
+    id: "ORD-005",
+    status: "Completed",
   },
 ];
 
 const sidebarNavItems = [
   {
-    title: "Overview",
     href: "#overview",
     icon: (
       <svg
@@ -112,9 +110,9 @@ const sidebarNavItems = [
         <rect width="7" height="5" x="3" y="16" rx="1" />
       </svg>
     ),
+    title: "Overview",
   },
   {
-    title: "Analytics",
     href: "#analytics",
     icon: (
       <svg
@@ -132,9 +130,9 @@ const sidebarNavItems = [
         <path d="m19 9-5 5-4-4-3 3" />
       </svg>
     ),
+    title: "Analytics",
   },
   {
-    title: "Reports",
     href: "#reports",
     icon: (
       <svg
@@ -155,9 +153,9 @@ const sidebarNavItems = [
         <line x1="10" x2="8" y1="9" y2="9" />
       </svg>
     ),
+    title: "Reports",
   },
   {
-    title: "Settings",
     href: "#settings",
     icon: (
       <svg
@@ -175,6 +173,7 @@ const sidebarNavItems = [
         <circle cx="12" cy="12" r="3" />
       </svg>
     ),
+    title: "Settings",
   },
 ];
 
@@ -184,10 +183,10 @@ function DashboardShell() {
   return (
     <div className="flex min-h-screen w-full bg-background">
       {/* Sidebar */}
-      <aside className="fixed left-0 top-0 z-40 h-screen w-64 border-r bg-card">
+      <aside className="fixed top-0 left-0 z-40 h-screen w-64 border-r bg-card">
         <div className="flex h-16 items-center border-b px-6">
           <div className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-lg bg-primary" />
+            <div className="size-8  rounded-lg bg-primary" />
             <span className="text-lg font-semibold">Dashboard</span>
           </div>
         </div>
@@ -208,9 +207,9 @@ function DashboardShell() {
           ))}
         </nav>
 
-        <div className="absolute bottom-0 left-0 right-0 border-t p-4">
+        <div className="absolute right-0 bottom-0 left-0 border-t p-4">
           <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-full bg-primary/20" />
+            <div className="size-10  rounded-full bg-primary/20" />
             <div>
               <p className="text-sm font-medium">John Doe</p>
               <p className="text-xs text-muted-foreground">Admin</p>

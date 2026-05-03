@@ -168,12 +168,14 @@ This document catalogs all tests in the Banking application, their configuration
 MSW intercepts network requests and provides deterministic responses for unit tests. Configured globally in `tests/setup.ts`.
 
 **Key Handlers:**
+
 - Authentication (`/api/auth/*`)
 - Plaid integration endpoints
 - Dwolla transfer endpoints
 - User & wallet endpoints
 
 **Setup Pattern:**
+
 ```typescript
 // tests/setup.ts
 const server = setupServer(...handlers);
@@ -195,17 +197,19 @@ afterEach(() => server.resetHandlers());
 | `@/lib/auth` | Auth helper (returns seeded session) | Global mock in `tests/setup.ts` |
 
 **Default Auth Mock (all unit tests):**
+
 ```typescript
 vi.mock("@/lib/auth", () => ({
-  auth: () => Promise.resolve({
-    user: {
-      id: "test-user",
-      email: "test@example.com",
-      name: "Test User",
-      isAdmin: false,
-      isActive: true
-    }
-  })
+  auth: () =>
+    Promise.resolve({
+      user: {
+        id: "test-user",
+        email: "test@example.com",
+        name: "Test User",
+        isAdmin: false,
+        isActive: true
+      }
+    })
 }));
 ```
 
@@ -243,6 +247,7 @@ vi.mock("@/lib/auth", () => ({
 **Sourced from:** `scripts/seed/seed-data.ts` (matches `SEED_PASSWORD_PLAIN` and seed user email)
 
 **Seed Command:**
+
 ```bash
 # Push schema and seed data
 bun run db:push
@@ -282,6 +287,7 @@ export function isMockAccessToken(token: string): boolean {
 ```
 
 **Common Mock Tokens:**
+
 - `seed-plaid-public-token` → Mocked Plaid public token
 - `mock-dwolla-customer-url` → Mocked Dwolla customer URL
 - `mock_access_token` → Generic mock access token
@@ -328,6 +334,7 @@ export default defineConfig({
 ```
 
 **Key Settings:**
+
 - **Environment:** `happy-dom` (lightweight JSDOM alternative)
 - **Globals:** `true` (no `describe`/`it` imports needed)
 - **Include Pattern:** `tests/unit/**/*.test.{ts,tsx,js,jsx}`
@@ -345,7 +352,9 @@ export default defineConfig({
   fullyParallel: false,
   globalSetup: "./tests/e2e/global-setup.ts",
   globalTeardown: "./tests/e2e/global-teardown.ts",
-  projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
+  projects: [
+    { name: "chromium", use: { ...devices["Desktop Chrome"] } }
+  ],
   testDir: "./tests/e2e",
   timeout: 90_000,
   use: {
@@ -367,6 +376,7 @@ export default defineConfig({
 ```
 
 **Key Settings:**
+
 - **Parallel:** `false` (stateful — app state is shared)
 - **Workers:** 1 (sequential execution only)
 - **Test Timeout:** 90 seconds per test
@@ -379,6 +389,7 @@ export default defineConfig({
 **File:** `tests/setup.ts`
 
 Runs before all Vitest unit tests. Initializes:
+
 - **MSW Server:** Intercepts network requests
 - **Global Mocks:** Sonner, charts, auth, navigation, UI components
 - **Environment Variables:** Loads `.env.local`
@@ -427,6 +438,7 @@ bun run test:ui:report
 ```
 
 **Requirements:**
+
 - Port 3000 free (or kill existing: `lsof -ti :3000 | xargs kill -9`)
 - PostgreSQL running (via Docker or local)
 - `.env.local` configured with `DATABASE_URL`
@@ -476,7 +488,9 @@ vi.mock("@/actions/transaction.actions", () => ({
 // Test the component
 describe("DashboardServerWrapper", () => {
   it("should redirect unauthenticated users", async () => {
-    vi.mocked(auth).mockImplementationOnce(() => Promise.resolve(null));
+    vi.mocked(auth).mockImplementationOnce(() =>
+      Promise.resolve(null)
+    );
     // Test logic...
   });
 });
@@ -493,7 +507,10 @@ import { server } from "@/tests/mocks/server";
 it("should handle Plaid linking error", () => {
   server.use(
     http.post("https://sandbox.plaid.com/link/token/create", () => {
-      return HttpResponse.json({ error: "INVALID_REQUEST" }, { status: 400 });
+      return HttpResponse.json(
+        { error: "INVALID_REQUEST" },
+        { status: 400 }
+      );
     })
   );
   // Test logic...
@@ -520,7 +537,9 @@ Inject mock SDK before page loads:
 ```typescript
 import { addMockPlaidInitScript } from "./helpers/plaid.mock";
 
-test("should complete Plaid linking with mock token", async ({ page }) => {
+test("should complete Plaid linking with mock token", async ({
+  page
+}) => {
   await addMockPlaidInitScript(page, "MOCK_PUBLIC_TOKEN");
   await page.goto("/my-wallets/link");
   // Plaid flow proceeds without hitting real Plaid API
@@ -536,7 +555,10 @@ import { isDatabaseSeeded, getDatabaseUrl } from "./helpers/db";
 
 test("should seed test data before running", async () => {
   const url = getDatabaseUrl();
-  const isSeeded = await isDatabaseSeeded(url, "seed-user@example.com");
+  const isSeeded = await isDatabaseSeeded(
+    url,
+    "seed-user@example.com"
+  );
   expect(isSeeded).toBe(true);
 });
 ```
@@ -544,6 +566,7 @@ test("should seed test data before running", async () => {
 ### Best Practices
 
 **DO:**
+
 - Use web-first assertions: `expect(page).toHaveText()`, `expect(page).toBeVisible()`
 - Group interactions with `test.step()`
 - Mock external APIs (Plaid, Dwolla) in unit tests
@@ -551,6 +574,7 @@ test("should seed test data before running", async () => {
 - Batch N+1 queries in DAL tests
 
 **DON'T:**
+
 - Use hard-coded waits: `page.waitForTimeout(1000)` ❌
 - Use `.skip()` or `it.skip()` — fix or remove the test
 - Access DB directly in E2E — use helpers

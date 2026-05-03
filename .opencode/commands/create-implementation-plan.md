@@ -29,23 +29,28 @@ Use this to create detailed implementation plans for Banking app features.
 # Implementation Plan: {Feature Name}
 
 ## Overview
+
 {Brief description of what this feature does}
 
 ## Components
 
 ### Database
+
 - Schema changes needed
 - Migrations required
 
 ### API / Server Actions
+
 - New actions or modified
 - Input validation
 
 ### UI Components
+
 - New components
 - Modified components
 
 ### Tests
+
 - Unit tests needed
 - E2E tests needed
 
@@ -55,10 +60,12 @@ Use this to create detailed implementation plans for Banking app features.
 2. Step 2: {description}
 
 ## Dependencies
+
 - Depends on: {other features}
 - Blocks: {downstream work}
 
 ## Success Criteria
+
 - [ ] Criteria 1
 - [ ] Criteria 2
 ```

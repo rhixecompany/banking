@@ -43,20 +43,20 @@ export async function ensureAdminIsSeeded() {
  * Sign in with the seeded credentials. The app navigates directly to `/dashboard` after success.
  */
 export async function signInWithSeedUser(page: Page): Promise<void> {
-  const authResponses: Array<{
+  const authResponses: {
     url: string;
     status: number;
-    contentType: string | null;
+    contentType: null | string;
     bodyPreview: string;
-  }> = [];
+  }[] = [];
 
-  const authRequests: Array<{
+  const authRequests: {
     url: string;
     method: string;
     postDataPreview: string;
-    contentType: string | null;
-    csrfCookieTokenPartFromHeader: string | null;
-  }> = [];
+    contentType: null | string;
+    csrfCookieTokenPartFromHeader: null | string;
+  }[] = [];
 
   const onResponse = async (resp: any) => {
     // Only capture NextAuth-related traffic to avoid log spam.
@@ -89,7 +89,7 @@ export async function signInWithSeedUser(page: Page): Promise<void> {
 
     const headers = req.headers();
 
-    let csrfCookieTokenPartFromHeader: string | null = null;
+    let csrfCookieTokenPartFromHeader: null | string = null;
     if (url.includes("/api/auth/callback/credentials")) {
       const cookieHeader = headers["cookie"];
       if (cookieHeader) {

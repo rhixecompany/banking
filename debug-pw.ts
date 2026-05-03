@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import { config } from "dotenv";
 import "dotenv/config";
 import { eq } from "drizzle-orm";
+
 import { db } from "./database/db";
 import { users } from "./database/schema";
 config({ path: ".env.local" });

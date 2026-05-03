@@ -1,12 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
-
-import { ArrowRightIcon } from "lucide-react";
-
 import Autoplay from "embla-carousel-autoplay";
-
-import { Separator } from "@/components/ui/separator";
+import { ArrowRightIcon } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -15,15 +11,16 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
+import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 
-export type MenuData = {
+export interface MenuData {
   id: number;
   img: string;
   imgAlt: string;
   userAvatar: string;
   userComment: string;
-};
+}
 
 const HeroSection = ({ menudata }: { menudata: MenuData[] }) => {
   const [mainApi, setMainApi] = useState<CarouselApi>();
@@ -99,7 +96,7 @@ const HeroSection = ({ menudata }: { menudata: MenuData[] }) => {
               Savor the taste of perfection
             </h1>
 
-            <p className="text-muted-foreground max-w-xl text-xl max-lg:text-center">
+            <p className="max-w-xl text-xl text-muted-foreground max-lg:text-center">
               Welcome to Restaurant where passion meets the plate.From sizzling
               appetisers to signature desserts, every dish is crafted to delight
               your senses.
@@ -119,7 +116,7 @@ const HeroSection = ({ menudata }: { menudata: MenuData[] }) => {
               <Button
                 size="lg"
                 asChild
-                className="bg-primary/10 hover:bg-primary/20 text-primary rounded-full text-base"
+                className="rounded-full bg-primary/10 text-base text-primary hover:bg-primary/20"
               >
                 <a href="#">Book table</a>
               </Button>
@@ -159,8 +156,8 @@ const HeroSection = ({ menudata }: { menudata: MenuData[] }) => {
               loop: true,
             }}
           >
-            <div className="from-background pointer-events-none absolute inset-y-0 start-0 z-1 w-25 bg-gradient-to-r via-85% to-transparent" />
-            <div className="from-background pointer-events-none absolute inset-y-0 end-0 z-1 w-25 bg-gradient-to-l via-85% to-transparent" />
+            <div className="pointer-events-none absolute inset-y-0 start-0 z-1 w-25 bg-gradient-to-r from-background via-85% to-transparent" />
+            <div className="pointer-events-none absolute inset-y-0 end-0 z-1 w-25 bg-gradient-to-l from-background via-85% to-transparent" />
             <CarouselContent className="my-1 flex">
               {menudata.map((item, index) => (
                 <CarouselItem
@@ -207,16 +204,16 @@ const HeroSection = ({ menudata }: { menudata: MenuData[] }) => {
               {menudata.map((item) => (
                 <CarouselItem
                   key={item.id}
-                  className="flex h-full min-h-14 w-full justify-center gap-4 px-6 lg:items-center"
+                  className="flex size-full min-h-14  justify-center gap-4 px-6 lg:items-center"
                 >
                   <img
                     src={item.userAvatar}
                     alt={item.imgAlt}
-                    className="border-background size-10 rounded-full border-4 drop-shadow-lg"
+                    className="size-10 rounded-full border-4 border-background drop-shadow-lg"
                   />
                   <Separator
                     orientation="vertical"
-                    className="bg-primary hidden !h-6 !w-0.5 !rounded-full sm:block"
+                    className="hidden !h-6 !w-0.5 !rounded-full bg-primary sm:block"
                   />
                   <p className="text-card-foreground">{item.userComment}</p>
                 </CarouselItem>

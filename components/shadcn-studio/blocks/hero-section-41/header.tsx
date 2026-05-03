@@ -1,25 +1,22 @@
 "use client";
 
+import { CalendarClockIcon, MenuIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
-import { CalendarClockIcon, MenuIcon } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
-
-import MenuDropdown from "@/components/shadcn-studio/blocks/menu-dropdown";
 import type { NavigationSection } from "@/components/shadcn-studio/blocks/menu-navigation";
-import MenuNavigation from "@/components/shadcn-studio/blocks/menu-navigation";
-
-import { cn } from "@/lib/utils";
 
 import BistroLogo from "@/assets/svg/bistro-logo";
+import MenuDropdown from "@/components/shadcn-studio/blocks/menu-dropdown";
+import MenuNavigation from "@/components/shadcn-studio/blocks/menu-navigation";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
-type HeaderProps = {
+interface HeaderProps {
   navigationData: NavigationSection[];
   className?: string;
-};
+}
 
-const Header = ({ navigationData, className }: HeaderProps) => {
+const Header = ({ className, navigationData }: HeaderProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -49,7 +46,7 @@ const Header = ({ navigationData, className }: HeaderProps) => {
         {/* Logo */}
         <a href="#" className="flex items-center gap-3">
           <BistroLogo />
-          <span className="text-primary text-[20px] font-semibold">Bistro</span>
+          <span className="text-[20px] font-semibold text-primary">Bistro</span>
         </a>
 
         {/* Navigation */}

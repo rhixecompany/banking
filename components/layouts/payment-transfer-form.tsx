@@ -1,6 +1,7 @@
+import type { UseFormReturn } from "react-hook-form";
+
 import type { Recipient } from "@/types/recipient";
 import type { Wallet } from "@/types/wallet";
-import type { FieldValues, UseFormReturn } from "react-hook-form";
 
 import HeaderBox from "@/components/header-box/header-box";
 import { Button } from "@/components/ui/button";

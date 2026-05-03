@@ -1,13 +1,15 @@
 ---
 plan name: bun-migration-validate
 plan description: Migrate npm to bun with validation
-plan status: active
+plan status: done
 ---
 
 ## Idea
+
 Comprehensive migration from npm/npx to bun/bunx with validation and iterative fixes until passing
 
 ## Implementation
+
 - Audit codebase for npx tsx occurrences and document in memory
 - Audit codebase for npm run occurrences and document in memory
 - Replace all npx tsx with bunx tsx in .sh scripts
@@ -29,7 +31,9 @@ Comprehensive migration from npm/npx to bun/bunx with validation and iterative f
 - Commit changes with proper commit message
 
 ## Required Specs
+
 <!-- SPECS_START -->
+
 - skills-catalog
 - bun-migration-spec
 <!-- SPECS_END -->

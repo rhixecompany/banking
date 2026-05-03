@@ -2,11 +2,11 @@
   "$schema": "https://opencode.ai/config.json",
   "agent": {
     "build": {
-      "model": "github-copilot/claude-haiku-4.5",
+      "model": "opencode/minimax-m2.5-free",
       "variant": "max"
     },
     "plan": {
-      "model": "github-copilot/claude-opus-4.5",
+      "model": "opencode/minimax-m2.5-free",
       "variant": "max"
     }
   },
@@ -20,7 +20,7 @@
   "compaction": {
     "auto": true
   },
-  "default_agent": "plan",
+  "default_agent": "build",
   "enabled_providers": [
     "google-vertex",
     "openrouter",
@@ -36,11 +36,6 @@
     "context7": {
       "type": "remote",
       "url": "https://mcp.context7.com/mcp"
-    },
-    "exa": {
-      "enabled": true,
-      "type": "remote",
-      "url": "https://mcp.exa.ai/mcp"
     },
     "filesystem": {
       "command": [
@@ -66,14 +61,6 @@
       ],
       "enabled": true,
       "timeout": 900000,
-      "type": "local"
-    },
-    "hostinger": {
-      "command": ["bunx", "-y", "hostinger-api-mcp"],
-      "environment": {
-        "DEBUG": "false"
-      },
-      "timeout": 5000,
       "type": "local"
     },
     "memory": {
@@ -107,67 +94,28 @@
       "enabled": true,
       "timeout": 900000,
       "type": "local"
-    },
-    "shadcn": {
-      "command": ["bunx", "shadcn@latest", "mcp"],
-      "enabled": true,
-      "timeout": 900000,
-      "type": "local"
-    },
-    "youtube-transcript": {
-      "command": [
-        "bunx",
-        "-y",
-        "@kimtaeyoon83/mcp-server-youtube-transcript"
-      ],
-      "enabled": true,
-      "timeout": 900000,
-      "type": "local"
     }
   },
-  "model": "github-copilot/claude-haiku-4.5",
+  "model": "opencode/minimax-m2.5-free",
   "plugin": [
-    "@franlol/opencode-md-table-formatter@latest",
-    "opencode-websearch-cited@1.2.0",
-    "opencode-cost-guard",
+    "opencode-mem",
     "opencode-mystatus",
     "opencode-handoff",
-    "opencode-beads",
     "@tarquinen/opencode-dcp",
     "@ramarivera/opencode-model-announcer",
-    "open-plan-annotator",
-    "opencode-ignore",
-    "opencode-mem",
     "opencode-snippets",
-    "@gotgenes/opencode-agent-identity",
-    "opencode-agent-memory",
     "opencode-agent-skills",
-    "opencode-devcontainers",
-    "@zenobius/opencode-background",
-    "@slkiser/opencode-quota",
-    "opencode-sessions",
-    "@liannnix/opencode-ntfy",
-    "smart-codebase",
-    "octto",
     "superpowers@git+https://github.com/obra/superpowers.git",
     "@howaboua/opencode-planning-toolkit"
   ],
   "provider": {
     "anthropic": {
       "models": {
-        "claude-haiku-4-5": {
-          "temperature": true
-        },
-        "claude-opus-4-6": {
-          "temperature": true
-        },
-        "claude-sonnet-4-6": {
-          "temperature": true
-        }
+        "claude-haiku-4-5": { "temperature": true },
+        "claude-opus-4-6": { "temperature": true },
+        "claude-sonnet-4-6": { "temperature": true }
       },
-      "options": {
-        "apiKey": "{env:ANTHROPIC_API_KEY}"
-      }
+      "options": { "apiKey": "{env:ANTHROPIC_API_KEY}" }
     },
     "calculon": {
       "models": {
@@ -197,15 +145,9 @@
     },
     "google-vertex": {
       "models": {
-        "gemini-2.5-flash": {
-          "temperature": true
-        },
-        "gemini-2.5-pro": {
-          "temperature": true
-        },
-        "gemini-3.1-pro-preview": {
-          "temperature": true
-        }
+        "gemini-2.5-flash": { "temperature": true },
+        "gemini-2.5-pro": { "temperature": true },
+        "gemini-3.1-pro-preview": { "temperature": true }
       },
       "options": {
         "location": "{env:VERTEXAI_REGION}",

@@ -8,7 +8,6 @@ import {
   ShoppingBagIcon,
   TrendingUpIcon,
 } from "lucide-react";
-
 import { Bar, BarChart, Label, Pie, PieChart } from "recharts";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -82,26 +81,26 @@ const MetricsData = [
  * Revenue chart data for pie chart visualization
  */
 const revenueChartData = [
-  { month: "january", sales: 340, fill: "var(--color-january)" },
-  { month: "february", sales: 200, fill: "var(--color-february)" },
-  { month: "march", sales: 200, fill: "var(--color-march)" },
+  { fill: "var(--color-january)", month: "january", sales: 340 },
+  { fill: "var(--color-february)", month: "february", sales: 200 },
+  { fill: "var(--color-march)", month: "march", sales: 200 },
 ];
 
 const revenueChartConfig = {
-  sales: {
-    label: "Sales",
+  february: {
+    color: "color-mix(in oklab, var(--primary) 60%, transparent)",
+    label: "February",
   },
   january: {
-    label: "January",
     color: "var(--primary)",
-  },
-  february: {
-    label: "February",
-    color: "color-mix(in oklab, var(--primary) 60%, transparent)",
+    label: "January",
   },
   march: {
-    label: "March",
     color: "color-mix(in oklab, var(--primary) 20%, transparent)",
+    label: "March",
+  },
+  sales: {
+    label: "Sales",
   },
 } satisfies ChartConfig;
 
@@ -127,7 +126,7 @@ const SalesMetricsCard = ({ className }: { className?: string }) => {
               />
               <div className="flex flex-col gap-0.5">
                 <span className="text-xl font-medium">Sandy&apos; Company</span>
-                <span className="text-muted-foreground text-sm">
+                <span className="text-sm text-muted-foreground">
                   sandy@company.com
                 </span>
               </div>
@@ -140,12 +139,12 @@ const SalesMetricsCard = ({ className }: { className?: string }) => {
                   className="flex items-center gap-3 rounded-md border px-4 py-2"
                 >
                   <Avatar className="size-8.5 rounded-sm">
-                    <AvatarFallback className="bg-primary/10 text-primary shrink-0 rounded-sm">
+                    <AvatarFallback className="shrink-0 rounded-sm bg-primary/10 text-primary">
                       {metric.icons}
                     </AvatarFallback>
                   </Avatar>
                   <div className="flex flex-col gap-0.5">
-                    <span className="text-muted-foreground text-sm font-medium">
+                    <span className="text-sm font-medium text-muted-foreground">
                       {metric.title}
                     </span>
                     <span className="text-lg font-medium">{metric.value}</span>
@@ -166,7 +165,7 @@ const SalesMetricsCard = ({ className }: { className?: string }) => {
                 config={revenueChartConfig}
                 className="h-38.5 w-full"
               >
-                <PieChart margin={{ top: 0, bottom: 0, left: 0, right: 0 }}>
+                <PieChart margin={{ bottom: 0, left: 0, right: 0, top: 0 }}>
                   <ChartTooltip
                     cursor={false}
                     content={<ChartTooltipContent hideLabel />}
@@ -228,13 +227,13 @@ const SalesMetricsCard = ({ className }: { className?: string }) => {
               <span className="max-lg:5xl text-6xl">
                 {salesPlanPercentage}%
               </span>
-              <span className="text-muted-foreground text-sm">
+              <span className="text-sm text-muted-foreground">
                 Percentage profit from total sales
               </span>
             </div>
             <div className="flex flex-col gap-6 text-lg md:col-span-4">
               <span className="font-medium">Cohort analysis indicators</span>
-              <span className="text-muted-foreground text-wrap">
+              <span className="text-wrap text-muted-foreground">
                 Analyzes the behaviour of a group of users who joined a
                 product/service at the same time. over a certain period.
               </span>

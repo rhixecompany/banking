@@ -12,21 +12,25 @@ Review code for the Banking app with focus on quality and best practices.
 ## Review Focus Areas
 
 ### Correctness
+
 - Logic correctness and edge cases
 - Error handling
 - Input validation
 
 ### Security
+
 - No hardcoded secrets
 - Proper authentication/authorization
 - SQL injection prevention (use Drizzle!)
 
 ### Performance
+
 - N+1 query detection
 - Unnecessary re-renders in React
 - Bundle size considerations
 
 ### Maintainability
+
 - Clear naming
 - Code organization
 - Documentation where needed
@@ -45,15 +49,18 @@ Review code for the Banking app with focus on quality and best practices.
 ## Review: {File/Feature}
 
 ### Issues Found
+
 - **Critical**: {description}
 - **Major**: {description}
 - **Minor**: {description}
 
 ### Suggestions
+
 - Improvement 1
 - Improvement 2
 
 ### What Looks Good
+
 - Good pattern 1
 - Good pattern 2
 ```

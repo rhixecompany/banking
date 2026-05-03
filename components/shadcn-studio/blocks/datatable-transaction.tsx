@@ -1,14 +1,7 @@
 "use client";
 
-import { useState } from "react";
-
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  EllipsisVerticalIcon,
-} from "lucide-react";
-
 import type { ColumnDef, PaginationState } from "@tanstack/react-table";
+
 import {
   flexRender,
   getCoreRowModel,
@@ -17,6 +10,12 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  EllipsisVerticalIcon,
+} from "lucide-react";
+import { useState } from "react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -42,22 +41,21 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
 import { usePagination } from "@/hooks/use-pagination";
 
 /**
  * Type definition for transaction table row data
  */
-export type Item = {
+export interface Item {
   id: string;
   avatar: string;
   avatarFallback: string;
   name: string;
   email: string;
   amount: number;
-  status: "pending" | "processing" | "paid" | "failed";
+  status: "failed" | "paid" | "pending" | "processing";
   paidBy: "mastercard" | "visa";
-};
+}
 
 /**
  * Column definitions for the transaction data table
@@ -65,7 +63,6 @@ export type Item = {
 export const columns: ColumnDef<Item>[] = [
   {
     accessorKey: "name",
-    header: "Customer",
     cell: ({ row }) => (
       <div className="flex items-center gap-2">
         <Avatar className="size-9">
@@ -75,40 +72,40 @@ export const columns: ColumnDef<Item>[] = [
           </AvatarFallback>
         </Avatar>
         <div className="flex flex-col text-sm">
-          <span className="text-card-foreground font-medium">
+          <span className="font-medium text-card-foreground">
             {row.getValue("name")}
           </span>
           <span className="text-muted-foreground">{row.original.email}</span>
         </div>
       </div>
     ),
+    header: "Customer",
   },
   {
     accessorKey: "amount",
-    header: "Amount",
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
+      const amount = Number.parseFloat(row.getValue("amount"));
 
       const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
         currency: "USD",
+        style: "currency",
       }).format(amount);
 
       return <span>{formatted}</span>;
     },
+    header: "Amount",
   },
   {
     accessorKey: "status",
-    header: "Status",
     cell: ({ row }) => (
-      <Badge className="bg-primary/10 text-primary rounded-sm px-1.5 capitalize">
+      <Badge className="rounded-sm bg-primary/10 px-1.5 text-primary capitalize">
         {row.getValue("status")}
       </Badge>
     ),
+    header: "Status",
   },
   {
     accessorKey: "paidBy",
-    header: () => <span className="w-fit">Paid by</span>,
     cell: ({ row }) => (
       <img
         src={
@@ -120,13 +117,14 @@ export const columns: ColumnDef<Item>[] = [
         className="w-10.5"
       />
     ),
+    header: () => <span className="w-fit">Paid by</span>,
   },
   {
-    id: "actions",
-    header: () => "Actions",
     cell: () => <RowActions />,
-    size: 60,
     enableHiding: false,
+    header: () => "Actions",
+    id: "actions",
+    size: 60,
   },
 ];
 
@@ -146,12 +144,12 @@ const TransactionDatatable = ({ data }: { data: Item[] }) => {
   });
 
   const table = useReactTable({
-    data,
     columns,
+    data,
     getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
     onPaginationChange: setPagination,
     state: {
       pagination,
@@ -160,8 +158,8 @@ const TransactionDatatable = ({ data }: { data: Item[] }) => {
 
   const { pages, showLeftEllipsis, showRightEllipsis } = usePagination({
     currentPage: table.getState().pagination.pageIndex + 1,
-    totalPages: table.getPageCount(),
     paginationItemsToDisplay: 2,
+    totalPages: table.getPageCount(),
   });
 
   return (
@@ -175,7 +173,7 @@ const TransactionDatatable = ({ data }: { data: Item[] }) => {
                   return (
                     <TableHead
                       key={header.id}
-                      className="text-muted-foreground h-14 first:ps-4"
+                      className="h-14 text-muted-foreground first:ps-4"
                     >
                       {header.isPlaceholder
                         ? null
@@ -222,7 +220,7 @@ const TransactionDatatable = ({ data }: { data: Item[] }) => {
 
       <div className="flex items-center justify-between gap-3 px-6 py-4 max-sm:flex-col md:max-lg:flex-col">
         <p
-          className="text-muted-foreground text-sm whitespace-nowrap"
+          className="text-sm whitespace-nowrap text-muted-foreground"
           aria-live="polite"
         >
           Showing{" "}
