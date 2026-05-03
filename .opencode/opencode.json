@@ -2,11 +2,11 @@
   "$schema": "https://opencode.ai/config.json",
   "agent": {
     "build": {
-      "model": "opencode/minimax-m2.5-free",
+      "model": "github-copilot/claude-haiku-4.5",
       "variant": "high"
     },
     "plan": {
-      "model": "opencode/minimax-m2.5-free",
+      "model": "github-copilot/claude-opus-4.7",
       "variant": "high"
     }
   },
@@ -143,7 +143,7 @@
       "type": "local"
     }
   },
-  "model": "opencode/minimax-m2.5-free",
+  "model": "github-copilot/claude-haiku-4.5",
   "plugin": [
     "@franlol/opencode-md-table-formatter@latest",
     "opencode-websearch-cited@1.2.0",
