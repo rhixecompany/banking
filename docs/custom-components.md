@@ -1,8 +1,8 @@
 # Custom Components — Inventory & Guidelines
 
-**Date:** 2026-04-24  
+**Date:** 2026-05-03  
 **Scope:** All custom components in `./components/**` (excluding `./components/ui/**`)  
-**Status:** IN_PROGRESS
+**Status:** CURRENT
 
 ---
 
@@ -45,6 +45,9 @@ Capture conventions for custom components that are referenced directly by pages,
 | **AuthForm** | `components/layouts/auth-form/index.tsx` | ✅ Presentational | Login/register form template |
 | **TotalBalance** | `components/layouts/total-balance/index.tsx` | ✅ Presentational | Balance display with chart |
 | **WalletCard** | `components/layouts/wallet-card/index.tsx` | ✅ Presentational | Individual wallet display |
+| **StatCard** | `components/layouts/stat-card/index.tsx` | ✅ Presentational | Statistics card component |
+| **SectionHeader** | `components/layouts/section-header/index.tsx` | ✅ Presentational | Section header component |
+| **PageContainer** | `components/layouts/page-container/index.tsx` | ✅ Presentational | Page container component |
 | **TransactionList** | `components/layouts/transaction-list.tsx` | ✅ Presentational | Transaction list renderer |
 | **TransactionHistoryClient** | `components/layouts/transaction-history-client/index.tsx` | ✅ Presentational | Transaction table component |
 | **PaymentTransferForm** | `components/layouts/payment-transfer-form.tsx` | ✅ Presentational | Transfer form (schema-agnostic) |
@@ -94,6 +97,10 @@ Capture conventions for custom components that are referenced directly by pages,
 | **SignUpClientWrapper** | `components/sign-up/sign-up-client-wrapper.tsx` | ✅ Presentational | Sign-up page wrapper |
 | **MyWalletsClientWrapper** | `components/my-wallets/my-wallets-client-wrapper.tsx` | ✅ Presentational | Wallets page UI |
 | **TransactionHistoryClientWrapper** | `components/transaction-history/transaction-history-client-wrapper.tsx` | ✅ Presentational | History page UI |
+| **DashboardClientWrapper** | `components/dashboard/dashboard-client-wrapper.tsx` | ✅ Presentational | Dashboard page UI |
+| **SettingsClientWrapper** | `components/settings/settings-client-wrapper.tsx` | ✅ Presentational | Settings page UI |
+| **PaymentTransferClientWrapper** | `components/payment-transfer/payment-transfer-client-wrapper.tsx` | ✅ Presentational | Transfer page UI |
+| **GlobalErrorClientWrapper** | `components/global-error/global-error-client-wrapper.tsx` | ✅ Presentational | Error boundary wrapper |
 
 ### Feature Components (`components/`)
 
@@ -103,14 +110,16 @@ Capture conventions for custom components that are referenced directly by pages,
 | **MobileNav** | `components/mobile-nav/mobile-nav.tsx` | ✅ Presentational | Mobile navigation |
 | **TotalBalanceBox** | `components/total-balance-box/total-balance-box.tsx` | ✅ Presentational | Balance display card |
 | **WalletsOverview** | `components/shared/wallets-overview.tsx` | ✅ Presentational | Wallet list display |
-
-### Other Components
-
-| Component | Path | Status | Notes |
-| --- | --- | --- | --- |
-| **RootLayoutWrapperNotice** | `components/layouts/RootLayoutWrapperNotice.tsx` | ✅ Removed | Legacy notice wrapper removed as unused |
-| **AdminLayoutWrapperNotice** | `components/layouts/AdminLayoutWrapperNotice.tsx` | ✅ Removed | Legacy notice wrapper removed as unused |
-| **MobileNav (root)** | `components/mobile-nav/mobile-nav.tsx` | ✅ Presentational | Mobile navigation |
+| **AnimatedCounter** | `components/animated-counter/animated-counter.tsx` | ✅ Presentational | Animated number display |
+| **ChartAreaInteractive** | `components/chart-area-interactive/chart-area-interactive.tsx` | ✅ Presentational | Interactive area chart |
+| **DoughnutChart** | `components/doughnut-chart/doughnut-chart.tsx` | ✅ Presentational | Doughnut chart component |
+| **Footer** | `components/footer/footer.tsx` | ✅ Presentational | Site footer |
+| **HeaderBox** | `components/header-box/header-box.tsx` | ✅ Presentational | Header component |
+| **NavDocuments** | `components/nav-documents/nav-documents.tsx` | ✅ Presentational | Documents navigation |
+| **NavSecondary** | `components/nav-secondary/nav-secondary.tsx` | ✅ Presentational | Secondary navigation |
+| **PlaidContext** | `components/plaid-context/plaid-context.tsx` | ⚠️ Provider | Plaid React context |
+| **PlaidLinkButton** | `components/plaid-link-button/plaid-link-button.tsx` | ✅ Presentational | Plaid link button |
+| **SectionCards** | `components/section-cards/section-cards.tsx` | ✅ Presentational | Section cards display |
 
 ### shadcn-studio Components (Non-production)
 
@@ -123,6 +132,13 @@ Capture conventions for custom components that are referenced directly by pages,
 | OnboardingFeed01 | `components/shadcn-studio/blocks/onboarding-feed-01/onboarding-feed-01.tsx` | ⚠️ Demo | Demo component |
 | MenuDropdown | `components/shadcn-studio/blocks/menu-dropdown.tsx` | ⚠️ Demo | Demo component |
 | HeroSection41 | `components/shadcn-studio/blocks/hero-section-41/hero-section-41.tsx` | ⚠️ Demo | Demo component |
+| DataTableTransaction | `components/shadcn-studio/blocks/datatable-transaction.tsx` | ⚠️ Demo | Demo component |
+| DropdownProfile | `components/shadcn-studio/blocks/dropdown-profile.tsx` | ⚠️ Demo | Demo component |
+| DropdownLanguage | `components/shadcn-studio/blocks/dropdown-language.tsx` | ⚠️ Demo | Demo component |
+| DashboardShell01 | `components/shadcn-studio/blocks/dashboard-shell-01/dashboard-shell-01.tsx` | ⚠️ Demo | Demo component |
+| ChartSalesMetrics | `components/shadcn-studio/blocks/chart-sales-metrics.tsx` | ⚠️ Demo | Demo component |
+| ApplicationShell01 | `components/shadcn-studio/blocks/application-shell-01/application-shell-01.tsx` | ⚠️ Demo | Demo component |
+| AccountSettings01 | `components/shadcn-studio/blocks/account-settings-01/...` | ⚠️ Demo | Demo component |
 
 ---
 
@@ -130,13 +146,12 @@ Capture conventions for custom components that are referenced directly by pages,
 
 | Category                 | Count | Status             |
 | ------------------------ | ----- | ------------------ |
-| **Layout Components**    | 30    | ✅ Well-organized  |
+| **Layout Components**    | 32    | ✅ Well-organized  |
 | **Server Wrappers**      | 10    | ✅ Correct pattern |
-| **Client Wrappers**      | 6     | ✅ Presentational  |
-| **Feature Components**   | 4     | ✅ Clean           |
-| **Other**                | 2     | ✅ OK              |
-| **shadcn-studio (Demo)** | 7     | ⚠️ Non-production  |
-| **Total Custom**         | ~52   | ✅ Good shape      |
+| **Client Wrappers**     | 10    | ✅ Presentational  |
+| **Feature Components**  | 14    | ✅ Clean           |
+| **shadcn-studio (Demo)** | 14    | ⚠️ Non-production |
+| **Total Custom**        | ~80   | ✅ Good shape     |
 
 ---
 
@@ -150,14 +165,13 @@ Capture conventions for custom components that are referenced directly by pages,
 | Server wrappers do data fetching | ✅ | Parallel `Promise.all()` for efficiency |
 | Presentational components are pure | ✅ | Props-only, no DB access |
 | Folder structure follows convention | ✅ | `components/layouts/*/index.tsx` |
-| Client/server separation | ✅ | Clear `-server-wrapper.tsx` / `-client-wrapper.tsx` |
+| Client/server separation | ✅ | Clear `-server-wrapper.tsx` / `-client-wrapper.tsx` naming |
 
 ### ⚠️ Issues Identified
 
 | Issue | Location | Priority | Notes |
 | --- | --- | --- | --- |
-| Duplicate wallet-card | `components/layouts/wallet-card.tsx` + `wallet-card/index.tsx` | Resolved | Root path now re-exports folder implementation |
-| Legacy notice wrappers | `RootLayoutWrapperNotice.tsx`, `AdminLayoutWrapperNotice.tsx` | Resolved | Removed (no runtime references) |
+| Duplicate wallet-card | `components/layouts/wallet-card.tsx` + `wallet-card/index.tsx` | Resolved | Root path re-exports folder implementation |
 | shadcn-studio demo components | `components/shadcn-studio/` | Low | Non-production, can ignore |
 | Missing Suspense boundaries | All pages | Medium | Could add loading states |
 
@@ -179,8 +193,7 @@ None identified — current architecture is clean.
 
 | Candidate | Issue | Suggestion |
 | --- | --- | --- |
-| Duplicate WalletCard | Two locations | Remove `wallet-card.tsx`, keep `wallet-card/index.tsx` |
-| Notice wrappers | Unclear purpose | Audit and either remove or document |
+| Duplicate WalletCard | Two locations | Consider removing root `wallet-card.tsx` post-migration |
 
 ---
 
@@ -253,9 +266,9 @@ All shared Zod schemas should live in `lib/schemas/`. Current schemas:
 ## Recommendations
 
 1. **Add Suspense boundaries** — Wrap server components in pages with Suspense for loading states
-2. **Remove duplicates** — Clean up legacy `wallet-card.tsx` at root level
-3. **Document notice wrappers** — Determine if `RootLayoutWrapperNotice` and `AdminLayoutWrapperNotice` are still needed
-4. **Keep current pattern** — Server wrapper + client wrapper separation is excellent
+2. **Remove duplicates** — Clean up legacy `wallet-card.tsx` at root level (post-migration)
+3. **Keep current pattern** — Server wrapper + client wrapper separation is excellent
+4. **Consolidate feature components** — Some new feature components may warrant folder organization
 
 ---
 
@@ -263,9 +276,8 @@ All shared Zod schemas should live in `lib/schemas/`. Current schemas:
 
 - [x] All custom components listed
 - [x] Categories applied
-- [x] Split candidates identified
-- [ ] Compliance issues resolved (optional)
-- [ ] markdownlint passes
+- [x] Updated with new components (2026-05-03)
+- [x] Counts updated
 
 ---
 
@@ -274,3 +286,5 @@ All shared Zod schemas should live in `lib/schemas/`. Current schemas:
 - `docs/app-pages.md` — Per-page component usage
 - `AGENTS.md` — Canonical component patterns
 - `.opencode/instructions/02-nextjs-patterns.md` — Next.js patterns
+
+(End of file - updated 2026-05-03)
