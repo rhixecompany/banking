@@ -1,4 +1,12 @@
-# Exemplary Code Patterns (evidence-based)
+# Exemplary Code Patterns — DEPRECATED
+
+⚠️ **This file is archived.** All content has been consolidated into **`AGENTS.md`** (single source of truth).
+
+**See AGENTS.md §3** for current code patterns and exemplars.
+
+---
+
+## Archive Note
 
 This document contains short, concrete examples of patterns already used in the codebase. Each example references the original file where the pattern is implemented.
 

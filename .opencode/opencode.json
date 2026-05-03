@@ -164,14 +164,12 @@
     "@zenobius/opencode-background",
     "opencode-sessions",
     "@franlol/opencode-md-table-formatter",
-    "@liannnix/opencode-ntfy",
     "@howaboua/opencode-planning-toolkit",
     "opencode-mem",
     "@slkiser/opencode-quota",
     "smart-codebase",
     "superpowers@git+https://github.com/obra/superpowers.git",
-    "octto",
-    "oh-my-opencode-slim"
+    "octto"
   ],
   "provider": {
     "anthropic": {

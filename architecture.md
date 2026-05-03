@@ -1,4 +1,12 @@
-# Architecture
+# Architecture — DEPRECATED
+
+⚠️ **This file is archived.** All content has been consolidated into **`AGENTS.md`** (single source of truth).
+
+**See AGENTS.md §2** for current architecture documentation.
+
+---
+
+## Archive Note
 
 This file documents the high-level architecture for the Banking app based strictly on files present in the repository.
 

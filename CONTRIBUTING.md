@@ -1,4 +1,12 @@
-# Contributing to Banking
+# Contributing to Banking — DEPRECATED
+
+⚠️ **This file is archived.** All content has been consolidated into **`AGENTS.md`** (single source of truth).
+
+**See AGENTS.md §7** (local development), **§9** (agent behavior & how to contribute), and **§11** (CI/CD) for current guidance.
+
+---
+
+## Archive Note
 
 This document explains how to run the repository verification checks locally, how maintainers can grant E2E runs for forked PRs, and how to request full E2E runs.
 

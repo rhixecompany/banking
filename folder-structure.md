@@ -1,4 +1,12 @@
-# Folder Structure (observed)
+# Folder Structure — DEPRECATED
+
+⚠️ **This file is archived.** All content has been consolidated into **`AGENTS.md`** (single source of truth).
+
+**See AGENTS.md §2** for current folder structure documentation.
+
+---
+
+## Archive Note
 
 This file describes the key folders and their responsibilities based on the codebase layout.
 

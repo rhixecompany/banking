@@ -1,4 +1,12 @@
-# Coding Standards (observed)
+# Coding Standards — DEPRECATED
+
+⚠️ **This file is archived.** All content has been consolidated into **`AGENTS.md`** (single source of truth).
+
+**See AGENTS.md §4** for current coding standards and conventions.
+
+---
+
+## Archive Note
 
 This document captures concise, enforceable coding standards that are implemented or enforced in the repository. Each rule below maps to existing code and scripts (see provenance).
 

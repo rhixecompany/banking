@@ -1,14 +1,21 @@
 ---
-description: Script orchestration patterns and standards for the Banking app
+description: Script orchestration patterns and standards — DEPRECATED
 applyTo: "scripts/**/*.ts"
 priority: high
 canonicalSource: AGENTS.md
-lastReviewed: 2026-04-30
+lastReviewed: 2026-05-03
+status: archived
 ---
 
-# Script Orchestration Standards
+# Script Orchestration Standards — DEPRECATED
 
-## Overview
+⚠️ **This file is archived.** All content has been consolidated into **`AGENTS.md`** (single source of truth).
+
+**See AGENTS.md §6** for current scripting standards.
+
+---
+
+## Archive Note
 
 All shell scripts (`.sh`, `.ps1`, `.bat`) in `scripts/` MUST be orchestrators that call TypeScript implementations. All logic lives in `scripts/ts/`.
 

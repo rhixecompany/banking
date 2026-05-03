@@ -1,4 +1,12 @@
-# Tech Stack
+# Tech Stack — DEPRECATED
+
+⚠️ **This file is archived.** All content has been consolidated into **`AGENTS.md`** (single source of truth).
+
+**See AGENTS.md §2** for current tech stack versions.
+
+---
+
+## Archive Note
 
 This file lists the exact technology versions and key libraries observed in the repository. It is generated from package.json and must match that file exactly.
 

@@ -1,9 +1,39 @@
-# Cursor/Automation Rules (summary)
+# Cursor.ai Rules
 
-- Use AGENTS.md as the single source of truth.
-- Do not edit code or run commits without user approval.
-- If a change touches >7 files, open a plan under .opencode/commands/.
-- Always include provenance lines in commits/PRs.
-- For environment access: prefer app-config.ts / lib/env.ts over process.env.
+**⚠️ DEPRECATED: See AGENTS.md instead**
 
--- Canonicalized from docs/AGENTS-CANONICAL.md on 2026-04-17 as part of unify-agent-docs operation.
+This file is kept for historical reference. All guidance has been consolidated into **`AGENTS.md`** as the single source of truth for agents and developers.
+
+---
+
+## Quick Reference (See AGENTS.md for full details)
+
+- **Package manager:** Bun 1.3.13 — use `bun run`, `bun install`, `bun exec`, `bunx`
+- **Source of truth:** `AGENTS.md` (all architecture, patterns, conventions, testing, deployment)
+- **Pre-PR checklist:** `bun run format && bun run type-check && bun run lint:strict && bun run verify:rules`
+- **Environment:** Use `app-config.ts` (not `process.env` directly)
+- **DB access:** DAL helpers only (not direct imports in UI)
+- **Commits >7 files:** Require `.opencode/commands/*.plan.md` before committing
+- **Provenance:** Include `Co-authored-by: Claude <copilot@opencode>` for AI-assisted changes
+
+---
+
+## Read AGENTS.md for:
+
+1. **§1** — Commands, quick setup
+2. **§2** — Architecture, tech stack, process boundaries
+3. **§3** — Code patterns (Server Actions, N+1 prevention, env access)
+4. **§4** — Conventions & rules (critical do's and don'ts)
+5. **§5** — Testing guide (Vitest, Playwright, mocking)
+6. **§6** — Scripts & tooling
+7. **§7** — Local development
+8. **§8** — Troubleshooting & common mistakes
+9. **§9** — Agent behavior rules
+10. **§10** — Key resources
+11. **§11** — CI/CD & deployment
+12. **§12** — Notes & conventions
+
+---
+
+**Last Updated:** 2026-05-03  
+**Canonical Source:** `AGENTS.md`
