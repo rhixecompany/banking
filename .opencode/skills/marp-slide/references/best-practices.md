@@ -12,8 +12,11 @@ Guidelines for creating "cool" high-quality slides.
 
 ```markdown
 ## Introduction
+
 ## Problem
+
 ## Solution
+
 ## Results
 ```
 
@@ -21,6 +24,7 @@ Guidelines for creating "cool" high-quality slides.
 
 ```markdown
 ## In this section we will explain the introduction
+
 ## What are the challenges we are facing
 ```
 
@@ -90,11 +94,10 @@ Guidelines for creating "cool" high-quality slides.
 ```markdown
 ## About the Product
 
-This product was developed using the latest technology.
-The main features include the following 7 points:
+This product was developed using the latest technology. The main features include the following 7 points:
+
 - Feature 1: Detailed explanation continues at length...
-- Feature 2: Even more detailed explanation...
-(Continued)
+- Feature 2: Even more detailed explanation... (Continued)
 ```
 
 ## Using Whitespace
@@ -132,6 +135,7 @@ Use sparingly and avoid excessive decoration.
 
 ```markdown
 # Text on left, image on right
+
 ![bg right:40%](image.png)
 
 - Point 1
@@ -149,8 +153,7 @@ Defined in the theme:
 
 ## Animations and Transitions
 
-Marp does not support animations by default.
-Focus on simple slide transitions.
+Marp does not support animations by default. Focus on simple slide transitions.
 
 ## Checklist
 

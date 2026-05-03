@@ -9,8 +9,7 @@ Official documentation: https://marpit.marp.app/image-syntax
 ### Regular Images
 
 ```markdown
-![](image.png)
-![alt text](image.png)
+![](image.png) ![alt text](image.png)
 ```
 
 Images are displayed as content.
@@ -20,9 +19,7 @@ Images are displayed as content.
 Marp allows adding size keywords to images:
 
 ```markdown
-![width:600px](image.png)
-![height:400px](image.png)
-![w:600px h:400px](image.png)
+![width:600px](image.png) ![height:400px](image.png) ![w:600px h:400px](image.png)
 ```
 
 **Supported units**:
@@ -49,14 +46,11 @@ Places the image as a slide background. It doesn't overlap with text content and
 ### Background Size Keywords
 
 ```markdown
-![bg fit](image.png)
-![bg cover](image.png)
-![bg contain](image.png)
-![bg auto](image.png)
+![bg fit](image.png) ![bg cover](image.png) ![bg contain](image.png) ![bg auto](image.png)
 ```
 
 | Keyword | Behavior | CSS Equivalent |
-|---------|----------|----------------|
+| --- | --- | --- |
 | `fit` | Preserve aspect ratio, fit within slide | `background-size: contain` |
 | `cover` | Preserve aspect ratio, cover entire slide | `background-size: cover` |
 | `contain` | Same as `fit` | `background-size: contain` |
@@ -65,9 +59,7 @@ Places the image as a slide background. It doesn't overlap with text content and
 ### Background Size (Numeric Values)
 
 ```markdown
-![bg 80%](image.png)
-![bg 1280px](image.png)
-![bg 50% 80%](image.png)
+![bg 80%](image.png) ![bg 1280px](image.png) ![bg 50% 80%](image.png)
 ```
 
 Supports the same syntax as CSS `background-size` property.
@@ -79,8 +71,7 @@ You can split the screen using multiple background images.
 ### Basic Split
 
 ```markdown
-![bg](image1.png)
-![bg](image2.png)
+![bg](image1.png) ![bg](image2.png)
 ```
 
 Two images are displayed split left and right.
@@ -88,9 +79,7 @@ Two images are displayed split left and right.
 ### Three or More Splits
 
 ```markdown
-![bg](image1.png)
-![bg](image2.png)
-![bg](image3.png)
+![bg](image1.png) ![bg](image2.png) ![bg](image3.png)
 ```
 
 Three or more images are divided equally.
@@ -100,8 +89,7 @@ Three or more images are divided equally.
 Default is horizontal split, but vertical split is also possible:
 
 ```markdown
-![bg vertical](image1.png)
-![bg](image2.png)
+![bg vertical](image1.png) ![bg](image2.png)
 ```
 
 Use `vertical` keyword to change to vertical split.
@@ -139,8 +127,7 @@ Places image on the right, reserving text space on the left.
 ### Brightness Adjustment
 
 ```markdown
-![brightness:0.5](image.png)
-![brightness:1.5](image.png)
+![brightness:0.5](image.png) ![brightness:1.5](image.png)
 ```
 
 Value range: 0 (completely black) ~ 1 (normal) ~ 2+ (brighter)
@@ -148,8 +135,7 @@ Value range: 0 (completely black) ~ 1 (normal) ~ 2+ (brighter)
 ### Contrast
 
 ```markdown
-![contrast:0.8](image.png)
-![contrast:1.5](image.png)
+![contrast:0.8](image.png) ![contrast:1.5](image.png)
 ```
 
 ### Blur
@@ -161,8 +147,7 @@ Value range: 0 (completely black) ~ 1 (normal) ~ 2+ (brighter)
 ### Grayscale
 
 ```markdown
-![grayscale](image.png)
-![grayscale:1](image.png)
+![grayscale](image.png) ![grayscale:1](image.png)
 ```
 
 Value range: 0 (color) ~ 1 (full grayscale)
@@ -170,8 +155,7 @@ Value range: 0 (color) ~ 1 (full grayscale)
 ### Sepia
 
 ```markdown
-![sepia](image.png)
-![sepia:0.8](image.png)
+![sepia](image.png) ![sepia:0.8](image.png)
 ```
 
 ### Hue Rotation
@@ -183,8 +167,7 @@ Value range: 0 (color) ~ 1 (full grayscale)
 ### Invert
 
 ```markdown
-![invert](image.png)
-![invert:0.8](image.png)
+![invert](image.png) ![invert:0.8](image.png)
 ```
 
 ### Opacity
@@ -234,8 +217,7 @@ White text placed on darkened background.
 ### Pattern 3: Multiple Image Comparison
 
 ```markdown
-![bg left:50%](before.png)
-![bg right:50%](after.png)
+![bg left:50%](before.png) ![bg right:50%](after.png)
 ```
 
 Place Before/After side by side.
@@ -243,8 +225,7 @@ Place Before/After side by side.
 ### Pattern 4: Vertical Comparison
 
 ```markdown
-![bg vertical](image1.png)
-![bg](image2.png)
+![bg vertical](image1.png) ![bg](image2.png)
 ```
 
 Place images top and bottom.
@@ -262,9 +243,7 @@ The above diagram shows...
 ### Pattern 6: 3-Split Layout
 
 ```markdown
-![bg](image1.png)
-![bg](image2.png)
-![bg](image3.png)
+![bg](image1.png) ![bg](image2.png) ![bg](image3.png)
 ```
 
 ### Pattern 7: Background with Filter Effects

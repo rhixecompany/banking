@@ -45,6 +45,9 @@ import {
 
 import { usePagination } from "@/hooks/use-pagination";
 
+/**
+ * Type definition for transaction table row data
+ */
 export type Item = {
   id: string;
   avatar: string;
@@ -56,6 +59,9 @@ export type Item = {
   paidBy: "mastercard" | "visa";
 };
 
+/**
+ * Column definitions for the transaction data table
+ */
 export const columns: ColumnDef<Item>[] = [
   {
     accessorKey: "name",
@@ -124,6 +130,13 @@ export const columns: ColumnDef<Item>[] = [
   },
 ];
 
+/**
+ * Transaction data table component with pagination, sorting, and row actions
+ *
+ * @param props - Component props
+ * @param props.data - Array of transaction items to display
+ * @returns JSX element containing the data table with pagination
+ */
 const TransactionDatatable = ({ data }: { data: Item[] }) => {
   const pageSize = 5;
 
@@ -299,6 +312,11 @@ const TransactionDatatable = ({ data }: { data: Item[] }) => {
 
 export default TransactionDatatable;
 
+/**
+ * Row actions dropdown menu component for table rows
+ *
+ * @returns JSX element containing dropdown menu with edit, duplicate, and delete actions
+ */
 function RowActions() {
   return (
     <DropdownMenu>

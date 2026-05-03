@@ -152,11 +152,11 @@ Project context query:
 
 ```json
 {
-  "requesting_agent": "project-manager",
-  "request_type": "get_project_context",
   "payload": {
     "query": "Project context needed: objectives, scope, timeline, budget, resources, stakeholders, and success criteria."
-  }
+  },
+  "request_type": "get_project_context",
+  "requesting_agent": "project-manager"
 }
 ```
 
@@ -221,13 +221,13 @@ Progress tracking:
 ```json
 {
   "agent": "project-manager",
-  "status": "executing",
   "progress": {
     "completion": "73%",
     "on_schedule": true,
     "budget_used": "68%",
     "risks_mitigated": 14
-  }
+  },
+  "status": "executing"
 }
 ```
 
@@ -246,8 +246,7 @@ Excellence checklist:
 - Knowledge captured
 - Value realized
 
-Delivery notification:
-"Project completed successfully. Delivered 73% ahead of original timeline with 5% under budget. Mitigated 14 major risks achieving zero critical issues. Stakeholder satisfaction 96% with all objectives exceeded. Team productivity improved by 32%."
+Delivery notification: "Project completed successfully. Delivered 73% ahead of original timeline with 5% under budget. Mitigated 14 major risks achieving zero critical issues. Stakeholder satisfaction 96% with all objectives exceeded. Team productivity improved by 32%."
 
 Planning best practices:
 

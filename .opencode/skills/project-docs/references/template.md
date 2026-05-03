@@ -27,7 +27,7 @@ This file contains comprehensive templates for all project documentation files. 
 This table shows all language-specific variants available in this file:
 
 | Section | Python Variant | Go Variant | Location |
-|---------|---------------|------------|----------|
+| --- | --- | --- | --- |
 | README Quick Start | `PYTHON_QUICKSTART` | `GO_QUICKSTART` | Lines 70-117 |
 | User Guide Installation | `PYTHON_INSTALLATION` | `GO_INSTALLATION` | Lines 555-587 |
 | Developer Guide Setup | `PYTHON_DEV_SETUP` | `GO_DEV_SETUP` | Lines 954-978 |
@@ -48,11 +48,7 @@ This table shows all language-specific variants available in this file:
 
 {ONE_LINE_DESCRIPTION}
 
-[BADGES - OpenSource only]
-[![Build Status](link)](link)
-[![Coverage](link)](link)
-[![License](link)](link)
-[![Version](link)](link)
+[BADGES - OpenSource only] [![Build Status](link)](link) [![Coverage](link)](link) [![License](link)](link) [![Version](link)](link)
 
 ## Overview
 
@@ -77,8 +73,7 @@ This table shows all language-specific variants available in this file:
 
 ## [CONTEXT_SPECIFIC_SECTIONS]
 
-[For OpenSource: ## Community, ## Security, ## License]
-[For Internal: ## Support, ## Compliance, ## Internal Resources]
+[For OpenSource: ## Community, ## Security, ## License] [For Internal: ## Support, ## Compliance, ## Internal Resources]
 
 ## License
 
@@ -87,7 +82,7 @@ This table shows all language-specific variants available in this file:
 
 ### Python Quick Start Variant
 
-```markdown
+````markdown
 ## Quick Start
 
 ### Installation
@@ -99,6 +94,7 @@ uv pip install {package_name}
 # Or using pip
 pip install {package_name}
 ```
+````
 
 ### Basic Usage
 
@@ -111,7 +107,7 @@ from {package_name} import {main_class}
 
 For more examples, see the [User Guide](docs/USER_GUIDE.md).
 
-```
+````
 
 ### Go Quick Start Variant
 
@@ -122,7 +118,7 @@ For more examples, see the [User Guide](docs/USER_GUIDE.md).
 
 ```bash
 go install github.com/{org}/{project}@latest
-```
+````
 
 ### Basic Usage
 
@@ -139,7 +135,7 @@ func main() {
 
 For more examples, see the [User Guide](docs/USER_GUIDE.md).
 
-```
+````
 
 ### OpenSource Additional Sections
 
@@ -160,7 +156,7 @@ We welcome contributions! Please see [CONTRIBUTING.md](docs/CONTRIBUTING.md) for
 - Documentation: [docs/](docs/)
 - Issues: [GitHub Issues](link)
 - Discussions: [GitHub Discussions](link)
-```
+````
 
 ### Internal/Work Additional Sections
 
@@ -190,7 +186,7 @@ We welcome contributions! Please see [CONTRIBUTING.md](docs/CONTRIBUTING.md) for
 
 ### Structure (All Projects)
 
-```markdown
+````markdown
 # Architecture
 
 ## Overview
@@ -207,6 +203,7 @@ graph TD
     B --> C[External System 2]
     B --> D[Database]
 ```
+````
 
 ## Components
 
@@ -235,9 +232,7 @@ graph TD
 
 ## [PROJECT_TYPE_SPECIFIC_SECTIONS]
 
-[For AI Agents: ## MCP Architecture, ## Tool Integrations, ## RAG Pipeline]
-[For Microservices: ## Service Dependencies, ## API Contracts, ## Event Schemas]
-[For Infrastructure: ## Cloud Resources, ## Network Architecture, ## Deployment Model]
+[For AI Agents: ## MCP Architecture, ## Tool Integrations, ## RAG Pipeline] [For Microservices: ## Service Dependencies, ## API Contracts, ## Event Schemas] [For Infrastructure: ## Cloud Resources, ## Network Architecture, ## Deployment Model]
 
 ## Key Design Decisions
 
@@ -287,7 +282,7 @@ graph TD
 
 {Known limitations, planned improvements, technical debt}
 
-```
+````
 
 ### AI Agent Architecture Additions
 
@@ -303,7 +298,7 @@ graph LR
     B --> D[Tool 1]
     B --> E[Tool 2]
     C --> F[Tool 3]
-```
+````
 
 **Server 1: {Name}**
 
@@ -313,9 +308,9 @@ graph LR
 
 ### Tool Integrations
 
-| Tool | Purpose | MCP Server | Configuration |
-|------|---------|------------|---------------|
-| tool_1 | {Purpose} | {Server} | {Config details} |
+| Tool   | Purpose   | MCP Server | Configuration    |
+| ------ | --------- | ---------- | ---------------- |
+| tool_1 | {Purpose} | {Server}   | {Config details} |
 
 ## RAG Pipeline
 
@@ -348,10 +343,9 @@ Key prompts used in the agent:
 {Prompt template with variables}
 ```
 
-**When Used**: {Context for this prompt}
-**Variables**: {Description of variables}
+**When Used**: {Context for this prompt} **Variables**: {Description of variables}
 
-```
+````
 
 ### Microservice Architecture Additions
 
@@ -366,7 +360,7 @@ graph TD
     C --> D
     B --> E[Message Queue]
     C --> E
-```
+````
 
 ## API Contracts
 
@@ -407,7 +401,7 @@ Response:
 - **Readiness**: `/health/ready` - Pod can accept traffic
 - **Startup**: `/health/startup` - Pod has initialized
 
-```
+````
 
 ### Infrastructure Architecture Additions
 
@@ -435,18 +429,9 @@ Response:
 
 ## Terraform Structure
 
-```
+````
 
-terraform/
-├── environments/
-│   ├── prod/
-│   ├── staging/
-│   └── dev/
-├── modules/
-│   ├── gke/
-│   ├── cloudsql/
-│   └── networking/
-└── global/
+terraform/ ├── environments/ │ ├── prod/ │ ├── staging/ │ └── dev/ ├── modules/ │ ├── gke/ │ ├── cloudsql/ │ └── networking/ └── global/
 
 ```
 
@@ -462,7 +447,7 @@ terraform/
 
 ## USER_GUIDE.md Template
 
-```markdown
+````markdown
 # User Guide
 
 ## Introduction
@@ -485,10 +470,10 @@ terraform/
 
 **Environment Variables**:
 
-| Variable | Description | Required | Default |
-|----------|-------------|----------|---------|
-| VAR_1 | {Description} | Yes | - |
-| VAR_2 | {Description} | No | {default} |
+| Variable | Description   | Required | Default   |
+| -------- | ------------- | -------- | --------- |
+| VAR_1    | {Description} | Yes      | -         |
+| VAR_2    | {Description} | No       | {default} |
 
 **Configuration File**:
 
@@ -497,6 +482,7 @@ terraform/
 setting1: value1
 setting2: value2
 ```
+````
 
 ## Basic Usage
 
@@ -531,9 +517,7 @@ setting2: value2
 
 ## [PROJECT_TYPE_SPECIFIC_SECTIONS]
 
-[For AI Agents: ## Example Interactions, ## Prompt Best Practices]
-[For CLI Tools: ## All Commands, ## Flags Reference]
-[For APIs: ## API Reference, ## Authentication]
+[For AI Agents: ## Example Interactions, ## Prompt Best Practices] [For CLI Tools: ## All Commands, ## Flags Reference] [For APIs: ## API Reference, ## Authentication]
 
 ## Troubleshooting
 
@@ -569,7 +553,7 @@ A: {Answer}
 
 [OPENSOURCE_SUPPORT or INTERNAL_SUPPORT]
 
-```
+````
 
 ### Python Installation Variant
 
@@ -580,7 +564,7 @@ A: {Answer}
 
 ```bash
 uv pip install {package}
-```
+````
 
 **Using pip**:
 
@@ -596,7 +580,7 @@ cd {project}
 uv pip install -e .
 ```
 
-```
+````
 
 ### Go Installation Variant
 
@@ -607,7 +591,7 @@ uv pip install -e .
 
 ```bash
 go install {module_path}@latest
-```
+````
 
 **From source**:
 
@@ -619,7 +603,7 @@ go install
 
 **Download binary**: [Releases]({releases_url})
 
-```
+````
 
 ### AI Agent Specific Sections
 
@@ -665,7 +649,7 @@ Enable MCP servers in your configuration:
     }
   }
 }
-```
+````
 
 ### Agent Settings
 
@@ -683,7 +667,7 @@ tools:
     enabled: false
 ```
 
-```
+````
 
 ### CLI Tool Specific Sections
 
@@ -697,7 +681,7 @@ tools:
 **Usage**:
 ```bash
 {tool} {command} [options] <args>
-```
+````
 
 **Options**:
 
@@ -721,7 +705,7 @@ tools:
 - `--verbose` - Enable verbose output
 - `--help` - Show help message
 
-```
+````
 
 ---
 
@@ -747,7 +731,7 @@ git clone {repo_url}
 cd {project}
 
 [PYTHON_DEV_SETUP or GO_DEV_SETUP]
-```
+````
 
 ### Environment Configuration
 
@@ -948,9 +932,7 @@ docker run -p 8080:8080 {image_name}
 
 ## [PROJECT_TYPE_SPECIFIC_SECTIONS]
 
-[For Microservices: ## Local Service Development, ## Testing with Dependencies]
-[For Infrastructure: ## Terraform Development, ## Local K8s Testing]
-[For AI Agents: ## MCP Server Development, ## Testing Tools]
+[For Microservices: ## Local Service Development, ## Testing with Dependencies] [For Infrastructure: ## Terraform Development, ## Local K8s Testing] [For AI Agents: ## MCP Server Development, ## Testing Tools]
 
 ## Deployment
 
@@ -973,7 +955,7 @@ docker run -p 8080:8080 {image_name}
 - [Contributing Guidelines](CONTRIBUTING.md)
 - [API Documentation]({link if applicable})
 
-```
+````
 
 ### Python Dev Setup Variant
 
@@ -987,7 +969,7 @@ uv pip install -e ".[dev]"
 python -m venv .venv
 source .venv/bin/activate
 pip install -e ".[dev]"
-```
+````
 
 ### Python Test Example
 
@@ -1015,9 +997,11 @@ def test_parametrized(input, expected):
 
 ```markdown
 # Install dependencies
+
 go mod download
 
 # Install development tools
+
 go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 ```
 
@@ -1049,7 +1033,7 @@ func BenchmarkExample(b *testing.B) {
 
 ### Internal Deployment Section
 
-```markdown
+````markdown
 ## Deployment
 
 ### CI/CD Pipeline
@@ -1078,6 +1062,7 @@ export ENV=production
 # Deploy
 ./scripts/deploy.sh
 ```
+````
 
 ### Rollback
 
@@ -1087,13 +1072,13 @@ kubectl rollout undo deployment/{deployment-name} -n {namespace}
 
 ### Environments
 
-| Environment | URL | Cloud Project | Purpose |
-|-------------|-----|-------------|---------|
-| Development | {url} | {project} | Local testing |
-| Staging | {url} | {project} | Pre-production |
-| Production | {url} | {project} | Live system |
+| Environment | URL   | Cloud Project | Purpose        |
+| ----------- | ----- | ------------- | -------------- |
+| Development | {url} | {project}     | Local testing  |
+| Staging     | {url} | {project}     | Pre-production |
+| Production  | {url} | {project}     | Live system    |
 
-```
+````
 
 ### AI Agent Development Additions
 
@@ -1110,7 +1095,7 @@ async def my_tool(arg1: str, arg2: int) -> str:
     """Tool description."""
     # Implementation
     return result
-```
+````
 
 2. Register tool in `tools.py`
 3. Add tests in `tests/tools/test_my_tool.py`
@@ -1136,7 +1121,7 @@ async def test_tool_integration():
     assert "expected" in result.output
 ```
 
-```
+````
 
 ---
 
@@ -1175,7 +1160,7 @@ We expect all contributors to treat each other with respect and professionalism.
 # Then clone your fork
 git clone https://github.com/YOUR_USERNAME/{project}.git
 cd {project}
-```
+````
 
 [For Internal]
 
@@ -1240,11 +1225,9 @@ git commit -m "docs: update installation guide"
 git push origin feature/your-feature-name
 ```
 
-[For OpenSource]
-Create a pull request on your Git platform with:
+[For OpenSource] Create a pull request on your Git platform with:
 
-[For Internal]
-Create a merge/pull request on your Git platform with:
+[For Internal] Create a merge/pull request on your Git platform with:
 
 - **Title**: Clear, descriptive title
 - **Description**: What changed and why
@@ -1360,13 +1343,11 @@ We use [Semantic Versioning](https://semver.org/):
 
 ## License
 
-[For OpenSource]
-By contributing, you agree that your contributions will be licensed under the {LICENSE_NAME} License.
+[For OpenSource] By contributing, you agree that your contributions will be licensed under the {LICENSE_NAME} License.
 
-[For Internal]
-All contributions are proprietary to {COMPANY_NAME}.
+[For Internal] All contributions are proprietary to {COMPANY_NAME}.
 
-```
+````
 
 ### Python Style Guidelines
 
@@ -1378,7 +1359,7 @@ Follow [PEP 8](https://pep8.org/) and use these tools:
 **Formatting**:
 ```bash
 ruff format .
-```
+````
 
 **Linting**:
 
@@ -1413,7 +1394,7 @@ def function_name(param1: str, param2: int) -> bool:
     pass
 ```
 
-```
+````
 
 ### Go Style Guidelines
 
@@ -1425,7 +1406,7 @@ Follow [Effective Go](https://golang.org/doc/effective_go) and [Code Review Comm
 **Formatting**:
 ```bash
 gofmt -w .
-```
+````
 
 **Linting**:
 
@@ -1445,7 +1426,7 @@ func FunctionName(param1 string, param2 int) (bool, error) {
 }
 ```
 
-```
+````
 
 ### OpenSource Sections
 
@@ -1482,7 +1463,7 @@ func FunctionName(param1 string, param2 int) (bool, error) {
 3. Create git tag: `git tag v1.2.3`
 4. Push tag: `git push origin v1.2.3`
 5. GitHub Actions creates release automatically
-```
+````
 
 ### Internal/{COMPANY_NAME} Sections
 

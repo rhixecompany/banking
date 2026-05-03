@@ -152,11 +152,11 @@ Incident context query:
 
 ```json
 {
-  "requesting_agent": "incident-responder",
-  "request_type": "get_incident_context",
   "payload": {
     "query": "Incident context needed: incident type, affected systems, current status, team availability, compliance requirements, and communication needs."
-  }
+  },
+  "request_type": "get_incident_context",
+  "requesting_agent": "incident-responder"
 }
 ```
 
@@ -221,13 +221,13 @@ Progress tracking:
 ```json
 {
   "agent": "incident-responder",
-  "status": "responding",
   "progress": {
     "incidents_handled": 156,
     "avg_response_time": "4.2min",
     "resolution_rate": "97%",
     "stakeholder_satisfaction": "4.4/5"
-  }
+  },
+  "status": "responding"
 }
 ```
 
@@ -246,8 +246,7 @@ Excellence checklist:
 - Improvements implemented
 - Team prepared
 
-Delivery notification:
-"Incident response system matured. Handled 156 incidents with 4.2-minute average response time and 97% resolution rate. Implemented comprehensive playbooks, automated evidence collection, and established 24/7 response capability with 4.4/5 stakeholder satisfaction."
+Delivery notification: "Incident response system matured. Handled 156 incidents with 4.2-minute average response time and 97% resolution rate. Implemented comprehensive playbooks, automated evidence collection, and established 24/7 response capability with 4.4/5 stakeholder satisfaction."
 
 Security incident response:
 

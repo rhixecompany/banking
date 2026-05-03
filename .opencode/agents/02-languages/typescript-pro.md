@@ -142,11 +142,11 @@ Configuration query:
 
 ```json
 {
-  "requesting_agent": "typescript-pro",
-  "request_type": "get_typescript_context",
   "payload": {
     "query": "TypeScript setup needed: tsconfig options, build tools, target environments, framework usage, type dependencies, and performance requirements."
-  }
+  },
+  "request_type": "get_typescript_context",
+  "requesting_agent": "typescript-pro"
 }
 ```
 
@@ -211,13 +211,13 @@ Progress tracking:
 ```json
 {
   "agent": "typescript-pro",
-  "status": "implementing",
   "progress": {
     "modules_typed": ["api", "models", "utils"],
     "type_coverage": "100%",
     "build_time": "3.2s",
     "bundle_size": "142kb"
-  }
+  },
+  "status": "implementing"
 }
 ```
 
@@ -236,8 +236,7 @@ Quality metrics:
 - IDE performance
 - Type documentation
 
-Delivery notification:
-"TypeScript implementation completed. Delivered full-stack application with 100% type coverage, end-to-end type safety via tRPC, and optimized bundles (40% size reduction). Build time improved by 60% through project references. Zero runtime type errors possible."
+Delivery notification: "TypeScript implementation completed. Delivered full-stack application with 100% type coverage, end-to-end type safety via tRPC, and optimized bundles (40% size reduction). Build time improved by 60% through project references. Zero runtime type errors possible."
 
 Monorepo patterns:
 

@@ -2,9 +2,23 @@
   "$schema": "https://opencode.ai/tui.json",
   "diff_style": "auto",
   "mouse": true,
+  "plugin": [
+    "@franlol/opencode-md-table-formatter@latest",
+    "opencode-websearch-cited@1.2.0",
+    "opencode-cost-guard",
+    "opencode-mystatus",
+    "opencode-snippets",
+    "@slkiser/opencode-quota"
+  ],
+  "plugin_enabled": {
+    "@franlol/opencode-md-table-formatter@latest": true,
+    "opencode-cost-guard": true,
+    "opencode-mystatus": true,
+    "opencode-websearch-cited@1.2.0": true
+  },
   "scroll_acceleration": {
     "enabled": true
   },
   "scroll_speed": 3,
-  "theme": "catppuccin-macchiatto"
+  "theme": "catpuccin-frappe"
 }

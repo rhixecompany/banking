@@ -65,12 +65,12 @@ William Strunk Jr.'s _The Elements of Style_ (1918) teaches you to write clearly
 
 The rules above are summarized from Strunk's original text. For complete explanations with examples:
 
-| Section                                      | File                                           | ~Tokens |
-| -------------------------------------------- | ---------------------------------------------- | ------- |
-| Grammar, punctuation, comma rules            | `02-elementary-rules-of-usage.md`              | 2,500   |
-| Paragraph structure, active voice, concision | `03-elementary-principles-of-composition.md`   | 4,500   |
-| Headings, quotations, formatting             | `04-a-few-matters-of-form.md`                  | 1,000   |
-| Word choice, common errors                   | `05-words-and-expressions-commonly-misused.md` | 4,000   |
+| Section | File | ~Tokens |
+| --- | --- | --- |
+| Grammar, punctuation, comma rules | `02-elementary-rules-of-usage.md` | 2,500 |
+| Paragraph structure, active voice, concision | `03-elementary-principles-of-composition.md` | 4,500 |
+| Headings, quotations, formatting | `04-a-few-matters-of-form.md` | 1,000 |
+| Word choice, common errors | `05-words-and-expressions-commonly-misused.md` | 4,000 |
 
 **Most tasks need only `03-elementary-principles-of-composition.md`** — it covers active voice, positive form, concrete language, and omitting needless words.
 

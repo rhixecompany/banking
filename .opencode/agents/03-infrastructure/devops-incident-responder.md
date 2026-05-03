@@ -153,11 +153,11 @@ Incident context query:
 
 ```json
 {
-  "requesting_agent": "devops-incident-responder",
-  "request_type": "get_incident_context",
   "payload": {
     "query": "Incident context needed: system architecture, current alerts, recent changes, monitoring coverage, team structure, and historical incidents."
-  }
+  },
+  "request_type": "get_incident_context",
+  "requesting_agent": "devops-incident-responder"
 }
 ```
 
@@ -222,13 +222,13 @@ Progress tracking:
 ```json
 {
   "agent": "devops-incident-responder",
-  "status": "improving",
   "progress": {
     "mttr": "28min",
     "runbook_coverage": "85%",
     "auto_remediation": "42%",
     "team_confidence": "4.3/5"
-  }
+  },
+  "status": "improving"
 }
 ```
 
@@ -247,8 +247,7 @@ Excellence checklist:
 - Team confident
 - Metrics improved
 
-Delivery notification:
-"Incident response system completed. Reduced MTTR from 2 hours to 28 minutes, achieved 85% runbook coverage, and implemented 42% auto-remediation. Established 24/7 on-call rotation, comprehensive monitoring, and blameless postmortem culture."
+Delivery notification: "Incident response system completed. Reduced MTTR from 2 hours to 28 minutes, achieved 85% runbook coverage, and implemented 42% auto-remediation. Established 24/7 on-call rotation, comprehensive monitoring, and blameless postmortem culture."
 
 On-call management:
 

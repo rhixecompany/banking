@@ -67,52 +67,31 @@ For detailed theme selection guidance, read `references/theme-selection.md`.
 
 ### 1. Default Theme
 
-**Colors**: Beige background, navy text, blue headings
-**Style**: Clean, sophisticated with decorative lines
-**Use for**: General seminars, lectures, presentations
-**Template**: `template-basic.md`
+**Colors**: Beige background, navy text, blue headings **Style**: Clean, sophisticated with decorative lines **Use for**: General seminars, lectures, presentations **Template**: `template-basic.md`
 
 ### 2. Minimal Theme
 
-**Colors**: White background, gray text, black headings
-**Style**: Minimal decoration, wide margins, light fonts
-**Use for**: Content-focused presentations, academic talks
-**Template**: `template-minimal.md`
+**Colors**: White background, gray text, black headings **Style**: Minimal decoration, wide margins, light fonts **Use for**: Content-focused presentations, academic talks **Template**: `template-minimal.md`
 
 ### 3. Colorful & Pop Theme
 
-**Colors**: Pink gradient background, multi-color accents
-**Style**: Vibrant gradients, bold fonts, rainbow accents
-**Use for**: Youth-oriented events, creative projects
-**Template**: `template-colorful.md`
+**Colors**: Pink gradient background, multi-color accents **Style**: Vibrant gradients, bold fonts, rainbow accents **Use for**: Youth-oriented events, creative projects **Template**: `template-colorful.md`
 
 ### 4. Dark Mode Theme
 
-**Colors**: Black background, cyan/purple accents
-**Style**: Dark theme with glow effects, eye-friendly
-**Use for**: Tech presentations, evening talks, modern look
-**Template**: `template-dark.md`
+**Colors**: Black background, cyan/purple accents **Style**: Dark theme with glow effects, eye-friendly **Use for**: Tech presentations, evening talks, modern look **Template**: `template-dark.md`
 
 ### 5. Gradient Background Theme
 
-**Colors**: Purple/pink/blue/green gradients (varies per slide)
-**Style**: Different gradient per slide, white text, shadows
-**Use for**: Visual-focused, creative presentations
-**Template**: `template-gradient.md`
+**Colors**: Purple/pink/blue/green gradients (varies per slide) **Style**: Different gradient per slide, white text, shadows **Use for**: Visual-focused, creative presentations **Template**: `template-gradient.md`
 
 ### 6. Tech/Code Theme
 
-**Colors**: GitHub-style dark background, blue/green accents
-**Style**: Code fonts, Markdown-style headers with # symbols
-**Use for**: Programming tutorials, tech meetups, developer content
-**Template**: `template-tech.md`
+**Colors**: GitHub-style dark background, blue/green accents **Style**: Code fonts, Markdown-style headers with # symbols **Use for**: Programming tutorials, tech meetups, developer content **Template**: `template-tech.md`
 
 ### 7. Business Theme
 
-**Colors**: White background, navy headings, blue accents
-**Style**: Corporate presentation style, top border, table support
-**Use for**: Business presentations, proposals, reports
-**Template**: `template-business.md`
+**Colors**: White background, navy headings, blue accents **Style**: Corporate presentation style, top border, table support **Use for**: Business presentations, proposals, reports **Template**: `template-business.md`
 
 ## Creating Slides Process
 

@@ -560,13 +560,7 @@ class DatabaseConnection:
 
 ### DO
 
-✅ Start with a one-line summary (imperative mood)
-✅ Use proper grammar and complete sentences
-✅ Document all parameters and return values
-✅ Include examples for non-trivial functions
-✅ Keep docstrings up to date with code changes
-✅ Document exceptions that can be raised
-✅ Use consistent terminology
+✅ Start with a one-line summary (imperative mood) ✅ Use proper grammar and complete sentences ✅ Document all parameters and return values ✅ Include examples for non-trivial functions ✅ Keep docstrings up to date with code changes ✅ Document exceptions that can be raised ✅ Use consistent terminology
 
 ### DON'T
 

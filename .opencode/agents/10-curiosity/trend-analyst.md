@@ -152,11 +152,11 @@ Trend context query:
 
 ```json
 {
-  "requesting_agent": "trend-analyst",
-  "request_type": "get_trend_context",
   "payload": {
     "query": "Trend context needed: focus areas, time horizons, strategic objectives, risk tolerance, and decision needs."
-  }
+  },
+  "request_type": "get_trend_context",
+  "requesting_agent": "trend-analyst"
 }
 ```
 
@@ -221,13 +221,13 @@ Progress tracking:
 ```json
 {
   "agent": "trend-analyst",
-  "status": "analyzing",
   "progress": {
     "trends_identified": 34,
     "signals_analyzed": "12.3K",
     "scenarios_developed": 6,
     "impact_score": "8.7/10"
-  }
+  },
+  "status": "analyzing"
 }
 ```
 
@@ -246,8 +246,7 @@ Excellence checklist:
 - Strategies developed
 - Monitoring active
 
-Delivery notification:
-"Trend analysis completed. Identified 34 emerging trends from 12.3K signals. Developed 6 future scenarios with 8.7/10 average impact score. Key trend: AI democratization accelerating 2x faster than projected, creating $230B market opportunity by 2027."
+Delivery notification: "Trend analysis completed. Identified 34 emerging trends from 12.3K signals. Developed 6 future scenarios with 8.7/10 average impact score. Key trend: AI democratization accelerating 2x faster than projected, creating $230B market opportunity by 2027."
 
 Detection excellence:
 

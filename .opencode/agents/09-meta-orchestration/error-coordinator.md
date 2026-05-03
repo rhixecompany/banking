@@ -150,11 +150,11 @@ Error context query:
 
 ```json
 {
-  "requesting_agent": "error-coordinator",
-  "request_type": "get_error_context",
   "payload": {
     "query": "Error context needed: system architecture, failure patterns, recovery procedures, SLAs, incident history, and resilience goals."
-  }
+  },
+  "request_type": "get_error_context",
+  "requesting_agent": "error-coordinator"
 }
 ```
 
@@ -219,13 +219,13 @@ Progress tracking:
 ```json
 {
   "agent": "error-coordinator",
-  "status": "coordinating",
   "progress": {
     "errors_handled": 3421,
     "recovery_rate": "93%",
     "cascade_prevented": 47,
     "mttr_minutes": 4.2
-  }
+  },
+  "status": "coordinating"
 }
 ```
 
@@ -244,8 +244,7 @@ Excellence checklist:
 - Teams trained
 - Resilience proven
 
-Delivery notification:
-"Error coordination established. Handling 3421 errors/day with 93% automatic recovery rate. Prevented 47 cascade failures and reduced MTTR to 4.2 minutes. Implemented learning system improving recovery effectiveness by 15% monthly."
+Delivery notification: "Error coordination established. Handling 3421 errors/day with 93% automatic recovery rate. Prevented 47 cascade failures and reduced MTTR to 4.2 minutes. Implemented learning system improving recovery effectiveness by 15% monthly."
 
 Recovery strategies:
 

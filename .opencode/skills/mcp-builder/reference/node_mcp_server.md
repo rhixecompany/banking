@@ -29,7 +29,7 @@ const server = new McpServer({
 ### Tool Registration Pattern
 
 ```typescript
-server.registerTool("tool_name", {...config}, async (params) => {
+server.registerTool("tool_name", { ...config }, async params => {
   // Implementation
 });
 ```
@@ -112,26 +112,34 @@ const server = new McpServer({
 });
 
 // Zod schema for input validation
-const UserSearchInputSchema = z.object({
-  query: z.string()
-    .min(2, "Query must be at least 2 characters")
-    .max(200, "Query must not exceed 200 characters")
-    .describe("Search string to match against names/emails"),
-  limit: z.number()
-    .int()
-    .min(1)
-    .max(100)
-    .default(20)
-    .describe("Maximum results to return"),
-  offset: z.number()
-    .int()
-    .min(0)
-    .default(0)
-    .describe("Number of results to skip for pagination"),
-  response_format: z.nativeEnum(ResponseFormat)
-    .default(ResponseFormat.MARKDOWN)
-    .describe("Output format: 'markdown' for human-readable or 'json' for machine-readable")
-}).strict();
+const UserSearchInputSchema = z
+  .object({
+    query: z
+      .string()
+      .min(2, "Query must be at least 2 characters")
+      .max(200, "Query must not exceed 200 characters")
+      .describe("Search string to match against names/emails"),
+    limit: z
+      .number()
+      .int()
+      .min(1)
+      .max(100)
+      .default(20)
+      .describe("Maximum results to return"),
+    offset: z
+      .number()
+      .int()
+      .min(0)
+      .default(0)
+      .describe("Number of results to skip for pagination"),
+    response_format: z
+      .nativeEnum(ResponseFormat)
+      .default(ResponseFormat.MARKDOWN)
+      .describe(
+        "Output format: 'markdown' for human-readable or 'json' for machine-readable"
+      )
+  })
+  .strict();
 
 // Type definition from Zod schema
 type UserSearchInput = z.infer<typeof UserSearchInputSchema>;
@@ -205,10 +213,12 @@ Error Handling:
 
       if (!users.length) {
         return {
-          content: [{
-            type: "text",
-            text: `No users found matching '${params.query}'`
-          }]
+          content: [
+            {
+              type: "text",
+              text: `No users found matching '${params.query}'`
+            }
+          ]
         };
       }
 
@@ -217,7 +227,10 @@ Error Handling:
 
       if (params.response_format === ResponseFormat.MARKDOWN) {
         // Human-readable markdown format
-        const lines: string[] = [`# User Search Results: '${params.query}'`, ""];
+        const lines: string[] = [
+          `# User Search Results: '${params.query}'`,
+          ""
+        ];
         lines.push(`Found ${total} users (showing ${users.length})`);
         lines.push("");
 
@@ -231,7 +244,6 @@ Error Handling:
         }
 
         result = lines.join("\n");
-
       } else {
         // Machine-readable JSON format
         const response: any = {
@@ -257,17 +269,21 @@ Error Handling:
       }
 
       return {
-        content: [{
-          type: "text",
-          text: result
-        }]
+        content: [
+          {
+            type: "text",
+            text: result
+          }
+        ]
       };
     } catch (error) {
       return {
-        content: [{
-          type: "text",
-          text: handleApiError(error)
-        }]
+        content: [
+          {
+            type: "text",
+            text: handleApiError(error)
+          }
+        ]
       };
     }
   }
@@ -282,17 +298,20 @@ Zod provides runtime type validation:
 import { z } from "zod";
 
 // Basic schema with validation
-const CreateUserSchema = z.object({
-  name: z.string()
-    .min(1, "Name is required")
-    .max(100, "Name must not exceed 100 characters"),
-  email: z.string()
-    .email("Invalid email format"),
-  age: z.number()
-    .int("Age must be a whole number")
-    .min(0, "Age cannot be negative")
-    .max(150, "Age cannot be greater than 150")
-}).strict();  // Use .strict() to forbid extra fields
+const CreateUserSchema = z
+  .object({
+    name: z
+      .string()
+      .min(1, "Name is required")
+      .max(100, "Name must not exceed 100 characters"),
+    email: z.string().email("Invalid email format"),
+    age: z
+      .number()
+      .int("Age must be a whole number")
+      .min(0, "Age cannot be negative")
+      .max(150, "Age cannot be greater than 150")
+  })
+  .strict(); // Use .strict() to forbid extra fields
 
 // Enums
 enum ResponseFormat {
@@ -301,20 +320,23 @@ enum ResponseFormat {
 }
 
 const SearchSchema = z.object({
-  response_format: z.nativeEnum(ResponseFormat)
+  response_format: z
+    .nativeEnum(ResponseFormat)
     .default(ResponseFormat.MARKDOWN)
     .describe("Output format")
 });
 
 // Optional fields with defaults
 const PaginationSchema = z.object({
-  limit: z.number()
+  limit: z
+    .number()
     .int()
     .min(1)
     .max(100)
     .default(20)
     .describe("Maximum results to return"),
-  offset: z.number()
+  offset: z
+    .number()
     .int()
     .min(0)
     .default(0)
@@ -334,9 +356,12 @@ enum ResponseFormat {
 
 const inputSchema = z.object({
   query: z.string(),
-  response_format: z.nativeEnum(ResponseFormat)
+  response_format: z
+    .nativeEnum(ResponseFormat)
     .default(ResponseFormat.MARKDOWN)
-    .describe("Output format: 'markdown' for human-readable or 'json' for machine-readable")
+    .describe(
+      "Output format: 'markdown' for human-readable or 'json' for machine-readable"
+    )
 });
 ```
 
@@ -373,9 +398,10 @@ async function listItems(params: z.infer<typeof ListSchema>) {
     offset: params.offset,
     items: data.items,
     has_more: data.total > params.offset + data.items.length,
-    next_offset: data.total > params.offset + data.items.length
-      ? params.offset + data.items.length
-      : undefined
+    next_offset:
+      data.total > params.offset + data.items.length
+        ? params.offset + data.items.length
+        : undefined
   };
 
   return JSON.stringify(response, null, 2);
@@ -388,7 +414,7 @@ Add a CHARACTER_LIMIT constant to prevent overwhelming responses:
 
 ```typescript
 // At module level in constants.ts
-export const CHARACTER_LIMIT = 25000;  // Maximum response size in characters
+export const CHARACTER_LIMIT = 25000; // Maximum response size in characters
 
 async function searchTool(params: SearchInput) {
   let result = generateResponse(data);
@@ -457,7 +483,7 @@ async function makeApiRequest<T>(
       timeout: 30000,
       headers: {
         "Content-Type": "application/json",
-        "Accept": "application/json"
+        Accept: "application/json"
       }
     });
     return response.data;
@@ -474,14 +500,17 @@ Always use async/await for network requests and I/O operations:
 ```typescript
 // Good: Async network request
 async function fetchData(resourceId: string): Promise<ResourceData> {
-  const response = await axios.get(`${API_URL}/resource/${resourceId}`);
+  const response = await axios.get(
+    `${API_URL}/resource/${resourceId}`
+  );
   return response.data;
 }
 
 // Bad: Promise chains
 function fetchData(resourceId: string): Promise<ResourceData> {
-  return axios.get(`${API_URL}/resource/${resourceId}`)
-    .then(response => response.data);  // Harder to read and maintain
+  return axios
+    .get(`${API_URL}/resource/${resourceId}`)
+    .then(response => response.data); // Harder to read and maintain
 }
 ```
 
@@ -517,12 +546,12 @@ type User = z.infer<typeof UserSchema>;
 
 async function getUser(id: string): Promise<User> {
   const data = await apiCall(`/users/${id}`);
-  return UserSchema.parse(data);  // Runtime validation
+  return UserSchema.parse(data); // Runtime validation
 }
 
 // Bad: Using any
 async function getUser(id: string): Promise<any> {
-  return await apiCall(`/users/${id}`);  // No type safety
+  return await apiCall(`/users/${id}`); // No type safety
 }
 ```
 
@@ -532,30 +561,30 @@ async function getUser(id: string): Promise<any> {
 
 ```json
 {
-  "name": "{service}-mcp-server",
-  "version": "1.0.0",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.6.1",
+    "axios": "^1.7.9",
+    "zod": "^3.23.8"
+  },
   "description": "MCP server for {Service} API integration",
-  "type": "module",
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=18"
+  },
   "main": "dist/index.js",
+  "name": "{service}-mcp-server",
   "scripts": {
     "start": "node dist/index.js",
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
     "clean": "rm -rf dist"
   },
-  "engines": {
-    "node": ">=18"
-  },
-  "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.6.1",
-    "axios": "^1.7.9",
-    "zod": "^3.23.8"
-  },
-  "devDependencies": {
-    "@types/node": "^22.10.0",
-    "tsx": "^4.19.2",
-    "typescript": "^5.7.2"
-  }
+  "type": "module",
+  "version": "1.0.0"
 }
 ```
 
@@ -579,8 +608,8 @@ async function getUser(id: string): Promise<any> {
     "sourceMap": true,
     "allowSyntheticDefaultImports": true
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist"]
+  "exclude": ["node_modules", "dist"],
+  "include": ["src/**/*"]
 }
 ```
 
@@ -611,26 +640,34 @@ enum ResponseFormat {
 }
 
 // Zod schemas
-const UserSearchInputSchema = z.object({
-  query: z.string()
-    .min(2, "Query must be at least 2 characters")
-    .max(200, "Query must not exceed 200 characters")
-    .describe("Search string to match against names/emails"),
-  limit: z.number()
-    .int()
-    .min(1)
-    .max(100)
-    .default(20)
-    .describe("Maximum results to return"),
-  offset: z.number()
-    .int()
-    .min(0)
-    .default(0)
-    .describe("Number of results to skip for pagination"),
-  response_format: z.nativeEnum(ResponseFormat)
-    .default(ResponseFormat.MARKDOWN)
-    .describe("Output format: 'markdown' for human-readable or 'json' for machine-readable")
-}).strict();
+const UserSearchInputSchema = z
+  .object({
+    query: z
+      .string()
+      .min(2, "Query must be at least 2 characters")
+      .max(200, "Query must not exceed 200 characters")
+      .describe("Search string to match against names/emails"),
+    limit: z
+      .number()
+      .int()
+      .min(1)
+      .max(100)
+      .default(20)
+      .describe("Maximum results to return"),
+    offset: z
+      .number()
+      .int()
+      .min(0)
+      .default(0)
+      .describe("Number of results to skip for pagination"),
+    response_format: z
+      .nativeEnum(ResponseFormat)
+      .default(ResponseFormat.MARKDOWN)
+      .describe(
+        "Output format: 'markdown' for human-readable or 'json' for machine-readable"
+      )
+  })
+  .strict();
 
 type UserSearchInput = z.infer<typeof UserSearchInputSchema>;
 
@@ -650,7 +687,7 @@ async function makeApiRequest<T>(
       timeout: 30000,
       headers: {
         "Content-Type": "application/json",
-        "Accept": "application/json"
+        Accept: "application/json"
       }
     });
     return response.data;
@@ -708,7 +745,9 @@ server.registerTool(
 async function main() {
   // Verify environment variables if needed
   if (!process.env.EXAMPLE_API_KEY) {
-    console.error("ERROR: EXAMPLE_API_KEY environment variable is required");
+    console.error(
+      "ERROR: EXAMPLE_API_KEY environment variable is required"
+    );
     process.exit(1);
   }
 
@@ -722,7 +761,7 @@ async function main() {
 }
 
 // Run the server
-main().catch((error) => {
+main().catch(error => {
   console.error("Server error:", error);
   process.exit(1);
 });
@@ -758,11 +797,13 @@ server.registerResource(
     const content = await loadDocument(documentName);
 
     return {
-      contents: [{
-        uri,
-        mimeType: "text/plain",
-        text: content
-      }]
+      contents: [
+        {
+          uri,
+          mimeType: "text/plain",
+          text: content
+        }
+      ]
     };
   }
 );

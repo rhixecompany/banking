@@ -101,9 +101,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 /**
- * Description placeholder
- *
- * @type {*}
+ * Zod schema for data table row validation
+ * Defines the structure for table data items
  */
 export const schema = z.object({
   header: z.string().trim(),
@@ -117,11 +116,12 @@ export const schema = z.object({
 
 // Create a separate component for the drag handle
 /**
- * Description placeholder
+ * Drag handle component for table rows
+ * Provides visual indicator and drag functionality for reordering
  *
- * @param {{ id: number }} param0
- * @param {number} param0.id
- * @returns {*}
+ * @param {Object} props - Component props
+ * @param {number} props.id - Unique identifier for the draggable item
+ * @returns {JSX.Element} Drag handle button
  */
 function DragHandle({ id }: { id: number }): JSX.Element {
   const { attributes, listeners } = useSortable({
@@ -143,9 +143,8 @@ function DragHandle({ id }: { id: number }): JSX.Element {
 }
 
 /**
- * Description placeholder
- *
- * @type {ColumnDef<z.infer<typeof schema>>[]}
+ * Column definitions for the data table
+ * Includes drag handle, selection, data columns, and actions
  */
 const columns: ColumnDef<z.infer<typeof schema>>[] = [
   {
@@ -325,11 +324,12 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
 ];
 
 /**
- * Description placeholder
+ * Draggable table row component
+ * Integrates with @dnd-kit for drag and drop functionality
  *
- * @param {{ row: Row<z.infer<typeof schema>> }} param0
- * @param {Row<z.infer<any>>} param0.row
- * @returns {*}
+ * @param {Object} props - Component props
+ * @param {Row<z.infer<typeof schema>>} props.row - Table row data
+ * @returns {JSX.Element} Draggable table row
  */
 function DraggableRow({ row }: { row: Row<z.infer<typeof schema>> }) {
   const { isDragging, setNodeRef, transform, transition } = useSortable({
@@ -357,14 +357,11 @@ function DraggableRow({ row }: { row: Row<z.infer<typeof schema>> }) {
 }
 
 /**
- * Description placeholder
+ * Main data table component with drag-and-drop, sorting, filtering, and pagination
  *
- * @export
- * @param {{
- *   data: z.infer<typeof schema>[]
- * }} param0
- * @param {{}} param0.data: initialData
- * @returns {*}
+ * @param {Object} props - Component props
+ * @param {z.infer<typeof schema>[]} props.data - Initial data for the table
+ * @returns {JSX.Element} Complete data table with all features
  */
 export function DataTable({
   data: initialData,
@@ -666,9 +663,8 @@ export function DataTable({
 }
 
 /**
- * Description placeholder
- *
- * @type {{}}
+ * Chart data for demonstration purposes
+ * Sample monthly data showing mobile vs desktop usage
  */
 const chartData = [
   { desktop: 186, mobile: 80, month: "January" },
@@ -680,9 +676,8 @@ const chartData = [
 ];
 
 /**
- * Description placeholder
- *
- * @type {ChartConfig}
+ * Chart configuration for recharts
+ * Defines colors and labels for chart series
  */
 const chartConfig = {
   desktop: {
@@ -696,11 +691,12 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 /**
- * Description placeholder
+ * Table cell viewer component with expandable sheet
+ * Shows detailed view and edit form for table row items
  *
- * @param {{ item: z.infer<typeof schema> }} param0
- * @param {z.infer<any>} param0.item
- * @returns {*}
+ * @param {Object} props - Component props
+ * @param {z.infer<typeof schema>} props.item - Table row data
+ * @returns {JSX.Element} Expandable table cell with sheet overlay
  */
 function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
   const isMobile = useIsMobile();

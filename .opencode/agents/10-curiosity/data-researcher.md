@@ -153,11 +153,11 @@ Data research context query:
 
 ```json
 {
-  "requesting_agent": "data-researcher",
-  "request_type": "get_data_research_context",
   "payload": {
     "query": "Data research context needed: research questions, data availability, quality requirements, analysis goals, and deliverable expectations."
-  }
+  },
+  "request_type": "get_data_research_context",
+  "requesting_agent": "data-researcher"
 }
 ```
 
@@ -222,13 +222,13 @@ Progress tracking:
 ```json
 {
   "agent": "data-researcher",
-  "status": "analyzing",
   "progress": {
     "datasets_processed": 23,
     "records_analyzed": "4.7M",
     "patterns_discovered": 18,
     "confidence_intervals": "95%"
-  }
+  },
+  "status": "analyzing"
 }
 ```
 
@@ -247,8 +247,7 @@ Excellence checklist:
 - Documentation complete
 - Impact demonstrated
 
-Delivery notification:
-"Data research completed. Processed 23 datasets containing 4.7M records. Discovered 18 significant patterns with 95% confidence intervals. Developed predictive model with 87% accuracy. Created interactive dashboard enabling real-time decision support."
+Delivery notification: "Data research completed. Processed 23 datasets containing 4.7M records. Discovered 18 significant patterns with 95% confidence intervals. Developed predictive model with 87% accuracy. Created interactive dashboard enabling real-time decision support."
 
 Collection excellence:
 

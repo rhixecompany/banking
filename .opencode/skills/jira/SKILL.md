@@ -24,11 +24,11 @@ Natural language interaction with Jira. Supports multiple backends.
    → GUIDE USER TO SETUP
 ```
 
-| Backend  | When to Use                   | Reference                |
-| -------- | ----------------------------- | ------------------------ |
-| **CLI**  | `jira` command available      | `references/commands.md` |
-| **MCP**  | Atlassian MCP tools available | `references/mcp.md`      |
-| **None** | Neither available             | Guide to install CLI     |
+| Backend | When to Use | Reference |
+| --- | --- | --- |
+| **CLI** | `jira` command available | `references/commands.md` |
+| **MCP** | Atlassian MCP tools available | `references/mcp.md` |
+| **None** | Neither available | Guide to install CLI |
 
 ---
 
@@ -36,19 +36,19 @@ Natural language interaction with Jira. Supports multiple backends.
 
 > Skip this section if using MCP backend.
 
-| Intent          | Command                                                |
-| --------------- | ------------------------------------------------------ |
-| View issue      | `jira issue view ISSUE-KEY`                            |
-| List my issues  | `jira issue list -a$(jira me)`                         |
-| My in-progress  | `jira issue list -a$(jira me) -s"In Progress"`         |
-| Create issue    | `jira issue create -tType -s"Summary" -b"Description"` |
-| Move/transition | `jira issue move ISSUE-KEY "State"`                    |
-| Assign to me    | `jira issue assign ISSUE-KEY $(jira me)`               |
-| Unassign        | `jira issue assign ISSUE-KEY x`                        |
-| Add comment     | `jira issue comment add ISSUE-KEY -b"Comment text"`    |
-| Open in browser | `jira open ISSUE-KEY`                                  |
-| Current sprint  | `jira sprint list --state active`                      |
-| Who am I        | `jira me`                                              |
+| Intent | Command |
+| --- | --- |
+| View issue | `jira issue view ISSUE-KEY` |
+| List my issues | `jira issue list -a$(jira me)` |
+| My in-progress | `jira issue list -a$(jira me) -s"In Progress"` |
+| Create issue | `jira issue create -tType -s"Summary" -b"Description"` |
+| Move/transition | `jira issue move ISSUE-KEY "State"` |
+| Assign to me | `jira issue assign ISSUE-KEY $(jira me)` |
+| Unassign | `jira issue assign ISSUE-KEY x` |
+| Add comment | `jira issue comment add ISSUE-KEY -b"Comment text"` |
+| Open in browser | `jira open ISSUE-KEY` |
+| Current sprint | `jira sprint list --state active` |
+| Who am I | `jira me` |
 
 ---
 

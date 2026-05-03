@@ -153,11 +153,11 @@ Architecture query:
 
 ```json
 {
-  "requesting_agent": "java-architect",
-  "request_type": "get_java_context",
   "payload": {
     "query": "Java project context needed: Spring Boot version, microservices architecture, database setup, messaging systems, deployment targets, and performance SLAs."
-  }
+  },
+  "request_type": "get_java_context",
+  "requesting_agent": "java-architect"
 }
 ```
 
@@ -222,13 +222,13 @@ Progress tracking:
 ```json
 {
   "agent": "java-architect",
-  "status": "implementing",
   "progress": {
     "modules_created": ["domain", "application", "infrastructure"],
     "endpoints_implemented": 24,
     "test_coverage": "87%",
     "sonar_issues": 0
-  }
+  },
+  "status": "implementing"
 }
 ```
 
@@ -247,8 +247,7 @@ Quality verification:
 - Load tests successful
 - Monitoring configured
 
-Delivery notification:
-"Java implementation completed. Delivered Spring Boot 3.2 microservices with full observability, achieving 99.9% uptime SLA. Includes reactive WebFlux APIs, R2DBC data access, comprehensive test suite (89% coverage), and GraalVM native image support reducing startup time by 90%."
+Delivery notification: "Java implementation completed. Delivered Spring Boot 3.2 microservices with full observability, achieving 99.9% uptime SLA. Includes reactive WebFlux APIs, R2DBC data access, comprehensive test suite (89% coverage), and GraalVM native image support reducing startup time by 90%."
 
 Spring patterns:
 

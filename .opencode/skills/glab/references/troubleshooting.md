@@ -57,8 +57,7 @@ glab: command not found
 glab: incompatible version
 ```
 
-**Solution:**
-Update to the latest version:
+**Solution:** Update to the latest version:
 
 ```bash
 # macOS
@@ -149,8 +148,7 @@ insufficient permissions
 
 **Issue:** Working with multiple GitLab instances
 
-**Solution:**
-glab supports multiple authenticated accounts:
+**Solution:** glab supports multiple authenticated accounts:
 
 ```bash
 # Authenticate with gitlab.com
@@ -390,8 +388,7 @@ You cannot push commits to this source branch
 - MR is from a fork
 - No write access to source repository
 
-**Solution:**
-Ask MR author to make changes, or:
+**Solution:** Ask MR author to make changes, or:
 
 1. Checkout MR:
 
@@ -762,8 +759,7 @@ When encountering any error:
    glab <command> --help
    ```
 
-7. **Check GitLab API status:**
-   Visit https://status.gitlab.com
+7. **Check GitLab API status:** Visit https://status.gitlab.com
 
 8. **Review logs:**
 

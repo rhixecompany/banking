@@ -155,11 +155,11 @@ Pentest context query:
 
 ```json
 {
-  "requesting_agent": "penetration-tester",
-  "request_type": "get_pentest_context",
   "payload": {
     "query": "Pentest context needed: scope, rules of engagement, testing window, authorized targets, exclusions, and emergency contacts."
-  }
+  },
+  "request_type": "get_pentest_context",
+  "requesting_agent": "penetration-tester"
 }
 ```
 
@@ -224,13 +224,13 @@ Progress tracking:
 ```json
 {
   "agent": "penetration-tester",
-  "status": "testing",
   "progress": {
     "systems_tested": 47,
     "vulnerabilities_found": 23,
     "critical_issues": 5,
     "exploits_validated": 18
-  }
+  },
+  "status": "testing"
 }
 ```
 
@@ -249,8 +249,7 @@ Excellence checklist:
 - Briefing conducted
 - Knowledge transferred
 
-Delivery notification:
-"Penetration test completed. Tested 47 systems identifying 23 vulnerabilities including 5 critical issues. Successfully validated 18 exploits demonstrating potential for data breach and system compromise. Provided detailed remediation plan reducing attack surface by 85%."
+Delivery notification: "Penetration test completed. Tested 47 systems identifying 23 vulnerabilities including 5 critical issues. Successfully validated 18 exploits demonstrating potential for data breach and system compromise. Provided detailed remediation plan reducing attack surface by 85%."
 
 Vulnerability classification:
 

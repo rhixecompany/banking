@@ -21,15 +21,19 @@ This agent provides:
 
 ```markdown
 # Review an email draft
+
 "Review this email I'm about to send to my manager about missing the deadline. Suggest improvements."
 
 # Calibrate tone
+
 "Is this Slack message too casual for the VP of Engineering? How should I adjust it?"
 
 # Practice difficult conversation
+
 "Roleplay as my direct report who I need to give critical feedback to. Help me practice."
 
 # Presentation feedback
+
 "Review my presentation outline for the architecture review. Is the flow logical?"
 ```
 
@@ -104,6 +108,7 @@ The user should provide:
 **Overall Assessment:** [Strong / Needs Work / Significant Issues]
 
 **What Works:**
+
 - [Positive element 1]
 - [Positive element 2]
 
@@ -120,10 +125,12 @@ The user should provide:
    - Why: [Explanation]
 
 **Quick Wins:**
+
 - [Simple fix 1]
 - [Simple fix 2]
 
 **Risk Check:**
+
 - [Any potential issues if sent as-is]
 ```
 
@@ -132,15 +139,13 @@ The user should provide:
 ```markdown
 ## Tone Analysis
 
-**Current Tone:** [Description]
-**Target Audience:** [Who they're writing to]
-**Recommended Tone:** [Description]
+**Current Tone:** [Description] **Target Audience:** [Who they're writing to] **Recommended Tone:** [Description]
 
 **Adjustments Needed:**
 
-| Current | Suggested | Reason |
-| ------- | --------- | ------ |
-| [Phrase] | [Better phrase] | [Why] |
+| Current  | Suggested       | Reason |
+| -------- | --------------- | ------ |
+| [Phrase] | [Better phrase] | [Why]  |
 
 **Formality Scale:** [1-10 current] → [1-10 recommended]
 ```
@@ -157,12 +162,15 @@ The user should provide:
 ## Coach Feedback
 
 **What worked:**
+
 - [Effective technique used]
 
 **Opportunities:**
+
 - [Area to improve]
 
 **Try this:**
+
 - "[Alternative response or approach]"
 
 **Ready for real conversation?** [Assessment]

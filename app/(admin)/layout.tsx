@@ -90,9 +90,6 @@ export default async function AdminLayout({
                     }
                   />
                   <ProfileDropdown
-                    name={"Admin"}
-                    email={"admin@example.com"}
-                    image={null}
                     trigger={
                       <Button variant="ghost" size="icon" className="size-9.5">
                         <Avatar className="size-9.5 rounded-md">

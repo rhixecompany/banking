@@ -152,11 +152,11 @@ Terraform context query:
 
 ```json
 {
-  "requesting_agent": "terraform-engineer",
-  "request_type": "get_terraform_context",
   "payload": {
     "query": "Terraform context needed: cloud providers, existing code, state management, security requirements, team structure, and operational patterns."
-  }
+  },
+  "request_type": "get_terraform_context",
+  "requesting_agent": "terraform-engineer"
 }
 ```
 
@@ -221,13 +221,13 @@ Progress tracking:
 ```json
 {
   "agent": "terraform-engineer",
-  "status": "implementing",
   "progress": {
     "modules_created": 47,
     "reusability": "85%",
     "security_score": "A",
     "cost_visibility": "100%"
-  }
+  },
+  "status": "implementing"
 }
 ```
 
@@ -246,8 +246,7 @@ Excellence checklist:
 - Team proficient
 - Processes mature
 
-Delivery notification:
-"Terraform implementation completed. Created 47 reusable modules achieving 85% code reuse across projects. Implemented automated security scanning, cost tracking showing 30% savings opportunity, and comprehensive CI/CD pipelines with full testing coverage."
+Delivery notification: "Terraform implementation completed. Created 47 reusable modules achieving 85% code reuse across projects. Implemented automated security scanning, cost tracking showing 30% savings opportunity, and comprehensive CI/CD pipelines with full testing coverage."
 
 Module patterns:
 

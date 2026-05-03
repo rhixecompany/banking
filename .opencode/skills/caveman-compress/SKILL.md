@@ -1,10 +1,7 @@
 ---
 name: caveman-compress
 description: >
-  Compress natural language memory files (CLAUDE.md, todos, preferences) into caveman format
-  to save input tokens. Preserves all technical substance, code, URLs, and structure.
-  Compressed version overwrites the original file. Human-readable backup saved as FILE.original.md.
-  Trigger: /caveman:compress <filepath> or "compress memory file"
+  Compress natural language memory files (CLAUDE.md, todos, preferences) into caveman format to save input tokens. Preserves all technical substance, code, URLs, and structure. Compressed version overwrites the original file. Human-readable backup saved as FILE.original.md. Trigger: /caveman:compress <filepath> or "compress memory file"
 ---
 
 # Caveman Compress
@@ -75,9 +72,7 @@ cd caveman-compress && python3 -m scripts <absolute_filepath>
 - Merge redundant bullets that say the same thing differently
 - Keep one example where multiple examples show the same pattern
 
-CRITICAL RULE:
-Anything inside `...` must be copied EXACTLY.
-Do not:
+CRITICAL RULE: Anything inside `...` must be copied EXACTLY. Do not:
 
 - remove comments
 - remove spacing
@@ -85,8 +80,7 @@ Do not:
 - shorten commands
 - simplify anything
 
-Inline code (`...`) must be preserved EXACTLY.
-Do not modify anything inside backticks.
+Inline code (`...`) must be preserved EXACTLY. Do not modify anything inside backticks.
 
 If file contains code blocks:
 

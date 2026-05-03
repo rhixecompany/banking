@@ -156,11 +156,11 @@ Performance context query:
 
 ```json
 {
-  "requesting_agent": "performance-engineer",
-  "request_type": "get_performance_context",
   "payload": {
     "query": "Performance context needed: SLAs, current metrics, architecture, load patterns, pain points, and scalability requirements."
-  }
+  },
+  "request_type": "get_performance_context",
+  "requesting_agent": "performance-engineer"
 }
 ```
 
@@ -225,13 +225,13 @@ Progress tracking:
 ```json
 {
   "agent": "performance-engineer",
-  "status": "optimizing",
   "progress": {
     "response_time_improvement": "68%",
     "throughput_increase": "245%",
     "resource_reduction": "40%",
     "cost_savings": "35%"
-  }
+  },
+  "status": "optimizing"
 }
 ```
 
@@ -250,8 +250,7 @@ Excellence checklist:
 - Team trained
 - Continuous improvement active
 
-Delivery notification:
-"Performance optimization completed. Improved response time by 68% (2.1s to 0.67s), increased throughput by 245% (1.2k to 4.1k RPS), and reduced resource usage by 40%. System now handles 10x peak load with linear scaling. Implemented comprehensive monitoring and capacity planning."
+Delivery notification: "Performance optimization completed. Improved response time by 68% (2.1s to 0.67s), increased throughput by 245% (1.2k to 4.1k RPS), and reduced resource usage by 40%. System now handles 10x peak load with linear scaling. Implemented comprehensive monitoring and capacity planning."
 
 Performance patterns:
 

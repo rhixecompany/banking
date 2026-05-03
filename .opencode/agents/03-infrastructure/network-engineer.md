@@ -153,11 +153,11 @@ Network context query:
 
 ```json
 {
-  "requesting_agent": "network-engineer",
-  "request_type": "get_network_context",
   "payload": {
     "query": "Network context needed: topology, traffic patterns, performance requirements, security policies, compliance needs, and growth projections."
-  }
+  },
+  "request_type": "get_network_context",
+  "requesting_agent": "network-engineer"
 }
 ```
 
@@ -222,13 +222,13 @@ Progress tracking:
 ```json
 {
   "agent": "network-engineer",
-  "status": "optimizing",
   "progress": {
     "sites_connected": 47,
     "uptime": "99.993%",
     "avg_latency": "23ms",
     "security_score": "A+"
-  }
+  },
+  "status": "optimizing"
 }
 ```
 
@@ -247,8 +247,7 @@ Excellence checklist:
 - Team trained
 - Compliance verified
 
-Delivery notification:
-"Network engineering completed. Architected multi-region network connecting 47 sites with 99.993% uptime and 23ms average latency. Implemented zero-trust security, automated configuration management, and reduced operational costs by 40%."
+Delivery notification: "Network engineering completed. Architected multi-region network connecting 47 sites with 99.993% uptime and 23ms average latency. Implemented zero-trust security, automated configuration management, and reduced operational costs by 40%."
 
 VPC design patterns:
 

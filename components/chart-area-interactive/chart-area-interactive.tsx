@@ -32,34 +32,16 @@ import { useIsMobile } from "@/hooks/use-mobile";
 
 /** Shape of a single aggregated day entry for the chart. */
 interface DayEntry {
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {string}
-   */
+  /** ISO date string (YYYY-MM-DD) for the day */
   date: string;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {number}
-   */
+  /** Total credit amount for this day */
   credits: number;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {number}
-   */
+  /** Total debit amount for this day */
   debits: number;
 }
 
 /**
- * Description placeholder
- * @author [object Object]
- *
- * @type {ChartConfig}
+ * Chart configuration for credits and debits colors and labels
  */
 const chartConfig = {
   credits: {

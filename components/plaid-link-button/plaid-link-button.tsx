@@ -8,59 +8,21 @@ import { usePlaidSafe } from "@/components/plaid-context/plaid-context";
 import { Button } from "@/components/ui/button";
 
 /**
- * Description placeholder
- * @author [object Object]
- *
- * @interface PlaidLinkButtonProps
- * @typedef {PlaidLinkButtonProps}
+ * Props for PlaidLinkButton component
+ * Configures the appearance and behavior of the Plaid Link button
  */
 interface PlaidLinkButtonProps {
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {?React.ReactNode}
-   */
+  /** Button content - defaults to "Link Bank Account" if not provided */
   children?: React.ReactNode;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {?string}
-   */
+  /** Additional CSS classes to apply to the button */
   className?: string;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {?boolean}
-   */
+  /** Whether the button should be disabled */
   disabled?: boolean;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {?(wallet: Wallet) => void}
-   */
+  /** Callback fired when bank account is successfully linked */
   onSuccess?: (wallet: Wallet) => void;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {?("default" | "icon" | "lg" | "sm")}
-   */
+  /** Button size variant */
   size?: "default" | "icon" | "lg" | "sm";
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {?(| "default"
-   *     | "destructive"
-   *     | "ghost"
-   *     | "link"
-   *     | "outline"
-   *     | "secondary")}
-   */
+  /** Button style variant */
   variant?:
     | "default"
     | "destructive"
@@ -71,17 +33,10 @@ interface PlaidLinkButtonProps {
 }
 
 /**
- * Description placeholder
- * @author [object Object]
- *
- * @export
- * @param {PlaidLinkButtonProps} param0
- * @param {React.ReactNode} param0.children
- * @param {string} param0.className
- * @param {boolean} param0.disabled
- * @param {("default" | "icon" | "lg" | "sm")} [param0.size="default"]
- * @param {("default" | "destructive" | "ghost" | "link" | "outline" | "secondary")} [param0.variant="default"]
- * @returns {ReactJSX.Element}
+ * Plaid Link button component
+ * Renders a button that opens the Plaid Link modal when clicked
+ * Automatically handles loading states and error display
+ * Works with or without PlaidProvider in the component tree
  */
 export function PlaidLinkButton({
   children,

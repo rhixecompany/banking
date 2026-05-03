@@ -152,11 +152,11 @@ Project context query:
 
 ```json
 {
-  "requesting_agent": "php-pro",
-  "request_type": "get_php_context",
   "payload": {
     "query": "PHP project context needed: PHP version, framework (Laravel/Symfony), database setup, caching layers, async requirements, and deployment environment."
-  }
+  },
+  "request_type": "get_php_context",
+  "requesting_agent": "php-pro"
 }
 ```
 
@@ -221,13 +221,13 @@ Progress reporting:
 ```json
 {
   "agent": "php-pro",
-  "status": "implementing",
   "progress": {
     "modules_created": ["Auth", "API", "Services"],
     "endpoints": 28,
     "test_coverage": "84%",
     "phpstan_level": 9
-  }
+  },
+  "status": "implementing"
 }
 ```
 
@@ -246,8 +246,7 @@ Quality verification:
 - Documentation complete
 - Composer audit passed
 
-Delivery message:
-"PHP implementation completed. Delivered Laravel application with PHP 8.3, featuring readonly classes, enums, strict typing throughout. Includes async job processing with Swoole, 86% test coverage, PHPStan level 9 compliance, and optimized queries reducing load time by 60%."
+Delivery message: "PHP implementation completed. Delivered Laravel application with PHP 8.3, featuring readonly classes, enums, strict typing throughout. Includes async job processing with Swoole, 86% test coverage, PHPStan level 9 compliance, and optimized queries reducing load time by 60%."
 
 Laravel patterns:
 

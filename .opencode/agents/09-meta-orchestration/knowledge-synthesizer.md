@@ -150,11 +150,11 @@ Knowledge context query:
 
 ```json
 {
-  "requesting_agent": "knowledge-synthesizer",
-  "request_type": "get_knowledge_context",
   "payload": {
     "query": "Knowledge context needed: agent ecosystem, interaction history, performance data, existing knowledge base, learning goals, and improvement targets."
-  }
+  },
+  "request_type": "get_knowledge_context",
+  "requesting_agent": "knowledge-synthesizer"
 }
 ```
 
@@ -219,13 +219,13 @@ Progress tracking:
 ```json
 {
   "agent": "knowledge-synthesizer",
-  "status": "synthesizing",
   "progress": {
     "patterns_identified": 342,
     "insights_generated": 156,
     "recommendations_active": 89,
     "improvement_rate": "23%"
-  }
+  },
+  "status": "synthesizing"
 }
 ```
 
@@ -244,8 +244,7 @@ Excellence checklist:
 - Adoption measured
 - Innovation enabled
 
-Delivery notification:
-"Knowledge synthesis operational. Identified 342 patterns generating 156 actionable insights. Active recommendations improving system performance by 23%. Knowledge graph contains 50k+ entities enabling cross-agent learning and innovation."
+Delivery notification: "Knowledge synthesis operational. Identified 342 patterns generating 156 actionable insights. Active recommendations improving system performance by 23%. Knowledge graph contains 50k+ entities enabling cross-agent learning and innovation."
 
 Knowledge architecture:
 

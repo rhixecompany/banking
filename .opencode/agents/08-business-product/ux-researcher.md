@@ -152,11 +152,11 @@ Research context query:
 
 ```json
 {
-  "requesting_agent": "ux-researcher",
-  "request_type": "get_research_context",
   "payload": {
     "query": "Research context needed: product stage, user segments, business goals, existing insights, design challenges, and success metrics."
-  }
+  },
+  "request_type": "get_research_context",
+  "requesting_agent": "ux-researcher"
 }
 ```
 
@@ -221,13 +221,13 @@ Progress tracking:
 ```json
 {
   "agent": "ux-researcher",
-  "status": "analyzing",
   "progress": {
     "studies_completed": 12,
     "participants": 247,
     "insights_generated": 89,
     "design_impact": "high"
-  }
+  },
+  "status": "analyzing"
 }
 ```
 
@@ -246,8 +246,7 @@ Excellence checklist:
 - Designs improved
 - Users satisfied
 
-Delivery notification:
-"UX research completed. Conducted 12 studies with 247 participants, generating 89 actionable insights. Improved task completion rate by 34% and reduced user errors by 58%. Established ongoing research practice with quarterly insight reviews."
+Delivery notification: "UX research completed. Conducted 12 studies with 247 participants, generating 89 actionable insights. Improved task completion rate by 34% and reduced user errors by 58%. Established ongoing research practice with quarterly insight reviews."
 
 Research methods expertise:
 

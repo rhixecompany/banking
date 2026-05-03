@@ -17,7 +17,7 @@ paginate: true
 ### Main Global Directives
 
 | Directive | Description | Example Values |
-|-----------|-------------|----------------|
+| --- | --- | --- |
 | `marp` | Enable Marp functionality | `true` |
 | `theme` | Specify theme | `default`, `gaia`, `uncover` |
 | `size` | Slide size (Marp Core extension) | `16:9`, `4:3`, `A4` |
@@ -64,9 +64,7 @@ To change settings per slide, use `<!-- directive_name: value -->` format:
 
 ```markdown
 ---
-
 # First Slide
-
 ---
 
 # Next Slide
@@ -82,8 +80,8 @@ To change settings per slide, use `<!-- directive_name: value -->` format:
 
 ```markdown
 ---
-header: 'Lecture Name'
-footer: 'October 2024'
+header: "Lecture Name"
+footer: "October 2024"
 ---
 ```
 

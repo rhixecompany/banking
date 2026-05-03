@@ -316,9 +316,7 @@ Avoiding AI patterns is only half the job. Sterile, voiceless writing is just as
 
 **Before:**
 
-> 🚀 **Launch Phase:** The product launches in Q3
-> 💡 **Key Insight:** Users prefer simplicity
-> ✅ **Next Steps:** Schedule follow-up meeting
+> 🚀 **Launch Phase:** The product launches in Q3 💡 **Key Insight:** Users prefer simplicity ✅ **Next Steps:** Schedule follow-up meeting
 
 **After:**
 

@@ -14,7 +14,7 @@ vi.mock("@/components/animated-counter/animated-counter", () => ({
 
 // DoughnutChart uses canvas which happy-dom doesn't fully support
 vi.mock("@/components/doughnut-chart/doughnut-chart", () => ({
-  default: ({ accounts }: { accounts: Account[] }) => (
+  DoughnutChart: ({ accounts }: { accounts: Account[] }) => (
     <div data-testid="doughnut-chart">{accounts.length} accounts</div>
   ),
 }));

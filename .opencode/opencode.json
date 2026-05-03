@@ -3,11 +3,11 @@
   "agent": {
     "build": {
       "model": "github-copilot/claude-haiku-4.5",
-      "variant": "high"
+      "variant": "max"
     },
     "plan": {
-      "model": "github-copilot/claude-opus-4.7",
-      "variant": "high"
+      "model": "github-copilot/claude-opus-4.5",
+      "variant": "max"
     }
   },
   "autoupdate": true,
@@ -30,9 +30,7 @@
     "opencode",
     "github-copilot"
   ],
-  "instructions": [
-    "rules/*.md"
-  ],
+  "instructions": ["rules/*.md"],
   "lsp": true,
   "mcp": {
     "context7": {
@@ -71,11 +69,7 @@
       "type": "local"
     },
     "hostinger": {
-      "command": [
-        "bunx",
-        "-y",
-        "hostinger-api-mcp"
-      ],
+      "command": ["bunx", "-y", "hostinger-api-mcp"],
       "environment": {
         "DEBUG": "false"
       },
@@ -93,21 +87,13 @@
       "type": "local"
     },
     "next-devtools": {
-      "command": [
-        "bunx",
-        "-y",
-        "next-devtools-mcp@latest"
-      ],
+      "command": ["bunx", "-y", "next-devtools-mcp@latest"],
       "enabled": true,
       "timeout": 900000,
       "type": "local"
     },
     "playwright": {
-      "command": [
-        "bunx",
-        "-y",
-        "@playwright/mcp@latest"
-      ],
+      "command": ["bunx", "-y", "@playwright/mcp@latest"],
       "enabled": true,
       "timeout": 900000,
       "type": "local"
@@ -123,11 +109,7 @@
       "type": "local"
     },
     "shadcn": {
-      "command": [
-        "bunx",
-        "shadcn@latest",
-        "mcp"
-      ],
+      "command": ["bunx", "shadcn@latest", "mcp"],
       "enabled": true,
       "timeout": 900000,
       "type": "local"
@@ -148,28 +130,27 @@
     "@franlol/opencode-md-table-formatter@latest",
     "opencode-websearch-cited@1.2.0",
     "opencode-cost-guard",
+    "opencode-mystatus",
     "opencode-handoff",
     "opencode-beads",
     "@tarquinen/opencode-dcp",
     "@ramarivera/opencode-model-announcer",
     "open-plan-annotator",
     "opencode-ignore",
-    "opencode-synced",
+    "opencode-mem",
     "opencode-snippets",
-    "opencode-mystatus",
     "@gotgenes/opencode-agent-identity",
     "opencode-agent-memory",
     "opencode-agent-skills",
     "opencode-devcontainers",
     "@zenobius/opencode-background",
-    "opencode-sessions",
-    "@franlol/opencode-md-table-formatter",
-    "@howaboua/opencode-planning-toolkit",
-    "opencode-mem",
     "@slkiser/opencode-quota",
+    "opencode-sessions",
+    "@liannnix/opencode-ntfy",
     "smart-codebase",
+    "octto",
     "superpowers@git+https://github.com/obra/superpowers.git",
-    "octto"
+    "@howaboua/opencode-planning-toolkit"
   ],
   "provider": {
     "anthropic": {
@@ -193,26 +174,16 @@
         "gemma-4-e4b-it-8bit": {
           "attachment": true,
           "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
+            "input": ["text", "image"],
+            "output": ["text"]
           },
           "name": "gemma-4-e4b-it-8bit"
         },
         "Qwen3.5-9B-MLX-4bit": {
           "attachment": true,
           "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
+            "input": ["text", "image"],
+            "output": ["text"]
           },
           "name": "Qwen3.5-9B-MLX-4bit"
         }
@@ -245,10 +216,6 @@
   "share": "disabled",
   "small_model": "google-vertex/gemini-2.5-flash",
   "watcher": {
-    "ignore": [
-      "node_modules",
-      ".next",
-      ".git"
-    ]
+    "ignore": ["node_modules", ".next", ".git"]
   }
 }

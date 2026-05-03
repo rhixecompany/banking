@@ -180,20 +180,20 @@ plugin_repository_last_check_duration = 60
 
 ## Common Plugins for DevOps/Cloud (Jean-Jacques' stack)
 
-| Tool | Plugin add command |
-|------|-------------------|
-| Node.js | `asdf plugin add nodejs` |
-| Python | `asdf plugin add python` |
-| Go | `asdf plugin add golang` |
-| Terraform | `asdf plugin add terraform` |
-| kubectl | `asdf plugin add kubectl` |
-| Helm | `asdf plugin add helm` |
-| gcloud CLI | `asdf plugin add gcloud` |
-| Skaffold | `asdf plugin add skaffold` |
-| Java | `asdf plugin add java` |
-| Ruby | `asdf plugin add ruby` |
-| Erlang | `asdf plugin add erlang` |
-| Elixir | `asdf plugin add elixir` |
+| Tool       | Plugin add command          |
+| ---------- | --------------------------- |
+| Node.js    | `asdf plugin add nodejs`    |
+| Python     | `asdf plugin add python`    |
+| Go         | `asdf plugin add golang`    |
+| Terraform  | `asdf plugin add terraform` |
+| kubectl    | `asdf plugin add kubectl`   |
+| Helm       | `asdf plugin add helm`      |
+| gcloud CLI | `asdf plugin add gcloud`    |
+| Skaffold   | `asdf plugin add skaffold`  |
+| Java       | `asdf plugin add java`      |
+| Ruby       | `asdf plugin add ruby`      |
+| Erlang     | `asdf plugin add erlang`    |
+| Elixir     | `asdf plugin add elixir`    |
 
 Many plugins may require system dependencies — always check the plugin's README before installing.
 
@@ -207,11 +207,11 @@ Enable legacy file support in `~/.asdfrc`:
 legacy_version_file = yes
 ```
 
-| Old file | Tool |
-|----------|------|
-| `.nvmrc` | nodejs (via asdf-nodejs) |
-| `.node-version` | nodejs |
-| `.ruby-version` | ruby (via asdf-ruby) |
+| Old file          | Tool                     |
+| ----------------- | ------------------------ |
+| `.nvmrc`          | nodejs (via asdf-nodejs) |
+| `.node-version`   | nodejs                   |
+| `.ruby-version`   | ruby (via asdf-ruby)     |
 | `.python-version` | python (via asdf-python) |
 
 ---

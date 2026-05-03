@@ -1,6 +1,6 @@
-import { db } from "../database/client";
-import { users } from "../database/schema";
 import { eq } from "drizzle-orm";
+import { db } from "../database/db";
+import { users } from "../database/schema";
 
 async function main() {
   const result = await db

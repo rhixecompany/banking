@@ -14,59 +14,32 @@ import type { Wallet } from "@/types/wallet";
 import { logger } from "@/lib/logger";
 
 /**
- * Description placeholder
- * @author [object Object]
- *
- * @interface PlaidContextValue
- * @typedef {PlaidContextValue}
+ * Plaid Link context value interface
+ * Provides access to Plaid Link functionality and state
  */
 export interface PlaidContextValue {
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {() => void}
-   */
+  /** Function to open the Plaid Link modal */
   open: () => void;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {boolean}
-   */
+  /** Whether Plaid Link is ready to be used */
   ready: boolean;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {boolean}
-   */
+  /** Whether a bank linking operation is in progress */
   isLoading: boolean;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {(string | undefined)}
-   */
+  /** Error message if bank linking failed */
   error: string | undefined;
 }
 
 /**
- * Description placeholder
- * @author [object Object]
- *
- * @type {*}
+ * React context for Plaid Link state and functionality
+ * Provides access to bank linking capabilities throughout the component tree
  */
 export const PlaidContext = createContext<PlaidContextValue | undefined>(
   undefined,
 );
 
 /**
- * Description placeholder
- * @author [object Object]
- *
- * @export
- * @returns {*}
+ * Hook to access Plaid Link context
+ * Throws error if used outside of PlaidProvider
+ * @returns Plaid context value with open, ready, isLoading, and error state
  */
 export function usePlaid() {
   const context = useContext(PlaidContext);
@@ -80,11 +53,9 @@ export function usePlaid() {
 // Use this in components that need to operate both with and without a
 // PlaidProvider higher in the tree.
 /**
- * Description placeholder
- * @author Adminbot
- *
- * @export
- * @returns {(PlaidContextValue | undefined)}
+ * Safe hook variant that returns undefined when no provider is present
+ * Use in components that need to operate with or without PlaidProvider
+ * @returns Plaid context value or undefined if no provider exists
  */
 export function usePlaidSafe(): PlaidContextValue | undefined {
   return useContext(PlaidContext);
@@ -95,59 +66,23 @@ export function usePlaidSafe(): PlaidContextValue | undefined {
 export { default as PlaidProviderCompat } from "@/components/layouts/plaid-provider";
 
 /**
- * Description placeholder
- * @author [object Object]
- *
- * @interface PlaidProviderProps
- * @typedef {PlaidProviderProps}
+ * Props for PlaidProvider component
+ * Configures Plaid Link integration with custom token creation and exchange functions
  */
 interface PlaidProviderProps {
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {string}
-   */
+  /** User ID for creating Plaid Link tokens */
   userId: string;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {React.ReactNode}
-   */
+  /** Child components that will have access to Plaid context */
   children: React.ReactNode;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {?(wallet: Wallet) => void}
-   */
+  /** Callback fired when bank account is successfully linked */
   onSuccess?: (wallet: Wallet) => void;
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {?(input: unknown) => Promise<{
-   *     ok: boolean;
-   *     linkToken?: string;
-   *     error?: string;
-   *   }>}
-   */
+  /** Server action to create Plaid Link token */
   createLinkToken?: (input: unknown) => Promise<{
     ok: boolean;
     linkToken?: string;
     error?: string;
   }>;
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {?(input: unknown) => Promise<{
-   *     ok: boolean;
-   *     wallet?: Wallet;
-   *     error?: string;
-   *   }>}
-   */
+  /** Server action to exchange public token for access token and create wallet */
   exchangePublicToken?: (input: unknown) => Promise<{
     ok: boolean;
     wallet?: Wallet;
@@ -156,15 +91,9 @@ interface PlaidProviderProps {
 }
 
 /**
- * Description placeholder
- * @author [object Object]
- *
- * @export
- * @param {PlaidProviderProps} param0
- * @param {React.ReactNode} param0.children
- * @param {(wallet: Wallet) => void} param0.onSuccess
- * @param {string} param0.userId
- * @returns {ReactJSX.Element}
+ * Plaid Link provider component
+ * Manages Plaid Link token creation, modal state, and bank account linking flow
+ * Wraps child components with Plaid context for bank connection functionality
  */
 export function PlaidProvider({
   children,

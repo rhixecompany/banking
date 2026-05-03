@@ -6,14 +6,12 @@ import { redirect } from "next/navigation";
 import { getAllAccounts } from "@/actions/plaid.actions";
 import { getRecentTransactions } from "@/actions/transaction.actions";
 import { getUserWallets } from "@/actions/wallet.actions";
-import DashboardClientWrapper from "@/components/layouts/dashboard-client";
 import { auth } from "@/lib/auth";
+import { DashboardClientWrapper } from "./dashboard-client-wrapper";
 
 /**
- * Description placeholder
- * @author [object Object]
- *
- * @type {Metadata}
+ * Metadata for the dashboard page
+ * Provides SEO-friendly title and description for the financial overview
  */
 export const metadata: Metadata = {
   description: "Your financial overview",

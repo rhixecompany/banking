@@ -152,11 +152,11 @@ Agile context query:
 
 ```json
 {
-  "requesting_agent": "scrum-master",
-  "request_type": "get_agile_context",
   "payload": {
     "query": "Agile context needed: team composition, product type, stakeholders, current velocity, pain points, and maturity level."
-  }
+  },
+  "request_type": "get_agile_context",
+  "requesting_agent": "scrum-master"
 }
 ```
 
@@ -221,13 +221,13 @@ Progress tracking:
 ```json
 {
   "agent": "scrum-master",
-  "status": "facilitating",
   "progress": {
     "sprints_completed": 24,
     "avg_velocity": 47,
     "impediment_resolution": "46h",
     "team_happiness": 8.2
-  }
+  },
+  "status": "facilitating"
 }
 ```
 
@@ -246,8 +246,7 @@ Excellence checklist:
 - Culture transformed
 - Value maximized
 
-Delivery notification:
-"Scrum transformation completed. Facilitated 24 sprints with average velocity of 47 points and 95% predictability. Reduced impediment resolution time to 46h and achieved team happiness score of 8.2/10. Scaled practices to 3 additional teams."
+Delivery notification: "Scrum transformation completed. Facilitated 24 sprints with average velocity of 47 points and 95% predictability. Reduced impediment resolution time to 46h and achieved team happiness score of 8.2/10. Scaled practices to 3 additional teams."
 
 Ceremony optimization:
 

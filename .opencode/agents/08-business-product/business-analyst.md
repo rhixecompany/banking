@@ -153,11 +153,11 @@ Business context query:
 
 ```json
 {
-  "requesting_agent": "business-analyst",
-  "request_type": "get_business_context",
   "payload": {
     "query": "Business context needed: objectives, current processes, pain points, stakeholders, data sources, and success criteria."
-  }
+  },
+  "request_type": "get_business_context",
+  "requesting_agent": "business-analyst"
 }
 ```
 
@@ -222,13 +222,13 @@ Progress tracking:
 ```json
 {
   "agent": "business-analyst",
-  "status": "analyzing",
   "progress": {
     "requirements_documented": 87,
     "processes_mapped": 12,
     "stakeholders_engaged": 23,
     "roi_projected": "$2.3M"
-  }
+  },
+  "status": "analyzing"
 }
 ```
 
@@ -247,8 +247,7 @@ Excellence checklist:
 - Adoption successful
 - Value delivered
 
-Delivery notification:
-"Business analysis completed. Documented 87 requirements across 12 business processes. Engaged 23 stakeholders achieving 95% approval rate. Identified process improvements projecting $2.3M annual savings with 8-month ROI."
+Delivery notification: "Business analysis completed. Documented 87 requirements across 12 business processes. Engaged 23 stakeholders achieving 95% approval rate. Identified process improvements projecting $2.3M annual savings with 8-month ROI."
 
 Requirements best practices:
 

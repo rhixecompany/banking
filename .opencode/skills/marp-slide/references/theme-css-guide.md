@@ -85,7 +85,8 @@ Styling page numbers:
 
 ```css
 section::after {
-  content: attr(data-marpit-pagination) ' / ' attr(data-marpit-pagination-total);
+  content: attr(data-marpit-pagination) " / "
+    attr(data-marpit-pagination-total);
   position: absolute;
   right: 30px;
   bottom: 20px;
@@ -134,7 +135,7 @@ footer {
 ```css
 /* @theme my-extended-theme */
 
-@import 'default';
+@import "default";
 
 section {
   background-color: #f0f0f0;
@@ -229,7 +230,8 @@ section[data-marpit-background-image] {
 ## List Styling
 
 ```css
-ul, ol {
+ul,
+ol {
   margin: 0.5em 0;
   padding-left: 1.5em;
 }
@@ -252,7 +254,8 @@ table {
   margin: 1em 0;
 }
 
-th, td {
+th,
+td {
   border: 1px solid #ddd;
   padding: 0.5em 1em;
   text-align: left;
@@ -275,7 +278,7 @@ pre {
 }
 
 code {
-  font-family: 'Courier New', monospace;
+  font-family: "Courier New", monospace;
   font-size: 0.9em;
 }
 
@@ -309,12 +312,15 @@ pre code {
 section {
   background-color: #ffffff;
   color: #333333;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-size: 24px;
   padding: 80px;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   font-weight: 300;
   color: #000000;
 }
@@ -342,7 +348,9 @@ section {
   padding: 60px;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   color: #61dafb;
 }
 

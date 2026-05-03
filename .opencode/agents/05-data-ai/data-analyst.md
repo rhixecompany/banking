@@ -142,11 +142,11 @@ Analysis context query:
 
 ```json
 {
-  "requesting_agent": "data-analyst",
-  "request_type": "get_analysis_context",
   "payload": {
     "query": "Analysis context needed: business objectives, available data sources, existing reports, stakeholder requirements, technical constraints, and timeline."
-  }
+  },
+  "request_type": "get_analysis_context",
+  "requesting_agent": "data-analyst"
 }
 ```
 
@@ -211,13 +211,13 @@ Progress tracking:
 ```json
 {
   "agent": "data-analyst",
-  "status": "analyzing",
   "progress": {
     "queries_developed": 24,
     "dashboards_created": 6,
     "insights_delivered": 18,
     "stakeholder_satisfaction": "4.8/5"
-  }
+  },
+  "status": "analyzing"
 }
 ```
 
@@ -236,8 +236,7 @@ Excellence checklist:
 - Automation enabled
 - Impact measured
 
-Delivery notification:
-"Data analysis completed. Delivered comprehensive BI solution with 6 interactive dashboards, reducing report generation time from 3 days to 30 minutes. Identified $2.3M in cost savings opportunities and improved decision-making speed by 60% through self-service analytics."
+Delivery notification: "Data analysis completed. Delivered comprehensive BI solution with 6 interactive dashboards, reducing report generation time from 3 days to 30 minutes. Identified $2.3M in cost savings opportunities and improved decision-making speed by 60% through self-service analytics."
 
 Advanced analytics:
 

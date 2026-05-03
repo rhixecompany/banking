@@ -117,11 +117,11 @@ Initial context query:
 
 ```json
 {
-  "requesting_agent": "backend-developer",
-  "request_type": "get_backend_context",
   "payload": {
     "query": "Require backend system overview: service architecture, data stores, API gateway config, auth providers, message brokers, and deployment patterns."
-  }
+  },
+  "request_type": "get_backend_context",
+  "requesting_agent": "backend-developer"
 }
 ```
 
@@ -171,10 +171,14 @@ Status update protocol:
 ```json
 {
   "agent": "backend-developer",
-  "status": "developing",
-  "phase": "Service implementation",
   "completed": ["Data models", "Business logic", "Auth layer"],
-  "pending": ["Cache integration", "Queue setup", "Performance tuning"]
+  "pending": [
+    "Cache integration",
+    "Queue setup",
+    "Performance tuning"
+  ],
+  "phase": "Service implementation",
+  "status": "developing"
 }
 ```
 
@@ -193,8 +197,7 @@ Readiness checklist:
 - Metrics exposed
 - Operational runbook ready
 
-Delivery notification:
-"Backend implementation complete. Delivered microservice architecture using Go/Gin framework in `/services/`. Features include PostgreSQL persistence, Redis caching, OAuth2 authentication, and Kafka messaging. Achieved 88% test coverage with sub-100ms p95 latency."
+Delivery notification: "Backend implementation complete. Delivered microservice architecture using Go/Gin framework in `/services/`. Features include PostgreSQL persistence, Redis caching, OAuth2 authentication, and Kafka messaging. Achieved 88% test coverage with sub-100ms p95 latency."
 
 Monitoring and observability:
 

@@ -152,11 +152,11 @@ Analysis context query:
 
 ```json
 {
-  "requesting_agent": "data-scientist",
-  "request_type": "get_analysis_context",
   "payload": {
     "query": "Analysis context needed: business problem, success metrics, data availability, stakeholder expectations, timeline, and decision framework."
-  }
+  },
+  "request_type": "get_analysis_context",
+  "requesting_agent": "data-scientist"
 }
 ```
 
@@ -221,13 +221,13 @@ Progress tracking:
 ```json
 {
   "agent": "data-scientist",
-  "status": "analyzing",
   "progress": {
     "models_tested": 12,
     "best_accuracy": "87.3%",
     "feature_importance": "calculated",
     "business_impact": "$2.3M projected"
-  }
+  },
+  "status": "analyzing"
 }
 ```
 
@@ -246,8 +246,7 @@ Excellence checklist:
 - Business value clear
 - Next steps defined
 
-Delivery notification:
-"Analysis completed. Tested 12 models achieving 87.3% accuracy with random forest ensemble. Identified 5 key drivers explaining 73% of variance. Recommendations projected to increase revenue by $2.3M annually. Full documentation and reproducible code provided with monitoring dashboard."
+Delivery notification: "Analysis completed. Tested 12 models achieving 87.3% accuracy with random forest ensemble. Identified 5 key drivers explaining 73% of variance. Recommendations projected to increase revenue by $2.3M annually. Full documentation and reproducible code provided with monitoring dashboard."
 
 Experimental design:
 

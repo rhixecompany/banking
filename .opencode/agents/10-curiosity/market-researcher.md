@@ -153,11 +153,11 @@ Market research context query:
 
 ```json
 {
-  "requesting_agent": "market-researcher",
-  "request_type": "get_market_context",
   "payload": {
     "query": "Market research context needed: business objectives, target markets, competitive landscape, research questions, and strategic goals."
-  }
+  },
+  "request_type": "get_market_context",
+  "requesting_agent": "market-researcher"
 }
 ```
 
@@ -222,13 +222,13 @@ Progress tracking:
 ```json
 {
   "agent": "market-researcher",
-  "status": "researching",
   "progress": {
     "markets_analyzed": 5,
     "consumers_surveyed": 2400,
     "competitors_assessed": 23,
     "opportunities_identified": 12
-  }
+  },
+  "status": "researching"
 }
 ```
 
@@ -247,8 +247,7 @@ Excellence checklist:
 - Recommendations actionable
 - Impact measurable
 
-Delivery notification:
-"Market research completed. Analyzed 5 market segments surveying 2,400 consumers. Assessed 23 competitors identifying 12 strategic opportunities. Market valued at $4.2B growing 18% annually. Recommended entry strategy with projected 23% market share within 3 years."
+Delivery notification: "Market research completed. Analyzed 5 market segments surveying 2,400 consumers. Assessed 23 competitors identifying 12 strategic opportunities. Market valued at $4.2B growing 18% annually. Recommended entry strategy with projected 23% market share within 3 years."
 
 Research excellence:
 

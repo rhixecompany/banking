@@ -151,11 +151,11 @@ Documentation context query:
 
 ```json
 {
-  "requesting_agent": "technical-writer",
-  "request_type": "get_documentation_context",
   "payload": {
     "query": "Documentation context needed: product features, target audiences, existing docs, pain points, preferred formats, and success metrics."
-  }
+  },
+  "request_type": "get_documentation_context",
+  "requesting_agent": "technical-writer"
 }
 ```
 
@@ -220,13 +220,13 @@ Progress tracking:
 ```json
 {
   "agent": "technical-writer",
-  "status": "documenting",
   "progress": {
     "pages_written": 127,
     "apis_documented": 45,
     "readability_score": 68,
     "user_satisfaction": "92%"
-  }
+  },
+  "status": "documenting"
 }
 ```
 
@@ -245,8 +245,7 @@ Excellence checklist:
 - Impact measured
 - Users empowered
 
-Delivery notification:
-"Documentation completed. Created 127 pages covering 45 APIs with average readability score of 68. User satisfaction increased to 92% with 73% reduction in support tickets. Documentation-driven adoption increased by 45%."
+Delivery notification: "Documentation completed. Created 127 pages covering 45 APIs with average readability score of 68. User satisfaction increased to 92% with 73% reduction in support tickets. Documentation-driven adoption increased by 45%."
 
 Information architecture:
 

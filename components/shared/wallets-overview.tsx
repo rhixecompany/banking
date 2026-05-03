@@ -13,47 +13,18 @@ import {
 import { formatAmount } from "@/lib/utils";
 
 /**
- * Description placeholder
- * @author Adminbot
- *
- * @interface WalletsOverviewProps
- * @typedef {WalletsOverviewProps}
+ * Props for the WalletsOverview component
  */
 interface WalletsOverviewProps {
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {WalletWithDetails[]}
-   */
+  /** Array of wallet objects with transaction details */
   walletsWithDetails: WalletWithDetails[];
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {?number}
-   */
+  /** Optional total balance across all wallets */
   totalBalance?: number;
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {?boolean}
-   */
+  /** Whether to show action buttons on wallet cards */
   showActions?: boolean;
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {?(walletId: string) => Promise<void> | void}
-   */
+  /** Optional callback when a wallet is removed */
   onRemove?: (walletId: string) => Promise<void> | void;
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {?string}
-   */
+  /** Optional CSS class name for the container */
   className?: string;
 }
 
@@ -76,17 +47,10 @@ function getWalletId(input: unknown): string | undefined {
 }
 
 /**
- * Description placeholder
- * @author Adminbot
+ * Displays an overview of linked wallets with optional actions and total balance
  *
- * @export
- * @param {WalletsOverviewProps} param0
- * @param {string} param0.className
- * @param {(walletId: string) => any} param0.onRemove
- * @param {boolean} [param0.showActions=false]
- * @param {number} param0.totalBalance
- * @param {{}} param0.walletsWithDetails
- * @returns {ReactJSX.Element}
+ * @param props - Component props
+ * @returns JSX element containing wallet cards and optional total balance
  */
 export default function WalletsOverview({
   className,

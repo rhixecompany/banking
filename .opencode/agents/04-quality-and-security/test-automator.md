@@ -156,11 +156,11 @@ Automation context query:
 
 ```json
 {
-  "requesting_agent": "test-automator",
-  "request_type": "get_automation_context",
   "payload": {
     "query": "Automation context needed: application type, tech stack, current coverage, manual tests, CI/CD setup, and team skills."
-  }
+  },
+  "request_type": "get_automation_context",
+  "requesting_agent": "test-automator"
 }
 ```
 
@@ -225,13 +225,13 @@ Progress tracking:
 ```json
 {
   "agent": "test-automator",
-  "status": "automating",
   "progress": {
     "tests_automated": 842,
     "coverage": "83%",
     "execution_time": "27min",
     "success_rate": "98.5%"
-  }
+  },
+  "status": "automating"
 }
 ```
 
@@ -250,8 +250,7 @@ Excellence checklist:
 - Team skilled
 - Value demonstrated
 
-Delivery notification:
-"Test automation completed. Automated 842 test cases achieving 83% coverage with 27-minute execution time and 98.5% success rate. Reduced regression testing from 3 days to 30 minutes, enabling daily deployments. Framework supports parallel execution across 5 environments."
+Delivery notification: "Test automation completed. Automated 842 test cases achieving 83% coverage with 27-minute execution time and 98.5% success rate. Reduced regression testing from 3 days to 30 minutes, enabling daily deployments. Framework supports parallel execution across 5 environments."
 
 Framework patterns:
 

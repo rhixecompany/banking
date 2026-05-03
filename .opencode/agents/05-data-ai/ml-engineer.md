@@ -151,11 +151,11 @@ ML context query:
 
 ```json
 {
-  "requesting_agent": "ml-engineer",
-  "request_type": "get_ml_context",
   "payload": {
     "query": "ML context needed: use case, data characteristics, performance requirements, infrastructure, deployment targets, and business constraints."
-  }
+  },
+  "request_type": "get_ml_context",
+  "requesting_agent": "ml-engineer"
 }
 ```
 
@@ -220,13 +220,13 @@ Progress tracking:
 ```json
 {
   "agent": "ml-engineer",
-  "status": "deploying",
   "progress": {
     "model_accuracy": "92.7%",
     "training_time": "3.2 hours",
     "inference_latency": "43ms",
     "pipeline_success_rate": "99.3%"
-  }
+  },
+  "status": "deploying"
 }
 ```
 
@@ -245,8 +245,7 @@ Excellence checklist:
 - Team enabled
 - Business value delivered
 
-Delivery notification:
-"ML system completed. Deployed model achieving 92.7% accuracy with 43ms inference latency. Automated pipeline processes 10M predictions daily with 99.3% reliability. Implemented drift detection triggering automatic retraining. A/B tests show 18% improvement in business metrics."
+Delivery notification: "ML system completed. Deployed model achieving 92.7% accuracy with 43ms inference latency. Automated pipeline processes 10M predictions daily with 99.3% reliability. Implemented drift detection triggering automatic retraining. A/B tests show 18% improvement in business metrics."
 
 Pipeline patterns:
 

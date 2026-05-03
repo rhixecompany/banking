@@ -37,17 +37,11 @@ import {
 // Schemas are centralized in lib/schemas/profile.schema.ts and imported above
 
 /**
- * Description placeholder
- * @author [object Object]
- *
- * @typedef {ProfileFormData}
+ * Type for profile form data based on UpdateProfileSchema.
  */
 type ProfileFormData = z.infer<typeof UpdateProfileSchema>;
 /**
- * Description placeholder
- * @author [object Object]
- *
- * @typedef {PasswordFormData}
+ * Type for password form data based on PasswordSchema.
  */
 type PasswordFormData = z.infer<typeof PasswordSchema>;
 
@@ -56,19 +50,10 @@ type PasswordFormData = z.infer<typeof PasswordSchema>;
 // ---------------------------------------------------------------------------
 
 /**
- * Description placeholder
- * @author [object Object]
- *
- * @interface SettingsClientWrapperProps
- * @typedef {SettingsClientWrapperProps}
+ * Props for the SettingsClientWrapper component.
  */
 interface SettingsClientWrapperProps {
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {UserWithProfile}
-   */
+  /** User profile data with nested profile information. */
   userWithProfile: UserWithProfile;
   /**
    * Server action provided by the server wrapper to update the profile.

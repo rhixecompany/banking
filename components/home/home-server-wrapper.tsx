@@ -34,10 +34,19 @@ const sampleMenudata: MenuData[] = [
 ];
 
 /**
- * Landing page component — publicly accessible, no auth required.
+ * Landing page server wrapper — publicly accessible, no auth required.
  *
- * @export
- * @returns {JSX.Element}
+ * @description
+ * Server component that renders the public landing page with hero section,
+ * features grid, CTA sections, and static balance demonstrations.
+ * Contains no authentication checks or dynamic data fetching to ensure
+ * the landing page remains fast and cacheable.
+ *
+ * @important
+ * This component must remain public and static per AGENTS.md rules.
+ * No auth() calls, no database access, no dynamic server actions.
+ *
+ * @returns Rendered landing page with hero, features, and CTA sections
  */
 export function HomeServerWrapper(): JSX.Element {
   return (

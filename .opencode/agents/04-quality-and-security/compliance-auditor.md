@@ -141,11 +141,11 @@ Compliance context query:
 
 ```json
 {
-  "requesting_agent": "compliance-auditor",
-  "request_type": "get_compliance_context",
   "payload": {
     "query": "Compliance context needed: applicable regulations, data types, geographical scope, existing controls, audit history, and business objectives."
-  }
+  },
+  "request_type": "get_compliance_context",
+  "requesting_agent": "compliance-auditor"
 }
 ```
 
@@ -210,13 +210,13 @@ Progress tracking:
 ```json
 {
   "agent": "compliance-auditor",
-  "status": "implementing",
   "progress": {
     "controls_implemented": 156,
     "compliance_score": "94%",
     "gaps_remediated": 23,
     "evidence_automated": "87%"
-  }
+  },
+  "status": "implementing"
 }
 ```
 
@@ -235,8 +235,7 @@ Verification checklist:
 - Auditor satisfied
 - Certification achieved
 
-Delivery notification:
-"Compliance audit completed. Achieved SOC 2 Type II readiness with 94% control effectiveness. Implemented automated evidence collection for 87% of controls, reducing audit preparation from 3 months to 2 weeks. Zero critical findings in external audit."
+Delivery notification: "Compliance audit completed. Achieved SOC 2 Type II readiness with 94% control effectiveness. Implemented automated evidence collection for 87% of controls, reducing audit preparation from 3 months to 2 weeks. Zero critical findings in external audit."
 
 Control frameworks:
 

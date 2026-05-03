@@ -1,13 +1,7 @@
 ---
 name: httpie
 description: >
-  Use this skill whenever the user wants to make HTTP requests, test APIs, call REST endpoints,
-  debug web services, or interact with any HTTP/HTTPS API using the HTTPie CLI tool (`http` command).
-  Trigger this skill for any request involving: sending GET/POST/PUT/PATCH/DELETE requests, testing
-  API endpoints, sending JSON or form data, working with authentication (Bearer token, Basic auth),
-  uploading files, downloading responses, managing sessions, inspecting request/response headers,
-  or piping HTTP calls in shell scripts. Use this skill even when the user just says "call the API",
-  "send a request", "hit this endpoint", or "test with httpie" ¿ don't wait for explicit httpie mention.
+  Use this skill whenever the user wants to make HTTP requests, test APIs, call REST endpoints, debug web services, or interact with any HTTP/HTTPS API using the HTTPie CLI tool (`http` command). Trigger this skill for any request involving: sending GET/POST/PUT/PATCH/DELETE requests, testing API endpoints, sending JSON or form data, working with authentication (Bearer token, Basic auth), uploading files, downloading responses, managing sessions, inspecting request/response headers, or piping HTTP calls in shell scripts. Use this skill even when the user just says "call the API", "send a request", "hit this endpoint", or "test with httpie" ï¿½ don't wait for explicit httpie mention.
 ---
 
 # HTTPie CLI Skill
@@ -42,17 +36,17 @@ http [METHOD] URL [REQUEST_ITEMS...]
 
 ---
 
-## Request Items ¿ Key Separators
+## Request Items ï¿½ Key Separators
 
-| Separator | Type                                        | Example                                          |
-| --------- | ------------------------------------------- | ------------------------------------------------ |
-| `=`       | JSON string field (or form field with `-f`) | `name=Jean`                                      |
-| `:=`      | Raw JSON value (non-string)                 | `active:=true`, `count:=42`, `tags:='["a","b"]'` |
-| `==`      | URL query parameter                         | `search==httpie`                                 |
-| `:`       | HTTP header                                 | `Authorization:Bearer TOKEN`                     |
-| `@`       | File upload (form/multipart)                | `file@./report.pdf`                              |
-| `=@`      | File content as string field                | `body=@./message.txt`                            |
-| `:=@`     | File content as raw JSON                    | `config:=@./config.json`                         |
+| Separator | Type | Example |
+| --- | --- | --- |
+| `=` | JSON string field (or form field with `-f`) | `name=Jean` |
+| `:=` | Raw JSON value (non-string) | `active:=true`, `count:=42`, `tags:='["a","b"]'` |
+| `==` | URL query parameter | `search==httpie` |
+| `:` | HTTP header | `Authorization:Bearer TOKEN` |
+| `@` | File upload (form/multipart) | `file@./report.pdf` |
+| `=@` | File content as string field | `body=@./message.txt` |
+| `:=@` | File content as raw JSON | `config:=@./config.json` |
 
 ---
 
@@ -197,7 +191,7 @@ http --session-read-only=myapi GET https://api.example.com/data
 --follow           # Follow redirects
 --timeout=10       # Set timeout in seconds (default: 0 = no timeout)
 --proxy=http:http://proxy:8080  # Use a proxy
---verify=no        # Skip SSL certificate verification (¿¿ dev only)
+--verify=no        # Skip SSL certificate verification (ï¿½ï¿½ dev only)
 --cert=./cert.pem  # Client TLS certificate
 --stream           # Stream response body (useful for SSE / long-polling)
 --quiet            # Suppress output except errors
@@ -246,13 +240,13 @@ http --offline POST https://api.example.com/users name=test active:=true
 
 ## HTTPie vs curl Equivalents
 
-| Goal         | HTTPie                        | curl                                                                      |
-| ------------ | ----------------------------- | ------------------------------------------------------------------------- |
-| GET request  | `http GET url`                | `curl url`                                                                |
-| POST JSON    | `http POST url key=val`       | `curl -X POST -H 'Content-Type: application/json' -d '{"key":"val"}' url` |
-| Bearer auth  | `http -A bearer -a TOKEN url` | `curl -H 'Authorization: Bearer TOKEN' url`                               |
-| Show headers | `http -h url`                 | `curl -I url`                                                             |
-| Verbose      | `http -v url`                 | `curl -v url`                                                             |
+| Goal | HTTPie | curl |
+| --- | --- | --- |
+| GET request | `http GET url` | `curl url` |
+| POST JSON | `http POST url key=val` | `curl -X POST -H 'Content-Type: application/json' -d '{"key":"val"}' url` |
+| Bearer auth | `http -A bearer -a TOKEN url` | `curl -H 'Authorization: Bearer TOKEN' url` |
+| Show headers | `http -h url` | `curl -I url` |
+| Verbose | `http -v url` | `curl -v url` |
 
 ---
 
@@ -262,7 +256,11 @@ HTTPie config lives at `~/.config/httpie/config.json`:
 
 ```json
 {
-  "default_options": ["--style=monokai", "--pretty=all", "--check-status"]
+  "default_options": [
+    "--style=monokai",
+    "--pretty=all",
+    "--check-status"
+  ]
 }
 ```
 

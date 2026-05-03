@@ -1,10 +1,10 @@
-import "dotenv/config";
-import { config } from "dotenv";
-config({ path: ".env.local" });
 import bcrypt from "bcrypt";
+import { config } from "dotenv";
+import "dotenv/config";
+import { eq } from "drizzle-orm";
 import { db } from "./database/db";
 import { users } from "./database/schema";
-import { eq } from "drizzle-orm";
+config({ path: ".env.local" });
 
 async function main() {
   // Get stored password hash from DB

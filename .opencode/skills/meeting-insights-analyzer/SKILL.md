@@ -145,11 +145,9 @@ When a user requests meeting analysis:
 
       > [Actual quote from transcript]
 
-      **Why This Matters**:
-      [Explanation of the impact or missed opportunity]
+      **Why This Matters**: [Explanation of the impact or missed opportunity]
 
-      **Better Approach**:
-      [Specific alternative phrasing or behavior]
+      **Better Approach**: [Specific alternative phrasing or behavior]
 
    [Repeat for 2-3 strongest examples]
    ```
@@ -161,9 +159,7 @@ When a user requests meeting analysis:
    ```markdown
    # Meeting Insights Summary
 
-   **Analysis Period**: [Date range]
-   **Meetings Analyzed**: [X meetings]
-   **Total Duration**: [X hours]
+   **Analysis Period**: [Date range] **Meetings Analyzed**: [X meetings] **Total Duration**: [X hours]
 
    ## Key Patterns Identified
 
@@ -219,8 +215,7 @@ When a user requests meeting analysis:
 ```markdown
 # Conflict Avoidance Patterns
 
-Found 23 instances across 15 meetings where you used indirect
-communication or avoided addressing tensions directly.
+Found 23 instances across 15 meetings where you used indirect communication or avoided addressing tensions directly.
 
 ## Pattern: Hedging on Critical Feedback
 
@@ -230,20 +225,11 @@ communication or avoided addressing tensions directly.
 
 **What Happened**:
 
-> "So, I was thinking... maybe we could, like, potentially
-> consider looking at the timeline again? I mean, if you
-> think that makes sense. But whatever you think is best!"
+> "So, I was thinking... maybe we could, like, potentially consider looking at the timeline again? I mean, if you think that makes sense. But whatever you think is best!"
 
-**Why This Matters**:
-You needed to address that Sarah's project was behind schedule,
-but the hedging language ("maybe", "potentially", "if you think")
-and the deflection at the end ("whatever you think") made it easy
-for her to miss the urgency.
+**Why This Matters**: You needed to address that Sarah's project was behind schedule, but the hedging language ("maybe", "potentially", "if you think") and the deflection at the end ("whatever you think") made it easy for her to miss the urgency.
 
-**Better Approach**:
-"Sarah, the project is two weeks behind schedule. We need to
-discuss what's blocking progress and create a new timeline
-today."
+**Better Approach**: "Sarah, the project is two weeks behind schedule. We need to discuss what's blocking progress and create a new timeline today."
 
 [Additional examples...]
 

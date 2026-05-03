@@ -39,8 +39,8 @@ sequenceDiagram
     Server-->>Client: Response
 ```
 
-- `->>`  Solid arrow (request)
-- `-->>`  Dotted arrow (response/return)
+- `->>` Solid arrow (request)
+- `-->>` Dotted arrow (response/return)
 
 ### Open Arrow (Asynchronous)
 

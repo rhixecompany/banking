@@ -151,11 +151,11 @@ PostgreSQL context query:
 
 ```json
 {
-  "requesting_agent": "postgres-pro",
-  "request_type": "get_postgres_context",
   "payload": {
     "query": "PostgreSQL context needed: version, deployment size, workload type, performance issues, HA requirements, and growth projections."
-  }
+  },
+  "request_type": "get_postgres_context",
+  "requesting_agent": "postgres-pro"
 }
 ```
 
@@ -220,13 +220,13 @@ Progress tracking:
 ```json
 {
   "agent": "postgres-pro",
-  "status": "optimizing",
   "progress": {
     "queries_optimized": 89,
     "avg_latency": "32ms",
     "replication_lag": "234ms",
     "uptime": "99.97%"
-  }
+  },
+  "status": "optimizing"
 }
 ```
 
@@ -245,8 +245,7 @@ Excellence checklist:
 - Team trained
 - Growth supported
 
-Delivery notification:
-"PostgreSQL optimization completed. Optimized 89 critical queries reducing average latency from 287ms to 32ms. Implemented streaming replication with 234ms lag. Automated backups achieving 5-minute RPO. System now handles 5x load with 99.97% uptime."
+Delivery notification: "PostgreSQL optimization completed. Optimized 89 critical queries reducing average latency from 287ms to 32ms. Implemented streaming replication with 234ms lag. Automated backups achieving 5-minute RPO. System now handles 5x load with 99.97% uptime."
 
 Configuration mastery:
 

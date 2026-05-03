@@ -45,41 +45,49 @@ This matches CI enforcement. **Do not skip any step.**
 ### Technology Stack
 
 **Core:**
+
 - **Next.js 16.2.4** with App Router; Server Components by default
 - **React 19** with React Compiler enabled (`next.config.ts`)
 - **TypeScript 6.0.2** in strict mode (no `any` allowed)
 - **Bun 1.3.13** package manager
 
 **Database & ORM:**
+
 - **PostgreSQL** (latest; typically v15+)
 - **Drizzle ORM 0.45.2** + **drizzle-kit 0.31.10** for migrations
 - **postgres 3.4.9** Node.js driver
 
 **Authentication:**
+
 - **NextAuth v4.24.14** with JWT strategy
 - **@auth/drizzle-adapter 1.11.1** for session storage
 
 **Testing:**
+
 - **Playwright 1.59.1** for E2E (stateful, 1 worker)
 - **Vitest 4.1.2** for unit tests
 - **MSW 1.2.1** for network mocking
 
 **Validation & Forms:**
+
 - **Zod ^4.3.6** for schema validation
 - **react-hook-form ^7.74.0** with Zod resolvers
 
 **Integrations:**
+
 - **Plaid 42.1.0** for bank linking
 - **Dwolla 3.4.0** for ACH transfers
 - **@upstash/redis 1.37.0** for caching/rate limiting
 
 **UI & Styling:**
+
 - **Tailwind CSS v4**
 - **shadcn/ui** (latest) + **Radix UI 1.4.3**
 - **lucide-react 1.14.0** for icons
 - **recharts 3.8.0** for charts
 
 **Build & Quality:**
+
 - **ESLint 9.0.0** + **Prettier 3.8.1**
 - **Husky 9.1.7** + **lint-staged 16.4.0** for pre-commit hooks
 - **tsx 4.21.0** for TypeScript script execution
@@ -87,6 +95,7 @@ This matches CI enforcement. **Do not skip any step.**
 ### Next.js Configuration Highlights
 
 **Key flags in `next.config.ts`:**
+
 - `cacheComponents: true` — Cache Components mode (experimental)
 - `typedRoutes: true` — Type-safe route imports
 - `reactCompiler: true` — React Compiler enabled
@@ -135,17 +144,20 @@ C:\Users\Alexa\Desktop\SandBox\Banking/
 ### Process Boundaries
 
 **Server Components (default in `app/` and `dal/`):**
+
 - Fetch data via DAL helpers
 - Call `auth()` for protected routes
 - No direct `process.env` reads (use `app-config.ts`)
 - No direct DB imports (use `dal/**` helpers)
 
 **Client Components (mark with `"use client"`):**
+
 - Interactivity: forms, modals, animations
 - Browser APIs: `localStorage`, `window`, etc.
 - User input handling
 
 **Server Actions (`actions/`):**
+
 - `"use server"` directive
 - Validate inputs with Zod
 - Call `auth()` early for protected actions
@@ -161,6 +173,7 @@ C:\Users\Alexa\Desktop\SandBox\Banking/
 **File:** `actions/register.ts`
 
 **Rules:**
+
 1. Start with `"use server"`
 2. Validate inputs with Zod `.safeParse()`
 3. Call `auth()` early for protected actions
@@ -207,6 +220,7 @@ export async function registerUser(input: unknown): Promise<{
 **File:** `dal/transaction.dal.ts`
 
 **Rules:**
+
 1. Fetch base rows first (e.g., transactions)
 2. Collect unique IDs from those rows
 3. Batch-fetch related data in a single query (e.g., wallets via `IN` clause)
@@ -262,6 +276,7 @@ export async function findByUserIdWithWallets(
 **Files:** `app-config.ts` (canonical), `lib/env.ts` (backward compat)
 
 **Rules:**
+
 1. **Never** read `process.env` directly in app code
 2. Use `app-config.ts` as the canonical typed source
 3. `lib/env.ts` re-exports for backward compatibility
@@ -296,6 +311,7 @@ const secret = auth.NEXTAUTH_SECRET; // ✅ Correct
 **Files:** `lib/plaid.ts`, `tests/e2e/helpers/plaid.mock.ts`
 
 **Rules:**
+
 1. Use `isMockAccessToken()` to detect test tokens (start with `seed-`, `mock-`, `mock_`)
 2. Skip network calls for mock tokens
 3. Create mock funding-source/transfer URLs instead
@@ -337,6 +353,7 @@ export async function addMockPlaidInitScript(
 ```
 
 **E2E Seed User:**
+
 - Email: `seed-user@example.com`
 - Password: `password123`
 
@@ -360,6 +377,7 @@ const secret = auth.NEXTAUTH_SECRET;
 **Why:** `app-config.ts` provides typed Zod validation and centralizes all env handling. This ensures type safety and prevents runtime surprises.
 
 **Verified Exceptions:**
+
 - `proxy.ts` — reads Upstash Redis env vars directly (required for proxy layer)
 - `scripts/seed/run.ts` — intentionally loads `.env` before imports (documented)
 
@@ -477,6 +495,7 @@ git commit -m "fix: correct typo in button label"
 # Plan: Add wallet creation UI
 
 ## Files Changed
+
 - app/(root)/wallet/create/page.tsx (new)
 - actions/wallet.actions.ts
 - dal/wallet.dal.ts
@@ -487,6 +506,7 @@ git commit -m "fix: correct typo in button label"
 - styles (global CSS)
 
 ## Phases
+
 1. Schema update
 2. DAL implementation
 3. Action implementation
@@ -581,6 +601,7 @@ bunx playwright test tests/e2e/wallet.spec.ts --project=chromium
 **Setup:** `tests/e2e/global-setup.ts` and `tests/e2e/global-teardown.ts` manage DB state. If `PLAYWRIGHT_PREPARE_DB=true`, it runs `bun run db:push && bun run db:seed -- --reset`.
 
 **Requirements:**
+
 - PostgreSQL reachable via `DATABASE_URL`
 - `ENCRYPTION_KEY` set
 - `NEXTAUTH_SECRET` set
@@ -601,6 +622,7 @@ test("should link a mock bank account", async ({ page }) => {
 ```
 
 **E2E Seed User:**
+
 - Email: `seed-user@example.com`
 - Password: `password123`
 
@@ -742,6 +764,7 @@ By default, full E2E runs only on PRs from the main repository. If your PR is fr
 2. Or comment `/run-e2e` on the PR (authorized users only)
 
 **Authorized maintainers:**
+
 - rhixecompany
 - adminbot
 
@@ -940,17 +963,18 @@ git commit -m "refactor: entire auth system"
 # .opencode/commands/refactor-auth.plan.md
 
 ## Overview
+
 Migrate NextAuth v4 to Auth.js (v5 compatible)
 
 ## Files Changed
+
 1. lib/auth-options.ts
-2. app/api/auth/[...nextauth]/route.ts
-... (12 files total)
+2. app/api/auth/[...nextauth]/route.ts ... (12 files total)
 
 ## Phases
+
 1. Update providers
-2. Migrate session storage
-...
+2. Migrate session storage ...
 ```
 
 Then commit normally.

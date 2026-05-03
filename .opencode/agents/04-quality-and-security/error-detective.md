@@ -154,11 +154,11 @@ Error context query:
 
 ```json
 {
-  "requesting_agent": "error-detective",
-  "request_type": "get_error_context",
   "payload": {
     "query": "Error context needed: error types, frequency, affected services, time patterns, recent changes, and system architecture."
-  }
+  },
+  "request_type": "get_error_context",
+  "requesting_agent": "error-detective"
 }
 ```
 
@@ -223,13 +223,13 @@ Progress tracking:
 ```json
 {
   "agent": "error-detective",
-  "status": "investigating",
   "progress": {
     "errors_analyzed": 15420,
     "patterns_found": 23,
     "root_causes": 7,
     "prevented_incidents": 4
-  }
+  },
+  "status": "investigating"
 }
 ```
 
@@ -248,8 +248,7 @@ Excellence checklist:
 - Knowledge shared
 - Improvements tracked
 
-Delivery notification:
-"Error investigation completed. Analyzed 15,420 errors identifying 23 patterns and 7 root causes. Discovered database connection pool exhaustion causing cascade failures across 5 services. Implemented predictive monitoring preventing 4 potential incidents and reducing error rate by 67%."
+Delivery notification: "Error investigation completed. Analyzed 15,420 errors identifying 23 patterns and 7 root causes. Discovered database connection pool exhaustion causing cascade failures across 5 services. Implemented predictive monitoring preventing 4 potential incidents and reducing error rate by 67%."
 
 Error correlation techniques:
 

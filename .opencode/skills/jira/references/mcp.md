@@ -184,30 +184,30 @@ field operator value [AND|OR field operator value]
 
 ### Common Fields
 
-| Field | Description | Example |
-|-------|-------------|---------|
-| `project` | Project key | `project = "PROJ"` |
-| `issuetype` | Issue type | `issuetype = Bug` |
-| `status` | Issue status | `status = "In Progress"` |
-| `assignee` | Assigned user | `assignee = currentUser()` |
-| `reporter` | Issue creator | `reporter = "jobarksdale"` |
-| `priority` | Priority level | `priority = High` |
-| `labels` | Issue labels | `labels = "backend"` |
-| `component` | Components | `component = "API"` |
-| `created` | Creation date | `created >= -30d` |
-| `updated` | Last update | `updated >= -7d` |
-| `resolved` | Resolution date | `resolved >= startOfMonth()` |
-| `sprint` | Sprint name/ID | `sprint in openSprints()` |
-| `epic` | Parent epic | `"Epic Link" = PROJ-100` |
-| `parent` | Parent issue | `parent = PROJ-50` |
-| `text` | Full-text search | `text ~ "authentication"` |
-| `summary` | Title search | `summary ~ "login"` |
-| `description` | Description search | `description ~ "OAuth"` |
+| Field         | Description        | Example                      |
+| ------------- | ------------------ | ---------------------------- |
+| `project`     | Project key        | `project = "PROJ"`           |
+| `issuetype`   | Issue type         | `issuetype = Bug`            |
+| `status`      | Issue status       | `status = "In Progress"`     |
+| `assignee`    | Assigned user      | `assignee = currentUser()`   |
+| `reporter`    | Issue creator      | `reporter = "jobarksdale"`   |
+| `priority`    | Priority level     | `priority = High`            |
+| `labels`      | Issue labels       | `labels = "backend"`         |
+| `component`   | Components         | `component = "API"`          |
+| `created`     | Creation date      | `created >= -30d`            |
+| `updated`     | Last update        | `updated >= -7d`             |
+| `resolved`    | Resolution date    | `resolved >= startOfMonth()` |
+| `sprint`      | Sprint name/ID     | `sprint in openSprints()`    |
+| `epic`        | Parent epic        | `"Epic Link" = PROJ-100`     |
+| `parent`      | Parent issue       | `parent = PROJ-50`           |
+| `text`        | Full-text search   | `text ~ "authentication"`    |
+| `summary`     | Title search       | `summary ~ "login"`          |
+| `description` | Description search | `description ~ "OAuth"`      |
 
 ### Operators
 
 | Operator | Meaning | Example |
-|----------|---------|---------|
+| --- | --- | --- |
 | `=` | Exact match | `status = Done` |
 | `!=` | Not equal | `status != Closed` |
 | `~` | Contains (text) | `summary ~ "auth*"` |
@@ -223,7 +223,7 @@ field operator value [AND|OR field operator value]
 ### Functions
 
 | Function | Description | Example |
-|----------|-------------|---------|
+| --- | --- | --- |
 | `currentUser()` | Logged-in user | `assignee = currentUser()` |
 | `now()` | Current timestamp | `created <= now()` |
 | `startOfDay()` | Midnight today | `updated >= startOfDay()` |
@@ -306,7 +306,7 @@ The Atlassian MCP does not currently support creating issue links. Use the bundl
 ### Link Types
 
 | Link Type | Inward | Outward | Use Case |
-|-----------|--------|---------|----------|
+| --- | --- | --- | --- |
 | Depends On | is dependency of | depends on | Task dependencies |
 | Blocks | is blocked by | blocks | Blocking relationships |
 | Relates To | relates to | relates to | General relationships |
@@ -389,16 +389,14 @@ For createJiraIssue, descriptions may use ADF format:
 
 ```json
 {
-  "type": "doc",
-  "version": 1,
   "content": [
     {
       "type": "paragraph",
-      "content": [
-        {"type": "text", "text": "Description text"}
-      ]
+      "content": [{ "type": "text", "text": "Description text" }]
     }
-  ]
+  ],
+  "type": "doc",
+  "version": 1
 }
 ```
 
@@ -409,7 +407,7 @@ For createJiraIssue, descriptions may use ADF format:
 ### Common Errors
 
 | HTTP Code | Error | Cause | Resolution |
-|-----------|-------|-------|------------|
+| --- | --- | --- | --- |
 | 400 | Bad Request | Invalid field values | Check required fields for issue type |
 | 401 | Unauthorized | Invalid credentials | Run `/mcp` to reconnect |
 | 403 | Forbidden | Insufficient permissions | Check project permissions |

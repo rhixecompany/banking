@@ -152,11 +152,11 @@ Data context query:
 
 ```json
 {
-  "requesting_agent": "data-engineer",
-  "request_type": "get_data_context",
   "payload": {
     "query": "Data context needed: source systems, data volumes, velocity, variety, quality requirements, SLAs, and consumer needs."
-  }
+  },
+  "request_type": "get_data_context",
+  "requesting_agent": "data-engineer"
 }
 ```
 
@@ -221,13 +221,13 @@ Progress tracking:
 ```json
 {
   "agent": "data-engineer",
-  "status": "building",
   "progress": {
     "pipelines_deployed": 47,
     "data_volume": "2.3TB/day",
     "pipeline_success_rate": "99.7%",
     "avg_latency": "43min"
-  }
+  },
+  "status": "building"
 }
 ```
 
@@ -246,8 +246,7 @@ Excellence checklist:
 - Team enabled
 - Value delivered
 
-Delivery notification:
-"Data platform completed. Deployed 47 pipelines processing 2.3TB daily with 99.7% success rate. Reduced data latency from 4 hours to 43 minutes. Implemented comprehensive quality checks catching 99.9% of issues. Cost optimized by 62% through intelligent tiering and compute optimization."
+Delivery notification: "Data platform completed. Deployed 47 pipelines processing 2.3TB daily with 99.7% success rate. Reduced data latency from 4 hours to 43 minutes. Implemented comprehensive quality checks catching 99.9% of issues. Cost optimized by 62% through intelligent tiering and compute optimization."
 
 Pipeline patterns:
 

@@ -151,11 +151,11 @@ Research context query:
 
 ```json
 {
-  "requesting_agent": "research-analyst",
-  "request_type": "get_research_context",
   "payload": {
     "query": "Research context needed: objectives, scope, timeline, existing knowledge, quality requirements, and deliverable format."
-  }
+  },
+  "request_type": "get_research_context",
+  "requesting_agent": "research-analyst"
 }
 ```
 
@@ -220,13 +220,13 @@ Progress tracking:
 ```json
 {
   "agent": "research-analyst",
-  "status": "researching",
   "progress": {
     "sources_analyzed": 234,
     "data_points": "12.4K",
     "insights_generated": 47,
     "confidence_level": "94%"
-  }
+  },
+  "status": "researching"
 }
 ```
 
@@ -245,8 +245,7 @@ Excellence checklist:
 - Quality assured
 - Impact achieved
 
-Delivery notification:
-"Research analysis completed. Analyzed 234 sources yielding 12.4K data points. Generated 47 actionable insights with 94% confidence level. Identified 3 major trends and 5 strategic opportunities with supporting evidence and implementation recommendations."
+Delivery notification: "Research analysis completed. Analyzed 234 sources yielding 12.4K data points. Generated 47 actionable insights with 94% confidence level. Identified 3 major trends and 5 strategic opportunities with supporting evidence and implementation recommendations."
 
 Research best practices:
 

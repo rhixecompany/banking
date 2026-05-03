@@ -49,8 +49,8 @@ describe("docs/markdown-catalog.md", () => {
     expect(
       [...inCatalog].some((p) => p.startsWith("docs/") && p.includes(".")),
     ).toBe(true);
-    expect([...inCatalog].some((p) => p.startsWith(".opencode/commands/"))).toBe(
-      true,
-    );
+    expect(
+      [...inCatalog].some((p) => p.startsWith(".opencode/commands/")),
+    ).toBe(true);
   });
 });

@@ -16,13 +16,13 @@ wt switch @                           # Current worktree (no-op, useful with --e
 ### Key flags
 
 | Flag | Short | Description |
-|---|---|---|
+| --- | --- | --- |
 | `--create` | `-c` | Create new branch and worktree |
 | `--execute <cmd>` | `-x` | Run command after switching (after post-create hooks) |
-| `--base <branch>` | | Base branch for creation (default: default branch) |
-| `--base=@` | | Base from current HEAD (stacked branches) |
-| `--no-verify` | | Skip hooks |
-| `--yes` | | Skip approval prompts |
+| `--base <branch>` |  | Base branch for creation (default: default branch) |
+| `--base=@` |  | Base from current HEAD (stacked branches) |
+| `--no-verify` |  | Skip hooks |
+| `--yes` |  | Skip approval prompts |
 
 ### Interactive Picker
 
@@ -55,16 +55,16 @@ wt list statusline --format=claude-code  # Single-line for Claude Code statuslin
 
 ### Status Column Indicators
 
-| Symbol | Meaning |
-|---|---|
-| `@` | Current worktree |
-| `+` / `-` | Staged / unstaged changes |
-| `?` | Untracked files |
-| `↑` / `↓` | Ahead / behind remote |
-| `⇡` / `⇣` | Ahead / behind default branch |
-| `^` | Up to date with remote |
-| `🤖` | Claude working (plugin) |
-| `💬` | Claude waiting for input (plugin) |
+| Symbol    | Meaning                           |
+| --------- | --------------------------------- |
+| `@`       | Current worktree                  |
+| `+` / `-` | Staged / unstaged changes         |
+| `?`       | Untracked files                   |
+| `↑` / `↓` | Ahead / behind remote             |
+| `⇡` / `⇣` | Ahead / behind default branch     |
+| `^`       | Up to date with remote            |
+| `🤖`      | Claude working (plugin)           |
+| `💬`      | Claude waiting for input (plugin) |
 
 ### Custom URL Column
 
@@ -96,12 +96,12 @@ wt merge staging           # Merge into staging
 
 ### Flags
 
-| Flag | Description |
-|---|---|
+| Flag          | Description             |
+| ------------- | ----------------------- |
 | `--no-squash` | Keep individual commits |
-| `--no-rebase` | Skip rebase step |
-| `--no-verify` | Skip all hooks |
-| `--yes` | Skip prompts |
+| `--no-rebase` | Skip rebase step        |
+| `--no-verify` | Skip all hooks          |
+| `--yes`       | Skip prompts            |
 
 ## wt remove
 
@@ -163,10 +163,10 @@ wt config state approvals  # Alias for wt hook approvals
 
 ### Config File Locations
 
-| File | Scope |
-|---|---|
-| `~/.config/worktrunk/config.toml` | User/global |
-| `.config/wt.toml` | Project (checked into repo) |
+| File                              | Scope                       |
+| --------------------------------- | --------------------------- |
+| `~/.config/worktrunk/config.toml` | User/global                 |
+| `.config/wt.toml`                 | Project (checked into repo) |
 
 ### Global Config Options
 
@@ -212,12 +212,12 @@ wt hook approvals clear           # Reset approvals
 
 ## Global Flags (all commands)
 
-| Flag | Description |
-|---|---|
-| `-C <path>` | Set working directory |
+| Flag              | Description               |
+| ----------------- | ------------------------- |
+| `-C <path>`       | Set working directory     |
 | `--config <path>` | Use alternate config file |
-| `-v` / `-vv` | Verbose / debug output |
-| `-h` / `--help` | Help |
+| `-v` / `-vv`      | Verbose / debug output    |
+| `-h` / `--help`   | Help                      |
 
 ## Useful Aliases
 

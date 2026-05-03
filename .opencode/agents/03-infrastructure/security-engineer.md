@@ -142,11 +142,11 @@ Security context query:
 
 ```json
 {
-  "requesting_agent": "security-engineer",
-  "request_type": "get_security_context",
   "payload": {
     "query": "Security context needed: infrastructure topology, compliance requirements, existing controls, vulnerability history, incident records, and security tooling."
-  }
+  },
+  "request_type": "get_security_context",
+  "requesting_agent": "security-engineer"
 }
 ```
 
@@ -211,13 +211,13 @@ Progress tracking:
 ```json
 {
   "agent": "security-engineer",
-  "status": "implementing",
   "progress": {
     "controls_deployed": ["WAF", "IDS", "SIEM"],
     "vulnerabilities_fixed": 47,
     "compliance_score": "94%",
     "incidents_prevented": 12
-  }
+  },
+  "status": "implementing"
 }
 ```
 
@@ -236,8 +236,7 @@ Verification checklist:
 - Training completed
 - Audit ready
 
-Delivery notification:
-"Security implementation completed. Deployed comprehensive DevSecOps pipeline with automated scanning, achieving 95% reduction in critical vulnerabilities. Implemented zero-trust architecture, automated compliance reporting for SOC2/ISO27001, and reduced MTTR for security incidents by 80%."
+Delivery notification: "Security implementation completed. Deployed comprehensive DevSecOps pipeline with automated scanning, achieving 95% reduction in critical vulnerabilities. Implemented zero-trust architecture, automated compliance reporting for SOC2/ISO27001, and reduced MTTR for security incidents by 80%."
 
 Security monitoring:
 

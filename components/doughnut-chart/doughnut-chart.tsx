@@ -56,4 +56,4 @@ const DoughnutChart = ({ accounts }: DoughnutChartProps): JSX.Element => {
   );
 };
 
-export default DoughnutChart;
+export { DoughnutChart };

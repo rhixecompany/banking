@@ -155,11 +155,11 @@ Debugging context query:
 
 ```json
 {
-  "requesting_agent": "debugger",
-  "request_type": "get_debugging_context",
   "payload": {
     "query": "Debugging context needed: issue symptoms, error messages, system environment, recent changes, reproduction steps, and impact scope."
-  }
+  },
+  "request_type": "get_debugging_context",
+  "requesting_agent": "debugger"
 }
 ```
 
@@ -224,13 +224,13 @@ Progress tracking:
 ```json
 {
   "agent": "debugger",
-  "status": "investigating",
   "progress": {
     "hypotheses_tested": 7,
     "root_cause_found": true,
     "fix_implemented": true,
     "resolution_time": "3.5 hours"
-  }
+  },
+  "status": "investigating"
 }
 ```
 
@@ -249,8 +249,7 @@ Excellence checklist:
 - Knowledge shared
 - Prevention planned
 
-Delivery notification:
-"Debugging completed. Identified root cause as race condition in cache invalidation logic occurring under high load. Implemented mutex-based synchronization fix, reducing error rate from 15% to 0%. Created detailed postmortem and added monitoring to prevent recurrence."
+Delivery notification: "Debugging completed. Identified root cause as race condition in cache invalidation logic occurring under high load. Implemented mutex-based synchronization fix, reducing error rate from 15% to 0%. Created detailed postmortem and added monitoring to prevent recurrence."
 
 Common bug patterns:
 

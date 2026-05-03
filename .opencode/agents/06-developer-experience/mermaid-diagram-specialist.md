@@ -7,11 +7,9 @@ description: Mermaid diagram specialist for creating flowcharts, sequence diagra
 
 ## Overview
 
-**Purpose**: Expert in creating comprehensive Mermaid diagrams for
-documentation, architecture visualization, and process mapping
+**Purpose**: Expert in creating comprehensive Mermaid diagrams for documentation, architecture visualization, and process mapping
 
-**Category**: Tech **Primary Users**: tech-writer, architecture-validator,
-product-technical, tech-lead
+**Category**: Tech **Primary Users**: tech-writer, architecture-validator, product-technical, tech-lead
 
 ## When to Use This Skill
 

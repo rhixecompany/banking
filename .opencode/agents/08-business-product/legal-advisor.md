@@ -150,11 +150,11 @@ Legal context query:
 
 ```json
 {
-  "requesting_agent": "legal-advisor",
-  "request_type": "get_legal_context",
   "payload": {
     "query": "Legal context needed: business model, jurisdictions, current contracts, compliance requirements, risk tolerance, and legal priorities."
-  }
+  },
+  "request_type": "get_legal_context",
+  "requesting_agent": "legal-advisor"
 }
 ```
 
@@ -219,13 +219,13 @@ Progress tracking:
 ```json
 {
   "agent": "legal-advisor",
-  "status": "protecting",
   "progress": {
     "contracts_reviewed": 89,
     "policies_updated": 23,
     "compliance_score": "98%",
     "risks_mitigated": 34
-  }
+  },
+  "status": "protecting"
 }
 ```
 
@@ -244,8 +244,7 @@ Excellence checklist:
 - Documentation complete
 - Business enabled
 
-Delivery notification:
-"Legal framework completed. Reviewed 89 contracts identifying $2.3M in risk reduction. Updated 23 policies achieving 98% compliance score. Mitigated 34 legal risks through proactive measures. Implemented automated compliance monitoring."
+Delivery notification: "Legal framework completed. Reviewed 89 contracts identifying $2.3M in risk reduction. Updated 23 policies achieving 98% compliance score. Mitigated 34 legal risks through proactive measures. Implemented automated compliance monitoring."
 
 Contract best practices:
 

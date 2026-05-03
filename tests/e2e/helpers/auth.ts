@@ -58,14 +58,7 @@ export async function signInWithSeedUser(page: Page): Promise<void> {
     csrfCookieTokenPartFromHeader: string | null;
   }> = [];
 
-  const onResponse = async (
-    resp: Parameters<Page["on"]>[1] extends (
-      event: "response",
-      listener: infer L,
-    ) => any
-      ? L
-      : never,
-  ) => {
+  const onResponse = async (resp: any) => {
     // Only capture NextAuth-related traffic to avoid log spam.
     const url = resp.url();
     if (!url.includes("/api/auth/")) return;
@@ -90,14 +83,7 @@ export async function signInWithSeedUser(page: Page): Promise<void> {
     }
   };
 
-  const onRequest = (
-    req: Parameters<Page["on"]>[1] extends (
-      event: "request",
-      listener: infer L,
-    ) => any
-      ? L
-      : never,
-  ) => {
+  const onRequest = (req: any) => {
     const url = req.url();
     if (!url.includes("/api/auth/")) return;
 
@@ -130,8 +116,8 @@ export async function signInWithSeedUser(page: Page): Promise<void> {
     });
   };
 
-  page.on("request", onRequest);
-  page.on("response", onResponse);
+  page.on("request", onRequest as any);
+  page.on("response", onResponse as any);
 
   await page.goto("/sign-in");
   await page.waitForLoadState("domcontentloaded");

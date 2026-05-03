@@ -151,9 +151,6 @@ const AdminSidebar = ({ user }: AdminSidebarProps): React.JSX.Element => {
       {/* Profile dropdown pinned at bottom of sidebar */}
       <div className="mt-auto border-t p-3 ">
         <ProfileDropdown
-          name={user.name}
-          email={user.email}
-          image={user.image}
           align="start"
           trigger={
             <Button

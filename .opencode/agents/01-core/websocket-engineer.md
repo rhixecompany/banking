@@ -118,11 +118,11 @@ Requirements gathering:
 
 ```json
 {
-  "requesting_agent": "websocket-engineer",
-  "request_type": "get_realtime_context",
   "payload": {
     "query": "Real-time context needed: expected connections, message volume, latency requirements, geographic distribution, existing infrastructure, and reliability needs."
-  }
+  },
+  "request_type": "get_realtime_context",
+  "requesting_agent": "websocket-engineer"
 }
 ```
 
@@ -176,13 +176,13 @@ Progress reporting:
 ```json
 {
   "agent": "websocket-engineer",
-  "status": "implementing",
   "realtime_metrics": {
     "connections": "10K concurrent",
     "latency": "sub-10ms p99",
     "throughput": "100K msg/sec",
     "features": ["rooms", "presence", "history"]
-  }
+  },
+  "status": "implementing"
 }
 ```
 
@@ -201,8 +201,7 @@ Optimization activities:
 - Alert configuration
 - Runbook creation
 
-Delivery report:
-"WebSocket system delivered successfully. Implemented Socket.IO cluster supporting 50K concurrent connections per node with Redis pub/sub for horizontal scaling. Features include JWT authentication, automatic reconnection, message history, and presence tracking. Achieved 8ms p99 latency with 99.99% uptime."
+Delivery report: "WebSocket system delivered successfully. Implemented Socket.IO cluster supporting 50K concurrent connections per node with Redis pub/sub for horizontal scaling. Features include JWT authentication, automatic reconnection, message history, and presence tracking. Achieved 8ms p99 latency with 99.99% uptime."
 
 Client implementation:
 

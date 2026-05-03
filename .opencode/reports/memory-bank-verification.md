@@ -10,18 +10,21 @@ Memory bank has been **initialized and fully verified**. All critical entities, 
 ## Verification Results
 
 ### Core Files
+
 - ✅ **AGENTS.md** — 1,071 lines, 29KB, single source of truth
 - ✅ **.cursorrules** — 1.5KB, points to AGENTS.md
 - ✅ **.github/copilot-instructions.md** — 1.9KB, deprecation header + bun syntax
 - ✅ **Legacy files** — 7 archived files with deprecation headers
 
 ### Git State
+
 - ✅ **Current branch:** dev (up to date)
 - ✅ **Working tree:** clean
 - ✅ **Last commit:** 11a05fd0 (docs: consolidate AGENTS.md)
 - ✅ **Commit date:** 2026-05-03 14:22
 
 ### Configuration
+
 - ✅ **package.json** — Bun 1.3.13 declared (line 300)
 - ✅ **next.config.ts** — cacheComponents: true, Server Actions 10mb, typedEnv enabled
 - ✅ **tsconfig.json** — TypeScript 6.0.2 strict mode
@@ -30,6 +33,7 @@ Memory bank has been **initialized and fully verified**. All critical entities, 
 - ✅ **app-config.ts** — Typed env access (canonical)
 
 ### Memory Bank Entities (10)
+
 1. **Banking App Repository** — Project context & Next.js 16.2.4 config
 2. **AGENTS.md Consolidation** — Consolidation task completed
 3. **Legacy Documentation Files** — 7 archived files with deprecation headers
@@ -42,6 +46,7 @@ Memory bank has been **initialized and fully verified**. All critical entities, 
 10. **Common Mistakes to Avoid** — 8 critical mistakes with corrections
 
 ### Memory Bank Relations (9)
+
 - AGENTS.md Consolidation → applies_to → Banking App Repository
 - Legacy Documentation Files → replaced_by → AGENTS.md Consolidation
 - System References Updated → part_of → AGENTS.md Consolidation
@@ -55,16 +60,18 @@ Memory bank has been **initialized and fully verified**. All critical entities, 
 ## Key Findings
 
 ### Critical Rules Documented
+
 - ✅ Never read `process.env` directly (use app-config.ts)
 - ✅ Never import DB clients in UI (use DAL helpers)
 - ✅ Keep app/page.tsx public & static
 - ✅ All writes must be Server Actions
 - ✅ Batch DB queries (prevent N+1)
-- ✅ Large changes (>7 files) require .opencode/commands/*.plan.md
+- ✅ Large changes (>7 files) require .opencode/commands/\*.plan.md
 - ✅ Pre-PR validation: format → type-check → lint:strict → verify:rules
 - ✅ Playwright 1.59.1 is stateful (1 worker, no parallel)
 
 ### Technology Stack
+
 - Next.js 16.2.4 ✅
 - React 19 ✅
 - TypeScript 6.0.2 (strict) ✅
@@ -75,6 +82,7 @@ Memory bank has been **initialized and fully verified**. All critical entities, 
 - Vitest 4.1.2 (unit) ✅
 
 ### Enforcement
+
 - ✅ scripts/verify-rules.ts detects violations (exit code 2 in CI)
 - ✅ ESLint 9.0.0 configured (strict mode)
 - ✅ Prettier 3.8.1 configured

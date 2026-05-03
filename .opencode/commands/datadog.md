@@ -6,19 +6,19 @@ description: Quick reference for Datadog CLI commands
 
 ## Commands Overview
 
-| Command | Purpose |
-|---------|---------|
-| `logs search` | Search and filter logs |
-| `logs agg` | Aggregate logs by facet |
-| `logs tail` | Stream logs in real-time |
-| `logs trace` | Find logs for a trace ID |
-| `logs context` | Get logs around a timestamp |
-| `logs patterns` | Group similar log messages |
-| `logs compare` | Compare current vs previous period |
-| `logs multi` | Run multiple queries in parallel |
-| `metrics query` | Query timeseries metrics |
-| `errors` | Quick error summary |
-| `services` | List services with log activity |
+| Command         | Purpose                            |
+| --------------- | ---------------------------------- |
+| `logs search`   | Search and filter logs             |
+| `logs agg`      | Aggregate logs by facet            |
+| `logs tail`     | Stream logs in real-time           |
+| `logs trace`    | Find logs for a trace ID           |
+| `logs context`  | Get logs around a timestamp        |
+| `logs patterns` | Group similar log messages         |
+| `logs compare`  | Compare current vs previous period |
+| `logs multi`    | Run multiple queries in parallel   |
+| `metrics query` | Query timeseries metrics           |
+| `errors`        | Quick error summary                |
+| `services`      | List services with log activity    |
 
 ## Log Search
 
@@ -230,7 +230,7 @@ datadog metrics query --query "sum:trace.http.request.errors{service:api}.as_cou
 ## Query Syntax
 
 | Operator | Example | Description |
-|----------|---------|-------------|
+| --- | --- | --- |
 | implicit AND | `service:api status:error` | Both conditions |
 | `OR` | `status:error OR status:warn` | Either condition |
 | `-` (NOT) | `-service:healthcheck` | Exclude matches |
@@ -241,18 +241,18 @@ datadog metrics query --query "sum:trace.http.request.errors{service:api}.as_cou
 
 ## Common Log Attributes
 
-| Attribute | Description |
-|-----------|-------------|
-| `status` | Log level: `error`, `warn`, `info`, `debug` |
-| `service` | Service name |
-| `host` | Hostname |
-| `@http.status_code` | HTTP response code |
-| `@http.method` | GET, POST, PUT, DELETE, etc. |
-| `@http.url` | Request URL |
-| `@error.kind` | Error type/class |
-| `@error.message` | Error message |
-| `@trace_id` | Distributed trace ID |
-| `@duration` | Request duration (nanoseconds) |
+| Attribute           | Description                                 |
+| ------------------- | ------------------------------------------- |
+| `status`            | Log level: `error`, `warn`, `info`, `debug` |
+| `service`           | Service name                                |
+| `host`              | Hostname                                    |
+| `@http.status_code` | HTTP response code                          |
+| `@http.method`      | GET, POST, PUT, DELETE, etc.                |
+| `@http.url`         | Request URL                                 |
+| `@error.kind`       | Error type/class                            |
+| `@error.message`    | Error message                               |
+| `@trace_id`         | Distributed trace ID                        |
+| `@duration`         | Request duration (nanoseconds)              |
 
 ## Time Formats
 
@@ -262,7 +262,7 @@ datadog metrics query --query "sum:trace.http.request.errors{service:api}.as_cou
 ## Global Flags
 
 | Flag | Description |
-|------|-------------|
+| --- | --- |
 | `--pretty` | Human-readable colored output |
 | `--output <file>` | Export results to JSON file |
 | `--site <site>` | Datadog site (e.g., `datadoghq.eu`, `us5.datadoghq.com`) |

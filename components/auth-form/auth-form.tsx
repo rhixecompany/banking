@@ -23,8 +23,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
-import { getAuthFormSchema } from "@/lib/utils";
 import { signInSchema, signUpSchema } from "@/lib/schemas/auth.schema";
+import { getAuthFormSchema } from "@/lib/utils";
 
 /** Sign-in form data type inferred from signInSchema */
 type SignInFormData = z.infer<typeof signInSchema>;

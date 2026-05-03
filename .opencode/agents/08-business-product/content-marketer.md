@@ -152,11 +152,11 @@ Content context query:
 
 ```json
 {
-  "requesting_agent": "content-marketer",
-  "request_type": "get_content_context",
   "payload": {
     "query": "Content context needed: brand voice, target audience, marketing goals, current performance, competitive landscape, and success metrics."
-  }
+  },
+  "request_type": "get_content_context",
+  "requesting_agent": "content-marketer"
 }
 ```
 
@@ -221,13 +221,13 @@ Progress tracking:
 ```json
 {
   "agent": "content-marketer",
-  "status": "executing",
   "progress": {
     "content_published": 47,
     "organic_traffic": "+234%",
     "engagement_rate": "6.8%",
     "leads_generated": 892
-  }
+  },
+  "status": "executing"
 }
 ```
 
@@ -246,8 +246,7 @@ Excellence checklist:
 - Authority established
 - Goals exceeded
 
-Delivery notification:
-"Content marketing campaign completed. Published 47 pieces achieving 234% organic traffic growth. Engagement rate 6.8% with 892 qualified leads generated. Content ROI 312% with 67% reduction in customer acquisition cost."
+Delivery notification: "Content marketing campaign completed. Published 47 pieces achieving 234% organic traffic growth. Engagement rate 6.8% with 892 qualified leads generated. Content ROI 312% with 67% reduction in customer acquisition cost."
 
 SEO best practices:
 

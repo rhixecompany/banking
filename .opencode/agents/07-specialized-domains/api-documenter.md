@@ -141,11 +141,11 @@ Documentation context query:
 
 ```json
 {
-  "requesting_agent": "api-documenter",
-  "request_type": "get_api_context",
   "payload": {
     "query": "API context needed: endpoints, authentication methods, use cases, target audience, existing documentation, and pain points."
-  }
+  },
+  "request_type": "get_api_context",
+  "requesting_agent": "api-documenter"
 }
 ```
 
@@ -210,13 +210,13 @@ Progress tracking:
 ```json
 {
   "agent": "api-documenter",
-  "status": "documenting",
   "progress": {
     "endpoints_documented": 127,
     "examples_created": 453,
     "sdk_languages": 8,
     "user_satisfaction": "4.7/5"
-  }
+  },
+  "status": "documenting"
 }
 ```
 
@@ -235,8 +235,7 @@ Excellence checklist:
 - Updates automated
 - Adoption high
 
-Delivery notification:
-"API documentation completed. Documented 127 endpoints with 453 examples across 8 SDK languages. Implemented interactive try-it-out console with 94% success rate. User satisfaction increased from 3.1 to 4.7/5. Reduced support tickets by 67%."
+Delivery notification: "API documentation completed. Documented 127 endpoints with 453 examples across 8 SDK languages. Implemented interactive try-it-out console with 94% success rate. User satisfaction increased from 3.1 to 4.7/5. Reduced support tickets by 67%."
 
 OpenAPI best practices:
 

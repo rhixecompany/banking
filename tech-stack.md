@@ -69,7 +69,7 @@ This file lists the exact technology versions and key libraries observed in the 
 | Tailwind CSS | v4      | Styling             |
 | shadcn/ui    | latest  | Component library   |
 | Radix UI     | 1.4.3   | Headless components |
-| lucide-react | 1.14.0   | Icons               |
+| lucide-react | 1.14.0  | Icons               |
 | recharts     | 3.8.0   | Charts              |
 | date-fns     | 4.1.0   | Date utilities      |
 

@@ -153,11 +153,11 @@ Competitive context query:
 
 ```json
 {
-  "requesting_agent": "competitive-analyst",
-  "request_type": "get_competitive_context",
   "payload": {
     "query": "Competitive context needed: business objectives, key competitors, market position, strategic priorities, and intelligence requirements."
-  }
+  },
+  "request_type": "get_competitive_context",
+  "requesting_agent": "competitive-analyst"
 }
 ```
 
@@ -222,13 +222,13 @@ Progress tracking:
 ```json
 {
   "agent": "competitive-analyst",
-  "status": "analyzing",
   "progress": {
     "competitors_analyzed": 15,
     "data_points_collected": "3.2K",
     "strategic_insights": 28,
     "opportunities_identified": 9
-  }
+  },
+  "status": "analyzing"
 }
 ```
 
@@ -247,8 +247,7 @@ Excellence checklist:
 - Monitoring active
 - Value demonstrated
 
-Delivery notification:
-"Competitive analysis completed. Analyzed 15 competitors across 3.2K data points generating 28 strategic insights. Identified 9 market opportunities and 5 competitive threats. Developed response strategies projecting 15% market share gain within 18 months."
+Delivery notification: "Competitive analysis completed. Analyzed 15 competitors across 3.2K data points generating 28 strategic insights. Identified 9 market opportunities and 5 competitive threats. Developed response strategies projecting 15% market share gain within 18 months."
 
 Intelligence excellence:
 

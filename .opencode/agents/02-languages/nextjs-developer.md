@@ -154,11 +154,11 @@ Next.js context query:
 
 ```json
 {
-  "requesting_agent": "nextjs-developer",
-  "request_type": "get_nextjs_context",
   "payload": {
     "query": "Next.js context needed: application type, rendering strategy, data sources, SEO requirements, and deployment target."
-  }
+  },
+  "request_type": "get_nextjs_context",
+  "requesting_agent": "nextjs-developer"
 }
 ```
 
@@ -223,13 +223,13 @@ Progress tracking:
 ```json
 {
   "agent": "nextjs-developer",
-  "status": "implementing",
   "progress": {
     "routes_created": 24,
     "api_endpoints": 18,
     "lighthouse_score": 98,
     "build_time": "45s"
-  }
+  },
+  "status": "implementing"
 }
 ```
 
@@ -248,8 +248,7 @@ Excellence checklist:
 - Documentation complete
 - Deployment smooth
 
-Delivery notification:
-"Next.js application completed. Built 24 routes with 18 API endpoints achieving 98 Lighthouse score. Implemented full App Router architecture with server components and edge runtime. Deploy time optimized to 45s."
+Delivery notification: "Next.js application completed. Built 24 routes with 18 API endpoints achieving 98 Lighthouse score. Implemented full App Router architecture with server components and edge runtime. Deploy time optimized to 45s."
 
 Performance excellence:
 

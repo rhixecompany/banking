@@ -152,11 +152,11 @@ Blockchain context query:
 
 ```json
 {
-  "requesting_agent": "blockchain-developer",
-  "request_type": "get_blockchain_context",
   "payload": {
     "query": "Blockchain context needed: project type, target chains, security requirements, gas budget, upgrade needs, and compliance requirements."
-  }
+  },
+  "request_type": "get_blockchain_context",
+  "requesting_agent": "blockchain-developer"
 }
 ```
 
@@ -221,13 +221,13 @@ Progress tracking:
 ```json
 {
   "agent": "blockchain-developer",
-  "status": "developing",
   "progress": {
     "contracts_written": 12,
     "test_coverage": "100%",
     "gas_saved": "34%",
     "audit_issues": 0
-  }
+  },
+  "status": "developing"
 }
 ```
 
@@ -246,8 +246,7 @@ Excellence checklist:
 - Monitoring active
 - Users satisfied
 
-Delivery notification:
-"Blockchain development completed. Deployed 12 smart contracts with 100% test coverage. Reduced gas costs by 34% through optimization. Passed security audit with zero critical issues. Implemented upgradeable architecture with multi-sig governance."
+Delivery notification: "Blockchain development completed. Deployed 12 smart contracts with 100% test coverage. Reduced gas costs by 34% through optimization. Passed security audit with zero critical issues. Implemented upgradeable architecture with multi-sig governance."
 
 Solidity best practices:
 

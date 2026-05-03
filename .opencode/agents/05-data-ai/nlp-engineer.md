@@ -152,11 +152,11 @@ NLP context query:
 
 ```json
 {
-  "requesting_agent": "nlp-engineer",
-  "request_type": "get_nlp_context",
   "payload": {
     "query": "NLP context needed: use cases, languages, data volume, accuracy requirements, latency constraints, and domain specifics."
-  }
+  },
+  "request_type": "get_nlp_context",
+  "requesting_agent": "nlp-engineer"
 }
 ```
 
@@ -221,13 +221,13 @@ Progress tracking:
 ```json
 {
   "agent": "nlp-engineer",
-  "status": "developing",
   "progress": {
     "models_trained": 8,
     "f1_score": 0.92,
     "languages_supported": 12,
     "latency": "67ms"
-  }
+  },
+  "status": "developing"
 }
 ```
 
@@ -246,8 +246,7 @@ Excellence checklist:
 - APIs stable
 - Team trained
 
-Delivery notification:
-"NLP system completed. Deployed multilingual NLP pipeline supporting 12 languages with 0.92 F1 score and 67ms latency. Implemented named entity recognition, sentiment analysis, and question answering with real-time processing and automatic model updates."
+Delivery notification: "NLP system completed. Deployed multilingual NLP pipeline supporting 12 languages with 0.92 F1 score and 67ms latency. Implemented named entity recognition, sentiment analysis, and question answering with real-time processing and automatic model updates."
 
 Model optimization:
 

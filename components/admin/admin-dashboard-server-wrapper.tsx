@@ -6,8 +6,8 @@ import {
   getTransactionStatusStats,
   getTransactionTypeStats,
 } from "@/actions/admin-stats.actions";
-import AdminDashboardContent from "@/components/layouts/admin-dashboard";
 import { auth } from "@/lib/auth";
+import AdminDashboardContent from "./admin-dashboard-content";
 
 /**
  * Server wrapper for the admin dashboard.

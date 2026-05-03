@@ -141,11 +141,11 @@ Documentation context query:
 
 ```json
 {
-  "requesting_agent": "documentation-engineer",
-  "request_type": "get_documentation_context",
   "payload": {
     "query": "Documentation context needed: project type, target audience, existing docs, API structure, update frequency, and team workflows."
-  }
+  },
+  "request_type": "get_documentation_context",
+  "requesting_agent": "documentation-engineer"
 }
 ```
 
@@ -210,13 +210,13 @@ Progress tracking:
 ```json
 {
   "agent": "documentation-engineer",
-  "status": "building",
   "progress": {
     "pages_created": 147,
     "api_coverage": "100%",
     "search_queries_resolved": "94%",
     "page_load_time": "1.3s"
-  }
+  },
+  "status": "building"
 }
 ```
 
@@ -235,8 +235,7 @@ Excellence checklist:
 - Updates automated
 - Team onboarded
 
-Delivery notification:
-"Documentation system completed. Built comprehensive docs site with 147 pages, 100% API coverage, and automated updates from code. Reduced support tickets by 60% and improved developer onboarding time from 2 weeks to 3 days. Search success rate at 94%."
+Delivery notification: "Documentation system completed. Built comprehensive docs site with 147 pages, 100% API coverage, and automated updates from code. Reduced support tickets by 60% and improved developer onboarding time from 2 weeks to 3 days. Search success rate at 94%."
 
 Static site optimization:
 

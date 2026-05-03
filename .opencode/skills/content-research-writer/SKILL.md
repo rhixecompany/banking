@@ -166,20 +166,13 @@ When a user requests writing assistance:
 
    Key Findings:
 
-   1. **Productivity Gains**: Studies show 40% time savings for
-      content creation tasks [1]
+   1. **Productivity Gains**: Studies show 40% time savings for content creation tasks [1]
 
-   2. **Adoption Rates**: 67% of knowledge workers use AI tools
-      weekly [2]
+   2. **Adoption Rates**: 67% of knowledge workers use AI tools weekly [2]
 
-   3. **Expert Quote**: "AI augments rather than replaces human
-      creativity" - Dr. Jane Smith, MIT [3]
+   3. **Expert Quote**: "AI augments rather than replaces human creativity" - Dr. Jane Smith, MIT [3]
 
-   Citations:
-   [1] McKinsey Global Institute. (2024). "The Economic Potential
-   of Generative AI"
-   [2] Stack Overflow Developer Survey (2024)
-   [3] Smith, J. (2024). MIT Technology Review interview
+   Citations: [1] McKinsey Global Institute. (2024). "The Economic Potential of Generative AI" [2] Stack Overflow Developer Survey (2024) [3] Smith, J. (2024). MIT Technology Review interview
 
    Added to outline under Section 2.
    ```
@@ -197,18 +190,15 @@ When a user requests writing assistance:
 
    Option 1: [Bold statement]
 
-   > [Example]
-   > _Why it works: [explanation]_
+   > [Example] _Why it works: [explanation]_
 
    Option 2: [Personal story]
 
-   > [Example]
-   > _Why it works: [explanation]_
+   > [Example] _Why it works: [explanation]_
 
    Option 3: [Surprising data]
 
-   > [Example]
-   > _Why it works: [explanation]_
+   > [Example] _Why it works: [explanation]_
 
    **Questions to hook**:
    - Does it create curiosity?
@@ -317,8 +307,7 @@ When a user requests writing assistance:
    ## References
 
    1. Author. (Year). "Title". Publication.
-   2. Author. (Year). "Title". Publication.
-      ...
+   2. Author. (Year). "Title". Publication. ...
    ```
 
 8. **Final Review and Polish**
@@ -491,8 +480,7 @@ The third mistake would benefit from evidence:
 
 ### Flow Improvement
 
-Consider reordering: Mistake 3 → Mistake 2 → Mistake 1
-This builds from small to big impact.
+Consider reordering: Mistake 3 → Mistake 2 → Mistake 1 This builds from small to big impact.
 
 Ready for the next section!
 ```

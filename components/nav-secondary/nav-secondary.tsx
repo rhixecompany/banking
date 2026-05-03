@@ -12,20 +12,12 @@ import {
 } from "@/components/ui/sidebar";
 
 /**
- * Description placeholder
- * @author [object Object]
+ * Secondary navigation component for sidebar
+ * Renders a list of navigation items with icons and links
  *
- * @export
- * @param {({
- *   items: {
- *     title: string;
- *     url: string;
- *     icon: LucideIcon;
- *   }[];
- * } & React.ComponentPropsWithoutRef<typeof SidebarGroup>)} param0
- * @param {*} param0.items
- * @param {*} param0....props
- * @returns {JSX.Element}
+ * @param items - Array of navigation items with title, url, and icon
+ * @param props - Additional props passed to SidebarGroup component
+ * @returns Secondary navigation component
  */
 export function NavSecondary({
   items,

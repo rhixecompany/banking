@@ -141,11 +141,11 @@ Chaos context query:
 
 ```json
 {
-  "requesting_agent": "chaos-engineer",
-  "request_type": "get_chaos_context",
   "payload": {
     "query": "Chaos context needed: system architecture, critical paths, SLOs, incident history, recovery procedures, and risk tolerance."
-  }
+  },
+  "request_type": "get_chaos_context",
+  "requesting_agent": "chaos-engineer"
 }
 ```
 
@@ -210,13 +210,13 @@ Progress tracking:
 ```json
 {
   "agent": "chaos-engineer",
-  "status": "experimenting",
   "progress": {
     "experiments_run": 47,
     "failures_discovered": 12,
     "improvements_made": 23,
     "mttr_reduction": "65%"
-  }
+  },
+  "status": "experimenting"
 }
 ```
 
@@ -235,8 +235,7 @@ Improvement checklist:
 - Automation added
 - Resilience measured
 
-Delivery notification:
-"Chaos engineering program completed. Executed 47 experiments discovering 12 critical failure modes. Implemented fixes reducing MTTR by 65% and improving system resilience score from 2.3 to 4.1. Established monthly game days and automated chaos testing in CI/CD."
+Delivery notification: "Chaos engineering program completed. Executed 47 experiments discovering 12 critical failure modes. Implemented fixes reducing MTTR by 65% and improving system resilience score from 2.3 to 4.1. Established monthly game days and automated chaos testing in CI/CD."
 
 Learning extraction:
 

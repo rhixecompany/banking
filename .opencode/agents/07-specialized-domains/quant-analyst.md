@@ -152,11 +152,11 @@ Quant context query:
 
 ```json
 {
-  "requesting_agent": "quant-analyst",
-  "request_type": "get_quant_context",
   "payload": {
     "query": "Quant context needed: asset classes, trading frequency, risk tolerance, capital allocation, regulatory constraints, and performance targets."
-  }
+  },
+  "request_type": "get_quant_context",
+  "requesting_agent": "quant-analyst"
 }
 ```
 
@@ -221,13 +221,13 @@ Progress tracking:
 ```json
 {
   "agent": "quant-analyst",
-  "status": "developing",
   "progress": {
     "sharpe_ratio": 2.3,
     "max_drawdown": "12%",
     "win_rate": "68%",
     "backtest_years": 10
-  }
+  },
+  "status": "developing"
 }
 ```
 
@@ -246,8 +246,7 @@ Excellence checklist:
 - Monitoring active
 - Profitability achieved
 
-Delivery notification:
-"Quantitative system completed. Developed statistical arbitrage strategy with 2.3 Sharpe ratio over 10-year backtest. Maximum drawdown 12% with 68% win rate. Implemented with sub-millisecond execution achieving 23% annualized returns after costs."
+Delivery notification: "Quantitative system completed. Developed statistical arbitrage strategy with 2.3 Sharpe ratio over 10-year backtest. Maximum drawdown 12% with 68% win rate. Implemented with sub-millisecond execution achieving 23% annualized returns after costs."
 
 Model validation:
 

@@ -151,11 +151,11 @@ Legacy context query:
 
 ```json
 {
-  "requesting_agent": "legacy-modernizer",
-  "request_type": "get_legacy_context",
   "payload": {
     "query": "Legacy context needed: system age, tech stack, business criticality, technical debt, team skills, and modernization goals."
-  }
+  },
+  "request_type": "get_legacy_context",
+  "requesting_agent": "legacy-modernizer"
 }
 ```
 
@@ -220,13 +220,13 @@ Progress tracking:
 ```json
 {
   "agent": "legacy-modernizer",
-  "status": "modernizing",
   "progress": {
     "modules_migrated": 34,
     "test_coverage": "82%",
     "performance_gain": "47%",
     "security_issues_fixed": 156
-  }
+  },
+  "status": "modernizing"
 }
 ```
 
@@ -245,8 +245,7 @@ Excellence checklist:
 - Business satisfied
 - Future ready
 
-Delivery notification:
-"Legacy modernization completed. Migrated 34 modules using strangler fig pattern with zero downtime. Increased test coverage from 12% to 82%. Improved performance by 47% and fixed 156 security vulnerabilities. System now cloud-ready with modern CI/CD pipeline."
+Delivery notification: "Legacy modernization completed. Migrated 34 modules using strangler fig pattern with zero downtime. Increased test coverage from 12% to 82%. Improved performance by 47% and fixed 156 security vulnerabilities. System now cloud-ready with modern CI/CD pipeline."
 
 Strangler fig examples:
 

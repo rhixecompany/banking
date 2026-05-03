@@ -154,11 +154,11 @@ Audit context query:
 
 ```json
 {
-  "requesting_agent": "security-auditor",
-  "request_type": "get_audit_context",
   "payload": {
     "query": "Audit context needed: scope, compliance requirements, security policies, previous findings, timeline, and stakeholder expectations."
-  }
+  },
+  "request_type": "get_audit_context",
+  "requesting_agent": "security-auditor"
 }
 ```
 
@@ -223,13 +223,13 @@ Progress tracking:
 ```json
 {
   "agent": "security-auditor",
-  "status": "auditing",
   "progress": {
     "controls_reviewed": 347,
     "findings_identified": 52,
     "critical_issues": 8,
     "compliance_score": "87%"
-  }
+  },
+  "status": "auditing"
 }
 ```
 
@@ -248,8 +248,7 @@ Excellence checklist:
 - Briefing conducted
 - Remediation planned
 
-Delivery notification:
-"Security audit completed. Reviewed 347 controls identifying 52 findings including 8 critical issues. Compliance score: 87% with gaps in access management and encryption. Provided remediation roadmap reducing risk exposure by 75% and achieving full compliance within 90 days."
+Delivery notification: "Security audit completed. Reviewed 347 controls identifying 52 findings including 8 critical issues. Compliance score: 87% with gaps in access management and encryption. Provided remediation roadmap reducing risk exposure by 75% and achieving full compliance within 90 days."
 
 Audit methodology:
 

@@ -238,13 +238,13 @@ MCP servers support multiple transport mechanisms for different deployment scena
 
 ### Transport Selection Criteria
 
-| Criterion | Stdio | HTTP | SSE |
-|-----------|-------|------|-----|
-| **Deployment** | Local | Remote | Remote |
-| **Clients** | Single | Multiple | Multiple |
+| Criterion         | Stdio         | HTTP             | SSE         |
+| ----------------- | ------------- | ---------------- | ----------- |
+| **Deployment**    | Local         | Remote           | Remote      |
+| **Clients**       | Single        | Multiple         | Multiple    |
 | **Communication** | Bidirectional | Request-Response | Server-Push |
-| **Complexity** | Low | Medium | Medium-High |
-| **Real-time** | No | No | Yes |
+| **Complexity**    | Low           | Medium           | Medium-High |
+| **Real-time**     | No            | No               | Yes         |
 
 ---
 
@@ -457,7 +457,7 @@ MCP servers that connect to external services should implement proper authentica
 
 These best practices represent the comprehensive guidelines for building secure, efficient, and compliant MCP servers that work well within the ecosystem. Developers should follow these guidelines to ensure their MCP servers meet the standards for inclusion in the MCP directory and provide a safe, reliable experience for users.
 
-----------
+---
 
 # Tools
 
@@ -551,6 +551,7 @@ Here's an example of implementing a basic tool in an MCP server:
       throw new Error("Tool not found");
     });
     ```
+
   </Tab>
 
   <Tab title="Python">
@@ -586,6 +587,7 @@ Here's an example of implementing a basic tool in an MCP server:
             return [types.TextContent(type="text", text=str(result))]
         raise ValueError(f"Tool not found: {name}")
     ```
+
   </Tab>
 </Tabs>
 
@@ -800,13 +802,13 @@ Tool annotations serve several key purposes:
 
 The MCP specification defines the following annotations for tools:
 
-| Annotation        | Type    | Default | Description                                                                                                                          |
-| ----------------- | ------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| `title`           | string  | -       | A human-readable title for the tool, useful for UI display                                                                           |
-| `readOnlyHint`    | boolean | false   | If true, indicates the tool does not modify its environment                                                                          |
-| `destructiveHint` | boolean | true    | If true, the tool may perform destructive updates (only meaningful when `readOnlyHint` is false)                                     |
-| `idempotentHint`  | boolean | false   | If true, calling the tool repeatedly with the same arguments has no additional effect (only meaningful when `readOnlyHint` is false) |
-| `openWorldHint`   | boolean | true    | If true, the tool may interact with an "open world" of external entities                                                             |
+| Annotation | Type | Default | Description |
+| --- | --- | --- | --- |
+| `title` | string | - | A human-readable title for the tool, useful for UI display |
+| `readOnlyHint` | boolean | false | If true, indicates the tool does not modify its environment |
+| `destructiveHint` | boolean | true | If true, the tool may perform destructive updates (only meaningful when `readOnlyHint` is false) |
+| `idempotentHint` | boolean | false | If true, calling the tool repeatedly with the same arguments has no additional effect (only meaningful when `readOnlyHint` is false) |
+| `openWorldHint` | boolean | true | If true, the tool may interact with an "open world" of external entities |
 
 ### Example usage
 
@@ -925,6 +927,7 @@ Here's how to define tools with annotations for different scenarios:
         result = a + b
         return str(result)
     ```
+
   </Tab>
 </Tabs>
 

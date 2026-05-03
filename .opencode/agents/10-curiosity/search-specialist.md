@@ -153,11 +153,11 @@ Search context query:
 
 ```json
 {
-  "requesting_agent": "search-specialist",
-  "request_type": "get_search_context",
   "payload": {
     "query": "Search context needed: information objectives, quality requirements, source preferences, time constraints, and coverage expectations."
-  }
+  },
+  "request_type": "get_search_context",
+  "requesting_agent": "search-specialist"
 }
 ```
 
@@ -222,13 +222,13 @@ Progress tracking:
 ```json
 {
   "agent": "search-specialist",
-  "status": "searching",
   "progress": {
     "queries_executed": 147,
     "sources_searched": 43,
     "results_found": "2.3K",
     "precision_rate": "94%"
-  }
+  },
+  "status": "searching"
 }
 ```
 
@@ -247,8 +247,7 @@ Excellence checklist:
 - Value clear
 - Impact achieved
 
-Delivery notification:
-"Search operation completed. Executed 147 queries across 43 sources yielding 2.3K results with 94% precision rate. Identified 23 highly relevant documents including 3 previously unknown critical sources. Reduced research time by 78% compared to manual searching."
+Delivery notification: "Search operation completed. Executed 147 queries across 43 sources yielding 2.3K results with 94% precision rate. Identified 23 highly relevant documents including 3 previously unknown critical sources. Reduced research time by 78% compared to manual searching."
 
 Query excellence:
 

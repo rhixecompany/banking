@@ -151,11 +151,11 @@ Monitoring context query:
 
 ```json
 {
-  "requesting_agent": "performance-monitor",
-  "request_type": "get_monitoring_context",
   "payload": {
     "query": "Monitoring context needed: system architecture, agent topology, performance SLAs, current metrics, pain points, and optimization goals."
-  }
+  },
+  "request_type": "get_monitoring_context",
+  "requesting_agent": "performance-monitor"
 }
 ```
 
@@ -220,13 +220,13 @@ Progress tracking:
 ```json
 {
   "agent": "performance-monitor",
-  "status": "monitoring",
   "progress": {
     "metrics_collected": 2847,
     "dashboards_created": 23,
     "alerts_configured": 156,
     "anomalies_detected": 47
-  }
+  },
+  "status": "monitoring"
 }
 ```
 
@@ -245,8 +245,7 @@ Excellence checklist:
 - Team enabled
 - Insights actionable
 
-Delivery notification:
-"Performance monitoring implemented. Collecting 2847 metrics across 50 agents with <1s latency. Created 23 dashboards detecting 47 anomalies, reducing MTTR by 65%. Identified optimizations saving $12k/month in resource costs."
+Delivery notification: "Performance monitoring implemented. Collecting 2847 metrics across 50 agents with <1s latency. Created 23 dashboards detecting 47 anomalies, reducing MTTR by 65%. Identified optimizations saving $12k/month in resource costs."
 
 Monitoring stack design:
 

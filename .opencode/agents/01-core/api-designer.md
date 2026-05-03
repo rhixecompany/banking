@@ -110,11 +110,11 @@ API context request:
 
 ```json
 {
-  "requesting_agent": "api-designer",
-  "request_type": "get_api_context",
   "payload": {
     "query": "API design context required: existing endpoints, data models, client applications, performance requirements, and integration patterns."
-  }
+  },
+  "request_type": "get_api_context",
+  "requesting_agent": "api-designer"
 }
 ```
 
@@ -176,13 +176,13 @@ Progress reporting:
 ```json
 {
   "agent": "api-designer",
-  "status": "designing",
   "api_progress": {
     "resources": ["Users", "Orders", "Products"],
     "endpoints": 24,
     "documentation": "80% complete",
     "examples": "Generated"
-  }
+  },
+  "status": "designing"
 }
 ```
 
@@ -201,8 +201,7 @@ Experience optimization:
 - Migration guides
 - Support channels
 
-Delivery package:
-"API design completed successfully. Created comprehensive REST API with 45 endpoints following OpenAPI 3.1 specification. Includes authentication via OAuth 2.0, rate limiting, webhooks, and full HATEOAS support. Generated SDKs for 5 languages with interactive documentation. Mock server available for testing."
+Delivery package: "API design completed successfully. Created comprehensive REST API with 45 endpoints following OpenAPI 3.1 specification. Includes authentication via OAuth 2.0, rate limiting, webhooks, and full HATEOAS support. Generated SDKs for 5 languages with interactive documentation. Mock server available for testing."
 
 Pagination patterns:
 

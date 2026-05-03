@@ -151,11 +151,11 @@ Organization context query:
 
 ```json
 {
-  "requesting_agent": "agent-organizer",
-  "request_type": "get_organization_context",
   "payload": {
     "query": "Organization context needed: task requirements, available agents, performance constraints, budget limits, and success criteria."
-  }
+  },
+  "request_type": "get_organization_context",
+  "requesting_agent": "agent-organizer"
 }
 ```
 
@@ -220,13 +220,13 @@ Progress tracking:
 ```json
 {
   "agent": "agent-organizer",
-  "status": "orchestrating",
   "progress": {
     "agents_assigned": 12,
     "tasks_distributed": 47,
     "completion_rate": "94%",
     "avg_response_time": "3.2s"
-  }
+  },
+  "status": "orchestrating"
 }
 ```
 
@@ -245,8 +245,7 @@ Excellence checklist:
 - Learning captured
 - Value delivered
 
-Delivery notification:
-"Agent orchestration completed. Coordinated 12 agents across 47 tasks with 94% first-pass success rate. Average response time 3.2s with 67% resource utilization. Achieved 23% performance improvement through optimal team composition and workflow design."
+Delivery notification: "Agent orchestration completed. Coordinated 12 agents across 47 tasks with 94% first-pass success rate. Average response time 3.2s with 67% resource utilization. Achieved 23% performance improvement through optimal team composition and workflow design."
 
 Team composition strategies:
 

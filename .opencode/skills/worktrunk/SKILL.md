@@ -1,31 +1,23 @@
 ---
 name: worktrunk
 description: >
-  Use this skill when the user asks about Worktrunk (wt), git worktree management,
-  running parallel AI agents with worktrees, setting up wt hooks, configuring wt.toml,
-  using `wt switch`, `wt list`, `wt merge`, `wt remove`, `wt step`, LLM commit messages,
-  or integrating Worktrunk with your AI agent. Also trigger when the user wants to run
-  multiple AI agent sessions in parallel across isolated git branches, or automate
-  dev server / database / dependency setup per worktree. Always use this skill for any
-  question involving the `wt` CLI, worktree lifecycle automation, or the worktrunk plugin.
+  Use this skill when the user asks about Worktrunk (wt), git worktree management, running parallel AI agents with worktrees, setting up wt hooks, configuring wt.toml, using `wt switch`, `wt list`, `wt merge`, `wt remove`, `wt step`, LLM commit messages, or integrating Worktrunk with your AI agent. Also trigger when the user wants to run multiple AI agent sessions in parallel across isolated git branches, or automate dev server / database / dependency setup per worktree. Always use this skill for any question involving the `wt` CLI, worktree lifecycle automation, or the worktrunk plugin.
 ---
 
 # Worktrunk Skill
 
-Worktrunk (`wt`) is a CLI for git worktree management designed to run AI agents
-(like Claude Code) in parallel across isolated branches. Think of it as making
-`git worktree` as easy as `git branch`.
+Worktrunk (`wt`) is a CLI for git worktree management designed to run AI agents (like Claude Code) in parallel across isolated branches. Think of it as making `git worktree` as easy as `git branch`.
 
 ## Quick Reference
 
-| Task                            | Command                             |
-| ------------------------------- | ----------------------------------- |
-| Create worktree + switch        | `wt switch --create feat`           |
+| Task | Command |
+| --- | --- |
+| Create worktree + switch | `wt switch --create feat` |
 | Create worktree + launch Claude | `wt switch --create feat -x claude` |
-| List all worktrees              | `wt list`                           |
-| Merge & clean up                | `wt merge main`                     |
-| Remove current worktree         | `wt remove`                         |
-| Commit staged changes           | `wt step commit`                    |
+| List all worktrees | `wt list` |
+| Merge & clean up | `wt merge main` |
+| Remove current worktree | `wt remove` |
+| Commit staged changes | `wt step commit` |
 
 ## Installation
 
@@ -41,8 +33,7 @@ winget install max-sixty.worktrunk
 git-wt config shell install
 ```
 
-Shell integration (`wt config shell install`) is required so that `wt switch`
-can actually change the shell's directory.
+Shell integration (`wt config shell install`) is required so that `wt switch` can actually change the shell's directory.
 
 ## Core Workflow
 
@@ -103,11 +94,9 @@ wt merge main
 
 ## Hooks
 
-Hooks automate worktree lifecycle events. Define in `.config/wt.toml` (project)
-or `~/.config/worktrunk/config.toml` (user/global).
+Hooks automate worktree lifecycle events. Define in `.config/wt.toml` (project) or `~/.config/worktrunk/config.toml` (user/global).
 
-See `references/hooks.md` for the full hook reference, template variables, and
-common patterns (dev servers, databases, cold-start elimination).
+See `references/hooks.md` for the full hook reference, template variables, and common patterns (dev servers, databases, cold-start elimination).
 
 ### Hook Types at a Glance
 
@@ -160,11 +149,11 @@ In hook commands (Jinja2 syntax):
 | `{{ default_branch }}` | Default branch name              |
 | `{{ target }}`         | Target branch (merge hooks only) |
 
-| Filter        | Example                       | Output                  |
-| ------------- | ----------------------------- | ----------------------- |
-| `sanitize`    | `{{ branch \| sanitize }}`    | `/` and `\` → `-`       |
-| `sanitize_db` | `{{ branch \| sanitize_db }}` | DB-safe identifier      |
-| `hash_port`   | `{{ branch \| hash_port }}`   | Stable port 10000-19999 |
+| Filter | Example | Output |
+| --- | --- | --- |
+| `sanitize` | `{{ branch \| sanitize }}` | `/` and `\` → `-` |
+| `sanitize_db` | `{{ branch \| sanitize_db }}` | DB-safe identifier |
+| `hash_port` | `{{ branch \| hash_port }}` | Stable port 10000-19999 |
 
 ## LLM Commit Messages
 
@@ -185,8 +174,7 @@ provider = "anthropic"
 
 ## Claude Code Integration
 
-Install the plugin for activity tracking (`🤖` / `💬` in `wt list`) and
-configuration skill:
+Install the plugin for activity tracking (`🤖` / `💬` in `wt list`) and configuration skill:
 
 ```bash
 claude plugin marketplace add max-sixty/worktrunk

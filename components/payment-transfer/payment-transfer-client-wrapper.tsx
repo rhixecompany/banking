@@ -22,33 +22,15 @@ const TransferFormSchema = z.object({
 // which accepts Dwolla funding source URLs. The client form selects recipient
 // and source wallet IDs and the server wrapper maps those to funding URLs.
 /**
- * Description placeholder
- * @author Adminbot
- *
- * @interface TransferFormData
- * @typedef {TransferFormData}
+ * Transfer form data structure for client-side form handling
+ * Maps to UI form fields before conversion to server transfer schema
  */
 interface TransferFormData {
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {string}
-   */
+  /** Source wallet/bank account ID for the transfer */
   sourceBankId: string;
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {string}
-   */
+  /** Recipient ID for the transfer destination */
   recipientId: string;
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {number}
-   */
+  /** Transfer amount in dollars */
   amount: number;
 }
 
@@ -73,26 +55,11 @@ interface PaymentTransferClientWrapperProps {
     error?: string;
   }>;
   // Optional initial values to simplify testing and pre-fill the form
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {?string}
-   */
+  /** Optional initial source bank/wallet ID for form pre-filling */
   initialSourceBankId?: string;
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {?string}
-   */
+  /** Optional initial recipient ID for form pre-filling */
   initialRecipientId?: string;
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {?number}
-   */
+  /** Optional initial amount for form pre-filling */
   initialAmount?: number;
   /**
    * Test-only: if true and initial* props are provided, the form will be
@@ -111,10 +78,6 @@ interface PaymentTransferClientWrapperProps {
  * Uses React Hook Form + Zod for validation.
  * Calls createTransfer server action and shows toast feedback.
  * Note: the `note` field was removed — createTransfer does not accept it.
- *
- * @export
- * @param {PaymentTransferClientWrapperProps} props
- * @returns {JSX.Element}
  */
 export function PaymentTransferClientWrapper({
   autoSubmit,

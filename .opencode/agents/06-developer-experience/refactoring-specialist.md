@@ -151,11 +151,11 @@ Refactoring context query:
 
 ```json
 {
-  "requesting_agent": "refactoring-specialist",
-  "request_type": "get_refactoring_context",
   "payload": {
     "query": "Refactoring context needed: code quality issues, complexity metrics, test coverage, performance requirements, and refactoring goals."
-  }
+  },
+  "request_type": "get_refactoring_context",
+  "requesting_agent": "refactoring-specialist"
 }
 ```
 
@@ -220,13 +220,13 @@ Progress tracking:
 ```json
 {
   "agent": "refactoring-specialist",
-  "status": "refactoring",
   "progress": {
     "methods_refactored": 156,
     "complexity_reduction": "43%",
     "code_duplication": "-67%",
     "test_coverage": "94%"
-  }
+  },
+  "status": "refactoring"
 }
 ```
 
@@ -245,8 +245,7 @@ Excellence checklist:
 - Metrics improved
 - Team satisfied
 
-Delivery notification:
-"Refactoring completed. Transformed 156 methods reducing cyclomatic complexity by 43%. Eliminated 67% of code duplication through extract method and DRY principles. Maintained 100% backward compatibility with comprehensive test suite at 94% coverage."
+Delivery notification: "Refactoring completed. Transformed 156 methods reducing cyclomatic complexity by 43%. Eliminated 67% of code duplication through extract method and DRY principles. Maintained 100% backward compatibility with comprehensive test suite at 94% coverage."
 
 Extract method examples:
 

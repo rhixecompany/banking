@@ -7,7 +7,7 @@ import type { Transaction } from "@/types/transaction";
 import type { Wallet } from "@/types/wallet";
 
 import { ChartAreaInteractive } from "@/components/chart-area-interactive/chart-area-interactive";
-import DoughnutChart from "@/components/doughnut-chart/doughnut-chart";
+import { DoughnutChart } from "@/components/doughnut-chart";
 import HeaderBox from "@/components/header-box/header-box";
 import { SectionCards } from "@/components/section-cards/section-cards";
 import OnboardingFeed from "@/components/shadcn-studio/blocks/onboarding-feed-01/onboarding-feed-01";

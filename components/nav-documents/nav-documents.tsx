@@ -23,18 +23,11 @@ import {
 } from "@/components/ui/sidebar";
 
 /**
- * Description placeholder
- * @author [object Object]
+ * Navigation component for document-related sidebar items.
+ * Displays a collapsible menu with document links and actions.
  *
  * @export
- * @param {{
- *   items: {
- *     name: string;
- *     url: string;
- *     icon: LucideIcon;
- *   }[];
- * }} param0
- * @param {{}} param0.items
+ * @param {{items: Array<{name: string; url: string; icon: LucideIcon}>}} props
  * @returns {JSX.Element}
  */
 export function NavDocuments({

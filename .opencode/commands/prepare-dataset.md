@@ -6,8 +6,7 @@ agent: mlops-engineer
 ## Arguments
 
 - `$FILE` : path to the source file (e.g. `data/products.csv`, `data/clients.json`)
-- `$GOAL` : one sentence describing what the model should be able to do after fine-tuning
-  (e.g. "answer questions about our product catalogue in English")
+- `$GOAL` : one sentence describing what the model should be able to do after fine-tuning (e.g. "answer questions about our product catalogue in English")
 
 ## Steps
 
@@ -20,8 +19,7 @@ Start by reading and analysing `$FILE`:
 - Count the total number of rows
 - Measure the missing value rate per field
 - Display 3 sample rows to understand the structure
-- Identify rich fields (few missing values, varied content)
-  vs. sparse fields (>50% empty, constant values)
+- Identify rich fields (few missing values, varied content) vs. sparse fields (>50% empty, constant values)
 
 ### 2. Propose a strategy
 
@@ -30,16 +28,14 @@ Based on `$GOAL` and the analysis, propose:
 - Which fields to use and why (exclude fields that are too empty or irrelevant)
 - How many Q&A pairs per source row can be generated (~5 to 30 depending on richness)
 - Estimated final dataset size (rows x average examples)
-- If the dataset is too small (<100 final examples): suggest an augmentation strategy
-  (phrasing variants, synthetic data)
+- If the dataset is too small (<100 final examples): suggest an augmentation strategy (phrasing variants, synthetic data)
 - Recommended filter (e.g. "keep only rows where field X is filled")
 
 **Wait for validation before generating the script.**
 
 ### 3. Generate `scripts/dataset/<n>.py`
 
-Generate a Python script that **inherits from `BaseDatasetPreparer`**
-(see `scripts/dataset/base.py`), with the following structure:
+Generate a Python script that **inherits from `BaseDatasetPreparer`** (see `scripts/dataset/base.py`), with the following structure:
 
 **Header and imports**
 
@@ -57,8 +53,7 @@ Usage :
 """
 ```
 
-**Lookup tables** (if codes or abbreviations are present in the data)
-Generate Python dicts to translate them into human-readable text (e.g. country codes -> names).
+**Lookup tables** (if codes or abbreviations are present in the data) Generate Python dicts to translate them into human-readable text (e.g. country codes -> names).
 
 **Class `<n>Preparer(BaseDatasetPreparer)`** with two methods:
 
@@ -67,8 +62,7 @@ Generate Python dicts to translate them into human-readable text (e.g. country c
 - Takes one source row as input
 - Returns a list of dicts `{"instruction": str, "input": str, "output": str}`
 - Generates between 5 and 30 Q&A pairs per row depending on data richness
-- Covers each important fact under 2-3 different phrasings
-  (e.g. "What is X of Y?" / "Give me X for Y." / "What is the X value of Y?")
+- Covers each important fact under 2-3 different phrasings (e.g. "What is X of Y?" / "Give me X for Y." / "What is the X value of Y?")
 - Includes at least one "full record" question that aggregates all fields
 - Handles missing fields gracefully (`if field:` before using)
 - All questions and answers match the language implied by `$GOAL`
@@ -89,8 +83,7 @@ Generate Python dicts to translate them into human-readable text (e.g. country c
 --stats         flag -- display random sample examples
 ```
 
-The `main()` function instantiates the preparer and calls `self.build(...)`.
-Do **not** re-implement the build pipeline -- it is provided by `BaseDatasetPreparer`.
+The `main()` function instantiates the preparer and calls `self.build(...)`. Do **not** re-implement the build pipeline -- it is provided by `BaseDatasetPreparer`.
 
 ### 4. Update pyproject.toml
 
@@ -112,8 +105,7 @@ In `[tool.uv.scripts]`:
 
 ### 5. Final validation
 
-- Run `uv run python scripts/dataset/<n>.py --mode quality --stats`
-  to verify the script runs without errors
+- Run `uv run python scripts/dataset/<n>.py --mode quality --stats` to verify the script runs without errors
 - Display the generation summary (number of examples, output files)
 - Display 3 generated Q&A examples for visual validation
 - Confirm that `dataset/<n>_train.jsonl` and `dataset/<n>_test.jsonl` exist
@@ -134,15 +126,13 @@ Each line of the produced file must be:
 
 ```json
 {
-  "instruction": "Natural language question?",
   "input": "",
+  "instruction": "Natural language question?",
   "output": "Factual answer."
 }
 ```
 
-The `input` field is always an empty string for Q&A datasets.
-The `instruction` field must never exceed 200 characters.
-The `output` field may be multi-line for full-record questions.
+The `input` field is always an empty string for Q&A datasets. The `instruction` field must never exceed 200 characters. The `output` field may be multi-line for full-record questions.
 
 ## Usage examples
 

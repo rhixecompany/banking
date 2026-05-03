@@ -4,8 +4,8 @@ import {
   getAllWalletsWithDetails,
   removeWallet,
 } from "@/actions/plaid.actions";
-import MyWalletsClientWrapper from "@/components/layouts/my-wallets-client";
 import { auth } from "@/lib/auth";
+import { MyWalletsClientWrapper } from "./my-wallets-client-wrapper";
 
 /**
  * Server wrapper for the My Wallets page.

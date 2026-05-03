@@ -54,7 +54,7 @@ Again, the object is to aid the reader. The practice here recommended enables hi
 
 Ending with a digression, or with an unimportant detail, is particularly to be avoided.
 
-If the paragraph forms part of a larger composition, its relation to what precedes, or its function as a part of the whole, may need to be expressed. This can sometimes be done by a mere word or phrase (*again*; *therefore*; *for the same reason*) in the topic sentence. Sometimes, however, it is expedient to precede the topic sentence by one or more sentences of introduction or transition. If more than one such sentence is required, it is generally better to set apart the transitional sentences as a separate paragraph.
+If the paragraph forms part of a larger composition, its relation to what precedes, or its function as a part of the whole, may need to be expressed. This can sometimes be done by a mere word or phrase (_again_; _therefore_; _for the same reason_) in the topic sentence. Sometimes, however, it is expedient to precede the topic sentence by one or more sentences of introduction or transition. If more than one such sentence is required, it is generally better to set apart the transitional sentences as a separate paragraph.
 
 According to the writer's purpose, he may, as indicated above, relate the body of the paragraph to the topic sentence in one or more of several different ways. He may make the meaning of the topic sentence clearer by restating it in other forms, by defining its terms, by denying the contrary, by giving illustrations or specific instances; he may establish it by proofs; or he may develop it by showing its implications and consequences. In a long paragraph, he may carry out several of these processes.
 
@@ -125,9 +125,9 @@ A common fault is to use as the subject of a passive construction a noun which e
 | Mobilization of the army was rapidly effected. | The army was rapidly mobilized. |
 | Confirmation of these reports cannot be obtained. | These reports cannot be confirmed. |
 
-Compare the *sentence,* “The export of gold was prohibited,” in which the predicate “was prohibited” expresses something not implied in “export.”
+Compare the _sentence,_ “The export of gold was prohibited,” in which the predicate “was prohibited” expresses something not implied in “export.”
 
-The habitual use of the active voice makes for forcible writing. This is true not only in narrative principally concerned with action, but in writing of any kind. Many a tame sentence of description or exposition can be made lively and emphatic by substituting a verb in the active voice for some such perfunctory expression as *there is*, or *could be heard*.
+The habitual use of the active voice makes for forcible writing. This is true not only in narrative principally concerned with action, but in writing of any kind. Many a tame sentence of description or exposition can be made lively and emphatic by substituting a verb in the active voice for some such perfunctory expression as _there is_, or _could be heard_.
 
 | Original | Revision |
 | --- | --- |
@@ -138,7 +138,7 @@ The habitual use of the active voice makes for forcible writing. This is true no
 
 ### Rule 11. Put statements in positive form
 
-Make definite assertions. Avoid tame, colorless, hesitating, non-committal language. Use the word *not* as a means of denial or in antithesis, never as a means of evasion.
+Make definite assertions. Avoid tame, colorless, hesitating, non-committal language. Use the word _not_ as a means of denial or in antithesis, never as a means of evasion.
 
 | Original | Revision |
 | --- | --- |
@@ -148,14 +148,14 @@ Make definite assertions. Avoid tame, colorless, hesitating, non-committal langu
 
 The last example, before correction, is indefinite as well as negative. The corrected version, consequently, is simply a guess at the writer's intention.
 
-All three examples show the weakness inherent in the word *not*. Consciously or unconsciously, the reader is dissatisfied with being told only what is not; he wishes to be told what is. Hence, as a rule, it is better to express even a negative in positive form.
+All three examples show the weakness inherent in the word _not_. Consciously or unconsciously, the reader is dissatisfied with being told only what is not; he wishes to be told what is. Hence, as a rule, it is better to express even a negative in positive form.
 
-| Original | Revision |
-| --- | --- |
-| not honest | dishonest |
-| not important | trifling |
-| did not remember | forgot |
-| did not pay any attention to | ignored |
+| Original                        | Revision   |
+| ------------------------------- | ---------- |
+| not honest                      | dishonest  |
+| not important                   | trifling   |
+| did not remember                | forgot     |
+| did not pay any attention to    | ignored    |
 | did not have much confidence in | distrusted |
 
 The antithesis of negative and positive is strong:
@@ -164,7 +164,7 @@ Not charity, but simple justice.
 
 Not that I loved Caesar less, but Rome the more.
 
-Negative words other than *not* are usually strong:
+Negative words other than _not_ are usually strong:
 
 The sun never sets upon the British flag.
 
@@ -222,17 +222,17 @@ Vigorous writing is concise. A sentence should contain no unnecessary words, a p
 
 Many expressions in common use violate this principle:
 
-| Original | Revision |
-| --- | --- |
-| the question as to whether | whether (the question whether) |
-| there is no doubt but that | no doubt (doubtless) |
-| used for fuel purposes | used for fuel |
-| he is a man who | he |
-| in a hasty manner | hastily |
-| this is a subject which | this subject |
-| His story is a strange one. | His story is strange. |
+| Original                    | Revision                       |
+| --------------------------- | ------------------------------ |
+| the question as to whether  | whether (the question whether) |
+| there is no doubt but that  | no doubt (doubtless)           |
+| used for fuel purposes      | used for fuel                  |
+| he is a man who             | he                             |
+| in a hasty manner           | hastily                        |
+| this is a subject which     | this subject                   |
+| His story is a strange one. | His story is strange.          |
 
-In especial the expression *the fact that* should be revised out of every sentence in which it occurs.
+In especial the expression _the fact that_ should be revised out of every sentence in which it occurs.
 
 | Original | Revision |
 | --- | --- |
@@ -243,9 +243,9 @@ In especial the expression *the fact that* should be revised out of every senten
 | the fact that he had not succeeded | his failure |
 | the fact that I had arrived | my arrival |
 
-See also under *case*, *character*, *nature*, *system* in Chapter V.
+See also under _case_, _character_, _nature_, _system_ in Chapter V.
 
-*Who is*, *which was*, and the like are often superfluous.
+_Who is_, _which was_, and the like are often superfluous.
 
 | Original | Revision |
 | --- | --- |
@@ -265,7 +265,7 @@ A common violation of conciseness is the presentation of a single complex idea, 
 
 This rule refers especially to loose sentences of a particular type, those consisting of two co-ordinate clauses, the second introduced by a conjunction or relative. Although single sentences of this type may be unexceptionable (see under Rule 4), a series soon becomes monotonous and tedious.
 
-An unskilful writer will sometimes construct a whole paragraph of sentences of this kind, using as connectives *and*, *but*, *so*, and less frequently, *who*, *which*, *when*, *where*, and *while*, these last in non-restrictive senses (see under Rule 3).
+An unskilful writer will sometimes construct a whole paragraph of sentences of this kind, using as connectives _and_, _but_, _so_, and less frequently, _who_, _which_, _when_, _where_, and _while_, these last in non-restrictive senses (see under Rule 3).
 
 The third concert of the subscription series was given last evening, and a large audience was in attendance. Mr. Edward Appleton was the soloist, and the Boston Symphony Orchestra furnished the instrumental music. The former showed himself to be an artist of the first rank, while the latter proved itself fully deserving of its high reputation. The interest aroused by the series has been very gratifying to the Committee, and it is planned to give a similar series annually hereafter. The fourth concert will be given on Tuesday, May 10, when an equally attractive programme will be presented.
 
@@ -277,7 +277,7 @@ If the writer finds that he has written a series of sentences of the type descri
 
 This principle, that of parallel construction, requires that expressions of similar content and function should be outwardly similar. The likeness of form enables the reader to recognize more readily the likeness of content and function. Familiar instances from the Bible are the Ten Commandments, the Beatitudes, and the petitions of the Lord's Prayer.
 
-The unskillful writer often violates this principle, from a mistaken belief that he should constantly vary the form of his expressions. It is true that in repeating a statement in order to emphasize it he may have need to vary its form. For illustration, see the paragraph from Stevenson quoted under Rule *9*. But apart from this, he should follow the principle of parallel construction.
+The unskillful writer often violates this principle, from a mistaken belief that he should constantly vary the form of his expressions. It is true that in repeating a statement in order to emphasize it he may have need to vary its form. For illustration, see the paragraph from Stevenson quoted under Rule _9_. But apart from this, he should follow the principle of parallel construction.
 
 | Original | Revision |
 | --- | --- |
@@ -292,7 +292,7 @@ By this principle, an article or a preposition applying to all the members of a 
 | The French, the Italians, Spanish, and Portuguese | The French, the Italians, the Spanish, and the Portuguese |
 | In spring, summer, or in winter | In spring, summer, or winter (In spring, in summer, or in winter) |
 
-Correlative expressions (*both, and*; *not, but*; *not only, but also*; *either, or*; *first, second, third*; and the like) should be followed by the same grammatical construction, that is, virtually, by the same part of speech. (Such combinations as “both Henry and I,” “not silk, but a cheap substitute,” are obviously within the rule.) Many violations of this rule (as the first three below) arise from faulty arrangement; others (as the last) from the use of unlike constructions.
+Correlative expressions (_both, and_; _not, but_; _not only, but also_; _either, or_; _first, second, third_; and the like) should be followed by the same grammatical construction, that is, virtually, by the same part of speech. (Such combinations as “both Henry and I,” “not silk, but a cheap substitute,” are obviously within the rule.) Many violations of this rule (as the first three below) arise from faulty arrangement; others (as the last) from the use of unlike constructions.
 
 | Original | Revision |
 | --- | --- |
@@ -373,7 +373,7 @@ The proper place in the sentence for the word, or group of words, which the writ
 | Humanity has hardly advanced in fortitude since that time, though it has advanced in many other ways. | Humanity, since that time, has advanced in many other ways, but it has hardly advanced in fortitude. |
 | This steel is principally used for making razors, because of its hardness. | Because of its hardness, this steel is principally used in making razors. |
 
-The word or group of words entitled to this position of prominence is usually the logical predicate, that is, the *new* element in the sentence, as it is in the second example.
+The word or group of words entitled to this position of prominence is usually the logical predicate, that is, the _new_ element in the sentence, as it is in the second example.
 
 The effectiveness of the periodic sentence arises from the prominence which it gives to the main statement.
 
@@ -391,7 +391,7 @@ A subject coming first in its sentence may be emphatic, but hardly by its positi
 
 Great kings worshipped at his shrine,
 
-the emphasis upon *kings* arises largely from its meaning and from the context. To receive special emphasis, the subject of a sentence must take the position of the predicate.
+the emphasis upon _kings_ arises largely from its meaning and from the context. To receive special emphasis, the subject of a sentence must take the position of the predicate.
 
 Through the middle of the valley flowed a winding stream.
 

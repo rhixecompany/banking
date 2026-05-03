@@ -655,11 +655,7 @@ func (c *Cache) evictIfNeeded() {
 // Config holds... (not "This type holds configuration")
 ```
 
-✅ Use complete sentences with proper punctuation
-✅ Document what errors can be returned
-✅ Include examples for non-obvious usage
-✅ Keep comments up to date with code changes
-✅ Use consistent terminology
+✅ Use complete sentences with proper punctuation ✅ Document what errors can be returned ✅ Include examples for non-obvious usage ✅ Keep comments up to date with code changes ✅ Use consistent terminology
 
 ### DON'T
 

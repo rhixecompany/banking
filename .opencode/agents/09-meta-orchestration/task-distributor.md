@@ -151,11 +151,11 @@ Distribution context query:
 
 ```json
 {
-  "requesting_agent": "task-distributor",
-  "request_type": "get_distribution_context",
   "payload": {
     "query": "Distribution context needed: task volumes, agent capacities, priority schemes, performance targets, and constraint requirements."
-  }
+  },
+  "request_type": "get_distribution_context",
+  "requesting_agent": "task-distributor"
 }
 ```
 
@@ -220,13 +220,13 @@ Progress tracking:
 ```json
 {
   "agent": "task-distributor",
-  "status": "distributing",
   "progress": {
     "tasks_distributed": "45K",
     "avg_queue_time": "230ms",
     "load_variance": "7%",
     "deadline_success": "97%"
-  }
+  },
+  "status": "distributing"
 }
 ```
 
@@ -245,8 +245,7 @@ Excellence checklist:
 - Monitoring active
 - Performance excellent
 
-Delivery notification:
-"Task distribution system completed. Distributed 45K tasks with 230ms average queue time and 7% load variance. Achieved 97% deadline success rate with 84% resource utilization. Reduced task wait time by 67% through intelligent routing."
+Delivery notification: "Task distribution system completed. Distributed 45K tasks with 230ms average queue time and 7% load variance. Achieved 97% deadline success rate with 84% resource utilization. Reduced task wait time by 67% through intelligent routing."
 
 Queue optimization:
 

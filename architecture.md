@@ -35,17 +35,17 @@ This file documents the high-level architecture for the Banking app based strict
 
 ### Key Library Versions
 
-| Library         | Version | Notes         |
-| --------------- | ------- | ------------- |
-| Zod             | ^4.3.6  | Validation    |
-| react-hook-form | ^7.72.1 | Form handling |
-| Plaid           | ^41.4.0 | Bank linking  |
-| Dwolla          | ^3.4.0  | ACH transfers |
-| Playwright      | ^1.59.1 | E2E testing   |
-| Vitest          | ^4.1.2  | Unit testing  |
-| Tailwind CSS    | v4      | Styling      |
-| next           | 16.2.4  | Next.js 16   |
-| Bun            | 1.3.13  | Package manager |
+| Library         | Version | Notes           |
+| --------------- | ------- | --------------- |
+| Zod             | ^4.3.6  | Validation      |
+| react-hook-form | ^7.72.1 | Form handling   |
+| Plaid           | ^41.4.0 | Bank linking    |
+| Dwolla          | ^3.4.0  | ACH transfers   |
+| Playwright      | ^1.59.1 | E2E testing     |
+| Vitest          | ^4.1.2  | Unit testing    |
+| Tailwind CSS    | v4      | Styling         |
+| next            | 16.2.4  | Next.js 16      |
+| Bun             | 1.3.13  | Package manager |
 
 ## Process Boundaries
 

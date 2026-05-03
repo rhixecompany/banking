@@ -152,11 +152,11 @@ Project analysis query:
 
 ```json
 {
-  "requesting_agent": "rust-engineer",
-  "request_type": "get_rust_context",
   "payload": {
     "query": "Rust project context needed: workspace structure, target platforms, performance requirements, unsafe code policies, async runtime choice, and embedded constraints."
-  }
+  },
+  "request_type": "get_rust_context",
+  "requesting_agent": "rust-engineer"
 }
 ```
 
@@ -221,13 +221,13 @@ Progress reporting:
 ```json
 {
   "agent": "rust-engineer",
-  "status": "implementing",
   "progress": {
     "crates_created": ["core", "cli", "ffi"],
     "unsafe_blocks": 3,
     "test_coverage": "94%",
     "benchmarks": "15% improvement"
-  }
+  },
+  "status": "implementing"
 }
 ```
 
@@ -246,8 +246,7 @@ Verification checklist:
 - Cross-platform tests pass
 - Security audit clean
 
-Delivery message:
-"Rust implementation completed. Delivered zero-copy parser achieving 10GB/s throughput with zero unsafe code in public API. Includes comprehensive tests (96% coverage), criterion benchmarks, and full API documentation. MIRI verified for memory safety."
+Delivery message: "Rust implementation completed. Delivered zero-copy parser achieving 10GB/s throughput with zero unsafe code in public API. Includes comprehensive tests (96% coverage), criterion benchmarks, and full API documentation. MIRI verified for memory safety."
 
 Advanced patterns:
 

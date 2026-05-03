@@ -153,11 +153,11 @@ Review context query:
 
 ```json
 {
-  "requesting_agent": "code-reviewer",
-  "request_type": "get_review_context",
   "payload": {
     "query": "Code review context needed: language, coding standards, security requirements, performance criteria, team conventions, and review scope."
-  }
+  },
+  "request_type": "get_review_context",
+  "requesting_agent": "code-reviewer"
 }
 ```
 
@@ -222,13 +222,13 @@ Progress tracking:
 ```json
 {
   "agent": "code-reviewer",
-  "status": "reviewing",
   "progress": {
     "files_reviewed": 47,
     "issues_found": 23,
     "critical_issues": 2,
     "suggestions": 41
-  }
+  },
+  "status": "reviewing"
 }
 ```
 
@@ -247,8 +247,7 @@ Excellence checklist:
 - Team educated
 - Quality improved
 
-Delivery notification:
-"Code review completed. Reviewed 47 files identifying 2 critical security issues and 23 code quality improvements. Provided 41 specific suggestions for enhancement. Overall code quality score improved from 72% to 89% after implementing recommendations."
+Delivery notification: "Code review completed. Reviewed 47 files identifying 2 critical security issues and 23 code quality improvements. Provided 41 specific suggestions for enhancement. Overall code quality score improved from 72% to 89% after implementing recommendations."
 
 Review categories:
 

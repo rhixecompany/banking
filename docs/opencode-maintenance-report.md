@@ -15,25 +15,25 @@ This report documents the results of the OpenCode tooling maintenance activities
 
 ### Status Summary
 
-| Category | Count |
-|----------|-------|
-| Connected | 4 |
-| Failed | 8 |
-| Total | 12 |
+| Category  | Count |
+| --------- | ----- |
+| Connected | 4     |
+| Failed    | 8     |
+| Total     | 12    |
 
 ### Connected Servers (Working)
 
-| Server | Auth Required | Notes |
-|--------|---------------|-------|
-| context7 | No | Remote - free tier works |
-| exa | Yes | Remote - requires EXA_API_KEY |
-| filesystem | No | Local - filesystem access |
-| gh_grep | Yes | Remote - requires GREP_API_KEY |
+| Server     | Auth Required | Notes                          |
+| ---------- | ------------- | ------------------------------ |
+| context7   | No            | Remote - free tier works       |
+| exa        | Yes           | Remote - requires EXA_API_KEY  |
+| filesystem | No            | Local - filesystem access      |
+| gh_grep    | Yes           | Remote - requires GREP_API_KEY |
 
 ### Failed Servers
 
 | Server | Error | Likely Cause |
-|--------|-------|---------------|
+| --- | --- | --- |
 | github-agentic-workflows | Timeout | Token missing/rate limited |
 | hostinger | Connection closed | Package not available |
 | memory | Connection closed | Server failed to start |
@@ -50,10 +50,12 @@ This report documents the results of the OpenCode tooling maintenance activities
 See: docs/opencode-auth-matrix.md for complete matrix.
 
 **No-Auth Baseline (for development):**
+
 - context7 (documentation lookup)
 - filesystem (local files)
 
 **Auth-Required Servers:**
+
 - exa → EXA_API_KEY
 - gh_grep → GREP_API_KEY
 - github-agentic-workflows → GITHUB_TOKEN
@@ -73,6 +75,7 @@ See: docs/opencode-auth-matrix.md for complete matrix.
 ### npm→bun Inconsistencies Found
 
 Multiple skills contain npm commands that should be bun commands:
+
 - shell/SKILL.md (many examples)
 - plan-protocol/SKILL.md
 - git-commit/SKILL.md
@@ -98,7 +101,7 @@ The compress tool functioned normally during this maintenance session. No regist
 ## 5. Verification Results
 
 | Check | Result | Notes |
-|-------|--------|-------|
+| --- | --- | --- |
 | verify:rules | ✅ PASS | 0 critical, 167 warnings (from config files) |
 | format | ✅ PASS | Standardized skill edits |
 | type-check | ⚠️ Has errors | Pre-existing app errors (not maintenance-related) |
@@ -119,6 +122,7 @@ info: 0
 ```
 
 The type-check errors are pre-existing issues in the app code:
+
 - Missing exports from @/lib/utils (formatAmount, formatDate, etc.)
 - Missing lucide-react icons (Facebook, Instagram, etc.)
 - Test helper type issues
@@ -131,15 +135,15 @@ These are NOT related to the OpenCode maintenance work.
 
 ### Skills Updated
 
-| File | Change |
-|------|--------|
-| .opencode/skills/shell/SKILL.md | Added lastReviewed, applyTo |
+| File                                 | Change                      |
+| ------------------------------------ | --------------------------- |
+| .opencode/skills/shell/SKILL.md      | Added lastReviewed, applyTo |
 | .opencode/skills/statusline/SKILL.md | Added lastReviewed, applyTo |
 
 ### New Files Created
 
 | File | Description |
-|------|-------------|
+| --- | --- |
 | docs/opencode-auth-matrix.md | MCP auth classification matrix |
 | docs/opencode-maintenance-report.md | This report |
 
@@ -159,6 +163,7 @@ These are NOT related to the OpenCode maintenance work.
 **Status:** Completed
 
 The opencode-maintenance plan has been executed. All acceptance criteria from Required Specs were met:
+
 - ✅ MCP Inventory documented in auth-matrix
 - ✅ Auth Matrix created at docs/opencode-auth-matrix.md
 - ✅ Skill frontmatter validated (46 skills have valid frontmatter)

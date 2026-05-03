@@ -419,7 +419,7 @@ terraform {
 
 ## Module README.md Template
 
-```markdown
+````markdown
 # VPC Module
 
 Terraform module for creating a VPC with public and private subnets.
@@ -450,41 +450,42 @@ module "vpc" {
   }
 }
 ```
+````
 
 ## Requirements
 
-| Name | Version |
-|------|---------|
+| Name      | Version  |
+| --------- | -------- |
 | terraform | >= 1.5.0 |
-| aws | ~> 5.0 |
+| aws       | ~> 5.0   |
 
 ## Providers
 
 | Name | Version |
-|------|---------|
-| aws | ~> 5.0 |
+| ---- | ------- |
+| aws  | ~> 5.0  |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| --- | --- | --- | --- | :-: |
 | project_name | Name of the project | `string` | n/a | yes |
 | environment | Deployment environment | `string` | n/a | yes |
 | vpc_cidr | VPC CIDR block | `string` | `"10.0.0.0/16"` | no |
 
 ## Outputs
 
-| Name | Description |
-|------|-------------|
-| vpc_id | ID of the created VPC |
+| Name               | Description                |
+| ------------------ | -------------------------- |
+| vpc_id             | ID of the created VPC      |
 | private_subnet_ids | List of private subnet IDs |
-| public_subnet_ids | List of public subnet IDs |
+| public_subnet_ids  | List of public subnet IDs  |
 
 ## Examples
 
 See the `examples/` directory for complete usage examples.
 
-```
+````
 
 ## Best Practices
 
@@ -498,7 +499,7 @@ variable "instance_count" {
   type        = number
   default     = 1
 }
-```
+````
 
 **DON'T** ❌
 
@@ -604,7 +605,7 @@ module/
 
 ### .terraform-docs.yml
 
-```yaml
+````yaml
 formatter: "markdown table"
 
 version: ""
@@ -627,44 +628,23 @@ content: |-
 
   ```hcl
   {{ include "examples/complete/main.tf" }}
-  ```
+````
 
-  {{ .Requirements }}
+{{ .Requirements }}
 
-  {{ .Providers }}
+{{ .Providers }}
 
-  {{ .Inputs }}
+{{ .Inputs }}
 
-  {{ .Outputs }}
+{{ .Outputs }}
 
-output:
-  file: "README.md"
-  mode: inject
-  template: |-
-    <!-- BEGIN_TF_DOCS -->
-    {{ .Content }}
-    <!-- END_TF_DOCS -->
+output: file: "README.md" mode: inject template: |- <!-- BEGIN_TF_DOCS --> {{ .Content }} <!-- END_TF_DOCS -->
 
-sort:
-  enabled: true
-  by: name
+sort: enabled: true by: name
 
-settings:
-  anchor: true
-  color: true
-  default: true
-  description: true
-  escape: true
-  hide-empty: false
-  html: true
-  indent: 2
-  lockfile: true
-  read-comments: true
-  required: true
-  sensitive: true
-  type: true
+settings: anchor: true color: true default: true description: true escape: true hide-empty: false html: true indent: 2 lockfile: true read-comments: true required: true sensitive: true type: true
 
-```
+````
 
 ## Version Constraints
 
@@ -684,7 +664,7 @@ terraform {
     }
   }
 }
-```
+````
 
 ## Complete Example
 

@@ -3,9 +3,8 @@ import { describe, expect, it } from "vitest";
 
 // Mock chart components that depend on canvas or browser APIs
 vi.mock("@/components/doughnut-chart/doughnut-chart", () => ({
-  __esModule: true,
-  default: (props: any) => <div data-testid="doughnut-mock">Doughnut</div>,
-}));
+    DoughnutChart: () => <div data-testid="doughnut-chart" />,
+  }));
 
 vi.mock("@/components/chart-area-interactive/chart-area-interactive", () => ({
   __esModule: true,
@@ -76,6 +75,6 @@ describe("DashboardClientWrapper", () => {
     );
 
     expect(screen.getByTestId("area-mock")).toBeTruthy();
-    expect(screen.getAllByTestId("doughnut-mock")).toHaveLength(2);
+    expect(screen.getAllByTestId("mock-doughnut")).toHaveLength(2);
   });
 });

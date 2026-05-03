@@ -3,10 +3,8 @@ import { CalendarX2Icon, TriangleAlertIcon, TruckIcon } from "lucide-react";
 import type { Item } from "@/components/shadcn-studio/blocks/datatable-transaction";
 
 /**
- * Description placeholder
- * @author [object Object]
- *
- * @type {{}}
+ * Default statistics card data for admin dashboard
+ * Used as fallback when live stats are not available
  */
 export const statisticsCardData = [
   {
@@ -30,10 +28,8 @@ export const statisticsCardData = [
 ];
 
 /**
- * Description placeholder
- * @author [object Object]
- *
- * @type {{}}
+ * Earning data for dashboard widgets
+ * Contains platform information and earnings data
  */
 export const earningData = [
   {
@@ -53,10 +49,8 @@ export const earningData = [
 ];
 
 /**
- * Description placeholder
- * @author [object Object]
- *
- * @type {Item[]}
+ * Sample transaction data for admin dashboard
+ * Used as fallback when live transaction data is not available
  */
 export const transactionData: Item[] = [
   {

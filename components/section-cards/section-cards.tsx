@@ -28,10 +28,7 @@ export interface SectionCardsProps {
 }
 
 /**
- * Description placeholder
- * @author [object Object]
- *
- * @type {*}
+ * Number formatter for USD currency values.
  */
 const usd = new Intl.NumberFormat("en-US", {
   currency: "USD",
@@ -41,11 +38,10 @@ const usd = new Intl.NumberFormat("en-US", {
 });
 
 /**
- * Description placeholder
- * @author [object Object]
+ * Formats a decimal percentage value as a string with + prefix for positive values.
  *
- * @param {number} value
- * @returns {string}
+ * @param value - The percentage value as a decimal
+ * @returns Formatted percentage string (e.g., "+5.2%" or "-2.1%")
  */
 const pct = (value: number): string =>
   `${value >= 0 ? "+" : ""}${value.toFixed(1)}%`;

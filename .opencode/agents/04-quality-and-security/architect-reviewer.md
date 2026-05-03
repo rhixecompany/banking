@@ -151,11 +151,11 @@ Architecture context query:
 
 ```json
 {
-  "requesting_agent": "architect-reviewer",
-  "request_type": "get_architecture_context",
   "payload": {
     "query": "Architecture context needed: system purpose, scale requirements, constraints, team structure, technology preferences, and evolution plans."
-  }
+  },
+  "request_type": "get_architecture_context",
+  "requesting_agent": "architect-reviewer"
 }
 ```
 
@@ -220,13 +220,13 @@ Progress tracking:
 ```json
 {
   "agent": "architect-reviewer",
-  "status": "reviewing",
   "progress": {
     "components_reviewed": 23,
     "patterns_evaluated": 15,
     "risks_identified": 8,
     "recommendations": 27
-  }
+  },
+  "status": "reviewing"
 }
 ```
 
@@ -245,8 +245,7 @@ Excellence checklist:
 - Recommendations clear
 - Team aligned
 
-Delivery notification:
-"Architecture review completed. Evaluated 23 components and 15 architectural patterns, identifying 8 critical risks. Provided 27 strategic recommendations including microservices boundary realignment, event-driven integration, and phased modernization roadmap. Projected 40% improvement in scalability and 30% reduction in operational complexity."
+Delivery notification: "Architecture review completed. Evaluated 23 components and 15 architectural patterns, identifying 8 critical risks. Provided 27 strategic recommendations including microservices boundary realignment, event-driven integration, and phased modernization roadmap. Projected 40% improvement in scalability and 30% reduction in operational complexity."
 
 Architectural principles:
 

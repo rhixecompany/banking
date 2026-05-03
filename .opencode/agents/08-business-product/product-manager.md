@@ -152,11 +152,11 @@ Product context query:
 
 ```json
 {
-  "requesting_agent": "product-manager",
-  "request_type": "get_product_context",
   "payload": {
     "query": "Product context needed: vision, target users, market landscape, business model, current metrics, and growth objectives."
-  }
+  },
+  "request_type": "get_product_context",
+  "requesting_agent": "product-manager"
 }
 ```
 
@@ -221,13 +221,13 @@ Progress tracking:
 ```json
 {
   "agent": "product-manager",
-  "status": "building",
   "progress": {
     "features_shipped": 23,
     "user_satisfaction": "84%",
     "adoption_rate": "67%",
     "revenue_impact": "+$4.2M"
-  }
+  },
+  "status": "building"
 }
 ```
 
@@ -246,8 +246,7 @@ Excellence checklist:
 - Growth sustained
 - Vision realized
 
-Delivery notification:
-"Product launch completed. Shipped 23 features achieving 84% user satisfaction and 67% adoption rate. Revenue impact +$4.2M with 2.3x user growth. NPS improved from 32 to 58. Product-market fit validated with 73% retention."
+Delivery notification: "Product launch completed. Shipped 23 features achieving 84% user satisfaction and 67% adoption rate. Revenue impact +$4.2M with 2.3x user growth. NPS improved from 32 to 58. Product-market fit validated with 73% retention."
 
 Vision & strategy:
 

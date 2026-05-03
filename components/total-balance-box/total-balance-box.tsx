@@ -1,7 +1,7 @@
 import type { TotalBalanceBoxProps } from "@/types";
 
 import AnimatedCounter from "@/components/animated-counter/animated-counter";
-import DoughnutChart from "@/components/doughnut-chart/doughnut-chart";
+import { DoughnutChart } from "@/components/doughnut-chart/doughnut-chart";
 import { Card, CardContent } from "@/components/ui/card";
 
 /**

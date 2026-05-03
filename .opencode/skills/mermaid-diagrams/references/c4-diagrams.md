@@ -338,7 +338,7 @@ C4Container
 6. **Update regularly** - Keep diagrams in sync with architecture
 7. **Use boundaries** - Group related containers/components logically
 8. **Document protocols** - Show communication methods (REST, gRPC, messaging)
-9. **Highlight external systems** - Use *_Ext variants for clarity
+9. **Highlight external systems** - Use \*\_Ext variants for clarity
 10. **Start simple** - Begin with Context, drill down as needed
 
 ## Common Architecture Patterns

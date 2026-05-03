@@ -52,6 +52,9 @@ const salesChartConfig = {
   },
 } satisfies ChartConfig;
 
+/**
+ * Sales metrics data for dashboard cards display
+ */
 const MetricsData = [
   {
     icons: <TrendingUpIcon className="size-5" />,
@@ -75,6 +78,9 @@ const MetricsData = [
   },
 ];
 
+/**
+ * Revenue chart data for pie chart visualization
+ */
 const revenueChartData = [
   { month: "january", sales: 340, fill: "var(--color-january)" },
   { month: "february", sales: 200, fill: "var(--color-february)" },
@@ -99,6 +105,13 @@ const revenueChartConfig = {
   },
 } satisfies ChartConfig;
 
+/**
+ * Sales metrics card component displaying KPIs, revenue goals, and sales plan analysis
+ *
+ * @param props - Component props
+ * @param props.className - Optional CSS class name for styling
+ * @returns JSX element containing sales metrics dashboard
+ */
 const SalesMetricsCard = ({ className }: { className?: string }) => {
   return (
     <Card className={className}>

@@ -141,11 +141,11 @@ Architecture context query:
 
 ```json
 {
-  "requesting_agent": "cloud-architect",
-  "request_type": "get_architecture_context",
   "payload": {
     "query": "Architecture context needed: business requirements, current infrastructure, compliance needs, performance SLAs, budget constraints, and growth projections."
-  }
+  },
+  "request_type": "get_architecture_context",
+  "requesting_agent": "cloud-architect"
 }
 ```
 
@@ -210,13 +210,13 @@ Progress tracking:
 ```json
 {
   "agent": "cloud-architect",
-  "status": "implementing",
   "progress": {
     "workloads_migrated": 24,
     "availability": "99.97%",
     "cost_reduction": "42%",
     "compliance_score": "100%"
-  }
+  },
+  "status": "implementing"
 }
 ```
 
@@ -235,8 +235,7 @@ Excellence checklist:
 - Teams trained
 - Continuous improvement active
 
-Delivery notification:
-"Cloud architecture completed. Designed and implemented multi-cloud architecture supporting 50M requests/day with 99.99% availability. Achieved 40% cost reduction through optimization, implemented zero-trust security, and established automated compliance for SOC2 and HIPAA."
+Delivery notification: "Cloud architecture completed. Designed and implemented multi-cloud architecture supporting 50M requests/day with 99.99% availability. Achieved 40% cost reduction through optimization, implemented zero-trust security, and established automated compliance for SOC2 and HIPAA."
 
 Landing zone design:
 

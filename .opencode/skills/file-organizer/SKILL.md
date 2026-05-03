@@ -166,18 +166,7 @@ When a user requests file organization help:
    ## Proposed Structure
    ```
 
-   [Directory]/
-   ├── Work/
-   │ ├── Projects/
-   │ ├── Documents/
-   │ └── Archive/
-   ├── Personal/
-   │ ├── Photos/
-   │ ├── Documents/
-   │ └── Media/
-   └── Downloads/
-   ├── To-Sort/
-   └── Archive/
+   [Directory]/ ├── Work/ │ ├── Projects/ │ ├── Documents/ │ └── Archive/ ├── Personal/ │ ├── Photos/ │ ├── Documents/ │ └── Media/ └── Downloads/ ├── To-Sort/ └── Archive/
 
    ```
 
@@ -303,8 +292,7 @@ When a user requests file organization help:
 - `/Documents/old/proposal.pdf` (2.3 MB, modified: 2024-03-15)
 - `/Desktop/proposal.pdf` (2.3 MB, modified: 2024-03-10)
 
-**Recommendation**: Keep `/Documents/proposal.pdf` (most recent in correct location)
-Delete the other 2 copies?
+**Recommendation**: Keep `/Documents/proposal.pdf` (most recent in correct location) Delete the other 2 copies?
 
 [Continue for all duplicates...]
 ```
@@ -328,16 +316,7 @@ Delete the other 2 copies?
 ## Proposed Structure
 ```
 
-Projects/
-├── Active/
-│ ├── client-work/
-│ ├── side-projects/
-│ └── learning/
-├── Archive/
-│ ├── 2022/
-│ ├── 2023/
-│ └── 2024/
-└── Templates/
+Projects/ ├── Active/ │ ├── client-work/ │ ├── side-projects/ │ └── learning/ ├── Archive/ │ ├── 2022/ │ ├── 2023/ │ └── 2024/ └── Templates/
 
 ```
 

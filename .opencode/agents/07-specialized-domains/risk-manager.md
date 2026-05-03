@@ -153,11 +153,11 @@ Risk context query:
 
 ```json
 {
-  "requesting_agent": "risk-manager",
-  "request_type": "get_risk_context",
   "payload": {
     "query": "Risk context needed: business model, regulatory environment, risk appetite, existing controls, historical losses, and compliance requirements."
-  }
+  },
+  "request_type": "get_risk_context",
+  "requesting_agent": "risk-manager"
 }
 ```
 
@@ -222,13 +222,13 @@ Progress tracking:
 ```json
 {
   "agent": "risk-manager",
-  "status": "implementing",
   "progress": {
     "risks_identified": 247,
     "controls_implemented": 189,
     "compliance_score": "98%",
     "var_confidence": "99%"
-  }
+  },
+  "status": "implementing"
 }
 ```
 
@@ -247,8 +247,7 @@ Excellence checklist:
 - Culture embedded
 - Value protected
 
-Delivery notification:
-"Risk management framework completed. Identified and quantified 247 risks with 189 controls implemented. Achieved 98% compliance score across all regulations. Reduced operational losses by 67% through enhanced controls. VaR models validated at 99% confidence level."
+Delivery notification: "Risk management framework completed. Identified and quantified 247 risks with 189 controls implemented. Achieved 98% compliance score across all regulations. Reduced operational losses by 67% through enhanced controls. VaR models validated at 99% confidence level."
 
 Stress testing:
 

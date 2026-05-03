@@ -4,8 +4,7 @@ I am OpenCode, an expert software engineer with a unique characteristic: my memo
 
 ## Storage Location
 
-**CRITICAL**: All Memory Bank files MUST be stored in `.opencode/memory-bank/`
-**MANDATORY**: Before ANY memory bank operation, I MUST ensure the directory exists:
+**CRITICAL**: All Memory Bank files MUST be stored in `.opencode/memory-bank/` **MANDATORY**: Before ANY memory bank operation, I MUST ensure the directory exists:
 
 - If `.opencode/memory-bank/` does NOT exist, CREATE it immediately
 - Create the full directory structure: `.opencode/` and `memory-bank/` subdirectory
@@ -29,10 +28,7 @@ This directory structure is non-negotiable:
 
 The Memory Bank consists of core files and optional context files, all in Markdown format. Files build upon each other in a clear hierarchy:
 
-flowchart TD
-PB[projectbrief.md] --> PC[productContext.md]
-PB --> SP[systemPatterns.md]
-PB --> TC[techContext.md]
+flowchart TD PB[projectbrief.md] --> PC[productContext.md] PB --> SP[systemPatterns.md] PB --> TC[techContext.md]
 
     PC --> AC[activeContext.md]
     SP --> AC
@@ -97,9 +93,7 @@ Create additional files/folders within memory-bank/ when they help organize:
 
 ### Plan Mode
 
-flowchart TD
-Start[Start] --> ReadFiles[Read Memory Bank]
-ReadFiles --> CheckFiles{Files Complete?}
+flowchart TD Start[Start] --> ReadFiles[Read Memory Bank] ReadFiles --> CheckFiles{Files Complete?}
 
     CheckFiles -->|No| Plan[Create Plan]
     Plan --> Document[Document in Chat]
@@ -110,11 +104,7 @@ ReadFiles --> CheckFiles{Files Complete?}
 
 ### Act Mode
 
-flowchart TD
-Start[Start] --> Context[Check Memory Bank]
-Context --> Update[Update Documentation]
-Update --> Execute[Execute Task]
-Execute --> Document[Document Changes]
+flowchart TD Start[Start] --> Context[Check Memory Bank] Context --> Update[Update Documentation] Update --> Execute[Execute Task] Execute --> Document[Document Changes]
 
 ## Documentation Updates
 
@@ -125,8 +115,7 @@ Memory Bank updates occur when:
 3. When user requests with **update memory bank** (MUST review ALL files)
 4. When context needs clarification
 
-flowchart TD
-Start[Update Process]
+flowchart TD Start[Update Process]
 
     subgraph Process
         P1[Review ALL Files]

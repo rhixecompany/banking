@@ -184,6 +184,62 @@ None identified — current architecture is clean.
 
 ---
 
+## Stores & Hooks Inventory
+
+### Stores (`stores/`)
+
+**Pattern:** Zustand with factory functions. All stores use `providers.tsx` wrapper in root layout.
+
+| Store | Hook | Path | Purpose | Status |
+| --- | --- | --- | --- | --- |
+| **UI Store** | `useUIStore()` | `stores/ui-store.tsx` | Modal states, UI toggles | ✅ Active |
+| **Filter Store** | `useFilterStore()` | `stores/filter-store.tsx` | Transaction filter state | ✅ Active |
+| **Transfer Store** | `useTransferStore()` | `stores/transfer-store.tsx` | Payment transfer form state | ✅ Active |
+| **Toast Store** | `useToastStore()` | `stores/toast-store.tsx` | Toast notification queue | ✅ Active |
+| **Session Store** | `useSessionStore()` | `stores/session.tsx` | User session cache | ✅ Active |
+
+**Factory Files:** `create-ui-store.ts`, `create-filter-store.ts`, `create-transfer-store.ts`, `create-toast-store.ts`  
+**Barrel Export:** `stores/index.ts` (re-exports all factory functions)  
+**Provider Wrapper:** `stores/providers.tsx` (wraps `(root)/layout.tsx`)
+
+### Custom Hooks (`hooks/`)
+
+| Hook | Path | Purpose | Status |
+| --- | --- | --- | --- |
+| `usePagination()` | `hooks/use-pagination.ts` | Pagination state & logic | ✅ Active |
+| `useMobile()` | `hooks/use-mobile.tsx` | Mobile viewport detection | ✅ Active |
+| `useWalletBalance()` | `hooks/use-wallet-balance.ts` | Fetch wallet balance | ✅ Active |
+| `useTransactionFilter()` | `hooks/use-transaction-filter.ts` | Filter transaction data | ✅ Active |
+| `useBankConnection()` | `hooks/use-bank-connection.ts` | Bank linking state | ✅ Active |
+
+**Note:** `hooks/use-mobile.ts` (duplicate) will be removed in Phase 1.1. Use `use-mobile.tsx` instead.
+
+### Usage Patterns
+
+**Stores (Client Components):**
+
+```typescript
+import { useUIStore } from '@/stores';
+
+export function MyComponent() {
+  const { isOpen, toggle } = useUIStore();
+  return <button onClick={toggle}>Toggle</button>;
+}
+```
+
+**Hooks (Client Components):**
+
+```typescript
+import { usePagination } from '@/hooks';
+
+export function MyList() {
+  const { page, pageSize } = usePagination();
+  return <div>Page {page}</div>;
+}
+```
+
+---
+
 ## Schema Cross-Reference
 
 All shared Zod schemas should live in `lib/schemas/`. Current schemas:

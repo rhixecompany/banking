@@ -37,7 +37,7 @@ mcp__zapier -
   frontend__jira_software_cloud_find_issue_by_key({
     instructions: "Get details for ticket [TICKET_ID]",
     key: "[TICKET_ID]",
-    fields: "summary,description,issuetype,priority,status",
+    fields: "summary,description,issuetype,priority,status"
   });
 ```
 

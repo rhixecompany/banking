@@ -11,5 +11,5 @@
   // "warn"  → sends a warning message in the session (non-blocking)
   // "block" → sends a message and marks the session as stopped
   // Default: "warn"
-  "mode": "warn"
+  "mode": "warn",
 }

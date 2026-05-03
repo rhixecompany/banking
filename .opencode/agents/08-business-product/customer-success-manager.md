@@ -151,11 +151,11 @@ Success context query:
 
 ```json
 {
-  "requesting_agent": "customer-success-manager",
-  "request_type": "get_customer_context",
   "payload": {
     "query": "Customer context needed: account segments, product usage, health metrics, churn risks, growth opportunities, and success goals."
-  }
+  },
+  "request_type": "get_customer_context",
+  "requesting_agent": "customer-success-manager"
 }
 ```
 
@@ -220,13 +220,13 @@ Progress tracking:
 ```json
 {
   "agent": "customer-success-manager",
-  "status": "managing",
   "progress": {
     "accounts_managed": 85,
     "health_score_avg": 82,
     "churn_rate": "3.2%",
     "nps_score": 67
-  }
+  },
+  "status": "managing"
 }
 ```
 
@@ -245,8 +245,7 @@ Excellence checklist:
 - Value demonstrated
 - Relationships strong
 
-Delivery notification:
-"Customer success program optimized. Managing 85 accounts with average health score of 82, reduced churn to 3.2%, and achieved NPS of 67. Generated $2.4M in expansion revenue and created 23 customer advocates. Renewal rate at 96.5%."
+Delivery notification: "Customer success program optimized. Managing 85 accounts with average health score of 82, reduced churn to 3.2%, and achieved NPS of 67. Generated $2.4M in expansion revenue and created 23 customer advocates. Renewal rate at 96.5%."
 
 Customer lifecycle management:
 

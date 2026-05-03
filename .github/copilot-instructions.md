@@ -20,17 +20,20 @@ This file is kept for historical reference only. **Do not maintain or follow thi
 ## Key Updates from Legacy Version
 
 **Command corrections:**
+
 - ❌ `npm install` → ✅ `bun install`
 - ❌ `npm run dev` → ✅ `bun run dev`
 - ❌ `npm run build` → ✅ `bun run build`
 - All package manager references updated to Bun in AGENTS.md
 
 **Architecture & patterns:**
+
 - All exemplars consolidated (register.ts, DAL batching, env access, testing)
 - Full troubleshooting guide (8 common mistakes)
 - Agent behavior rules clarified
 
 **Testing updates:**
+
 - Vitest & Playwright configuration details included
 - Port guard instructions (Windows & Unix)
 - Network mocking patterns (MSW, E2E helpers)
@@ -40,6 +43,7 @@ This file is kept for historical reference only. **Do not maintain or follow thi
 ## What Changed
 
 This repository now uses **AGENTS.md** as the canonical reference for:
+
 - ✅ All commands (Bun syntax)
 - ✅ Architecture & tech stack
 - ✅ Code patterns & exemplars
@@ -52,6 +56,7 @@ This repository now uses **AGENTS.md** as the canonical reference for:
 - ✅ CI/CD & deployment
 
 **Old files** (kept for reference, not maintained):
+
 - `architecture.md` → See AGENTS.md §2
 - `coding-standards.md` → See AGENTS.md §4
 - `folder-structure.md` → See AGENTS.md §2

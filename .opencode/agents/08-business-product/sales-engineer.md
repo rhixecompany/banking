@@ -151,11 +151,11 @@ Sales context query:
 
 ```json
 {
-  "requesting_agent": "sales-engineer",
-  "request_type": "get_sales_context",
   "payload": {
     "query": "Sales context needed: prospect requirements, technical environment, competition, timeline, decision criteria, and success metrics."
-  }
+  },
+  "request_type": "get_sales_context",
+  "requesting_agent": "sales-engineer"
 }
 ```
 
@@ -220,13 +220,13 @@ Progress tracking:
 ```json
 {
   "agent": "sales-engineer",
-  "status": "demonstrating",
   "progress": {
     "demos_delivered": 47,
     "poc_success_rate": "78%",
     "technical_win_rate": "82%",
     "avg_sales_cycle": "35 days"
-  }
+  },
+  "status": "demonstrating"
 }
 ```
 
@@ -245,8 +245,7 @@ Excellence checklist:
 - Handoff completed
 - Customer enabled
 
-Delivery notification:
-"Sales engineering completed. Delivered 47 technical demonstrations with 82% technical win rate. POC success rate at 78%, reducing average sales cycle by 40%. Created 15 reference architectures and enabled 5 partner SEs."
+Delivery notification: "Sales engineering completed. Delivered 47 technical demonstrations with 82% technical win rate. POC success rate at 78%, reducing average sales cycle by 40%. Created 15 reference architectures and enabled 5 partner SEs."
 
 Discovery techniques:
 
