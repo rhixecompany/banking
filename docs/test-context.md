@@ -136,8 +136,7 @@ This document catalogs all tests in the Banking application, their configuration
 | `tests/verify/rules.test.ts` | Rule verification tests | ~5 |
 | `tests/verify-rules/verify-rules.test.ts` | Verify rules verification | ~5 |
 
-These suites live outside `tests/unit/` and are not included in `bun run test:browser`
-per `vitest.config.ts`.
+These suites live outside `tests/unit/` and are not included in `bun run test:browser` per `vitest.config.ts`.
 
 **Total Vitest Unit Files:** 68 unit test files (estimated ~360+ individual tests)
 **Additional Vitest Files (non-unit):** 3 files (not included in test:browser)
