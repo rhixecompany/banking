@@ -48,9 +48,18 @@ components/
 
 ```text
 actions/
-├── register.ts          # User registration
+├── register.ts              # User registration
+├── auth.signup.ts         # Sign up with auth
+├── auth.signin.ts         # Sign in with auth
 ├── dwolla.actions.ts    # Dwolla ACH operations
-└── wallet.actions.ts    # Wallet management
+├── wallet.actions.ts    # Wallet management
+├── plaid.actions.ts   # Plaid integration
+├── transaction.actions.ts # Transaction operations
+├── user.actions.ts    # User operations
+├── recipient.actions.ts # Recipient management
+├── admin.actions.ts  # Admin operations
+├── admin-stats.actions.ts # Admin statistics
+└── updateProfile.ts # Profile updates
 ```
 
 ## Data Access Layer
@@ -58,9 +67,15 @@ actions/
 ```text
 dal/
 ├── user.dal.ts          # User operations
-├── wallet.dal.ts        # Wallet operations
-├── transaction.dal.ts   # Transaction operations (with eager loading)
-└── health.dal.ts        # Health checks
+├── wallet.dal.ts       # Wallet operations
+├── wallets.ts          # Wallet helpers (alias)
+├── transaction.dal.ts  # Transaction operations (with eager loading)
+├── recipient.dal.ts    # Recipient operations
+├── dwolla.dal.ts       # Dwolla operations
+├── admin.dal.ts        # Admin operations
+├── errors.dal.ts       # Error logging
+├── health.ts           # Health checks
+└── index.ts           # DAL exports
 ```
 
 ## Scripts
@@ -115,4 +130,4 @@ Evidence sources:
 - `scripts/verify-rules.ts` — folder-based policy enforcement
 - `next.config.ts` — Next.js 16 configuration
 
-Last updated: 2026-04-24
+Last updated: 2026-04-30

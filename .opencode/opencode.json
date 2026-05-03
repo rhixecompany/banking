@@ -1,0 +1,256 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "agent": {
+    "build": {
+      "model": "opencode/minimax-m2.5-free",
+      "variant": "high"
+    },
+    "plan": {
+      "model": "opencode/minimax-m2.5-free",
+      "variant": "high"
+    }
+  },
+  "autoupdate": true,
+  "command": {
+    "mystatus": {
+      "description": "Query quota usage for all AI accounts",
+      "template": "Use the mystatus tool to query quota usage. Return the result as-is without modification."
+    }
+  },
+  "compaction": {
+    "auto": true
+  },
+  "default_agent": "plan",
+  "enabled_providers": [
+    "google-vertex",
+    "openrouter",
+    "anthropic",
+    "calculon",
+    "openai",
+    "opencode",
+    "github-copilot"
+  ],
+  "instructions": [
+    "rules/*.md"
+  ],
+  "lsp": true,
+  "mcp": {
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp"
+    },
+    "exa": {
+      "enabled": true,
+      "type": "remote",
+      "url": "https://mcp.exa.ai/mcp"
+    },
+    "filesystem": {
+      "command": [
+        "bunx",
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "~/"
+      ],
+      "enabled": true,
+      "timeout": 900000,
+      "type": "local"
+    },
+    "gh_grep": {
+      "enabled": true,
+      "type": "remote",
+      "url": "https://mcp.grep.app"
+    },
+    "github-agentic-workflows": {
+      "command": [
+        "bunx",
+        "-y",
+        "@modelcontextprotocol/server-github"
+      ],
+      "enabled": true,
+      "timeout": 900000,
+      "type": "local"
+    },
+    "hostinger": {
+      "command": [
+        "bunx",
+        "-y",
+        "hostinger-api-mcp"
+      ],
+      "environment": {
+        "DEBUG": "false"
+      },
+      "timeout": 5000,
+      "type": "local"
+    },
+    "memory": {
+      "command": [
+        "bunx",
+        "-y",
+        "@modelcontextprotocol/server-memory"
+      ],
+      "enabled": true,
+      "timeout": 900000,
+      "type": "local"
+    },
+    "next-devtools": {
+      "command": [
+        "bunx",
+        "-y",
+        "next-devtools-mcp@latest"
+      ],
+      "enabled": true,
+      "timeout": 900000,
+      "type": "local"
+    },
+    "playwright": {
+      "command": [
+        "bunx",
+        "-y",
+        "@playwright/mcp@latest"
+      ],
+      "enabled": true,
+      "timeout": 900000,
+      "type": "local"
+    },
+    "sequential-thinking": {
+      "command": [
+        "bunx",
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ],
+      "enabled": true,
+      "timeout": 900000,
+      "type": "local"
+    },
+    "shadcn": {
+      "command": [
+        "bunx",
+        "shadcn@latest",
+        "mcp"
+      ],
+      "enabled": true,
+      "timeout": 900000,
+      "type": "local"
+    },
+    "youtube-transcript": {
+      "command": [
+        "bunx",
+        "-y",
+        "@kimtaeyoon83/mcp-server-youtube-transcript"
+      ],
+      "enabled": true,
+      "timeout": 900000,
+      "type": "local"
+    }
+  },
+  "model": "opencode/minimax-m2.5-free",
+  "plugin": [
+    "@franlol/opencode-md-table-formatter@latest",
+    "opencode-websearch-cited@1.2.0",
+    "opencode-cost-guard",
+    "opencode-handoff",
+    "opencode-beads",
+    "@tarquinen/opencode-dcp",
+    "@ramarivera/opencode-model-announcer",
+    "open-plan-annotator",
+    "opencode-ignore",
+    "opencode-synced",
+    "opencode-snippets",
+    "opencode-mystatus",
+    "@gotgenes/opencode-agent-identity",
+    "opencode-agent-memory",
+    "opencode-agent-skills",
+    "opencode-devcontainers",
+    "@zenobius/opencode-background",
+    "opencode-sessions",
+    "@franlol/opencode-md-table-formatter",
+    "@liannnix/opencode-ntfy",
+    "@howaboua/opencode-planning-toolkit",
+    "opencode-mem",
+    "@slkiser/opencode-quota",
+    "smart-codebase",
+    "superpowers@git+https://github.com/obra/superpowers.git",
+    "octto",
+    "oh-my-opencode-slim"
+  ],
+  "provider": {
+    "anthropic": {
+      "models": {
+        "claude-haiku-4-5": {
+          "temperature": true
+        },
+        "claude-opus-4-6": {
+          "temperature": true
+        },
+        "claude-sonnet-4-6": {
+          "temperature": true
+        }
+      },
+      "options": {
+        "apiKey": "{env:ANTHROPIC_API_KEY}"
+      }
+    },
+    "calculon": {
+      "models": {
+        "gemma-4-e4b-it-8bit": {
+          "attachment": true,
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "name": "gemma-4-e4b-it-8bit"
+        },
+        "Qwen3.5-9B-MLX-4bit": {
+          "attachment": true,
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "name": "Qwen3.5-9B-MLX-4bit"
+        }
+      },
+      "name": "calculon",
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "apiKey": "{env:OMLX_API_KEY}",
+        "baseURL": "http://calculon.local:8000/v1"
+      }
+    },
+    "google-vertex": {
+      "models": {
+        "gemini-2.5-flash": {
+          "temperature": true
+        },
+        "gemini-2.5-pro": {
+          "temperature": true
+        },
+        "gemini-3.1-pro-preview": {
+          "temperature": true
+        }
+      },
+      "options": {
+        "location": "{env:VERTEXAI_REGION}",
+        "project": "{env:VERTEXAI_PROJECT_ID}"
+      }
+    }
+  },
+  "share": "disabled",
+  "small_model": "google-vertex/gemini-2.5-flash",
+  "watcher": {
+    "ignore": [
+      "node_modules",
+      ".next",
+      ".git"
+    ]
+  }
+}

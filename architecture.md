@@ -4,7 +4,7 @@ This file documents the high-level architecture for the Banking app based strict
 
 ## Overview
 
-- **App type**: Next.js 16 App Router application with Server Components by default. Evidence: next.config.ts, package.json (next 16.2.2).
+- **App type**: Next.js 16 App Router application with Server Components by default. Evidence: next.config.ts, package.json (next 16.2.4).
 - **Data access**: Postgres via Drizzle ORM (drizzle-orm + drizzle-kit). Evidence: package.json, database/schema.ts, database/db.ts, dal/\*.
 - **Auth**: NextAuth v4 used for session management. Evidence: package.json, app/api/auth/[...nextauth]/route.ts, lib/auth-options.ts.
 - **Server Actions**: mutation logic lives in actions/_. Evidence: multiple actions/_ files (register.ts, dwolla.actions.ts, wallet.actions.ts, etc.).
@@ -21,7 +21,7 @@ This file documents the high-level architecture for the Banking app based strict
 ### Framework Versions
 
 - **Next.js**: 16.2.2 (App Router, Server Components by default)
-- **NextAuth**: v4.24.13
+- **NextAuth**: v4.24.14
 - **Drizzle ORM**: drizzle-orm v0.45.2
 - **drizzle-kit**: v0.31.10
 
@@ -35,7 +35,9 @@ This file documents the high-level architecture for the Banking app based strict
 | Dwolla          | ^3.4.0  | ACH transfers |
 | Playwright      | ^1.59.1 | E2E testing   |
 | Vitest          | ^4.1.2  | Unit testing  |
-| Tailwind CSS    | v4      | Styling       |
+| Tailwind CSS    | v4      | Styling      |
+| next           | 16.2.4  | Next.js 16   |
+| Bun            | 1.3.13  | Package manager |
 
 ## Process Boundaries
 
@@ -80,4 +82,4 @@ Add "use client" at top for interactivity.
 
 ---
 
-Last updated: 2026-04-24
+Last updated: 2026-04-30

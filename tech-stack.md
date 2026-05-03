@@ -6,7 +6,7 @@ This file lists the exact technology versions and key libraries observed in the 
 
 | Technology | Version | Notes                         |
 | ---------- | ------- | ----------------------------- |
-| Next.js    | 16.2.2  | App Router, Server Components |
+| Next.js    | 16.2.4  | App Router, Server Components |
 | React      | 19      | Server Components by default  |
 | TypeScript | 6.0.2   | strict mode enabled           |
 | Node.js    | 18+     | Recommended                   |
@@ -18,13 +18,13 @@ This file lists the exact technology versions and key libraries observed in the 
 | Drizzle ORM | 0.45.2  | PostgreSQL access |
 | drizzle-kit | 0.31.10 | Migrations        |
 | PostgreSQL  | latest  | Database          |
-| postgres    | 3.4.8   | Node driver       |
+| postgres    | 3.4.9   | Node driver       |
 
 ## Authentication
 
 | Technology            | Version | Notes                   |
 | --------------------- | ------- | ----------------------- |
-| next-auth             | 4.24.13 | Session management      |
+| next-auth             | 4.24.14 | Session management      |
 | @auth/drizzle-adapter | 1.11.1  | Drizzle session storage |
 
 ## Testing
@@ -41,14 +41,14 @@ This file lists the exact technology versions and key libraries observed in the 
 | Technology          | Version | Notes             |
 | ------------------- | ------- | ----------------- |
 | Zod                 | ^4.3.6  | Schema validation |
-| react-hook-form     | ^7.72.1 | Form handling     |
+| react-hook-form     | ^7.74.0 | Form handling     |
 | @hookform/resolvers | 5.2.2   | Zod resolvers     |
 
 ## Integrations
 
 | Technology         | Version | Notes               |
 | ------------------ | ------- | ------------------- |
-| Plaid              | 41.4.0  | Bank linking        |
+| Plaid              | 42.1.0  | Bank linking        |
 | react-plaid-link   | 4.1.1   | Plaid React SDK     |
 | Dwolla             | 3.4.0   | ACH transfers       |
 | @upstash/redis     | 1.37.0  | Rate limiting/cache |
@@ -61,7 +61,7 @@ This file lists the exact technology versions and key libraries observed in the 
 | Tailwind CSS | v4      | Styling             |
 | shadcn/ui    | latest  | Component library   |
 | Radix UI     | 1.4.3   | Headless components |
-| lucide-react | 1.8.0   | Icons               |
+| lucide-react | 1.14.0   | Icons               |
 | recharts     | 3.8.0   | Charts              |
 | date-fns     | 4.1.0   | Date utilities      |
 
