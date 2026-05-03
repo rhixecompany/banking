@@ -32,6 +32,27 @@ This document catalogs all pages in the Banking application, their routing struc
 
 ---
 
+## Auth Pages Analysis
+
+Checks performed: server wrapper usage, auth guard presence, direct `process.env` access, direct DB imports, DAL usage, and Server Actions usage in page files.
+
+| Route | File | Wrapper | Auth Check | Violations |
+| --- | --- | --- | --- | --- |
+| `/sign-in` | `app/(auth)/sign-in/page.tsx:28` | `AuthLayoutWrapper` + `SignInServerWrapper` | None in page (handled in server wrapper/client flow) | None (no env/DB/DAL/Server Actions in page) |
+| `/sign-up` | `app/(auth)/sign-up/page.tsx:28` | `AuthLayoutWrapper` + `SignUpServerWrapper` | None in page (handled in server wrapper/client flow) | None (no env/DB/DAL/Server Actions in page) |
+
+---
+
+## Admin Pages Analysis
+
+Checks performed: server wrapper usage, auth guard presence, admin role checks, direct `process.env` access, direct DB imports, DAL usage, and Server Actions usage in page files.
+
+| Route | File | Wrapper | Auth Check | Admin Check | Violations |
+| --- | --- | --- | --- | --- | --- |
+| `/admin` | `app/(admin)/admin/page.tsx:44` | `AdminDashboardServerWrapper` | None in page (handled in server wrapper/layout) | None in page (handled in server wrapper/layout) | None (no env/DB/DAL/Server Actions in page) |
+
+---
+
 ## Quick Reference — Admin Page (1 Total)
 
 | Route | Page File | ServerWrapper | ClientWrapper | DAL Helpers | Key Actions | Auth |
@@ -54,7 +75,40 @@ This document catalogs all pages in the Banking application, their routing struc
 
 ---
 
+## Demo Pages Analysis
+
+Checks performed: server wrapper usage, auth requirement, direct `process.env` access, direct DB imports, DAL usage, Server Actions usage in page files.
+
+| Route | File | Wrapper | Auth Check | Violations |
+| --- | --- | --- | --- | --- |
+| `/demo/hero-section-41` | `app/demo/hero-section-41/page.tsx` | None | None | None (no env/DB/DAL/Server Actions in page) |
+| `/demo/hero-section-41/hero-section-41` | `app/demo/hero-section-41/hero-section-41/page.tsx` | None | None | None (no env/DB/DAL/Server Actions in page) |
+| `/demo/dashboard-shell-01` | `app/demo/dashboard-shell-01/page.tsx` | None | None | None (no env/DB/DAL/Server Actions in page) |
+| `/demo/dashboard-shell-01/dashboard-shell-01` | `app/demo/dashboard-shell-01/dashboard-shell-01/page.tsx` | None | None | None (no env/DB/DAL/Server Actions in page) |
+| `/demo/onboarding-feed-01` | `app/demo/onboarding-feed-01/page.tsx` | None | None | None (no env/DB/DAL/Server Actions in page) |
+| `/demo/onboarding-feed-01/onboarding-feed-01` | `app/demo/onboarding-feed-01/onboarding-feed-01/page.tsx` | None | None | None (no env/DB/DAL/Server Actions in page) |
+| `/demo/application-shell-01` | `app/demo/application-shell-01/page.tsx` | None | None | None (no env/DB/DAL/Server Actions in page) |
+
+---
+
 ## Detailed Page Documentation
+
+## Landing Page (CRITICAL)
+
+**Status:** ✅ Compliant (static)
+
+**Checks:**
+
+- No `auth()` usage
+- No DB/DAL imports
+- No `process.env` access
+- No Server Actions
+
+**Violations:** None
+
+**Evidence:** `app/page.tsx` is a static server component that renders layout/content only (no data fetching or auth). See `app/page.tsx:1`.
+
+---
 
 ### 1. Home Page (`/`)
 
