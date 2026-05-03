@@ -58,7 +58,11 @@ export function GenericModal({
     >
       <div className="w-full max-w-lg rounded-lg bg-card text-card-foreground shadow-lg">
         <div className="flex items-center justify-between border-b px-5 py-4">
-          {title ? <h2 className="text-lg font-semibold">{title}</h2> : <span />}
+          {title ? (
+            <h2 className="text-lg font-semibold">{title}</h2>
+          ) : (
+            <span />
+          )}
           <button
             type="button"
             onClick={onClose}

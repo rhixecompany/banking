@@ -45,11 +45,7 @@ interface Props {
  * @param {*} param0.sourceWallet
  * @returns {ReactJSX.Element}
  */
-export function TransferSummary({
-  amount,
-  recipient,
-  sourceWallet,
-}: Props) {
+export function TransferSummary({ amount, recipient, sourceWallet }: Props) {
   const amountNum = typeof amount === "string" ? Number(amount) : (amount ?? 0);
   return (
     <div className="space-y-4">

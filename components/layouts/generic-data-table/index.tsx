@@ -118,7 +118,9 @@ export function GenericDataTable<T extends Record<string, unknown>>({
               data.map((row, rowIndex) => (
                 <tr
                   key={rowIndex}
-                  className={onRowClick ? "cursor-pointer hover:bg-muted/40" : ""}
+                  className={
+                    onRowClick ? "cursor-pointer hover:bg-muted/40" : ""
+                  }
                   onClick={
                     onRowClick
                       ? () => {
