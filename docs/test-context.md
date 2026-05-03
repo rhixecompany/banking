@@ -2,8 +2,8 @@
 
 **Date:** 2026-05-03  
 **Scope:** All tests in `tests/`  
-**Status:** Complete — Task 0.3 verification  
-**Inventory:** 72 Vitest unit tests + 10 Playwright E2E specs verified
+**Status:** Complete — Phase 2.2 verification  
+**Inventory:** 68 Vitest unit test files + 10 Playwright E2E specs verified
 
 ---
 
@@ -11,50 +11,52 @@
 
 This document catalogs all tests in the Banking application, their configuration, helpers, and best practices. The test suite is organized into two main categories:
 
-1. **Vitest Unit Tests (72 files)** — Fast, isolated tests for actions, DAL, components, utilities, stores, and scripts
+1. **Vitest Unit Tests (68 files)** — Fast, isolated tests for actions, DAL, components, utilities, stores, and scripts
 2. **Playwright E2E Tests (10 specs)** — Stateful, integration tests for end-to-end user workflows
 
 ---
 
 ## Test Inventory
 
-### Vitest Unit Tests (72 files)
+### Vitest Unit Tests (68 files)
 
-#### Server Actions & Business Logic (8 files)
+#### Server Actions & Business Logic (9 files)
 
 | File | Purpose | Test Count |
 | --- | --- | --- |
 | `tests/unit/actions/dwolla.actions.test.ts` | Dwolla transfer action tests | ~3 |
-| `tests/unit/actions/recipient.actions.test.ts` | Recipient management actions | ~4 |
-| `tests/unit/actions/transaction.actions.test.ts` | Transaction actions | ~8 |
-| `tests/unit/actions/transaction.actions.db-error.test.ts` | Transaction DB error handling | ~2 |
 | `tests/unit/admin.actions.test.ts` | Admin action tests | ~4 |
 | `tests/unit/register.test.ts` | User registration validation | 4 |
 | `tests/unit/updateProfile.test.ts` | Profile update actions | ~3 |
 | `tests/unit/user.actions.test.ts` | User action tests | ~4 |
+| `tests/unit/transaction.actions.test.ts` | Transaction actions | ~8 |
+| `tests/unit/transaction.actions.db-error.test.ts` | Transaction DB error handling | ~2 |
+| `tests/unit/recipient.actions.test.ts` | Recipient management actions | ~4 |
+| `tests/unit/wallet.actions.test.ts` | Wallet action tests | ~5 |
 
 #### DAL (Data Access Layer) Tests (6 files)
 
 | File | Purpose | Test Count |
 | --- | --- | --- |
+| `tests/unit/wallet.dal.test.ts` | Wallet DAL operations | 13 |
+| `tests/unit/transaction.dal.test.ts` | Transaction DAL with N+1 prevention | ~8 |
+| `tests/unit/recipient.dal.test.ts` | Recipient CRUD operations | ~6 |
+| `tests/unit/dwolla.dal.test.ts` | Dwolla DAL integration | ~5 |
 | `tests/unit/dal/admin.dal.test.ts` | Admin DAL operations | ~5 |
 | `tests/unit/dal/errors.dal.test.ts` | Error handling DAL | ~3 |
-| `tests/unit/dal/recipient.dal.test.ts` | Recipient CRUD operations | ~6 |
-| `tests/unit/dal/transaction.dal.test.ts` | Transaction DAL with N+1 prevention | ~8 |
-| `tests/unit/dal/wallet.dal.test.ts` | Wallet DAL operations | 13 |
-| `tests/unit/dwolla.dal.test.ts` | Dwolla DAL integration | ~5 |
 
-#### Integration & Utility Tests (5 files)
+#### Integration & Utility Tests (6 files)
 
 | File | Purpose | Test Count |
 | --- | --- | --- |
 | `tests/unit/dwolla.test.ts` | Dwolla utility functions | ~6 |
-| `tests/unit/error-tracking.test.ts` | Error tracking utilities | ~3 |
-| `tests/unit/markdown-catalog.test.ts` | Markdown catalog generation | ~4 |
 | `tests/unit/plaid.test.ts` | Plaid utility functions | ~6 |
+| `tests/unit/error-tracking.test.ts` | Error tracking utilities | ~3 |
 | `tests/unit/report-parser.test.ts` | Report parsing utilities | ~5 |
+| `tests/unit/markdown-catalog.test.ts` | Markdown catalog generation | ~4 |
+| `tests/unit/transaction-mapping.test.ts` | Transaction mapping utilities | ~5 |
 
-#### Scripts & Build Tools (6 files)
+#### Scripts & Build Tools (5 files)
 
 | File | Purpose | Test Count |
 | --- | --- | --- |
@@ -63,7 +65,6 @@ This document catalogs all tests in the Banking application, their configuration
 | `tests/unit/mcp-runner.verify.test.ts` | MCP runner verification | ~7 |
 | `tests/unit/plan-ensure.match.test.ts` | Plan matching logic | ~6 |
 | `tests/unit/plan-ensure.scoring.test.ts` | Plan scoring logic | ~5 |
-| `tests/unit/transaction-mapping.test.ts` | Transaction mapping utilities | ~5 |
 
 #### Zustand Stores (4 files)
 
@@ -74,73 +75,79 @@ This document catalogs all tests in the Banking application, their configuration
 | `tests/unit/stores/transfer-store.test.ts` | Transfer form state | ~8 |
 | `tests/unit/stores/ui-store.test.ts` | UI state (modals, sidebar) | 13 |
 
-#### Server Wrapper Components (9 files)
+#### Server Wrapper Components (7 files)
 
 | File | Purpose | Test Count |
 | --- | --- | --- |
 | `tests/unit/admin-dashboard-server-wrapper.test.tsx` | Admin dashboard server wrapper | ~2 |
-| `tests/unit/admin-dashboard.layout.test.tsx` | Admin dashboard layout | ~3 |
-| `tests/unit/dashboard-client-wrapper.test.tsx` | Dashboard client wrapper | ~2 |
-| `tests/unit/dashboard-client.layout.test.tsx` | Dashboard client layout | ~3 |
 | `tests/unit/dashboard-server-wrapper.test.ts` | Dashboard server wrapper | ~3 |
-| `tests/unit/my-wallets-client-wrapper.test.tsx` | My wallets client wrapper | ~2 |
-| `tests/unit/my-wallets-client.layout.test.tsx` | My wallets client layout | ~3 |
 | `tests/unit/my-wallets-server-wrapper.test.ts` | My wallets server wrapper | ~3 |
+| `tests/unit/payment-transfer-server-wrapper.test.ts` | Payment transfer server wrapper | ~3 |
+| `tests/unit/settings-server-wrapper.test.ts` | Settings server wrapper | ~3 |
 | `tests/unit/signin-wrapper.test.ts` | Sign-in server wrapper | ~2 |
+| `tests/unit/transaction-history-server-wrapper.test.ts` | Transaction history server wrapper | ~3 |
 
-#### UI Components (16 files)
+#### Client Wrappers & Layouts (12 files)
+
+| File | Purpose | Test Count |
+| --- | --- | --- |
+| `tests/unit/admin-dashboard.layout.test.tsx` | Admin dashboard layout | ~3 |
+| `tests/unit/dashboard-client.layout.test.tsx` | Dashboard client layout | ~3 |
+| `tests/unit/dashboard-client-wrapper.test.tsx` | Dashboard client wrapper | ~2 |
+| `tests/unit/DashboardClientWrapper.props.test.tsx` | Dashboard wrapper props | ~2 |
+| `tests/unit/my-wallets-client.layout.test.tsx` | My wallets client layout | ~3 |
+| `tests/unit/my-wallets-client-wrapper.test.tsx` | My wallets client wrapper | ~2 |
+| `tests/unit/payment-transfer-client.layout.test.tsx` | Payment transfer layout | ~3 |
+| `tests/unit/PaymentTransferClientWrapper.props.test.tsx` | Payment transfer props | ~2 |
+| `tests/unit/settings-client.layout.test.tsx` | Settings client layout | ~3 |
+| `tests/unit/SettingsClientWrapper.props.test.tsx` | Settings wrapper props | ~2 |
+| `tests/unit/transaction-history-client.layout.test.tsx` | Transaction history layout | ~3 |
+| `tests/unit/transaction-history-client-wrapper.test.tsx` | Transaction history wrapper | ~2 |
+
+#### UI Components (19 files)
 
 | File | Purpose | Test Count |
 | --- | --- | --- |
 | `tests/unit/auth-form.layout.test.tsx` | Auth form layout | ~3 |
-| `tests/unit/AuthForm.props.test.tsx` | Auth form props validation | ~3 |
 | `tests/unit/AuthForm.test.tsx` | Auth form component | ~5 |
+| `tests/unit/AuthForm.props.test.tsx` | Auth form props validation | ~3 |
 | `tests/unit/card.test.tsx` | Card component | ~3 |
 | `tests/unit/cta-get-started.test.tsx` | CTA component | ~2 |
 | `tests/unit/data-table.test.tsx` | Data table component | ~4 |
-| `tests/unit/DashboardClientWrapper.props.test.tsx` | Dashboard wrapper props | ~2 |
 | `tests/unit/features-grid.test.tsx` | Features grid component | ~2 |
 | `tests/unit/form.test.tsx` | Form component | ~4 |
 | `tests/unit/MobileNav.test.tsx` | Mobile navigation | ~3 |
-| `tests/unit/payment-transfer-client.layout.test.tsx` | Payment transfer layout | ~3 |
-| `tests/unit/payment-transfer-form.test.tsx` | Payment transfer form | ~6 |
-| `tests/unit/PaymentTransferClientWrapper.props.test.tsx` | Payment transfer props | ~2 |
-| `tests/unit/payment-transfer-server-wrapper.test.ts` | Payment transfer server wrapper | ~3 |
-| `tests/unit/row.test.tsx` | Table row component | ~3 |
 | `tests/unit/Sidebar.test.tsx` | Sidebar component | ~3 |
-
-#### Additional UI & Layout (9 files)
-
-| File | Purpose | Test Count |
-| --- | --- | --- |
-| `tests/unit/settings-client.layout.test.tsx` | Settings client layout | ~3 |
-| `tests/unit/settings-profile-form.test.tsx` | Settings profile form | ~5 |
-| `tests/unit/settings-server-wrapper.test.ts` | Settings server wrapper | ~3 |
-| `tests/unit/SettingsClientWrapper.props.test.tsx` | Settings wrapper props | ~2 |
-| `tests/unit/total-balance.test.tsx` | Total balance component | ~3 |
-| `tests/unit/TotalBalanceBox.test.tsx` | Total balance box | ~3 |
-| `tests/unit/transaction-history-client-wrapper.test.tsx` | Transaction history wrapper | ~2 |
-| `tests/unit/transaction-history-client.layout.test.tsx` | Transaction history layout | ~3 |
-| `tests/unit/transaction-history-server-wrapper.test.ts` | Transaction history server wrapper | ~3 |
+| `tests/unit/row.test.tsx` | Table row component | ~3 |
 | `tests/unit/transaction-list.test.tsx` | Transaction list component | ~4 |
 | `tests/unit/transfer-summary.test.tsx` | Transfer summary component | ~3 |
 | `tests/unit/wallet-card.test.tsx` | Wallet card component | ~4 |
 | `tests/unit/wallets-overview.test.tsx` | Wallets overview component | ~3 |
+| `tests/unit/payment-transfer-form.test.tsx` | Payment transfer form | ~6 |
+| `tests/unit/settings-profile-form.test.tsx` | Settings profile form | ~5 |
+| `tests/unit/total-balance.test.tsx` | Total balance component | ~3 |
+| `tests/unit/TotalBalanceBox.test.tsx` | Total balance box | ~3 |
 
-#### Database & Rule Verification (5 files)
+#### Additional Vitest Suites (3 files; non-unit pattern, not in test:browser)
 
 | File | Purpose | Test Count |
 | --- | --- | --- |
 | `tests/integration/dal/errors.dal.integration.test.ts` | Integration tests for DAL error handling | ~3 |
 | `tests/verify/rules.test.ts` | Rule verification tests | ~5 |
 | `tests/verify-rules/verify-rules.test.ts` | Verify rules verification | ~5 |
-| `tests/unit/wallet.actions.test.ts` | Wallet action tests | ~5 |
 
-**Total Vitest Files:** 72 unit test files (estimated ~380+ individual tests)
+These suites live outside `tests/unit/` and are not included in `bun run test:browser`
+per `vitest.config.ts`.
+
+**Total Vitest Unit Files:** 68 unit test files (estimated ~360+ individual tests)
+**Additional Vitest Files (non-unit):** 3 files (not included in test:browser)
 
 ---
 
 ### Playwright E2E Tests (10 specs)
+
+**Helper usage updates (Phase 2.2):**
+- Plaid-related specs now inject the deterministic Plaid stub via `addMockPlaidInitScript()` before navigation.
 
 | File | Purpose | Test Count | Key Tests |
 | --- | --- | --- | --- |
@@ -163,7 +170,7 @@ This document catalogs all tests in the Banking application, their configuration
 
 ### MSW (Mock Service Worker) Setup
 
-**Files:** `tests/mocks/handlers.ts`, `tests/mocks/msw/server.ts`
+**Files:** `tests/mocks/handlers.ts`, `tests/mocks/server.ts`
 
 MSW intercepts network requests and provides deterministic responses for unit tests. Configured globally in `tests/setup.ts`.
 
@@ -337,7 +344,7 @@ export default defineConfig({
 
 - **Environment:** `happy-dom` (lightweight JSDOM alternative)
 - **Globals:** `true` (no `describe`/`it` imports needed)
-- **Include Pattern:** `tests/unit/**/*.test.{ts,tsx,js,jsx}`
+- **Include Pattern:** `tests/unit/**/*.test.{ts,tsx,js,jsx}` (non-unit suites are excluded)
 - **Setup Files:** `tests/setup.ts` (runs before all tests — MSW, mocks, env)
 - **Test Timeout:** 30 seconds per test
 
@@ -415,7 +422,7 @@ bunx vitest run tests/unit/actions/ --pattern "register"
 bunx vitest tests/unit/register.test.ts
 ```
 
-**Typical Duration:** 30–60 seconds (all 72 files)
+**Typical Duration:** 30–60 seconds (all 68 files)
 
 ### E2E Tests (Slow — requires DB + dev server)
 
@@ -585,7 +592,8 @@ test("should seed test data before running", async () => {
 
 ## Verification Checklist
 
-- [x] All 72 Vitest unit test files enumerated
+- [x] All 68 Vitest unit test files enumerated
+- [x] Additional non-unit Vitest suites enumerated (3 files; excluded from test:browser)
 - [x] All 10 Playwright E2E spec files enumerated
 - [x] Mocks & helpers documented (MSW, Plaid, Dwolla, auth, DB)
 - [x] Seed credentials verified (email, password, admin fixtures)
@@ -606,12 +614,12 @@ test("should seed test data before running", async () => {
 - **tests/e2e/global-teardown.ts** — Playwright global teardown (cleanup, results)
 - **tests/e2e/helpers/plaid.mock.ts** — Mock pattern exemplar
 - **tests/mocks/handlers.ts** — MSW handler definitions
-- **tests/mocks/msw/server.ts** — MSW server setup
+- **tests/mocks/server.ts** — MSW server setup
 - **package.json** — Test scripts: `test:browser`, `test:ui`, `test:ui:report`
 
 ---
 
 **Last Updated:** 2026-05-03  
-**Task:** 0.3 — Test Suite Inventory (Phase 0 Documentation Refresh)  
+**Task:** 2.2 — Playwright E2E Test Enhancement (Phase 2)  
 **Status:** ✅ Complete  
-**Verification:** 72 Vitest + 10 Playwright specs documented with mocks, helpers, seed data, and configuration reference
+**Verification:** 10 Playwright specs verified; Plaid flows use deterministic helpers; inventory unchanged

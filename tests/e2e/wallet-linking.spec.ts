@@ -1,4 +1,5 @@
 import { expect, test } from "../../tests/fixtures/auth";
+import { addMockPlaidInitScript } from "./helpers/plaid.mock";
 
 /**
  * Wallet Linking (Plaid Link) E2E tests.
@@ -24,6 +25,9 @@ test.describe("Wallet Linking (Plaid Link)", () => {
   // ─── Authenticated surface tests ─────────────────────────────────────────
 
   test.describe("Authenticated", () => {
+    test.beforeEach(async ({ authenticatedPage }) => {
+      await addMockPlaidInitScript(authenticatedPage, "MOCK_PUBLIC_TOKEN");
+    });
     test("should show the Connect Wallet button on My Wallets page", async ({
       myWalletsPage,
     }) => {
