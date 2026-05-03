@@ -16,43 +16,12 @@ import {
   type FilterStore,
 } from "@/stores/create-filter-store";
 
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @typedef {FilterStoreApi}
- */
 type FilterStoreApi = ReturnType<typeof createFilterStore>;
 
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @type {*}
- */
 const FilterStoreContext = createContext<FilterStoreApi | undefined>(undefined);
 
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @interface FilterStoreProviderProps
- * @typedef {FilterStoreProviderProps}
- */
 interface FilterStoreProviderProps {
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {ReactNode}
-   */
   children: ReactNode;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {?Partial<FilterState>}
-   */
   initialState?: Partial<FilterState>;
 }
 

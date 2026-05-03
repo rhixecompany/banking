@@ -2,22 +2,9 @@
 
 import * as React from "react";
 
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @type {768}
- */
 const MOBILE_BREAKPOINT = 768;
 
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @export
- * @returns {boolean}
- */
-export function useIsMobile() {
+export function useIsMobile(): boolean {
   const [isMobile, setIsMobile] = React.useState<boolean | undefined>(
     undefined,
   );

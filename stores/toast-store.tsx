@@ -16,49 +16,18 @@ import {
   type ToastStore,
 } from "@/stores/create-toast-store";
 
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @typedef {ToastStoreApi}
- */
 type ToastStoreApi = ReturnType<typeof createToastStore>;
 
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @type {*}
- */
 const ToastStoreContext = createContext<ToastStoreApi | undefined>(undefined);
 
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @interface ToastStoreProviderProps
- * @typedef {ToastStoreProviderProps}
- */
 interface ToastStoreProviderProps {
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {ReactNode}
-   */
   children: ReactNode;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {?Partial<ToastState>}
-   */
   initialState?: Partial<ToastState>;
 }
 
 /**
  * Wraps a subtree with a scoped Toast Queue store instance.
- * Typically placed at the root level (RootProviders) so any component
+ * Typically placed at the root level (RootProviders) so components
  * can push toasts from Server Action result handlers.
  */
 export function ToastStoreProvider({

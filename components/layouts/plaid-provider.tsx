@@ -8,6 +8,12 @@ import type { Wallet } from "@/types/wallet";
 
 import { logger } from "@/lib/logger";
 
+declare global {
+  interface Window {
+    __plaid_link_script_loaded?: boolean;
+  }
+}
+
 /**
  * Description placeholder
  * @author Adminbot
@@ -132,11 +138,7 @@ export function PlaidProvider({
         src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"
         strategy="afterInteractive"
         onLoad={() => {
-          try {
-            (window as any).__plaid_link_script_loaded = true;
-          } catch {
-            // ignore
-          }
+          window.__plaid_link_script_loaded = true;
         }}
       />
       {/* Keep the provider simple; we will migrate consumers to use this file */}

@@ -16,45 +16,14 @@ import {
   type TransferStore,
 } from "@/stores/create-transfer-store";
 
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @typedef {TransferStoreApi}
- */
 type TransferStoreApi = ReturnType<typeof createTransferStore>;
 
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @type {*}
- */
 const TransferStoreContext = createContext<TransferStoreApi | undefined>(
   undefined,
 );
 
-/**
- * Description placeholder
- * @author [object Object]
- *
- * @interface TransferStoreProviderProps
- * @typedef {TransferStoreProviderProps}
- */
 interface TransferStoreProviderProps {
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {ReactNode}
-   */
   children: ReactNode;
-  /**
-   * Description placeholder
-   * @author [object Object]
-   *
-   * @type {?Partial<TransferState>}
-   */
   initialState?: Partial<TransferState>;
 }
 

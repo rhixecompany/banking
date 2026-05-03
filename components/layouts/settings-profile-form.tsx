@@ -26,6 +26,17 @@ import { Input } from "@/components/ui/input";
  * @interface Props
  * @typedef {Props}
  */
+interface SettingsProfileFormValues {
+  address?: string;
+  city?: string;
+  email?: string;
+  image?: string;
+  name?: string;
+  phone?: string;
+  postalCode?: string;
+  state?: string;
+}
+
 interface Props {
   /**
    * Description placeholder
@@ -33,8 +44,8 @@ interface Props {
    *
    * @type {UseFormReturn}
    */
-  form: UseFormReturn<any>;
-  // Accept any payload shape for flexibility; callers can cast to concrete
+  form: UseFormReturn<SettingsProfileFormValues>;
+  // Accept flexible payload shape; callers can cast to concrete
   // types. Tests and wrappers typically pass strongly-typed handlers.
   /**
    * Description placeholder
@@ -55,7 +66,7 @@ interface Props {
  * @param {(data: unknown) => Promise<void>} param0.onSubmit
  * @returns {ReactJSX.Element}
  */
-export default function SettingsProfileForm({ form, onSubmit }: Props) {
+export function SettingsProfileForm({ form, onSubmit }: Props) {
   return (
     <Card>
       <CardHeader>
@@ -204,3 +215,5 @@ export default function SettingsProfileForm({ form, onSubmit }: Props) {
     </Card>
   );
 }
+
+export default SettingsProfileForm;

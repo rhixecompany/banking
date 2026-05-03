@@ -14,7 +14,7 @@ import { usePlaid } from "@/components/plaid-context/plaid-context";
  * Hook return type for bank connection status.
  */
 export interface UseBankConnectionReturn {
-  /** Whether the user has any linked bank accounts. */
+  /** Whether the user has linked bank accounts. */
   isConnected: boolean;
   /** All linked wallets (bank accounts). */
   wallets: Wallet[];

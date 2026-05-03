@@ -29,6 +29,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+interface TransferFormValues {
+  amount: number;
+  recipientId: string;
+  sourceBankId: string;
+}
+
 /**
  * Description placeholder
  * @author Adminbot
@@ -50,7 +56,7 @@ interface Props {
    *
    * @type {UseFormReturn}
    */
-  form: UseFormReturn<any>;
+  form: UseFormReturn<TransferFormValues>;
   /**
    * Description placeholder
    * @author Adminbot
@@ -94,7 +100,7 @@ interface Props {
  * @param {{}} param0.wallets
  * @returns {ReactJSX.Element}
  */
-export default function PaymentTransferForm({
+export function PaymentTransferForm({
   form,
   onSubmit,
   recipients,
@@ -302,3 +308,5 @@ export default function PaymentTransferForm({
 }
 
 import TransferSummary from "@/components/layouts/transfer-summary";
+
+export default PaymentTransferForm;

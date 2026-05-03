@@ -45,7 +45,7 @@ interface Props {
  * @param {*} param0.sourceWallet
  * @returns {ReactJSX.Element}
  */
-export default function TransferSummary({
+export function TransferSummary({
   amount,
   recipient,
   sourceWallet,
@@ -89,3 +89,5 @@ export default function TransferSummary({
     </div>
   );
 }
+
+export default TransferSummary;

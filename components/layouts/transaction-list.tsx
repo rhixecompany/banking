@@ -14,11 +14,13 @@ import { formatDate } from "@/lib/utils";
  * @param {{}} param0.transactions
  * @returns {JSX.Element}
  */
-export default function TransactionList({
-  transactions,
-}: {
+interface TransactionListProps {
   transactions: PlaidTransaction[];
-}): JSX.Element {
+}
+
+export function TransactionList({
+  transactions,
+}: TransactionListProps): JSX.Element {
   return (
     <div>
       <h4 className="mb-3 text-sm font-semibold">Recent Transactions</h4>
@@ -64,3 +66,5 @@ export default function TransactionList({
     </div>
   );
 }
+
+export default TransactionList;

@@ -42,7 +42,7 @@ interface WalletCardProps {
    * Description placeholder
    * @author Adminbot
    *
-   * @type {?(walletId: string) => void | Promise<void>}
+   * @type {(input: unknown) => Promise<{ ok: boolean; error?: string }>}
    */
   removeWallet: (input: unknown) => Promise<{ ok: boolean; error?: string }>;
 }
@@ -55,10 +55,10 @@ interface WalletCardProps {
  * @param {WalletCardProps} param0
  * @param {WalletWithDetails} param0.wallet
  * @param {boolean} [param0.showActions=false]
- * @param {(walletId: string) => any} param0.onRemove
+ * @param {(input: unknown) => Promise<{ ok: boolean; error?: string }>} param0.removeWallet
  * @returns {ReactJSX.Element}
  */
-export default function WalletCard({
+export function WalletCard({
   removeWallet,
   showActions,
   wallet,
@@ -140,3 +140,5 @@ export default function WalletCard({
     </Card>
   );
 }
+
+export default WalletCard;
