@@ -138,14 +138,14 @@ This document catalogs all tests in the Banking application, their configuration
 
 These suites live outside `tests/unit/` and are not included in `bun run test:browser` per `vitest.config.ts`.
 
-**Total Vitest Unit Files:** 68 unit test files (estimated ~360+ individual tests)
-**Additional Vitest Files (non-unit):** 3 files (not included in test:browser)
+**Total Vitest Unit Files:** 68 unit test files (estimated ~360+ individual tests) **Additional Vitest Files (non-unit):** 3 files (not included in test:browser)
 
 ---
 
 ### Playwright E2E Tests (10 specs)
 
 **Helper usage updates (Phase 2.2):**
+
 - Plaid-related specs now inject the deterministic Plaid stub via `addMockPlaidInitScript()` before navigation.
 
 | File | Purpose | Test Count | Key Tests |

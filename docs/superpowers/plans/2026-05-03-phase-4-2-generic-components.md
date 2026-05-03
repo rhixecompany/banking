@@ -35,6 +35,7 @@
 ### Task 1: Audit core pages for inline markup
 
 **Files:**
+
 - Modify: none (audit-only)
 
 - [ ] **Step 1: Read each core page file**
@@ -44,6 +45,7 @@ Review the file contents and identify inline page-level markup inside the page c
 - [ ] **Step 2: Record candidates for replacement**
 
 Create a short list of any inline structures in page files that match:
+
 - Page shell (title/description/action bar)
 - Card container markup
 - Table markup
@@ -56,6 +58,7 @@ If no inline markup exists (pages only render wrappers), the task is a no-op and
 ### Task 2: Apply GenericPageShell where applicable
 
 **Files:**
+
 - Modify: `app/(auth)/sign-in/page.tsx`
 - Modify: `app/(auth)/sign-up/page.tsx`
 - Modify: `app/(admin)/admin/page.tsx`
@@ -89,6 +92,7 @@ If the page only renders an imported wrapper inside `Suspense` (no inline markup
 ### Task 3: Replace inline cards/tables/forms where applicable
 
 **Files:**
+
 - Modify: `app/(auth)/sign-in/page.tsx`
 - Modify: `app/(auth)/sign-up/page.tsx`
 - Modify: `app/(admin)/admin/page.tsx`
@@ -100,7 +104,9 @@ If the page only renders an imported wrapper inside `Suspense` (no inline markup
 import { GenericCard } from "@/components/layouts/generic-card";
 
 return (
-  <GenericCard header={<h2 className="text-lg font-semibold">Title</h2>}>
+  <GenericCard
+    header={<h2 className="text-lg font-semibold">Title</h2>}
+  >
     {/** existing inline card content **/}
   </GenericCard>
 );
@@ -113,7 +119,7 @@ import { GenericDataTable } from "@/components/layouts/generic-data-table";
 
 const columns = [
   { key: "name", header: "Name" },
-  { key: "amount", header: "Amount" },
+  { key: "amount", header: "Amount" }
 ];
 
 return <GenericDataTable data={rows} columns={columns} />;
@@ -138,6 +144,7 @@ If none of these patterns appear in page files, do not add these imports.
 ### Task 4: Verify guardrails (no behavior changes)
 
 **Files:**
+
 - Modify: none (verification-only)
 
 - [ ] **Step 1: Confirm no wrapper or auth changes**
@@ -153,6 +160,7 @@ Ensure no files under `app/demo/**` were modified.
 ### Task 5: Commit changes (if any)
 
 **Files:**
+
 - Commit only if page files changed
 
 - [ ] **Step 1: Check git status**
