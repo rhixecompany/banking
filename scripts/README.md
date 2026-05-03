@@ -66,5 +66,5 @@ Examples
 
 ## Notes
 
-- Wrapper scripts (sh/ps1/bat) are thin orchestrators and forward arguments to the TS entrypoints. You can call either the wrapper (platform-native) or the TS file directly with `npx tsx`.
+- Wrapper scripts (sh/ps1/bat) are thin orchestrators and forward arguments to the TS entrypoints. You can call either the wrapper (platform-native) or the TS file directly with `bunx tsx`.
 - Backups are created only when `--apply` is used. Dry-run never writes files.

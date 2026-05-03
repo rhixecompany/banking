@@ -9,5 +9,5 @@ IF DEFINED NODE (
   EXIT /B %ERRORLEVEL%
 )
 
-npx tsx "%SCRIPT_DIR%..\ts\cleanup\cleanup-docs.ts" %*
+bunx tsx "%SCRIPT_DIR%..\ts\cleanup\cleanup-docs.ts" %*
 EXIT /B %ERRORLEVEL%

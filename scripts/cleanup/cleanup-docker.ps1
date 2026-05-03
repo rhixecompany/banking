@@ -14,7 +14,7 @@ try {
         & $node.Path $tsPath @RemainingArgs
         exit $LASTEXITCODE
     } else {
-        npx tsx $tsPath @RemainingArgs
+        bunx tsx $tsPath @RemainingArgs
         exit $LASTEXITCODE
     }
 } catch {

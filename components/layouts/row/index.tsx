@@ -10,9 +10,9 @@ interface RowProps {
    * Description placeholder
    * @author Adminbot
    *
-   * @type {*}
+   * @type {Record<string, unknown>}
    */
-  row: any;
+  row: Record<string, unknown>;
   /**
    * Description placeholder
    * @author Adminbot
@@ -37,7 +37,7 @@ export default function Row({ fields, row }: RowProps) {
     <div className="row-item">
       {fields.map((f) => (
         <div key={f} className={`field field-${f}`}>
-          {(row as any)[f]}
+          {String(row[f] ?? "")}
         </div>
       ))}
     </div>

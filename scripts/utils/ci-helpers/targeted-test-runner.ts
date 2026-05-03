@@ -91,7 +91,7 @@ async function main() {
   } catch (err: any) {
     logger.warn(`Could not read ${REPORT}:`, err.message || String(err));
     logger.info(
-      "You can pass explicit file paths: npx tsx scripts/utils/ci-helpers/targeted-test-runner.ts path/to/file.test.ts --apply",
+      "You can pass explicit file paths: bunx tsx scripts/utils/ci-helpers/targeted-test-runner.ts path/to/file.test.ts --apply",
     );
     // also support explicit files
     const provided = argv.filter((a) => a !== "--apply");

@@ -1,0 +1,68 @@
+$ bunx tsx scripts/validate.ts --all && bun run build && bun run lint:strict && bun run test
+==================================================
+Banking System Validation
+==================================================
+
+🔍 Validating YAML files...
+
+No YAML files to validate.
+
+🔍 Validating database schema...
+
+  Found 2 unique index(es)
+  Found 30 varchar column(s)
+  Found 51 text column(s)
+  Found 2 integer column(s)
+  Found 3 boolean column(s)
+  Found 27 timestamp column(s)
+
+❌ Schema validation errors:
+
+  ⚠️ Table "verificationToken" should use snake_case naming (e.g., user_accounts, not verificationToken)
+  ⚠️ Consider adding indexes for frequently queried columns
+
+🔍 Validating environment variables...
+
+
+❌ Environment validation errors:
+
+  ❌ No Zod schemas found - should use z.object() for validation
+  ⚠️ No string validations found - consider adding string validations
+  ⚠️ No default values found - consider adding defaults for optional vars
+  ⚠️ No optional values found - consider which vars are truly required
+
+🔍 Validating type safety...
+
+  Checking 65 TypeScript files...
+
+
+❌ Type safety validation errors:
+
+  unknown:
+    ⚠️ Interface "Session" appears empty or has no fields
+    ⚠️ Interface "LogErrorParams" appears empty or has no fields
+    ⚠️ Interface "AdminStats" appears empty or has no fields
+    ⚠️ Interface "PaginatedUsers" appears empty or has no fields
+    ⚠️ Interface "AdminTransaction" appears empty or has no fields
+    ⚠️ Interface "ErrorPageProps" appears empty or has no fields
+    ⚠️ Interface "ErrorPageProps" appears empty or has no fields
+    ⚠️ Interface "ErrorPageProps" appears empty or has no fields
+    ⚠️ Interface "ErrorPageProps" appears empty or has no fields
+    ⚠️ Interface "ErrorPageProps" appears empty or has no fields
+    ⚠️ Interface "ErrorPageProps" appears empty or has no fields
+    ⚠️ Interface "ErrorPageProps" appears empty or has no fields
+    ⚠️ Interface "ErrorPageProps" appears empty or has no fields
+    ⚠️ Interface "HealthStatus" appears empty or has no fields
+
+🔍 Validating Server Actions...
+
+  No action files found - validation skipped
+✅ Server Action validation passed
+
+🔧 Running scripts smoke dry-run checks...
+  - Dry-run: scripts/generate/feature.ts
+✗ Script dry-run failed: scripts/generate/feature.ts
+
+==================================================
+❌ Some validations failed.
+error: script "validate" exited with code 1

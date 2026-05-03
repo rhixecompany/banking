@@ -5,7 +5,7 @@ param(
 
 # Provenance: batch2 convert-scripts
 try {
-    & npx tsx scripts/ts/docker/generate-env.ts @Args
+    & bunx tsx scripts/ts/docker/generate-env.ts @Args
     exit $LASTEXITCODE
 } catch {
     exit 1

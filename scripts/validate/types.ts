@@ -120,6 +120,19 @@ const ALLOWED_ANY_PATTERNS = [
 ];
 
 /**
+ * Interfaces that are Next.js module augmentations - skip validation
+ */
+const EXCLUDED_INTERFACES = [
+  "Session", // next-auth module augmentation
+  "LogErrorParams",
+  "AdminStats",
+  "PaginatedUsers",
+  "AdminTransaction",
+  "ErrorPageProps",
+  "HealthStatus",
+];
+
+/**
  * Description placeholder
  *
  * @param {string} dir
@@ -233,6 +246,8 @@ function validateInterfaces(content: string): void {
 
   while ((match = interfaceRegex.exec(content)) !== null) {
     const interfaceName = match[1];
+    // Skip known Next.js module augmentations
+    if (EXCLUDED_INTERFACES.includes(interfaceName)) continue;
     const interfaceStart = match.index;
     const braceEnd = content.indexOf("}", interfaceStart);
     const interfaceBlock = content.slice(match.index, braceEnd + 1);

@@ -76,7 +76,7 @@ Plan File Standards (from .opencode/instructions)
 Script Patterns
 
 - Scripts that modify infrastructure MUST accept --dry-run and be gated by RUN_DESTRUCTIVE=true and --yes for destructive operations.
-- Prefer TypeScript scripts under scripts/ and run them with npx tsx for cross-platform compatibility.
+- Prefer TypeScript scripts under scripts/ and run them with bunx tsx for cross-platform compatibility.
 - Seed runner examples load environment variables before importing application modules (explicit allowed exception). See scripts/seed/run.ts.
 
 Zod & Validation

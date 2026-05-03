@@ -464,7 +464,7 @@ async function ensurePlanForLargeChanges(
       check: "plan-required",
       file: "(git diff)",
       line: 0,
-      message: `Large change detected (${changed.length} files) but no plan file found in .opencode/commands or .cursor/plans. Run 'npm run plan:ensure' locally to scaffold or merge a plan and commit it to the PR.`,
+      message: `Large change detected (${changed.length} files) but no plan file found in .opencode/commands or .cursor/plans. Run 'bun run plan:ensure' locally to scaffold or merge a plan and commit it to the PR.`,
       severity: "warn",
     });
     return false;

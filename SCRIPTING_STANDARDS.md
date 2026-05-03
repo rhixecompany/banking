@@ -26,7 +26,7 @@ All shell scripts (`.sh`, `.ps1`, `.bat`) in `scripts/` MUST be orchestrators th
 An orchestrator is a shell script that:
 
 - Only contains shebang, comments, and parameter parsing
-- Delegates to a TypeScript implementation via `bunx tsx`, `npx tsx`, or `node`
+- Delegates to a TypeScript implementation via `bunx tsx` or `node`
 - Contains NO embedded business logic
 
 ### ✅ Correct (Orchestrator)
@@ -113,7 +113,7 @@ Scripts that CAN contain embedded shell logic:
 
 ```bash
 # Verify all scripts are orchestrators
-find scripts -name "*.sh" -o -name "*.ps1" | xargs grep -l "bunx tsx\|npx tsx"
+find scripts -name "*.sh" -o -name "*.ps1" | xargs grep -l "bunx tsx"
 
 # Check package.json references
 grep "tsx scripts/ts" package.json

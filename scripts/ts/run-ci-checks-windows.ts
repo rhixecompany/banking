@@ -55,14 +55,14 @@ const STEPS = [
  * @type {Record<string, string>}
  */
 const COMMANDS: Record<string, string> = {
-  build: "npm run build",
-  "build-debug": "npm run build:debug",
-  "format-check": "npm run format:check",
-  "lint-fix": "npm run lint:fix",
-  "lint-strict": "npm run lint:strict",
-  "test-browser": "npm run test:browser",
-  "test-ui": "npm run test:ui",
-  "type-check": "npm run type-check",
+  build: "bun run build",
+  "build-debug": "bun run build:debug",
+  "format-check": "bun run format:check",
+  "lint-fix": "bun run lint:fix",
+  "lint-strict": "bun run lint-strict",
+  "test-browser": "bun run test:browser",
+  "test-ui": "bun run test-ui",
+  "type-check": "bun run type-check",
 };
 
 /**

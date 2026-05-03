@@ -84,7 +84,7 @@ async function main() {
   const out = cli.args["out"] || cli.args._[0];
   if (!out) {
     logger.error(
-      "Usage: npx tsx scripts/ts/tools/discover-app-pages.ts --out=path [--dry-run]",
+      "Usage: bunx tsx scripts/ts/tools/discover-app-pages.ts --out=path [--dry-run]",
     );
     process.exit(1);
   }

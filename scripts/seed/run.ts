@@ -47,8 +47,8 @@ const { getPlannedSeedSummary, seedAll } = seedModule;
  * (e.g. ENCRYPTION_KEY, NEXTAUTH_SECRET). In production, set ALLOW_DB_SEED=true to run.
  *
  * Usage:
- *   npm run db:seed
- *   npm run db:seed -- --reset
+ *   bun run db:seed
+ *   bun run db:seed -- --reset
  */
 
 function assertSeedAllowed(): void {

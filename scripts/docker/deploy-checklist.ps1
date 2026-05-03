@@ -5,7 +5,7 @@ param(
 
 # Provenance: batch2 convert-scripts
 try {
-    & npx tsx scripts/ts/docker/deploy-checklist.ts @Args
+    & bunx tsx scripts/ts/docker/deploy-checklist.ts @Args
     exit $LASTEXITCODE
 } catch {
     exit 1

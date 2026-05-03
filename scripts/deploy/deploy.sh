@@ -4,9 +4,9 @@
 set -e
 
 if [ "$#" -eq 0 ]; then
-  npx tsx scripts/ts/deploy/deploy.ts
+  bunx tsx scripts/ts/deploy/deploy.ts
   exit $?
 else
-  npx tsx scripts/ts/deploy/deploy.ts "$@"
+  bunx tsx scripts/ts/deploy/deploy.ts "$@"
   exit $?
 fi

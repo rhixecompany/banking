@@ -16,6 +16,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import type { FieldValues, UseFormReturn } from "react-hook-form";
 
 /**
  * Description placeholder
@@ -29,18 +30,18 @@ interface Props {
    * Description placeholder
    * @author Adminbot
    *
-   * @type {*}
+   * @type {UseFormReturn}
    */
-  form: any;
+  form: UseFormReturn<any>;
   // Accept any payload shape for flexibility; callers can cast to concrete
   // types. Tests and wrappers typically pass strongly-typed handlers.
   /**
    * Description placeholder
    * @author Adminbot
    *
-   * @type {(data: any) => Promise<void>}
+   * @type {(data: unknown) => Promise<void>}
    */
-  onSubmit: (data: any) => Promise<void>;
+  onSubmit: (data: unknown) => Promise<void>;
 }
 
 /**
@@ -50,7 +51,7 @@ interface Props {
  * @export
  * @param {Props} param0
  * @param {*} param0.form
- * @param {(data: any) => Promise<void>} param0.onSubmit
+ * @param {(data: unknown) => Promise<void>} param0.onSubmit
  * @returns {ReactJSX.Element}
  */
 export default function SettingsProfileForm({ form, onSubmit }: Props) {

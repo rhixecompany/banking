@@ -11,12 +11,12 @@
  * - Server Action patterns
  *
  * Usage:
- *   npx tsx scripts/validate.ts [options]
- *   npx tsx scripts/validate.ts --schema
- *   npx tsx scripts/validate.ts --env
- *   npx tsx scripts/validate.ts --types
- *   npx tsx scripts/validate.ts --actions
- *   npx tsx scripts/validate.ts --all
+ *   bunx tsx scripts/validate.ts [options]
+ *   bunx tsx scripts/validate.ts --schema
+ *   bunx tsx scripts/validate.ts --env
+ *   bunx tsx scripts/validate.ts --types
+ *   bunx tsx scripts/validate.ts --actions
+ *   bunx tsx scripts/validate.ts --all
  */
 
 import { spawnSync } from "child_process";
@@ -61,8 +61,8 @@ function validateScripts(): boolean {
     // the validation script doesn't rely on env propagation; most scripts
     // detect the dry-run via argv (preferred). Leaving stdio inherited so
     // any runtime output is visible during validation.
-    const res = spawnSync("npx", ["tsx", script, "--dry-run"], {
-      shell: false,
+    const res = spawnSync("bunx", ["tsx", script, "--dry-run", "--yes"], {
+      shell: true,
       stdio: "inherit",
     });
 
@@ -117,7 +117,7 @@ function printHelp(): void {
 Banking Validation Script
 
 Usage:
-  npx tsx scripts/validate.ts [options]
+  bunx tsx scripts/validate.ts [options]
 
 Options:
   --yaml     Validate YAML files (default)
@@ -129,9 +129,9 @@ Options:
   --help     Show this help message
 
 Examples:
-  npx tsx scripts/validate.ts              # Validate YAML files
-  npx tsx scripts/validate.ts --schema    # Validate DB schema
-  npx tsx scripts/validate.ts --all       # Run all validations
+  bunx tsx scripts/validate.ts              # Validate YAML files
+  bunx tsx scripts/validate.ts --schema    # Validate DB schema
+  bunx tsx scripts/validate.ts --all       # Run all validations
 `);
 }
 

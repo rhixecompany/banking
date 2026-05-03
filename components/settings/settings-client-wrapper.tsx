@@ -95,7 +95,8 @@ export function SettingsClientWrapper({
     resolver: zodResolver(UpdateProfileSchema),
   });
 
-  async function onProfileSubmit(data: ProfileFormData): Promise<void> {
+  async function onProfileSubmit(_data: unknown): Promise<void> {
+    const data = _data as ProfileFormData;
     if (!updateProfile) {
       profileForm.setError("root", {
         message: "Update action not available",

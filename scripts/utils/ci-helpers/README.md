@@ -2,22 +2,22 @@
 
 ## Usage
 
-- Parse reports (generate ci-summary.json): npx tsx scripts/utils/ci-helpers/parse-reports.ts
-- Parse reports (generate ci-summary.json): npx tsx scripts/utils/ci-helpers/parse-reports.ts
+- Parse reports (generate ci-summary.json): bunx tsx scripts/utils/ci-helpers/parse-reports.ts
+- Parse reports (generate ci-summary.json): bunx tsx scripts/utils/ci-helpers/parse-reports.ts
 
-- Orchestrator (run CI wrapper or fallback to npm scripts): npx tsx scripts/utils/ci-helpers/index.ts [--apply]
+- Orchestrator (run CI wrapper or fallback to npm scripts): bunx tsx scripts/utils/ci-helpers/index.ts [--apply]
 
-- Report parser (richer parsing): npx tsx scripts/utils/ci-helpers/report-parser.ts
+- Report parser (richer parsing): bunx tsx scripts/utils/ci-helpers/report-parser.ts
 
-- Targeted test runner (re-run failing vitest files): npx tsx scripts/utils/ci-helpers/targeted-test-runner.ts [--apply]
+- Targeted test runner (re-run failing vitest files): bunx tsx scripts/utils/ci-helpers/targeted-test-runner.ts [--apply]
 
-- Lint fix wrapper: npx tsx scripts/utils/ci-helpers/lint-fix-wrapper.ts [--apply]
+- Lint fix wrapper: bunx tsx scripts/utils/ci-helpers/lint-fix-wrapper.ts [--apply]
 
-- Seed prep for Playwright: npx tsx scripts/utils/ci-helpers/seed-prep.ts [--apply]
+- Seed prep for Playwright: bunx tsx scripts/utils/ci-helpers/seed-prep.ts [--apply]
 
-- Git commit helper: npx tsx scripts/utils/ci-helpers/git-commit-helper.ts "commit message" <files...> [--apply]
+- Git commit helper: bunx tsx scripts/utils/ci-helpers/git-commit-helper.ts "commit message" <files...> [--apply]
 
-- Fast-check (run checks only on changed files): npx tsx scripts/utils/ci-helpers/fast-check.ts [--apply]
+- Fast-check (run checks only on changed files): bunx tsx scripts/utils/ci-helpers/fast-check.ts [--apply]
 
 ## Safety
 

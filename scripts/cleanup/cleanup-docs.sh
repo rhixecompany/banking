@@ -4,9 +4,9 @@
 set -e
 
 if [ "$#" -eq 0 ]; then
-  npx tsx scripts/ts/cleanup/cleanup-docs.ts --dry-run
+  bunx tsx scripts/ts/cleanup/cleanup-docs.ts --dry-run
   exit $?
 else
-  npx tsx scripts/ts/cleanup/cleanup-docs.ts "$@"
+  bunx tsx scripts/ts/cleanup/cleanup-docs.ts "$@"
   exit $?
 fi

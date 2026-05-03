@@ -17,9 +17,9 @@ export async function POST(req: Request) {
     const body = await req.json();
     const res = await signin(body);
     return NextResponse.json(res);
-  } catch (err: any) {
+  } catch (err: unknown) {
     return NextResponse.json({
-      error: String(err?.message ?? "Invalid request"),
+      error: String(err instanceof Error ? err.message : "Invalid request"),
       ok: false,
     });
   }

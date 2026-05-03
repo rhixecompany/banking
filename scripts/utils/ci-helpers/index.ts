@@ -40,7 +40,7 @@ async function main() {
   }
 
   if (hasBash) {
-    logger.info("Running CI wrapper: npm run ci:checks:run (via bash)");
+    logger.info("Running CI wrapper: bun run ci:checks:run (via bash)");
     try {
       await runCmd("npm", ["run", "ci:checks:run"]);
     } catch {

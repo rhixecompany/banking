@@ -12,7 +12,7 @@ if %ERRORLEVEL%==0 (
 )
 
 :noNode
-npx tsx "%TS_PATH%" %*
+bunx tsx "%TS_PATH%" %*
 exit /b %ERRORLEVEL%
 
 :haveNode

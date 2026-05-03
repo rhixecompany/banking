@@ -126,11 +126,11 @@ export async function main() {
       logger.info("Restored backup:", backupPath, "->", catalogPath);
       // run validations after restore
       const validationCommands = [
-        { cmd: "npm run format", name: "format" },
-        { cmd: "npm run type-check", name: "type-check" },
-        { cmd: "npm run lint:strict", name: "lint-strict" },
-        { cmd: "npm run verify:rules", name: "verify-rules" },
-        { cmd: "npm run test:browser", name: "test-browser" },
+        { cmd: "bun run format", name: "format" },
+        { cmd: "bun run type-check", name: "type-check" },
+        { cmd: "bun run lint:strict", name: "lint-strict" },
+        { cmd: "bun run verify:rules", name: "verify-rules" },
+        { cmd: "bun run test:browser", name: "test-browser" },
       ];
       const valResults = runValidations(validationCommands, {
         timeout: 10 * 60 * 1000,
@@ -198,11 +198,11 @@ export async function main() {
 
   // Run post-apply validations using helper
   const validationCommands = [
-    { cmd: "npm run format", name: "format" },
-    { cmd: "npm run type-check", name: "type-check" },
-    { cmd: "npm run lint:strict", name: "lint-strict" },
-    { cmd: "npm run verify:rules", name: "verify-rules" },
-    { cmd: "npm run test:browser", name: "test-browser" },
+    { cmd: "bun run format", name: "format" },
+    { cmd: "bun run type-check", name: "type-check" },
+    { cmd: "bun run lint:strict", name: "lint-strict" },
+    { cmd: "bun run verify:rules", name: "verify-rules" },
+    { cmd: "bun run test:browser", name: "test-browser" },
   ];
 
   const valResults = runValidations(validationCommands, {

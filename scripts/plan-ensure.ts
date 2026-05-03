@@ -290,7 +290,7 @@ async function main() {
     // CI flow: produce report and exit with code 0 in pilot mode
     if (shown.length === 0) {
       logger.info(
-        "[CI] No candidate plan found for large change. Please run 'npm run plan:ensure' locally to scaffold a plan.",
+        "[CI] No candidate plan found for large change. Please run 'bun run plan:ensure' locally to scaffold a plan.",
       );
       // in pilot mode we warn — exit 0
       process.exit(0);

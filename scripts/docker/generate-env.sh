@@ -4,9 +4,9 @@
 set -e
 
 if [ "$#" -eq 0 ]; then
-  npx tsx scripts/ts/docker/generate-env.ts --list
+  bunx tsx scripts/ts/docker/generate-env.ts --list
   exit $?
 else
-  npx tsx scripts/ts/docker/generate-env.ts "$@"
+  bunx tsx scripts/ts/docker/generate-env.ts "$@"
   exit $?
 fi

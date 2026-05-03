@@ -1,5 +1,6 @@
 import type { Recipient } from "@/types/recipient";
 import type { Wallet } from "@/types/wallet";
+import type { FieldValues, UseFormReturn } from "react-hook-form";
 
 import HeaderBox from "@/components/header-box/header-box";
 import { Button } from "@/components/ui/button";
@@ -34,14 +35,28 @@ import {
  * @interface Props
  * @typedef {Props}
  */
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @interface Props
+ * @typedef {Props}
+ */
 interface Props {
   /**
    * Description placeholder
    * @author Adminbot
    *
-   * @type {*}
+   * @type {UseFormReturn}
    */
-  form: any;
+  form: UseFormReturn<any>;
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {(data: unknown) => Promise<void>}
+   */
+  onSubmit: (data: unknown) => Promise<void>;
   /**
    * Description placeholder
    * @author Adminbot
@@ -56,15 +71,6 @@ interface Props {
    * @type {Recipient[]}
    */
   recipients: Recipient[];
-  // Keep the presentational component flexible: accept unknown input
-  // and return Promise<void>. Callers may wrap strongly-typed handlers.
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {(data: unknown) => Promise<void>}
-   */
-  onSubmit: (data: unknown) => Promise<void>;
   /**
    * Description placeholder
    * @author Adminbot

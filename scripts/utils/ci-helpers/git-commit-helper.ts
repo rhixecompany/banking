@@ -4,7 +4,7 @@ import { execa } from "execa";
 import { logger } from "@/lib/logger";
 
 // Minimal git commit helper that stages given files and creates a conventional commit message.
-// Usage: npx tsx scripts/utils/ci-helpers/git-commit-helper.ts "fix: lint" file1 file2 --apply
+// Usage: bunx tsx scripts/utils/ci-helpers/git-commit-helper.ts "fix: lint" file1 file2 --apply
 
 /**
  * Description placeholder

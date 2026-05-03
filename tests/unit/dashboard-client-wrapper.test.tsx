@@ -3,8 +3,8 @@ import { describe, expect, it } from "vitest";
 
 // Mock chart components that depend on canvas or browser APIs
 vi.mock("@/components/doughnut-chart/doughnut-chart", () => ({
-    DoughnutChart: () => <div data-testid="doughnut-chart" />,
-  }));
+  DoughnutChart: () => <div data-testid="mock-doughnut" />,
+}));
 
 vi.mock("@/components/chart-area-interactive/chart-area-interactive", () => ({
   __esModule: true,

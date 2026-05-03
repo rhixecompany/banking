@@ -3,8 +3,8 @@
 /**
  * Export registry data as a flat JSON list.
  * Usage:
- *   npx tsx scripts/export-json.ts --pretty --output dist/registry.json
- *   npx tsx scripts/export-json.ts --pretty > dist/registry.json
+ *   bunx tsx scripts/export-json.ts --pretty --output dist/registry.json
+ *   bunx tsx scripts/export-json.ts --pretty > dist/registry.json
  */
 
 import fs from "fs";

@@ -5,9 +5,9 @@ set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 if [ "$#" -eq 0 ]; then
-  npx tsx scripts/ts/docker/deploy-checklist.ts --list
+  bunx tsx scripts/ts/docker/deploy-checklist.ts --list
   exit $?
 else
-  npx tsx scripts/ts/docker/deploy-checklist.ts "$@"
+  bunx tsx scripts/ts/docker/deploy-checklist.ts "$@"
   exit $?
 fi

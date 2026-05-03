@@ -9,10 +9,10 @@ vi.mock("@/components/animated-counter/animated-counter", () => ({
 }));
 
 vi.mock("@/components/doughnut-chart/doughnut-chart", () => ({
-    DoughnutChart: ({ accounts }: { accounts?: unknown[] }) => (
-      <div data-testid="doughnut-chart">{(accounts || []).length} accounts</div>
-    ),
-  }));
+  DoughnutChart: ({ accounts }: { accounts?: unknown[] }) => (
+    <div data-testid="doughnut-chart">{(accounts || []).length} accounts</div>
+  ),
+}));
 
 describe("TotalBalanceLayout (presentational)", () => {
   it("renders provided wallet counts and total balance", () => {

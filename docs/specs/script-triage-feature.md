@@ -53,7 +53,7 @@ Convert all shell scripts (`.sh`, `.ps1`, `.bat`) in `scripts/` directory to orc
 - Verify each `.sh`, `.ps1`, `.bat` in scripts/ only contains:
   - `#!/usr/bin/env` or shebang
   - Comments and documentation
-  - Calls to `bunx tsx`, `npx tsx`, `npm run`, `yarn`, or `node`
+  - Calls to `bunx tsx`, `npm run`, `yarn`, or `node`
   - NO: embedded logic, complex conditionals, direct file operations
 
 ### Cross-Platform Test

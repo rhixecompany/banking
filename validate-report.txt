@@ -1,0 +1,74 @@
+$ bunx tsx scripts/validate.ts --all && bun run build && bun run lint:strict && bun run test
+==================================================
+Banking System Validation
+==================================================
+
+≡ƒöì Validating YAML files...
+
+No YAML files to validate.
+
+≡ƒöì Validating database schema...
+
+  Found 2 unique index(es)
+  Found 30 varchar column(s)
+  Found 51 text column(s)
+  Found 2 integer column(s)
+  Found 3 boolean column(s)
+  Found 27 timestamp column(s)
+
+Γ¥î Schema validation errors:
+
+  ΓÜá∩╕Å Table "verificationToken" should use snake_case naming (e.g., user_accounts, not verificationToken)
+  ΓÜá∩╕Å Consider adding indexes for frequently queried columns
+
+≡ƒöì Validating environment variables...
+
+
+Γ¥î Environment validation errors:
+
+  Γ¥î No Zod schemas found - should use z.object() for validation
+  ΓÜá∩╕Å No string validations found - consider adding string validations
+  ΓÜá∩╕Å No default values found - consider adding defaults for optional vars
+  ΓÜá∩╕Å No optional values found - consider which vars are truly required
+
+≡ƒöì Validating type safety...
+
+  Checking 65 TypeScript files...
+
+
+Γ¥î Type safety validation errors:
+
+  unknown:
+    ΓÜá∩╕Å Interface "Session" appears empty or has no fields
+    ΓÜá∩╕Å Interface "LogErrorParams" appears empty or has no fields
+    ΓÜá∩╕Å Interface "AdminStats" appears empty or has no fields
+    ΓÜá∩╕Å Interface "PaginatedUsers" appears empty or has no fields
+    ΓÜá∩╕Å Interface "AdminTransaction" appears empty or has no fields
+    ΓÜá∩╕Å Interface "ErrorPageProps" appears empty or has no fields
+    ΓÜá∩╕Å Interface "ErrorPageProps" appears empty or has no fields
+    ΓÜá∩╕Å Interface "ErrorPageProps" appears empty or has no fields
+    ΓÜá∩╕Å Interface "ErrorPageProps" appears empty or has no fields
+    ΓÜá∩╕Å Interface "ErrorPageProps" appears empty or has no fields
+    ΓÜá∩╕Å Interface "ErrorPageProps" appears empty or has no fields
+    ΓÜá∩╕Å Interface "ErrorPageProps" appears empty or has no fields
+    ΓÜá∩╕Å Interface "ErrorPageProps" appears empty or has no fields
+    ΓÜá∩╕Å Interface "HealthStatus" appears empty or has no fields
+  lib\logger.ts:
+    Γ¥î:8 Use of 'any' type - use 'unknown' with type guards instead
+  app\api\auth\local-create\route.ts:
+    Γ¥î:20 Use of 'any' type - use 'unknown' with type guards instead
+  app\api\auth\local-validate\route.ts:
+    Γ¥î:20 Use of 'any' type - use 'unknown' with type guards instead
+
+≡ƒöì Validating Server Actions...
+
+  No action files found - validation skipped
+Γ£à Server Action validation passed
+
+≡ƒöº Running scripts smoke dry-run checks...
+  - Dry-run: scripts/generate/feature.ts
+Γ£ù Script dry-run failed: scripts/generate/feature.ts
+
+==================================================
+Γ¥î Some validations failed.
+error: script "validate" exited with code 1

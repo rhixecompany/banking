@@ -5,7 +5,7 @@
  * @author Adminbot
  *
  * @param {unknown[]} args
- * @returns {{ module: any; message: any; meta: any; }}
+ * @returns {{ module: string; message: string; meta: unknown; }}
  */
 function normalizeArgs(args: unknown[]) {
   // Returns { module, message, meta }

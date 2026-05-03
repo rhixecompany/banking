@@ -36,7 +36,7 @@ async function main() {
   try {
     // attempt to run seed in dry-run first
     if (!apply) {
-      logger.info("Dry-run: npm run db:seed -- --dry-run");
+      logger.info("Dry-run: bun run db:seed -- --dry-run");
       return;
     }
 

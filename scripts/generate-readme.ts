@@ -6,8 +6,8 @@
  * Generates README.md from YAML files and banking components.
  *
  * Usage:
- *   npx tsx scripts/generate-readme.ts
- *   npx tsx scripts/generate-readme.ts [--docs]
+ *   bunx tsx scripts/generate-readme.ts
+ *   bunx tsx scripts/generate-readme.ts [--docs]
  */
 
 import path from "path";
@@ -62,7 +62,7 @@ function printHelp(): void {
 README Generator for Banking System
 
 Usage:
-  npx tsx scripts/generate-readme.ts [options]
+  bunx tsx scripts/generate-readme.ts [options]
 
 Options:
   --docs    Generate documentation (default: README)

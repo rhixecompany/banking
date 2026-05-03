@@ -1,10 +1,10 @@
-#!/usr/bin/env npx tsx
+#!/usr/bin/env bunx tsx
 /**
  * lint-fix-runner.ts — Automated lint fix orchestrator
  *
  * Usage:
- *   npx tsx scripts/maintenance/lint-fix-runner.ts [--apply] [--dry-run]
- *   npx tsx scripts/maintenance/lint-fix-runner.ts --category <name> [--apply]
+ *   bunx tsx scripts/maintenance/lint-fix-runner.ts [--apply] [--dry-run]
+ *   bunx tsx scripts/maintenance/lint-fix-runner.ts --category <name> [--apply]
  *
  * Categories:
  *   console   — Replace console.* with logger in scripts/

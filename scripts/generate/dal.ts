@@ -284,7 +284,7 @@ async function main(): Promise<void> {
     console.warn("\n🎉 DAL generation complete!");
     console.warn("\nNext steps:");
     console.warn(`  1. Add table "${tableName}" to database/schema.ts`);
-    console.warn(`  2. Run npm run db:generate to create types`);
+    console.warn(`  2. Run bun run db:generate to create types`);
     console.warn(`  3. Add any custom queries to ${tableName}.dal.ts`);
   } catch (error) {
     console.error(

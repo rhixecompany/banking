@@ -19,10 +19,10 @@ function Run-Step($cmd) {
     }
 }
 
-Run-Step 'npm run format'
-Run-Step 'npm run type-check'
-Run-Step 'npm run lint:strict'
-Run-Step 'npm run verify:rules'
+Run-Step 'bun run format'
+Run-Step 'bun run type-check'
+Run-Step 'bun run lint:strict'
+Run-Step 'bun run verify:rules'
 
 Write-Host '\nAll steps completed successfully.' -ForegroundColor Green
 exit 0

@@ -59,14 +59,14 @@ $STEPS = @(
 
 # Command mapping
 $COMMANDS = @{
-    'format-check' = 'npm run format:check'
-    'type-check'   = 'npm run type-check'
-    'lint-fix'     = 'npm run lint:fix'
-    'lint-strict'  = 'npm run lint:strict'
-    'build-debug'  = 'npm run build:debug'
-    'test-browser' = 'npm run test:browser'
-    'test-ui'      = 'npm run test:ui'
-    'build'        = 'npm run build'
+    'format-check' = 'bun run format:check'
+    'type-check'   = 'bun run type-check'
+    'lint-fix'     = 'bun run lint:fix'
+    'lint-strict'  = 'bun run lint-strict'
+    'build-debug'  = 'bun run build:debug'
+    'test-browser' = 'bun run test:browser'
+    'test-ui'      = 'bun run test-ui'
+    'build'        = 'bun run build'
 }
 
 # Report filenames
@@ -165,7 +165,7 @@ function Run-Step($step) {
         if (Get-Command npx -ErrorAction SilentlyContinue -OutVariable npxCmd) {
             $helper = Join-Path 'scripts/utils/ci-helpers' 'run-with-args.ts'
             if (Test-Path $helper) {
-                $cmd = "npx tsx $helper --template \"$tpl\" --tmpfile \"$tmp\""
+                $cmd = "bunx tsx $helper --template \"$tpl\" --tmpfile \"$tmp\""
             } else {
                 $jshelper = Join-Path 'scripts/utils/ci-helpers' 'run-with-args.js'
                 if (Test-Path $jshelper) {
@@ -191,19 +191,19 @@ function Run-Step($step) {
         & bash -lc "$cmd" 2>&1 | Tee-Object -FilePath $reportFile
         $exit = $LASTEXITCODE
     } else {
-        # If command is "npm run <script>" or starts with "npx" or "npm", prefer invoking node tooling directly
-        if ($cmd -match '^npm run\s+(.+)$') {
+        # If command is "bun run <script>" or starts with "bunx" or "bun", prefer invoking node tooling directly
+        if ($cmd -match '^bun run\s+(.+)$') {
             $scriptName = $Matches[1]
-            # Use npm command directly and pass through script name
-            & npm run $scriptName 2>&1 | Tee-Object -FilePath $reportFile
+            # Use bun command directly and pass through script name
+            & bun run $scriptName 2>&1 | Tee-Object -FilePath $reportFile
             $exit = $LASTEXITCODE
-        } elseif ($cmd -match '^npx\s+(.+)$') {
+        } elseif ($cmd -match '^bunx\s+(.+)$') {
             $tool = $Matches[1]
-            & npx $tool 2>&1 | Tee-Object -FilePath $reportFile
+            & bunx $tool 2>&1 | Tee-Object -FilePath $reportFile
             $exit = $LASTEXITCODE
-        } elseif ($cmd -match '^npm\s+(.+)$') {
+        } elseif ($cmd -match '^bun\s+(.+)$') {
             $args = $Matches[1]
-            & npm $args 2>&1 | Tee-Object -FilePath $reportFile
+            & bun $args 2>&1 | Tee-Object -FilePath $reportFile
             $exit = $LASTEXITCODE
         } else {
             # Last resort: run via cmd.exe
@@ -232,8 +232,8 @@ function Run-Step($step) {
     if ($step -eq 'test-ui' -and $File) {
         if (Test-Path 'scripts/utils/ci-helpers/seed-prep.ts' -PathType Leaf -ErrorAction SilentlyContinue) {
             "`n==> Running seed prep for targeted Playwright run" | Out-File -FilePath $reportFile -Append -Encoding utf8
-            # attempt to run npm helper
-            & npm run ci:helpers:seed-prep 2>&1 | Tee-Object -FilePath $reportFile -Append
+            # attempt to run bun helper
+            & bun run ci:helpers:seed-prep 2>&1 | Tee-Object -FilePath $reportFile -Append
         } else {
             "Seed prep helper not found; skipping DB prep" | Out-File -FilePath $reportFile -Append -Encoding utf8
         }
