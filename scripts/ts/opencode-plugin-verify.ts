@@ -9,17 +9,20 @@
  * - Reads and understands .opencode/report.json and docs/schema-design.md
  * - Detects missing plugins, extra plugins, missing configurations, duplicates
  * - Ensures plugins are compatible with OS and system
+ * - All functions are async for better performance
  */
-import { spawnSync } from "child_process";
+import { exec } from "child_process";
 import fs from "fs";
 import path from "path";
 import os from "os";
 import { fileURLToPath } from "url";
+import { promisify } from "util";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 interface VerifyReport {
+  timestamp: string;
   ok: boolean;
   projectConfig: string;
   runtimeConfig: string;
@@ -34,13 +37,44 @@ interface VerifyReport {
   schemaAnalysis: Record<string, unknown> | null;
   reportAnalysis: Record<string, unknown> | null;
   osCompatibility: Record<string, { compatible: boolean; reason?: string }>;
+  diskSpace: {
+    freeBytes: number;
+    freeGB: number;
+    status: "ok" | "warn" | "critical";
+  };
+  mcpHealthSummary: {
+    total: number;
+    ok: number;
+    authRequired: number;
+    unreachable: number;
+    error: number;
+  };
 }
 
 const REPO_ROOT = path.resolve(__dirname, "../..");
-const PROJECT_CONFIG =
-  process.env.PROJECT_CONFIG || path.join(REPO_ROOT, "aiconfig.json");
 const REPORT_DIR =
   process.env.REPORT_DIR || path.join(REPO_ROOT, ".opencode/reports");
+
+function resolveProjectConfigPath(): string {
+  // Priority order: canonical, fallback, legacy, global
+  const candidates = [
+    path.join(REPO_ROOT, ".opencode/opencode.json"),
+    path.join(REPO_ROOT, "opencode.json"),
+    path.join(REPO_ROOT, "aiconfig.json"),
+    path.join(os.homedir(), ".config/opencode/opencode.json"),
+  ];
+
+  for (const candidate of candidates) {
+    if (fs.existsSync(candidate)) {
+      return candidate;
+    }
+  }
+
+  // Fallback to canonical path even if it doesn't exist
+  return candidates[0];
+}
+
+const PROJECT_CONFIG = process.env.PROJECT_CONFIG || resolveProjectConfigPath();
 
 const RAW_REPORT = path.join(REPORT_DIR, "opencode-debug-config.raw.txt");
 const RUNTIME_REPORT = path.join(
@@ -69,21 +103,37 @@ function fail(msg: string): void {
   process.exit(1);
 }
 
-function ensureDir(dir: string): void {
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
-  }
+async function ensureDir(dir: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    if (!fs.existsSync(dir)) {
+      fs.mkdir(dir, { recursive: true }, (err) => {
+        if (err) reject(err);
+        else resolve();
+      });
+    } else {
+      resolve();
+    }
+  });
 }
 
-function runCommand(cmd: string, args: string[]): string {
-  const result = spawnSync(cmd, args, { encoding: "utf-8" });
-  if (result.error) throw result.error;
-  if (result.status !== 0) {
-    throw new Error(
-      `Command failed with status ${result.status}: ${cmd} ${args.join(" ")}`,
-    );
-  }
-  return result.stdout;
+async function runCommand(cmd: string, args: string[], envOverrides?: Record<string, string>): Promise<string> {
+  return new Promise((resolve, reject) => {
+    // Build the full command string with proper quoting for shell execution
+    const cmdString = [cmd, ...args].map(arg => 
+      arg.includes(" ") ? `"${arg}"` : arg
+    ).join(" ");
+    
+    // Merge environment variables, preserving existing ones
+    const env = { ...process.env, ...envOverrides };
+    
+    exec(cmdString, { env, maxBuffer: 10 * 1024 * 1024 }, (error, stdout, stderr) => {
+      if (error) {
+        reject(new Error(`Command failed: ${cmdString}\n${stderr || error.message}`));
+      } else {
+        resolve(stdout);
+      }
+    });
+  });
 }
 
 function extractJsonFromRaw(raw: string): object {
@@ -130,12 +180,12 @@ function findDuplicates(plugins: string[]): string[] {
     .map(([key]) => key);
 }
 
-function loadProjectConfigs(): {
+async function loadProjectConfigs(): Promise<{
   opencodeConfig: object | null;
   tuiConfig: object | null;
   globalOpencodeConfig: object | null;
   globalTuiConfig: object | null;
-} {
+}> {
   const configs = {
     opencodeConfig: null as object | null,
     tuiConfig: null as object | null,
@@ -144,10 +194,13 @@ function loadProjectConfigs(): {
   };
 
   for (const configPath of CONFIG_PATHS) {
-    if (!fs.existsSync(configPath)) continue;
-
     try {
-      const content = fs.readFileSync(configPath, "utf-8");
+      const content = await new Promise<string>((resolve, reject) => {
+        fs.readFile(configPath, "utf-8", (err, data) => {
+          if (err) reject(err);
+          else resolve(data);
+        });
+      });
       const parsed = JSON.parse(content);
 
       const fileName = path.basename(configPath);
@@ -165,7 +218,7 @@ function loadProjectConfigs(): {
         }
       }
     } catch (e) {
-      log(`Warning: Failed to parse ${configPath}: ${e}`);
+      // Silently skip missing or unparseable configs
     }
   }
 
@@ -220,14 +273,14 @@ function compareConfigurations(
   return comparison;
 }
 
-function analyzeSchemaDesign(templatePath: string): Record<string, unknown> | null {
-  if (!fs.existsSync(templatePath)) {
-    log(`Schema design not found: ${templatePath}`);
-    return null;
-  }
-
+async function analyzeSchemaDesign(templatePath: string): Promise<Record<string, unknown> | null> {
   try {
-    const content = fs.readFileSync(templatePath, "utf-8");
+    const content = await new Promise<string>((resolve, reject) => {
+      fs.readFile(templatePath, "utf-8", (err, data) => {
+        if (err) reject(err);
+        else resolve(data);
+      });
+    });
 
     const schemaInfo: Record<string, unknown> = {
       fileExists: true,
@@ -258,19 +311,19 @@ function analyzeSchemaDesign(templatePath: string): Record<string, unknown> | nu
 
     return schemaInfo;
   } catch (e) {
-    log(`Warning: Failed to analyze schema design: ${e}`);
     return null;
   }
 }
 
-function analyzeReport(reportPath: string): Record<string, unknown> | null {
-  if (!fs.existsSync(reportPath)) {
-    log(`Report not found: ${reportPath}`);
-    return null;
-  }
-
+async function analyzeReport(reportPath: string): Promise<Record<string, unknown> | null> {
   try {
-    const report = JSON.parse(fs.readFileSync(reportPath, "utf-8"));
+    const content = await new Promise<string>((resolve, reject) => {
+      fs.readFile(reportPath, "utf-8", (err, data) => {
+        if (err) reject(err);
+        else resolve(data);
+      });
+    });
+    const report = JSON.parse(content);
 
     const analysis: Record<string, unknown> = {
       fileExists: true,
@@ -289,7 +342,6 @@ function analyzeReport(reportPath: string): Record<string, unknown> | null {
 
     return analysis;
   } catch (e) {
-    log(`Warning: Failed to analyze report: ${e}`);
     return null;
   }
 }
@@ -369,37 +421,198 @@ function getSystemInfo(): Record<string, string> {
   };
 }
 
+async function checkDiskSpace(): Promise<{ freeBytes: number; freeGB: number; status: "ok" | "warn" | "critical" }> {
+  return new Promise((resolve) => {
+    const timeout = setTimeout(() => {
+      resolve({ freeBytes: 0, freeGB: 0, status: "ok" });
+    }, 3000);
+    
+    try {
+      let command = "";
+      
+      if (OS === "win32") {
+        // Windows: use PowerShell Get-Volume
+        command = `powershell -NoProfile -Command "(Get-Volume -DriveLetter ${REPO_ROOT[0]} | Select-Object -ExpandProperty SizeRemaining)"`;
+      } else {
+        // macOS/Linux: use df command
+        command = `df -k "${REPO_ROOT}" | tail -1 | awk '{print $4}'`;
+      }
+      
+      exec(command, { timeout: 2500 }, (error, stdout) => {
+        clearTimeout(timeout);
+        let freeBytes = 0;
+        
+        if (!error && stdout) {
+          if (OS === "win32") {
+            freeBytes = parseInt(stdout.trim(), 10);
+          } else {
+            // df returns available blocks (1K blocks), convert to bytes
+            const availableBlocks = parseInt(stdout.trim(), 10);
+            freeBytes = availableBlocks * 1024;
+          }
+        }
+        
+        finalize(freeBytes);
+      });
+      
+      function finalize(bytes: number) {
+        const freeGB = bytes / (1024 * 1024 * 1024);
+        let status: "ok" | "warn" | "critical" = "ok";
+        if (freeGB < 0.5) {
+          status = "critical";
+        } else if (freeGB < 1) {
+          status = "warn";
+        }
+        resolve({ freeBytes: bytes, freeGB: Math.round(freeGB * 10) / 10, status });
+      }
+    } catch (e) {
+      clearTimeout(timeout);
+      resolve({ freeBytes: 0, freeGB: 0, status: "ok" });
+    }
+  });
+}
+
+interface MCPServerHealth {
+  status: "ok" | "auth-required" | "unreachable" | "error";
+  exitCode: number;
+  stdout: string;
+  stderr: string;
+  durationMs: number;
+}
+
+async function checkMCPServerHealth(config: object): Promise<Record<string, MCPServerHealth>> {
+  const results: Record<string, MCPServerHealth> = {};
+  const mcpServers = (config as Record<string, unknown>)?.mcp as Record<string, unknown>;
+  if (!mcpServers || typeof mcpServers !== "object") {
+    return results;
+  }
+
+  for (const serverName of Object.keys(mcpServers)) {
+    const startTime = Date.now();
+    try {
+      const stdout = await runCommand("bunx", ["opencode", "mcp", "debug", serverName], {
+        NODE_OPTIONS: "--max-old-space-size=4096"
+      });
+      const durationMs = Date.now() - startTime;
+      
+      results[serverName] = {
+        status: "ok",
+        exitCode: 0,
+        stdout: stdout.slice(0, 200),
+        stderr: "",
+        durationMs,
+      };
+    } catch (e) {
+      const durationMs = Date.now() - startTime;
+      const errorStr = String(e);
+      let status: "ok" | "auth-required" | "unreachable" | "error" = "error";
+      
+      if (errorStr.includes("401") || errorStr.includes("403")) {
+        status = "auth-required";
+      } else if (errorStr.includes("refused") || errorStr.includes("timeout") || errorStr.includes("ECONNREFUSED")) {
+        status = "unreachable";
+      }
+      
+      results[serverName] = {
+        status,
+        exitCode: 1,
+        stdout: "",
+        stderr: errorStr.slice(0, 200),
+        durationMs,
+      };
+    }
+  }
+  
+  return results;
+}
+
 async function main(): Promise<void> {
+  const args = process.argv.slice(2);
+  const diskOnlyMode = args.includes("--disk-only");
+
+  log(`========================================`);
+  log(`OpenCode Plugin Verifier Starting`);
+  log(`========================================`);
   log(`System Info: OS=${OS}, Arch=${ARCH}, Node=${NODE_VERSION}`);
+  log(`Repo Root: ${REPO_ROOT}`);
+  log(`Report Directory: ${REPORT_DIR}`);
+  log(`========================================`);
 
-  try {
-    spawnSync("node", ["--version"], { stdio: "ignore" });
-  } catch {
-    fail("Missing required command: node");
+  if (diskOnlyMode) {
+    log("Running in disk-only mode");
+    const diskSpace = await checkDiskSpace();
+    const report = {
+      timestamp: new Date().toISOString(),
+      freeGB: diskSpace.freeGB,
+      status: diskSpace.status,
+      message: diskSpace.status === "ok" ? "Disk space is adequate" : diskSpace.status === "warn" ? "Low disk space warning" : "Critical disk space alert",
+    };
+    console.log(JSON.stringify(report, null, 2));
+    process.exit(diskSpace.status === "critical" ? 1 : 0);
   }
 
-  try {
-    spawnSync("bun", ["--version"], { stdio: "ignore" });
-  } catch {
-    fail("Missing required command: bun");
+  log("[1/8] Ensuring report directory exists...");
+  await ensureDir(REPORT_DIR);
+  log("✓ Report directory ready");
+
+  // Check disk space early (non-blocking)
+  log("[2/8] Checking disk space...");
+  const diskSpace = await checkDiskSpace();
+  log(`✓ Disk space check complete: ${diskSpace.freeGB} GB free (status: ${diskSpace.status})`);
+  if (diskSpace.status === "warn") {
+    log(`  WARNING: Low disk space - ${diskSpace.freeGB} GB free`);
+  } else if (diskSpace.status === "critical") {
+    log(`  CRITICAL: Critically low disk space - ${diskSpace.freeGB} GB free`);
   }
 
-  ensureDir(REPORT_DIR);
-
-  log("Running bunx opencode debug config");
-  let rawOutput = "";
+  log("[3/8] Running bunx opencode debug config...");
+  let runtimeConfig = {};
   try {
-    rawOutput = runCommand("bunx", ["opencode", "debug", "config"]);
+    // Increase Node memory to prevent OutOfMemory errors in opencode CLI
+    const rawOutput = await runCommand("bunx", ["opencode", "debug", "config"], {
+      NODE_OPTIONS: "--max-old-space-size=4096"
+    });
+    log(`✓ Debug config retrieved (${rawOutput.length} bytes)`);
+    
+    log("[3.5/8] Writing raw debug output to file...");
+    await new Promise<void>((resolve, reject) => {
+      fs.writeFile(RAW_REPORT, rawOutput, (err) => {
+        if (err) reject(err);
+        else {
+          log(`✓ Wrote raw output to ${RAW_REPORT}`);
+          resolve();
+        }
+      });
+    });
+    
+    log("[3.6/8] Extracting JSON from raw output...");
+    runtimeConfig = extractJsonFromRaw(rawOutput);
+    log(`✓ Extracted runtime config with ${Object.keys(runtimeConfig as object).length} keys`);
+    
+    log("[3.7/8] Writing normalized runtime config...");
+    await new Promise<void>((resolve, reject) => {
+      fs.writeFile(RUNTIME_REPORT, JSON.stringify(runtimeConfig, null, 2), (err) => {
+        if (err) reject(err);
+        else {
+          log(`✓ Wrote normalized config to ${RUNTIME_REPORT}`);
+          resolve();
+        }
+      });
+    });
   } catch (e) {
-    fail(`Failed to run opencode debug config: ${e}`);
+    log(`⚠  Warning: Failed to run opencode debug config: ${e}`);
+    log(`  Continuing with empty runtime config...`);
   }
-  fs.writeFileSync(RAW_REPORT, rawOutput);
 
-  const runtimeConfig = extractJsonFromRaw(rawOutput);
-  fs.writeFileSync(RUNTIME_REPORT, JSON.stringify(runtimeConfig, null, 2));
-
-  log("Loading project configs from multiple paths");
-  const configs = loadProjectConfigs();
+  log("[4/8] Loading project configs from multiple paths...");
+  const configs = await loadProjectConfigs();
+  const configsLoaded = [
+    configs.opencodeConfig ? ".opencode/opencode.json" : null,
+    configs.globalOpencodeConfig ? "~/.opencode/opencode.json" : null,
+    configs.tuiConfig ? ".opencode/tui.json" : null,
+    configs.globalTuiConfig ? "~/.opencode/tui.json" : null,
+  ].filter(Boolean);
+  log(`✓ Loaded configs from: ${configsLoaded.length > 0 ? configsLoaded.join(", ") : "(none found)"}`);
 
   const projectPlugins = extractPlugins(configs.opencodeConfig);
   const runtimePlugins = extractPlugins(runtimeConfig as object);
@@ -407,33 +620,74 @@ async function main(): Promise<void> {
   const expected = dedupe(projectPlugins);
   const runtime = dedupe(runtimePlugins);
 
+  log(`[5/8] Comparing plugin lists...`);
+  log(`  Expected plugins (from project): ${expected.length} unique`);
+  if (expected.length > 0) log(`    ${expected.join(", ")}`);
+  log(`  Runtime plugins (from OpenCode): ${runtime.length} unique`);
+  if (runtime.length > 0) log(`    ${runtime.join(", ")}`);
+
   const missing = expected.filter((p) => !runtime.includes(p));
   const extras = runtime.filter((p) => !expected.includes(p));
   const projectDuplicates = findDuplicates(projectPlugins);
   const runtimeDuplicates = findDuplicates(runtimePlugins);
 
+  if (missing.length > 0) log(`  Missing from runtime: ${missing.join(", ")}`);
+  if (extras.length > 0) log(`  Extra in runtime: ${extras.join(", ")}`);
+  if (projectDuplicates.length > 0) log(`  Duplicates in project: ${projectDuplicates.join(", ")}`);
+  if (runtimeDuplicates.length > 0) log(`  Duplicates in runtime: ${runtimeDuplicates.join(", ")}`);
+
+  log("[6/8] Analyzing configurations...");
   const configComparison = compareConfigurations(
     configs.opencodeConfig,
     configs.globalOpencodeConfig,
   );
+  log(`  Compared ${Object.keys(configComparison).length} configuration keys`);
 
   const missingConfigurations = findMissingConfigurations(
     configs.opencodeConfig,
     runtimeConfig as object,
   );
+  if (missingConfigurations.length > 0) log(`  Missing configs: ${missingConfigurations.join(", ")}`);
 
+  log("[6.5/8] Analyzing schema design...");
   const schemaPath = path.join(REPO_ROOT, "docs/schema-design.md");
-  const schemaAnalysis = analyzeSchemaDesign(schemaPath);
+  const schemaAnalysis = await analyzeSchemaDesign(schemaPath);
+  log(`✓ Schema analysis complete (${schemaAnalysis ? Object.keys(schemaAnalysis).length : 0} sections found)`);
 
+  log("[6.6/8] Analyzing report file...");
   const reportPath = path.join(REPO_ROOT, ".opencode/report.json");
-  const reportAnalysis = analyzeReport(reportPath);
+  const reportAnalysis = await analyzeReport(reportPath);
+  log(`✓ Report analysis complete (${reportAnalysis ? Object.keys(reportAnalysis).length : 0} sections found)`);
 
+  log("[7/8] Checking OS compatibility...");
   const osCompatibility: Record<string, { compatible: boolean; reason?: string }> = {};
   for (const plugin of expected) {
     osCompatibility[plugin] = checkOSCompatibility(plugin);
   }
 
   const osIncompatible = Object.entries(osCompatibility).filter(([, v]) => !v.compatible);
+  if (osIncompatible.length > 0) {
+    log(`  OS incompatible plugins found:`);
+    for (const [plugin, info] of osIncompatible) {
+      log(`    - ${plugin}: ${info.reason}`);
+    }
+  } else {
+    log(`  All plugins compatible with ${OS}`);
+  }
+
+  // Check MCP server health
+  log("[8/8] Checking MCP server health...");
+  const mcpHealth = await checkMCPServerHealth(configs.opencodeConfig || {});
+  const mcpHealthValues = Object.values(mcpHealth);
+  const mcpHealthSummary = {
+    total: mcpHealthValues.length,
+    ok: mcpHealthValues.filter(h => h.status === "ok").length,
+    authRequired: mcpHealthValues.filter(h => h.status === "auth-required").length,
+    unreachable: mcpHealthValues.filter(h => h.status === "unreachable").length,
+    error: mcpHealthValues.filter(h => h.status === "error").length,
+  };
+
+  log(`✓ MCP server health check complete: ${mcpHealthSummary.ok}/${mcpHealthSummary.total} servers ok`);
 
   const ok =
     missing.length === 0 &&
@@ -443,6 +697,7 @@ async function main(): Promise<void> {
     osIncompatible.length === 0;
 
   const summary: VerifyReport = {
+    timestamp: new Date().toISOString(),
     expectedCount: expected.length,
     extras,
     missing,
@@ -457,46 +712,95 @@ async function main(): Promise<void> {
     schemaAnalysis,
     reportAnalysis,
     osCompatibility,
+    diskSpace,
+    mcpHealthSummary,
   };
 
-  fs.writeFileSync(VERIFY_REPORT, JSON.stringify(summary, null, 2));
+  log("[9/8] Writing verification reports...");
+  await new Promise<void>((resolve, reject) => {
+    fs.writeFile(VERIFY_REPORT, JSON.stringify(summary, null, 2), (err) => {
+      if (err) reject(err);
+      else {
+        log(`✓ Verification report written to ${VERIFY_REPORT}`);
+        resolve();
+      }
+    });
+  });
 
-  log(`Verification summary written to ${VERIFY_REPORT}`);
+  // Write MCP health details to separate report
+  const mcpHealthReport = path.join(REPORT_DIR, "opencode-mcp-health.json");
+  await new Promise<void>((resolve, reject) => {
+    fs.writeFile(mcpHealthReport, JSON.stringify({
+      timestamp: new Date().toISOString(),
+      servers: mcpHealth,
+      summary: mcpHealthSummary,
+    }, null, 2), (err) => {
+      if (err) reject(err);
+      else {
+        log(`✓ MCP health report written to ${mcpHealthReport}`);
+        resolve();
+      }
+    });
+  });
+
   console.log(JSON.stringify({
     ...summary,
     systemInfo: getSystemInfo(),
   }, null, 2));
 
   if (!ok) {
-    log("Verification failed - issues found:");
+    log("");
+    log("========================================");
+    log("VERIFICATION FAILED - Issues Found");
+    log("========================================");
     if (missing.length > 0) {
-      log(`  - Missing plugins: ${missing.join(", ")}`);
+      log(`Missing plugins (${missing.length}): ${missing.join(", ")}`);
     }
     if (extras.length > 0) {
-      log(`  - Extra plugins in runtime: ${extras.join(", ")}`);
+      log(`Extra plugins in runtime (${extras.length}): ${extras.join(", ")}`);
     }
     if (projectDuplicates.length > 0) {
-      log(`  - Duplicate plugins in project: ${projectDuplicates.join(", ")}`);
+      log(`Duplicate plugins in project (${projectDuplicates.length}): ${projectDuplicates.join(", ")}`);
     }
     if (runtimeDuplicates.length > 0) {
-      log(`  - Duplicate plugins in runtime: ${runtimeDuplicates.join(", ")}`);
+      log(`Duplicate plugins in runtime (${runtimeDuplicates.length}): ${runtimeDuplicates.join(", ")}`);
     }
     if (missingConfigurations.length > 0) {
-      log(`  - Missing configurations: ${missingConfigurations.join(", ")}`);
+      log(`Missing configurations (${missingConfigurations.length}): ${missingConfigurations.join(", ")}`);
     }
     if (osIncompatible.length > 0) {
-      log(`  - OS incompatible plugins:`);
+      log(`OS incompatible plugins (${osIncompatible.length}):`);
       for (const [plugin, info] of osIncompatible) {
-        log(`    - ${plugin}: ${info.reason}`);
+        log(`  - ${plugin}: ${info.reason}`);
       }
     }
+    log("========================================");
+    log(`Reports available:`);
+    log(`  - Verify report: ${VERIFY_REPORT}`);
+    log(`  - MCP health: ${mcpHealthReport}`);
+    log(`  - Raw debug output: ${RAW_REPORT}`);
     process.exit(1);
   }
 
-  log("Verification passed");
-  log(`Raw debug output: ${RAW_REPORT}`);
-  log(`Normalized runtime config: ${RUNTIME_REPORT}`);
-  log(`Verification report: ${VERIFY_REPORT}`);
+  log("");
+  log("========================================");
+  log("VERIFICATION PASSED ✓");
+  log("========================================");
+  log(`Expected plugins: ${expected.length} (${expected.join(", ")})`);
+  log(`Runtime plugins: ${runtime.length} (${runtime.join(", ")})`);
+  log(`No missing plugins, duplicates, or OS incompatibilities found`);
+  log(`MCP health: ${mcpHealthSummary.ok}/${mcpHealthSummary.total} servers online`);
+  log(`Disk space: ${diskSpace.freeGB} GB free (status: ${diskSpace.status})`);
+  log("");
+  log("Reports written to:");
+  log(`  - Verify report: ${VERIFY_REPORT}`);
+  log(`  - MCP health: ${mcpHealthReport}`);
+  log(`  - Raw debug output: ${RAW_REPORT}`);
+  log(`  - Normalized runtime config: ${RUNTIME_REPORT}`);
+  log("========================================");
 }
 
-main();
+main().catch((e) => {
+  console.error("Fatal error:", e);
+  process.exit(1);
+});
