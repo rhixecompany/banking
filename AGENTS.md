@@ -24,7 +24,7 @@
 | **Rules check** | `bun run verify:rules` | AST policy enforcement |
 | **Unit tests** | `bun run test:browser` | Vitest (unit tests only) |
 | **E2E tests** | `bun run test:ui` | Playwright (stateful, 1 worker) |
-| **Full validation** | `bun run validate` | Runs all checks (CI-like) |
+| **Full validation** | `bun run validate` | Full pre-release: build + lint:strict + both test suites (minutes) |
 | **DB push** | `bun run db:push` | Drizzle schema to Postgres |
 | **DB seed** | `bun run db:seed` | Load test data |
 
@@ -37,6 +37,12 @@ bun run format && bun run type-check && bun run lint:strict && bun run verify:ru
 ```
 
 This matches CI enforcement. **Do not skip any step.**
+
+**⚠️ Pre/Post Hook Side Effects:**
+
+- `predev: "bun run clean"` — `bun run dev` wipes `.next` and other build artifacts **before** starting the dev server. Switching between `bun run dev` and `bun run build` will trigger full rebuilds.
+- `prebuild: "bun run clean && bun run type-check"` — `bun run build` auto-cleans and runs type-check first.
+- `pretest: "bun run clean"` — `bun run test:browser` and `bun run test:ui` auto-clean before running.
 
 ---
 
@@ -60,13 +66,13 @@ This matches CI enforcement. **Do not skip any step.**
 **Authentication:**
 
 - **NextAuth v4.24.14** with JWT strategy
-- **@auth/drizzle-adapter 1.11.1** for session storage
+- **@auth/drizzle-adapter ^1.11.2** for session storage
 
 **Testing:**
 
-- **Playwright 1.59.1** for E2E (stateful, 1 worker)
-- **Vitest 4.1.2** for unit tests
-- **MSW 1.2.1** for network mocking
+- **Playwright ^1.59.1** for E2E (stateful, 1 worker)
+- **Vitest ^4.1.5** for unit tests
+- **MSW ^2.13.6** for network mocking
 
 **Validation & Forms:**
 
@@ -96,10 +102,14 @@ This matches CI enforcement. **Do not skip any step.**
 
 **Key flags in `next.config.ts`:**
 
-- `cacheComponents: true` — Cache Components mode (experimental)
+- `cacheComponents: true` — Cache Components mode (top-level flag; production-ready)
 - `typedRoutes: true` — Type-safe route imports
 - `reactCompiler: true` — React Compiler enabled
 - `output: "standalone"` — Self-contained build
+- **Experimental flags:**
+  - `typedEnv: true` — Type-safe environment variables
+  - `staleTimes: { dynamic: 30, static: 180 }` — Incremental Static Revalidation settings
+  - `serverActions.bodySizeLimit: "10mb"` — Server Action payload limit
 
 **Important:** These flags are production-ready; do not disable without cause.
 
@@ -109,7 +119,9 @@ This matches CI enforcement. **Do not skip any step.**
 C:\Users\Alexa\Desktop\SandBox\Banking/
 ├── app/                    # Next.js App Router pages & layouts
 │   ├── (auth)/            # Public: login, register
-│   ├── (root)/            # Protected: dashboard, wallets, etc.
+│   ├── (admin)/           # Admin-only: analytics, user management (protected)
+│   ├── (root)/            # Protected: dashboard, wallets, transfers, etc.
+│   ├── __playwright__/    # Test-only API endpoints (gated by ENABLE_TEST_ENDPOINTS)
 │   ├── api/               # API routes (minimal; use Server Actions)
 │   ├── page.tsx           # Landing (MUST stay public & static)
 │   └── layout.tsx         # Root layout
@@ -122,8 +134,9 @@ C:\Users\Alexa\Desktop\SandBox\Banking/
 │   └── [feature]/        # Feature-specific components
 ├── lib/                   # Shared libraries
 ├── scripts/               # Build, seed, verification scripts
-├── tests/                 # Unit & E2E tests
+├── tests/                 # Unit, integration & E2E tests
 │   ├── unit/             # Vitest files
+│   ├── integration/       # Drizzle/database integration tests
 │   └── e2e/              # Playwright specs
 ├── types/                 # TypeScript type definitions
 ├── .opencode/            # Agent plans, instructions, reports
@@ -163,6 +176,12 @@ C:\Users\Alexa\Desktop\SandBox\Banking/
 - Call `auth()` early for protected actions
 - Return `{ ok: boolean; error?: string; ...payload }`
 - Use DAL helpers for DB access
+
+**Protected Route Groups:**
+
+- `app/(auth)/` — Public: login, register, password reset (no auth required)
+- `app/(root)/` — User-facing: dashboard, wallets, transfers (requires user auth)
+- `app/(admin)/` — Admin-only: analytics, user management, settings (requires admin role; protected by middleware/layout role check)
 
 ---
 
@@ -273,19 +292,19 @@ export async function findByUserIdWithWallets(
 
 ### Pattern 3: Environment & Config Access
 
-**Files:** `app-config.ts` (canonical), `lib/env.ts` (backward compat)
+**Files:** `app-config.ts` (canonical), `lib/env.ts` (backward compat, @deprecated)
 
 **Rules:**
 
 1. **Never** read `process.env` directly in app code
-2. Use `app-config.ts` as the canonical typed source
-3. `lib/env.ts` re-exports for backward compatibility
+2. Use `app-config.ts` as the canonical typed source with named exports
+3. `lib/env.ts` re-exports for backward compatibility (deprecated)
 4. **Exception:** `proxy.ts` and `scripts/seed/run.ts` read Upstash env vars directly (verified exceptions)
 
 **Example:**
 
 ```typescript
-// app-config.ts (canonical)
+// app-config.ts (canonical - named exports)
 import { z } from "zod";
 
 const authSchema = z.object({
@@ -294,16 +313,18 @@ const authSchema = z.object({
 });
 
 export const auth = parseAuthConfig();
+export const database = parseDatabaseConfig();
+export const plaid = parsePlaidConfig();
 
-// lib/env.ts (backward compat re-export)
+// Usage in app code (CORRECT):
+import { auth, database, plaid } from "@/app-config";
+const secret = auth.NEXTAUTH_SECRET; // ✅ Correct
+
+// lib/env.ts (backward compat re-export, @deprecated)
 export const env = {
   NEXTAUTH_SECRET: auth.NEXTAUTH_SECRET,
   NEXTAUTH_URL: auth.NEXTAUTH_URL
 } as const;
-
-// Usage in app code:
-import { auth } from "@/app-config";
-const secret = auth.NEXTAUTH_SECRET; // ✅ Correct
 ```
 
 ### Pattern 4: Deterministic Testing (Plaid & Dwolla)
@@ -544,6 +565,14 @@ if (!parsed.success) throw new Error("Invalid data");
 
 **Enforcement:** `scripts/verify-rules.ts` detects `any` usage and reports violations.
 
+### Pre-commit Hooks & Local Validation
+
+**Pre-commit hook reality:** `.husky/pre-commit` only runs `bun run format:check`. **Lint-staged is commented out.** The CI pipeline is the actual gate for `lint:strict` and `type-check`.
+
+**Why:** To prevent developer friction during local development while enforcing standards in CI/CD.
+
+**`verify:rules` local behavior:** When run locally (without `--ci` flag), `verify:rules` prints violations as informational warnings. When run in CI (`--ci` flag with `critical` violations), it exits with code 2. Agents should know that local runs are non-blocking but CI runs are enforcement gates.
+
 ---
 
 ## 5. Testing Guide
@@ -559,6 +588,8 @@ bun exec vitest run tests/unit/path/to/file.test.ts --config=vitest.config.ts
 ```
 
 **Setup:** `tests/setup.ts` runs before all tests. MSW is configured for network mocking.
+
+**Integration Tests:** `tests/integration/` contains Drizzle/database integration tests that require a real database connection.
 
 **Pattern:**
 
@@ -598,13 +629,15 @@ bun run test:ui
 bunx playwright test tests/e2e/wallet.spec.ts --project=chromium
 ```
 
-**Setup:** `tests/e2e/global-setup.ts` and `tests/e2e/global-teardown.ts` manage DB state. If `PLAYWRIGHT_PREPARE_DB=true`, it runs `bun run db:push && bun run db:seed -- --reset`.
+**Setup:** `tests/e2e/global-setup.ts` and `tests/e2e/global-teardown.ts` manage DB state. If `PLAYWRIGHT_PREPARE_DB=true`, it runs `bun run db:push && bun run db:seed -- --reset`. (The `test:ui` script already sets this automatically.)
 
 **Requirements:**
 
 - PostgreSQL reachable via `DATABASE_URL`
-- `ENCRYPTION_KEY` set
+- `ENCRYPTION_KEY` set (not in `.env.example` — must be added manually)
 - `NEXTAUTH_SECRET` set
+
+**Playwright server reuse:** The config uses `reuseExistingServer: !env.CI`, so locally Playwright reuses an already-running dev server. The port guard is for clearing non-Next.js processes; Playwright itself doesn't free the port afterward.
 
 **Mock Tokens for E2E:**
 
@@ -705,6 +738,10 @@ deploy().catch(err => {
 | `scripts/seed/run.ts` | Load test data (intentionally loads .env) |
 | `scripts/mcp-runner.ts` | MCP server runner |
 | `scripts/plan-ensure.ts` | Plan validation |
+| `generate:action` | Scaffold a new Server Action with Zod validation |
+| `generate:component` | Scaffold a new React component (client or server) |
+| `generate:dal` | Scaffold a new DAL module with N+1 prevention |
+| `generate:feature` | Scaffold a complete feature (action + DAL + component) |
 
 **Run verify-rules locally:**
 
@@ -724,6 +761,7 @@ bun install
 
 # 2. Set up environment (copy example, fill in secrets)
 cp .env.example .env.local
+# IMPORTANT: Add ENCRYPTION_KEY to .env.local (not present in .env.example)
 
 # 3. Start Postgres (Docker or local)
 docker-compose up -d postgres redis
@@ -737,6 +775,8 @@ bun run dev
 ```
 
 Server runs on `http://localhost:3000`.
+
+**⚠️ Note:** `predev: "bun run clean"` — `bun run dev` wipes `.next` build artifacts before starting. Switching between `bun run dev` and `bun run build` will trigger full rebuilds.
 
 ### Full Local Verification (matches CI)
 
@@ -981,6 +1021,51 @@ Then commit normally.
 
 ---
 
+### Mistake 9: Using `bun run validate` for a Quick Check
+
+**❌ WRONG:**
+
+```bash
+# Need to test a quick change?
+bun run validate  # Takes 5-10 minutes!
+```
+
+**✅ CORRECT:**
+
+```bash
+# Quick format + type + lint check (seconds):
+bun run format && bun run type-check && bun run lint:strict && bun run verify:rules
+
+# Use full validate only as a pre-release gate:
+bun run validate  # Runs: build + lint:strict + all tests (minutes)
+```
+
+**Why:** `validate` runs the full build plus both test suites; it's designed for final pre-release checks, not local iteration. Use the quick pre-PR checklist for day-to-day work.
+
+---
+
+### Mistake 10: Missing `ENCRYPTION_KEY` in Environment
+
+**❌ WRONG:**
+
+```bash
+cp .env.example .env.local
+bun run test:ui  # Fails silently; ENCRYPTION_KEY is required
+```
+
+**✅ CORRECT:**
+
+```bash
+cp .env.example .env.local
+# Add ENCRYPTION_KEY to .env.local (generate a random 32-byte key in hex)
+# Example: ENCRYPTION_KEY=a1b2c3d4e5f6...
+bun run test:ui
+```
+
+**Why:** `ENCRYPTION_KEY` is required for E2E tests and production encryption. It's **not in `.env.example`** — agents and developers must add it manually. Missing it will cause silent failures in test setup and data encryption.
+
+---
+
 ## 9. Agent Behavior Rules
 
 ### When to Ask Questions
@@ -1042,6 +1127,55 @@ Then commit normally.
 
 ---
 
+## 13. OpenCode Skills
+
+This repository has **22 specialized skills** registered in `.opencode/registry.json`. These skills provide domain-specific guidance for various tasks.
+
+### Available Skills
+
+| Skill | Purpose |
+| --- | --- |
+| **asdf** | Universal version manager (Node.js, Python, Go, etc.) |
+| **banking** | Next.js fintech app guidance (PostgreSQL, Drizzle, NextAuth, Plaid/Dwolla) |
+| **caveman** | Ultra-compressed communication (token-efficient responses) |
+| **caveman-commit** | Generate terse Conventional Commits messages |
+| **caveman-compress** | Compress memory files into caveman format |
+| **caveman-review** | Ultra-compressed code review comments |
+| **code-docs** | Google Style documentation (Python, Go, Terraform) |
+| **content-research-writer** | Research-assisted writing with citations |
+| **datadog** | Log searching, metrics, and observability |
+| **file-organizer** | Intelligent file/folder organization |
+| **glab** | GitLab CLI (glab) for issues, MRs, CI/CD |
+| **httpie** | HTTP client for API testing (`http` command) |
+| **humanizer** | Remove AI-generated writing patterns |
+| **jira** | Jira ticket management and workflow |
+| **marp-slide** | Create professional presentation slides |
+| **mcp-builder** | Build MCP (Model Context Protocol) servers |
+| **meeting-insights-analyzer** | Analyze meeting transcripts for patterns |
+| **mermaid-diagrams** | Create software diagrams (flowcharts, ERDs, etc.) |
+| **project-docs** | Generate project documentation (README, etc.) |
+| **skill-judge** | Evaluate and audit skill design quality |
+| **work-on-ticket** | Jira ticket workflow (fetch, branch, plan) |
+| **worktrunk** | Git worktree management for parallel agents |
+| **writing-clearly-and-concisely** | Clear, professional prose (Strunk rules) |
+
+### Using Skills
+
+Invoke a skill using the `Skill` tool when a task matches its description:
+
+```
+Use the banking skill when working on the fintech app
+Use the caveman skill when token efficiency is needed
+Use the mermaid-diagrams skill when creating diagrams
+```
+
+### Skill Registry Location
+
+- **Registry file:** `.opencode/registry.json`
+- **Skill definitions:** `.opencode/skills/*/SKILL.md`
+
+---
+
 ## 11. CI/CD & Deployment
 
 ### Pre-PR Local Validation
@@ -1091,6 +1225,6 @@ This matches CI enforcement exactly.
 
 ---
 
-**Last Updated:** 2026-05-03  
-**Version:** 2.0 (Comprehensive Consolidation)  
+**Last Updated:** 2026-05-04  
+**Version:** 2.1 (Accuracy Pass)  
 **Sources Consolidated:** `architecture.md`, `coding-standards.md`, `folder-structure.md`, `exemplars.md`, `.cursorrules`, `.github/copilot-instructions.md`, `CONTRIBUTING.md`, `SCRIPTING_STANDARDS.md`
