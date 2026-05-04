@@ -11,12 +11,11 @@
  * - Ensures plugins are compatible with OS and system
  * - All functions are async for better performance
  */
-import { exec } from "child_process";
+import { execFile, exec } from "child_process";
 import fs from "fs";
 import path from "path";
 import os from "os";
 import { fileURLToPath } from "url";
-import { promisify } from "util";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -94,6 +93,10 @@ const OS = os.platform();
 const ARCH = os.arch();
 const NODE_VERSION = process.version;
 
+// Disk space thresholds (in GB)
+const DISK_SPACE_CRITICAL_GB = 0.5;
+const DISK_SPACE_WARN_GB = 1.0;
+
 function log(msg: string): void {
   console.log(`[opencode-plugin-verify] ${msg}`);
 }
@@ -118,17 +121,14 @@ async function ensureDir(dir: string): Promise<void> {
 
 async function runCommand(cmd: string, args: string[], envOverrides?: Record<string, string>): Promise<string> {
   return new Promise((resolve, reject) => {
-    // Build the full command string with proper quoting for shell execution
-    const cmdString = [cmd, ...args].map(arg => 
-      arg.includes(" ") ? `"${arg}"` : arg
-    ).join(" ");
-    
     // Merge environment variables, preserving existing ones
     const env = { ...process.env, ...envOverrides };
     
-    exec(cmdString, { env, maxBuffer: 10 * 1024 * 1024 }, (error, stdout, stderr) => {
+    // Use execFile instead of exec to avoid shell injection vulnerabilities
+    // execFile takes command and args separately, no shell interpretation
+    execFile(cmd, args, { env, maxBuffer: 10 * 1024 * 1024 }, (error: Error | null, stdout: string, stderr: string) => {
       if (error) {
-        reject(new Error(`Command failed: ${cmdString}\n${stderr || error.message}`));
+        reject(new Error(`Command failed: ${cmd} ${args.join(" ")}\n${stderr || error.message}`));
       } else {
         resolve(stdout);
       }
@@ -218,7 +218,15 @@ async function loadProjectConfigs(): Promise<{
         }
       }
     } catch (e) {
-      // Silently skip missing or unparseable configs
+      // Only silently skip file-not-found errors; log other issues
+      const error = e as NodeJS.ErrnoException;
+      if (error.code !== "ENOENT") {
+        // Log parse errors or permission issues, but don't fail the entire check
+        const errorMsg = error instanceof SyntaxError 
+          ? `JSON parse error in ${configPath}: ${error.message}`
+          : `Error reading ${configPath}: ${error.code || error.message}`;
+        console.warn(`⚠️ Config warning: ${errorMsg}`);
+      }
     }
   }
 
@@ -287,24 +295,43 @@ async function analyzeSchemaDesign(templatePath: string): Promise<Record<string,
       contentLength: content.length,
       extensionTypes: [] as string[],
       configLocations: {} as Record<string, unknown>,
+      parseWarnings: [] as string[],
     };
 
+    // Parse extension types with validation
     const typeMatches = content.match(/### \d+\.\d+ `(\w+)`/g);
     if (typeMatches) {
-      schemaInfo.extensionTypes = typeMatches.map(m => m.match(/`(\w+)`/)?.[1] || "").filter(Boolean);
+      const types: string[] = [];
+      for (const match of typeMatches) {
+        const typeMatch = match.match(/`(\w+)`/);
+        if (typeMatch && typeMatch[1]) {
+          types.push(typeMatch[1]);
+        }
+      }
+      schemaInfo.extensionTypes = types;
+      if (types.length === 0 && typeMatches.length > 0) {
+        (schemaInfo.parseWarnings as string[]).push("Found type section headers but no extractable type names");
+      }
     }
 
-    const configSection = content.match(/### 3\.\d+ [\w\s]+\n\n([\s\S]*?)(?=###|$)/);
+    // Parse config section with better validation
+    const configSection = content.match(/### 3\.\d+ [^\n]+\n\n([\s\S]*?)(?=###|$)/);
     if (configSection) {
       const paths = configSection[1].match(/`[^`]+`/g);
       const configLocs: Record<string, string> = {};
       if (paths) {
-        paths.forEach(p => {
-          const match = p.match(/`([^`]+)`.*?`([^`]+)`/);
-          if (match) {
-            configLocs[match[2]] = match[1];
+        for (const p of paths) {
+          // More robust: extract all backtick-quoted values
+          const backtickMatches = p.match(/`([^`]+)`/g);
+          if (backtickMatches && backtickMatches.length >= 2) {
+            // Store first as key, second as value
+            const key = backtickMatches[1].slice(1, backtickMatches[1].length - 1);
+            const value = backtickMatches[0].slice(1, backtickMatches[0].length - 1);
+            configLocs[key] = value;
+          } else if (backtickMatches && backtickMatches.length === 1) {
+            (schemaInfo.parseWarnings as string[]).push(`Config line has only one backtick-quoted value: ${p.slice(0, 50)}`);
           }
-        });
+        }
       }
       schemaInfo.configLocations = configLocs;
     }
@@ -438,7 +465,7 @@ async function checkDiskSpace(): Promise<{ freeBytes: number; freeGB: number; st
         command = `df -k "${REPO_ROOT}" | tail -1 | awk '{print $4}'`;
       }
       
-      exec(command, { timeout: 2500 }, (error, stdout) => {
+      exec(command, { timeout: 2500 }, (error: Error | null, stdout: string) => {
         clearTimeout(timeout);
         let freeBytes = 0;
         
@@ -458,9 +485,9 @@ async function checkDiskSpace(): Promise<{ freeBytes: number; freeGB: number; st
       function finalize(bytes: number) {
         const freeGB = bytes / (1024 * 1024 * 1024);
         let status: "ok" | "warn" | "critical" = "ok";
-        if (freeGB < 0.5) {
+        if (freeGB < DISK_SPACE_CRITICAL_GB) {
           status = "critical";
-        } else if (freeGB < 1) {
+        } else if (freeGB < DISK_SPACE_WARN_GB) {
           status = "warn";
         }
         resolve({ freeBytes: bytes, freeGB: Math.round(freeGB * 10) / 10, status });
