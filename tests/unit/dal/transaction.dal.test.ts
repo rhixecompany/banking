@@ -160,17 +160,33 @@ describe("TransactionDal", () => {
       const mockTxns = [
         { id: "txn-1", senderWalletId: "wallet-1", receiverWalletId: null },
       ];
-      (db.select as ReturnType<typeof vi.fn>).mockReturnValue({
-        from: vi.fn().mockReturnValue({
-          where: vi.fn().mockReturnValue({
-            orderBy: vi.fn().mockReturnValue({
-              limit: vi.fn().mockReturnValue({
-                offset: vi.fn().mockResolvedValue(mockTxns),
+      const mockWallets = [
+        {
+          id: "wallet-1",
+          fundingSourceUrl: "https://bank.com",
+          institutionName: "Bank",
+        },
+      ];
+
+      // First call: select transactions
+      // Second call: select wallets
+      (db.select as ReturnType<typeof vi.fn>)
+        .mockReturnValueOnce({
+          from: vi.fn().mockReturnValue({
+            where: vi.fn().mockReturnValue({
+              orderBy: vi.fn().mockReturnValue({
+                limit: vi.fn().mockReturnValue({
+                  offset: vi.fn().mockResolvedValue(mockTxns),
+                }),
               }),
             }),
           }),
-        }),
-      } as never);
+        } as never)
+        .mockReturnValueOnce({
+          from: vi.fn().mockReturnValue({
+            where: vi.fn().mockResolvedValue(mockWallets),
+          }),
+        } as never);
 
       const result = await transactionDal.findByUserIdWithWallets("user-1");
       expect(result).toBeDefined();

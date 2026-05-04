@@ -7,7 +7,7 @@
     },
     "plan": {
       "model": "github-copilot/claude-sonnet-4.6",
-      "variant": "max"
+      "variant": "high"
     }
   },
   "autoupdate": true,
@@ -80,7 +80,8 @@
       "type": "local"
     },
     "playwright": {
-      "command": ["bunx", "-y", "@playwright/mcp@latest"],
+      "command": ["bunx", "-y", "@playwright/mcp@latest",
+        "--caps=network,storage,testing,vision,pdf,devtools"],
       "enabled": true,
       "timeout": 900000,
       "type": "local"
@@ -96,7 +97,7 @@
       "type": "local"
     }
   },
-  "model": "github-copilot/gpt-5.2-codex",
+  "model": "opencode/minimax-m2.5-free",
   "plugin": [
     "opencode-mem",
     "opencode-mystatus",
@@ -169,8 +170,8 @@
       }
     }
   },
-  "share": "disabled",
-  "small_model": "google-vertex/gemini-2.5-flash",
+  "share": "auto",
+  "small_model": "github-copilot/claude-haiku-4.5",
   "watcher": {
     "ignore": ["node_modules", ".next", ".git"]
   }

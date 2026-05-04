@@ -1,0 +1,115 @@
+{
+  "expectedCount": 9,
+  "extras": [],
+  "missing": [],
+  "ok": true,
+  "projectConfig": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\aiconfig.json",
+  "projectDuplicates": [],
+  "runtimeConfig": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\reports\\opencode-debug-config.runtime.json",
+  "runtimeCount": 9,
+  "runtimeDuplicates": [],
+  "missingConfigurations": [],
+  "configComparison": {
+    "$schema": {
+      "source": "project",
+      "present": true
+    },
+    "agent": {
+      "source": "project",
+      "present": true
+    },
+    "autoupdate": {
+      "source": "project",
+      "present": true
+    },
+    "command": {
+      "source": "project",
+      "present": true
+    },
+    "compaction": {
+      "source": "project",
+      "present": true
+    },
+    "default_agent": {
+      "source": "project",
+      "present": true
+    },
+    "enabled_providers": {
+      "source": "project",
+      "present": true
+    },
+    "instructions": {
+      "source": "project",
+      "present": true
+    },
+    "lsp": {
+      "source": "project",
+      "present": true
+    },
+    "mcp": {
+      "source": "project",
+      "present": true
+    },
+    "model": {
+      "source": "project",
+      "present": true
+    },
+    "plugin": {
+      "source": "project",
+      "present": true
+    },
+    "provider": {
+      "source": "project",
+      "present": true
+    },
+    "share": {
+      "source": "project",
+      "present": true
+    },
+    "small_model": {
+      "source": "project",
+      "present": true
+    },
+    "watcher": {
+      "source": "project",
+      "present": true
+    }
+  },
+  "schemaAnalysis": {
+    "fileExists": true,
+    "contentLength": 16617,
+    "extensionTypes": [],
+    "configLocations": {}
+  },
+  "reportAnalysis": null,
+  "osCompatibility": {
+    "opencode-mem": {
+      "compatible": true,
+      "reason": "Memory plugin has known issues on Windows - use global config instead"
+    },
+    "opencode-mystatus": {
+      "compatible": true
+    },
+    "opencode-handoff": {
+      "compatible": true
+    },
+    "@tarquinen/opencode-dcp": {
+      "compatible": true
+    },
+    "@ramarivera/opencode-model-announcer": {
+      "compatible": true
+    },
+    "opencode-snippets": {
+      "compatible": true
+    },
+    "opencode-agent-skills": {
+      "compatible": true
+    },
+    "superpowers@git+https://github.com/obra/superpowers.git": {
+      "compatible": true
+    },
+    "@howaboua/opencode-planning-toolkit": {
+      "compatible": true
+    }
+  }
+}
