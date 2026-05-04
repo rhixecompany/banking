@@ -1,7 +1,7 @@
 ---
 plan name: lint-e2e-fix
 plan description: Fix lint OOM, markdown, tests, E2E
-plan status: active
+plan status: done
 ---
 
 ## Idea
