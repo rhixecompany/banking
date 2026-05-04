@@ -19,45 +19,13 @@ Creating a high-quality MCP server involves four main phases:
 
 ### Phase 1: Deep Research and Planning
 
-#### 1.1 Understand Agent-Centric Design Principles
+#### 1.1 Understand Agent-Centric Design
 
-Before diving into implementation, understand how to design tools for AI agents by reviewing these principles:
+Design MCP tools around complete workflows that agents need to accomplish, not individual API calls. Build tools that consolidate related operations (e.g., `schedule_event` that both checks availability and creates event). Return high-signal information optimized for agent context windows, not exhaustive data dumps. Use consistent tool naming and prefixes for discoverability.
 
-**Build for Workflows, Not Just API Endpoints:**
+See [📋 Design Principles](./reference/design-principles.md) for detailed guidance on workflows, context optimization, error messaging, and evaluation-driven development.
 
-- Don't simply wrap existing API endpoints - build thoughtful, high-impact workflow tools
-- Consolidate related operations (e.g., `schedule_event` that both checks availability and creates event)
-- Focus on tools that enable complete tasks, not just individual API calls
-- Consider what workflows agents actually need to accomplish
-
-**Optimize for Limited Context:**
-
-- Agents have constrained context windows - make every token count
-- Return high-signal information, not exhaustive data dumps
-- Provide "concise" vs "detailed" response format options
-- Default to human-readable identifiers over technical codes (names over IDs)
-- Consider the agent's context budget as a scarce resource
-
-**Design Actionable Error Messages:**
-
-- Error messages should guide agents toward correct usage patterns
-- Suggest specific next steps: "Try using filter='active_only' to reduce results"
-- Make errors educational, not just diagnostic
-- Help agents learn proper tool usage through clear feedback
-
-**Follow Natural Task Subdivisions:**
-
-- Tool names should reflect how humans think about tasks
-- Group related tools with consistent prefixes for discoverability
-- Design tools around natural workflows, not just API structure
-
-**Use Evaluation-Driven Development:**
-
-- Create realistic evaluation scenarios early
-- Let agent feedback drive tool improvements
-- Prototype quickly and iterate based on actual agent performance
-
-#### 1.3 Study MCP Protocol Documentation
+#### 1.2 Study MCP Protocol Documentation
 
 **Fetch the latest MCP protocol documentation:**
 
@@ -65,7 +33,7 @@ Use WebFetch to load: `https://modelcontextprotocol.io/llms-full.txt`
 
 This comprehensive document contains the complete MCP specification and guidelines.
 
-#### 1.4 Study Framework Documentation
+#### 1.3 Study Framework Documentation
 
 **Load and read the following reference files:**
 
@@ -81,7 +49,7 @@ This comprehensive document contains the complete MCP specification and guidelin
 - **TypeScript SDK Documentation**: Use WebFetch to load `https://raw.githubusercontent.com/modelcontextprotocol/typescript-sdk/main/README.md`
 - [⚡ TypeScript Implementation Guide](./reference/node_mcp_server.md) - Node/TypeScript-specific best practices and examples
 
-#### 1.5 Exhaustively Study API Documentation
+#### 1.4 Exhaustively Study API Documentation
 
 To integrate a service, read through **ALL** available API documentation:
 
@@ -94,7 +62,7 @@ To integrate a service, read through **ALL** available API documentation:
 
 **To gather comprehensive information, use web search and the WebFetch tool as needed.**
 
-#### 1.6 Create a Comprehensive Implementation Plan
+#### 1.5 Create a Comprehensive Implementation Plan
 
 Based on your research, create a detailed plan that includes:
 
@@ -185,6 +153,78 @@ For each tool in the plan:
 - Respect pagination parameters
 - Check character limits and truncate appropriately
 
+**Tool Registration Examples:**
+
+**Python (FastMCP):**
+
+```python
+from mcp.server import Server
+from mcp.types import Tool
+import anthropic
+from pydantic import BaseModel
+
+server = Server("my-server")
+
+class SearchUsersInput(BaseModel):
+    query: str
+    limit: int = 10
+
+@server.tool
+async def search_users(query: str, limit: int = 10) -> str:
+    """Search for users by name or email.
+
+    Args:
+        query: Search term to match against user names and emails
+        limit: Maximum number of results (max 100)
+
+    Returns:
+        JSON array of matching users with id, name, email
+    """
+    if limit > 100:
+        limit = 100
+    results = await api.search(query, limit=limit)
+    return json.dumps(results)
+```
+
+**TypeScript (MCP SDK):**
+
+```typescript
+import { Server } from "@modelcontextprotocol/sdk/server/index.js";
+import { z } from "zod";
+
+const server = new Server({
+  name: "my-server",
+  version: "1.0.0"
+});
+
+const searchUsersSchema = z.object({
+  query: z.string().describe("Search term"),
+  limit: z
+    .number()
+    .int()
+    .min(1)
+    .max(100)
+    .default(10)
+    .describe("Max results")
+});
+
+server.setRequestHandler(Tool.Request, async request => {
+  if (request.params.name === "search_users") {
+    const input = searchUsersSchema.parse(request.params.arguments);
+    const results = await api.search(input.query, input.limit);
+    return {
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify(results)
+        }
+      ],
+      isError: false
+    };
+  }
+});
+```
+
 **Add Tool Annotations:**
 
 - `readOnlyHint`: true (for read-only operations)
@@ -233,7 +273,7 @@ To ensure quality, review the code for:
 
 #### 3.2 Test and Build
 
-**Important:** MCP servers are long-running processes that wait for requests over stdio/stdin or sse/http. Running them directly in your main process (e.g., `python server.py` or `node dist/index.js`) will cause your process to hang indefinitely.
+**Important:** MCP servers are long-running processes that wait for requests over stdio/stdin or sse/http. Running them directly in your main process (e.g., `python server.py` or `node dist/index.js`) will cause your process to hang indefinitely. This is a critical anti-pattern.
 
 **Safe ways to test the server:**
 
@@ -254,6 +294,57 @@ To ensure quality, review the code for:
 - Verify dist/index.js is created
 - To manually test: Run server in tmux, then test with evaluation harness in main process
 - Or use the evaluation harness directly (it manages the server for stdio transport)
+
+---
+
+### Anti-Patterns to Avoid
+
+These are critical landmines that only experience teaches. Avoid them explicitly:
+
+**NEVER forget async/await in tool implementations**
+
+- MCP communication is asynchronous; blocking I/O stalls agents and prevents them from using other tools
+- Every external call must be awaited; use `async def` (Python) or `async (input) =>` (TypeScript)
+- Exception: If wrapping a synchronous API, create an async wrapper function
+
+**NEVER return unformatted data dumps**
+
+- Agents have constrained context windows; return high-signal information only
+- Truncate large responses; use "concise" vs "detailed" response modes
+- Example: Return `[{id: "123", name: "John"}]` not full API payload with 50 nested fields
+
+**NEVER use inconsistent tool naming patterns**
+
+- Example: `search_users` and `find_posts` breaks pattern discovery; agents can't learn your conventions
+- Use consistent prefixes: `search_*`, `get_*`, `list_*`, `create_*` for discoverability
+- Bad: `getUserById`, `search_for_posts`, `findTransactions` (mixed patterns)
+- Good: `get_user_by_id`, `search_posts`, `list_transactions` (consistent snake_case + pattern)
+
+**NEVER ignore tool hints in registration**
+
+- `readOnlyHint: true` — agents avoid this for destructive operations; always set for read-only tools
+- `destructiveHint: true` — agents are extra careful; always set for mutations
+- `idempotentHint: true` — agents can retry safely; set when repeated calls have same effect
+- Missing hints = agents make dangerous assumptions about tool safety
+
+**NEVER skip clear error messages for agents**
+
+- Silent failures prevent agent learning and recovery
+- Error messages must be: specific + actionable + human-readable
+- Bad: `"429 error"` or `"Rate limited"` (agent has no next step)
+- Good: `"Rate limited. Try again in 60 seconds."` or `"API key expired; call admin"`
+
+**NEVER make tool descriptions overly technical**
+
+- Agents need to understand intent, not API documentation details
+- Bad: `"Invokes GET /api/v2/users/{id} endpoint with optional filter parameters"`
+- Good: `"Retrieve user details by ID including name, email, and created date"`
+
+**NEVER mix response formats without warning**
+
+- If some tools return JSON and others Markdown, agents get confused
+- Choose one primary format; document exceptions clearly
+- If supporting both, document the response format in tool description
 
 #### 3.3 Use Quality Checklist
 

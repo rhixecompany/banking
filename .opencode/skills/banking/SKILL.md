@@ -49,6 +49,8 @@ const users = await userDal.findAll();
 
 ### N+1 Query Prevention
 
+**MANDATORY — Before writing a batch fetch, read [`dal/transaction.dal.ts`](./reference/dal/transaction.dal.ts) completely.**
+
 Always batch fetch related data. Reference `dal/transaction.dal.ts`:
 
 ```typescript
@@ -83,6 +85,8 @@ return txns.map(txn => ({
 ```
 
 ### Server Actions Contract
+
+**MANDATORY — Before writing a Server Action that mutates data, read [`actions/register.ts`](./reference/actions/register.ts) completely.**
 
 All mutations use Server Actions (not API routes):
 
@@ -120,6 +124,13 @@ export async function registerUser(input: unknown): Promise<{
 }
 ```
 
+**Error Handling Pattern:**
+
+- **Validation fails** → Return `{ ok: false, error: "..." }` (client shows validation UI)
+- **DB constraint fails** → Return `{ ok: false, error: "Email exists" }` (client retries or shows retry prompt)
+- **External API fails** (Plaid/Dwolla timeout) → Return `{ ok: false, error: "Service unavailable" }` with retry-able flag
+- **Unexpected error** → Log to error service, return `{ ok: false, error: "Technical error, please retry" }`
+
 ### Home Page Rules
 
 `app/page.tsx` must stay public and static — no auth, DB, or env access:
@@ -140,6 +151,8 @@ export default function Home() {
 
 ### Mock Token Testing (Plaid/Dwolla)
 
+**MANDATORY — Before implementing Plaid/Dwolla mocking, read [`lib/plaid.ts`](./reference/lib/plaid.ts) completely.**
+
 Use mock tokens for deterministic testing:
 
 ```typescript
@@ -159,21 +172,52 @@ export async function addMockPlaidInitScript(
   page: Page,
   publicToken = "MOCK_PUBLIC_TOKEN"
 ) {
-  const script = `(() => {
-    window.Plaid = {
-      create: function(opts) {
-        setTimeout(() => {
-          if (opts?.onSuccess) opts.onSuccess(${JSON.stringify(publicToken)}, { metadata: {} });
-        }, 0);
-        return { open: function() {} };
-      }
-    };
-  })();`;
+  const script = `window.Plaid = {
+    create: opts => {
+      setTimeout(() => opts?.onSuccess?.("${publicToken}", { metadata: {} }), 0);
+      return { open: () => {} };
+    }
+  };`;
   await page.addInitScript(script);
 }
 ```
 
 **E2E Seed User:** `seed-user@example.com` / `password123`
+
+### Plaid/Dwolla Anti-Patterns
+
+**NEVER** do these when integrating Plaid or Dwolla:
+
+- **❌ NEVER skip error boundaries on Plaid Link** — Plaid's hosted flow can fail silently. Always wrap with try-catch and show user fallback UI. Why: Without fallback, users can't add accounts and support gets blind tickets.
+- **❌ NEVER use Plaid access tokens in client components** — Tokens are valid for months and can be replayed. Why: Exposes token to XSS; use mock tokens in tests only, real tokens server-only.
+- **❌ NEVER process Dwolla transfers without idempotency keys** — Network failures can cause double-transfers. Why: Financial data corruption; use UUID-based idempotency keys on all transfer mutations.
+- **❌ NEVER store Plaid Item ID in plaintext** — Plaid Item IDs identify bank links. Why: If leaked, attacker can query your user's transaction history via Plaid API.
+- **❌ NEVER skip decimal precision in Dwolla amounts** — Using floating point (e.g., `0.1 + 0.2 = 0.30000000000000004`) causes fund loss. Why: Dwolla expects integers (cents), rounding errors compound across millions of transactions.
+
+## Payment Flow Decision Framework
+
+Before implementing any transfer, payment, or funding flow, ask yourself:
+
+1. **Atomicity**: Can this transaction fail partway? If yes, add rollback logic.
+2. **Idempotency**: If the request is retried, will we double-charge? If yes, use idempotency keys.
+3. **Precision**: Are we using floating-point math on currency amounts? If yes, switch to `Decimal` or cent-based integers.
+4. **Error Handling**: If Plaid/Dwolla times out, what's the fallback? Must return clear error to user, not silent failure.
+5. **Audit Trail**: Does the server action log all state changes? Required for PCI/financial compliance.
+
+## Financial Data Safety
+
+### Currency Precision Pattern
+
+**NEVER** use floating point for currency. Use cent-based integers:
+
+```typescript
+// ❌ WRONG: Floating point causes rounding errors
+const amount = 10.5; // May be 10.499999999 in memory
+
+// ✅ CORRECT: Use integers (cents)
+const amountCents = 1050; // Represents $10.50
+const transferred = Math.floor(amountCents * 0.01); // Always exact
+```
 
 ### Soft Delete Pattern
 
@@ -215,14 +259,14 @@ Zod schemas in `lib/validations/`:
 | File | Content | When to Load |
 | --- | --- | --- |
 | `AGENTS.md` | Single source of truth for all agent guidance | Always first |
-| `app-config.ts` | Typed env config (auth, plaid, dwolla, redis, email) | Env access |
-| `dal/user.dal.ts` | User CRUD with soft-delete, transactions | DB patterns |
-| `dal/transaction.dal.ts` | N+1 prevention pattern | Batch queries |
-| `actions/register.ts` | Server Action pattern | Action patterns |
-| `lib/plaid.ts` | Mock token detection, Plaid client setup | Plaid integration |
-| `database/schema.ts` | Drizzle schema (users, wallets, transactions, etc.) | DB structure |
-| `next.config.ts` | Next.js 16 flags (cacheComponents, typedRoutes, reactCompiler) | Config reference |
-| `scripts/verify-rules.ts` | AST policy enforcement | CI rules |
+| `app-config.ts` | Typed env config (auth, plaid, dwolla, redis, email) | When accessing secrets |
+| `dal/user.dal.ts` | User CRUD with soft-delete, transactions | When implementing user features |
+| `dal/transaction.dal.ts` | N+1 prevention pattern | When writing batch queries |
+| `actions/register.ts` | Server Action pattern | When writing mutations |
+| `lib/plaid.ts` | Mock token detection, Plaid client setup | When testing Plaid integration |
+| `database/schema.ts` | Drizzle schema (users, wallets, transactions, etc.) | When modifying DB structure |
+| `next.config.ts` | Next.js 16 flags (cacheComponents, typedRoutes, reactCompiler) | When troubleshooting build issues |
+| `scripts/verify-rules.ts` | AST policy enforcement | When debugging pre-PR failures |
 
 ---
 
@@ -284,4 +328,6 @@ bun run db:studio  # Open Drizzle Studio
 4. **Use Server Actions** — not API routes for mutations
 5. **Keep home page static** — no auth/DB/env calls in `app/page.tsx`
 6. **Use mock tokens** — `seed-*`, `mock-*`, `mock_` for testing
-7. **Pre-PR checks** — format, type-check, lint, verify:rules
+7. **Use cent-based integers for currency** — never floating point
+8. **Add idempotency keys to transfers** — prevent double-charges
+9. **Pre-PR checks** — format, type-check, lint, verify:rules

@@ -1,37 +1,52 @@
 ---
 name: caveman-compress
 description: >
-  Compress natural language memory files (CLAUDE.md, todos, preferences) into caveman format to save input tokens. Preserves all technical substance, code, URLs, and structure. Compressed version overwrites the original file. Human-readable backup saved as FILE.original.md. Trigger: /caveman:compress <filepath> or "compress memory file"
+  Compress natural language memory files (CLAUDE.md, session logs, preferences, notes) into caveman-speak format to reduce input tokens by ~75%. Preserves code blocks, URLs, file paths, and markdown structure. Use when: (1) approaching token limits in long conversations, (2) need to archive/compress session history, (3) optimizing CLAUDE.md for future sessions, (4) costs matter and token efficiency critical. Trigger: /caveman:compress <filepath> or "compress memory file". Creates human-readable backup as FILE.original.md.
 ---
 
 # Caveman Compress
 
 ## Purpose
 
-Compress natural language files (CLAUDE.md, todos, preferences) into caveman-speak to reduce input tokens. Compressed version overwrites original. Human-readable backup saved as `<filename>.original.md`.
+Compress natural language files (CLAUDE.md, session logs, todos, preferences) into caveman-speak to reduce input tokens by ~75% while preserving all technical substance. Essential when token efficiency is critical or approaching context limits. Compressed version overwrites original. Human-readable backup saved as `<filename>.original.md`.
 
 ## Trigger
 
-`/caveman:compress <filepath>` or when user asks to compress a memory file.
+**Command:** `/caveman:compress <filepath>`
+
+**Scenarios:**
+
+- User: "compress memory file" or "shrink CLAUDE.md"
+- Token limit approaching in long conversation
+- Before archiving session history
+- When token costs are critical
+- When context window is nearly full
+
+**Not triggered if:**
+
+- File already compressed
+- File contains only code/technical content
+- File is < 10KB (compression overhead not worth it)
 
 ## Process
 
-1. The compression scripts live in `caveman-compress/scripts/` (adjacent to this SKILL.md). If the path is not immediately available, search for `caveman-compress/scripts/__main__.py`.
+1. Locate compression scripts: `caveman-compress/scripts/__main__.py` (check adjacent to this SKILL.md, or search repo).
 
-2. Run:
+2. Execute compression:
 
-cd caveman-compress && python3 -m scripts <absolute_filepath>
+   ```bash
+   cd caveman-compress && python3 -m scripts <absolute_filepath>
+   ```
 
-3. The CLI will:
+3. Pipeline:
+   - **Detect**: File type validation (no token cost)
+   - **Compress**: Claude compresses prose sections
+   - **Validate**: Check structure preserved, code blocks intact, URLs preserved
+   - **Error recovery**: Cherry-pick surgical fixes (see Error Handling below)
+   - **Backup**: Original saved as `FILE.original.md`
+   - **Verify**: Confirm backup exists before overwriting
 
-- detect file type (no tokens)
-- call Claude to compress
-- validate output (no tokens)
-- if errors: cherry-pick fix with Claude (targeted fixes only, no recompression)
-- retry up to 2 times
-- if still failing after 2 retries: report error to user, leave original file untouched
-
-4. Return result to user
+4. Return result and token savings estimate to user
 
 ## Compression Rules
 
@@ -46,15 +61,17 @@ cd caveman-compress && python3 -m scripts <absolute_filepath>
 
 ### Preserve EXACTLY (never modify)
 
-- Code blocks (fenced ``` and indented)
-- Inline code (`backtick content`)
-- URLs and links (full URLs, markdown links)
-- File paths (`/src/components/...`, `./config.yaml`)
-- Commands (`npm install`, `git commit`, `docker build`)
-- Technical terms (library names, API names, protocols, algorithms)
-- Proper nouns (project names, people, companies)
-- Dates, version numbers, numeric values
-- Environment variables (`$HOME`, `NODE_ENV`)
+- **Code blocks** (fenced ``` and indented) — one missing space breaks Python/YAML indentation
+- **Inline code** (`backtick content`) — removing breaks technical references
+- **URLs and links** (full URLs, markdown links) — shortening breaks reference chains
+- **File paths** (`/src/components/...`, `./config.yaml`) — changing breaks navigation
+- **Commands** (`npm install`, `git commit`, `docker build`) — exact syntax required for execution
+- **Version numbers** (e.g., v16.2.4, Node 18.0.0) — essential for reproducibility and debugging
+- **Technical terms** (library names, API names, protocols) — removing obscures dependencies
+- **Proper nouns** (project names, people, companies) — changing confuses context
+- **Comments in code** — they explain non-obvious logic
+- **Environment variables** (`$HOME`, `NODE_ENV`) — changing breaks configurations
+- **Dates and timestamps** — critical for understanding when decisions were made
 
 ### Preserve Structure
 
@@ -88,6 +105,33 @@ If file contains code blocks:
 - Only compress text outside them
 - Do not merge sections around code
 
+## Error Handling
+
+If validation fails:
+
+| Error Type | Root Cause | Recovery |
+| --- | --- | --- |
+| **Truncated code block** | Claude removed closing ``` | Cherry-pick: restore closing ``` only, revalidate |
+| **Broken URL** | Claude shortened/removed URL | Cherry-pick: restore full URL, revalidate |
+| **Lost markdown header** | Claude collapsed # heading | Cherry-pick: restore header, compress body only |
+| **Mangled YAML frontmatter** | Claude reformatted metadata | Cherry-pick: restore original YAML, recompress body only |
+| **Removed version number** | Claude thought it was filler | Cherry-pick: restore version, revalidate |
+| **Collapsed code indentation** | Claude joined multi-line code | Cherry-pick: restore exact original spacing |
+
+**Cherry-pick recovery strategy:**
+
+- Do NOT attempt second full compression
+- Only restore the exact section that failed
+- Revalidate output before returning
+- Maximum 2 cherry-pick attempts per file
+
+**If 2 cherry-picks fail:**
+
+- Leave original file **untouched**
+- Report: "Compression failed: [specific error]. Original preserved at [filepath]"
+- Suggest: Manual compression or different approach
+- Never partially overwrite original
+
 ## Pattern
 
 Original:
@@ -108,9 +152,33 @@ Compressed:
 
 ## Boundaries
 
-- ONLY compress natural language files (.md, .txt, extensionless)
-- NEVER modify: .py, .js, .ts, .json, .yaml, .yml, .toml, .env, .lock, .css, .html, .xml, .sql, .sh
-- If file has mixed content (prose + code), compress ONLY the prose sections
-- If unsure whether something is code or prose, leave it unchanged
-- Original file is backed up as FILE.original.md before overwriting
-- Never compress FILE.original.md (skip it)
+**Compress only:**
+
+- `.md` files (Markdown)
+- `.txt` files (plaintext)
+- Extensionless prose files (CLAUDE.md, README, notes)
+
+**NEVER touch:**
+
+- `.py, .js, .ts, .jsx, .tsx` (source code)
+- `.json, .yaml, .yml, .toml` (config)
+- `.env, .lock` (environment/dependencies)
+- `.css, .html, .xml, .sql, .sh` (markup/styles/scripts)
+
+**Mixed content files:**
+
+- Compress ONLY prose sections
+- Preserve code blocks (see Error Handling above)
+- Do not compress file metadata (YAML frontmatter)
+
+**Backup safety:**
+
+- Always create `FILE.original.md` backup BEFORE overwriting
+- Never compress `FILE.original.md` itself
+- Never delete backup until user confirms satisfaction
+
+**When in doubt:**
+
+- Leave section unchanged
+- Ask user for permission before compressing
+- Better to under-compress than corrupt

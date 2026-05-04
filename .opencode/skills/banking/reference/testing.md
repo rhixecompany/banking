@@ -1,5 +1,48 @@
 # Testing Reference
 
+## Choosing Your Testing Approach
+
+**Before writing a test, answer these questions:**
+
+| Question | Unit Test (Vitest) | E2E Test (Playwright) |
+| --- | --- | --- |
+| **Needs live database?** | No (MSW mocks) | Yes (seeded DB) |
+| **Tests UI interaction?** | No (functions only) | Yes (forms, flows) |
+| **Can run deterministically?** | Must be stateless | Stateful OK (1 worker) |
+| **Needs Plaid/Dwolla?** | MSW HTTP mocking | Mock tokens + scripts |
+| **Priority: Speed?** | Yes (< 100ms each) | No (slower, complete) |
+
+**Decision matrix:**
+
+- Form validation → Unit test
+- User clicks "Link Bank" → E2E with mock tokens
+- Transfer business logic → Unit test
+- Full wallet flow → E2E test
+
+---
+
+## NEVER Do: Testing Anti-Patterns
+
+**NEVER run Playwright with `workers > 1`**  
+E2E tests are stateful (shared DB). Parallel execution corrupts data. Config specifies `workers: 1`. Changing this WILL break everything.
+
+**NEVER skip port cleanup before E2E**  
+Port 3000 must be freed. If you skip, Playwright waits forever with no error message — just silent hang. Always run port guard first.
+
+**NEVER mock Plaid/Dwolla at HTTP layer**  
+Use token detection instead. HTTP mocking breaks real integration testing. E2E's purpose: "does actual Plaid Link work?" Mocking HTTP invalidates that.
+
+**NEVER mix live and mock tokens in same session**  
+Pick one: all tests use `seed-*`/`mock-*` tokens OR all use live sandbox. Mixing confuses SDK state. Document which per test file.
+
+**NEVER forget `ENCRYPTION_KEY` in `.env.local`**  
+Not in `.env.example` for security reasons. Add it manually. Tests silently fail without it — no error message. Required for E2E setup.
+
+**NEVER seed DB inside individual tests**  
+Seed once in `global-setup.ts`, reset in `global-teardown.ts`. Per-test seeding is slow and pollutes state. Use soft deletes instead.
+
+---
+
 ## Unit Tests (Vitest)
 
 **Config:** `vitest.config.ts` includes `tests/unit/**/*.test.{ts,tsx}`
@@ -10,9 +53,7 @@
 bun exec vitest run tests/unit/path/to/file.test.ts --config=vitest.config.ts
 ```
 
-**Setup:** `tests/setup.ts` runs before all tests. MSW configured for network mocking.
-
-**Pattern:**
+**Pattern (with MSW):**
 
 ```typescript
 import { describe, it, expect, beforeAll, afterAll } from "vitest";
@@ -33,9 +74,24 @@ describe("registerUser", () => {
 });
 ```
 
+**Mocking with MSW (HTTP layer):**
+
+```typescript
+import { http, HttpResponse } from "msw";
+import { server } from "@/tests/mocks/server";
+
+server.use(
+  http.post("https://api.plaid.com/institutions/search", () => {
+    return HttpResponse.json({ institutions: [] });
+  })
+);
+```
+
+---
+
 ## E2E Tests (Playwright)
 
-**Config:** `playwright.config.ts` is **stateful** (1 worker, no parallel)
+**Config:** `playwright.config.ts` is **stateful** (`workers: 1`, no parallel)
 
 **Run all:**
 
@@ -49,13 +105,13 @@ bun run test:ui
 bunx playwright test tests/e2e/wallet.spec.ts --project=chromium
 ```
 
-**Setup:** `tests/e2e/global-setup.ts` and `tests/e2e/global-teardown.ts` manage DB state. If `PLAYWRIGHT_PREPARE_DB=true`, runs `bun run db:push && bun run db:seed -- --reset`.
+**Setup:** Global setup/teardown (`global-setup.ts`, `global-teardown.ts`) manages DB. If `PLAYWRIGHT_PREPARE_DB=true`, runs `bun run db:push && bun run db:seed -- --reset`.
 
-## Mock Token Testing
+---
 
-### Plaid Mock
+## Mocking: Mock Tokens
 
-Use `isMockAccessToken()` to detect test tokens:
+Use `isMockAccessToken()` to detect test tokens (start with `seed-`, `mock-`, `mock_`):
 
 ```typescript
 // lib/plaid.ts
@@ -70,7 +126,7 @@ export function isMockAccessToken(token: string): boolean {
 }
 ```
 
-Skip network calls for mock tokens:
+**Skip network calls for mock tokens:**
 
 ```typescript
 if (isMockAccessToken(accessToken)) {
@@ -78,7 +134,11 @@ if (isMockAccessToken(accessToken)) {
 }
 ```
 
-### E2E Plaid Mock
+---
+
+## E2E Plaid Mock
+
+**Inject Plaid Link mock in browser (E2E only):**
 
 ```typescript
 // tests/e2e/helpers/plaid.mock.ts
@@ -111,35 +171,9 @@ test("should link bank", async ({ page }) => {
 });
 ```
 
-## Network Mocking
+---
 
-### Unit Tests (MSW)
-
-```typescript
-import { http, HttpResponse } from "msw";
-import { server } from "@/tests/mocks/server";
-
-server.use(
-  http.post("https://api.plaid.com/institutions/search", () => {
-    return HttpResponse.json({ institutions: [] });
-  })
-);
-```
-
-### E2E Tests
-
-Use helper functions in `tests/e2e/helpers/`:
-
-- `plaid.mock.ts` — Plaid Link mock
-- `auth.ts` — Auth helpers
-
-## Seed User
-
-**Email:** `seed-user@example.com` **Password:** `password123`
-
-## Port Guard
-
-Before running tests, free port 3000:
+## Port Guard (CRITICAL before E2E)
 
 **Windows (PowerShell):**
 
@@ -154,15 +188,31 @@ if ($pids) { $pids | ForEach-Object { Stop-Process -Id $_ -Force } }
 lsof -ti :3000 | xargs kill -9 2>/dev/null || true
 ```
 
-## Test Files Location
+---
 
-- **Unit:** `tests/unit/**/*.test.{ts,tsx}`
-- **E2E:** `tests/e2e/**/*.spec.ts`
-- **Mocks:** `tests/mocks/server.ts`
-- **Helpers:** `tests/e2e/helpers/*.ts`
+## Troubleshooting Common Failures
 
-## Required Environment
+**Tests hang indefinitely:** Port 3000 not freed. Re-run port guard above.
 
-- PostgreSQL via `DATABASE_URL`
-- `ENCRYPTION_KEY` set
-- `NEXTAUTH_SECRET` set
+**Playwright can't connect:** Dev server not running. Start with `bun run dev` before E2E tests.
+
+**ENCRYPTION_KEY missing:** Tests silently fail. Add `ENCRYPTION_KEY=<32-byte-hex>` to `.env.local` (not in `.env.example` for security).
+
+**DB seed fails in global-setup.ts:** Ensure PostgreSQL is running via `docker-compose up -d postgres`. Check `DATABASE_URL` is set correctly.
+
+**Flaky Plaid Link tests:** Ensure `addMockPlaidInitScript()` is called BEFORE `page.goto()`. Mock must inject before page loads.
+
+---
+
+## Reference: File Locations & Seed User
+
+**Test locations:**
+
+- Unit: `tests/unit/**/*.test.{ts,tsx}`
+- E2E: `tests/e2e/**/*.spec.ts`
+- Helpers: `tests/e2e/helpers/*.ts`
+- Mocks: `tests/mocks/server.ts`
+
+**Seed user (E2E):** Email `seed-user@example.com` / Password `password123`
+
+**Required environment:** PostgreSQL (`DATABASE_URL`), `ENCRYPTION_KEY`, `NEXTAUTH_SECRET`

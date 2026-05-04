@@ -2,6 +2,8 @@
 
 **This is the single source of truth for all agent and developer guidance.** It consolidates `architecture.md`, `coding-standards.md`, `folder-structure.md`, `exemplars.md`, `.cursorrules`, `.github/copilot-instructions.md`, and `CONTRIBUTING.md`.
 
+> **AI assistants:** Load `SYSTEM.md` for the core system prompt with tool definitions and essential rules. This file provides the foundational context for all interactions.
+
 ---
 
 ## 1. Start Here

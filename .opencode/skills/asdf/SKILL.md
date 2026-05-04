@@ -7,8 +7,6 @@ compatibility: opencode
 
 # asdf Version Manager Skill
 
-asdf is a universal CLI version manager — one tool to replace nvm, pyenv, rbenv, tfenv, goenv and more. It manages per-project versions via `.tool-versions` files and switches versions automatically as you navigate directories.
-
 ---
 
 ## When to Use This Skill
@@ -28,13 +26,44 @@ Use this skill when the user is:
 
 ---
 
-## Core Concepts
+## Before Setting Up asdf: Decision Framework
 
-- **Plugin**: Adapter for a specific tool (nodejs, python, terraform, kubectl, etc.)
-- **Tool**: The actual runtime/binary managed (e.g., Node.js 20.11.0)
-- **.tool-versions**: Project-level file declaring exact versions; asdf resolves it by traversing up the directory tree to `$HOME`
-- **Shims**: Lightweight wrappers in `~/.asdf/shims/` that intercept tool invocations and dispatch to the right version
-- **Version scopes**: project (`.tool-versions` in cwd) → parent dirs → `$HOME/.tool-versions` → env var `ASDF_${TOOL}_VERSION`
+Ask yourself these questions before recommending or configuring asdf:
+
+1. **Multi-tool needs**: Does this project need version control for 2+ tools? (If only Node.js, nvm might be sufficient. If 5+ tools, asdf wins.)
+
+2. **Team shell diversity**: Will the team use different shells (Bash, Fish, Zsh)? If yes, test asdf in each shell—shim resolution differs.
+
+3. **CI/CD determinism**: Does CI/CD require identical tool versions across all runs? asdf + .tool-versions guarantees this if you NEVER use `latest`.
+
+4. **Legacy file constraints**: Does the team already use .nvmrc, .ruby-version, or .python-version? Enable `legacy_version_file = yes` in .asdfrc or migrate to .tool-versions (breaking, requires team alignment).
+
+---
+
+## Core Concepts (Minimal)
+
+- **Plugin**: Adapter/repository for a tool (nodejs, python, terraform, kubectl, etc.)
+- **.tool-versions**: Project contract—one tool per line, exact versions; asdf traverses up the directory tree to find it
+- **Shims**: Lightweight wrappers in `~/.asdf/shims/` that intercept commands and dispatch to the right version
+- **Version scopes**: Resolved in order: project `.tool-versions` → parent dirs → `$HOME/.tool-versions` → env var `ASDF_${TOOL}_VERSION`
+
+---
+
+## NEVER Do (Anti-Patterns from Experience)
+
+- **NEVER use `asdf set` directly on a shared `.tool-versions` in production without testing locally first.** Incorrect versions silently break builds for the entire team. Test locally, verify with `asdf current`, then commit.
+
+- **NEVER mix legacy version files (`.nvmrc`, `.ruby-version`) with `.tool-versions` without explicitly configuring `legacy_version_file = yes` in `.asdfrc`.** Ambiguous version resolution causes silent version mismatches that fail only in CI or for specific team members.
+
+- **NEVER assume Bash, Fish, and Zsh handle shims identically.** PATH ordering and shim sourcing differ between shells. If your team uses multiple shells, test the full `.tool-versions` workflow in each shell before committing.
+
+- **NEVER forget to `asdf reshim` after updating a plugin (especially major plugin updates).** Stale shims continue to run outdated tool versions without warning. Reshim is a critical step, not optional.
+
+- **NEVER use `asdf install nodejs latest` in CI pipelines or shared `.tool-versions` files.** "Latest" is non-deterministic; different machines at different times install different versions. Always pin exact versions in `.tool-versions`. Use `asdf install` locally to resolve and write the exact version.
+
+- **NEVER ignore system dependency errors during plugin installation.** Plugin failures (nodejs, python, erlang, ruby) are almost always due to missing build tools (`gnupg`, `build-essential`, `libssl-dev`, etc.), not asdf. Check the plugin's README first; install system dependencies before retrying.
+
+- **NEVER set `ASDF_DATA_DIR` without understanding the consequences.** Custom data dirs bypass shared project configurations. Only use this for isolated development or testing, not in team environments.
 
 ---
 
@@ -227,6 +256,10 @@ echo $PATH                  # Verify ~/.asdf/shims is early in PATH
 type -a node                # Fish: check which binary is resolved
 ```
 
+**Common cause**: Shell config was modified but not reloaded. Run `source ~/.bashrc` (or equivalent for your shell) to reload.
+
+**PATH conflicts**: If nvm, pyenv, or rbenv entries are still in your PATH before `~/.asdf/shims`, those managers' shims will shadow asdf. Remove or reorder PATH entries.
+
 ### Version not being picked up
 
 ```bash
@@ -235,15 +268,41 @@ asdf current                # See what version is resolved and from where
 # Check .tool-versions exists in project dir or a parent
 ```
 
+**Silent version mismatch**: Team members may have different versions if `.tool-versions` isn't committed, or if `legacy_version_file = yes` causes different files to load (.nvmrc vs .tool-versions). Always commit `.tool-versions`.
+
 ### Plugin install failures
 
 - Check plugin README for system dependency requirements
 - Ensure git is installed and accessible
 - For nodejs: may need `gnupg` for keyring verification
 
+**Slow or stalled downloads**: If `asdf install` stalls during download, ensure `always_keep_download = no` in `.asdfrc` so partial downloads are kept. Resume with the same command.
+
+**Network timeouts in CI**: For CI environments with slow/unreliable networks, add retry logic:
+
+```bash
+for attempt in {1..3}; do asdf install && break || sleep 5; done
+```
+
+### Conflicting version managers
+
+**Problem**: Multiple version managers (nvm, pyenv, asdf) in PATH cause version conflicts.
+
+**Solution**:
+
+```bash
+# Check what's in PATH
+echo $PATH | tr ':' '\n'
+
+# Remove conflicting managers from shell config
+# Only asdf should manage tool versions
+# Edit ~/.bashrc, ~/.zshrc, or ~/.config/fish/config.fish
+# Delete or comment out nvm/pyenv initialization lines
+```
+
 ### Data directory
 
-Default: `~/.asdf/` — override with `export ASDF_DATA_DIR=/custom/path` in shell config.
+Default: `~/.asdf/` — override with `export ASDF_DATA_DIR=/custom/path` in shell config. Only use for isolated development, not shared team environments.
 
 ---
 

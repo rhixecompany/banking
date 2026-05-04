@@ -1,139 +1,185 @@
 ---
 name: project-docs
-description: Generate comprehensive, professional project documentation structures including README, ARCHITECTURE, USER_GUIDE, DEVELOPER_GUIDE, and CONTRIBUTING files. Use when the user requests project documentation creation, asks to "document a project", needs standard documentation files, or wants to set up docs for a new repository. Adapts to Python/Go projects and OpenSource/internal contexts.
+description: Generate complete documentation structures (README, ARCHITECTURE, USER_GUIDE, DEVELOPER_GUIDE, CONTRIBUTING) tailored to project type and audience. Detects project language (Python/Go), context (OpenSource/internal), and adapts templates accordingly. Use when: (1) creating docs for new projects, (2) auditing/restructuring existing docs, or (3) setting up docs for a repository before launch.
 ---
 
 # Project Documentation Generator
 
-Generate complete, professional documentation structures for software projects. Automatically adapts content and structure based on project language (Python/Go), context (OpenSource/internal), and existing files.
+Expert-driven documentation generation tailored to your project's actual needs—not a generic template dump.
 
-## Core Documentation Files
+## Philosophy: Documentation as Decision Support
 
-Always generate these five core files:
+**Documentation exists to answer questions, not to be complete.**
 
-1. **README.md** - Project overview, quick start, badges
-2. **ARCHITECTURE.md** - System design, components, data flow
-3. **USER_GUIDE.md** - Usage examples, configuration, troubleshooting
-4. **DEVELOPER_GUIDE.md** - Development setup, testing, contribution workflow
-5. **CONTRIBUTING.md** - Contribution guidelines, code standards, PR process
+The best docs help readers make decisions: "How do I install this?" "Should I contribute?" "Why was this designed this way?" Weak docs waste time explaining how code works instead of why decisions were made.
+
+Your job: **Generate docs that answer the specific questions YOUR users will ask.**
+
+---
+
+## Before You Generate ANY Docs, Ask Yourself
+
+### Purpose Questions
+
+- **Who READS this documentation?** (developers, end-users, ops, compliance, all?)
+- **What DECISIONS do they need to make?** (install it? contribute to it? deploy it? understand architecture?)
+- **What will be STALE in 3 months?** (setup instructions drift fastest; architecture changes slower)
+
+### Scope Questions
+
+- **Does this project need ALL 5 files?**
+  - Microservices: Skip USER_GUIDE (developers only)
+  - Internal tools: Skip CONTRIBUTING (private team)
+  - CLIs: Keep README + USER_GUIDE, minimize ARCHITECTURE
+  - Libraries: Prioritize ARCHITECTURE and examples, CONTRIBUTING optional
+- **What's the MINIMUM viable doc set for this project?**
+
+### Quality Questions
+
+- **What CANNOT be wrong?** (security, deployment, configuration)
+- **What CAN you leave TBD?** (examples, edge cases)
+- **Who MAINTAINS these docs?** (single person? team? community?)
+
+---
 
 ## Workflow
 
-### 1. Context Detection
+### Phase 1: Detect & Assess
 
-Before generating docs, detect:
+**1. Context Detection:**
 
 - **Language**: Scan for `go.mod`, `pyproject.toml`, `requirements.txt`, `setup.py`
-- **Project type**: Check for `Dockerfile`, `terraform/`, `k8s/`, AI/ML indicators
-- **Existing docs**: Identify what already exists to avoid duplication
+- **Project type**: Check for `Dockerfile`, `terraform/`, `k8s/`, `mcp/` (AI agents), REST APIs
+- **Existing docs**: Identify what already exists (avoid duplication, assess quality)
 - **License**: Detect from LICENSE file or ask user
-- **Context**: Determine if OpenSource or internal based on repo structure
+- **Context**: Determine if OpenSource or internal
 
-### 2. Ask Clarifying Questions
+**2. Ask Clarifying Questions** (one at a time):
 
-Ask user ONE question at a time to fill gaps:
-
-- "What's the primary purpose of this project in one sentence?"
+- "What's the primary purpose of this project?"
 - "Who's the main audience? (developers, ops, end-users, all)"
-- "Is this OpenSource or internal? (affects badges, contact info)"
-- "Any company-specific tooling to mention? (Jira, Slack channels, etc.)"
+- "Is this OpenSource or internal?"
+- "Are there company-specific tools to mention? (Jira, Slack, etc.)"
 
-### 3. Content Adaptation
+**Decision Gate:** Based on answers, determine which of the 5 files are REQUIRED vs. optional.
 
-Read `references/templates.md` to select appropriate template variants based on detected context.
+---
 
-**Language-specific elements:**
+### Phase 2: Template Selection (MANDATORY)
 
-- Python: Package managers (`uv`, `pip`, `poetry`), testing (`pytest`), linting (`ruff`, `mypy`)
-- Go: Build commands, testing, `golangci-lint`, module structure
+**MANDATORY - READ ENTIRE FILE**: Before generating ANY docs, you MUST read [`references/template.md`](references/template.md) completely (~1600 lines).
 
-**Context-specific elements:**
+**Do NOT load** unless:
 
-- OpenSource: Badges, CODE_OF_CONDUCT, security policy, community guidelines
-- Internal: Slack channels, internal tools, compliance requirements, team contacts
+- [ ] Context detected (Phase 1 complete)
+- [ ] Questions answered (Phase 1 complete)
+- [ ] Project type identified
 
-**Project type adjustments:**
+**Conditional reading:**
 
-- AI Agents: MCP architecture, prompt patterns, example interactions
-- Infrastructure: Terraform/K8s setup, deployment procedures, DR plans
-- Microservices: API schemas, service mesh, health checks
-- CLI Tools: Installation methods, command examples, flags
+- For **AI Agents**: Focus on "MCP architecture" and "tool integrations" sections
+- For **Infrastructure**: Focus on "Deployment" and "DR plans" sections
+- For **Internal projects**: SKIP all "OpenSource/Community" sections
+- For **Minimal docs** (2-3 files): Only read core templates, skip variants
 
-### 4. File Generation
+---
 
-Generate files in this order:
+### Phase 3: File Generation (Strict Order)
 
-1. **README.md** first (most visible, sets tone)
-2. **ARCHITECTURE.md** (technical foundation)
+Generate files in this order (order matters for readability):
+
+1. **README.md** (most visible, sets expectations)
+2. **ARCHITECTURE.md** (technical foundation for all other docs)
 3. **DEVELOPER_GUIDE.md** (setup and contribution)
 4. **USER_GUIDE.md** (end-user focused)
-5. **CONTRIBUTING.md** (community guidelines)
+5. **CONTRIBUTING.md** (community guidelines) — _optional for internal projects_
 
-Each file must:
+**For each file:**
 
-- Use clear headers and structure from templates
-- Include concrete, runnable examples
+- Use template structure from `references/template.md`
+- Include concrete, runnable examples (test them mentally)
 - Reference other docs when needed (avoid duplication)
 - Match project's actual structure and commands
 
-### 5. Template Application
+---
 
-For each file:
+## Project Type Detection (Decision Tree)
 
-1. Select template variant from `references/templates.md`
-2. Fill in project-specific details
-3. Add context-appropriate sections
-4. Ensure consistency across all files
+Determines which template variant to use:
 
-### 6. Quality Checks
+1. Check for `Dockerfile` or `docker-compose.yml` → **Infrastructure/DevOps**
+   - Generate: README + ARCHITECTURE + DEVELOPER_GUIDE (skip USER_GUIDE)
+2. Check for `mcp/` or MCP-related files → **AI Agent**
+   - Generate: README + ARCHITECTURE (MCP-focused) + DEVELOPER_GUIDE
+3. Check for `/api` patterns, REST routes → **Microservice/Backend**
+   - Generate: All 5 files, emphasize API docs in USER_GUIDE
+4. Check for CLI patterns, `main.go`, `main.py` → **CLI Tool**
+   - Generate: README (commands) + USER_GUIDE (examples) + DEVELOPER_GUIDE
+5. Default → **General Software Project**
+   - Generate: All 5 files with balanced content
 
-Before finalizing, verify:
+---
 
-- All code examples are runnable and accurate
-- Commands match detected language/tooling
-- Cross-references between docs are correct
-- No placeholder text remains
-- Tone is consistent (technical/friendly/formal based on context)
+## NEVER Do This (Expert Anti-Patterns)
 
-### 7. Output
+- ❌ **NEVER write docs for "completeness"** — write docs that answer specific questions
+- ❌ **NEVER explain code; explain INTENT** — "why is `const X = 5`?" not "what does `const` do?"
+- ❌ **NEVER skip architectural trade-offs** — readers need to understand WHY decisions were made
+- ❌ **NEVER assume readers understand your constraints** — write them explicitly
+- ❌ **NEVER document only the happy path** — show error cases, edge cases, troubleshooting
+- ❌ **NEVER keep outdated examples** — stale code is worse than no code; remove it
+- ❌ **NEVER make DEVELOPER_GUIDE a tutorial** — it should be a reference with clear sections
+- ❌ **NEVER duplicate setup instructions** — link with "see README §X" instead
 
-Place all files in `docs/` and use `present_files` to share with user.
+---
 
-## Resources
+## Edge Case Handling
 
-### references/templates.md
+### Monorepo Projects
 
-Contains complete documentation templates for all five core files with variants for:
+**Detected by:** `packages/`, `services/`, or `modules/` directories
 
-- Python vs Go projects
-- OpenSource vs internal contexts
-- Different project types (agent, service, CLI, infra)
-- Different complexity levels
+**Approach:**
 
-Claude should read this file to select appropriate templates before generating docs.
+1. Create root `docs/README.md` (brief overview, links to sub-projects)
+2. Create `docs/ARCHITECTURE.md` (system-level diagram, how packages interact)
+3. For each package: `packages/{name}/README.md` (package-specific docs)
+4. Do NOT create separate DEVELOPER_GUIDE per package — merge into root
 
-## Special Considerations
+### Polyglot Projects (Python + Go + Node)
 
-**For AI Agent projects:**
+**Approach:**
 
-- Explain MCP server architecture
-- Document tool integrations
-- Show example prompts and interactions
-- Include LLM configuration details
+1. README: Section per language with language-specific quick starts
+2. DEVELOPER_GUIDE: Separate setup sections per language (clear headings)
+3. Do NOT assume one setup process fits all languages
 
-**For Infrastructure/DevOps:**
+### Legacy Projects with Existing Partial Docs
 
-- Environment requirements (cloud providers, versions)
-- Deployment runbooks
-- Monitoring setup
-- Disaster recovery procedures
+**Assess first:**
 
-**For Microservices:**
+- Read existing README, DEVELOPER_GUIDE
+- Identify gaps (missing ARCHITECTURE? outdated setup?)
+- Ask user: "Update existing docs" vs. "Generate from scratch"
 
-- API endpoint documentation
-- Service dependency diagrams
-- Inter-service communication patterns
-- Health check and metrics endpoints
+### Projects that are Both Library AND CLI Tool
+
+**Approach:**
+
+1. README: Show library installation + CLI installation (separate sections)
+2. USER_GUIDE: Split into "As a Library" and "As a CLI" sections
+3. ARCHITECTURE: Explain both usage patterns
+
+### High-Velocity Projects (Docs Go Stale Fast)
+
+**Strategy:**
+
+- Emphasize "see code for source of truth" in setup sections
+- Add "Last Updated" dates to sections likely to drift
+- Point to CI/test files as examples (code doesn't lie)
+- Keep ARCHITECTURE high-level (less likely to change)
+
+---
 
 ## Quality Standards
 
@@ -141,15 +187,13 @@ Every documentation file must:
 
 - Have table of contents for files >200 lines
 - Use proper code fences with language tags
-- Include "Quick Start" section at top
-- Show real, tested examples
-- Explain "why" decisions were made
+- Include concrete, tested examples (or at least explain how to run them)
+- Explain "why" decisions were made, not just "how"
 - Use consistent terminology throughout
+- Show at least ONE error case or troubleshooting example
 
-## Avoid
+---
 
-- Generic placeholder text like "TODO" or "Coming soon"
-- Outdated technology references
-- Overly complex explanations without examples
-- Duplicating content across multiple files
-- Missing concrete code examples
+## Output
+
+Place all generated files in `docs/` and present them to user with brief summary of what each file covers.

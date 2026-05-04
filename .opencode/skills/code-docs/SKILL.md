@@ -1,285 +1,186 @@
 ---
 name: code-docs
-description: Apply Google Style documentation standards to Python, Go, and Terraform code. Use when writing or reviewing code that needs docstrings/comments, when asked to "document this code", "add docstrings", "follow Google Style", or when improving code documentation quality. Supports Python docstrings, Go comments, and Terraform variable/output descriptions. Enforces consistent, professional documentation standards.
+description: Apply Google Style documentation standards to Python docstrings, Go comments, and Terraform descriptions. Use when writing code that needs documentation, asked to "add docstrings", "document this code", "follow Google Style", or reviewing documentation quality. Routes to language-specific Google Style guides with expert trade-off frameworks.
 ---
 
 # Code Documentation Standards
 
-Apply Google Style documentation standards to Python (docstrings), Go (comments), and Terraform (descriptions). Ensures consistent, professional, and comprehensive code documentation across multiple languages.
+Route to language-specific Google Style guides. Provides expert decision frameworks for when to document, how much detail is appropriate, and when to deviate from strict style guidelines based on audience and code lifecycle.
 
-## When to Apply This Skill
+## Quick Routing
 
-Use this skill when:
+**Identify your code language, then load the corresponding reference:**
 
-- Writing new functions, classes, or packages
-- Reviewing code for documentation quality
-- User requests "document this code" or "add docstrings"
-- User mentions "Google Style" or documentation standards
-- Refactoring code that lacks proper documentation
-- Creating code examples that should be well-documented
+| Language | File Extension | Load This Guide | Load Others? |
+| --- | --- | --- | --- |
+| **Python** | `.py` | `references/python_google_style.md` (MANDATORY, read completely) | Do NOT load Go or Terraform guides |
+| **Go** | `.go` | `references/go_google_style.md` (MANDATORY, read completely) | Do NOT load Python or Terraform guides |
+| **Terraform** | `.tf` | `references/terraform_style.md` (MANDATORY, read completely) | Do NOT load Python or Go guides |
 
-## Core Principles
-
-1. **Clarity**: Documentation should be immediately understandable
-2. **Completeness**: Document all public APIs, parameters, returns, exceptions
-3. **Consistency**: Follow language-specific Google Style conventions
-4. **Conciseness**: Be thorough but avoid redundancy
-5. **Examples**: Include usage examples for complex functionality
-
-## Workflow
-
-### 1. Detect Language
-
-Identify the programming language:
-
-- **Python**: Look for `.py` files, `def`, `class` keywords, type hints
-- **Go**: Look for `.go` files, `func`, `type`, `package` keywords
-- **Terraform**: Look for `.tf` files, `resource`, `variable`, `module` keywords
-
-### 2. Apply Appropriate Standard
-
-Read the corresponding reference file:
-
-- **Python**: Read `references/python_google_style.md` for complete docstring standards
-- **Go**: Read `references/go_google_style.md` for complete comment standards
-- **Terraform**: Read `references/terraform_style.md` for complete description standards
-
-### 3. Document Code Elements
-
-Apply documentation to all appropriate code elements:
-
-**Python**:
-
-- Module-level docstrings
-- Class docstrings
-- Method/function docstrings
-- Important variables/constants
-
-**Go**:
-
-- Package comments
-- Type comments
-- Function comments
-- Important constants/variables
-
-**Terraform**:
-
-- Variable descriptions
-- Output descriptions
-- Resource comments
-- Module descriptions
-
-### 4. Quality Checks
-
-Before finalizing, verify:
-
-- All public APIs are documented
-- Parameters and returns are described
-- Exceptions/errors are documented
-- Examples are provided for complex functions
-- Formatting follows Google Style exactly
-- No redundant or obvious documentation
-
-### 5. Provide Feedback
-
-When reviewing code:
-
-- Point out missing documentation
-- Suggest improvements to existing docs
-- Provide corrected examples
-- Explain why certain documentation is important
-
-## Documentation Coverage
-
-### Python - What to Document
-
-**Always Document**:
-
-- Public modules (module-level docstring)
-- Public classes (class docstring)
-- Public methods and functions (method docstring)
-- `__init__` methods (explain parameters)
-
-**Consider Documenting**:
-
-- Complex private functions (with leading underscore)
-- Non-obvious class attributes
-- Module-level constants
-
-**Don't Document**:
-
-- Self-explanatory code (e.g., simple getters/setters)
-- Override methods that just call super() without changes
-- Trivial one-liner functions with obvious behavior
-
-### Go - What to Document
-
-**Always Document**:
-
-- Package (package comment before package declaration)
-- Exported types (structs, interfaces)
-- Exported functions and methods
-- Exported constants and variables
-
-**Consider Documenting**:
-
-- Complex unexported functions
-- Non-obvious implementation details
-- Important internal structures
-
-**Don't Document**:
-
-- Trivial getters/setters
-- Self-explanatory code
-- Override methods without new behavior
-
-### Terraform - What to Document
-
-**Always Document**:
-
-- All variables (description field)
-- All outputs (description field)
-- Module purpose (README.md)
-- Complex resources (inline comments)
-
-**Consider Documenting**:
-
-- Data sources with complex filters
-- Non-obvious resource dependencies
-- Conditional resource creation logic
-
-**Don't Document**:
-
-- Self-explanatory variable names
-- Simple pass-through outputs
-- Standard resource configurations
-
-## Special Cases
-
-### Python Type Hints
-
-When using type hints, docstrings can be more concise:
+**Example (Python):**
 
 ```python
-def add(a: int, b: int) -> int:
-    """Add two integers.
+def calculate_interest(principal: float, rate: float, years: int) -> float:
+    """Calculate compound interest using annual compounding.
 
     Args:
-        a: First integer.
-        b: Second integer.
+        principal: Initial investment amount in dollars.
+        rate: Annual interest rate as decimal (e.g., 0.05 for 5%).
+        years: Number of years for compounding.
 
     Returns:
-        The sum of a and b.
-    """
-    return a + b
-```
-
-Type information is already in the signature, so Args and Returns can be brief.
-
-### Go Error Returns
-
-Always document what errors a function can return:
-
-```go
-// ReadConfig reads and parses the configuration file.
-//
-// Returns an error if the file cannot be read or contains invalid YAML.
-func ReadConfig(path string) (*Config, error) {
-    // implementation
-}
-```
-
-### Complex Algorithms
-
-For complex logic, add inline comments AND comprehensive function documentation:
-
-```python
-def dijkstra(graph: Graph, start: Node) -> dict[Node, float]:
-    """Find shortest paths using Dijkstra's algorithm.
-
-    Implements Dijkstra's single-source shortest path algorithm
-    using a priority queue for O((V + E) log V) complexity.
-
-    Args:
-        graph: Weighted graph with non-negative edge weights.
-        start: Starting node for path calculations.
-
-    Returns:
-        Dictionary mapping each node to its shortest distance from start.
-        Unreachable nodes are not included in the result.
+        Final amount after compound interest.
 
     Raises:
-        ValueError: If graph contains negative edge weights.
-
-    Example:
-        >>> graph = Graph()
-        >>> graph.add_edge("A", "B", 4)
-        >>> graph.add_edge("A", "C", 2)
-        >>> distances = dijkstra(graph, "A")
-        >>> distances["B"]
-        4
+        ValueError: If rate is negative or years is less than 1.
     """
-    # Implementation with inline comments for complex parts
 ```
 
-## Output Format
+---
 
-When adding documentation to code:
+## Expert Decision Frameworks
 
-1. **Present the documented code** with proper formatting
-2. **Explain what was added** if the changes are significant
-3. **Highlight any decisions** made about what to document or not document
+### 1. The Over-Documentation Paradox
 
-## Avoid
+**NEVER document every obvious one-liner** — it creates documentation noise:
 
-- Generic or placeholder documentation ("This function does stuff")
-- Redundant documentation that just repeats the code ("This adds a and b")
-- Over-documentation of obvious code
-- Inconsistent formatting within the same file
-- Missing critical information (parameters, exceptions, edge cases)
-- Documentation that becomes outdated as code changes
+- **Signal-to-noise collapse**: Readers learn to skip docstrings when 80% are trivial ("This returns x")
+- **Maintenance burden**: Docstrings drift from code → confusion when they're outdated
+- **Modern IDE reduction**: Type hints + IDE tooltips already show signatures; redundant descriptions waste tokens
 
-### references/terraform_style.md
+**WHEN to document obvious code anyway**:
 
-Complete Terraform documentation standard with:
+- Public API boundary (first-time users need anchoring, not just signature)
+- Team composition: Will junior developers maintain this? They need detail
+- Licensing/compliance: Documentation is contractual, not optional
+- Open-source or vendor API: Users can't read implementation; assume nothing
 
-- Variable description format
-- Output description format
-- Module documentation structure
-- Inline comments for complex resources
-- Examples for common patterns
-- terraform-docs integration
+---
 
-## Resources
+### 2. Audience-Driven Documentation Philosophy
+
+Documentation style depends on **who reads it**:
+
+| Audience | Documentation Approach |
+| --- | --- |
+| **Library maintainers** | Minimal: API contract, edge cases, public behavior only |
+| **New team members** | Detailed: Explain WHY, not just WHAT. Include intent. |
+| **Open-source users** | Comprehensive: Assume nothing. Provide examples. |
+| **Internal-only code** | Inline comments sufficient. Focus on complexity, not basics. |
+
+---
+
+### 3. Lifecycle-Driven Documentation Investment
+
+How much to document depends on **code stability**:
+
+| Stability | Documentation Level |
+| --- | --- |
+| **Stable API** (shipping for 6+ months) | Invest heavily: comprehensive docs + examples |
+| **Experimental** (under design) | Lightweight: focus on intent, not stability |
+| **Internal helper function** | Minimal: inline comments on WHY, not WHAT |
+| **Deprecated** | Special: document migration path + alternative |
+
+---
+
+### 4. Type Hints vs. Docstring Parameters (Python 3.10+)
+
+Modern Python makes many docstring details redundant:
+
+```python
+# ❌ WRONG: Args section repeats type info already in signature
+def process_data(records: list[dict], timeout: int) -> bool:
+    """Process data records.
+
+    Args:
+        records: A list of dictionaries containing records.  # <-- redundant!
+        timeout: The timeout in seconds.                    # <-- redundant!
+    """
+
+# ✅ RIGHT: Args section explains WHY, not WHAT type
+def process_data(records: list[dict], timeout: int) -> bool:
+    """Process data records with automatic retry.
+
+    Args:
+        records: Customer transaction records; must have 'id' and 'amount' keys.
+        timeout: Abort after this many seconds to prevent cascading API timeouts.
+    """
+```
+
+**Rule**: If type hints fully express the constraint, explain the business reason instead.
+
+---
+
+### 5. When to Deviate from Google Style
+
+Google Style is a **foundation, not dogma**. Deviate when:
+
+- **Team standard differs**: Follow your team's convention (consistency > purity)
+- **Language evolution**: Python 3.10+ allows more concise docs than 3.8
+- **Context requires it**: An internal API doesn't need the rigor of a public library
+- **Readability suffers**: If Google Style makes your docs harder to scan, adapt
+
+**Never deviate** on:
+
+- One-line summary (always first)
+- Parameter/return/error documentation (critical for safety)
+- Format consistency within a single file
+
+---
+
+## Reference Files (Load Based on Language)
 
 ### references/python_google_style.md
 
-Complete Python docstring standard with:
+**Python code only** — Complete docstring standard:
 
-- Module, class, and function docstring formats
+- Module, class, function docstring formats
 - Args, Returns, Raises, Yields sections
-- Type hint integration
-- Examples for common patterns
-- Edge cases and best practices
+- Type hint integration & PEP 257 compliance
+- Examples: from simple to complex algorithms
+- Common mistakes & how to fix them
 
 ### references/go_google_style.md
 
-Complete Go comment standard with:
+**Go code only** — Complete comment standard:
 
-- Package comment format
-- Function and method comment format
-- Type comment format
-- Documentation for errors
-- Examples for common patterns
+- Package comment format & best practices
+- Function comment template (action verb required)
+- Type & interface comment patterns
+- Error documentation (special Go requirement)
 - godoc integration notes
+- Examples: from simple to complex patterns
 
-## Quality Standards
+### references/terraform_style.md
 
-All code documentation must:
+**Terraform code only** — Complete description standard:
 
-- Start with a concise one-line summary
-- Use proper grammar and punctuation
-- Follow language-specific formatting (indentation, delimiters)
-- Include examples for non-trivial public APIs
-- Document all parameters, returns, and errors/exceptions
-- Be maintained when code changes
+- Variable description format & validation
+- Output description best practices
+- Module documentation structure
+- Inline comments for complex resources
+- terraform-docs compatibility
+- Examples: from simple to enterprise patterns
+
+---
+
+## Quality Standards (All Languages)
+
+Before finalizing documentation:
+
+- ✅ One-line summary is concise & action-oriented
+- ✅ Grammar and punctuation are correct
+- ✅ Language-specific formatting is consistent
+- ✅ Complex functions include usage examples
+- ✅ Parameters, returns, and errors/exceptions are documented
+- ✅ Documentation can be maintained (won't quickly drift from code)
+
+---
+
+## What NOT to Do
+
+- ❌ Generic placeholders ("This function does stuff") — users get nothing
+- ❌ Redundant descriptions that mirror code ("This adds a and b" when signature is clear)
+- ❌ Mixed formatting styles in the same file — confuses readers
+- ❌ Outdated documentation (comment says X, code does Y) — worse than no docs
+- ❌ Over-document trivial getters/setters unless they're public API boundaries

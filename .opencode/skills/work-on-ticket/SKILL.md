@@ -1,20 +1,59 @@
 ---
 name: work-on-ticket
-description: Fetches Jira ticket details, creates an appropriately named branch, and initiates the task planning workflow. Use when the user says "work on [TICKET_ID]" or similar phrases.
+description: Fetch Jira ticket details, create appropriately named git branch, and initiate task planning workflow for ticket-based work. Use when starting work on a specific Jira ticket: 'work on AGP-782', 'start PROJ-123', 'pick up AICC-456', 'begin [TICKET_ID]'. Handles git state verification, branch naming conventions, and error scenarios (uncommitted changes, existing branches, missing tickets).
 ---
 
 # Work on Ticket
 
 Streamlined workflow to start work on a Jira ticket by fetching ticket details, creating a branch, and initiating task planning.
 
+## Ticket Assessment Framework: Before You Branch
+
+Expert ticket work isn't mechanical (fetch → branch → plan). It requires critical thinking about scope, clarity, and readiness:
+
+**Is the ticket well-scoped?**
+
+- Does it have clear, testable acceptance criteria? If not, ask for clarification before branching.
+- Can you articulate when this work is "done"? If unclear, the ticket is too vague.
+- Are the requirements specific enough, or do they allow multiple interpretations? If ambiguous, clarify first.
+
+**Should YOU work on this ticket?**
+
+- Do you have all information needed, or does it depend on external clarification?
+- Can you complete this without blocking on other tickets or dependencies?
+- Is this actually one ticket or multiple pieces of work bundled together? If the latter, request a split.
+
+**When to STOP and Ask for Clarity:**
+
+- Ticket lacks acceptance criteria → STOP, request explicit definition of done
+- Ticket seems to contain 2-3 different pieces of work → STOP, ask to split into multiple tickets
+- You don't understand why this work matters → STOP, ask for business context
+- Estimated effort looks larger than ticket scope suggests → STOP, negotiate scope or re-estimate
+- Ticket description is vague or contradictory → STOP, ask for clarification
+
+**Scope Safety Check:**
+
+- If you can describe the ticket in 1-2 sentences, scope is probably clear ✓
+- If it takes 3+ sentences or has conditionals ("If X, do Y"), scope is too wide or vague ⚠
+
 ## When to Use This Skill
 
 Activate this skill when:
 
 - The user says "work on AGP-123" or "start work on AGP-123"
-- The user says "pick up AGP-123" or "begin AGP-123"
-- The user mentions starting work on a specific Jira ticket ID
-- Pattern: `work on [TICKET_ID]` or similar intent
+- The user says "pick up AGP-123" or "begin AGP-123" or "start PROJ-456"
+- The user mentions starting work on a specific Jira ticket ID: "work on AICC-789", "start TICKET_ID"
+- Pattern: `work on [TICKET_ID]`, `start [TICKET_ID]`, `pick up [TICKET_ID]`, `begin [TICKET_ID]`, or similar intent
+
+**NEVER Do This When Working on Tickets:**
+
+- **NEVER accept an ambiguous ticket without asking for clarity** — Branching locks you into uncertainty. Clarify first.
+- **NEVER skip reviewing acceptance criteria** — If the ticket has none, STOP and request them. You can't know when you're done.
+- **NEVER combine multiple tickets into one branch** — One ticket = one branch. If work spans multiple logical pieces, request ticket split.
+- **NEVER commit to hours without re-scoping** — If you discover the ticket is larger than estimated, renegotiate scope.
+- **NEVER create massive PRs (>10 files, >500 lines)** — Large changes break reviewability. Split into smaller, logical units.
+- **NEVER start work without understanding the _why_** — Business context matters. If missing, ask.
+- **NEVER merge without manual testing confirmation** — Automated tests are necessary but not sufficient.
 
 ## Workflow
 
@@ -178,6 +217,27 @@ Acceptance Criteria:
 - Show the error to User
 - STOP - don't proceed to task planning
 
+**If Jira API is unreachable (network failure):**
+
+- Inform User: "Cannot reach Jira API. Check your network connection and JIRA credentials."
+- Suggest: "Try again when network is stable, or provide ticket details manually."
+- STOP - don't proceed without ticket information
+
+**If ticket summary contains invalid branch name characters:**
+
+- Example: "Fix [Auth] Token Support" contains brackets
+- Sanitize: Remove or replace invalid characters when converting to kebab-case
+- Result: `TICKET_ID-fix-auth-token-support`
+- Inform User: "Sanitized branch name to: [BRANCH_NAME]"
+- Proceed if User approves
+
+**If ticket is a sub-task or linked issue:**
+
+- Inform User: "This is a sub-task of [PARENT_TICKET]. Should I work on the parent ticket instead?"
+- Check for dependencies and relationships before branching
+- Ask: "Are there blocking issues? Should I create a separate branch or wait?"
+- Wait for decision
+
 ## Example Usage
 
 ### Example 1: Simple Ticket
@@ -214,114 +274,31 @@ Acceptance Criteria:
 3. Informs User: "Couldn't find ticket BAD-999 in Jira. Please check the ticket ID."
 4. STOPS
 
-## Coding Standards
+### Example 4: Invalid Branch Name Characters
 
-**CRITICAL RULE - NESTED CONDITIONALS:**
+**User:** "work on API-123" **Ticket summary:** "Add [Auth] Bearer Token Support"
 
-- **NEVER EVER EVER USE NESTED CONDITIONALS** when working on tickets
-- If you find yourself nesting if statements, STOP immediately
-- Refactor using early returns, guard clauses, or extract functions
-- This rule applies to all code written while working on any ticket
-- Violation of this rule is FAILURE
+**Claude:**
 
-**Why this matters:**
+1. Fetches API-123
+2. Summary has brackets: "[Auth] Bearer Token Support"
+3. Converts to kebab-case: "add-auth-bearer-token-support"
+4. Branch: `API-123-add-auth-bearer-token-support` ✓
+5. Asks: "Sanitized branch name to: API-123-add-auth-bearer-token-support. Proceed?"
 
-- Nested conditionals reduce readability and increase cognitive load
-- They make code harder to test and maintain
-- Early returns and guard clauses are always clearer
+### Example 5: Vague Ticket (Assessment Failure)
 
-**Instead of:**
+**User:** "work on PROJ-567" **Ticket summary:** "Improve system" **Description:** "Make the system better"
 
-```typescript
-if (condition1) {
-  if (condition2) {
-    // do something
-  }
-}
-```
+**Claude:**
 
-**Do this:**
-
-```typescript
-if (!condition1) return;
-if (!condition2) return;
-// do something
-```
-
-**CRITICAL RULE - NO UNNECESSARY INLINE COMMENTS:**
-
-- **NEVER add simple, obvious inline comments** that just restate what the code does
-- Code should be self-documenting through clear variable names, function names, and structure
-- Only add comments when they explain **WHY** something is done, not **WHAT** is being done
-- Remove unnecessary comments during refactoring
-- This rule applies to all code written while working on any ticket
-- Violation of this rule is FAILURE
-
-**Bad comments (obvious, unnecessary):**
-
-```typescript
-// Set the user's name
-user.name = "Alice";
-
-// Loop through the items
-for (const item of items) {
-  // Process the item
-  processItem(item);
-}
-
-// Return true if valid
-return isValid;
-```
-
-**Good comments (explain WHY, add context):**
-
-```typescript
-// Cache user data for 5 minutes to reduce API calls
-const cachedUser = await cache.get(userId, { ttl: 300 });
-
-// Process items in batches to avoid memory issues with large datasets
-for (const batch of chunkArray(items, 100)) {
-  await processBatch(batch);
-}
-
-// Skip validation for admin users per security requirement SEC-123
-if (user.isAdmin) return true;
-```
-
-**When comments ARE appropriate:**
-
-- Explaining non-obvious business logic or requirements
-- Documenting workarounds for external bugs (with issue links)
-- Clarifying performance optimizations
-- Noting security considerations
-- Referencing ticket numbers or external documentation
-
-**When to use NO comments:**
-
-- If the code is self-explanatory
-- If a better variable/function name would make it clear
-- If the comment just repeats what the code obviously does
-
-**CRITICAL RULE - VITEST TESTING:**
-
-- **ALWAYS use the Vitest TDD Expert skill** when writing or working with Vitest tests
-- Before writing any Vitest tests, activate the Vitest TDD Expert skill by invoking it with the Skill tool
-- The Vitest TDD Expert skill enforces:
-  - **Red-Green-Refactor TDD cycle** (test first, always)
-  - **95%+ coverage requirements** with quality metrics
-  - **FIRST principles** (Fast, Independent, Repeatable, Self-validating, Timely)
-  - **Behavior-focused testing** (not implementation details)
-  - **Comprehensive edge case coverage** and error path testing
-  - **Anti-pattern avoidance** (no brittle tests, no excessive mocking)
-- This ensures high-quality, maintainable test suites that provide confidence
-- Violation of this rule means tests may be brittle, incomplete, or low quality
-
-**When to activate Vitest TDD Expert:**
-
-```typescript
-// Before writing Vitest tests, invoke:
-Skill({ skill: "vitest-tdd" });
-```
+1. Fetches PROJ-567
+2. Assesses scope - description is vague with no acceptance criteria
+3. **STOPS and asks:** "This ticket needs clarification. Can you provide:
+   - What specific aspect of the system needs improvement?
+   - What does 'better' mean (performance, UX, reliability)?
+   - What are the acceptance criteria or definition of done?
+4. Waits for User to clarify before creating branch
 
 ## Important Notes
 
@@ -331,14 +308,16 @@ Skill({ skill: "vitest-tdd" });
 - **Keep branch names concise** - aim for clarity over completeness
 - **Include ticket context** in the task planning prompt to give the planner maximum context
 - **The `/eng:chore` command** will handle the detailed planning - this skill just sets up the environment
+- **Assess ticket quality first** - if the ticket is unclear, vague, or too broad, ask for clarification before branching
 
 ## Success Criteria
 
 The skill is successful when:
 
 1. ✅ Jira ticket is fetched successfully
-2. ✅ Appropriate branch name is generated
-3. ✅ Git state is verified (no uncommitted changes or user approved)
-4. ✅ New branch is created and checked out
-5. ✅ `/eng:chore` command is executed with ticket context
-6. ✅ User is informed of each major step
+2. ✅ Ticket is assessed for scope clarity and completeness (user confirmed or asked clarifying questions)
+3. ✅ Appropriate branch name is generated
+4. ✅ Git state is verified (no uncommitted changes or user approved)
+5. ✅ New branch is created and checked out
+6. ✅ `/eng:chore` command is executed with ticket context
+7. ✅ User is informed of each major step

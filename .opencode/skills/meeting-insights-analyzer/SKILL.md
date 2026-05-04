@@ -1,323 +1,200 @@
 ---
 name: meeting-insights-analyzer
-description: Analyzes meeting transcripts and recordings to uncover behavioral patterns, communication insights, and actionable feedback. Identifies when you avoid conflict, use filler words, dominate conversations, or miss opportunities to listen. Perfect for professionals seeking to improve their communication and leadership skills.
+description: "Analyzes meeting transcripts and recordings to uncover behavioral patterns, communication insights, and actionable feedback. Identifies when you avoid conflict, use filler words, dominate conversations, or miss opportunities to listen. Use when analyzing your own communication patterns across multiple meetings, preparing performance review examples with concrete behavioral evidence, coaching team members on communication style, or tracking improvement in specific areas like listening, conflict-handling, or facilitation skills. Requires: Meeting transcripts with speaker labels and timestamps (text, VTT, SRT, or DOCX format)."
 ---
 
 # Meeting Insights Analyzer
 
-This skill transforms your meeting transcripts into actionable insights about your communication patterns, helping you become a more effective communicator and leader.
+This skill helps you understand your communication patterns through behavioral analysis of meeting transcripts. Unlike surface-level metrics, it emphasizes honest interpretation grounded in evidence, cultural context, and rigorous skepticism of your own assumptions.
 
-## When to Use This Skill
+## How to Analyze Behavior Honestly
 
-- Analyzing your communication patterns across multiple meetings
-- Getting feedback on your leadership and facilitation style
-- Identifying when you avoid difficult conversations
-- Understanding your speaking habits and filler words
-- Tracking improvement in communication skills over time
-- Preparing for performance reviews with concrete examples
-- Coaching team members on their communication style
+The goal is not to judge yourself or others, but to see patterns with clarity. Good behavioral analysis:
 
-## What This Skill Does
+- **Looks for multiple perspectives**: Before concluding "you avoid conflict," also consider "you're collaborative" or "you listen before responding"
+- **Questions your assumptions**: Notice when you're drawn to conclusions that confirm what you already believe about yourself
+- **Respects context**: Behavior changes by situation. Quiet in hierarchical meetings ≠ quiet person; quiet with peer friends = different signal
+- **Tracks evidence rigorously**: Patterns need 3+ instances across 2+ meetings, not single memorable moments
+- **Acknowledges medium limitations**: Text transcripts lose tone, pacing, and emotional intent. What reads harsh was spoken warmly
 
-1. **Pattern Recognition**: Identifies recurring behaviors across meetings like:
-   - Conflict avoidance or indirect communication
-   - Speaking ratios and turn-taking
-   - Question-asking vs. statement-making patterns
-   - Active listening indicators
-   - Decision-making approaches
+## NEVER Do When Analyzing
 
-2. **Communication Analysis**: Evaluates communication effectiveness:
-   - Clarity and directness
-   - Use of filler words and hedging language
-   - Tone and sentiment patterns
-   - Meeting control and facilitation
+This list captures mistakes that are easy to make and hard to catch without explicit guidance:
 
-3. **Actionable Feedback**: Provides specific, timestamped examples with:
-   - What happened
-   - Why it matters
-   - How to improve
+**NEVER assume a single instance indicates a pattern** → One interruption doesn't mean you're domineering. Minimum 3+ occurrences across 2+ different meetings required before claiming a behavioral pattern.
 
-4. **Trend Tracking**: Compares patterns over time when analyzing multiple meetings
+**NEVER interpret speaking ratio without role context** → Meeting facilitators and leaders naturally speak 50-70% more than participants. Only compare speaking time to peers in similar roles. "You spoke 60%" means nothing without knowing if you were facilitating.
 
-## How to Use
+**NEVER confuse absence of behavior with its opposite** → No interruptions ≠ deference. No questions ≠ disengagement. Absence is information but doesn't indicate the opposite action.
 
-### Basic Setup
+**NEVER miss the transcript medium's distortion** → Transcripts strip tone, pause, hesitation, and emphasis. Blunt text may have been collaborative in tone. Uncertain speech reads as uncertain confidence. Sarcasm becomes literalism.
 
-1. Download your meeting transcripts to a folder (e.g., `~/meetings/`)
-2. Navigate to that folder in Claude Code
-3. Ask for the analysis you want
+**NEVER attribute personality when situation explains behavior** → You avoid conflict in status-imbalanced meetings but not peer meetings = situational adaptation, not conflict-avoiding personality. Context drives behavior more than trait.
 
-### Quick Start Examples
+**NEVER misinterpret silence or reflective thinking** → Some people are reflective listeners who think before speaking. Silence ≠ disengagement. Measure engagement by what they do when they do speak.
+
+**NEVER assume cultural or generational norms are individual traits** → "Like" is standard Gen Z speech; "actually" is normal in certain professional cultures; pausing is normal for non-native speakers. These aren't communication flaws.
+
+**NEVER overgeneralize from limited data** → Three meetings in Q1 may not represent annual patterns. Holiday weeks, project crises, or seasonal staffing changes affect communication. Look for stability before claiming patterns.
+
+**NEVER let confirmation bias shape your interpretation** → You already believe you avoid conflict? Your brain will find hedging language everywhere. You believe you're inclusive? You'll see evidence of it. Actively look for counterexamples.
+
+## Loading References
+
+Depending on what you're analyzing, load these references **selectively**:
+
+**MANDATORY FIRST**: Read [`bias-mitigation.md`](references/bias-mitigation.md) before starting any analysis. It contains your framework for recognizing observer bias and staying honest.
+
+**Then choose based on analysis type**:
+
+- Analyzing conflict avoidance? → Load [`behavioral-patterns.md`](references/behavioral-patterns.md) – conflict section
+- Measuring speaking patterns? → Load [`behavioral-patterns.md`](references/behavioral-patterns.md) – speaking-patterns section
+- Evaluating leadership style? → Load [`behavioral-patterns.md`](references/behavioral-patterns.md) – leadership section
+- Dealing with ambiguous or contradictory findings? → Load [`edge-cases.md`](references/edge-cases.md)
+- Need detailed methodology? → Load [`frameworks.md`](references/frameworks.md)
+
+Do NOT load all references at once. Load what you need for the specific analysis.
+
+## Workflow: Analyze → Validate → Report
+
+### 1. **Prepare**: Confirm Data Quality
+
+Before analyzing, verify:
+
+- [ ] Transcripts have speaker labels (if not, see edge-cases.md)
+- [ ] Timestamps present (if not, note limitation)
+- [ ] At least 2+ meetings for pattern claims
+- [ ] Clear date/context for each meeting
+
+### 2. **Observe**: Look for Specific Signals
+
+For the behavior you're analyzing (from references/behavioral-patterns.md), identify:
+
+- Exact timestamps and quotes
+- Frequency count
+- Context (meeting type, who was present, tension level)
+
+### 3. **Validate**: Test Your Interpretation
+
+Before reporting, ask:
+
+- Do I have 3+ instances? Or just memorable moments?
+- Could context explain this instead of personality?
+- Am I looking for examples to prove what I already believe?
+- What contradicts this pattern?
+
+### 4. **Report**: Evidence First, Interpretation Second
+
+Structure findings as:
 
 ```
-Analyze all meetings in this folder and tell me when I avoided conflict.
+Pattern: [Name]
+Instances: X times across Y meetings
+Examples: [Timestamp + quote + why it matters]
+Interpretation: [What this might indicate, with caveats]
+Counterexamples: [Times this pattern DIDN'T appear]
 ```
 
-```
-Look at my meetings from the past month and identify my communication patterns.
-```
+## Quick Reference: Key Behavioral Indicators
 
-```
-Compare my facilitation style between these two meeting folders.
-```
+**Conflict Avoidance Signals** (load references/behavioral-patterns.md for details):
 
-### Advanced Analysis
+- Hedging: "maybe", "kind of", "I think", "potentially"
+- Deflection: "whatever you think", "I'm open to anything"
+- Subject changes when tension rises
+- Agreeing without clarity on commitment
 
-```
-Analyze all transcripts in this folder and:
-1. Identify when I interrupted others
-2. Calculate my speaking ratio
-3. Find moments I avoided giving direct feedback
-4. Track my use of filler words
-5. Show examples of good active listening
-```
+**Speaking Patterns** (load references/behavioral-patterns.md for details):
 
-## Instructions
+- Speaking percentage vs. role (facilitator vs. participant)
+- Interruption frequency and patterns
+- Question vs. statement ratio
+- Turn-taking consistency
 
-When a user requests meeting analysis:
+**Leadership Style** (load references/behavioral-patterns.md for details):
 
-1. **Discover Available Data**
-   - Scan the folder for transcript files (.txt, .md, .vtt, .srt, .docx)
-   - Check if files contain speaker labels and timestamps
-   - Confirm the date range of meetings
-   - Identify the user's name/identifier in transcripts
+- Directive (telling) vs. collaborative (asking)
+- How disagreement is handled
+- Inclusion of quiet voices
+- Clarity of follow-up and decisions
 
-2. **Clarify Analysis Goals**
+**Active Listening Indicators** (load references/behavioral-patterns.md for details):
 
-   If not specified, ask what they want to learn:
-   - Specific behaviors (conflict avoidance, interruptions, filler words)
-   - Communication effectiveness (clarity, directness, listening)
-   - Meeting facilitation skills
-   - Speaking patterns and ratios
-   - Growth areas for improvement
+- Building on others' ideas
+- Paraphrasing to confirm understanding
+- Asking clarifying questions
+- References to others' previous points
 
-3. **Analyze Patterns**
+## Examples: Analysis in Practice
 
-   For each requested insight:
+### Example 1: Rigorous Pattern Discovery
 
-   **Conflict Avoidance**:
-   - Look for hedging language ("maybe", "kind of", "I think")
-   - Indirect phrasing instead of direct requests
-   - Changing subject when tension arises
-   - Agreeing without commitment ("yeah, but...")
-   - Not addressing obvious problems
+**Request**: "Tell me when I avoid conflict in my meetings."
 
-   **Speaking Ratios**:
-   - Calculate percentage of meeting spent speaking
-   - Count interruptions (by and of the user)
-   - Measure average speaking turn length
-   - Track question vs. statement ratios
+**What you DON'T do**: Scan transcripts, find one hedged statement, report "conflict avoidance detected."
 
-   **Filler Words**:
-   - Count "um", "uh", "like", "you know", "actually", etc.
-   - Note frequency per minute or per speaking turn
-   - Identify situations where they increase (nervous, uncertain)
+**What you DO do**:
 
-   **Active Listening**:
-   - Questions that reference others' previous points
-   - Paraphrasing or summarizing others' ideas
-   - Building on others' contributions
-   - Asking clarifying questions
+1. Read bias-mitigation.md to check: "Am I expecting to find conflict avoidance? Am I hunting for examples?"
+2. Scan all transcripts and log EVERY instance of hedging language, deflection, or direct statements
+3. Sort by date and context (1:1 vs team, high-stakes vs routine)
+4. Identify patterns: "In 5 out of 7 salary discussion meetings, I used hedging language. But in peer planning meetings, I was direct."
+5. Report: "Conflict avoidance appears contextual — occurs in hierarchical meetings with power imbalance, not peer meetings"
 
-   **Leadership & Facilitation**:
-   - Decision-making approach (directive vs. collaborative)
-   - How disagreements are handled
-   - Inclusion of quieter participants
-   - Time management and agenda control
-   - Follow-up and action item clarity
+This is honest analysis: you didn't avoid conflict generally; you adapted your communication to perceived power dynamics.
 
-4. **Provide Specific Examples**
+### Example 2: Contradictory Patterns
 
-   For each pattern found, include:
+**Finding**: "You interrupt frequently (7 interruptions in one meeting) but also ask a lot of questions (14 questions)."
 
-   ```markdown
-   ### [Pattern Name]
+**Naive interpretation**: "You're domineering but also curious."
 
-   **Finding**: [One-sentence summary of the pattern]
+**Better interpretation** (from edge-cases.md):
 
-   **Frequency**: [X times across Y meetings]
+- Load edge-cases.md, Section: "What if patterns contradict?"
+- Analyze timing: When do you interrupt? When do you ask questions?
+- You interrupt during _your own_ explanations (incomplete thoughts) but ask questions during _others' explanations_ (information gathering)
+- This isn't contradiction; it's different behaviors in different contexts
+- Report: "You tend to think out loud, completing thoughts mid-explanation (7 self-interruptions). When others speak, you're deeply curious and ask for detail."
 
-   **Examples**:
+### Example 3: No Clear Patterns Emerge
 
-   1. **[Meeting Name/Date]** - [Timestamp]
+**Situation**: You analyzed 4 meetings, looked for conflict avoidance, active listening, leadership style — found no standout patterns.
 
-      **What Happened**:
+**What NOT to do**: Report "no findings" and stop.
 
-      > [Actual quote from transcript]
+**What to do** (from edge-cases.md):
 
-      **Why This Matters**: [Explanation of the impact or missed opportunity]
+- This is valid: absence of extreme patterns itself is information
+- Look for POSITIVE patterns: moments of good listening, clear communication, collaborative problem-solving
+- Report: "No conflict avoidance detected. Patterns observed: asks clarifying questions consistently, invites input from quiet participants, names disagreements directly"
+- This is actually a strength profile, not a failure to find patterns
 
-      **Better Approach**: [Specific alternative phrasing or behavior]
+## Edge Cases: Handling Ambiguous Situations
 
-   [Repeat for 2-3 strongest examples]
-   ```
+See [`edge-cases.md`](references/edge-cases.md) for detailed guidance on:
 
-5. **Synthesize Insights**
+- **No speaker labels**: Transcripts without clear speaker identification
+  - Ask user for speaker context
+  - Note analysis limitations in report
+  - Fall back to team-level patterns only
 
-   After analyzing all patterns, provide:
+- **Contradictory patterns**: Behavior that seems to pull in opposite directions
+  - Investigate context and timing
+  - Often indicates situational adaptation, not contradiction
+  - Report the contextual variation, not the contradiction
 
-   ```markdown
-   # Meeting Insights Summary
+- **Very long transcripts**: 10+ hour meetings or marathon sessions
+  - Segment by topic or hour
+  - Track fatigue/engagement changes over time
+  - Note how late-meeting behavior differs from early-meeting
 
-   **Analysis Period**: [Date range] **Meetings Analyzed**: [X meetings] **Total Duration**: [X hours]
+- **No clear patterns**: Analysis reveals stable, consistent communication
+  - This is valuable: strength profile, not lack of findings
+  - Report positive patterns observed
+  - Avoid forcing conclusions
 
-   ## Key Patterns Identified
-
-   ### 1. [Primary Pattern]
-
-   - **Observed**: [What you saw]
-   - **Impact**: [Why it matters]
-   - **Recommendation**: [How to improve]
-
-   ### 2. [Second Pattern]
-
-   [Same structure]
-
-   ## Communication Strengths
-
-   1. [Strength 1 with example]
-   2. [Strength 2 with example]
-   3. [Strength 3 with example]
-
-   ## Growth Opportunities
-
-   1. **[Area 1]**: [Specific, actionable advice]
-   2. **[Area 2]**: [Specific, actionable advice]
-   3. **[Area 3]**: [Specific, actionable advice]
-
-   ## Speaking Statistics
-
-   - Average speaking time: [X% of meeting]
-   - Questions asked: [X per meeting average]
-   - Filler words: [X per minute]
-   - Interruptions: [X given / Y received per meeting]
-
-   ## Next Steps
-
-   [3-5 concrete actions to improve communication]
-   ```
-
-6. **Offer Follow-Up Options**
-   - Track these same metrics in future meetings
-   - Deep dive into specific meetings or patterns
-   - Compare to industry benchmarks
-   - Create a personal communication development plan
-   - Generate a summary for performance reviews
-
-## Examples
-
-### Example 1: Conflict Avoidance Analysis (Inspired by Dan Shipper)
-
-**User**: "I download all of my meeting recordings and put them in a folder. Tell me all the times I've subtly avoided conflict."
-
-**Output**:
-
-```markdown
-# Conflict Avoidance Patterns
-
-Found 23 instances across 15 meetings where you used indirect communication or avoided addressing tensions directly.
-
-## Pattern: Hedging on Critical Feedback
-
-**Frequency**: 8 times across 7 meetings
-
-**Example 1: 1:1 with Sarah** - 00:14:32
-
-**What Happened**:
-
-> "So, I was thinking... maybe we could, like, potentially consider looking at the timeline again? I mean, if you think that makes sense. But whatever you think is best!"
-
-**Why This Matters**: You needed to address that Sarah's project was behind schedule, but the hedging language ("maybe", "potentially", "if you think") and the deflection at the end ("whatever you think") made it easy for her to miss the urgency.
-
-**Better Approach**: "Sarah, the project is two weeks behind schedule. We need to discuss what's blocking progress and create a new timeline today."
-
-[Additional examples...]
-
-## Recommendations
-
-1. **Name the issue directly** in the first sentence
-2. **Remove hedging words** like "maybe," "kind of," "sort of"
-3. **Ask specific questions** instead of hinting
-4. **Schedule difficult conversations** instead of raising them casually
-```
-
-### Example 2: Leadership Facilitation
-
-**User**: "Analyze my team meetings and tell me about my facilitation style."
-
-**Output**: Provides insights on:
-
-- How much you speak vs. team members (60% vs. 40%)
-- Whether you ask questions or make statements (3:1 ratio)
-- How you handle disagreements (tendency to resolve too quickly)
-- Who speaks least and whether you draw them in
-- Examples of good and missed facilitation moments
-
-### Example 3: Personal Development Tracking
-
-**User**: "Compare my meetings from Q1 vs. Q2 to see if I've improved my listening skills."
-
-**Output**: Creates a comparative analysis showing:
-
-- Decrease in interruptions (8 per meeting → 3 per meeting)
-- Increase in clarifying questions (2 → 7 per meeting)
-- Improvement in building on others' ideas
-- Specific examples showing the difference
-- Remaining areas for growth
-
-## Setup Tips
-
-### Getting Meeting Transcripts
-
-**From Granola** (free with Lenny's newsletter subscription):
-
-- Granola auto-transcribes your meetings
-- Export transcripts to a folder: [Instructions on how]
-- Point Claude Code to that folder
-
-**From Zoom**:
-
-- Enable cloud recording with transcription
-- Download VTT or SRT files after meetings
-- Store in a dedicated folder
-
-**From Google Meet**:
-
-- Use Google Docs auto-transcription
-- Save transcript docs to a folder
-- Download as .txt files or give Claude Code access
-
-**From Fireflies.ai, Otter.ai, etc.**:
-
-- Export transcripts in bulk
-- Store in a local folder
-- Run analysis on the folder
-
-### Best Practices
-
-1. **Consistent naming**: Use `YYYY-MM-DD - Meeting Name.txt` format
-2. **Regular analysis**: Review monthly or quarterly for trends
-3. **Specific queries**: Ask about one behavior at a time for depth
-4. **Privacy**: Keep sensitive meeting data local
-5. **Action-oriented**: Focus on one improvement area at a time
-
-## Common Analysis Requests
-
-- "When do I avoid difficult conversations?"
-- "How often do I interrupt others?"
-- "What's my speaking vs. listening ratio?"
-- "Do I ask good questions?"
-- "How do I handle disagreement?"
-- "Am I inclusive of all voices?"
-- "Do I use too many filler words?"
-- "How clear are my action items?"
-- "Do I stay on agenda or get sidetracked?"
-- "How has my communication changed over time?"
-
-## Related Use Cases
-
-- Creating a personal development plan from insights
-- Preparing performance review materials with examples
-- Coaching direct reports on their communication
-- Analyzing customer calls for sales or support patterns
-- Studying negotiation tactics and outcomes
+- **Minimal data**: Only 1-2 meetings available
+  - Clearly note "insufficient data for pattern claims"
+  - Offer specific observations from those meetings
+  - Recommend collecting 2+ more meetings for pattern analysis
