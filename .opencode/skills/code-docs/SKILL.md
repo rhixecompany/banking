@@ -1,6 +1,6 @@
 ---
 name: code-docs
-description: Apply Google Style documentation standards to Python docstrings, Go comments, and Terraform descriptions. Use when writing code that needs documentation, asked to "add docstrings", "document this code", "follow Google Style", or reviewing documentation quality. Routes to language-specific Google Style guides with expert trade-off frameworks.
+description: "Google Style documentation for Python, Go, Terraform. Use when writing docstrings, documenting code, 'add docstrings', or 'follow Google Style'. Keywords: docstring, documentation, PEP 257, godoc, terraform-docs, docstring style."
 ---
 
 # Code Documentation Standards
@@ -9,13 +9,13 @@ Route to language-specific Google Style guides. Provides expert decision framewo
 
 ## Quick Routing
 
-**Identify your code language, then load the corresponding reference:**
+**MANDATORY - READ ENTIRE FILE** based on your code language:
 
-| Language | File Extension | Load This Guide | Load Others? |
+| Language | File Extension | Load This Guide | Do NOT Load |
 | --- | --- | --- | --- |
-| **Python** | `.py` | `references/python_google_style.md` (MANDATORY, read completely) | Do NOT load Go or Terraform guides |
-| **Go** | `.go` | `references/go_google_style.md` (MANDATORY, read completely) | Do NOT load Python or Terraform guides |
-| **Terraform** | `.tf` | `references/terraform_style.md` (MANDATORY, read completely) | Do NOT load Python or Go guides |
+| **Python** | `.py` | `references/python_google_style.md` | Go or Terraform guides |
+| **Go** | `.go` | `references/go_google_style.md` | Python or Terraform guides |
+| **Terraform** | `.tf` | `references/terraform_style.md` | Python or Go guides |
 
 **Example (Python):**
 

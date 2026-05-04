@@ -2,240 +2,95 @@
 
 ## Summary
 
-- **Total Score**: 116/120 (96.7%)
-- **Grade**: A+
-- **Pattern**: Mindset (~100 lines)
-- **Knowledge Ratio**: E:A:R = 70:25:5
-- **Verdict**: Exceptional, production-ready expert skill. Now includes token economy explanation and intensity selection framework. Tightly scoped, high-value knowledge delta with clear thinking patterns and appropriate creative freedom.
-
----
+- **Total Score**: 97/120 (80.8%)
+- **Grade**: B
+- **Pattern**: Philosophy (two-step: Philosophy → Express)
+- **Knowledge Ratio**: E:A:R = 60:30:10
+- **Verdict**: Strong Skill with genuine compression framework. Minor gaps in anti-pattern explicitness and trigger scenarios prevent A grade.
 
 ## Dimension Scores
 
 | Dimension | Score | Max | Notes |
 | --- | --- | --- | --- |
-| D1: Knowledge Delta | 18 | 20 | Token economy mechanism now explicit. Why ~75% savings works is clear. Expert knowledge of intensity selection added. |
-| D2: Mindset + Procedures | 14 | 15 | Strong mindset framing. Domain-specific intensity procedures. "Choosing Your Intensity" decision tree enables confident level selection. |
-| D3: Anti-Pattern Quality | 15 | 15 | COMPLETE. Specific NEVER list (articles, filler, pleasantries, hedging) WITH WHY via Token Economy section. Now explains mechanism. |
-| D4: Specification Compliance | 15 | 15 | COMPLETE. Valid frontmatter, explicit intensity variants in description, searchable keywords (ultra-compressed, intensity specifier). |
-| D5: Progressive Disclosure | 15 | 15 | Perfect. Self-contained <150 lines, all information present, no orphaned references. Ideal layering. |
-| D6: Freedom Calibration | 15 | 15 | Perfect. Creative task (communication style) with appropriate freedom. Principle-based constraints. |
-| D7: Pattern Recognition | 9 | 10 | Clear Mindset pattern. Now 100 lines (vs 50-67 ideal) due to deliberate enhancement. Justified expansion. |
-| D8: Practical Usability | 15 | 15 | COMPLETE. Clear decision tree with "Choosing Your Intensity" table. Concrete examples. Edge cases covered. |
-
----
+| D1: Knowledge Delta | 16 | 20 | Strong framework with 6 intensity levels |
+| D2: Mindset vs Mechanics | 11 | 15 | Mindset-focused, no domain procedures needed |
+| D3: Anti-Pattern Quality | 10 | 15 | Implicit anti-patterns, no explicit NEVER list |
+| D4: Specification Compliance | 12 | 15 | Good description, could be more explicit on triggers |
+| D5: Progressive Disclosure | 14 | 15 | Appropriately concise, self-contained |
+| D6: Freedom Calibration | 13 | 15 | Good for communication style |
+| D7: Pattern Recognition | 9 | 10 | Clear Philosophy pattern |
+| D8: Practical Usability | 12 | 15 | Good examples and intensity guidance |
 
 ## Critical Issues
 
-**None.** All gaps from initial evaluation have been addressed.
+### Issue 1: Missing Explicit NEVER List with WHY Reasoning (D3) — Medium Impact
 
----
+**Problem**: Skill has implicit anti-patterns but no explicit NEVER list with non-obvious reasons.
 
-## Enhancements Implemented
+**Evidence**:
 
-### 1. Token Economy Explanation ✅
+- Line 17: "No revert after many turns" — implicit rule
+- Line 70: "Drop caveman for: security warnings..." — operational guidance but no "NEVER" framing with reasoning
 
-**Added**: Section explaining WHY caveman cuts ~75% tokens
+**Impact**: Expert anti-patterns should explain WHY, not just WHAT to avoid. For example: "NEVER drop caveman mid-error message because users need full context to debug."
 
-- Articles: ~2-3% of tokens, 0% information
-- Filler: ~3-5% of tokens, 0% information
-- Pleasantries: ~1-2% of tokens, 0% information
-- Combined mechanism: ~75%+ savings
-- Core principle: Every token must earn its place
+**Fix**: Add explicit NEVER list section:
 
-**Impact**: Transforms from "rules to follow" to "principles to understand" (+2 points D3).
+```markdown
+## NEVER Do
 
-### 2. Intensity Selection Framework ✅
+- NEVER drop caveman mid-error message → users lose debugging context
+- NEVER compress security warnings → precision critical
+- NEVER use ultra in formal documentation → readability damage
+```
 
-**Added**: "Choosing Your Intensity" decision table
+### Issue 2: Description Lacks Explicit Trigger Scenarios (D4) — Low Impact
 
-- Professional code review → **lite**
-- General conversation → **full** (recommended)
-- Extreme constraints → **ultra**
-- Internal notes → **ultra**
-- Classical Chinese → **wenyan-full**
-- Rapid brainstorm → **wenyan-ultra**
+**Problem**: Description has keywords but could include more explicit WHEN scenarios.
 
-**Impact**: Enables confident level selection based on context (+1 point D8).
+**Evidence**:
 
-### 3. Description Enhancement ✅
+- Current: "Supports 6 intensity levels... Use when user says 'caveman mode', 'talk like caveman'..."
+- Missing: explicit scenarios like "Use when token budget is critical" or "Triggered by /caveman lite|full|ultra"
 
-**Enhanced**: Frontmatter description field
+**Impact**: Agent might not always recognize when to activate.
 
-- Added explicit "6 intensity levels" (was vague)
-- Added "ultra-compressed" keyword
-- Added "/caveman with intensity specifier" for CLI users
-- Maintained all WHAT/WHEN/KEYWORDS
+**Fix**: Expand description with more trigger scenarios.
 
-**Impact**: Improved skill activation pattern matching (+1 point D4).
+## Top 3 Improvements
 
----
+1. **Add explicit NEVER list with non-obvious reasons** — Current implicit rules should become explicit anti-patterns with WHY explanations
+2. **Expand description with more explicit trigger scenarios** — More WHEN keywords would improve activation
+3. **Add wenyan-specific examples** — Classical Chinese compression examples would enhance the wenyan levels
 
 ## Detailed Analysis
 
-### D3: Anti-Pattern Quality (15/15 — NOW COMPLETE)
+### D1: Knowledge Delta (16/20)
 
-**What's present**:
+**What works**: The 6-level intensity framework (lite, full, ultra, wenyan-lite, wenyan-full, wenyan-ultra) is genuine expert knowledge. The situational guidance table (lines 40-49) provides non-obvious decision guidance. Auto-clarity rules (when to drop caveman) prevent misapplication.
 
-- Specific NEVER list (articles, filler, pleasantries, hedging)
-- Code blocks unchanged, technical terms exact
-- Auto-Clarity exceptions (security warnings, destructive ops)
-- **NEW**: Token Economy section explaining WHY
+**What's borderline**: Token economy explanation (lines 9-13) provides useful framing but could be activation content.
 
-**What was missing**: Mechanism explanation **What was added**: Complete token economy breakdown showing:
+**Verdict**: Strong E:A:R ratio (~60:30:10), mostly expert content.
 
-- Each category's token cost vs information contribution
-- Why combined effect yields ~75% savings
-- Core principle that guides decision-making
+### D3: Anti-Pattern Quality (10/15)
 
-**Result**: D3 now scores 15/15 (was 13/15)
+The skill has operational boundaries but lacks explicit "NEVER" statements with reasoning. Expert anti-patterns should include non-obvious reasons that come from experience. For example: "NEVER compress financial calculations" with the reason being that precision matters more than brevity.
 
----
+**What exists**: Implicit anti-patterns (drop caveman for security, irreversible actions) **What's missing**: Explicit NEVER list with WHY explanations
 
-### D4: Specification Compliance (15/15 — NOW COMPLETE)
+### D4: Specification Compliance (12/15)
 
-**What's present**:
+**Frontmatter**: Valid YAML with name "caveman" (lowercase, <64 chars)
 
-- Valid YAML frontmatter
-- **NEW**: Explicit "6 intensity levels" in description
-- **NEW**: "ultra-compressed" searchable keyword
-- **NEW**: "/caveman with intensity specifier" CLI guidance
+**Description quality**:
 
-**What was missing**: Specific intensity names in description **What was added**: All 6 intensity variants now explicit in description field
-
-**Result**: D4 now scores 15/15 (was 14/15)
-
----
-
-### D8: Practical Usability (15/15 — NOW COMPLETE)
-
-**What's present**:
-
-- Clear intensity examples (lite/full/ultra/wenyan variants)
-- Auto-Clarity exceptions covered
-- Persistence rules clear
-- **NEW**: Decision framework for intensity selection
-
-**What was missing**: "When should I pick X vs Y intensity?" **What was added**: "Choosing Your Intensity" table with:
-
-- 6 real-world situations
-- Recommended level for each
-- Why that level is appropriate
-
-**Result**: D8 now scores 15/15 (was 14/15)
-
----
-
-## Knowledge Delta Deep Dive (Enhanced)
-
-### Expert Knowledge (70%, up from 60%)
-
-1. **Intensity levels with translations**: Wenyan-lite, wenyan-full, wenyan-ultra show non-obvious linguistic choices.
-2. **Token economy mechanism**: Now explicit. Article/filler/pleasantry contributions quantified.
-3. **Auto-Clarity edge cases**: When to DROP caveman (security, destructive ops, multi-step).
-4. **Intensity selection framework**: Which level for which situation — requires taste and experience.
-5. **Mindset frame**: "Smart caveman" + "All technical substance stay" principle.
-
-### Activation Knowledge (25%, down from 35%)
-
-1. **Persistence rule**: "ACTIVE EVERY RESPONSE" reminder.
-2. **Rules section**: Drop articles/filler/pleasantries (brevity principle).
-
-### Redundant Knowledge (<5%)
-
-- Negligible. Even structural choices add specificity.
-
----
-
-## Usability Test (Enhanced)
-
-**Scenario 1**: User says "caveman mode"
-
-- Agent checks description → Sees /caveman trigger
-- Agent loads skill → Sees Token Economy + Intensity table
-- Agent applies "full" intensity (default)
-- ✓ Works
-
-**Scenario 2**: User says "ultra-compressed, fit 200 tokens"
-
-- Agent checks description → Sees "ultra-compressed" keyword
-- Agent loads skill → Sees Intensity table + Choosing Your Intensity
-- Agent selects ultra intensity
-- ✓ Works
-
-**Scenario 3**: User asks "should I use lite or ultra for this code review?"
-
-- Agent loads skill → Sees Choosing Your Intensity table
-- Agent finds "Professional code review, formal docs → lite"
-- Agent selects lite confidently
-- ✓ Works (previously required inference from examples)
-
-**Scenario 4**: User wants to understand WHY caveman saves tokens
-
-- Agent sees Token Economy section
-- Agent gets clear mechanism: articles + filler + pleasantries removal = ~75%
-- Agent can explain the principle
-- ✓ Works (was not addressed before)
-
----
-
-## Pattern Analysis (Enhanced)
-
-**Pattern**: Mindset (100 lines)
-
-- Thinking pattern: "Respond terse like smart caveman. All technical substance stay."
-- High freedom: Users improvise within principles
-- Core philosophy: Every token must earn its place
-- No step-by-step procedures: Pure decision guidance
-
-**Deviation**: Now 100 lines (was 67, ideal 50)
-
-- **Justified**: Addition of Token Economy section and intensity selection framework
-- **Trade-off**: Length increase worth clarity and completeness gains
-- **Assessment**: Length is appropriate given enhanced value
-
----
+- WHAT: "Ultra-compressed communication mode"
+- WHEN: Lists trigger keywords ("caveman mode", "less tokens", "be brief")
+- Could improve: More explicit trigger scenarios for better activation
 
 ## Recommendation
 
-**Status**: ✅ **APPROVED FOR PRODUCTION — GRADE A+**
+**Status**: APPROVED FOR PRODUCTION (Grade B)
 
-All three identified improvements have been implemented. The caveman skill is now excellent across all dimensions.
-
-**Achievement Summary**:
-
-- D3: +2 points (complete token economy explanation)
-- D4: +1 point (explicit intensity variants)
-- D8: +1 point (intensity selection framework)
-- **Total improvement**: +4 points (111 → 116)
-- **Grade improvement**: A (92.5%) → A+ (96.7%)
-
----
-
-## Meta-Assessment
-
-Does this skill capture knowledge that took experts years to learn?
-
-**YES, EVEN MORE SO NOW.**
-
-The Wenyan variants represent linguistic expertise, Auto-Clarity exceptions represent communication judgment, AND the token economy mechanism represents actual tokenization knowledge developed through iterative AI communication. This is pure compressed expert knowledge, not tutorial material.
-
-The token economy section in particular captures counterintuitive knowledge: "Articles don't carry information, so their ~2-3% token cost is pure waste." This requires understanding both language structure AND tokenization behavior — not obvious.
-
----
-
-## Comparison to Initial State
-
-| Aspect | Initial | Enhanced | Improvement |
-| --- | --- | --- | --- |
-| Total Score | 111/120 | 116/120 | +5 points |
-| Grade | A (92.5%) | A+ (96.7%) | +4.2% |
-| Token Economy | Implicit | Explicit w/ mechanism | MAJOR |
-| Intensity Selection | Examples only | Decision table | MAJOR |
-| Description | Vague keywords | Explicit variants | CLEAR |
-| D1: Knowledge Delta | 17/20 | 18/20 | +1 |
-| D3: Anti-Patterns | 13/15 | 15/15 | +2 |
-| D4: Specification | 14/15 | 15/15 | +1 |
-| D8: Usability | 14/15 | 15/15 | +1 |
-
-**Final Status**: Exceptional, production-ready, A+ grade. All identified gaps closed.
+This is a well-designed Skill with genuine expert knowledge in its intensity framework. The three improvements would raise score to 104-107/120 (A grade). The skill is ready for use as-is.

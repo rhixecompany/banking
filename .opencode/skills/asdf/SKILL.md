@@ -1,6 +1,6 @@
 ---
 name: asdf
-description: Use this skill whenever the user wants to install, configure, or use asdf (asdf-vm), the universal version manager. Trigger for any mention of asdf, .tool-versions files, managing runtime versions, switching between versions of Node.js, Python, Ruby, Go, Terraform, kubectl, Java, Erlang, Elixir, or any other tool managed by asdf. Also trigger when migrating from nvm, pyenv, rbenv, goenv, tfenv, or similar single-language version managers. Use this skill for help with asdf plugins, asdf install, asdf set/global/local, troubleshooting shims, Fish/Bash/Zsh shell configuration, and multi-project version isolation workflows.
+description: "Universal version manager for multiple runtimes (Node.js, Python, Go, Terraform, etc.). Use when installing, configuring, or migrating version managers. Keywords: asdf, .tool-versions, nvm, pyenv, rbenv, version manager, runtime, shims, plugin."
 license: MIT
 compatibility: opencode
 ---
@@ -69,53 +69,24 @@ Ask yourself these questions before recommending or configuring asdf:
 
 ## Installation
 
-### Dependencies (all platforms)
+**MANDATORY - READ references/plugin-install.md** when adding nodejs, python, or erlang plugins — these have system dependencies that MUST be installed first.
 
-```bash
-# Debian/Ubuntu
-sudo apt install -y git curl
+**Do NOT load** plugin-specific docs for simple version switching tasks.
 
-# macOS
-brew install git curl
-```
-
-### Install asdf binary (recommended: binary download)
+### Quick Install
 
 ```bash
 # Download latest release from https://github.com/asdf-vm/asdf/releases
-# Or via git clone (classic method):
+# Or via git:
 git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.16.7
 ```
 
-### Shell Configuration
+Then add to your shell config:
 
-**Fish shell** (Jean-Jacques' setup):
+- **Fish**: `source ~/.asdf/asdf.fish`
+- **Bash/Zsh**: `. "$HOME/.asdf/asdf.sh"`
 
-```fish
-# Add to ~/.config/fish/config.fish
-source ~/.asdf/asdf.fish
-
-# Install completions
-mkdir -p ~/.config/fish/completions
-ln -s ~/.asdf/completions/asdf.fish ~/.config/fish/completions/asdf.fish
-```
-
-**Bash**:
-
-```bash
-# Add to ~/.bashrc or ~/.bash_profile
-. "$HOME/.asdf/asdf.sh"
-. "$HOME/.asdf/completions/asdf.bash"
-```
-
-**Zsh**:
-
-```zsh
-# Add to ~/.zshrc
-. "$HOME/.asdf/asdf.sh"
-```
-
-After configuration, restart shell or `source` the config file.
+Restart shell or `source` config.
 
 ---
 

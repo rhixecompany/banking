@@ -1,6 +1,6 @@
 ---
 name: banking
-description: Next.js 16 fintech banking app with PostgreSQL, Drizzle ORM, NextAuth v4, Plaid/Dwolla integrations. Use when developing features, fixing bugs, or performing code reviews on the banking application.
+description: "Next.js 16 fintech banking app with PostgreSQL, Drizzle ORM, NextAuth v4, Plaid/Dwolla integrations. Use when developing features, fixing bugs, or performing code reviews. Keywords: banking, fintech, wallet, transfer, ACH, plaid, dwolla, drizzle, postgres, NextAuth, soft-delete, idempotency."
 ---
 
 ## Core Patterns
@@ -49,7 +49,9 @@ const users = await userDal.findAll();
 
 ### N+1 Query Prevention
 
-**MANDATORY — Before writing a batch fetch, read [`dal/transaction.dal.ts`](./reference/dal/transaction.dal.ts) completely.**
+**MANDATORY - READ ENTIRE FILE**: Before implementing ANY batch query pattern, you MUST read [`dal-patterns.md`](./reference/dal-patterns.md) (~250 lines) completely. Do NOT proceed without understanding the 4-step batch-fetch pattern.
+
+**Do NOT load** `validations.md` or `testing.md` for N+1 queries.
 
 Always batch fetch related data. Reference `dal/transaction.dal.ts`:
 
@@ -86,7 +88,9 @@ return txns.map(txn => ({
 
 ### Server Actions Contract
 
-**MANDATORY — Before writing a Server Action that mutates data, read [`actions/register.ts`](./reference/actions/register.ts) completely.**
+**MANDATORY - READ ENTIRE FILE**: Before writing any Server Action that mutates data, read [`validations.md`](./reference/validations.md) (~150 lines) completely. Understand the Server Actions flow: validate → check existing → use DAL → return result.
+
+**Do NOT load** `dal-patterns.md` or `testing.md` for mutations.
 
 All mutations use Server Actions (not API routes):
 
@@ -151,7 +155,9 @@ export default function Home() {
 
 ### Mock Token Testing (Plaid/Dwolla)
 
-**MANDATORY — Before implementing Plaid/Dwolla mocking, read [`lib/plaid.ts`](./reference/lib/plaid.ts) completely.**
+**MANDATORY - READ ENTIRE FILE**: Before implementing Plaid/Dwolla mocking or testing, you MUST read [`testing.md`](./reference/testing.md) (~180 lines) completely. Understand mock token detection (`seed-*`, `mock-*`) and E2E Plaid mock injection.
+
+**Do NOT load** `validations.md` or `dal-patterns.md` for testing.
 
 Use mock tokens for deterministic testing:
 
@@ -303,20 +309,6 @@ bun run db:push    # Push schema to Postgres
 bun run db:seed    # Load test data
 bun run db:studio  # Open Drizzle Studio
 ```
-
----
-
-## Tech Stack Summary
-
-- **Framework:** Next.js 16.2.4 (App Router, Server Components by default)
-- **React:** 19 with React Compiler
-- **TypeScript:** 6.0.2 strict mode (no `any`)
-- **Package Manager:** Bun 1.3.13
-- **Database:** PostgreSQL + Drizzle ORM
-- **Auth:** NextAuth v4.24.14 with JWT
-- **Testing:** Vitest (unit) + Playwright (E2E, stateful)
-- **Integrations:** Plaid (bank linking), Dwolla (ACH transfers), Upstash Redis
-- **UI:** Tailwind CSS v4, shadcn/ui, Radix UI, Zustand
 
 ---
 

@@ -1,7 +1,7 @@
 ---
 plan name: skill-judge-enhance
 plan description: Judge and enhance all 23 local skills
-plan status: active
+plan status: done
 ---
 
 ## Idea

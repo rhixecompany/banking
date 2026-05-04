@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-04T12:11:38.067Z",
+  "generatedAt": "2026-05-04T15:06:38.983Z",
   "results": [
     {
       "check": "process.env-usage",
@@ -1109,6 +1109,13 @@
     },
     {
       "check": "no-any",
+      "file": "tests/utils/serverWrapperTestUtils.ts",
+      "line": 27,
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
       "file": "tests/unit/auth-form.layout.test.tsx",
       "line": 21,
       "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
@@ -1270,13 +1277,6 @@
     },
     {
       "check": "no-any",
-      "file": "tests/utils/serverWrapperTestUtils.ts",
-      "line": 27,
-      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
       "file": "tests/verify-rules/verify-rules.test.ts",
       "line": 20,
       "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
@@ -1335,6 +1335,41 @@
     },
     {
       "check": "no-any",
+      "file": "scripts/utils/ci-helpers/parse-reports.ts",
+      "line": 37,
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "scripts/utils/ci-helpers/report-parser.ts",
+      "line": 81,
+      "message": "Found 'any' type usage (4 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "scripts/utils/ci-helpers/run-with-args.ts",
+      "line": 62,
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "scripts/utils/ci-helpers/seed-prep.ts",
+      "line": 46,
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "scripts/utils/ci-helpers/targeted-test-runner.ts",
+      "line": 91,
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
       "file": "scripts/ts/utils/cli.ts",
       "line": 12,
       "message": "Found 'any' type usage (5 occurrences). Avoid using any.",
@@ -1369,41 +1404,6 @@
       "file": "scripts/ts/utils/disable-extensions.ts",
       "line": 80,
       "message": "Found 'any' type usage (6 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "scripts/utils/ci-helpers/parse-reports.ts",
-      "line": 37,
-      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "scripts/utils/ci-helpers/report-parser.ts",
-      "line": 81,
-      "message": "Found 'any' type usage (4 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "scripts/utils/ci-helpers/run-with-args.ts",
-      "line": 62,
-      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "scripts/utils/ci-helpers/seed-prep.ts",
-      "line": 46,
-      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "scripts/utils/ci-helpers/targeted-test-runner.ts",
-      "line": 91,
-      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
       "severity": "warn"
     },
     {
@@ -1447,13 +1447,6 @@
     },
     {
       "check": "no-any",
-      "file": "tests/e2e/utils/auth-fixtures.ts",
-      "line": 49,
-      "message": "Found 'any' type usage (4 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
       "file": "tests/fixtures/pages/base.page.ts",
       "line": 77,
       "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
@@ -1468,6 +1461,13 @@
     },
     {
       "check": "no-any",
+      "file": "tests/e2e/utils/auth-fixtures.ts",
+      "line": 49,
+      "message": "Found 'any' type usage (4 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
       "file": "tests/mocks/ui/select.tsx",
       "line": 60,
       "message": "Found 'any' type usage (14 occurrences). Avoid using any.",
@@ -1476,7 +1476,7 @@
     {
       "check": "no-any",
       "file": "tests/unit/dal/user.dal.test.ts",
-      "line": 49,
+      "line": 48,
       "message": "Found 'any' type usage (7 occurrences). Avoid using any.",
       "severity": "warn"
     },
