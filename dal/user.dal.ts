@@ -175,6 +175,9 @@ export class UserDal {
         })
         .returning();
 
+      // If insert failed, return early without setting userId
+      if (!user) return;
+
       userId = user.id;
 
       if (data.profile) {

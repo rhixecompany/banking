@@ -26,7 +26,7 @@ import { Input } from "@/components/ui/input";
  * @interface Props
  * @typedef {Props}
  */
-interface SettingsProfileFormValues {
+export interface SettingsProfileFormValues {
   address?: string;
   city?: string;
   email?: string;

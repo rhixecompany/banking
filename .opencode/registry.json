@@ -1,0 +1,232 @@
+[
+  {
+    "description": "Use this skill whenever the user wants to install, configure, or use asdf (asdf-vm), the universal version manager. Trigger for any mention of asdf, .tool-versions files, managing runtime versions, switching between versions of Node.js, Python, Ruby, Go, Terraform, kubectl, Java, Erlang, Elixir, or any other tool managed by asdf. Also trigger when migrating from nvm, pyenv, rbenv, goenv, tfenv, or similar single-language version managers. Use this skill for help with asdf plugins, asdf install, ",
+    "displayName": "asdf",
+    "productId": "Asdf",
+    "repoUrl": ".opencode\\skills\\asdf/",
+    "scope": ["project"],
+    "tagline": "asdf is a universal CLI version manager — one tool to replace nvm, pyenv, rbenv, tfenv, goenv and more. It manages pe...",
+    "tags": ["opencode", "skills"],
+    "type": "resources"
+  },
+  {
+    "description": "Next.js 16 fintech banking app with PostgreSQL, Drizzle ORM, NextAuth v4, Plaid/Dwolla integrations. Use when developing features, fixing bugs, or performing code reviews on the banking application.",
+    "displayName": "banking",
+    "productId": "Banking",
+    "repoUrl": ".opencode\\skills\\banking/",
+    "scope": ["project"],
+    "tagline": "All environment variables must be accessed via `app-config.ts` — never read `process.env` directly in app code.",
+    "tags": ["opencode", "skills"],
+    "type": "resources"
+  },
+  {
+    "description": "Ultra-compressed communication mode. Cuts token usage ~75% by speaking like caveman while keeping full technical accuracy. Supports intensity levels: lite, full (default), ultra, wenyan-lite, wenyan-full, wenyan-ultra. Use when user says \"caveman mode\", \"talk like caveman\", \"use caveman\", \"less tokens\", \"be brief\", or invokes /caveman. Also auto-triggers when token efficiency is requested.\n",
+    "displayName": "caveman",
+    "productId": "Caveman",
+    "repoUrl": ".opencode\\skills\\caveman/",
+    "scope": ["project"],
+    "tagline": "Respond terse like smart caveman. All technical substance stay. Only fluff die.",
+    "tags": ["opencode", "skills"],
+    "type": "resources"
+  },
+  {
+    "description": "Ultra-compressed commit message generator. Cuts noise from commit messages while preserving intent and reasoning. Conventional Commits format. Subject ≤50 chars, body only when \"why\" isn't obvious. Use when user says \"write a commit\", \"commit message\", \"generate commit\", \"/commit\", or invokes /caveman-commit. Auto-triggers when staging changes.\n",
+    "displayName": "caveman-commit",
+    "productId": "CavemanCommit",
+    "repoUrl": ".opencode\\skills\\caveman-commit/",
+    "scope": ["project"],
+    "tagline": "Write commit messages terse and exact. Conventional Commits format. No fluff. Why over what.",
+    "tags": ["opencode", "skills"],
+    "type": "resources"
+  },
+  {
+    "description": "Compress natural language memory files (CLAUDE.md, todos, preferences) into caveman format to save input tokens. Preserves all technical substance, code, URLs, and structure. Compressed version overwrites the original file. Human-readable backup saved as FILE.original.md. Trigger: /caveman:compress <filepath> or \"compress memory file\"\n",
+    "displayName": "caveman-compress",
+    "productId": "CavemanCompress",
+    "repoUrl": ".opencode\\skills\\caveman-compress/",
+    "scope": ["project"],
+    "tagline": "Compress natural language files (CLAUDE.md, todos, preferences) into caveman-speak to reduce input tokens. Compressed...",
+    "tags": ["opencode", "skills"],
+    "type": "resources"
+  },
+  {
+    "description": "Ultra-compressed code review comments. Cuts noise from PR feedback while preserving the actionable signal. Each comment is one line: location, problem, fix. Use when user says \"review this PR\", \"code review\", \"review the diff\", \"/review\", or invokes /caveman-review. Auto-triggers when reviewing pull requests.\n",
+    "displayName": "caveman-review",
+    "productId": "CavemanReview",
+    "repoUrl": ".opencode\\skills\\caveman-review/",
+    "scope": ["project"],
+    "tagline": "Write code review comments terse and actionable. One line per finding. Location, problem, fix. No throat-clearing.",
+    "tags": ["opencode", "skills"],
+    "type": "resources"
+  },
+  {
+    "description": "Apply Google Style documentation standards to Python, Go, and Terraform code. Use when writing or reviewing code that needs docstrings/comments, when asked to \"document this code\", \"add docstrings\", \"follow Google Style\", or when improving code documentation quality. Supports Python docstrings, Go comments, and Terraform variable/output descriptions. Enforces consistent, professional documentation standards.",
+    "displayName": "code-docs",
+    "productId": "CodeDocs",
+    "repoUrl": ".opencode\\skills\\code-docs/",
+    "scope": ["project"],
+    "tagline": "Apply Google Style documentation standards to Python (docstrings), Go (comments), and Terraform (descriptions). Ensur...",
+    "tags": ["opencode", "skills"],
+    "type": "resources"
+  },
+  {
+    "description": "Assists in writing high-quality content by conducting research, adding citations, improving hooks, iterating on outlines, and providing real-time feedback on each section. Transforms your writing process from solo effort to collaborative partnership.",
+    "displayName": "content-research-writer",
+    "productId": "ContentResearchWriter",
+    "repoUrl": ".opencode\\skills\\content-research-writer/",
+    "scope": ["project"],
+    "tagline": "This skill acts as your writing partner, helping you research, outline, draft, and refine content while maintaining y...",
+    "tags": ["opencode", "skills"],
+    "type": "resources"
+  },
+  {
+    "description": "Use this skill when you need to search Datadog logs, query metrics, tail logs in real-time, trace distributed requests, investigate errors, compare time periods, find log patterns, check service health, or export observability data.",
+    "displayName": "datadog",
+    "productId": "Datadog",
+    "repoUrl": ".opencode\\skills\\datadog/",
+    "scope": ["project"],
+    "tagline": "This skill will help you to interact with Datadog, through the unofficial datadog-cli to search Datadog logs, query m...",
+    "tags": ["opencode", "skills"],
+    "type": "resources"
+  },
+  {
+    "description": "Intelligently organizes your files and folders across your computer by understanding context, finding duplicates, suggesting better structures, and automating cleanup tasks. Reduces cognitive load and keeps your digital workspace tidy without manual effort.",
+    "displayName": "file-organizer",
+    "productId": "FileOrganizer",
+    "repoUrl": ".opencode\\skills\\file-organizer/",
+    "scope": ["project"],
+    "tagline": "This skill acts as your personal organization assistant, helping you maintain a clean, logical file structure across ...",
+    "tags": ["opencode", "skills"],
+    "type": "resources"
+  },
+  {
+    "description": "Expert guidance for using the GitLab CLI (glab) to manage GitLab issues, merge requests, CI/CD pipelines, repositories, and other GitLab operations from the command line. Use this skill when the user needs to interact with GitLab resources or perform GitLab workflows.",
+    "displayName": "glab",
+    "productId": "Glab",
+    "repoUrl": ".opencode\\skills\\glab/",
+    "scope": ["project"],
+    "tagline": "Provides guidance for using `glab`, the official GitLab CLI, to perform GitLab operations from the terminal.",
+    "tags": ["opencode", "skills"],
+    "type": "resources"
+  },
+  {
+    "description": "Use this skill whenever the user wants to make HTTP requests, test APIs, call REST endpoints, debug web services, or interact with any HTTP/HTTPS API using the HTTPie CLI tool (`http` command). Trigger this skill for any request involving: sending GET/POST/PUT/PATCH/DELETE requests, testing API endpoints, sending JSON or form data, working with authentication (Bearer token, Basic auth), uploading files, downloading responses, managing sessions, inspecting request/response headers, or piping HTTP",
+    "displayName": "httpie",
+    "productId": "Httpie",
+    "repoUrl": ".opencode\\skills\\httpie/",
+    "scope": ["project"],
+    "tagline": "HTTPie is a modern, human-friendly HTTP client for the command line. The main command is `http` (or `https` for HTTPS...",
+    "tags": ["opencode", "skills"],
+    "type": "resources"
+  },
+  {
+    "description": "Remove signs of AI-generated writing from text. Use when editing or reviewing\ntext to make it sound more natural and human-written. Based on Wikipedia's\ncomprehensive \"Signs of AI writing\" guide. Detects and fixes patterns including:\ninflated symbolism, promotional language, superficial -ing analyses, vague\nattributions, em dash overuse, rule of three, AI vocabulary words, negative\nparallelisms, and excessive conjunctive phrases.\n",
+    "displayName": "humanizer",
+    "productId": "Humanizer",
+    "repoUrl": ".opencode\\skills\\humanizer/",
+    "scope": ["project"],
+    "tagline": "You are a writing editor that identifies and removes signs of AI-generated text to make writing sound more natural an...",
+    "tags": ["opencode", "skills"],
+    "type": "resources"
+  },
+  {
+    "description": "Use when the user mentions Jira issues (e.g., \"PROJ-123\"), asks about tickets, wants to create/view/update issues, check sprint status, or manage their Jira workflow. Triggers on keywords like \"jira\", \"issue\", \"ticket\", \"sprint\", \"backlog\", or issue key patterns.",
+    "displayName": "jira",
+    "productId": "Jira",
+    "repoUrl": ".opencode\\skills\\jira/",
+    "scope": ["project"],
+    "tagline": "Natural language interaction with Jira. Supports multiple backends.",
+    "tags": ["opencode", "skills"],
+    "type": "resources"
+  },
+  {
+    "description": "Create professional Marp presentation slides with 7 beautiful themes (default, minimal, colorful, dark, gradient, tech, business). Use when users request slide creation, presentations, or Marp documents. Supports custom themes, image layouts, and \"make it look good\" requests with automatic quality improvements.",
+    "displayName": "marp-slide",
+    "productId": "MarpSlide",
+    "repoUrl": ".opencode\\skills\\marp-slide/",
+    "scope": ["project"],
+    "tagline": "Create professional, visually appealing Marp presentation slides with 7 pre-designed themes and built-in best practices.",
+    "tags": ["opencode", "skills"],
+    "type": "resources"
+  },
+  {
+    "description": "Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK).",
+    "displayName": "mcp-builder",
+    "productId": "McpBuilder",
+    "repoUrl": ".opencode\\skills\\mcp-builder/",
+    "scope": ["project"],
+    "tagline": "To create high-quality MCP (Model Context Protocol) servers that enable LLMs to effectively interact with external se...",
+    "tags": ["opencode", "skills"],
+    "type": "resources"
+  },
+  {
+    "description": "Analyzes meeting transcripts and recordings to uncover behavioral patterns, communication insights, and actionable feedback. Identifies when you avoid conflict, use filler words, dominate conversations, or miss opportunities to listen. Perfect for professionals seeking to improve their communication and leadership skills.",
+    "displayName": "meeting-insights-analyzer",
+    "productId": "MeetingInsightsAnalyzer",
+    "repoUrl": ".opencode\\skills\\meeting-insights-analyzer/",
+    "scope": ["project"],
+    "tagline": "This skill transforms your meeting transcripts into actionable insights about your communication patterns, helping yo...",
+    "tags": ["opencode", "skills"],
+    "type": "resources"
+  },
+  {
+    "description": "Comprehensive guide for creating software diagrams using Mermaid syntax. Use when users need to create, visualize, or document software through diagrams including class diagrams (domain modeling, object-oriented design), sequence diagrams (application flows, API interactions, code execution), flowcharts (processes, algorithms, user journeys), entity relationship diagrams (database schemas), C4 architecture diagrams (system context, containers, components), state diagrams, git graphs, pie charts,",
+    "displayName": "mermaid-diagrams",
+    "productId": "MermaidDiagrams",
+    "repoUrl": ".opencode\\skills\\mermaid-diagrams/",
+    "scope": ["project"],
+    "tagline": "Create professional software diagrams using Mermaid's text-based syntax. Mermaid renders diagrams from simple text de...",
+    "tags": ["opencode", "skills"],
+    "type": "resources"
+  },
+  {
+    "description": "Generate comprehensive, professional project documentation structures including README, ARCHITECTURE, USER_GUIDE, DEVELOPER_GUIDE, and CONTRIBUTING files. Use when the user requests project documentation creation, asks to \"document a project\", needs standard documentation files, or wants to set up docs for a new repository. Adapts to Python/Go projects and OpenSource/internal contexts.",
+    "displayName": "project-docs",
+    "productId": "ProjectDocs",
+    "repoUrl": ".opencode\\skills\\project-docs/",
+    "scope": ["project"],
+    "tagline": "Generate complete, professional documentation structures for software projects. Automatically adapts content and stru...",
+    "tags": ["opencode", "skills"],
+    "type": "resources"
+  },
+  {
+    "description": "Evaluate Agent Skill design quality against official specifications and best practices. Use when reviewing, auditing, or improving SKILL.md files and skill packages. Provides multi-dimensional scoring and actionable improvement suggestions.",
+    "displayName": "skill-judge",
+    "productId": "SkillJudge",
+    "repoUrl": ".opencode\\skills\\skill-judge/",
+    "scope": ["project"],
+    "tagline": "Evaluate Agent Skills against official specifications and patterns derived from 17+ official examples.",
+    "tags": ["opencode", "skills"],
+    "type": "resources"
+  },
+  {
+    "description": "Fetches Jira ticket details, creates an appropriately named branch, and initiates the task planning workflow. Use when the user says \"work on [TICKET_ID]\" or similar phrases.",
+    "displayName": "work-on-ticket",
+    "productId": "WorkOnTicket",
+    "repoUrl": ".opencode\\skills\\work-on-ticket/",
+    "scope": ["project"],
+    "tagline": "Streamlined workflow to start work on a Jira ticket by fetching ticket details, creating a branch, and initiating tas...",
+    "tags": ["opencode", "skills"],
+    "type": "resources"
+  },
+  {
+    "description": "Use this skill when the user asks about Worktrunk (wt), git worktree management, running parallel AI agents with worktrees, setting up wt hooks, configuring wt.toml, using `wt switch`, `wt list`, `wt merge`, `wt remove`, `wt step`, LLM commit messages, or integrating Worktrunk with your AI agent. Also trigger when the user wants to run multiple AI agent sessions in parallel across isolated git branches, or automate dev server / database / dependency setup per worktree. Always use this skill for ",
+    "displayName": "worktrunk",
+    "productId": "Worktrunk",
+    "repoUrl": ".opencode\\skills\\worktrunk/",
+    "scope": ["project"],
+    "tagline": "Worktrunk (`wt`) is a CLI for git worktree management designed to run AI agents (like Claude Code) in parallel across...",
+    "tags": ["opencode", "skills"],
+    "type": "resources"
+  },
+  {
+    "description": "Use when writing prose humans will read—documentation, commit messages, error messages, explanations, reports, or UI text. Applies Strunk's timeless rules for clearer, stronger, more professional writing.",
+    "displayName": "writing-clearly-and-concisely",
+    "productId": "WritingClearlyAndConcisely",
+    "repoUrl": ".opencode\\skills\\writing-clearly-and-concisely/",
+    "scope": ["project"],
+    "tagline": "Write with clarity and force. This skill covers what to do (Strunk) and what not to do (AI patterns).",
+    "tags": ["opencode", "skills"],
+    "type": "resources"
+  }
+]

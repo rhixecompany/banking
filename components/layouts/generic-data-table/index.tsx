@@ -39,7 +39,7 @@ export interface GenericDataTableProps<T> {
   /** Array of rows to render. */
   data: T[];
   /** Column definitions. */
-  columns: Array<GenericDataTableColumn<T>>;
+  columns: GenericDataTableColumn<T>[];
   /** Optional row click handler. */
   onRowClick?: (row: T) => void;
   /** Optional pagination controls. */

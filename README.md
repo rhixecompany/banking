@@ -57,19 +57,19 @@ If you're getting started and need assistance or face any bugs, join our active 
 
 | Technology | Version | Purpose |
 | --- | --- | --- |
-| **Next.js** | 16.2.4 | App Router, RSC, Cache Components |
+| **Next.js** | 16.2.2 | App Router, RSC, Cache Components |
 | **React** | 19 | UI (React Compiler enabled) |
 | **TypeScript** | 6.0.2 | Strict mode, typed routes |
 | **PostgreSQL** | via Neon | Relational database |
 | **Drizzle ORM** | 0.45.2 | Type-safe SQL + schema management |
-| **NextAuth.js** | v4.24.14 | JWT sessions, OAuth, credentials |
+| **NextAuth.js** | v4.24.13 | JWT sessions, OAuth, credentials |
 | **shadcn/ui** | latest | Accessible UI components |
 | **Tailwind CSS** | v4 | CSS-based config (`@theme` in globals.css) |
 | **React Hook Form** | latest | Form state management |
 | **Zod** | v4.3.6 | Runtime validation + type inference |
 | **Plaid** | latest | Bank account linking |
 | **Dwolla** | latest | ACH transfers |
-| **Vitest** | 4.1.5 | Unit/integration testing |
+| **Vitest** | 4.1.2 | Unit/integration testing |
 | **Playwright** | 1.59.1 | E2E browser automation |
 
 ## <a name="features">🔋 Features</a>
@@ -1406,7 +1406,7 @@ The schema is located in `database/schema.ts` with the following tables:
 | --- | --- |
 | `users` | Core user data (id, email, password, name, isAdmin, isActive) |
 | `user_profiles` | Extended user data (address, phone, SSN) |
-| `wallets` | Connected bank accounts with Plaid tokens |
+| `banks` | Connected bank accounts with Plaid tokens |
 | `transactions` | All transactions (internal and Plaid) |
 | `recipients` | Saved transfer recipients |
 

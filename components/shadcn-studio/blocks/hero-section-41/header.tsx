@@ -44,7 +44,7 @@ const Header = ({ className, navigationData }: HeaderProps) => {
     >
       <div className="mx-auto flex h-full max-w-7xl items-center justify-between gap-6 px-4 sm:px-6 lg:px-8">
         {/* Logo */}
-        <a href="#" className="flex items-center gap-3">
+        <a href="/" className="flex items-center gap-3">
           <BistroLogo />
           <span className="text-[20px] font-semibold text-primary">Bistro</span>
         </a>
@@ -58,13 +58,13 @@ const Header = ({ className, navigationData }: HeaderProps) => {
         {/* Actions */}
         <div className="flex gap-4">
           <Button className="rounded-full max-sm:hidden" asChild>
-            <a href="#">Book table</a>
+            <a href="/">Book table</a>
           </Button>
 
           {/* Navigation for small screens */}
           <div className="flex gap-3">
             <Button size="icon" className="rounded-full sm:hidden" asChild>
-              <a href="#">
+              <a href="/">
                 <CalendarClockIcon />
                 <span className="sr-only">Book table</span>
               </a>

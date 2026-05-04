@@ -2,6 +2,7 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { useForm } from "react-hook-form";
 import { expect, test, vi } from "vitest";
 
+import type { SettingsProfileFormValues } from "@/components/layouts/settings-profile-form";
 import SettingsProfileForm from "@/components/layouts/settings-profile-form";
 
 /**
@@ -19,7 +20,7 @@ function Wrapper({
 }: {
   onSubmit?: (d: any) => Promise<void>;
 }) {
-  const form = useForm({
+  const form = useForm<SettingsProfileFormValues>({
     defaultValues: {
       address: "",
       city: "",

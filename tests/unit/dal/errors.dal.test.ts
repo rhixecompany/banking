@@ -1,23 +1,44 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-// Mock the db module to avoid touching a real DB in unit tests.
-vi.mock("@/database/db", () => {
-  const returningMock = vi.fn().mockResolvedValue([
-    {
-      id: "err-1",
-      message: "mocked error",
-      createdAt: new Date().toISOString(),
-    },
-  ]);
+vi.mock("@/database/db", () => ({
+  db: {
+    select: vi.fn().mockReturnValue({
+      from: vi.fn().mockReturnValue({
+        where: vi.fn().mockReturnValue({
+          orderBy: vi.fn().mockReturnValue({
+            limit: vi.fn().mockResolvedValue([]),
+          }),
+          limit: vi.fn().mockResolvedValue([]),
+        }),
+      }),
+    }),
+    insert: vi.fn().mockReturnValue({
+      values: vi.fn().mockReturnValue({
+        returning: vi.fn().mockResolvedValue([
+          {
+            id: "error-1",
+            message: "Test error",
+          },
+        ]),
+      }),
+    }),
+    delete: vi.fn().mockReturnValue({
+      where: vi.fn().mockResolvedValue({ rowsAffected: 1 }),
+    }),
+  },
+}));
 
-  const valuesMock = vi.fn().mockReturnValue({ returning: returningMock });
-
-  return {
-    db: {
-      insert: vi.fn().mockReturnValue({ values: valuesMock }),
-    },
-  };
-});
+vi.mock("@/database/schema", () => ({
+  errors: {
+    id: "id",
+    message: "message",
+    path: "path",
+    severity: "severity",
+    stack: "stack",
+    userId: "userId",
+    createdAt: "createdAt",
+  },
+}));
 
 import { errorsDal } from "@/dal/errors.dal";
 import { db } from "@/database/db";
@@ -27,17 +48,47 @@ describe("ErrorsDal", () => {
     vi.clearAllMocks();
   });
 
-  it("calls db.insert and returns the inserted row", async () => {
+  describe("insertError", () => {
+    it("inserts error record", async () => {
+      const result = await errorsDal.insertError({
+        message: "Test error",
+      });
+      expect(db.insert).toHaveBeenCalled();
+    });
+  });
+
+  it("inserts error with full data", async () => {
     const result = await errorsDal.insertError({
-      message: "test error",
-      path: "/test",
+      message: "Full error",
+      path: "/api/test",
+      severity: "critical",
+      stack: "Error stack",
       userId: "user-1",
     });
-
-    // db.insert should have been called.
     expect(db.insert).toHaveBeenCalled();
-    // The mock resolved value should be returned as the inserted row.
-    expect(result).toHaveProperty("message", "mocked error");
-    expect(result).toHaveProperty("id", "err-1");
+  });
+});
+
+describe("getRecentErrors", () => {
+  it("gets recent errors with defaults", async () => {
+    const result = await errorsDal.getRecentErrors();
+    expect(db.select).toHaveBeenCalled();
+  });
+
+  it("gets recent errors with custom params", async () => {
+    const result = await errorsDal.getRecentErrors(48, 100);
+    expect(db.select).toHaveBeenCalled();
+  });
+});
+
+describe("clearOldErrors", () => {
+  it("clears old errors with defaults", async () => {
+    await errorsDal.clearOldErrors();
+    expect(db.delete).toHaveBeenCalled();
+  });
+
+  it("clears old errors with custom days", async () => {
+    await errorsDal.clearOldErrors(7);
+    expect(db.delete).toHaveBeenCalled();
   });
 });

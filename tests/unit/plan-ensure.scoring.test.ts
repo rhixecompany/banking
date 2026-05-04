@@ -2,9 +2,8 @@ import { describe, expect, it } from "vitest";
 
 import { scoreCandidate } from "../../scripts/plan-ensure";
 
-// Note: to enable importing helpers from scripts/plan-ensure.ts we will
-// add a small compatibility export. This test ensures scoring behaves
-// sensibly on simple inputs.
+// Core scoring unit tests — validates that scoreCandidate function
+// correctly evaluates plan candidates against changed files.
 
 describe("plan-ensure scoring", () => {
   it("gives higher score for matching targetFiles", () => {
@@ -16,5 +15,43 @@ describe("plan-ensure scoring", () => {
     };
     const s = scoreCandidate(changed, cand);
     expect(s).toBeGreaterThan(0);
+  });
+
+  it("returns zero score when no files match targetFiles", () => {
+    const changed = ["lib/utils.ts", "types/index.ts"];
+    const cand: any = {
+      targetFiles: ["app/dashboard"],
+      title: "Dashboard refactor",
+      goals: "Refactor dashboard",
+    };
+    const s = scoreCandidate(changed, cand);
+    expect(s).toBe(0);
+  });
+
+  it("handles multiple target files", () => {
+    const changed = [
+      "app/dashboard/page.tsx",
+      "components/Header.tsx",
+      "lib/auth.ts",
+    ];
+    const cand: any = {
+      targetFiles: ["app/dashboard", "components", "lib"],
+      title: "Major refactor",
+      goals: "Refactor multiple areas",
+    };
+    const s = scoreCandidate(changed, cand);
+    expect(s).toBeGreaterThan(0.5);
+  });
+
+  it("returns normalized score between 0 and 1", () => {
+    const changed = ["app/page.tsx"];
+    const cand: any = {
+      targetFiles: ["app"],
+      title: "App feature",
+      goals: "Add feature",
+    };
+    const s = scoreCandidate(changed, cand);
+    expect(s).toBeGreaterThanOrEqual(0);
+    expect(s).toBeLessThanOrEqual(1);
   });
 });

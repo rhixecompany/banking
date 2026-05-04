@@ -1,3 +1,5 @@
+"use client";
+
 import {
   ArrowRightLeftIcon,
   CalendarClockIcon,
@@ -349,6 +351,7 @@ const transactionData: Item[] = [
 ];
 
 const DashboardShell = () => {
+  const currentYear = new Date().getFullYear();
   return (
     <div className="flex min-h-dvh w-full">
       <SidebarProvider>
@@ -359,7 +362,7 @@ const DashboardShell = () => {
                 <SidebarMenu>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <a href="#">
+                      <a href="/">
                         <ChartNoAxesCombinedIcon />
                         <span>Dashboard</span>
                       </a>
@@ -377,7 +380,7 @@ const DashboardShell = () => {
                 <SidebarMenu>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <a href="#">
+                      <a href="/">
                         <ChartSplineIcon />
                         <span>Content Performance</span>
                       </a>
@@ -385,7 +388,7 @@ const DashboardShell = () => {
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <a href="#">
+                      <a href="/">
                         <UsersIcon />
                         <span>Audience Insight</span>
                       </a>
@@ -393,7 +396,7 @@ const DashboardShell = () => {
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <a href="#">
+                      <a href="/">
                         <ChartPieIcon />
                         <span>Engagement Metrics</span>
                       </a>
@@ -401,7 +404,7 @@ const DashboardShell = () => {
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <a href="#">
+                      <a href="/">
                         <HashIcon />
                         <span>Hashtag Performance</span>
                       </a>
@@ -412,7 +415,7 @@ const DashboardShell = () => {
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <a href="#">
+                      <a href="/">
                         <ArrowRightLeftIcon />
                         <span>Competitor Analysis</span>
                       </a>
@@ -420,7 +423,7 @@ const DashboardShell = () => {
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <a href="#">
+                      <a href="/">
                         <Clock9Icon />
                         <span>Campaign Tracking</span>
                       </a>
@@ -428,7 +431,7 @@ const DashboardShell = () => {
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <a href="#">
+                      <a href="/">
                         <ClipboardListIcon />
                         <span>Sentiment Tracking</span>
                       </a>
@@ -436,7 +439,7 @@ const DashboardShell = () => {
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <a href="#">
+                      <a href="/">
                         <CrownIcon />
                         <span>Influencer</span>
                       </a>
@@ -451,7 +454,7 @@ const DashboardShell = () => {
                 <SidebarMenu>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <a href="#">
+                      <a href="/">
                         <SquareActivityIcon />
                         <span>Real Time Monitoring</span>
                       </a>
@@ -459,7 +462,7 @@ const DashboardShell = () => {
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <a href="#">
+                      <a href="/">
                         <CalendarClockIcon />
                         <span>Schedule Post & Calendar</span>
                       </a>
@@ -467,7 +470,7 @@ const DashboardShell = () => {
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <a href="#">
+                      <a href="/">
                         <Undo2Icon />
                         <span>Report & Export</span>
                       </a>
@@ -475,7 +478,7 @@ const DashboardShell = () => {
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <a href="#">
+                      <a href="/">
                         <SettingsIcon />
                         <span>Settings & Integrations</span>
                       </a>
@@ -483,7 +486,7 @@ const DashboardShell = () => {
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <a href="#">
+                      <a href="/">
                         <UsersIcon />
                         <span>User Management</span>
                       </a>
@@ -506,11 +509,11 @@ const DashboardShell = () => {
                 <Breadcrumb className="hidden sm:block">
                   <BreadcrumbList>
                     <BreadcrumbItem>
-                      <BreadcrumbLink href="#">Home</BreadcrumbLink>
+                      <BreadcrumbLink href="/">Home</BreadcrumbLink>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
-                      <BreadcrumbLink href="#">Dashboard</BreadcrumbLink>
+                      <BreadcrumbLink href="/">Dashboard</BreadcrumbLink>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
@@ -581,23 +584,23 @@ const DashboardShell = () => {
           <footer>
             <div className="mx-auto flex size-full max-w-7xl items-center justify-between gap-3 px-4 py-3 text-muted-foreground max-sm:flex-col sm:gap-6 sm:px-6">
               <p className="text-sm text-balance max-sm:text-center">
-                {`©${new Date().getFullYear()}`}{" "}
-                <a href="#" className="text-primary">
+                {`©${currentYear}`}{" "}
+                <a href="/" className="text-primary">
                   shadcn/studio
                 </a>
                 , Made for better web design
               </p>
               <div className="flex items-center gap-5">
-                <a href="#">
+                <a href="/">
                   <Share2Icon className="size-4" />
                 </a>
-                <a href="#">
+                <a href="/">
                   <Share2Icon className="size-4" />
                 </a>
-                <a href="#">
+                <a href="/">
                   <Share2Icon className="size-4" />
                 </a>
-                <a href="#">
+                <a href="/">
                   <Share2Icon className="size-4" />
                 </a>
               </div>

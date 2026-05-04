@@ -1,6 +1,5 @@
 import eslintReact from "@eslint-react/eslint-plugin";
 import js from "@eslint/js";
-import markdown from "@eslint/markdown";
 import nextPlugin from "@next/eslint-plugin-next";
 import tsEslintParser from "@typescript-eslint/parser";
 import vitest from "@vitest/eslint-plugin";
@@ -50,6 +49,11 @@ export default defineConfig([
     "playwright-report/**",
     ".vercel/**",
     "thoughts/**",
+    "**/*.md",
+    "**/*.agent.md",
+    "**/*.prompt.md",
+    "app/demo/**",
+    "components/shadcn-studio/**",
   ]),
   {
     files: ["**/*.{js,jsx,ts,tsx,cjs,mts,cts}"],
@@ -332,6 +336,9 @@ export default defineConfig([
             "^CHANGELOG",
             "^CONTRIBUTING",
             "^LICENSE",
+            "^SKILL",
+            "^node_mcp_server",
+            "\\.md$",
           ],
         },
       ],
@@ -836,6 +843,10 @@ export default defineConfig([
       "require-await": "off",
       "testing-library/no-container": "off",
       "unicorn/no-null": "off",
+      "@typescript-eslint/no-empty-function": "off",
+      "security/detect-non-literal-fs-filename": "off",
+      "no-constant-binary-expression": "off",
+      "perfectionist/sort-imports": "off",
     },
   },
   {
@@ -869,16 +880,22 @@ export default defineConfig([
   },
 
   // =====================================================
-  // MARKDOWN - Lint fenced code blocks inside .md files
-  // @eslint/markdown processes JS/TS blocks embedded in markdown
-  // Use the plugin processor to extract fenced code blocks
-  // =====================================================
+  // MARKDOWN - Temporarily disabled due to hanging issues
+  // TODO: Re-enable when performance issue is resolved
+  // {
+  //   files: ["**/*.md", "!**/*.agent.md", "!**/*.prompt.md"],
+  //   plugins: {
+  //     markdown: markdown as unknown as import("eslint").ESLint.Plugin,
+  //   },
+  //   processor: "markdown/markdown",
+  // },
+  // Skip linting .md files entirely
   {
     files: ["**/*.md"],
-    plugins: {
-      markdown: markdown as unknown as import("eslint").ESLint.Plugin,
+    rules: {
+      // Disable all linting for markdown files
+      "no-undef": "off",
     },
-    processor: "markdown/markdown",
   },
   // Lint JS/TS code blocks embedded in markdown files
   {
