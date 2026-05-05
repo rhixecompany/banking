@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { and, eq, isNull } from "drizzle-orm";
 
 import type {
   NewUserProfile,
@@ -28,9 +28,9 @@ export class UserDal {
     const [user] = await db
       .select()
       .from(users)
-      .where(eq(users.email, email))
+      .where(and(eq(users.email, email), isNull(users.deletedAt)))
       .limit(1);
-    return user?.deletedAt === null ? user : undefined;
+    return user;
   }
 
   /**
@@ -45,9 +45,9 @@ export class UserDal {
     const [user] = await db
       .select()
       .from(users)
-      .where(eq(users.id, id))
+      .where(and(eq(users.id, id), isNull(users.deletedAt)))
       .limit(1);
-    return user?.deletedAt === null ? user : undefined;
+    return user;
   }
 
   /**
@@ -90,11 +90,10 @@ export class UserDal {
       })
       .from(users)
       .leftJoin(user_profiles, eq(users.id, user_profiles.userId))
-      .where(eq(users.id, id))
+      .where(and(eq(users.id, id), isNull(users.deletedAt)))
       .limit(1);
 
     if (!result) return undefined;
-    if (result.deletedAt !== null) return undefined;
 
     const {
       deletedAt: _deletedAt,

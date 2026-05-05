@@ -20,6 +20,32 @@ import os from "os";
 import path from "path";
 import { fileURLToPath } from "url";
 
+import {
+  ARCH,
+  DISK_SPACE_CRITICAL_GB,
+  DISK_SPACE_WARN_GB,
+  KNOWN_SYSTEM_DIR_NAMES,
+  NODE_VERSION,
+  OS_PLATFORM,
+  checkDiskSpace,
+  checkOsCompatibility,
+  dedupePlugins,
+  ensureDir,
+  extractJsonFromRaw,
+  extractPlugins,
+  getDirSizeBytes,
+  pluginDirName,
+  pluginKey,
+  readFile,
+  writeJsonFile,
+  analyzeDiskUsage,
+  runCommand,
+  findDuplicates,
+  type DiskAnalysis,
+  type DiskSpaceResult,
+  type OSCompatResult,
+} from "./utils/opencode-plugin-shared.js";
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -27,66 +53,76 @@ const __dirname = path.dirname(__filename);
 
 interface CliArgs {
   apply: boolean;
+  diskAnalyze: boolean;
+  diskCleanup: boolean;
+  diskCleanupAll: boolean;
+  diskCleanupOrphans: boolean;
   printLogs: boolean;
+  skipExtraFix: boolean;
+  skipMissingFix: boolean;
   skipReinstall: boolean;
   skipVerify: boolean;
-  skipMissingFix: boolean;
-  skipExtraFix: boolean;
   useCachedRuntime: boolean;
 }
 
 interface ConfigSet {
-  projectOpencode: null | Record<string, unknown>;
-  projectTui: null | Record<string, unknown>;
   globalOpencode: null | Record<string, unknown>;
   globalTui: null | Record<string, unknown>;
+  projectOpencode: null | Record<string, unknown>;
+  projectTui: null | Record<string, unknown>;
 }
 
 interface NormalizeReport {
+  changed: boolean;
   configSources: {
-    projectOpencode: string;
-    projectTui: string;
     globalOpencode: string;
     globalTui: string;
+    projectOpencode: string;
+    projectTui: string;
   };
-  originalCount: number;
   dedupedCount: number;
+  originalCount: number;
   removedPlugins: string[];
-  changed: boolean;
   timestamp: string;
 }
 
-interface OSCompatResult {
-  compatible: boolean;
+interface DiskCleanupTarget {
+  estimatedBytes: number;
+  path: string;
   reason: string;
 }
 
 interface RepairReport {
-  timestamp: string;
-  configChanged: boolean;
   cleanupTargets: string[];
+  configChanged: boolean;
+  diskCleanup?: {
+    removed: DiskCleanupTarget[];
+    skipped: DiskCleanupTarget[];
+    targets: DiskCleanupTarget[];
+    totalFreedBytes: number;
+    totalFreedGB: number;
+  };
+  diskSpace: DiskSpaceResult & {
+    analysis: DiskAnalysis;
+  };
+  extraPlugins: string[];
+  fixedExtras: string[];
+  fixedMissing: string[];
+  missingPlugins: string[];
+  osCompatSummary: Record<string, OSCompatResult>;
   reinstallSummary: {
     globalPlugins: number;
     projectPlugins: number;
     total: number;
   };
-  skippedPlugins: string[];
-  missingPlugins: string[];
-  extraPlugins: string[];
-  fixedMissing: string[];
-  fixedExtras: string[];
-  diskSpace: {
-    freeBytes: number;
-    freeGB: number;
-    status: "ok" | "warn" | "critical";
-  };
   schemaAnalysis: null | {
-    extensionTypes: string[];
     configLocations: Record<string, string>;
+    extensionTypes: string[];
     fileExists: boolean;
   };
+  skippedPlugins: string[];
+  timestamp: string;
   verifyReportRead: boolean;
-  osCompatSummary: Record<string, { compatible: boolean; reason?: string }>;
 }
 
 // ─── Paths ────────────────────────────────────────────────────────────────────
@@ -107,6 +143,7 @@ const GLOBAL_OPENCODE_CONFIG = path.join(GLOBAL_CONFIG_DIR, "opencode.json");
 const GLOBAL_TUI_CONFIG = path.join(GLOBAL_CONFIG_DIR, "tui.json");
 const CACHE_DIR =
   process.env.OPENCODE_CACHE_DIR ?? path.join(os.homedir(), ".cache/opencode");
+
 const NORMALIZE_REPORT = path.join(
   REPORT_DIR,
   "opencode-plugin-normalize.json",
@@ -123,14 +160,6 @@ const VERIFY_SCRIPT = path.join(
   "scripts/ts/opencode-plugin-verify.ts",
 );
 const REPAIR_REPORT = path.join(REPORT_DIR, "opencode-plugin-repair.json");
-const DISK_SPACE_CRITICAL_GB = 0.5;
-const DISK_SPACE_WARN_GB = 1.0;
-
-// ─── System info ─────────────────────────────────────────────────────────────
-
-const OS_PLATFORM = os.platform();
-const ARCH = os.arch();
-const NODE_VERSION = process.version;
 
 // ─── Logging ──────────────────────────────────────────────────────────────────
 
@@ -153,11 +182,15 @@ function parseArgs(): CliArgs {
   const raw = process.argv.slice(2);
   const args: CliArgs = {
     apply: false,
+    diskAnalyze: false,
+    diskCleanup: false,
+    diskCleanupAll: false,
+    diskCleanupOrphans: false,
     printLogs: false,
+    skipExtraFix: false,
+    skipMissingFix: false,
     skipReinstall: false,
     skipVerify: false,
-    skipMissingFix: false,
-    skipExtraFix: false,
     useCachedRuntime: false,
   };
 
@@ -166,20 +199,34 @@ function parseArgs(): CliArgs {
       case "--apply":
         args.apply = true;
         break;
+      case "--disk-analyze":
+        args.diskAnalyze = true;
+        break;
+      case "--disk-cleanup":
+        args.diskCleanup = true;
+        break;
+      case "--disk-cleanup-all":
+        args.diskCleanupAll = true;
+        args.diskCleanup = true;
+        args.diskCleanupOrphans = true;
+        break;
+      case "--disk-cleanup-orphans":
+        args.diskCleanupOrphans = true;
+        break;
       case "--print-logs":
         args.printLogs = true;
+        break;
+      case "--skip-extra-fix":
+        args.skipExtraFix = true;
+        break;
+      case "--skip-missing-fix":
+        args.skipMissingFix = true;
         break;
       case "--skip-reinstall":
         args.skipReinstall = true;
         break;
       case "--skip-verify":
         args.skipVerify = true;
-        break;
-      case "--skip-missing-fix":
-        args.skipMissingFix = true;
-        break;
-      case "--skip-extra-fix":
-        args.skipExtraFix = true;
         break;
       case "--use-cached-runtime":
         args.useCachedRuntime = true;
@@ -201,14 +248,18 @@ function printUsage(): void {
   console.log(`Usage: bunx tsx scripts/ts/opencode-plugin-repair.ts [options]
 
 Options:
-  --apply                restore plugin runtime state (with dry-run mode, only plan is shown)
-  --print-logs           enable verbose logging
-  --skip-reinstall       skip full reinstall phase (phase 11)
-  --skip-verify          skip verification phase
-  --skip-missing-fix     skip fixing missing plugins (phase 9)
-  --skip-extra-fix       skip fixing extra plugins (phase 10)
-  --use-cached-runtime   use cached runtime config instead of running 'bunx opencode debug config'
-  -h, --help             show this help message
+  --apply                  restore plugin runtime state (with dry-run mode, only plan is shown)
+  --disk-analyze           analyze disk usage and exit
+  --disk-cleanup           opt-in: clean stale backups, old reports, temp/log files
+  --disk-cleanup-orphans   opt-in: remove orphaned plugin dirs in ~/.config/opencode
+  --disk-cleanup-all       shorthand for --disk-cleanup + --disk-cleanup-orphans
+  --print-logs             enable verbose logging
+  --skip-reinstall         skip full reinstall phase (phase 11)
+  --skip-verify            skip verification phase
+  --skip-missing-fix       skip fixing missing plugins (phase 9)
+  --skip-extra-fix         skip fixing extra plugins (phase 10)
+  --use-cached-runtime     use cached runtime config instead of running 'bunx opencode debug config'
+  -h, --help               show this help message
 
 Safe by default (dry-run):
   without --apply   prints the repair plan only
@@ -224,36 +275,6 @@ Config sources (in priority order):
 
 // ─── Async File Helpers ───────────────────────────────────────────────────────
 
-async function ensureDir(dir: string): Promise<void> {
-  return new Promise((resolve, reject) => {
-    if (!fs.existsSync(dir)) {
-      fs.mkdir(dir, { recursive: true }, (err) => {
-        if (err) reject(err);
-        else resolve();
-      });
-    } else {
-      resolve();
-    }
-  });
-}
-
-async function readFile(filePath: string): Promise<null | string> {
-  return new Promise((resolve) => {
-    fs.readFile(filePath, "utf-8", (err, data) => {
-      if (err) {
-        resolve(null);
-      } else {
-        resolve(data.trim());
-      }
-    });
-  });
-}
-
-/**
- * Load and parse a JSON config file.
- * @param filePath - path to the JSON file
- * @param strict   - if true, exit with error on parse failure
- */
 async function loadConfig(
   filePath: string,
   strict: boolean,
@@ -276,154 +297,6 @@ async function loadConfig(
     }
     return null;
   }
-}
-
-async function writeJsonFile(filePath: string, data: unknown): Promise<void> {
-  return new Promise((resolve, reject) => {
-    fs.writeFile(filePath, `${JSON.stringify(data, null, 2)}\n`, (err) => {
-      if (err) reject(err);
-      else resolve();
-    });
-  });
-}
-
-// ─── Plugin Helpers ───────────────────────────────────────────────────────────
-
-function pluginKey(spec: string): string {
-  if (typeof spec !== "string") return String(spec);
-  if (spec.startsWith("github:")) return spec;
-  if (!spec.includes("@")) return spec;
-  if (spec.startsWith("@")) {
-    const slashIndex = spec.indexOf("/");
-    const versionIndex = spec.indexOf("@", slashIndex + 1);
-    return versionIndex === -1 ? spec : spec.slice(0, versionIndex);
-  }
-  return spec.slice(0, spec.lastIndexOf("@"));
-}
-
-function pluginDirName(spec: string): string {
-  const key = pluginKey(spec);
-  if (key.startsWith("github:")) {
-    return key.slice("github:".length).split("/").pop() ?? key;
-  }
-  return key.split("/").pop() ?? key;
-}
-
-function extractPlugins(config: null | Record<string, unknown>): string[] {
-  if (!config?.plugin) return [];
-  return Array.isArray(config.plugin)
-    ? config.plugin.filter((p): p is string => typeof p === "string")
-    : [];
-}
-
-function dedupePlugins(plugins: string[]): string[] {
-  const dedupedReversed: string[] = [];
-  const seen = new Set<string>();
-  for (let i = plugins.length - 1; i >= 0; i--) {
-    const spec = plugins[i];
-    const key = pluginKey(spec);
-    if (seen.has(key)) continue;
-    seen.add(key);
-    dedupedReversed.push(spec);
-  }
-  return dedupedReversed.reverse();
-}
-
-// ─── OS Compatibility ─────────────────────────────────────────────────────────
-
-function checkOsCompatibility(plugin: string): OSCompatResult {
-  const pluginLower = plugin.toLowerCase();
-
-  const incompatiblePlugins: Record<
-    string,
-    { platforms?: string[]; arches?: string[]; reason: string }
-  > = {
-    "@modelcontextprotocol/server-filesystem": {
-      reason: "Cross-platform but requires proper path handling on Windows",
-    },
-    "@modelcontextprotocol/server-github": {
-      reason: "Requires git to be installed and accessible in PATH",
-    },
-    "opencode-mem": {
-      platforms: ["win32"],
-      reason:
-        "Memory plugin has known issues on Windows - use global config instead",
-    },
-  };
-
-  for (const [pluginPattern, constraints] of Object.entries(
-    incompatiblePlugins,
-  )) {
-    if (pluginLower.includes(pluginPattern.toLowerCase())) {
-      if (
-        constraints.platforms &&
-        !constraints.platforms.includes(OS_PLATFORM)
-      ) {
-        return {
-          compatible: false,
-          reason: `Not supported on ${OS_PLATFORM}. ${constraints.reason}`,
-        };
-      }
-      return { compatible: true, reason: constraints.reason };
-    }
-  }
-
-  if (OS_PLATFORM === "win32") {
-    if (
-      plugin.includes("shell") ||
-      plugin.includes("bash") ||
-      plugin.includes("zsh")
-    ) {
-      return {
-        compatible: true,
-        reason:
-          "Shell plugins may require WSL on Windows for full functionality",
-      };
-    }
-  }
-
-  if (OS_PLATFORM === "darwin" && ARCH === "arm64") {
-    if (
-      plugin.includes("apple") ||
-      plugin.includes("m1") ||
-      plugin.includes("intel")
-    ) {
-      return {
-        compatible: true,
-        reason: "ARM64 Mac detected - some npm packages may need Rosetta2",
-      };
-    }
-  }
-
-  return { compatible: true, reason: "" };
-}
-
-// ─── Runtime Command ──────────────────────────────────────────────────────────
-
-async function runCommand(
-  cmd: string,
-  args: string[],
-  envOverrides?: Record<string, string>,
-): Promise<void> {
-  return new Promise((resolve, reject) => {
-    const env = { ...process.env, ...envOverrides } as NodeJS.ProcessEnv;
-    execFile(
-      cmd,
-      args,
-      { env, maxBuffer: 10 * 1024 * 1024 },
-      (err, _stdout, stderr) => {
-        if (err) {
-          reject(
-            new Error(
-              `Command failed: ${cmd} ${args.join(" ")}\n${stderr || err.message}`,
-            ),
-          );
-        } else {
-          resolve();
-        }
-      },
-    );
-  });
 }
 
 // ─── Removal Helpers ──────────────────────────────────────────────────────────
@@ -458,82 +331,7 @@ async function removeFile(filePath: string, apply: boolean): Promise<void> {
   }
 }
 
-// ─── Disk Space Check ─────────────────────────────────────────────────────────
-
-async function checkDiskSpace(): Promise<{
-  freeBytes: number;
-  freeGB: number;
-  status: "critical" | "ok" | "warn";
-}> {
-  return new Promise((resolve) => {
-    const timeout = setTimeout(() => {
-      resolve({ freeBytes: 0, freeGB: 0, status: "ok" });
-    }, 3000);
-
-    try {
-      let command = "";
-
-      if (OS_PLATFORM === "win32") {
-        // Windows: use PowerShell Get-Volume
-        command = `powershell -NoProfile -Command "(Get-Volume -DriveLetter ${REPO_ROOT[0]} | Select-Object -ExpandProperty SizeRemaining)"`;
-      } else {
-        // macOS/Linux: use df command
-        command = `df -k "${REPO_ROOT}" | tail -1 | awk '{print $4}'`;
-      }
-
-      exec(
-        command,
-        { timeout: 2500 },
-        (error: Error | null, stdout: string) => {
-          clearTimeout(timeout);
-          let freeBytes = 0;
-
-          if (!error && stdout) {
-            if (OS_PLATFORM === "win32") {
-              freeBytes = Number.parseInt(stdout.trim(), 10);
-            } else {
-              // df returns available blocks (1K blocks), convert to bytes
-              const availableBlocks = Number.parseInt(stdout.trim(), 10);
-              freeBytes = availableBlocks * 1024;
-            }
-          }
-
-          finalize(freeBytes);
-        },
-      );
-
-      function finalize(bytes: number) {
-        const freeGB = bytes / (1024 * 1024 * 1024);
-        let status: "critical" | "ok" | "warn" = "ok";
-        if (freeGB < DISK_SPACE_CRITICAL_GB) {
-          status = "critical";
-        } else if (freeGB < DISK_SPACE_WARN_GB) {
-          status = "warn";
-        }
-        resolve({
-          freeBytes: bytes,
-          freeGB: Math.round(freeGB * 10) / 10,
-          status,
-        });
-      }
-    } catch (err) {
-      clearTimeout(timeout);
-      const errMsg = err instanceof Error ? err.message : String(err);
-      log(`  ⚠  Disk space check error (using safe default): ${errMsg}`);
-      resolve({ freeBytes: 0, freeGB: 0, status: "ok" });
-    }
-  });
-}
-
 // ─── Runtime Config Loading ───────────────────────────────────────────────────
-
-function extractJsonFromRaw(raw: string): object {
-  const start = raw.indexOf("{");
-  if (start === -1) {
-    throw new Error("Could not locate JSON payload in raw output");
-  }
-  return JSON.parse(raw.slice(start));
-}
 
 async function loadRuntimeConfig(
   args: CliArgs,
@@ -566,10 +364,8 @@ async function loadRuntimeConfig(
       ["opencode", "debug", "config"],
       { NODE_OPTIONS: "--max-old-space-size=4096" },
     );
-    log(
-      `  ✓ Retrieved runtime config (${(rawOutput as unknown as string).length} bytes)`,
-    );
-    const runtimeConfig = extractJsonFromRaw(rawOutput as unknown as string);
+    log(`  ✓ Retrieved runtime config (${rawOutput.length} bytes)`);
+    const runtimeConfig = extractJsonFromRaw(rawOutput);
     return runtimeConfig as Record<string, unknown>;
   } catch (e) {
     log(`  ⚠  Failed to load runtime config: ${e}`);
@@ -579,9 +375,11 @@ async function loadRuntimeConfig(
 
 // ─── Schema & Report Analysis ─────────────────────────────────────────────────
 
-async function analyzeSchemaDesign(templatePath: string): Promise<null | {
-  extensionTypes: string[];
+async function analyzeSchemaDesign(
+  templatePath: string,
+): Promise<null | {
   configLocations: Record<string, string>;
+  extensionTypes: string[];
   fileExists: boolean;
 }> {
   try {
@@ -659,12 +457,12 @@ async function readOsCompatReport(): Promise<null | Record<string, unknown>> {
 async function detectMissingAndExtras(
   expectedPlugins: string[],
   runtimePlugins: null | string[],
-): Promise<{ missing: string[]; extras: string[] }> {
+): Promise<{ extras: string[]; missing: string[] }> {
   log("[6/11] Detecting missing and extra plugins...");
 
   if (!runtimePlugins) {
     log("  ⚠  No runtime config available; skipping runtime comparison");
-    return { missing: [], extras: [] };
+    return { extras: [], missing: [] };
   }
 
   const expected = new Set(expectedPlugins.map((p) => pluginKey(p)));
@@ -689,14 +487,41 @@ async function detectMissingAndExtras(
   if (missing.length > 0) log(`  Missing from runtime: ${missing.join(", ")}`);
   if (extras.length > 0) log(`  Extra in runtime: ${extras.join(", ")}`);
 
-  return { missing, extras };
+  return { extras, missing };
 }
 
 // ─── Fix Missing Plugins ──────────────────────────────────────────────────────
 
+async function installPlugin(
+  plugin: string,
+  args: CliArgs,
+): Promise<boolean> {
+  const installArgs: string[] = ["--force"];
+  if (args.printLogs) installArgs.push("--print-logs");
+
+  if (args.apply) {
+    try {
+      await runCommand("bunx", [
+        "opencode",
+        "plugin",
+        plugin,
+        ...installArgs,
+      ]);
+      log(`    ✓ Installed ${plugin}`);
+      return true;
+    } catch (e) {
+      log(`    ⚠  Failed to install ${plugin}: ${e}`);
+      return false;
+    }
+  } else {
+    dryLog(["bunx", "opencode", "plugin", plugin, ...installArgs]);
+    return true;
+  }
+}
+
 async function fixMissingPlugins(
   missing: string[],
-  diskSpace: { status: string },
+  diskSpace: DiskSpaceResult,
   args: CliArgs,
 ): Promise<string[]> {
   if (args.skipMissingFix) {
@@ -712,8 +537,6 @@ async function fixMissingPlugins(
   }
 
   const fixedMissing: string[] = [];
-  const installArgs: string[] = ["--force"];
-  if (args.printLogs) installArgs.push("--print-logs");
 
   // Filter compatible plugins
   const compatiblePlugins: string[] = [];
@@ -732,21 +555,8 @@ async function fixMissingPlugins(
     const batch = compatiblePlugins.slice(i, i + BATCH_SIZE);
     const promises = batch.map(async (plugin) => {
       log(`  Installing missing plugin: ${plugin}`);
-      if (args.apply) {
-        try {
-          await runCommand("bunx", [
-            "opencode",
-            "plugin",
-            plugin,
-            ...installArgs,
-          ]);
-          fixedMissing.push(plugin);
-          log(`    ✓ Installed ${plugin}`);
-        } catch (e) {
-          log(`    ⚠  Failed to install ${plugin}: ${e}`);
-        }
-      } else {
-        dryLog(["bunx", "opencode", "plugin", plugin, ...installArgs]);
+      const installed = await installPlugin(plugin, args);
+      if (installed) {
         fixedMissing.push(plugin);
       }
     });
@@ -844,8 +654,8 @@ async function normalizeAndBackupConfigs(
   timestamp: string,
   args: CliArgs,
 ): Promise<{
-  finalConfig: Record<string, unknown>;
   configChanged: boolean;
+  finalConfig: Record<string, unknown>;
 }> {
   log("[5/11] Merging and deduplicating plugin lists...");
 
@@ -935,7 +745,7 @@ async function collectCleanupTargets(
   dedupedPlugins: string[],
   dedupedGlobalPlugins: string[],
 ): Promise<string[]> {
-  log("[3/7] Collecting runtime cleanup targets...");
+  log("[7/11] Collecting runtime cleanup targets...");
 
   const targets: string[] = [
     path.join(GLOBAL_CONFIG_DIR, "node_modules"),
@@ -971,17 +781,17 @@ async function executeCleanup(
   targets: string[],
   apply: boolean,
 ): Promise<void> {
-  log("[4/7] Executing cleanup...");
+  log("[8/11] Executing cleanup...");
 
-  // Base cleanup targets
-  await removeDir(path.join(GLOBAL_CONFIG_DIR, "node_modules"), apply);
-  await removeFile(path.join(GLOBAL_CONFIG_DIR, "package-lock.json"), apply);
-  await removeDir(path.join(CACHE_DIR, "packages"), apply);
-  await removeDir(path.join(CACHE_DIR, "opencode-quota"), apply);
-
-  // Plugin-specific cleanup
-  for (const target of targets.slice(4)) {
-    await removeDir(target, apply);
+  // Clean all targets (no fragile slicing)
+  for (const target of targets) {
+    if (target.endsWith(".json")) {
+      // It's a file
+      await removeFile(target, apply);
+    } else {
+      // It's a directory
+      await removeDir(target, apply);
+    }
   }
 
   log(`✓ Cleanup complete (${apply ? "applied" : "dry-run"})`);
@@ -997,10 +807,7 @@ async function reinstallPlugins(
   reinstalled: number;
   skipped: string[];
 }> {
-  log("[5/7] Reinstalling plugins...");
-
-  const installArgs: string[] = ["--force"];
-  if (args.printLogs) installArgs.push("--print-logs");
+  log("[11/11] Reinstalling plugins...");
 
   let reinstalled = 0;
   const skipped: string[] = [];
@@ -1014,24 +821,8 @@ async function reinstallPlugins(
       continue;
     }
     log(`Reinstalling global plugin: ${plugin}`);
-    if (args.apply) {
-      try {
-        await runCommand("bunx", [
-          "opencode",
-          "plugin",
-
-          plugin,
-
-          ...installArgs,
-        ]);
-        reinstalled++;
-      } catch (e) {
-        log(`Warning: Failed to reinstall ${plugin}: ${e}`);
-      }
-    } else {
-      dryLog(["bunx", "opencode", "plugin", plugin, ...installArgs]);
-      reinstalled++;
-    }
+    const installed = await installPlugin(plugin, args);
+    if (installed) reinstalled++;
   }
 
   // Project plugins
@@ -1043,22 +834,8 @@ async function reinstallPlugins(
       continue;
     }
     log(`Reinstalling project plugin: ${plugin}`);
-    if (args.apply) {
-      try {
-        await runCommand("bunx", [
-          "opencode",
-          "plugin",
-          plugin,
-          ...installArgs,
-        ]);
-        reinstalled++;
-      } catch (e) {
-        log(`Warning: Failed to reinstall ${plugin}: ${e}`);
-      }
-    } else {
-      dryLog(["bunx", "opencode", "plugin", plugin, ...installArgs]);
-      reinstalled++;
-    }
+    const installed = await installPlugin(plugin, args);
+    if (installed) reinstalled++;
   }
 
   log(
@@ -1067,11 +844,168 @@ async function reinstallPlugins(
   return { reinstalled, skipped };
 }
 
+// ─── Disk Cleanup (Opt-in) ────────────────────────────────────────────────────
+
+async function collectDiskCleanupTargets(
+  diskCleanupOrphans: boolean,
+  cleanupTargets: string[],
+): Promise<DiskCleanupTarget[]> {
+  log("[12/12] Collecting disk cleanup targets...");
+
+  const targets: DiskCleanupTarget[] = [];
+
+  // Stale backups: keep newest 2, mark rest for deletion
+  const backupGlob = `${PROJECT_OPENCODE_CONFIG}.bak.*`;
+  const backupDir = path.dirname(PROJECT_OPENCODE_CONFIG);
+  const backups = fs
+    .readdirSync(backupDir)
+    .filter((f) => f.startsWith(path.basename(PROJECT_OPENCODE_CONFIG) + ".bak."))
+    .sort()
+    .reverse();
+
+  if (backups.length > 2) {
+    for (const backup of backups.slice(2)) {
+      const backupPath = path.join(backupDir, backup);
+      const stat = fs.statSync(backupPath);
+      targets.push({
+        estimatedBytes: stat.size,
+        path: backupPath,
+        reason: "stale backup (keeping newest 2)",
+      });
+    }
+  }
+
+  // Old report JSONs: keep newest 3 per report type
+  const reportDir = REPORT_DIR;
+  if (fs.existsSync(reportDir)) {
+    const files = fs.readdirSync(reportDir);
+    const reportTypes = new Set<string>();
+
+    for (const file of files) {
+      if (file.endsWith(".json")) {
+        // Extract report type (e.g., "opencode-plugin-verify" from "opencode-plugin-verify.json")
+        const type = file.replace(".json", "");
+        reportTypes.add(type);
+      }
+    }
+
+    for (const type of reportTypes) {
+      const related = files
+        .filter((f) => f.startsWith(type))
+        .map((f) => ({
+          file: f,
+          path: path.join(reportDir, f),
+          mtime: fs.statSync(path.join(reportDir, f)).mtime.getTime(),
+        }))
+        .sort((a, b) => b.mtime - a.mtime);
+
+      if (related.length > 3) {
+        for (const old of related.slice(3)) {
+          const stat = fs.statSync(old.path);
+          targets.push({
+            estimatedBytes: stat.size,
+            path: old.path,
+            reason: "old report JSON (keeping newest 3)",
+          });
+        }
+      }
+    }
+  }
+
+  // Temp/log files
+  const tempFiles = [
+    ...fs
+      .readdirSync(GLOBAL_CONFIG_DIR)
+      .filter((f) => f.endsWith(".tmp") || f.endsWith(".log"))
+      .map((f) => path.join(GLOBAL_CONFIG_DIR, f)),
+    ...fs
+      .readdirSync(CACHE_DIR)
+      .filter((f) => f.endsWith(".tmp") || f.endsWith(".log"))
+      .map((f) => path.join(CACHE_DIR, f)),
+  ];
+
+  for (const file of tempFiles) {
+    if (fs.existsSync(file)) {
+      const stat = fs.statSync(file);
+      targets.push({
+        estimatedBytes: stat.size,
+        path: file,
+        reason: "temp/log file",
+      });
+    }
+  }
+
+  // Orphaned plugin directories
+  if (diskCleanupOrphans) {
+    const entries = fs.readdirSync(GLOBAL_CONFIG_DIR, {
+      withFileTypes: true,
+    });
+    const expectedDirs = new Set(
+      cleanupTargets
+        .map((t) => path.basename(t))
+        .filter((b) => !b.includes(".")),
+    );
+
+    for (const entry of entries) {
+      if (!entry.isDirectory()) continue;
+      if (KNOWN_SYSTEM_DIR_NAMES.has(entry.name)) continue;
+      if (expectedDirs.has(entry.name)) continue;
+
+      // It's an orphaned plugin dir
+      const orphanPath = path.join(GLOBAL_CONFIG_DIR, entry.name);
+      const size = await getDirSizeBytes(orphanPath);
+      targets.push({
+        estimatedBytes: size,
+        path: orphanPath,
+        reason: "orphaned plugin directory",
+      });
+    }
+  }
+
+  for (const target of targets) {
+    console.log(
+      ` - ${target.path} (${(target.estimatedBytes / 1024 / 1024).toFixed(1)} MB, ${target.reason})`,
+    );
+  }
+
+  return targets;
+}
+
+async function executeDiskCleanup(
+  targets: DiskCleanupTarget[],
+  apply: boolean,
+): Promise<{
+  removed: DiskCleanupTarget[];
+  skipped: DiskCleanupTarget[];
+  totalFreedBytes: number;
+}> {
+  const removed: DiskCleanupTarget[] = [];
+  const skipped: DiskCleanupTarget[] = [];
+  let totalFreedBytes = 0;
+
+  for (const target of targets) {
+    try {
+      if (target.path.endsWith(".json")) {
+        await removeFile(target.path, apply);
+      } else {
+        await removeDir(target.path, apply);
+      }
+      removed.push(target);
+      if (apply) totalFreedBytes += target.estimatedBytes;
+    } catch (e) {
+      log(`  ⚠  Failed to clean ${target.path}: ${e}`);
+      skipped.push(target);
+    }
+  }
+
+  return { removed, skipped, totalFreedBytes };
+}
+
 // ─── Verification ─────────────────────────────────────────────────────────────
 
 async function runVerification(args: CliArgs): Promise<void> {
   if (!args.skipVerify) {
-    log("[Post-1/2] Running verification...");
+    log("[Post-1/3] Running verification...");
     if (args.apply) {
       try {
         await runCommand("bunx", ["tsx", VERIFY_SCRIPT]);
@@ -1083,14 +1017,14 @@ async function runVerification(args: CliArgs): Promise<void> {
       log(`DRY-RUN: verification would run via ${VERIFY_SCRIPT}`);
     }
   } else {
-    log("[Post-1/2] Skipping verification (--skip-verify provided)");
+    log("[Post-1/3] Skipping verification (--skip-verify provided)");
   }
 }
 
 // ─── Write Final Report ────────────────────────────────────────────────────
 
 async function writeRepairReport(report: RepairReport): Promise<void> {
-  log("[Post-2/2] Writing repair report...");
+  log("[Post-2/3] Writing repair report...");
   await writeJsonFile(REPAIR_REPORT, report);
   log(`✓ Repair report: ${REPAIR_REPORT}`);
   console.log(JSON.stringify(report, null, 2));
@@ -1102,7 +1036,7 @@ async function main(): Promise<void> {
   const args = parseArgs();
 
   log(`========================================`);
-  log(`OpenCode Plugin Repair Starting (11-Phase)`);
+  log(`OpenCode Plugin Repair Starting`);
   log(`========================================`);
   log(`System: OS=${OS_PLATFORM}, Arch=${ARCH}, Node=${NODE_VERSION}`);
 
@@ -1126,6 +1060,36 @@ async function main(): Promise<void> {
     .slice(0, 14);
 
   // ─────────────────────────────────────────────────────────────────────────
+  // Early exit for --disk-analyze (no repair needed)
+  // ─────────────────────────────────────────────────────────────────────────
+  if (args.diskAnalyze) {
+    log("[ANALYZE] Running disk analysis...");
+    const allPlugins = [
+      ...extractPlugins(await loadConfig(PROJECT_OPENCODE_CONFIG, false)),
+      ...extractPlugins(await loadConfig(GLOBAL_OPENCODE_CONFIG, false)),
+    ];
+    const cleanupTargets = [
+      path.join(GLOBAL_CONFIG_DIR, "node_modules"),
+      path.join(CACHE_DIR, "packages"),
+    ];
+
+    const analysis = await analyzeDiskUsage({
+      cacheDir: CACHE_DIR,
+      cleanupTargets,
+      globalConfigDir: GLOBAL_CONFIG_DIR,
+      pluginSpecs: allPlugins,
+      reportDir: REPORT_DIR,
+    });
+    console.log(analysis.table);
+    await writeJsonFile(
+      path.join(REPORT_DIR, "opencode-disk-analysis.json"),
+      analysis,
+    );
+    log("✓ Disk analysis complete");
+    return;
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────
   // Phase 1: Load 4-source configs
   // ─────────────────────────────────────────────────────────────────────────
   log("[1/11] Loading configs from multiple sources...");
@@ -1135,17 +1099,17 @@ async function main(): Promise<void> {
   // Phase 2: Check disk space
   // ─────────────────────────────────────────────────────────────────────────
   log("[2/11] Checking disk space...");
-  const diskSpace = await checkDiskSpace();
+  const diskSpaceBase = await checkDiskSpace(REPO_ROOT);
   log(
-    `  ✓ Disk space: ${diskSpace.freeGB} GB free (status: ${diskSpace.status})`,
+    `  ✓ Disk space: ${diskSpaceBase.freeGB} GB free (status: ${diskSpaceBase.status})`,
   );
-  if (diskSpace.status === "critical" && args.apply) {
+  if (diskSpaceBase.status === "critical" && args.apply) {
     fail(
-      `CRITICAL: Only ${diskSpace.freeGB} GB free. Aborting to prevent data issues.`,
+      `CRITICAL: Only ${diskSpaceBase.freeGB} GB free. Aborting to prevent data issues.`,
     );
   }
-  if (diskSpace.status === "warn") {
-    log(`  ⚠  WARNING: Low disk space - ${diskSpace.freeGB} GB free`);
+  if (diskSpaceBase.status === "warn") {
+    log(`  ⚠  WARNING: Low disk space - ${diskSpaceBase.freeGB} GB free`);
   }
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -1212,7 +1176,11 @@ async function main(): Promise<void> {
   // ─────────────────────────────────────────────────────────────────────────
   // Phase 9: Fix missing plugins (if not skipped)
   // ─────────────────────────────────────────────────────────────────────────
-  const fixedMissing = await fixMissingPlugins(missing, diskSpace, args);
+  const fixedMissing = await fixMissingPlugins(
+    missing,
+    diskSpaceBase,
+    args,
+  );
 
   // ─────────────────────────────────────────────────────────────────────────
   // Phase 10: Fix extra plugins (if not skipped)
@@ -1227,17 +1195,64 @@ async function main(): Promise<void> {
     : { reinstalled: 0, skipped: [] };
 
   // ─────────────────────────────────────────────────────────────────────────
+  // Phase 12: Disk Cleanup (Opt-in)
+  // ─────────────────────────────────────────────────────────────────────────
+  let diskCleanupResult:
+    | {
+        removed: DiskCleanupTarget[];
+        skipped: DiskCleanupTarget[];
+        targets: DiskCleanupTarget[];
+        totalFreedBytes: number;
+      }
+    | undefined;
+
+  if (args.diskCleanup || args.diskCleanupOrphans) {
+    const diskCleanupTargets = await collectDiskCleanupTargets(
+      args.diskCleanupOrphans,
+      cleanupTargets,
+    );
+
+    const { removed, skipped: cleanupSkipped, totalFreedBytes } =
+      await executeDiskCleanup(diskCleanupTargets, args.apply);
+
+    diskCleanupResult = {
+      removed,
+      skipped: cleanupSkipped,
+      targets: diskCleanupTargets,
+      totalFreedBytes,
+    };
+
+    log(
+      `  ✓ Disk cleanup: ${removed.length} targets ${args.apply ? "removed" : "marked for removal"}, freed ${(totalFreedBytes / 1024 / 1024 / 1024).toFixed(2)} GB`,
+    );
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────
   // Post-Phase 1: Verification
   // ─────────────────────────────────────────────────────────────────────────
   await runVerification(args);
 
   // ─────────────────────────────────────────────────────────────────────────
-  // Post-Phase 2: Build OS compat summary
+  // Post-Phase 2: Disk Analysis
   // ─────────────────────────────────────────────────────────────────────────
-  const osCompatSummary: Record<
-    string,
-    { compatible: boolean; reason?: string }
-  > = {};
+  log("[Post-2/3] Analyzing disk usage...");
+  const diskAnalysis = await analyzeDiskUsage({
+    cacheDir: CACHE_DIR,
+    cleanupTargets,
+    globalConfigDir: GLOBAL_CONFIG_DIR,
+    pluginSpecs: allExpectedPlugins,
+    reportDir: REPORT_DIR,
+  });
+  console.log(diskAnalysis.table);
+  const diskSpaceEnhanced: DiskSpaceResult & { analysis: DiskAnalysis } = {
+    ...diskSpaceBase,
+    analysis: diskAnalysis,
+  };
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Post-Phase 3: Build OS compat summary
+  // ─────────────────────────────────────────────────────────────────────────
+  const osCompatSummary: Record<string, OSCompatResult> = {};
   for (const plugin of allExpectedPlugins) {
     osCompatSummary[plugin] = checkOsCompatibility(plugin);
   }
@@ -1248,7 +1263,18 @@ async function main(): Promise<void> {
   const repairReport: RepairReport = {
     cleanupTargets,
     configChanged,
-    diskSpace,
+    diskCleanup: diskCleanupResult
+      ? {
+          removed: diskCleanupResult.removed,
+          skipped: diskCleanupResult.skipped,
+          targets: diskCleanupResult.targets,
+          totalFreedBytes: diskCleanupResult.totalFreedBytes,
+          totalFreedGB: Math.round(
+            (diskCleanupResult.totalFreedBytes / (1024 * 1024 * 1024)) * 100,
+          ) / 100,
+        }
+      : undefined,
+    diskSpace: diskSpaceEnhanced,
     extraPlugins: extras,
     fixedExtras,
     fixedMissing,

@@ -40,9 +40,9 @@ export class WalletDal {
     const [wallet] = await db
       .select()
       .from(wallets)
-      .where(eq(wallets.id, id))
+      .where(and(eq(wallets.id, id), isNull(wallets.deletedAt)))
       .limit(1);
-    if (wallet?.deletedAt !== null) return undefined;
+    if (!wallet) return undefined;
     wallet.accessToken = safeDecrypt(wallet.accessToken);
     return wallet;
   }
@@ -81,9 +81,9 @@ export class WalletDal {
     const [wallet] = await db
       .select()
       .from(wallets)
-      .where(eq(wallets.sharableId, sharableId))
+      .where(and(eq(wallets.sharableId, sharableId), isNull(wallets.deletedAt)))
       .limit(1);
-    if (wallet?.deletedAt !== null) return undefined;
+    if (!wallet) return undefined;
     wallet.accessToken = safeDecrypt(wallet.accessToken);
     return wallet;
   }
@@ -100,9 +100,9 @@ export class WalletDal {
     const [wallet] = await db
       .select()
       .from(wallets)
-      .where(eq(wallets.accountId, accountId))
+      .where(and(eq(wallets.accountId, accountId), isNull(wallets.deletedAt)))
       .limit(1);
-    if (wallet?.deletedAt !== null) return undefined;
+    if (!wallet) return undefined;
     wallet.accessToken = safeDecrypt(wallet.accessToken);
     return wallet;
   }
