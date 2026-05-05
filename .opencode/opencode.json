@@ -1,16 +1,10 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "agent": {
-    "build": {
-      "model": "github-copilot/claude-haiku-4.5",
-      "variant": "max"
-    },
-    "plan": {
-      "model": "github-copilot/claude-sonnet-4.6",
-      "variant": "high"
-    }
+    "build": {},
+    "plan": {}
   },
-  "autoupdate": false,
+  "autoupdate": true,
   "command": {
     "mystatus": {
       "description": "Query quota usage for all AI accounts",
@@ -20,7 +14,7 @@
   "compaction": {
     "auto": true
   },
-  "default_agent": "build",
+  "default_agent": "plan",
   "enabled_providers": [
     "google-vertex",
     "openrouter",
@@ -94,7 +88,11 @@
       "type": "local"
     },
     "next-devtools": {
-      "command": ["bunx", "-y", "next-devtools-mcp@latest"],
+      "command": [
+        "bunx",
+        "-y",
+        "next-devtools-mcp@latest"
+      ],
       "enabled": true,
       "timeout": 900000,
       "type": "local"
@@ -121,7 +119,7 @@
       "type": "local"
     }
   },
-  "model": "github-copilot/gpt-5.1-codex",
+  "model": "opencode/minimax-m2.5-free",
   "plugin": [
     "opencode-mystatus",
     "opencode-handoff",
@@ -156,16 +154,26 @@
         "gemma-4-e4b-it-8bit": {
           "attachment": true,
           "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "name": "gemma-4-e4b-it-8bit"
         },
         "Qwen3.5-9B-MLX-4bit": {
           "attachment": true,
           "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "name": "Qwen3.5-9B-MLX-4bit"
         }
@@ -195,14 +203,9 @@
       }
     }
   },
-  "share": "auto",
-  "small_model": "github-copilot/claude-haiku-4.5",
   "watcher": {
     "ignore": [
-      "node_modules",
-      "../node_modules",
-      "../.next",
-      "../.git"
+      "node_modules"
     ]
   }
 }
