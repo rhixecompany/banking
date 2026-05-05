@@ -8,14 +8,23 @@ export const TransferSchema = z.object({
     .string()
     .trim()
     .refine(
-      (val) =>
-        !Number.isNaN(Number.parseFloat(val)) && Number.parseFloat(val) > 0,
+      (val) => {
+        // CRITICAL: Amount must have exactly 2 decimal places for financial safety
+        // Prevents floating-point precision errors and ensures Dwolla API compatibility.
+        // Valid: "25.00", "0.50", "1000.99"
+        // Invalid: "25", "25.5", "25.100"
+        if (!/^\d+\.\d{2}$/.test(val)) {
+          return false;
+        }
+        // Verify the parsed value is positive
+        const parsed = Number.parseFloat(val);
+        return !Number.isNaN(parsed) && parsed > 0;
+      },
       {
-        // Use message field as expected by Zod's refine options
-        error: "Amount must be a positive number",
+        error: "Amount must be a positive number with exactly 2 decimal places (e.g., '25.00')",
       },
     )
-    .meta({ description: "Transfer amount as decimal string (e.g. '25.00')" }),
+    .meta({ description: "Transfer amount as decimal string with exactly 2 decimal places (e.g. '25.00')" }),
   // Optional ledger creation - when provided, creates transaction record in DAL
   createLedger: z
     .object({

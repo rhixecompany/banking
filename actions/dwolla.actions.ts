@@ -10,6 +10,7 @@ import { auth } from "@/lib/auth";
 import { getDwollaClient } from "@/lib/dwolla";
 import { logger } from "@/lib/logger";
 import { isMockAccessToken } from "@/lib/plaid";
+import { generateIdempotencyKey } from "@/lib/validation-utils";
 
 /**
  * Zod schema for validating Dwolla customer creation payload.
@@ -337,8 +338,14 @@ export async function createTransfer(input: unknown): Promise<{
     return { error: "Invalid transfer payload", ok: false };
   }
 
-  // Generate a deterministic idempotency key to prevent duplicate transfers on retries
-  const idempotencyKey = crypto.randomUUID();
+  // Generate a deterministic idempotency key from request parameters to prevent
+  // duplicate transfers on retries. The key is based on sender URL, receiver URL,
+  // and amount, so identical requests always produce the same key.
+  const idempotencyKey = generateIdempotencyKey(
+    parsed.data.sourceFundingSourceUrl,
+    parsed.data.destinationFundingSourceUrl,
+    parsed.data.amount
+  );
 
   // Check if this exact transfer (by idempotency key) already exists
   const existingTransfer = await db
