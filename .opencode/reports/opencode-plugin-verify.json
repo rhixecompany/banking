@@ -1,83 +1,83 @@
 {
   "configComparison": {
     "$schema": {
-      "source": "both",
-      "present": true
+      "present": true,
+      "source": "both"
     },
     "agent": {
-      "source": "project",
-      "present": true
+      "present": true,
+      "source": "project"
     },
     "autoupdate": {
-      "source": "project",
-      "present": true
+      "present": true,
+      "source": "project"
     },
     "command": {
-      "source": "project",
-      "present": true
+      "present": true,
+      "source": "project"
     },
     "compaction": {
-      "source": "project",
-      "present": true
+      "present": true,
+      "source": "project"
     },
     "default_agent": {
-      "source": "project",
-      "present": true
+      "present": true,
+      "source": "project"
     },
     "enabled_providers": {
-      "source": "project",
-      "present": true
+      "present": true,
+      "source": "project"
     },
     "instructions": {
-      "source": "project",
-      "present": true
+      "present": true,
+      "source": "project"
     },
     "lsp": {
-      "source": "project",
-      "present": true
+      "present": true,
+      "source": "project"
     },
     "mcp": {
-      "source": "project",
-      "present": true
+      "present": true,
+      "source": "project"
     },
     "model": {
-      "source": "project",
-      "present": true
+      "present": true,
+      "source": "project"
     },
     "plugin": {
-      "source": "project",
-      "present": true
+      "present": true,
+      "source": "project"
     },
     "provider": {
-      "source": "project",
-      "present": true
+      "present": true,
+      "source": "project"
     },
     "share": {
-      "source": "project",
-      "present": true
+      "present": true,
+      "source": "project"
     },
     "small_model": {
-      "source": "project",
-      "present": true
+      "present": true,
+      "source": "project"
     },
     "watcher": {
-      "source": "project",
-      "present": true
+      "present": true,
+      "source": "project"
     }
   },
   "diskSpace": {
-    "freeBytes": 1066704896,
-    "freeGB": 1,
-    "status": "warn"
+    "freeBytes": 264945664,
+    "freeGB": 0.2,
+    "status": "critical"
   },
-  "expectedCount": 24,
+  "expectedCount": 23,
   "extras": [],
   "mcpHealthSummary": {
-    "total": 9,
-    "ok": 9,
     "authRequired": 0,
-    "unreachable": 0,
-    "error": 0
+    "error": 0,
+    "ok": 9,
+    "total": 9,
+    "unreachable": 0
   },
   "missing": [],
   "missingConfigurations": [],
@@ -122,9 +122,6 @@
     "@franlol/opencode-md-table-formatter": {
       "compatible": true
     },
-    "open-plan-annotator": {
-      "compatible": true
-    },
     "octto": {
       "compatible": true
     },
@@ -160,20 +157,20 @@
   "projectDuplicates": [],
   "reportAnalysis": null,
   "runtimeConfig": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\reports\\opencode-debug-config.runtime.json",
-  "runtimeCount": 24,
+  "runtimeCount": 23,
   "runtimeDuplicates": [],
   "schemaAnalysis": {
-    "fileExists": true,
-    "contentLength": 16617,
-    "extensionTypes": [],
     "configLocations": {
       "~/.config/opencode/opencode.json": "~/.config/opencode/plugin/",
       "~/.config/opencode/themes/": "~/.config/opencode/command/",
       "~/.config/opencode/agent/": "~/.config/opencode/skill/<name>/SKILL.md"
     },
+    "contentLength": 16617,
+    "extensionTypes": [],
+    "fileExists": true,
     "parseWarnings": [
       "Config section has odd number of backtick-quoted values (incomplete key-value pair)"
     ]
   },
-  "timestamp": "2026-05-04T23:49:36.441Z"
+  "timestamp": "2026-05-05T00:35:51.746Z"
 }

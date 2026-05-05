@@ -6,5 +6,9 @@
     "enabled": true
   },
   "scroll_speed": 3,
-  "theme": "catpuccin-macchiato"
+  "theme": "catpuccin-macchiato",
+  "plugin": [
+    "opencode-snippets",
+    "@slkiser/opencode-quota"
+  ]
 }

@@ -33,10 +33,10 @@ interface CliArgs {
 }
 
 interface ConfigSet {
-  projectOpencode: Record<string, unknown> | null;
-  projectTui: Record<string, unknown> | null;
-  globalOpencode: Record<string, unknown> | null;
-  globalTui: Record<string, unknown> | null;
+  projectOpencode: null | Record<string, unknown>;
+  projectTui: null | Record<string, unknown>;
+  globalOpencode: null | Record<string, unknown>;
+  globalTui: null | Record<string, unknown>;
 }
 
 interface NormalizeReport {
@@ -188,7 +188,7 @@ async function ensureDir(dir: string): Promise<void> {
   });
 }
 
-async function readFile(filePath: string): Promise<string | null> {
+async function readFile(filePath: string): Promise<null | string> {
   return new Promise((resolve) => {
     fs.readFile(filePath, "utf-8", (err, data) => {
       if (err) {
@@ -208,7 +208,7 @@ async function readFile(filePath: string): Promise<string | null> {
 async function loadConfig(
   filePath: string,
   strict: boolean,
-): Promise<Record<string, unknown> | null> {
+): Promise<null | Record<string, unknown>> {
   if (!fs.existsSync(filePath)) return null;
 
   const content = await readFile(filePath);
@@ -260,7 +260,7 @@ function pluginDirName(spec: string): string {
   return key.split("/").pop() ?? key;
 }
 
-function extractPlugins(config: Record<string, unknown> | null): string[] {
+function extractPlugins(config: null | Record<string, unknown>): string[] {
   if (!config?.plugin) return [];
   return Array.isArray(config.plugin)
     ? config.plugin.filter((p): p is string => typeof p === "string")
@@ -341,7 +341,7 @@ async function removeDir(dir: string, apply: boolean): Promise<void> {
   if (apply) {
     if (fs.existsSync(dir)) {
       return new Promise((resolve, reject) => {
-        fs.rm(dir, { recursive: true, force: true }, (err) => {
+        fs.rm(dir, { force: true, recursive: true }, (err) => {
           if (err) reject(err);
           else resolve();
         });
@@ -389,7 +389,7 @@ async function loadAllConfigs(): Promise<ConfigSet> {
       loadConfig(GLOBAL_TUI_CONFIG, false),
     ]);
 
-  return { projectOpencode, projectTui, globalOpencode, globalTui };
+  return { globalOpencode, globalTui, projectOpencode, projectTui };
 }
 
 // ─── Plugin Normalization ─────────────────────────────────────────────────────
@@ -431,17 +431,17 @@ async function normalizeAndBackupConfigs(
 
   // Write normalize report
   const normalizeReport: NormalizeReport = {
-    configSources: {
-      projectOpencode: PROJECT_OPENCODE_CONFIG,
-      projectTui: PROJECT_TUI_CONFIG,
-      globalOpencode: GLOBAL_OPENCODE_CONFIG,
-      globalTui: GLOBAL_TUI_CONFIG,
-    },
-    originalCount: allPlugins.length,
-    dedupedCount: dedupedPlugins.length,
-    removedPlugins,
     changed:
       JSON.stringify(configs.projectOpencode) !== JSON.stringify(finalConfig),
+    configSources: {
+      globalOpencode: GLOBAL_OPENCODE_CONFIG,
+      globalTui: GLOBAL_TUI_CONFIG,
+      projectOpencode: PROJECT_OPENCODE_CONFIG,
+      projectTui: PROJECT_TUI_CONFIG,
+    },
+    dedupedCount: dedupedPlugins.length,
+    originalCount: allPlugins.length,
+    removedPlugins,
     timestamp,
   };
   await writeJsonFile(NORMALIZE_REPORT, normalizeReport);
@@ -467,7 +467,7 @@ async function normalizeAndBackupConfigs(
                 else {
                   log(`✓ Updated ${PROJECT_OPENCODE_CONFIG}`);
                   log(`✓ Created backup ${backupPath}`);
-                  resolve({ finalConfig, configChanged: true });
+                  resolve({ configChanged: true, finalConfig });
                 }
               });
             }
@@ -481,7 +481,7 @@ async function normalizeAndBackupConfigs(
     log("✓ Project plugin list is already deduplicated");
   }
 
-  return { finalConfig, configChanged };
+  return { configChanged, finalConfig };
 }
 
 // ─── Cleanup Targets ──────────────────────────────────────────────────────────
@@ -574,9 +574,9 @@ async function reinstallPlugins(
         await runCommand("bunx", [
           "opencode",
           "plugin",
-          "add",
+
           plugin,
-          "--global",
+
           ...installArgs,
         ]);
         reinstalled++;
@@ -588,9 +588,8 @@ async function reinstallPlugins(
         "bunx",
         "opencode",
         "plugin",
-        "add",
+
         plugin,
-        "--global",
         ...installArgs,
       ]);
       reinstalled++;
@@ -611,7 +610,6 @@ async function reinstallPlugins(
         await runCommand("bunx", [
           "opencode",
           "plugin",
-          "add",
           plugin,
           ...installArgs,
         ]);
@@ -620,7 +618,7 @@ async function reinstallPlugins(
         log(`Warning: Failed to reinstall ${plugin}: ${e}`);
       }
     } else {
-      dryLog(["bunx", "opencode", "plugin", "add", plugin, ...installArgs]);
+      dryLog(["bunx", "opencode", "plugin", plugin, ...installArgs]);
       reinstalled++;
     }
   }
@@ -686,13 +684,13 @@ async function main(): Promise<void> {
 
   const timestamp = new Date()
     .toISOString()
-    .replace(/[-:.Z]/g, "")
+    .replaceAll(/[-:.Z]/g, "")
     .slice(0, 14);
 
   log("[1/7] Loading configs from multiple sources...");
   const configs = await loadAllConfigs();
 
-  const { finalConfig, configChanged } = await normalizeAndBackupConfigs(
+  const { configChanged, finalConfig } = await normalizeAndBackupConfigs(
     configs,
     timestamp,
     args,
@@ -723,15 +721,15 @@ async function main(): Promise<void> {
 
   // Write final report
   const repairReport: RepairReport = {
-    timestamp: new Date().toISOString(),
-    configChanged,
     cleanupTargets,
+    configChanged,
     reinstallSummary: {
       globalPlugins: dedupedGlobalPlugins.length,
       projectPlugins: dedupedPlugins.length,
       total: dedupedGlobalPlugins.length + dedupedPlugins.length,
     },
     skippedPlugins: skipped,
+    timestamp: new Date().toISOString(),
   };
 
   await writeRepairReport(repairReport);

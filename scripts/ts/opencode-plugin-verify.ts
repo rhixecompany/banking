@@ -33,13 +33,13 @@ interface VerifyReport {
   runtimeDuplicates: string[];
   missingConfigurations: string[];
   configComparison: Record<string, { source: string; present: boolean }>;
-  schemaAnalysis: Record<string, unknown> | null;
-  reportAnalysis: Record<string, unknown> | null;
+  schemaAnalysis: null | Record<string, unknown>;
+  reportAnalysis: null | Record<string, unknown>;
   osCompatibility: Record<string, { compatible: boolean; reason?: string }>;
   diskSpace: {
     freeBytes: number;
     freeGB: number;
-    status: "ok" | "warn" | "critical";
+    status: "critical" | "ok" | "warn";
   };
   mcpHealthSummary: {
     total: number;
@@ -194,16 +194,16 @@ function findDuplicates(plugins: string[]): string[] {
 }
 
 async function loadProjectConfigs(): Promise<{
-  opencodeConfig: object | null;
-  tuiConfig: object | null;
-  globalOpencodeConfig: object | null;
-  globalTuiConfig: object | null;
+  opencodeConfig: null | object;
+  tuiConfig: null | object;
+  globalOpencodeConfig: null | object;
+  globalTuiConfig: null | object;
 }> {
   const configs = {
-    opencodeConfig: null as object | null,
-    tuiConfig: null as object | null,
-    globalOpencodeConfig: null as object | null,
-    globalTuiConfig: null as object | null,
+    globalOpencodeConfig: null as null | object,
+    globalTuiConfig: null as null | object,
+    opencodeConfig: null as null | object,
+    tuiConfig: null as null | object,
   };
 
   for (const configPath of CONFIG_PATHS) {
@@ -247,7 +247,7 @@ async function loadProjectConfigs(): Promise<{
   return configs;
 }
 
-function extractPlugins(config: object | null): string[] {
+function extractPlugins(config: null | object): string[] {
   if (!config || typeof config !== "object") return [];
   const c = config as Record<string, unknown>;
   if (Array.isArray(c.plugin)) {
@@ -257,14 +257,14 @@ function extractPlugins(config: object | null): string[] {
 }
 
 function compareConfigurations(
-  projectConfig: object | null,
-  globalConfig: object | null,
+  projectConfig: null | object,
+  globalConfig: null | object,
 ): Record<string, { source: string; present: boolean }> {
   const comparison: Record<string, { source: string; present: boolean }> = {};
   const allKeys = new Set<string>();
 
-  const project = projectConfig as Record<string, unknown> | null;
-  const global = globalConfig as Record<string, unknown> | null;
+  const project = projectConfig as null | Record<string, unknown>;
+  const global = globalConfig as null | Record<string, unknown>;
 
   if (project) {
     for (const key of Object.keys(project)) {
@@ -282,13 +282,13 @@ function compareConfigurations(
     const inGlobal = global ? key in global : false;
 
     if (!inProject && !inGlobal) {
-      comparison[key] = { source: "none", present: false };
+      comparison[key] = { present: false, source: "none" };
     } else if (inProject && inGlobal) {
-      comparison[key] = { source: "both", present: true };
+      comparison[key] = { present: true, source: "both" };
     } else if (inProject) {
-      comparison[key] = { source: "project", present: true };
+      comparison[key] = { present: true, source: "project" };
     } else {
-      comparison[key] = { source: "global", present: true };
+      comparison[key] = { present: true, source: "global" };
     }
   }
 
@@ -297,7 +297,7 @@ function compareConfigurations(
 
 async function analyzeSchemaDesign(
   templatePath: string,
-): Promise<Record<string, unknown> | null> {
+): Promise<null | Record<string, unknown>> {
   try {
     const content = await new Promise<string>((resolve, reject) => {
       fs.readFile(templatePath, "utf-8", (err, data) => {
@@ -307,10 +307,10 @@ async function analyzeSchemaDesign(
     });
 
     const schemaInfo: Record<string, unknown> = {
-      fileExists: true,
+      configLocations: {} as Record<string, unknown>,
       contentLength: content.length,
       extensionTypes: [] as string[],
-      configLocations: {} as Record<string, unknown>,
+      fileExists: true,
       parseWarnings: [] as string[],
     };
 
@@ -355,14 +355,14 @@ async function analyzeSchemaDesign(
     }
 
     return schemaInfo;
-  } catch (e) {
+  } catch {
     return null;
   }
 }
 
 async function analyzeReport(
   reportPath: string,
-): Promise<Record<string, unknown> | null> {
+): Promise<null | Record<string, unknown>> {
   try {
     const content = await new Promise<string>((resolve, reject) => {
       fs.readFile(reportPath, "utf-8", (err, data) => {
@@ -388,18 +388,18 @@ async function analyzeReport(
     }
 
     return analysis;
-  } catch (e) {
+  } catch {
     return null;
   }
 }
 
 function findMissingConfigurations(
-  projectConfig: object | null,
-  runtimeConfig: object | null,
+  projectConfig: null | object,
+  runtimeConfig: null | object,
 ): string[] {
   const missing: string[] = [];
-  const project = projectConfig as Record<string, unknown> | null;
-  const runtime = runtimeConfig as Record<string, unknown> | null;
+  const project = projectConfig as null | Record<string, unknown>;
+  const runtime = runtimeConfig as null | Record<string, unknown>;
 
   if (!project || !runtime) return missing;
 
@@ -423,16 +423,16 @@ function checkOSCompatibility(plugin: string): {
     string,
     { platforms?: string[]; arches?: string[]; reason: string }
   > = {
-    "opencode-mem": {
-      platforms: ["win32"],
-      reason:
-        "Memory plugin has known issues on Windows - use global config instead",
-    },
     "@modelcontextprotocol/server-filesystem": {
       reason: "Cross-platform but requires proper path handling on Windows",
     },
     "@modelcontextprotocol/server-github": {
       reason: "Requires git to be installed and accessible in PATH",
+    },
+    "opencode-mem": {
+      platforms: ["win32"],
+      reason:
+        "Memory plugin has known issues on Windows - use global config instead",
     },
   };
 
@@ -482,9 +482,9 @@ function checkOSCompatibility(plugin: string): {
 
 function getSystemInfo(): Record<string, string> {
   return {
-    os: OS,
     arch: ARCH,
     nodeVersion: NODE_VERSION,
+    os: OS,
     platform:
       OS === "win32"
         ? "Windows"
@@ -499,7 +499,7 @@ function getSystemInfo(): Record<string, string> {
 async function checkDiskSpace(): Promise<{
   freeBytes: number;
   freeGB: number;
-  status: "ok" | "warn" | "critical";
+  status: "critical" | "ok" | "warn";
 }> {
   return new Promise((resolve) => {
     const timeout = setTimeout(() => {
@@ -526,10 +526,10 @@ async function checkDiskSpace(): Promise<{
 
           if (!error && stdout) {
             if (OS === "win32") {
-              freeBytes = parseInt(stdout.trim(), 10);
+              freeBytes = Number.parseInt(stdout.trim(), 10);
             } else {
               // df returns available blocks (1K blocks), convert to bytes
-              const availableBlocks = parseInt(stdout.trim(), 10);
+              const availableBlocks = Number.parseInt(stdout.trim(), 10);
               freeBytes = availableBlocks * 1024;
             }
           }
@@ -540,7 +540,7 @@ async function checkDiskSpace(): Promise<{
 
       function finalize(bytes: number) {
         const freeGB = bytes / (1024 * 1024 * 1024);
-        let status: "ok" | "warn" | "critical" = "ok";
+        let status: "critical" | "ok" | "warn" = "ok";
         if (freeGB < DISK_SPACE_CRITICAL_GB) {
           status = "critical";
         } else if (freeGB < DISK_SPACE_WARN_GB) {
@@ -552,7 +552,7 @@ async function checkDiskSpace(): Promise<{
           status,
         });
       }
-    } catch (e) {
+    } catch {
       clearTimeout(timeout);
       resolve({ freeBytes: 0, freeGB: 0, status: "ok" });
     }
@@ -560,7 +560,7 @@ async function checkDiskSpace(): Promise<{
 }
 
 interface MCPServerHealth {
-  status: "ok" | "auth-required" | "unreachable" | "error";
+  status: "auth-required" | "error" | "ok" | "unreachable";
   exitCode: number;
   stdout: string;
   stderr: string;
@@ -592,16 +592,16 @@ async function checkMCPServerHealth(
       const durationMs = Date.now() - startTime;
 
       results[serverName] = {
-        status: "ok",
-        exitCode: 0,
-        stdout: stdout.slice(0, 200),
-        stderr: "",
         durationMs,
+        exitCode: 0,
+        status: "ok",
+        stderr: "",
+        stdout: stdout.slice(0, 200),
       };
     } catch (e) {
       const durationMs = Date.now() - startTime;
       const errorStr = String(e);
-      let status: "ok" | "auth-required" | "unreachable" | "error" = "error";
+      let status: "auth-required" | "error" | "ok" | "unreachable" = "error";
 
       if (errorStr.includes("401") || errorStr.includes("403")) {
         status = "auth-required";
@@ -614,11 +614,11 @@ async function checkMCPServerHealth(
       }
 
       results[serverName] = {
-        status,
-        exitCode: 1,
-        stdout: "",
-        stderr: errorStr.slice(0, 200),
         durationMs,
+        exitCode: 1,
+        status,
+        stderr: errorStr.slice(0, 200),
+        stdout: "",
       };
     }
   }
@@ -642,15 +642,15 @@ async function main(): Promise<void> {
     log("Running in disk-only mode");
     const diskSpace = await checkDiskSpace();
     const report = {
-      timestamp: new Date().toISOString(),
       freeGB: diskSpace.freeGB,
-      status: diskSpace.status,
       message:
         diskSpace.status === "ok"
           ? "Disk space is adequate"
           : diskSpace.status === "warn"
             ? "Low disk space warning"
             : "Critical disk space alert",
+      status: diskSpace.status,
+      timestamp: new Date().toISOString(),
     };
     console.log(JSON.stringify(report, null, 2));
     process.exit(diskSpace.status === "critical" ? 1 : 0);
@@ -811,13 +811,13 @@ async function main(): Promise<void> {
   const mcpHealth = await checkMCPServerHealth(configs.opencodeConfig || {});
   const mcpHealthValues = Object.values(mcpHealth);
   const mcpHealthSummary = {
-    total: mcpHealthValues.length,
-    ok: mcpHealthValues.filter((h) => h.status === "ok").length,
     authRequired: mcpHealthValues.filter((h) => h.status === "auth-required")
       .length,
+    error: mcpHealthValues.filter((h) => h.status === "error").length,
+    ok: mcpHealthValues.filter((h) => h.status === "ok").length,
+    total: mcpHealthValues.length,
     unreachable: mcpHealthValues.filter((h) => h.status === "unreachable")
       .length,
-    error: mcpHealthValues.filter((h) => h.status === "error").length,
   };
 
   log(
@@ -832,23 +832,23 @@ async function main(): Promise<void> {
     osIncompatible.length === 0;
 
   const summary: VerifyReport = {
-    timestamp: new Date().toISOString(),
+    configComparison,
+    diskSpace,
     expectedCount: expected.length,
     extras,
+    mcpHealthSummary,
     missing,
+    missingConfigurations,
     ok,
+    osCompatibility,
     projectConfig: PROJECT_CONFIG,
     projectDuplicates,
+    reportAnalysis,
     runtimeConfig: RUNTIME_REPORT,
     runtimeCount: runtime.length,
     runtimeDuplicates,
-    missingConfigurations,
-    configComparison,
     schemaAnalysis,
-    reportAnalysis,
-    osCompatibility,
-    diskSpace,
-    mcpHealthSummary,
+    timestamp: new Date().toISOString(),
   };
 
   log("[9/8] Writing verification reports...");
@@ -869,9 +869,9 @@ async function main(): Promise<void> {
       mcpHealthReport,
       JSON.stringify(
         {
-          timestamp: new Date().toISOString(),
           servers: mcpHealth,
           summary: mcpHealthSummary,
+          timestamp: new Date().toISOString(),
         },
         null,
         2,
