@@ -1,2 +1,0 @@
-$ lint-staged --config .lintstagedrc.ts
-[0;34mΓåÆ[0m lint-staged could not find any staged files.
