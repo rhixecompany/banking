@@ -14,7 +14,7 @@
  *
  * All functions are async for consistent performance and error handling.
  */
-import { execFile } from "child_process";
+import { exec, execFile } from "child_process";
 import fs from "fs";
 import os from "os";
 import path from "path";
@@ -30,6 +30,9 @@ interface CliArgs {
   printLogs: boolean;
   skipReinstall: boolean;
   skipVerify: boolean;
+  skipMissingFix: boolean;
+  skipExtraFix: boolean;
+  useCachedRuntime: boolean;
 }
 
 interface ConfigSet {
@@ -68,6 +71,22 @@ interface RepairReport {
     total: number;
   };
   skippedPlugins: string[];
+  missingPlugins: string[];
+  extraPlugins: string[];
+  fixedMissing: string[];
+  fixedExtras: string[];
+  diskSpace: {
+    freeBytes: number;
+    freeGB: number;
+    status: "ok" | "warn" | "critical";
+  };
+  schemaAnalysis: null | {
+    extensionTypes: string[];
+    configLocations: Record<string, string>;
+    fileExists: boolean;
+  };
+  verifyReportRead: boolean;
+  osCompatSummary: Record<string, { compatible: boolean; reason?: string }>;
 }
 
 // ─── Paths ────────────────────────────────────────────────────────────────────
@@ -93,11 +112,19 @@ const NORMALIZE_REPORT = path.join(
   "opencode-plugin-normalize.json",
 );
 const OS_COMPAT_REPORT = path.join(REPORT_DIR, "opencode-os-compat.json");
+const VERIFY_REPORT_PATH = path.join(REPORT_DIR, "opencode-plugin-verify.json");
+const DEBUG_CONFIG_REPORT = path.join(
+  REPORT_DIR,
+  "opencode-debug-config.runtime.json",
+);
+const SCHEMA_DESIGN_DOC = path.join(REPO_ROOT, "docs/schema-design.md");
 const VERIFY_SCRIPT = path.join(
   REPO_ROOT,
   "scripts/ts/opencode-plugin-verify.ts",
 );
 const REPAIR_REPORT = path.join(REPORT_DIR, "opencode-plugin-repair.json");
+const DISK_SPACE_CRITICAL_GB = 0.5;
+const DISK_SPACE_WARN_GB = 1.0;
 
 // ─── System info ─────────────────────────────────────────────────────────────
 
@@ -129,6 +156,9 @@ function parseArgs(): CliArgs {
     printLogs: false,
     skipReinstall: false,
     skipVerify: false,
+    skipMissingFix: false,
+    skipExtraFix: false,
+    useCachedRuntime: false,
   };
 
   for (const arg of raw) {
@@ -145,6 +175,15 @@ function parseArgs(): CliArgs {
       case "--skip-verify":
         args.skipVerify = true;
         break;
+      case "--skip-missing-fix":
+        args.skipMissingFix = true;
+        break;
+      case "--skip-extra-fix":
+        args.skipExtraFix = true;
+        break;
+      case "--use-cached-runtime":
+        args.useCachedRuntime = true;
+        break;
       case "-h":
       case "--help":
         printUsage();
@@ -159,12 +198,22 @@ function parseArgs(): CliArgs {
 }
 
 function printUsage(): void {
-  console.log(`Usage: bunx tsx scripts/ts/opencode-plugin-repair.ts [--apply] [--print-logs] [--skip-reinstall] [--skip-verify]
+  console.log(`Usage: bunx tsx scripts/ts/opencode-plugin-repair.ts [options]
+
+Options:
+  --apply                restore plugin runtime state (with dry-run mode, only plan is shown)
+  --print-logs           enable verbose logging
+  --skip-reinstall       skip full reinstall phase (phase 11)
+  --skip-verify          skip verification phase
+  --skip-missing-fix     skip fixing missing plugins (phase 9)
+  --skip-extra-fix       skip fixing extra plugins (phase 10)
+  --use-cached-runtime   use cached runtime config instead of running 'bunx opencode debug config'
+  -h, --help             show this help message
 
 Safe by default (dry-run):
   without --apply   prints the repair plan only
   with --apply      backs up changed configs, clears plugin runtime state,
-                    reinstalls plugins, and verifies the result
+                    fixes missing/extra plugins, reinstalls, and verifies
 
 Config sources (in priority order):
   .opencode/opencode.json              (project)
@@ -283,6 +332,42 @@ function dedupePlugins(plugins: string[]): string[] {
 // ─── OS Compatibility ─────────────────────────────────────────────────────────
 
 function checkOsCompatibility(plugin: string): OSCompatResult {
+  const pluginLower = plugin.toLowerCase();
+
+  const incompatiblePlugins: Record<
+    string,
+    { platforms?: string[]; arches?: string[]; reason: string }
+  > = {
+    "@modelcontextprotocol/server-filesystem": {
+      reason: "Cross-platform but requires proper path handling on Windows",
+    },
+    "@modelcontextprotocol/server-github": {
+      reason: "Requires git to be installed and accessible in PATH",
+    },
+    "opencode-mem": {
+      platforms: ["win32"],
+      reason:
+        "Memory plugin has known issues on Windows - use global config instead",
+    },
+  };
+
+  for (const [pluginPattern, constraints] of Object.entries(
+    incompatiblePlugins,
+  )) {
+    if (pluginLower.includes(pluginPattern.toLowerCase())) {
+      if (
+        constraints.platforms &&
+        !constraints.platforms.includes(OS_PLATFORM)
+      ) {
+        return {
+          compatible: false,
+          reason: `Not supported on ${OS_PLATFORM}. ${constraints.reason}`,
+        };
+      }
+      return { compatible: true, reason: constraints.reason };
+    }
+  }
+
   if (OS_PLATFORM === "win32") {
     if (
       plugin.includes("shell") ||
@@ -298,10 +383,16 @@ function checkOsCompatibility(plugin: string): OSCompatResult {
   }
 
   if (OS_PLATFORM === "darwin" && ARCH === "arm64") {
-    return {
-      compatible: true,
-      reason: "ARM64 Mac detected - some npm packages may need Rosetta2",
-    };
+    if (
+      plugin.includes("apple") ||
+      plugin.includes("m1") ||
+      plugin.includes("intel")
+    ) {
+      return {
+        compatible: true,
+        reason: "ARM64 Mac detected - some npm packages may need Rosetta2",
+      };
+    }
   }
 
   return { compatible: true, reason: "" };
@@ -365,6 +456,345 @@ async function removeFile(filePath: string, apply: boolean): Promise<void> {
   } else {
     dryLog(["rm", "-f", filePath]);
   }
+}
+
+// ─── Disk Space Check ─────────────────────────────────────────────────────────
+
+async function checkDiskSpace(): Promise<{
+  freeBytes: number;
+  freeGB: number;
+  status: "critical" | "ok" | "warn";
+}> {
+  return new Promise((resolve) => {
+    const timeout = setTimeout(() => {
+      resolve({ freeBytes: 0, freeGB: 0, status: "ok" });
+    }, 3000);
+
+    try {
+      let command = "";
+
+      if (OS_PLATFORM === "win32") {
+        // Windows: use PowerShell Get-Volume
+        command = `powershell -NoProfile -Command "(Get-Volume -DriveLetter ${REPO_ROOT[0]} | Select-Object -ExpandProperty SizeRemaining)"`;
+      } else {
+        // macOS/Linux: use df command
+        command = `df -k "${REPO_ROOT}" | tail -1 | awk '{print $4}'`;
+      }
+
+      exec(
+        command,
+        { timeout: 2500 },
+        (error: Error | null, stdout: string) => {
+          clearTimeout(timeout);
+          let freeBytes = 0;
+
+          if (!error && stdout) {
+            if (OS_PLATFORM === "win32") {
+              freeBytes = Number.parseInt(stdout.trim(), 10);
+            } else {
+              // df returns available blocks (1K blocks), convert to bytes
+              const availableBlocks = Number.parseInt(stdout.trim(), 10);
+              freeBytes = availableBlocks * 1024;
+            }
+          }
+
+          finalize(freeBytes);
+        },
+      );
+
+      function finalize(bytes: number) {
+        const freeGB = bytes / (1024 * 1024 * 1024);
+        let status: "critical" | "ok" | "warn" = "ok";
+        if (freeGB < DISK_SPACE_CRITICAL_GB) {
+          status = "critical";
+        } else if (freeGB < DISK_SPACE_WARN_GB) {
+          status = "warn";
+        }
+        resolve({
+          freeBytes: bytes,
+          freeGB: Math.round(freeGB * 10) / 10,
+          status,
+        });
+      }
+    } catch {
+      clearTimeout(timeout);
+      resolve({ freeBytes: 0, freeGB: 0, status: "ok" });
+    }
+  });
+}
+
+// ─── Runtime Config Loading ───────────────────────────────────────────────────
+
+function extractJsonFromRaw(raw: string): object {
+  const start = raw.indexOf("{");
+  if (start === -1) {
+    throw new Error("Could not locate JSON payload in raw output");
+  }
+  return JSON.parse(raw.slice(start));
+}
+
+async function loadRuntimeConfig(
+  args: CliArgs,
+): Promise<null | Record<string, unknown>> {
+  log("[3/11] Loading runtime config...");
+
+  if (args.useCachedRuntime) {
+    log("  Using cached runtime config from --use-cached-runtime flag");
+    if (fs.existsSync(DEBUG_CONFIG_REPORT)) {
+      try {
+        const content = await readFile(DEBUG_CONFIG_REPORT);
+        if (content) {
+          const parsed = JSON.parse(content) as Record<string, unknown>;
+          log(
+            `  ✓ Loaded cached runtime config (${Object.keys(parsed).length} keys)`,
+          );
+          return parsed;
+        }
+      } catch (e) {
+        log(`  ⚠  Failed to parse cached runtime config: ${e}`);
+      }
+    }
+    log("  ⚠  Cached runtime config not found, will skip runtime analysis");
+    return null;
+  }
+
+  try {
+    const rawOutput = await runCommand(
+      "bunx",
+      ["opencode", "debug", "config"],
+      { NODE_OPTIONS: "--max-old-space-size=4096" },
+    );
+    log(
+      `  ✓ Retrieved runtime config (${(rawOutput as unknown as string).length} bytes)`,
+    );
+    const runtimeConfig = extractJsonFromRaw(rawOutput as unknown as string);
+    return runtimeConfig as Record<string, unknown>;
+  } catch (e) {
+    log(`  ⚠  Failed to load runtime config: ${e}`);
+    return null;
+  }
+}
+
+// ─── Schema & Report Analysis ─────────────────────────────────────────────────
+
+async function analyzeSchemaDesign(
+  templatePath: string,
+): Promise<null | {
+  extensionTypes: string[];
+  configLocations: Record<string, string>;
+  fileExists: boolean;
+}> {
+  try {
+    const content = await readFile(templatePath);
+    if (!content) return null;
+
+    const extensionTypes: string[] = [];
+    const typeMatches = content.match(/### \d+\.\d+ `(\w+)`/g);
+    if (typeMatches) {
+      for (const match of typeMatches) {
+        const typeMatch = match.match(/`(\w+)`/);
+        if (typeMatch && typeMatch[1]) {
+          extensionTypes.push(typeMatch[1]);
+        }
+      }
+    }
+
+    const configLocs: Record<string, string> = {};
+    const configSection = content.match(
+      /### 3\.\d+ [^\n]+\n\n([\s\S]*?)(?=###|$)/,
+    );
+    if (configSection) {
+      const matches = [...configSection[1].matchAll(/`([^`]+)`/g)];
+      for (let i = 0; i < matches.length - 1; i += 2) {
+        const key = matches[i][1];
+        const value = matches[i + 1][1];
+        configLocs[key] = value;
+      }
+    }
+
+    return {
+      configLocations: configLocs,
+      extensionTypes,
+      fileExists: true,
+    };
+  } catch {
+    return null;
+  }
+}
+
+async function readVerifyReport(): Promise<null | Record<string, unknown>> {
+  if (fs.existsSync(VERIFY_REPORT_PATH)) {
+    try {
+      const content = await readFile(VERIFY_REPORT_PATH);
+      if (content) {
+        return JSON.parse(content) as Record<string, unknown>;
+      }
+    } catch (e) {
+      log(`  ⚠  Failed to parse verify report: ${e}`);
+    }
+  }
+  return null;
+}
+
+async function readOsCompatReport(): Promise<null | Record<string, unknown>> {
+  if (fs.existsSync(OS_COMPAT_REPORT)) {
+    try {
+      const content = await readFile(OS_COMPAT_REPORT);
+      if (content) {
+        return JSON.parse(content) as Record<string, unknown>;
+      }
+    } catch (e) {
+      log(`  ⚠  Failed to parse OS compat report: ${e}`);
+    }
+  }
+  return null;
+}
+
+// ─── Detect Missing & Extra Plugins ───────────────────────────────────────────
+
+async function detectMissingAndExtras(
+  expectedPlugins: string[],
+  runtimePlugins: null | string[],
+): Promise<{ missing: string[]; extras: string[] }> {
+  log("[6/11] Detecting missing and extra plugins...");
+
+  if (!runtimePlugins) {
+    log("  ⚠  No runtime config available; skipping runtime comparison");
+    return { missing: [], extras: [] };
+  }
+
+  const expected = new Set(expectedPlugins.map((p) => pluginKey(p)));
+  const runtime = new Set(runtimePlugins.map((p) => pluginKey(p)));
+
+  const missing: string[] = [];
+  for (const plugin of expectedPlugins) {
+    const key = pluginKey(plugin);
+    if (!runtime.has(key)) {
+      missing.push(plugin);
+    }
+  }
+
+  const extras: string[] = [];
+  for (const plugin of runtimePlugins) {
+    const key = pluginKey(plugin);
+    if (!expected.has(key)) {
+      extras.push(plugin);
+    }
+  }
+
+  if (missing.length > 0) log(`  Missing from runtime: ${missing.join(", ")}`);
+  if (extras.length > 0) log(`  Extra in runtime: ${extras.join(", ")}`);
+
+  return { missing, extras };
+}
+
+// ─── Fix Missing Plugins ──────────────────────────────────────────────────────
+
+async function fixMissingPlugins(
+  missing: string[],
+  diskSpace: { status: string },
+  args: CliArgs,
+): Promise<string[]> {
+  if (args.skipMissingFix) {
+    log("[9/11] Skipping missing plugin fix (--skip-missing-fix provided)");
+    return [];
+  }
+
+  log("[9/11] Fixing missing plugins...");
+
+  if (diskSpace.status === "critical" && args.apply) {
+    log("  ⚠  Skipping install due to critical disk space");
+    return [];
+  }
+
+  const fixedMissing: string[] = [];
+  const installArgs: string[] = ["--force"];
+  if (args.printLogs) installArgs.push("--print-logs");
+
+  for (const plugin of missing) {
+    const compat = checkOsCompatibility(plugin);
+    if (!compat.compatible) {
+      log(`  SKIPPING incompatible plugin: ${plugin} (${compat.reason})`);
+      continue;
+    }
+
+    log(`  Installing missing plugin: ${plugin}`);
+    if (args.apply) {
+      try {
+        await runCommand("bunx", [
+          "opencode",
+          "plugin",
+          plugin,
+          ...installArgs,
+        ]);
+        fixedMissing.push(plugin);
+        log(`    ✓ Installed ${plugin}`);
+      } catch (e) {
+        log(`    ⚠  Failed to install ${plugin}: ${e}`);
+      }
+    } else {
+      dryLog(["bunx", "opencode", "plugin", plugin, ...installArgs]);
+      fixedMissing.push(plugin);
+    }
+  }
+
+  log(
+    `  ✓ Missing plugin fix complete: ${fixedMissing.length}/${missing.length} installed`,
+  );
+  return fixedMissing;
+}
+
+// ─── Fix Extra Plugins ────────────────────────────────────────────────────────
+
+async function fixExtraPlugins(
+  extras: string[],
+  configs: ConfigSet,
+  args: CliArgs,
+): Promise<string[]> {
+  if (args.skipExtraFix) {
+    log("[10/11] Skipping extra plugin fix (--skip-extra-fix provided)");
+    return [];
+  }
+
+  log("[10/11] Fixing extra plugins...");
+
+  const fixedExtras: string[] = [];
+
+  for (const plugin of extras) {
+    const dirName = pluginDirName(plugin);
+    const pluginDir = path.join(GLOBAL_CONFIG_DIR, dirName);
+    const cachePluginDir = path.join(CACHE_DIR, dirName);
+
+    // Check if plugin is in ANY config source
+    const inAnyConfig =
+      extractPlugins(configs.projectOpencode).some(
+        (p) => pluginKey(p) === pluginKey(plugin),
+      ) ||
+      extractPlugins(configs.projectTui).some(
+        (p) => pluginKey(p) === pluginKey(plugin),
+      ) ||
+      extractPlugins(configs.globalOpencode).some(
+        (p) => pluginKey(p) === pluginKey(plugin),
+      ) ||
+      extractPlugins(configs.globalTui).some(
+        (p) => pluginKey(p) === pluginKey(plugin),
+      );
+
+    if (inAnyConfig) {
+      log(`  ℹ  Extra plugin found in config, skipping: ${plugin}`);
+      continue;
+    }
+
+    log(`  Removing extra plugin from disk: ${plugin}`);
+    await removeDir(pluginDir, args.apply);
+    await removeDir(cachePluginDir, args.apply);
+    fixedExtras.push(plugin);
+  }
+
+  log(
+    `  ✓ Extra plugin fix complete: ${fixedExtras.length}/${extras.length} removed`,
+  );
+  return fixedExtras;
 }
 
 // ─── Config Loading ───────────────────────────────────────────────────────────
@@ -584,14 +1014,7 @@ async function reinstallPlugins(
         log(`Warning: Failed to reinstall ${plugin}: ${e}`);
       }
     } else {
-      dryLog([
-        "bunx",
-        "opencode",
-        "plugin",
-
-        plugin,
-        ...installArgs,
-      ]);
+      dryLog(["bunx", "opencode", "plugin", plugin, ...installArgs]);
       reinstalled++;
     }
   }
@@ -633,7 +1056,7 @@ async function reinstallPlugins(
 
 async function runVerification(args: CliArgs): Promise<void> {
   if (!args.skipVerify) {
-    log("[6/7] Running verification...");
+    log("[12/11] Running verification...");
     if (args.apply) {
       try {
         await runCommand("bunx", ["tsx", VERIFY_SCRIPT]);
@@ -645,14 +1068,14 @@ async function runVerification(args: CliArgs): Promise<void> {
       log(`DRY-RUN: verification would run via ${VERIFY_SCRIPT}`);
     }
   } else {
-    log("[6/7] Skipping verification (--skip-verify provided)");
+    log("[12/11] Skipping verification (--skip-verify provided)");
   }
 }
 
 // ─── Write Final Report ────────────────────────────────────────────────────────
 
 async function writeRepairReport(report: RepairReport): Promise<void> {
-  log("[7/7] Writing repair report...");
+  log("[13/11] Writing repair report...");
   await writeJsonFile(REPAIR_REPORT, report);
   log(`✓ Repair report: ${REPAIR_REPORT}`);
   console.log(JSON.stringify(report, null, 2));
@@ -664,7 +1087,7 @@ async function main(): Promise<void> {
   const args = parseArgs();
 
   log(`========================================`);
-  log(`OpenCode Plugin Repair Starting`);
+  log(`OpenCode Plugin Repair Starting (11-Phase)`);
   log(`========================================`);
   log(`System: OS=${OS_PLATFORM}, Arch=${ARCH}, Node=${NODE_VERSION}`);
 
@@ -687,49 +1110,144 @@ async function main(): Promise<void> {
     .replaceAll(/[-:.Z]/g, "")
     .slice(0, 14);
 
-  log("[1/7] Loading configs from multiple sources...");
+  // ─────────────────────────────────────────────────────────────────────────
+  // Phase 1: Load 4-source configs
+  // ─────────────────────────────────────────────────────────────────────────
+  log("[1/11] Loading configs from multiple sources...");
   const configs = await loadAllConfigs();
 
+  // ─────────────────────────────────────────────────────────────────────────
+  // Phase 2: Check disk space
+  // ─────────────────────────────────────────────────────────────────────────
+  log("[2/11] Checking disk space...");
+  const diskSpace = await checkDiskSpace();
+  log(
+    `  ✓ Disk space: ${diskSpace.freeGB} GB free (status: ${diskSpace.status})`,
+  );
+  if (diskSpace.status === "critical" && args.apply) {
+    fail(
+      `CRITICAL: Only ${diskSpace.freeGB} GB free. Aborting to prevent data issues.`,
+    );
+  }
+  if (diskSpace.status === "warn") {
+    log(`  ⚠  WARNING: Low disk space - ${diskSpace.freeGB} GB free`);
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Phase 3: Load runtime config
+  // ─────────────────────────────────────────────────────────────────────────
+  const runtimeConfig = await loadRuntimeConfig(args);
+  const runtimePlugins =
+    (runtimeConfig?.plugin as string[] | undefined) ?? null;
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Phase 4: Read schema, verify report, OS compat report
+  // ─────────────────────────────────────────────────────────────────────────
+  log("[4/11] Analyzing schema and reports...");
+  const schemaAnalysis = await analyzeSchemaDesign(SCHEMA_DESIGN_DOC);
+  const verifyReport = await readVerifyReport();
+  const osCompatReport = await readOsCompatReport();
+  const verifyReportRead = verifyReport !== null;
+  if (verifyReportRead) log("  ✓ Loaded verify report");
+  if (schemaAnalysis) log("  ✓ Loaded schema design");
+  if (osCompatReport) log("  ✓ Loaded OS compat report");
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Phase 5: Normalize & dedup
+  // ─────────────────────────────────────────────────────────────────────────
   const { configChanged, finalConfig } = await normalizeAndBackupConfigs(
     configs,
     timestamp,
     args,
   );
 
-  // Extract deduplicated plugins
+  // ─────────────────────────────────────────────────────────────────────────
+  // Phase 6: Detect missing & extras
+  // ─────────────────────────────────────────────────────────────────────────
   const projectPlugins = extractPlugins(finalConfig);
   const globalPlugins = extractPlugins(configs.globalOpencode);
   const dedupedPlugins = dedupePlugins(projectPlugins);
   const dedupedGlobalPlugins = dedupePlugins(globalPlugins);
+  const allExpectedPlugins = [...dedupedPlugins, ...dedupedGlobalPlugins];
 
+  const { missing, extras } = await detectMissingAndExtras(
+    allExpectedPlugins,
+    runtimePlugins,
+  );
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Phase 7: Collect cleanup targets
+  // ─────────────────────────────────────────────────────────────────────────
+  log("[7/11] Collecting cleanup targets...");
   const cleanupTargets = await collectCleanupTargets(
     dedupedPlugins,
     dedupedGlobalPlugins,
   );
 
+  // ─────────────────────────────────────────────────────────────────────────
+  // Phase 8: Execute cleanup (if not skipped)
+  // ─────────────────────────────────────────────────────────────────────────
   if (!args.skipReinstall) {
+    log("[8/11] Executing cleanup...");
     await executeCleanup(cleanupTargets, args.apply);
   } else {
-    log("[4/7] Skipping cleanup (--skip-reinstall provided)");
+    log("[8/11] Skipping cleanup (--skip-reinstall provided)");
   }
 
+  // ─────────────────────────────────────────────────────────────────────────
+  // Phase 9: Fix missing plugins (if not skipped)
+  // ─────────────────────────────────────────────────────────────────────────
+  const fixedMissing = await fixMissingPlugins(missing, diskSpace, args);
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Phase 10: Fix extra plugins (if not skipped)
+  // ─────────────────────────────────────────────────────────────────────────
+  const fixedExtras = await fixExtraPlugins(extras, configs, args);
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Phase 11: Full reinstall (if not skipped)
+  // ─────────────────────────────────────────────────────────────────────────
   const { reinstalled, skipped } = !args.skipReinstall
     ? await reinstallPlugins(dedupedGlobalPlugins, dedupedPlugins, args)
     : { reinstalled: 0, skipped: [] };
 
+  // ─────────────────────────────────────────────────────────────────────────
+  // Post-Phase 1: Verification
+  // ─────────────────────────────────────────────────────────────────────────
   await runVerification(args);
 
+  // ─────────────────────────────────────────────────────────────────────────
+  // Post-Phase 2: Build OS compat summary
+  // ─────────────────────────────────────────────────────────────────────────
+  const osCompatSummary: Record<
+    string,
+    { compatible: boolean; reason?: string }
+  > = {};
+  for (const plugin of allExpectedPlugins) {
+    osCompatSummary[plugin] = checkOsCompatibility(plugin);
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────
   // Write final report
+  // ─────────────────────────────────────────────────────────────────────────
   const repairReport: RepairReport = {
     cleanupTargets,
     configChanged,
+    diskSpace,
+    extraPlugins: extras,
+    fixedExtras,
+    fixedMissing,
+    missingPlugins: missing,
+    osCompatSummary,
     reinstallSummary: {
       globalPlugins: dedupedGlobalPlugins.length,
       projectPlugins: dedupedPlugins.length,
       total: dedupedGlobalPlugins.length + dedupedPlugins.length,
     },
+    schemaAnalysis,
     skippedPlugins: skipped,
     timestamp: new Date().toISOString(),
+    verifyReportRead,
   };
 
   await writeRepairReport(repairReport);
