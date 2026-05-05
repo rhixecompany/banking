@@ -5,54 +5,25 @@
  * propose (but not write) changes to opencode manifest files.
  *
  * This is a DRY-RUN tool only — it will never modify files. Run with:
- *   node ./scripts/ts/mcp/mcp-runner.js
- * (after transpiling with tsc or running with ts-node)
+ *   bunx tsx .opencode/tools/mcp-runner.ts
  */
 import { promises as fs } from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
 
-import { logger } from "@/lib/logger";
+/** Inline logger — avoids the @/lib/logger app alias outside the Next.js tree */
+const logger = {
+  info: (...args: unknown[]) => console.log(...args),
+  error: (...args: unknown[]) => console.error(...args),
+};
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @interface PagesMap
- * @typedef {PagesMap}
- */
 interface PagesMap {
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {?string}
-   */
   generatedAt?: string;
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {?string[]}
-   */
   pages?: string[];
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {?string}
-   */
   source?: string;
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @async
- * @param {string} filePath
- * @returns {unknown}
- */
-async function fileExists(filePath: string) {
+async function fileExists(filePath: string): Promise<boolean> {
   try {
     await fs.access(filePath);
     return true;
@@ -61,33 +32,16 @@ async function fileExists(filePath: string) {
   }
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @async
- * @template [T=any]
- * @param {string} filePath
- * @returns {Promise<null | T>}
- */
-async function readJson<T = any>(filePath: string): Promise<null | T> {
+async function readJson<T = unknown>(filePath: string): Promise<null | T> {
   try {
     const raw = await fs.readFile(filePath, "utf8");
     return JSON.parse(raw) as T;
   } catch (err) {
-    // Log underlying error for visibility but keep behavior as a non-throwing helper
     logger.error(`Failed to read/parse JSON at ${filePath}:`, err);
     return null;
   }
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @async
- * @returns {*}
- */
 async function main() {
   const repoRoot = process.cwd();
   const pagesMapPath = path.join(
@@ -109,9 +63,7 @@ async function main() {
   if (!(await fileExists(pagesMapPath))) {
     out.ok = false;
     out.report = `Pages map not found at ${pagesMapPath}`;
-    // Human-facing error -> stderr
     logger.error(out.report);
-    // Machine-readable output remains on stdout
     logger.info(JSON.stringify(out, null, 2));
     process.exit(1);
   }
@@ -129,7 +81,6 @@ async function main() {
     }
   }
 
-  // Check potential manifest files and propose additions if pages missing
   const manifests = [
     path.join(repoRoot, ".opencode", "mcp_servers.json"),
     path.join(repoRoot, ".opencode", "opencode.json"),
@@ -139,7 +90,6 @@ async function main() {
 
   for (const mPath of manifests) {
     if (!(await fileExists(mPath))) {
-      // propose creating a minimal manifest with pages
       proposals[path.relative(repoRoot, mPath)] = {
         action: "create",
         proposed: { pages },
@@ -148,7 +98,7 @@ async function main() {
       continue;
     }
 
-    const data = await readJson<any>(mPath);
+    const data = await readJson<Record<string, unknown>>(mPath);
     if (!data) {
       proposals[path.relative(repoRoot, mPath)] = {
         action: "read-failed",
@@ -157,21 +107,20 @@ async function main() {
       continue;
     }
 
-    // If manifest has a 'pages' array, compare and propose additions
     if (Array.isArray(data.pages)) {
-      const missing = pages.filter((p) => !data.pages.includes(p));
+      const dataPages = data.pages as string[];
+      const missing = pages.filter((p) => !dataPages.includes(p));
       if (missing.length > 0) {
         proposals[path.relative(repoRoot, mPath)] = {
           action: "update",
           missing,
           proposed: {
-            pages: [...data.pages, ...missing],
+            pages: [...dataPages, ...missing],
           },
           reason: "missing pages",
         };
       }
     } else {
-      // Unknown shape: propose merging under pages key
       proposals[path.relative(repoRoot, mPath)] = {
         action: "no-pages-key",
         proposed: { pages },
@@ -183,7 +132,6 @@ async function main() {
   out.report = humanReportLines.join("\n");
   if (Object.keys(proposals).length > 0) out.proposals = proposals;
 
-  // Print human-readable report first
   logger.info(out.report);
   if (out.proposals) {
     logger.info("\nProposals (dry-run, no files will be written):");
@@ -194,17 +142,14 @@ async function main() {
     );
   }
 
-  // Print machine-readable JSON as final output
   logger.info("\nJSON_OUTPUT_START");
   logger.info(JSON.stringify(out, null, 2));
   logger.info("JSON_OUTPUT_END");
-  // Success
   process.exit(0);
 }
 
-if (require.main === module) {
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
   main().catch((err) => {
-    // Unexpected error should write to stderr and exit non-zero
     logger.error("Unexpected error:", err);
     process.exit(1);
   });

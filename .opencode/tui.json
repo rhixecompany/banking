@@ -2,13 +2,10 @@
   "$schema": "https://opencode.ai/tui.json",
   "diff_style": "auto",
   "mouse": true,
+  "plugin": ["opencode-snippets", "@slkiser/opencode-quota"],
   "scroll_acceleration": {
     "enabled": true
   },
   "scroll_speed": 3,
-  "theme": "catpuccin-macchiato",
-  "plugin": [
-    "opencode-snippets",
-    "@slkiser/opencode-quota"
-  ]
+  "theme": "catpuccin-macchiato"
 }

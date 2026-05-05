@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-05T00:07:28.978Z",
+  "generatedAt": "2026-05-05T07:12:35.961Z",
   "results": [
     {
       "check": "process.env-usage",
@@ -491,7 +491,7 @@
     {
       "check": "process.env-usage",
       "file": "scripts/plan-ensure.ts",
-      "line": 378,
+      "line": 380,
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
       "severity": "warn",
       "snippet": "process.env"
@@ -679,6 +679,22 @@
       "severity": "warn"
     },
     {
+      "check": "process.env-usage",
+      "file": "scripts/db/apply-migrations.ts",
+      "line": 15,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
+    },
+    {
+      "check": "process.env-usage",
+      "file": "scripts/db/apply-select-migrations.ts",
+      "line": 15,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
+    },
+    {
       "check": "no-any",
       "file": "scripts/generate/action.ts",
       "line": 295,
@@ -786,13 +802,6 @@
       "snippet": "process.env"
     },
     {
-      "check": "no-any",
-      "file": "scripts/seed/run.ts",
-      "line": 207,
-      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
       "check": "process.env-usage",
       "file": "scripts/seed/seed-config.ts",
       "line": 8,
@@ -816,16 +825,9 @@
       "severity": "warn"
     },
     {
-      "check": "no-any",
-      "file": "scripts/transform/zod-meta-to-describe.ts",
-      "line": 58,
-      "message": "Found 'any' type usage (4 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
       "check": "process.env-usage",
       "file": "scripts/ts/build.ts",
-      "line": 113,
+      "line": 63,
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
       "severity": "warn",
       "snippet": "process.env"
@@ -833,7 +835,7 @@
     {
       "check": "process.env-usage",
       "file": "scripts/ts/build.ts",
-      "line": 119,
+      "line": 69,
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
       "severity": "warn",
       "snippet": "process.env"
@@ -841,7 +843,111 @@
     {
       "check": "process.env-usage",
       "file": "scripts/ts/build.ts",
-      "line": 120,
+      "line": 70,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
+    },
+    {
+      "check": "process.env-usage",
+      "file": "scripts/ts/build.ts",
+      "line": 79,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
+    },
+    {
+      "check": "process.env-usage",
+      "file": "scripts/ts/build.ts",
+      "line": 83,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
+    },
+    {
+      "check": "process.env-usage",
+      "file": "scripts/ts/build.ts",
+      "line": 87,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
+    },
+    {
+      "check": "process.env-usage",
+      "file": "scripts/ts/build.ts",
+      "line": 88,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
+    },
+    {
+      "check": "process.env-usage",
+      "file": "scripts/ts/build.ts",
+      "line": 98,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
+    },
+    {
+      "check": "process.env-usage",
+      "file": "scripts/ts/build.ts",
+      "line": 102,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
+    },
+    {
+      "check": "process.env-usage",
+      "file": "scripts/ts/build.ts",
+      "line": 118,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
+    },
+    {
+      "check": "process.env-usage",
+      "file": "scripts/ts/build.ts",
+      "line": 121,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
+    },
+    {
+      "check": "process.env-usage",
+      "file": "scripts/ts/build.ts",
+      "line": 123,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
+    },
+    {
+      "check": "process.env-usage",
+      "file": "scripts/ts/build.ts",
+      "line": 124,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
+    },
+    {
+      "check": "process.env-usage",
+      "file": "scripts/ts/build.ts",
+      "line": 125,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
+    },
+    {
+      "check": "process.env-usage",
+      "file": "scripts/ts/build.ts",
+      "line": 126,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
+    },
+    {
+      "check": "process.env-usage",
+      "file": "scripts/ts/build.ts",
+      "line": 127,
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
       "severity": "warn",
       "snippet": "process.env"
@@ -855,94 +961,6 @@
       "snippet": "process.env"
     },
     {
-      "check": "process.env-usage",
-      "file": "scripts/ts/build.ts",
-      "line": 134,
-      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
-      "severity": "warn",
-      "snippet": "process.env"
-    },
-    {
-      "check": "process.env-usage",
-      "file": "scripts/ts/build.ts",
-      "line": 135,
-      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
-      "severity": "warn",
-      "snippet": "process.env"
-    },
-    {
-      "check": "process.env-usage",
-      "file": "scripts/ts/build.ts",
-      "line": 144,
-      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
-      "severity": "warn",
-      "snippet": "process.env"
-    },
-    {
-      "check": "process.env-usage",
-      "file": "scripts/ts/build.ts",
-      "line": 180,
-      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
-      "severity": "warn",
-      "snippet": "process.env"
-    },
-    {
-      "check": "process.env-usage",
-      "file": "scripts/ts/build.ts",
-      "line": 183,
-      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
-      "severity": "warn",
-      "snippet": "process.env"
-    },
-    {
-      "check": "process.env-usage",
-      "file": "scripts/ts/build.ts",
-      "line": 185,
-      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
-      "severity": "warn",
-      "snippet": "process.env"
-    },
-    {
-      "check": "process.env-usage",
-      "file": "scripts/ts/build.ts",
-      "line": 186,
-      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
-      "severity": "warn",
-      "snippet": "process.env"
-    },
-    {
-      "check": "process.env-usage",
-      "file": "scripts/ts/build.ts",
-      "line": 187,
-      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
-      "severity": "warn",
-      "snippet": "process.env"
-    },
-    {
-      "check": "process.env-usage",
-      "file": "scripts/ts/build.ts",
-      "line": 188,
-      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
-      "severity": "warn",
-      "snippet": "process.env"
-    },
-    {
-      "check": "process.env-usage",
-      "file": "scripts/ts/build.ts",
-      "line": 189,
-      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
-      "severity": "warn",
-      "snippet": "process.env"
-    },
-    {
-      "check": "process.env-usage",
-      "file": "scripts/ts/build.ts",
-      "line": 190,
-      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
-      "severity": "warn",
-      "snippet": "process.env"
-    },
-    {
       "check": "no-any",
       "file": "scripts/ts/diagnose-and-fix-git-unix.ts",
       "line": 19,
@@ -950,80 +968,57 @@
       "severity": "warn"
     },
     {
-      "check": "no-any",
-      "file": "scripts/ts/diagnose-and-fix-git.ts",
-      "line": 32,
-      "message": "Found 'any' type usage (3 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
       "check": "process.env-usage",
-      "file": "scripts/ts/opencode-plugin-repair.ts",
-      "line": 77,
+      "file": "scripts/ts/plugin-repair.ts",
+      "line": 128,
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
       "severity": "warn",
       "snippet": "process.env"
     },
     {
       "check": "process.env-usage",
-      "file": "scripts/ts/opencode-plugin-repair.ts",
-      "line": 80,
+      "file": "scripts/ts/plugin-repair.ts",
+      "line": 131,
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
       "severity": "warn",
       "snippet": "process.env"
     },
     {
       "check": "process.env-usage",
-      "file": "scripts/ts/opencode-plugin-repair.ts",
-      "line": 83,
+      "file": "scripts/ts/plugin-repair.ts",
+      "line": 134,
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
       "severity": "warn",
       "snippet": "process.env"
     },
     {
       "check": "process.env-usage",
-      "file": "scripts/ts/opencode-plugin-repair.ts",
-      "line": 85,
+      "file": "scripts/ts/plugin-repair.ts",
+      "line": 136,
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
       "severity": "warn",
       "snippet": "process.env"
     },
     {
       "check": "process.env-usage",
-      "file": "scripts/ts/opencode-plugin-repair.ts",
-      "line": 90,
+      "file": "scripts/ts/plugin-repair.ts",
+      "line": 141,
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
       "severity": "warn",
       "snippet": "process.env"
     },
     {
       "check": "process.env-usage",
-      "file": "scripts/ts/opencode-plugin-repair.ts",
-      "line": 318,
+      "file": "scripts/ts/plugin-verify.ts",
+      "line": 71,
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
       "severity": "warn",
       "snippet": "process.env"
     },
     {
       "check": "process.env-usage",
-      "file": "scripts/ts/opencode-plugin-verify.ts",
-      "line": 55,
-      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
-      "severity": "warn",
-      "snippet": "process.env"
-    },
-    {
-      "check": "process.env-usage",
-      "file": "scripts/ts/opencode-plugin-verify.ts",
-      "line": 76,
-      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
-      "severity": "warn",
-      "snippet": "process.env"
-    },
-    {
-      "check": "process.env-usage",
-      "file": "scripts/ts/opencode-plugin-verify.ts",
-      "line": 129,
+      "file": "scripts/ts/plugin-verify.ts",
+      "line": 92,
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
       "severity": "warn",
       "snippet": "process.env"
@@ -1085,22 +1080,6 @@
     },
     {
       "check": "process.env-usage",
-      "file": "tests/fixtures/auth.ts",
-      "line": 64,
-      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
-      "severity": "warn",
-      "snippet": "process.env"
-    },
-    {
-      "check": "process.env-usage",
-      "file": "tests/fixtures/auth.ts",
-      "line": 70,
-      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
-      "severity": "warn",
-      "snippet": "process.env"
-    },
-    {
-      "check": "process.env-usage",
       "file": "tests/e2e/global-setup.ts",
       "line": 274,
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
@@ -1159,6 +1138,22 @@
       "check": "process.env-usage",
       "file": "tests/e2e/global-teardown.ts",
       "line": 89,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
+    },
+    {
+      "check": "process.env-usage",
+      "file": "tests/fixtures/auth.ts",
+      "line": 64,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
+    },
+    {
+      "check": "process.env-usage",
+      "file": "tests/fixtures/auth.ts",
+      "line": 70,
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
       "severity": "warn",
       "snippet": "process.env"
@@ -1341,14 +1336,14 @@
     {
       "check": "no-any",
       "file": "scripts/ts/cleanup/cleanup-docs.ts",
-      "line": 168,
-      "message": "Found 'any' type usage (3 occurrences). Avoid using any.",
+      "line": 198,
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
       "severity": "warn"
     },
     {
       "check": "process.env-usage",
       "file": "scripts/ts/deploy/deploy.ts",
-      "line": 71,
+      "line": 40,
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
       "severity": "warn",
       "snippet": "process.env"
@@ -1356,17 +1351,10 @@
     {
       "check": "process.env-usage",
       "file": "scripts/ts/deploy/generate-htpasswd.ts",
-      "line": 85,
+      "line": 41,
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
       "severity": "warn",
       "snippet": "process.env"
-    },
-    {
-      "check": "no-any",
-      "file": "scripts/ts/deploy/generate-htpasswd.ts",
-      "line": 47,
-      "message": "Found 'any' type usage (6 occurrences). Avoid using any.",
-      "severity": "warn"
     },
     {
       "check": "no-any",
@@ -1377,24 +1365,18 @@
     },
     {
       "check": "no-any",
-      "file": "scripts/ts/mcp/mcp-runner.ts",
-      "line": 69,
-      "message": "Found 'any' type usage (3 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
       "file": "scripts/ts/tools/discover-app-pages.ts",
       "line": 43,
       "message": "Found 'any' type usage (4 occurrences). Avoid using any.",
       "severity": "warn"
     },
     {
-      "check": "no-any",
-      "file": "scripts/ts/utils/cli.ts",
-      "line": 12,
-      "message": "Found 'any' type usage (5 occurrences). Avoid using any.",
-      "severity": "warn"
+      "check": "process.env-usage",
+      "file": "scripts/ts/utils/disable-extensions.ts",
+      "line": 28,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
     },
     {
       "check": "process.env-usage",
@@ -1407,74 +1389,33 @@
     {
       "check": "process.env-usage",
       "file": "scripts/ts/utils/disable-extensions.ts",
-      "line": 44,
+      "line": 46,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
+    },
+    {
+      "check": "no-any",
+      "file": "scripts/ts/utils/disable-extensions.ts",
+      "line": 59,
+      "message": "Found 'any' type usage (5 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "process.env-usage",
+      "file": "scripts/ts/utils/plugin-shared.ts",
+      "line": 317,
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
       "severity": "warn",
       "snippet": "process.env"
     },
     {
       "check": "process.env-usage",
-      "file": "scripts/ts/utils/disable-extensions.ts",
-      "line": 54,
+      "file": "scripts/ts/utils/spawn-safe.ts",
+      "line": 40,
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
       "severity": "warn",
       "snippet": "process.env"
-    },
-    {
-      "check": "no-any",
-      "file": "scripts/ts/utils/disable-extensions.ts",
-      "line": 80,
-      "message": "Found 'any' type usage (6 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "scripts/utils/ci-helpers/parse-reports.ts",
-      "line": 37,
-      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "scripts/utils/ci-helpers/report-parser.ts",
-      "line": 81,
-      "message": "Found 'any' type usage (4 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "scripts/utils/ci-helpers/run-with-args.ts",
-      "line": 62,
-      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "scripts/utils/ci-helpers/seed-prep.ts",
-      "line": 46,
-      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "scripts/utils/ci-helpers/targeted-test-runner.ts",
-      "line": 91,
-      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "tests/fixtures/pages/base.page.ts",
-      "line": 77,
-      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "tests/fixtures/pages/payment-transfer.page.ts",
-      "line": 138,
-      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
-      "severity": "warn"
     },
     {
       "check": "process.env-usage",
@@ -1517,9 +1458,58 @@
     },
     {
       "check": "no-any",
+      "file": "scripts/utils/ci-helpers/parse-reports.ts",
+      "line": 37,
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "scripts/utils/ci-helpers/report-parser.ts",
+      "line": 81,
+      "message": "Found 'any' type usage (4 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "scripts/utils/ci-helpers/run-with-args.ts",
+      "line": 62,
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "scripts/utils/ci-helpers/seed-prep.ts",
+      "line": 46,
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "scripts/utils/ci-helpers/targeted-test-runner.ts",
+      "line": 91,
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
       "file": "tests/e2e/utils/auth-fixtures.ts",
       "line": 49,
       "message": "Found 'any' type usage (4 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "tests/fixtures/pages/base.page.ts",
+      "line": 77,
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "tests/fixtures/pages/payment-transfer.page.ts",
+      "line": 138,
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
       "severity": "warn"
     },
     {

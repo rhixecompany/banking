@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env node
 import path from "path";
 import { IndentationText, Project, SourceFile } from "ts-morph";
 

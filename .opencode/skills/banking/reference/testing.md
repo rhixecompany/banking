@@ -134,6 +134,40 @@ if (isMockAccessToken(accessToken)) {
 }
 ```
 
+**Examples of mock tokens (all bypass API calls):**
+
+```typescript
+// Valid mock tokens (detected and skip API)
+"seed-plaid-access-token"
+"seed-user-wallet-123"
+"SEED-TEST-TOKEN"
+"mock-dwolla-transfer"
+"MOCK-TEST-ACCOUNT"
+"mock_bank_account_token"
+"MOCK_FUNDING_SOURCE"
+
+// Invalid mock tokens (treated as real, hit API)
+"access-prod-abc123"
+"pk_live_abc123def"
+"sk_test_abc123def"
+"sometoken"  // no prefix
+```
+
+**Why mock tokens?**
+
+- **Deterministic:** Same mock token always returns same data
+- **No rate limits:** Plaid/Dwolla sandboxes have request limits; mocks don't
+- **Offline capability:** Can run tests without network access
+- **Cost-free:** No sandbox API calls (no rate limiting)
+- **Faster:** Mock responses are instant
+
+**When to use:**
+
+- **Unit tests:** Always use mocks (MSW HTTP mocking)
+- **E2E tests (happy path):** Use mock tokens to speed up testing
+- **E2E tests (integration):** Use real sandbox tokens (but sparingly)
+- **Production:** NEVER use mock tokens (verify in pre-release validation)
+
 ---
 
 ## E2E Plaid Mock

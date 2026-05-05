@@ -1,0 +1,250 @@
+{
+  "cleanupTargets": [
+    "C:\\Users\\Alexa\\.config\\opencode\\node_modules",
+    "C:\\Users\\Alexa\\.config\\opencode\\package-lock.json",
+    "C:\\Users\\Alexa\\.cache\\opencode\\packages",
+    "C:\\Users\\Alexa\\.cache\\opencode\\opencode-quota",
+    "C:\\Users\\Alexa\\.config\\opencode\\opencode-mystatus",
+    "C:\\Users\\Alexa\\.cache\\opencode\\opencode-mystatus",
+    "C:\\Users\\Alexa\\.config\\opencode\\opencode-handoff",
+    "C:\\Users\\Alexa\\.cache\\opencode\\opencode-handoff",
+    "C:\\Users\\Alexa\\.config\\opencode\\opencode-dcp",
+    "C:\\Users\\Alexa\\.cache\\opencode\\opencode-dcp",
+    "C:\\Users\\Alexa\\.config\\opencode\\opencode-model-announcer",
+    "C:\\Users\\Alexa\\.cache\\opencode\\opencode-model-announcer",
+    "C:\\Users\\Alexa\\.config\\opencode\\superpowers",
+    "C:\\Users\\Alexa\\.cache\\opencode\\superpowers",
+    "C:\\Users\\Alexa\\.config\\opencode\\opencode-planning-toolkit",
+    "C:\\Users\\Alexa\\.cache\\opencode\\opencode-planning-toolkit",
+    "C:\\Users\\Alexa\\.config\\opencode\\smart-codebase",
+    "C:\\Users\\Alexa\\.cache\\opencode\\smart-codebase",
+    "C:\\Users\\Alexa\\.config\\opencode\\octto",
+    "C:\\Users\\Alexa\\.cache\\opencode\\octto",
+    "C:\\Users\\Alexa\\.config\\opencode\\opencode-cost-guard",
+    "C:\\Users\\Alexa\\.cache\\opencode\\opencode-cost-guard",
+    "C:\\Users\\Alexa\\.config\\opencode\\opencode-agent-identity",
+    "C:\\Users\\Alexa\\.cache\\opencode\\opencode-agent-identity",
+    "C:\\Users\\Alexa\\.config\\opencode\\opencode-pty",
+    "C:\\Users\\Alexa\\.cache\\opencode\\opencode-pty",
+    "C:\\Users\\Alexa\\.config\\opencode\\opencode-helicone-session",
+    "C:\\Users\\Alexa\\.cache\\opencode\\opencode-helicone-session",
+    "C:\\Users\\Alexa\\.config\\opencode\\opencode-type-inject",
+    "C:\\Users\\Alexa\\.cache\\opencode\\opencode-type-inject",
+    "C:\\Users\\Alexa\\.config\\opencode\\opencode-skillful",
+    "C:\\Users\\Alexa\\.cache\\opencode\\opencode-skillful",
+    "C:\\Users\\Alexa\\.config\\opencode\\opencode-snippets",
+    "C:\\Users\\Alexa\\.cache\\opencode\\opencode-snippets",
+    "C:\\Users\\Alexa\\.config\\opencode\\opencode-quota",
+    "C:\\Users\\Alexa\\.cache\\opencode\\opencode-quota"
+  ],
+  "configChanged": false,
+  "diskSpace": {
+    "freeBytes": 2147483648,
+    "freeGB": 2,
+    "status": "ok",
+    "totalBytes": 0,
+    "totalGB": 0,
+    "usedBytes": 0,
+    "usedGB": 0,
+    "analysis": {
+      "cleanupSavingsBytes": 1002233320,
+      "cleanupSavingsGB": 0.93,
+      "dirs": {
+        "globalConfigDir": {
+          "bytes": 55297515,
+          "gb": 0.05,
+          "path": "C:\\Users\\Alexa\\.config\\opencode"
+        },
+        "cacheDir": {
+          "bytes": 1043845072,
+          "gb": 0.97,
+          "path": "C:\\Users\\Alexa\\.cache\\opencode"
+        },
+        "reportDir": {
+          "bytes": 2355129,
+          "gb": 0,
+          "path": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\reports"
+        }
+      },
+      "plugins": {
+        "opencode-mystatus": {
+          "bytes": 0,
+          "gb": 0,
+          "path": "C:\\Users\\Alexa\\.config\\opencode\\opencode-mystatus"
+        },
+        "opencode-handoff": {
+          "bytes": 0,
+          "gb": 0,
+          "path": "C:\\Users\\Alexa\\.config\\opencode\\opencode-handoff"
+        },
+        "opencode-dcp": {
+          "bytes": 0,
+          "gb": 0,
+          "path": "C:\\Users\\Alexa\\.config\\opencode\\opencode-dcp"
+        },
+        "opencode-model-announcer": {
+          "bytes": 0,
+          "gb": 0,
+          "path": "C:\\Users\\Alexa\\.config\\opencode\\opencode-model-announcer"
+        },
+        "superpowers": {
+          "bytes": 0,
+          "gb": 0,
+          "path": "C:\\Users\\Alexa\\.config\\opencode\\superpowers"
+        },
+        "opencode-planning-toolkit": {
+          "bytes": 0,
+          "gb": 0,
+          "path": "C:\\Users\\Alexa\\.config\\opencode\\opencode-planning-toolkit"
+        },
+        "smart-codebase": {
+          "bytes": 0,
+          "gb": 0,
+          "path": "C:\\Users\\Alexa\\.config\\opencode\\smart-codebase"
+        },
+        "octto": {
+          "bytes": 0,
+          "gb": 0,
+          "path": "C:\\Users\\Alexa\\.config\\opencode\\octto"
+        },
+        "opencode-cost-guard": {
+          "bytes": 0,
+          "gb": 0,
+          "path": "C:\\Users\\Alexa\\.config\\opencode\\opencode-cost-guard"
+        },
+        "opencode-agent-identity": {
+          "bytes": 0,
+          "gb": 0,
+          "path": "C:\\Users\\Alexa\\.config\\opencode\\opencode-agent-identity"
+        },
+        "opencode-pty": {
+          "bytes": 0,
+          "gb": 0,
+          "path": "C:\\Users\\Alexa\\.config\\opencode\\opencode-pty"
+        },
+        "opencode-helicone-session": {
+          "bytes": 0,
+          "gb": 0,
+          "path": "C:\\Users\\Alexa\\.config\\opencode\\opencode-helicone-session"
+        },
+        "opencode-type-inject": {
+          "bytes": 0,
+          "gb": 0,
+          "path": "C:\\Users\\Alexa\\.config\\opencode\\opencode-type-inject"
+        },
+        "opencode-skillful": {
+          "bytes": 0,
+          "gb": 0,
+          "path": "C:\\Users\\Alexa\\.config\\opencode\\opencode-skillful"
+        },
+        "opencode-snippets": {
+          "bytes": 0,
+          "gb": 0,
+          "path": "C:\\Users\\Alexa\\.config\\opencode\\opencode-snippets"
+        },
+        "opencode-quota": {
+          "bytes": 0,
+          "gb": 0,
+          "path": "C:\\Users\\Alexa\\.config\\opencode\\opencode-quota"
+        }
+      },
+      "table": "┌─ Disk Usage Breakdown ─────────────────────────────────┐\n│ Volume: 0 GB total | 0 GB used | 2 GB free\n│ Status: OK                                            │\n├──────────────────────────────────────────────────────────┤\n│ Directory                          Size      Percent     │\n├──────────────────────────────────────────────────────────┤\n│ globalConfigDir                   0.05 GB         0% │\n│ cacheDir                          0.97 GB         0% │\n│ reportDir                         0.00 GB         0% │\n│ opencode-mystatus                 0.00 GB         0% │\n│ opencode-handoff                  0.00 GB         0% │\n│ opencode-dcp                      0.00 GB         0% │\n│ opencode-model-announcer          0.00 GB         0% │\n│ superpowers                       0.00 GB         0% │\n│ opencode-planning-toolkit         0.00 GB         0% │\n│ smart-codebase                    0.00 GB         0% │\n│ octto                             0.00 GB         0% │\n│ opencode-cost-guard               0.00 GB         0% │\n│ opencode-agent-identity           0.00 GB         0% │\n│ opencode-pty                      0.00 GB         0% │\n│ opencode-helicone-session         0.00 GB         0% │\n│ opencode-type-inject              0.00 GB         0% │\n│ opencode-skillful                 0.00 GB         0% │\n│ opencode-snippets                 0.00 GB         0% │\n│ opencode-quota                    0.00 GB         0% │\n├──────────────────────────────────────────────────────────┤\n│ Cleanup savings estimate   0.93 GB 0% │\n└──────────────────────────────────────────────────────────┘",
+      "volume": {
+        "freeBytes": 2147483648,
+        "freeGB": 2,
+        "status": "ok",
+        "totalBytes": 0,
+        "totalGB": 0,
+        "usedBytes": 0,
+        "usedGB": 0
+      }
+    }
+  },
+  "extraPlugins": [],
+  "fixedExtras": [],
+  "fixedMissing": [],
+  "missingPlugins": [],
+  "osCompatSummary": {
+    "opencode-mystatus": {
+      "compatible": true,
+      "reason": ""
+    },
+    "opencode-handoff": {
+      "compatible": true,
+      "reason": ""
+    },
+    "@tarquinen/opencode-dcp": {
+      "compatible": true,
+      "reason": ""
+    },
+    "@ramarivera/opencode-model-announcer": {
+      "compatible": true,
+      "reason": ""
+    },
+    "superpowers@git+https://github.com/obra/superpowers.git": {
+      "compatible": true,
+      "reason": ""
+    },
+    "@howaboua/opencode-planning-toolkit": {
+      "compatible": true,
+      "reason": ""
+    },
+    "smart-codebase": {
+      "compatible": true,
+      "reason": ""
+    },
+    "octto": {
+      "compatible": true,
+      "reason": ""
+    },
+    "opencode-cost-guard": {
+      "compatible": true,
+      "reason": ""
+    },
+    "@gotgenes/opencode-agent-identity": {
+      "compatible": true,
+      "reason": ""
+    },
+    "opencode-pty": {
+      "compatible": true,
+      "reason": ""
+    },
+    "opencode-helicone-session": {
+      "compatible": true,
+      "reason": ""
+    },
+    "@nick-vi/opencode-type-inject": {
+      "compatible": true,
+      "reason": ""
+    },
+    "@zenobius/opencode-skillful": {
+      "compatible": true,
+      "reason": ""
+    },
+    "opencode-snippets": {
+      "compatible": true,
+      "reason": ""
+    },
+    "@slkiser/opencode-quota": {
+      "compatible": true,
+      "reason": ""
+    }
+  },
+  "reinstallSummary": {
+    "globalPlugins": 0,
+    "projectPlugins": 16,
+    "total": 16
+  },
+  "schemaAnalysis": {
+    "configLocations": {
+      "~/.config/opencode/opencode.json": "~/.config/opencode/plugin/",
+      "~/.config/opencode/themes/": "~/.config/opencode/command/",
+      "~/.config/opencode/agent/": "~/.config/opencode/skill/<name>/SKILL.md"
+    },
+    "extensionTypes": [],
+    "fileExists": true
+  },
+  "skippedPlugins": [],
+  "timestamp": "2026-05-05T07:09:22.244Z",
+  "verifyReportRead": true
+}

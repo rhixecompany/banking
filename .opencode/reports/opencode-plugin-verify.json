@@ -2,162 +2,54 @@
   "configComparison": {
     "$schema": {
       "present": true,
-      "source": "both"
-    },
-    "agent": {
-      "present": true,
-      "source": "project"
-    },
-    "autoupdate": {
-      "present": true,
-      "source": "project"
-    },
-    "command": {
-      "present": true,
-      "source": "project"
-    },
-    "compaction": {
-      "present": true,
-      "source": "project"
-    },
-    "default_agent": {
-      "present": true,
-      "source": "project"
-    },
-    "enabled_providers": {
-      "present": true,
-      "source": "project"
-    },
-    "instructions": {
-      "present": true,
-      "source": "project"
-    },
-    "lsp": {
-      "present": true,
-      "source": "project"
-    },
-    "mcp": {
-      "present": true,
-      "source": "project"
-    },
-    "model": {
-      "present": true,
-      "source": "project"
-    },
-    "plugin": {
-      "present": true,
-      "source": "project"
-    },
-    "provider": {
-      "present": true,
-      "source": "project"
-    },
-    "share": {
-      "present": true,
-      "source": "project"
-    },
-    "small_model": {
-      "present": true,
-      "source": "project"
-    },
-    "watcher": {
-      "present": true,
-      "source": "project"
+      "source": "global"
     }
   },
   "diskSpace": {
-    "freeBytes": 264945664,
-    "freeGB": 0.2,
-    "status": "critical"
+    "freeBytes": 2147483648,
+    "freeGB": 2,
+    "status": "ok",
+    "totalBytes": 0,
+    "totalGB": 0,
+    "usedBytes": 0,
+    "usedGB": 0
   },
-  "expectedCount": 23,
-  "extras": [],
+  "expectedCount": 0,
+  "extras": [
+    "opencode-mystatus",
+    "opencode-handoff",
+    "@tarquinen/opencode-dcp",
+    "@ramarivera/opencode-model-announcer",
+    "opencode-agent-skills",
+    "superpowers@git+https://github.com/obra/superpowers.git",
+    "@howaboua/opencode-planning-toolkit",
+    "smart-codebase",
+    "octto",
+    "opencode-cost-guard",
+    "@gotgenes/opencode-agent-identity",
+    "opencode-pty",
+    "opencode-helicone-session",
+    "@nick-vi/opencode-type-inject",
+    "@zenobius/opencode-skillful",
+    "opencode-snippets",
+    "@slkiser/opencode-quota"
+  ],
   "mcpHealthSummary": {
     "authRequired": 0,
     "error": 0,
-    "ok": 9,
-    "total": 9,
+    "ok": 0,
+    "total": 0,
     "unreachable": 0
   },
   "missing": [],
   "missingConfigurations": [],
   "ok": true,
-  "osCompatibility": {
-    "opencode-mystatus": {
-      "compatible": true
-    },
-    "opencode-handoff": {
-      "compatible": true
-    },
-    "@tarquinen/opencode-dcp": {
-      "compatible": true
-    },
-    "@ramarivera/opencode-model-announcer": {
-      "compatible": true
-    },
-    "opencode-snippets": {
-      "compatible": true
-    },
-    "opencode-agent-skills": {
-      "compatible": true
-    },
-    "superpowers@git+https://github.com/obra/superpowers.git": {
-      "compatible": true
-    },
-    "@howaboua/opencode-planning-toolkit": {
-      "compatible": true
-    },
-    "@slkiser/opencode-quota": {
-      "compatible": true
-    },
-    "smart-codebase": {
-      "compatible": true
-    },
-    "opencode-devcontainers": {
-      "compatible": true
-    },
-    "@zenobius/opencode-background": {
-      "compatible": true
-    },
-    "@franlol/opencode-md-table-formatter": {
-      "compatible": true
-    },
-    "octto": {
-      "compatible": true
-    },
-    "opencode-cost-guard": {
-      "compatible": true
-    },
-    "@gotgenes/opencode-agent-identity": {
-      "compatible": true
-    },
-    "opencode-agent-memory": {
-      "compatible": true
-    },
-    "opencode-pty": {
-      "compatible": true
-    },
-    "oc-tps@latest": {
-      "compatible": true
-    },
-    "opencode-helicone-session": {
-      "compatible": true
-    },
-    "@nick-vi/opencode-type-inject": {
-      "compatible": true
-    },
-    "opencode-firecrawl": {
-      "compatible": true
-    },
-    "@zenobius/opencode-skillful": {
-      "compatible": true
-    }
-  },
+  "osCompatibility": {},
   "projectConfig": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
   "projectDuplicates": [],
   "reportAnalysis": null,
   "runtimeConfig": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\reports\\opencode-debug-config.runtime.json",
-  "runtimeCount": 23,
+  "runtimeCount": 17,
   "runtimeDuplicates": [],
   "schemaAnalysis": {
     "configLocations": {
@@ -172,5 +64,5 @@
       "Config section has odd number of backtick-quoted values (incomplete key-value pair)"
     ]
   },
-  "timestamp": "2026-05-05T00:35:51.746Z"
+  "timestamp": "2026-05-05T06:56:37.056Z"
 }

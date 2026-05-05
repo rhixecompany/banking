@@ -309,10 +309,13 @@ export async function createFundingSource(input: unknown): Promise<{
 
 /**
  * Initiates an ACH transfer between two Dwolla funding sources.
+ * IMPORTANT: This is a protected Server Action. Only authenticated users can call this.
+ * Idempotency is enforced via idempotency key to prevent double-transfers on network retries.
  *
  * @export
  * @async
- * @param {unknown} input
+ * @protected - Requires authentication via auth()
+ * @param {unknown} input - Must satisfy TransferSchema fields
  * @returns {Promise<{
  *   ok: boolean;
  *   transferUrl?: string;
@@ -332,6 +335,23 @@ export async function createTransfer(input: unknown): Promise<{
   const parsed = TransferSchema.safeParse(input);
   if (!parsed.success) {
     return { error: "Invalid transfer payload", ok: false };
+  }
+
+  // Generate a deterministic idempotency key to prevent duplicate transfers on retries
+  const idempotencyKey = crypto.randomUUID();
+
+  // Check if this exact transfer (by idempotency key) already exists
+  const existingTransfer = await db
+    .select()
+    .from(dwolla_transfers)
+    .where(eq(dwolla_transfers.idempotencyKey, idempotencyKey));
+
+  if (existingTransfer.length > 0) {
+    // Idempotent: transfer already initiated, return the existing URL
+    return {
+      ok: true,
+      transferUrl: existingTransfer[0].transferUrl ?? undefined,
+    };
   }
 
   try {
@@ -358,6 +378,12 @@ export async function createTransfer(input: unknown): Promise<{
           currency: "USD",
           value: parsed.data.amount,
         },
+        /**
+         * Idempotency key sent to Dwolla API.
+         * Dwolla will reject duplicate transfers with the same key within a time window.
+         * This prevents double-charges if the request is retried due to network failure.
+         */
+        idempotencyKey,
       });
 
       transferUrl = response.headers.get("location") ?? undefined;
@@ -438,6 +464,7 @@ export async function createTransfer(input: unknown): Promise<{
             destinationFundingSourceUrl:
               parsed.data.destinationFundingSourceUrl,
             dwollaTransferId: undefined,
+            idempotencyKey,
             receiverWalletId: receiverWalletIdVal,
             senderWalletId: senderWalletIdVal,
             sourceFundingSourceUrl: parsed.data.sourceFundingSourceUrl,

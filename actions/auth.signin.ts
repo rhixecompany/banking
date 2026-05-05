@@ -19,6 +19,12 @@ const SignInSchema = z.object({
  * Validates credentials against the user record. Returns { ok, error? }
  * Note: This action intentionally DOES NOT create a session. The NextAuth
  * credentials provider will call this via `authorize()` during sign-in.
+ *
+ * @protected Credential verification: validates password, called by NextAuth credentials provider.
+ * @export
+ * @async
+ * @param {unknown} payload - Validated sign-in credentials
+ * @returns {Promise<{ ok: boolean; error?: string }>}
  */
 export default async function signin(payload: unknown) {
   const parsed = SignInSchema.safeParse(payload);
@@ -29,7 +35,7 @@ export default async function signin(payload: unknown) {
   if (!user) return { error: "Invalid credentials", ok: false };
   if (!user.isActive) return { error: "Account disabled", ok: false };
 
-  const ok = await bcrypt.compare(password, (user as any).password ?? "");
+  const ok = await bcrypt.compare(password, user.password ?? "");
   if (!ok) return { error: "Invalid credentials", ok: false };
 
   return { ok: true };

@@ -66,9 +66,9 @@ const COMMANDS: Record<string, string> = {
   "build-debug": "bun run build:debug",
   "format-check": "bun run format:check",
   "lint-fix": "bun run lint:fix",
-  "lint-strict": "bun run lint-strict",
+  "lint-strict": "bun run lint:strict",
   "test-browser": "bun run test:browser",
-  "test-ui": "bun run test-ui",
+  "test-ui": "bun run test:ui",
   "type-check": "bun run type-check",
 };
 

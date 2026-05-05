@@ -10,7 +10,7 @@
       "variant": "high"
     }
   },
-  "autoupdate": true,
+  "autoupdate": false,
   "command": {
     "mystatus": {
       "description": "Query quota usage for all AI accounts",
@@ -94,11 +94,7 @@
       "type": "local"
     },
     "next-devtools": {
-      "command": [
-        "bunx",
-        "-y",
-        "next-devtools-mcp@latest"
-      ],
+      "command": ["bunx", "-y", "next-devtools-mcp@latest"],
       "enabled": true,
       "timeout": 900000,
       "type": "local"
@@ -125,31 +121,24 @@
       "type": "local"
     }
   },
-  "model": "opencode/minimax-m2.5-free",
+  "model": "github-copilot/gpt-5.1-codex",
   "plugin": [
     "opencode-mystatus",
     "opencode-handoff",
     "@tarquinen/opencode-dcp",
     "@ramarivera/opencode-model-announcer",
-    "opencode-snippets",
-    "opencode-agent-skills",
     "superpowers@git+https://github.com/obra/superpowers.git",
     "@howaboua/opencode-planning-toolkit",
-    "@slkiser/opencode-quota",
     "smart-codebase",
-    "opencode-devcontainers",
-    "@zenobius/opencode-background",
-    "@franlol/opencode-md-table-formatter",
     "octto",
     "opencode-cost-guard",
     "@gotgenes/opencode-agent-identity",
-    "opencode-agent-memory",
     "opencode-pty",
-    "oc-tps@latest",
     "opencode-helicone-session",
     "@nick-vi/opencode-type-inject",
-    "opencode-firecrawl",
-    "@zenobius/opencode-skillful"
+    "@zenobius/opencode-skillful",
+    "opencode-snippets",
+    "@slkiser/opencode-quota"
   ],
   "provider": {
     "anthropic": {
@@ -173,26 +162,16 @@
         "gemma-4-e4b-it-8bit": {
           "attachment": true,
           "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
+            "input": ["text", "image"],
+            "output": ["text"]
           },
           "name": "gemma-4-e4b-it-8bit"
         },
         "Qwen3.5-9B-MLX-4bit": {
           "attachment": true,
           "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
+            "input": ["text", "image"],
+            "output": ["text"]
           },
           "name": "Qwen3.5-9B-MLX-4bit"
         }

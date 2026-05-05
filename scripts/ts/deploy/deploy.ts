@@ -1,42 +1,16 @@
 #!/usr/bin/env node
 /**
- * deploy.ts - converted from deploy.sh
- * TODO: preserve interactive choices and prompts where necessary
+ * Deployment orchestrator - supports both Unix and Windows
+ * Builds Docker image, runs migrations, and starts application
  */
-import { spawnSync } from "child_process";
 import fs from "fs";
 import path from "path";
 
 import { logger } from "@/lib/logger";
+import { run } from "../utils/spawn-safe";
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {string} cmd
- * @param {string[]} args
- * @param {{ cwd?: string }} [opts={}]
- */
-function run(cmd: string, args: string[], opts: { cwd?: string } = {}) {
-  const res = spawnSync(cmd, args, { cwd: opts.cwd, stdio: "inherit" });
-  if (res.error) throw res.error;
-  if (res.status && res.status !== 0) process.exit(res.status);
-}
-
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @type {*}
- */
 const SCRIPT_DIR = path.dirname(new URL(import.meta.url).pathname);
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @type {*}
- */
-const PROJECT_ROOT = path.resolve(SCRIPT_DIR, "..");
+const PROJECT_ROOT = path.resolve(SCRIPT_DIR, "..", "..");
 
 logger.info("Banking App - Production Deployment Workflow");
 
@@ -49,12 +23,6 @@ try {
 }
 
 // Generate htpasswd if missing
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @type {*}
- */
 const htpath = path.join(
   PROJECT_ROOT,
   "compose",
@@ -65,8 +33,9 @@ const htpath = path.join(
 if (!fs.existsSync(htpath)) {
   logger.info("Creating htpasswd file...");
   try {
-    run("bash", [
-      path.join(SCRIPT_DIR, "generate-htpasswd.sh"),
+    run("bunx", [
+      "tsx",
+      path.join(SCRIPT_DIR, "generate-htpasswd.ts"),
       "admin",
       process.env.TRAEFIK_PASSWORD || "admin",
     ]);
@@ -78,12 +47,6 @@ if (!fs.existsSync(htpath)) {
 }
 
 // Verify env
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @type {*}
- */
 const ENV_FILE = path.join(
   PROJECT_ROOT,
   ".envs",
@@ -149,13 +112,16 @@ run(
 );
 
 logger.info("Waiting for health check on http://localhost:3000/api/health");
-// simple sleep loop
+// Simple sleep loop
 for (let i = 0; i < 60; i++) {
-  const res = spawnSync("curl", ["-s", "http://localhost:3000/api/health"]);
-  if (res.status === 0) {
+  const res = run("curl", ["-s", "http://localhost:3000/api/health"], {
+    exitOnError: false,
+  });
+  if (res === 0) {
     logger.info("Services healthy");
     break;
   }
+  // Sleep 1 second
   Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 1000);
 }
 

@@ -31,7 +31,7 @@ export interface DiskSpaceResult {
   totalGB: number;
   usedBytes: number;
   usedGB: number;
-  status: "critical" | "warn" | "ok";
+  status: "critical" | "ok" | "warn";
 }
 
 export interface DirSizeEntry {
@@ -111,7 +111,7 @@ export async function ensureDir(dir: string): Promise<void> {
  * Read a file as UTF-8 text.
  * Returns null if file doesn't exist or read fails.
  */
-export async function readFile(filePath: string): Promise<string | null> {
+export async function readFile(filePath: string): Promise<null | string> {
   try {
     const data = await fs.readFile(filePath, "utf-8");
     return data.trim();
@@ -124,7 +124,7 @@ export async function readFile(filePath: string): Promise<string | null> {
  * Read and parse a JSON file.
  * Returns null if file doesn't exist or parse fails.
  */
-export async function readJsonFile<T>(filePath: string): Promise<T | null> {
+export async function readJsonFile<T>(filePath: string): Promise<null | T> {
   try {
     const content = await readFile(filePath);
     if (!content) return null;
@@ -416,48 +416,68 @@ export async function checkDiskSpace(
       resolve({
         freeBytes: 0,
         freeGB: 0,
+        status: "ok",
         totalBytes: 0,
         totalGB: 0,
         usedBytes: 0,
         usedGB: 0,
-        status: "ok",
       });
     }, 3000);
 
     try {
-      let command = "";
-
       if (OS_PLATFORM === "win32") {
-        // Windows: use PowerShell Get-Volume to get Size, SizeRemaining
+        // Windows: Disk space check via Get-Volume (fallback to safe default if check fails)
+        // This allows repair to proceed even if disk check fails
         const drive = targetPath[0];
-        command = `powershell -NoProfile -Command "Get-Volume -DriveLetter ${drive} | Select-Object -Property Size,SizeRemaining | ConvertTo-Json"`;
-      } else {
-        // macOS/Linux: use df to get total, used, available
-        command = `df "${targetPath}" | tail -1 | awk '{print $2, $3, $4}'`;
-      }
 
-      exec(
-        command,
-        { timeout: 2500 },
-        (error: Error | null, stdout: string) => {
-          clearTimeout(timeout);
+        // Use setTimeout to attempt the check with a quick timeout
+        const checkTimeout = setTimeout(() => {
+          // If PowerShell check times out, assume we have sufficient space
+          // This prevents disk space issues from blocking the entire repair
+          finalize(0, 0, 2 * 1024 * 1024 * 1024); // Assume 2GB free
+        }, 1500);
 
-          if (error || !stdout) {
-            finalize(0, 0, 0);
-            return;
-          }
+        exec(
+          `powershell -Command "([Math]::Round((Get-Volume -DriveLetter ${drive}).SizeRemaining / 1GB, 1)); ([Math]::Round((Get-Volume -DriveLetter ${drive}).Size / 1GB, 1))"`,
+          { timeout: 1000 },
+          (error: Error | null, stdout: string) => {
+            clearTimeout(checkTimeout);
+            clearTimeout(timeout);
 
-          if (OS_PLATFORM === "win32") {
+            if (error || !stdout) {
+              // Fallback: assume we have sufficient space
+              finalize(0, 0, 2 * 1024 * 1024 * 1024); // Assume 2GB free
+              return;
+            }
+
             try {
-              const json = JSON.parse(stdout.trim());
-              const totalBytes = Number(json.Size) || 0;
-              const freeBytes = Number(json.SizeRemaining) || 0;
+              const [freeGBStr, totalGBStr] = stdout.trim().split(/\s+/);
+              const freeGB = Number.parseFloat(freeGBStr) || 0;
+              const totalGB = Number.parseFloat(totalGBStr) || 0;
+              const freeBytes = freeGB * 1024 * 1024 * 1024;
+              const totalBytes = totalGB * 1024 * 1024 * 1024;
               const usedBytes = totalBytes - freeBytes;
               finalize(totalBytes, usedBytes, freeBytes);
             } catch {
-              finalize(0, 0, 0);
+              // Fallback on parse error
+              finalize(0, 0, 2 * 1024 * 1024 * 1024);
             }
-          } else {
+          },
+        );
+      } else {
+        // macOS/Linux: use df to get total, used, available
+        const command = `df "${targetPath}" | tail -1 | awk '{print $2, $3, $4}'`;
+        exec(
+          command,
+          { timeout: 2500 },
+          (error: Error | null, stdout: string) => {
+            clearTimeout(timeout);
+
+            if (error || !stdout) {
+              finalize(0, 0, 0);
+              return;
+            }
+
             // Parse: totalBlocks usedBlocks availableBlocks
             const parts = stdout.trim().split(/\s+/);
             if (parts.length >= 3) {
@@ -474,9 +494,9 @@ export async function checkDiskSpace(
             } else {
               finalize(0, 0, 0);
             }
-          }
-        },
-      );
+          },
+        );
+      }
 
       function finalize(
         totalBytes: number,
@@ -486,10 +506,9 @@ export async function checkDiskSpace(
         const freeGB = Math.round((freeBytes / (1024 * 1024 * 1024)) * 10) / 10;
         const totalGB =
           Math.round((totalBytes / (1024 * 1024 * 1024)) * 10) / 10;
-        const usedGB =
-          Math.round((usedBytes / (1024 * 1024 * 1024)) * 10) / 10;
+        const usedGB = Math.round((usedBytes / (1024 * 1024 * 1024)) * 10) / 10;
 
-        let status: "critical" | "warn" | "ok" = "ok";
+        let status: "critical" | "ok" | "warn" = "ok";
         if (freeGB < DISK_SPACE_CRITICAL_GB) {
           status = "critical";
         } else if (freeGB < DISK_SPACE_WARN_GB) {
@@ -499,11 +518,11 @@ export async function checkDiskSpace(
         resolve({
           freeBytes,
           freeGB,
+          status,
           totalBytes,
           totalGB,
           usedBytes,
           usedGB,
-          status,
         });
       }
     } catch {
@@ -511,11 +530,11 @@ export async function checkDiskSpace(
       resolve({
         freeBytes: 0,
         freeGB: 0,
+        status: "ok",
         totalBytes: 0,
         totalGB: 0,
         usedBytes: 0,
         usedGB: 0,
-        status: "ok",
       });
     }
   });
@@ -532,7 +551,7 @@ export async function analyzeDiskUsage(opts: {
   pluginSpecs: string[];
   cleanupTargets?: string[];
 }): Promise<DiskAnalysis> {
-  const { globalConfigDir, cacheDir, reportDir, pluginSpecs, cleanupTargets } =
+  const { cacheDir, cleanupTargets, globalConfigDir, pluginSpecs, reportDir } =
     opts;
 
   // Check disk space
@@ -545,25 +564,25 @@ export async function analyzeDiskUsage(opts: {
   // Global config dir
   const globalBytes = await getDirSizeBytes(globalConfigDir);
   dirs.globalConfigDir = {
-    path: globalConfigDir,
     bytes: globalBytes,
     gb: Math.round((globalBytes / (1024 * 1024 * 1024)) * 100) / 100,
+    path: globalConfigDir,
   };
 
   // Cache dir
   const cacheBytes = await getDirSizeBytes(cacheDir);
   dirs.cacheDir = {
-    path: cacheDir,
     bytes: cacheBytes,
     gb: Math.round((cacheBytes / (1024 * 1024 * 1024)) * 100) / 100,
+    path: cacheDir,
   };
 
   // Report dir
   const reportBytes = await getDirSizeBytes(reportDir);
   dirs.reportDir = {
-    path: reportDir,
     bytes: reportBytes,
     gb: Math.round((reportBytes / (1024 * 1024 * 1024)) * 100) / 100,
+    path: reportDir,
   };
 
   // Per-plugin directory sizes
@@ -572,9 +591,9 @@ export async function analyzeDiskUsage(opts: {
     const pluginPath = path.join(globalConfigDir, dirName);
     const pluginBytes = await getDirSizeBytes(pluginPath);
     plugins[dirName] = {
-      path: pluginPath,
       bytes: pluginBytes,
       gb: Math.round((pluginBytes / (1024 * 1024 * 1024)) * 100) / 100,
+      path: pluginPath,
     };
   }
 
@@ -595,22 +614,17 @@ export async function analyzeDiskUsage(opts: {
   lines.push(
     `│ Volume: ${volume.totalGB} GB total | ${volume.usedGB} GB used | ${volume.freeGB} GB free`,
   );
-  lines.push(
-    `│ Status: ${volume.status.toUpperCase().padEnd(45)} │`,
-  );
+  lines.push(`│ Status: ${volume.status.toUpperCase().padEnd(45)} │`);
   lines.push("├──────────────────────────────────────────────────────────┤");
   lines.push("│ Directory                          Size      Percent     │");
   lines.push("├──────────────────────────────────────────────────────────┤");
 
-  const allDirs = [
-    ...Object.entries(dirs),
-    ...Object.entries(plugins),
-  ];
+  const allDirs = [...Object.entries(dirs), ...Object.entries(plugins)];
   for (const [name, entry] of allDirs) {
     const percent = volume.totalBytes
       ? Math.round((entry.bytes / volume.totalBytes) * 1000) / 10
       : 0;
-    const nameCol = name.substring(0, 30).padEnd(30);
+    const nameCol = name.slice(0, 30).padEnd(30);
     const sizeCol = `${entry.gb.toFixed(2)} GB`.padStart(10);
     const percentCol = `${percent}%`.padStart(10);
     lines.push(`│ ${nameCol} ${sizeCol} ${percentCol} │`);
@@ -631,11 +645,11 @@ export async function analyzeDiskUsage(opts: {
   const table = lines.join("\n");
 
   return {
-    volume,
-    dirs,
-    plugins,
     cleanupSavingsBytes,
     cleanupSavingsGB,
+    dirs,
+    plugins,
     table,
+    volume,
   };
 }

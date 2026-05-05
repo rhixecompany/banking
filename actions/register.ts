@@ -19,10 +19,11 @@ export type RegisterInput = z.infer<typeof signUpSchema>;
  * Registers a new user account, hashing the password and creating a profile row.
  * Returns the created user on success or an error message on failure.
  *
+ * @public Public auth action: callable by unauthenticated users.
  * @export
  * @async
- * @param {unknown} input
- * @returns {unknown}
+ * @param {unknown} input - Validated registration payload
+ * @returns {Promise<{ ok: boolean; user?: UserWithProfile; error?: string }>}
  */
 export async function registerUser(input: unknown): Promise<{
   ok: boolean;

@@ -1,5 +1,7 @@
 # Scripts Inventory
 
+> **⚠️ Partially superseded.** OpenCode-specific tooling (`plugin-repair`, `plugin-verify`, `mcp-runner`) has moved to `.opencode/tools/`. See `docs/scripts-context.md` for the current canonical reference.
+
 **Last Updated:** 2026-05-03 (Task 0.4: Scan Complete - Corrected)  
 **Banking App Scripts Inventory**
 

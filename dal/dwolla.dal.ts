@@ -36,6 +36,7 @@ export class DwollaDal {
 
   /**
    * Creates a Dwolla transfer metadata record in the dwolla_transfers table.
+   * Accepts an idempotency key to prevent duplicate transfers on network retries.
    * Returns the created row.
    */
   async createDwollaTransfer(
@@ -50,6 +51,11 @@ export class DwollaDal {
       senderWalletId?: string;
       receiverWalletId?: string;
       userId?: string;
+      /**
+       * Idempotency key (UUID) for preventing duplicate transfers.
+       * If not provided, a unique one is auto-generated.
+       */
+      idempotencyKey?: string;
     },
     opts?: { db?: unknown },
   ) {
@@ -65,6 +71,7 @@ export class DwollaDal {
       currency: data.currency ?? "USD",
       destinationFundingSourceUrl: data.destinationFundingSourceUrl,
       dwollaTransferId: data.dwollaTransferId,
+      idempotencyKey: data.idempotencyKey ?? crypto.randomUUID(),
       receiverWalletId: data.receiverWalletId ?? undefined,
       senderWalletId: data.senderWalletId ?? undefined,
       sourceFundingSourceUrl: data.sourceFundingSourceUrl,

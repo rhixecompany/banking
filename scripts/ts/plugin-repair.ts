@@ -14,7 +14,6 @@
  *
  * All functions are async for consistent performance and error handling.
  */
-import { exec, execFile } from "child_process";
 import fs from "fs";
 import os from "os";
 import path from "path";
@@ -22,11 +21,10 @@ import { fileURLToPath } from "url";
 
 import {
   ARCH,
-  DISK_SPACE_CRITICAL_GB,
-  DISK_SPACE_WARN_GB,
   KNOWN_SYSTEM_DIR_NAMES,
   NODE_VERSION,
   OS_PLATFORM,
+  analyzeDiskUsage,
   checkDiskSpace,
   checkOsCompatibility,
   dedupePlugins,
@@ -37,14 +35,12 @@ import {
   pluginDirName,
   pluginKey,
   readFile,
-  writeJsonFile,
-  analyzeDiskUsage,
   runCommand,
-  findDuplicates,
+  writeJsonFile,
   type DiskAnalysis,
   type DiskSpaceResult,
   type OSCompatResult,
-} from "./utils/opencode-plugin-shared.js";
+} from "./utils/plugin-shared.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -102,9 +98,9 @@ interface RepairReport {
     totalFreedBytes: number;
     totalFreedGB: number;
   };
-  diskSpace: DiskSpaceResult & {
+  diskSpace: {
     analysis: DiskAnalysis;
-  };
+  } & DiskSpaceResult;
   extraPlugins: string[];
   fixedExtras: string[];
   fixedMissing: string[];
@@ -115,11 +111,11 @@ interface RepairReport {
     projectPlugins: number;
     total: number;
   };
-  schemaAnalysis: null | {
+  schemaAnalysis: {
     configLocations: Record<string, string>;
     extensionTypes: string[];
     fileExists: boolean;
-  };
+  } | null;
   skippedPlugins: string[];
   timestamp: string;
   verifyReportRead: boolean;
@@ -305,10 +301,14 @@ async function removeDir(dir: string, apply: boolean): Promise<void> {
   if (apply) {
     if (fs.existsSync(dir)) {
       return new Promise((resolve, reject) => {
-        fs.rm(dir, { force: true, recursive: true }, (err) => {
-          if (err) reject(err);
-          else resolve();
-        });
+        fs.rm(
+          dir,
+          { force: true, recursive: true },
+          (err: NodeJS.ErrnoException | null) => {
+            if (err) reject(err);
+            else resolve();
+          },
+        );
       });
     }
   } else {
@@ -320,10 +320,14 @@ async function removeFile(filePath: string, apply: boolean): Promise<void> {
   if (apply) {
     if (fs.existsSync(filePath)) {
       return new Promise((resolve, reject) => {
-        fs.rm(filePath, { force: true }, (err) => {
-          if (err) reject(err);
-          else resolve();
-        });
+        fs.rm(
+          filePath,
+          { force: true },
+          (err: NodeJS.ErrnoException | null) => {
+            if (err) reject(err);
+            else resolve();
+          },
+        );
       });
     }
   } else {
@@ -375,13 +379,11 @@ async function loadRuntimeConfig(
 
 // ─── Schema & Report Analysis ─────────────────────────────────────────────────
 
-async function analyzeSchemaDesign(
-  templatePath: string,
-): Promise<null | {
+async function analyzeSchemaDesign(templatePath: string): Promise<{
   configLocations: Record<string, string>;
   extensionTypes: string[];
   fileExists: boolean;
-}> {
+} | null> {
   try {
     const content = await readFile(templatePath);
     if (!content) return null;
@@ -492,21 +494,13 @@ async function detectMissingAndExtras(
 
 // ─── Fix Missing Plugins ──────────────────────────────────────────────────────
 
-async function installPlugin(
-  plugin: string,
-  args: CliArgs,
-): Promise<boolean> {
+async function installPlugin(plugin: string, args: CliArgs): Promise<boolean> {
   const installArgs: string[] = ["--force"];
   if (args.printLogs) installArgs.push("--print-logs");
 
   if (args.apply) {
     try {
-      await runCommand("bunx", [
-        "opencode",
-        "plugin",
-        plugin,
-        ...installArgs,
-      ]);
+      await runCommand("bunx", ["opencode", "plugin", plugin, ...installArgs]);
       log(`    ✓ Installed ${plugin}`);
       return true;
     } catch (e) {
@@ -713,20 +707,28 @@ async function normalizeAndBackupConfigs(
       const backupPath = `${PROJECT_OPENCODE_CONFIG}.bak.${timestamp}`;
       if (originalJson !== null) {
         return new Promise((resolve, reject) => {
-          fs.copyFile(PROJECT_OPENCODE_CONFIG, backupPath, (err) => {
-            if (err) {
-              reject(err);
-            } else {
-              fs.writeFile(PROJECT_OPENCODE_CONFIG, nextJson, (err2) => {
-                if (err2) reject(err2);
-                else {
-                  log(`✓ Updated ${PROJECT_OPENCODE_CONFIG}`);
-                  log(`✓ Created backup ${backupPath}`);
-                  resolve({ configChanged: true, finalConfig });
-                }
-              });
-            }
-          });
+          fs.copyFile(
+            PROJECT_OPENCODE_CONFIG,
+            backupPath,
+            (err: NodeJS.ErrnoException | null) => {
+              if (err) {
+                reject(err);
+              } else {
+                fs.writeFile(
+                  PROJECT_OPENCODE_CONFIG,
+                  nextJson,
+                  (err2: NodeJS.ErrnoException | null) => {
+                    if (err2) reject(err2);
+                    else {
+                      log(`✓ Updated ${PROJECT_OPENCODE_CONFIG}`);
+                      log(`✓ Created backup ${backupPath}`);
+                      resolve({ configChanged: true, finalConfig });
+                    }
+                  },
+                );
+              }
+            },
+          );
         });
       }
     } else {
@@ -859,7 +861,9 @@ async function collectDiskCleanupTargets(
   const backupDir = path.dirname(PROJECT_OPENCODE_CONFIG);
   const backups = fs
     .readdirSync(backupDir)
-    .filter((f) => f.startsWith(path.basename(PROJECT_OPENCODE_CONFIG) + ".bak."))
+    .filter((f: string) =>
+      f.startsWith(path.basename(PROJECT_OPENCODE_CONFIG) + ".bak."),
+    )
     .sort()
     .reverse();
 
@@ -891,11 +895,11 @@ async function collectDiskCleanupTargets(
 
     for (const type of reportTypes) {
       const related = files
-        .filter((f) => f.startsWith(type))
-        .map((f) => ({
+        .filter((f: string) => f.startsWith(type))
+        .map((f: string) => ({
           file: f,
-          path: path.join(reportDir, f),
           mtime: fs.statSync(path.join(reportDir, f)).mtime.getTime(),
+          path: path.join(reportDir, f),
         }))
         .sort((a, b) => b.mtime - a.mtime);
 
@@ -1149,7 +1153,7 @@ async function main(): Promise<void> {
   const dedupedGlobalPlugins = dedupePlugins(globalPlugins);
   const allExpectedPlugins = [...dedupedPlugins, ...dedupedGlobalPlugins];
 
-  const { missing, extras } = await detectMissingAndExtras(
+  const { extras, missing } = await detectMissingAndExtras(
     allExpectedPlugins,
     runtimePlugins,
   );
@@ -1176,11 +1180,7 @@ async function main(): Promise<void> {
   // ─────────────────────────────────────────────────────────────────────────
   // Phase 9: Fix missing plugins (if not skipped)
   // ─────────────────────────────────────────────────────────────────────────
-  const fixedMissing = await fixMissingPlugins(
-    missing,
-    diskSpaceBase,
-    args,
-  );
+  const fixedMissing = await fixMissingPlugins(missing, diskSpaceBase, args);
 
   // ─────────────────────────────────────────────────────────────────────────
   // Phase 10: Fix extra plugins (if not skipped)
@@ -1212,8 +1212,11 @@ async function main(): Promise<void> {
       cleanupTargets,
     );
 
-    const { removed, skipped: cleanupSkipped, totalFreedBytes } =
-      await executeDiskCleanup(diskCleanupTargets, args.apply);
+    const {
+      removed,
+      skipped: cleanupSkipped,
+      totalFreedBytes,
+    } = await executeDiskCleanup(diskCleanupTargets, args.apply);
 
     diskCleanupResult = {
       removed,
@@ -1244,7 +1247,7 @@ async function main(): Promise<void> {
     reportDir: REPORT_DIR,
   });
   console.log(diskAnalysis.table);
-  const diskSpaceEnhanced: DiskSpaceResult & { analysis: DiskAnalysis } = {
+  const diskSpaceEnhanced: { analysis: DiskAnalysis } & DiskSpaceResult = {
     ...diskSpaceBase,
     analysis: diskAnalysis,
   };
@@ -1269,9 +1272,10 @@ async function main(): Promise<void> {
           skipped: diskCleanupResult.skipped,
           targets: diskCleanupResult.targets,
           totalFreedBytes: diskCleanupResult.totalFreedBytes,
-          totalFreedGB: Math.round(
-            (diskCleanupResult.totalFreedBytes / (1024 * 1024 * 1024)) * 100,
-          ) / 100,
+          totalFreedGB:
+            Math.round(
+              (diskCleanupResult.totalFreedBytes / (1024 * 1024 * 1024)) * 100,
+            ) / 100,
         }
       : undefined,
     diskSpace: diskSpaceEnhanced,

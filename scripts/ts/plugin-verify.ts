@@ -11,15 +11,13 @@
  * - Ensures plugins are compatible with OS and system
  * - All functions are async for better performance
  */
-import { exec } from "child_process";
 import fs from "fs";
 import os from "os";
 import path from "path";
 import { fileURLToPath } from "url";
+
 import {
   ARCH,
-  DISK_SPACE_CRITICAL_GB,
-  DISK_SPACE_WARN_GB,
   NODE_VERSION,
   OS_PLATFORM,
   analyzeDiskUsage,
@@ -30,10 +28,9 @@ import {
   extractJsonFromRaw,
   extractPlugins,
   findDuplicates,
-  pluginKey,
   runCommand,
   type DiskAnalysis,
-} from "./utils/opencode-plugin-shared.js";
+} from "./utils/plugin-shared";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -418,9 +415,7 @@ async function main(): Promise<void> {
   log(`========================================`);
   log(`OpenCode Plugin Verifier Starting`);
   log(`========================================`);
-  log(
-    `System Info: OS=${OS_PLATFORM}, Arch=${ARCH}, Node=${NODE_VERSION}`,
-  );
+  log(`System Info: OS=${OS_PLATFORM}, Arch=${ARCH}, Node=${NODE_VERSION}`);
   log(`Repo Root: ${REPO_ROOT}`);
   log(`Report Directory: ${REPORT_DIR}`);
   log(`========================================`);
@@ -428,19 +423,19 @@ async function main(): Promise<void> {
   if (diskOnlyMode) {
     log("Running in disk-only mode");
     const diskSpace = await checkDiskSpace(REPO_ROOT);
-    
+
     // Enrich --disk-only with full disk analysis
     let analysis: DiskAnalysis | undefined;
     try {
       const configs = await loadProjectConfigs();
       const projectPlugins = extractPlugins(
-        configs.opencodeConfig as Record<string, unknown> | null,
+        configs.opencodeConfig as null | Record<string, unknown>,
       );
       analysis = await analyzeDiskUsage({
-        globalConfigDir: path.join(os.homedir(), ".config/opencode"),
         cacheDir: path.join(os.homedir(), ".cache/opencode"),
-        reportDir: REPORT_DIR,
+        globalConfigDir: path.join(os.homedir(), ".config/opencode"),
         pluginSpecs: projectPlugins,
+        reportDir: REPORT_DIR,
       });
       if (analysis) {
         log("");
@@ -545,7 +540,7 @@ async function main(): Promise<void> {
   );
 
   const projectPlugins = extractPlugins(
-    configs.opencodeConfig as Record<string, unknown> | null,
+    configs.opencodeConfig as null | Record<string, unknown>,
   );
   const runtimePlugins = extractPlugins(
     runtimeConfig as Record<string, unknown>,

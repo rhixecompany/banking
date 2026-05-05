@@ -204,7 +204,7 @@ try {
     // Direct invocation
 
     void run().catch((error: unknown) => {
-      console.error(String((error as any)?.message ?? error));
+      console.error(String(error instanceof Error ? error.message : error));
       process.exitCode = 1;
     });
   }

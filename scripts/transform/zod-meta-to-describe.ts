@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-import fs from "fs";
+import fs from "fs/promises";
 import path from "path";
-import { Project, SyntaxKind } from "ts-morph";
+import { Node, Project, SourceFile, SyntaxKind } from "ts-morph";
 
 // Simple codemod to replace zod .meta({ description: '...' }) usages
 // with .describe('...') to satisfy zod/prefer-meta linting rules.
@@ -55,7 +55,7 @@ const project = new Project({
  * @author Adminbot
  *
  * @param {string} filePath
- * @returns {{ filePath: string; sourceFile: any; }}
+ * @returns {{ filePath: string; sourceFile: SourceFile; } | null}
  */
 function convertFile(filePath: string) {
   const sourceFile = project.getSourceFile(filePath);
@@ -88,9 +88,9 @@ function convertFile(filePath: string) {
       const descProp = obj.getProperty("description");
       if (!descProp) continue;
 
-      // Try to find the initializer string literal
-      // descProp can be a PropertyAssignment
-      const initializer = (descProp as any).getInitializer?.();
+      // descProp is a PropertyAssignment or ShorthandPropertyAssignment; narrow safely
+      if (!Node.isPropertyAssignment(descProp)) continue;
+      const initializer = descProp.getInitializer();
       if (!initializer) continue;
       if (initializer.getKind() !== SyntaxKind.StringLiteral) continue;
 
@@ -123,7 +123,7 @@ function convertFile(filePath: string) {
  */
 async function findFiles() {
   // Scan src-like directories and actions/lib folders for ts/tsx files
-  const glob = (await import("glob")) as any;
+  const { globSync } = await import("glob");
   const patterns: string[] = filesArg
     ? [filesArg]
     : [
@@ -135,10 +135,10 @@ async function findFiles() {
       ];
   const files: string[] = [];
   for (const pattern of patterns) {
-    const matches = glob.globSync(pattern, {
+    const matches = globSync(pattern, {
       absolute: true,
       cwd: process.cwd(),
-    }) as string[];
+    });
     for (const m of matches) files.push(m);
   }
   return Array.from(new Set(files));
@@ -153,7 +153,7 @@ async function findFiles() {
  */
 async function run() {
   const files = await findFiles();
-  const results: { file: string; sourceFile: any }[] = [];
+  const results: { file: string; sourceFile: SourceFile }[] = [];
 
   for (const f of files) {
     try {
@@ -176,7 +176,7 @@ async function run() {
     if (dryRun) {
       console.warn(`--- DRY RUN: ${r.file} ---\n` + text.slice(0, 4000));
     } else {
-      fs.writeFileSync(r.file, text, "utf8");
+      await fs.writeFile(r.file, text, "utf8");
       console.warn(`Updated: ${r.file}`);
     }
   }
