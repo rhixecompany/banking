@@ -67,18 +67,18 @@ export async function signInWithSeedUser(page: Page): Promise<void> {
       const contentType = resp.headers()["content-type"] ?? null;
       const text = await resp.text();
       authResponses.push({
-        url,
-        status: resp.status(),
-        contentType,
         bodyPreview: text.slice(0, 500),
+        contentType,
+        status: resp.status(),
+        url,
       });
     } catch {
       // Ignore response body read errors (e.g. already consumed/stream issues).
       authResponses.push({
-        url,
-        status: resp.status(),
-        contentType: resp.headers()["content-type"] ?? null,
         bodyPreview: "<unavailable>",
+        contentType: resp.headers()["content-type"] ?? null,
+        status: resp.status(),
+        url,
       });
     }
   };
@@ -108,11 +108,11 @@ export async function signInWithSeedUser(page: Page): Promise<void> {
     }
 
     authRequests.push({
-      url,
-      method: req.method(),
       contentType: headers["content-type"] ?? null,
-      postDataPreview: (req.postData() ?? "").slice(0, 800),
       csrfCookieTokenPartFromHeader,
+      method: req.method(),
+      postDataPreview: (req.postData() ?? "").slice(0, 800),
+      url,
     });
   };
 

@@ -2,21 +2,15 @@
   "$schema": "https://opencode.ai/config.json",
   "agent": {
     "build": {
-      "model": "opencode/minimax-m2.5-free",
-      "variant": "high"
-    },
-    "explore": {
-      "disable": true
-    },
-    "general": {
-      "disable": true
+      "model": "github-copilot/claude-haiku-4.5",
+      "variant": "max"
     },
     "plan": {
-      "model": "opencode/minimax-m2.5-free",
+      "model": "github-copilot/claude-sonnet-4.6",
       "variant": "high"
     }
   },
-  "autoupdate": true,
+  "autoupdate": false,
   "command": {
     "mystatus": {
       "description": "Query quota usage for all AI accounts",
@@ -26,7 +20,32 @@
   "compaction": {
     "auto": true
   },
-  "instructions": ["./.opencode/instructions/index.md"],
+  "default_agent": "build",
+  "enabled_providers": [
+    "google-vertex",
+    "openrouter",
+    "anthropic",
+    "calculon",
+    "openai",
+    "opencode",
+    "github-copilot"
+  ],
+  "instructions": [
+    "rules/code-review.md",
+    "rules/commit-messages.md",
+    "rules/documentation.md",
+    "rules/github-session-limits.md",
+    "rules/memory-banks.md",
+    "rules/nextjs-tailwind.md",
+    "rules/performance.md",
+    "rules/playwright-typescript.md",
+    "rules/security.md",
+    "rules/task-implementation.md",
+    "rules/tasksync.md",
+    "rules/testing.md",
+    "rules/typescripts.md",
+    "rules/update-docs-on-code-change.md"
+  ],
   "lsp": true,
   "mcp": {
     "context7": {
@@ -64,14 +83,6 @@
       "timeout": 900000,
       "type": "local"
     },
-    "hostinger": {
-      "command": ["bunx", "-y", "hostinger-api-mcp"],
-      "environment": {
-        "DEBUG": "false"
-      },
-      "timeout": 5000,
-      "type": "local"
-    },
     "memory": {
       "command": [
         "bunx",
@@ -89,7 +100,12 @@
       "type": "local"
     },
     "playwright": {
-      "command": ["bunx", "-y", "@playwright/mcp@latest"],
+      "command": [
+        "bunx",
+        "-y",
+        "@playwright/mcp@latest",
+        "--caps=network,storage,testing,vision,pdf,devtools"
+      ],
       "enabled": true,
       "timeout": 900000,
       "type": "local"
@@ -103,52 +119,90 @@
       "enabled": true,
       "timeout": 900000,
       "type": "local"
-    },
-    "shadcn": {
-      "command": ["bunx", "shadcn@latest", "mcp"],
-      "enabled": true,
-      "timeout": 900000,
-      "type": "local"
-    },
-    "youtube-transcript": {
-      "command": [
-        "bunx",
-        "-y",
-        "@kimtaeyoon83/mcp-server-youtube-transcript"
-      ],
-      "enabled": true,
-      "timeout": 900000,
-      "type": "local"
     }
   },
-  "model": "opencode/minimax-m2.5-free",
+  "model": "github-copilot/gpt-5.1-codex",
   "plugin": [
-    "opencode-handoff",
-    "opencode-beads",
-    "@tarquinen/opencode-dcp",
-    "@ramarivera/opencode-model-announcer",
-    "open-plan-annotator",
-    "opencode-ignore",
-    "opencode-synced",
-    "opencode-snippets",
     "opencode-mystatus",
-    "@gotgenes/opencode-agent-identity",
-    "opencode-agent-memory",
-    "opencode-agent-skills",
-    "opencode-devcontainers",
-    "@zenobius/opencode-background",
-    "opencode-sessions",
-    "@franlol/opencode-md-table-formatter",
-    "@liannnix/opencode-ntfy",
-    "@howaboua/opencode-planning-toolkit",
-    "opencode-mem",
-    "@slkiser/opencode-quota",
-    "smart-codebase",
+    "opencode-handoff",
+    "@tarquinen/opencode-dcp",
     "superpowers@git+https://github.com/obra/superpowers.git",
+    "@howaboua/opencode-planning-toolkit",
+    "smart-codebase",
     "octto",
-    "oh-my-opencode-slim"
+    "@nick-vi/opencode-type-inject",
+    "@zenobius/opencode-skillful",
+    "@slkiser/opencode-quota"
   ],
+  "provider": {
+    "anthropic": {
+      "models": {
+        "claude-haiku-4-5": {
+          "temperature": true
+        },
+        "claude-opus-4-6": {
+          "temperature": true
+        },
+        "claude-sonnet-4-6": {
+          "temperature": true
+        }
+      },
+      "options": {
+        "apiKey": "{env:ANTHROPIC_API_KEY}"
+      }
+    },
+    "calculon": {
+      "models": {
+        "gemma-4-e4b-it-8bit": {
+          "attachment": true,
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "name": "gemma-4-e4b-it-8bit"
+        },
+        "Qwen3.5-9B-MLX-4bit": {
+          "attachment": true,
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "name": "Qwen3.5-9B-MLX-4bit"
+        }
+      },
+      "name": "calculon",
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "apiKey": "{env:OMLX_API_KEY}",
+        "baseURL": "http://calculon.local:8000/v1"
+      }
+    },
+    "google-vertex": {
+      "models": {
+        "gemini-2.5-flash": {
+          "temperature": true
+        },
+        "gemini-2.5-pro": {
+          "temperature": true
+        },
+        "gemini-3.1-pro-preview": {
+          "temperature": true
+        }
+      },
+      "options": {
+        "location": "{env:VERTEXAI_REGION}",
+        "project": "{env:VERTEXAI_PROJECT_ID}"
+      }
+    }
+  },
+  "share": "auto",
+  "small_model": "github-copilot/claude-haiku-4.5",
   "watcher": {
-    "ignore": ["node_modules", ".next", ".git"]
+    "ignore": [
+      "node_modules",
+      "../node_modules",
+      "../.next",
+      "../.git"
+    ]
   }
 }

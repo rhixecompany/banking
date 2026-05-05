@@ -10,7 +10,7 @@ export interface GenericFormProps<T extends FieldValues> {
   /** React Hook Form instance. */
   form: UseFormReturn<T>;
   /** Submit handler called with validated form data. */
-  onSubmit: (data: T) => void | Promise<void>;
+  onSubmit: (data: T) => Promise<void> | void;
   /** Form content. */
   children: ReactNode;
   /** Additional CSS classes. */

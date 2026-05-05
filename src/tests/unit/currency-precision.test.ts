@@ -1,5 +1,6 @@
-import { TransferSchema } from "@/lib/schemas/transfer.schema";
 import { describe, expect, it } from "vitest";
+
+import { TransferSchema } from "@/lib/schemas/transfer.schema";
 
 /**
  * Unit: Currency Precision
@@ -118,15 +119,15 @@ describe("Currency Precision (Zod Schema)", () => {
   it("should accept optional createLedger object", () => {
     const result = TransferSchema.safeParse({
       amount: "25.00",
+      createLedger: {
+        amount: "25.00",
+        receiverWalletId: "wallet-2",
+        senderWalletId: "wallet-1",
+        status: "completed",
+      },
       currency: "USD",
       destinationFundingSourceUrl: validFundingSourceUrl,
       sourceFundingSourceUrl: validFundingSourceUrl,
-      createLedger: {
-        senderWalletId: "wallet-1",
-        receiverWalletId: "wallet-2",
-        amount: "25.00",
-        status: "completed",
-      },
     });
     expect(result.success).toBe(true);
     if (!result.success) return;

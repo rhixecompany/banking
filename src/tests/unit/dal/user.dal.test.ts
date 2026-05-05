@@ -3,40 +3,40 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 // Mock the database
 vi.mock("@/database/db", () => ({
   db: {
-    select: vi.fn(),
-    insert: vi.fn(),
-    update: vi.fn(),
     delete: vi.fn(),
+    insert: vi.fn(),
+    select: vi.fn(),
     transaction: vi.fn(),
+    update: vi.fn(),
   },
 }));
 
 vi.mock("@/database/schema", () => ({
-  users: {
-    id: "id",
-    email: "email",
-    name: "name",
-    password: "password",
-    image: "image",
-    isAdmin: "isAdmin",
-    isActive: "isActive",
-    role: "role",
-    emailVerified: "emailVerified",
-    createdAt: "createdAt",
-    updatedAt: "updatedAt",
-    deletedAt: "deletedAt",
-  },
   user_profiles: {
-    id: "id",
-    userId: "userId",
     address: "address",
     city: "city",
+    createdAt: "createdAt",
     dateOfBirth: "dateOfBirth",
+    id: "id",
     phone: "phone",
     postalCode: "postalCode",
     ssnEncrypted: "ssnEncrypted",
     state: "state",
+    updatedAt: "updatedAt",
+    userId: "userId",
+  },
+  users: {
     createdAt: "createdAt",
+    deletedAt: "deletedAt",
+    email: "email",
+    emailVerified: "emailVerified",
+    id: "id",
+    image: "image",
+    isActive: "isActive",
+    isAdmin: "isAdmin",
+    name: "name",
+    password: "password",
+    role: "role",
     updatedAt: "updatedAt",
   },
 }));
@@ -52,19 +52,18 @@ const createMockQueryChain = (result: any = null) => {
   const createAwaitableChainObject = (value: any[]) => {
     const promise = Promise.resolve(value);
     const chainObj: any = {
-      then: promise.then.bind(promise),
       catch: promise.catch.bind(promise),
       finally: promise.finally.bind(promise),
       limit: vi.fn().mockResolvedValue(value),
       orderBy: vi.fn().mockResolvedValue(value),
       returning: vi.fn().mockResolvedValue(value),
+      then: promise.then.bind(promise),
     };
     return chainObj;
   };
 
   return {
     from: vi.fn().mockReturnValue({
-      where: vi.fn().mockReturnValue(createAwaitableChainObject(resolveValue)),
       leftJoin: vi.fn().mockReturnValue({
         where: vi
           .fn()
@@ -73,6 +72,7 @@ const createMockQueryChain = (result: any = null) => {
       limit: vi.fn().mockResolvedValue(resolveValue),
       orderBy: vi.fn().mockResolvedValue(resolveValue),
       returning: vi.fn().mockResolvedValue(resolveValue),
+      where: vi.fn().mockReturnValue(createAwaitableChainObject(resolveValue)),
     }),
   };
 };
@@ -109,17 +109,17 @@ describe("UserDal", () => {
   describe("findById", () => {
     it("returns user when found and not soft-deleted", async () => {
       const mockUser = {
-        id: "user-1",
+        createdAt: new Date(),
+        deletedAt: null,
         email: "test@test.com",
+        emailVerified: null,
+        id: "user-1",
+        image: null,
+        isActive: true,
+        isAdmin: false,
         name: "Test User",
         password: "hash",
-        deletedAt: null,
-        isAdmin: false,
-        isActive: true,
-        image: null,
         role: "user",
-        emailVerified: null,
-        createdAt: new Date(),
         updatedAt: new Date(),
       };
 
@@ -145,9 +145,9 @@ describe("UserDal", () => {
 
     it("returns undefined when user is soft-deleted", async () => {
       const deletedUser = {
-        id: "user-1",
-        email: "test@test.com",
         deletedAt: new Date("2026-01-01"),
+        email: "test@test.com",
+        id: "user-1",
       };
 
       (db.select as ReturnType<typeof vi.fn>).mockReturnValue(
@@ -163,17 +163,17 @@ describe("UserDal", () => {
   describe("findByEmail", () => {
     it("returns user when found by email", async () => {
       const mockUser = {
-        id: "user-1",
+        createdAt: new Date(),
+        deletedAt: null,
         email: "test@test.com",
+        emailVerified: null,
+        id: "user-1",
+        image: null,
+        isActive: true,
+        isAdmin: false,
         name: "Test User",
         password: "hash",
-        deletedAt: null,
-        isAdmin: false,
-        isActive: true,
-        image: null,
         role: "user",
-        emailVerified: null,
-        createdAt: new Date(),
         updatedAt: new Date(),
       };
 
@@ -199,9 +199,9 @@ describe("UserDal", () => {
 
     it("returns undefined when user with email is soft-deleted", async () => {
       const deletedUser = {
-        id: "user-1",
-        email: "test@test.com",
         deletedAt: new Date("2026-01-01"),
+        email: "test@test.com",
+        id: "user-1",
       };
 
       (db.select as ReturnType<typeof vi.fn>).mockReturnValue(
@@ -217,31 +217,31 @@ describe("UserDal", () => {
   describe("findByIdWithProfile", () => {
     it("returns user with profile when both exist", async () => {
       const mockResult = {
-        id: "user-1",
+        createdAt: new Date(),
+        deletedAt: null,
         email: "test@test.com",
+        emailVerified: null,
+        id: "user-1",
+        image: null,
+        isActive: true,
+        isAdmin: false,
         name: "Test User",
         password: "hash",
-        deletedAt: null,
-        isAdmin: false,
-        isActive: true,
-        image: null,
-        role: "user",
-        emailVerified: null,
-        createdAt: new Date(),
-        updatedAt: new Date(),
         profile: {
-          id: "profile-1",
-          userId: "user-1",
           address: "123 Main St",
           city: "Springfield",
+          createdAt: new Date(),
           dateOfBirth: new Date("1990-01-01"),
+          id: "profile-1",
           phone: "555-1234",
           postalCode: "12345",
           ssnEncrypted: "encrypted-ssn",
           state: "IL",
-          createdAt: new Date(),
           updatedAt: new Date(),
+          userId: "user-1",
         },
+        role: "user",
+        updatedAt: new Date(),
       };
 
       (db.select as ReturnType<typeof vi.fn>).mockReturnValue({
@@ -264,19 +264,19 @@ describe("UserDal", () => {
 
     it("returns user with undefined profile when profile doesn't exist", async () => {
       const mockResult = {
-        id: "user-1",
+        createdAt: new Date(),
+        deletedAt: null,
         email: "test@test.com",
+        emailVerified: null,
+        id: "user-1",
+        image: null,
+        isActive: true,
+        isAdmin: false,
         name: "Test User",
         password: "hash",
-        deletedAt: null,
-        isAdmin: false,
-        isActive: true,
-        image: null,
-        role: "user",
-        emailVerified: null,
-        createdAt: new Date(),
-        updatedAt: new Date(),
         profile: null,
+        role: "user",
+        updatedAt: new Date(),
       };
 
       (db.select as ReturnType<typeof vi.fn>).mockReturnValue({
@@ -314,9 +314,9 @@ describe("UserDal", () => {
 
     it("returns undefined when user is soft-deleted", async () => {
       const mockResult = {
-        id: "user-1",
-        email: "test@test.com",
         deletedAt: new Date("2026-01-01"),
+        email: "test@test.com",
+        id: "user-1",
         profile: null,
       };
 
@@ -339,17 +339,17 @@ describe("UserDal", () => {
   describe("create", () => {
     it("creates user with required fields", async () => {
       const newUser = {
-        id: "user-new",
-        email: "new@test.com",
-        password: "hash",
-        name: "New User",
-        deletedAt: null,
-        isAdmin: false,
-        isActive: true,
-        image: null,
-        role: "user",
-        emailVerified: null,
         createdAt: new Date(),
+        deletedAt: null,
+        email: "new@test.com",
+        emailVerified: null,
+        id: "user-new",
+        image: null,
+        isActive: true,
+        isAdmin: false,
+        name: "New User",
+        password: "hash",
+        role: "user",
         updatedAt: new Date(),
       };
 
@@ -359,8 +359,8 @@ describe("UserDal", () => {
 
       const result = await userDal.create({
         email: "new@test.com",
-        password: "hash",
         name: "New User",
+        password: "hash",
       });
 
       expect(result).toEqual(newUser);
@@ -369,17 +369,17 @@ describe("UserDal", () => {
 
     it("creates user without optional name field", async () => {
       const newUser = {
-        id: "user-new",
-        email: "new@test.com",
-        password: "hash",
-        name: null, // Changed from "New User" to null since test expects null
-        deletedAt: null,
-        isAdmin: false,
-        isActive: true,
-        image: null,
-        role: "user" as const, // Added 'as const' for type assertion
-        emailVerified: null,
         createdAt: new Date(),
+        deletedAt: null,
+        email: "new@test.com",
+        emailVerified: null,
+        id: "user-new",
+        image: null,
+        isActive: true,
+        isAdmin: false,
+        name: null, // Changed from "New User" to null since test expects null
+        password: "hash",
+        role: "user" as const, // Added 'as const' for type assertion
         updatedAt: new Date(),
       };
 
@@ -400,17 +400,17 @@ describe("UserDal", () => {
   describe("update", () => {
     it("updates user with partial data", async () => {
       const updatedUser = {
-        id: "user-1",
+        createdAt: new Date(),
+        deletedAt: null,
         email: "updated@test.com",
+        emailVerified: null,
+        id: "user-1",
+        image: null,
+        isActive: true,
+        isAdmin: true,
         name: "Updated Name",
         password: "hash",
-        deletedAt: null,
-        isAdmin: true,
-        isActive: true,
-        image: null,
         role: "admin",
-        emailVerified: null,
-        createdAt: new Date(),
         updatedAt: new Date(),
       };
 
@@ -420,8 +420,8 @@ describe("UserDal", () => {
 
       const result = await userDal.update("user-1", {
         email: "updated@test.com",
-        name: "Updated Name",
         isAdmin: true,
+        name: "Updated Name",
       });
 
       expect(result).toEqual(updatedUser);
@@ -430,17 +430,17 @@ describe("UserDal", () => {
 
     it("updates user with single field", async () => {
       const updatedUser = {
-        id: "user-1",
+        createdAt: new Date(),
+        deletedAt: null,
         email: "test@test.com",
+        emailVerified: null,
+        id: "user-1",
+        image: null,
+        isActive: true,
+        isAdmin: false,
         name: "Test User",
         password: "new-hash",
-        deletedAt: null,
-        isAdmin: false,
-        isActive: true,
-        image: null,
         role: "user",
-        emailVerified: null,
-        createdAt: new Date(),
         updatedAt: new Date(),
       };
 
@@ -457,34 +457,34 @@ describe("UserDal", () => {
   describe("createWithProfile", () => {
     it("creates user and profile in transaction", async () => {
       const newUser = {
-        id: "user-new",
-        email: "new@test.com",
-        password: "hash",
-        name: "New User",
-        deletedAt: null,
-        isAdmin: false,
-        isActive: true,
-        image: null,
-        role: "user",
-        emailVerified: null,
         createdAt: new Date(),
+        deletedAt: null,
+        email: "new@test.com",
+        emailVerified: null,
+        id: "user-new",
+        image: null,
+        isActive: true,
+        isAdmin: false,
+        name: "New User",
+        password: "hash",
+        role: "user",
         updatedAt: new Date(),
       };
 
       const userWithProfile = {
         ...newUser,
         profile: {
-          id: "profile-1",
-          userId: "user-new",
           address: "123 Main St",
           city: "Springfield",
+          createdAt: new Date(),
           dateOfBirth: "1990-01-01", // Changed from Date to string
+          id: "profile-1",
           phone: "555-1234",
           postalCode: "12345",
           ssnEncrypted: "encrypted-ssn",
           state: "IL",
-          createdAt: new Date(),
           updatedAt: new Date(),
+          userId: "user-new",
         },
       };
 
@@ -509,8 +509,8 @@ describe("UserDal", () => {
 
       const result = await userDal.createWithProfile({
         email: "new@test.com",
-        password: "hash",
         name: "New User",
+        password: "hash",
         profile: {
           address: "123 Main St",
           city: "Springfield",
@@ -525,17 +525,17 @@ describe("UserDal", () => {
 
     it("creates user without profile in transaction", async () => {
       const newUser = {
-        id: "user-new",
-        email: "new@test.com",
-        password: "hash",
-        name: "New User",
-        deletedAt: null,
-        isAdmin: false,
-        isActive: true,
-        image: null,
-        role: "user",
-        emailVerified: null,
         createdAt: new Date(),
+        deletedAt: null,
+        email: "new@test.com",
+        emailVerified: null,
+        id: "user-new",
+        image: null,
+        isActive: true,
+        isAdmin: false,
+        name: "New User",
+        password: "hash",
+        role: "user",
         updatedAt: new Date(),
       };
 
@@ -559,8 +559,8 @@ describe("UserDal", () => {
 
       const result = await userDal.createWithProfile({
         email: "new@test.com",
-        password: "hash",
         name: "New User",
+        password: "hash",
       });
 
       expect(result).toBeDefined();
@@ -593,15 +593,15 @@ describe("UserDal", () => {
   describe("updateProfile", () => {
     it("updates existing profile", async () => {
       const existingProfile = {
+        address: "123 Main St",
         id: "profile-1",
         userId: "user-1",
-        address: "123 Main St",
       };
 
       const updatedProfile = {
+        address: "456 Oak Ave",
         id: "profile-1",
         userId: "user-1",
-        address: "456 Oak Ave",
       };
 
       // Mock findProfileByUserId
@@ -627,9 +627,9 @@ describe("UserDal", () => {
 
     it("creates new profile when none exists", async () => {
       const newProfile = {
+        address: "123 Main St",
         id: "profile-1",
         userId: "user-1",
-        address: "123 Main St",
       };
 
       // Mock no existing profile

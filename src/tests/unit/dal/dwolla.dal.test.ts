@@ -2,13 +2,6 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("@/database/db", () => ({
   db: {
-    select: vi.fn().mockReturnValue({
-      from: vi.fn().mockReturnValue({
-        where: vi.fn().mockReturnValue({
-          limit: vi.fn().mockResolvedValue([]),
-        }),
-      }),
-    }),
     insert: vi.fn().mockReturnValue({
       values: vi.fn().mockReturnValue({
         returning: vi.fn().mockResolvedValue([
@@ -18,20 +11,27 @@ vi.mock("@/database/db", () => ({
         ]),
       }),
     }),
+    select: vi.fn().mockReturnValue({
+      from: vi.fn().mockReturnValue({
+        where: vi.fn().mockReturnValue({
+          limit: vi.fn().mockResolvedValue([]),
+        }),
+      }),
+    }),
   },
 }));
 
 vi.mock("@/database/schema", () => ({
-  wallets: {
+  dwolla_transfers: {
+    dwollaTransferId: "dwollaTransferId",
     id: "id",
-    customerUrl: "customerUrl",
+  },
+  wallets: {
     accessToken: "accessToken",
     accountNumberEncrypted: "accountNumberEncrypted",
+    customerUrl: "customerUrl",
     deletedAt: "deletedAt",
-  },
-  dwolla_transfers: {
     id: "id",
-    dwollaTransferId: "dwollaTransferId",
   },
 }));
 
@@ -51,10 +51,10 @@ describe("DwollaDal", () => {
   describe("findByCustomerUrl", () => {
     it("finds wallet by customer URL", async () => {
       const mockWallet = {
-        id: "wallet-1",
-        customerUrl: "https://dwolla.com/customers/cust-123",
         accessToken: "token",
+        customerUrl: "https://dwolla.com/customers/cust-123",
         deletedAt: null,
+        id: "wallet-1",
       };
       (db.select as ReturnType<typeof vi.fn>).mockReturnValue({
         from: vi.fn().mockReturnValue({
@@ -97,9 +97,9 @@ describe("DwollaDal", () => {
 
     it("creates with full data", async () => {
       const result = await dwollaDal.createDwollaTransfer({
-        dwollaTransferId: "xfer-123",
         amount: "50.00",
         currency: "USD",
+        dwollaTransferId: "xfer-123",
         status: "pending",
         userId: "user-1",
       });

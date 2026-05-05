@@ -1,11 +1,10 @@
-import { describe, expect, it } from "vitest";
-
 import {
   isValidToken,
   normalizeToken,
   parseDockerPsOutput,
   parseGatewayOutput,
-} from "../../scripts/mcp-runner-lib";
+} from "scripts/mcp-runner-lib";
+import { describe, expect, it } from "vitest";
 
 describe("mcp-runner parsing", () => {
   it("normalizes tokens", () => {
@@ -21,7 +20,7 @@ describe("mcp-runner parsing", () => {
   it("parses gateway output with table-like lines", () => {
     const sample = `Enabled MCP Servers:\n - next-devtools-mcp\n - playwright\n`;
     const records = parseGatewayOutput(sample);
-    const names = records.map((r) => r.name);
+    const names = records.map((r: { name: string }) => r.name);
     expect(names).toContain("next-devtools-mcp");
     expect(names).toContain("playwright");
   });
@@ -29,7 +28,7 @@ describe("mcp-runner parsing", () => {
   it("parses docker ps output", () => {
     const sample = "my_app\nnext-devtools-mcp\nplaywright";
     const records = parseDockerPsOutput(sample);
-    const names = records.map((r) => r.name);
+    const names = records.map((r: { name: string }) => r.name);
     expect(names).toContain("my_app");
     expect(names).toContain("next-devtools-mcp");
     expect(names).toContain("playwright");

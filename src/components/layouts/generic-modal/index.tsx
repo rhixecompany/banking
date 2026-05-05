@@ -1,6 +1,7 @@
 "use client";
 
 import type { JSX, ReactNode } from "react";
+
 import { useEffect } from "react";
 
 /**

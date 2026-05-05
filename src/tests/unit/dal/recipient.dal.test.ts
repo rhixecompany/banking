@@ -2,12 +2,8 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("@/database/db", () => ({
   db: {
-    select: vi.fn().mockReturnValue({
-      from: vi.fn().mockReturnValue({
-        where: vi.fn().mockReturnValue({
-          limit: vi.fn().mockResolvedValue([]),
-        }),
-      }),
+    delete: vi.fn().mockReturnValue({
+      where: vi.fn().mockResolvedValue({ rowsAffected: 1 }),
     }),
     insert: vi.fn().mockReturnValue({
       values: vi.fn().mockReturnValue({
@@ -19,6 +15,13 @@ vi.mock("@/database/db", () => ({
         ]),
       }),
     }),
+    select: vi.fn().mockReturnValue({
+      from: vi.fn().mockReturnValue({
+        where: vi.fn().mockReturnValue({
+          limit: vi.fn().mockResolvedValue([]),
+        }),
+      }),
+    }),
     update: vi.fn().mockReturnValue({
       set: vi.fn().mockReturnValue({
         where: vi.fn().mockReturnValue({
@@ -26,18 +29,15 @@ vi.mock("@/database/db", () => ({
         }),
       }),
     }),
-    delete: vi.fn().mockReturnValue({
-      where: vi.fn().mockResolvedValue({ rowsAffected: 1 }),
-    }),
   },
 }));
 
 vi.mock("@/database/schema", () => ({
   recipients: {
-    id: "id",
-    userId: "userId",
-    name: "name",
     email: "email",
+    id: "id",
+    name: "name",
+    userId: "userId",
   },
 }));
 
@@ -85,9 +85,9 @@ describe("RecipientDal", () => {
   describe("createRecipient", () => {
     it("creates recipient", async () => {
       const result = await recipientDal.createRecipient({
-        userId: "user-1",
-        name: "John",
         email: "john@test.com",
+        name: "John",
+        userId: "user-1",
       });
       expect(db.insert).toHaveBeenCalled();
     });

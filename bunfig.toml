@@ -1,17 +1,4 @@
 
-
-# Reduce memory usage at the cost of performance
-smol = false
-
-logLevel = "debug" # "debug" | "warn" | "error"
-[console]
-depth = 3
-[install]
-# Force bun to use a specific registry
-optional = true
-dev = true
-peer = true
-
 [run]
 # Automatically run the project with the --bun flag
 # This forces Bun's runtime for all scripts

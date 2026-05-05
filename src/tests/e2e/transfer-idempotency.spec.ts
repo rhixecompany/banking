@@ -73,7 +73,10 @@ test.describe("Transfer Idempotency", () => {
     const submitButton = page.locator('button:has-text("Send Money")');
 
     // Wait for validation to update
-    await page.locator('text="must be a positive number"').waitFor({ timeout: 1000 }).catch(() => null);
+    await page
+      .locator('text="must be a positive number"')
+      .waitFor({ timeout: 1000 })
+      .catch(() => null);
 
     // Form should have validation (either button disabled or error shown)
     const hasError = await page
@@ -96,7 +99,10 @@ test.describe("Transfer Idempotency", () => {
     await page.fill('input[name="amount"]', "-25.00");
 
     const submitButton = page.locator('button:has-text("Send Money")');
-    await page.locator('text="must be a positive number"').waitFor({ timeout: 1000 }).catch(() => null);
+    await page
+      .locator('text="must be a positive number"')
+      .waitFor({ timeout: 1000 })
+      .catch(() => null);
 
     // Should either show error or disable button
     const hasError = await page
@@ -121,7 +127,10 @@ test.describe("Transfer Idempotency", () => {
 
     // Clear amount field
     await amountInput.clear();
-    await page.locator('text="required"').waitFor({ timeout: 1000 }).catch(() => null);
+    await page
+      .locator('text="required"')
+      .waitFor({ timeout: 1000 })
+      .catch(() => null);
 
     // Form should have validation feedback
     const hasRequiredError = await page

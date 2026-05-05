@@ -1,16 +1,16 @@
+/* eslint-disable security/detect-non-literal-fs-filename -- Test file with safe temp paths */
 import fs from "fs";
 import path from "path";
+import { readPlanFile, scoreCandidate } from "scripts/plan-ensure";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-
-import { readPlanFile, scoreCandidate } from "../../scripts/plan-ensure";
 
 describe("plan-ensure: scoreCandidate", () => {
   it("returns 0 when no files match", () => {
     const changed = ["api/route.ts", "lib/utils.ts"];
     const cand: any = {
+      goals: "",
       targetFiles: ["app/dashboard"],
       title: "Dashboard",
-      goals: "",
     };
 
     const score = scoreCandidate(changed, cand);
@@ -20,9 +20,9 @@ describe("plan-ensure: scoreCandidate", () => {
   it("returns positive score for prefix match on targetFiles", () => {
     const changed = ["app/dashboard/page.tsx", "app/dashboard/layout.tsx"];
     const cand: any = {
+      goals: "",
       targetFiles: ["app/dashboard"],
       title: "Dashboard",
-      goals: "",
     };
 
     const score = scoreCandidate(changed, cand);
@@ -37,9 +37,9 @@ describe("plan-ensure: scoreCandidate", () => {
       "lib/dashboard-utils.ts",
     ];
     const cand: any = {
+      goals: "",
       targetFiles: ["app/dashboard", "components", "lib"],
       title: "Dashboard Overhaul",
-      goals: "",
     };
 
     const score = scoreCandidate(changed, cand);
@@ -49,9 +49,9 @@ describe("plan-ensure: scoreCandidate", () => {
   it("returns normalized score between 0 and 1", () => {
     const changed = ["app/foo.ts", "app/bar.ts"];
     const cand: any = {
+      goals: "",
       targetFiles: ["app"],
       title: "Test",
-      goals: "",
     };
 
     const score = scoreCandidate(changed, cand);
@@ -62,8 +62,8 @@ describe("plan-ensure: scoreCandidate", () => {
   it("treats targetFiles as optional", () => {
     const changed = ["src/index.ts"];
     const cand: any = {
-      title: "No target files",
       goals: "",
+      title: "No target files",
     };
 
     const score = scoreCandidate(changed, cand);
@@ -73,9 +73,9 @@ describe("plan-ensure: scoreCandidate", () => {
   it("handles empty changed files array", () => {
     const changed: string[] = [];
     const cand: any = {
+      goals: "",
       targetFiles: ["app/dashboard"],
       title: "Dashboard",
-      goals: "",
     };
 
     const score = scoreCandidate(changed, cand);
@@ -85,9 +85,9 @@ describe("plan-ensure: scoreCandidate", () => {
   it("handles empty targetFiles array", () => {
     const changed = ["app/page.tsx"];
     const cand: any = {
+      goals: "",
       targetFiles: [],
       title: "Empty targets",
-      goals: "",
     };
 
     const score = scoreCandidate(changed, cand);
@@ -97,9 +97,9 @@ describe("plan-ensure: scoreCandidate", () => {
   it("performs case-sensitive prefix matching", () => {
     const changed = ["App/Dashboard.tsx"]; // Capital letters
     const cand: any = {
+      goals: "",
       targetFiles: ["app/dashboard"], // lowercase
       title: "Case test",
-      goals: "",
     };
 
     const score = scoreCandidate(changed, cand);
@@ -110,9 +110,9 @@ describe("plan-ensure: scoreCandidate", () => {
   it("matches partial path prefixes", () => {
     const changed = ["components/ui/Button.tsx", "components/ui/Modal.tsx"];
     const cand: any = {
+      goals: "",
       targetFiles: ["components/ui"],
       title: "UI Components",
-      goals: "",
     };
 
     const score = scoreCandidate(changed, cand);
@@ -359,9 +359,9 @@ Add wallet linking and management
 
     // Create a candidate object from the plan
     const candidate: any = {
-      title: plan.title,
       goals: plan.goals,
       targetFiles: plan.targetFiles,
+      title: plan.title,
     };
 
     const score = scoreCandidate(changedFiles, candidate);

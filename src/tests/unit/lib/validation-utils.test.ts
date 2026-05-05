@@ -12,8 +12,9 @@
  * @see idempotency-key-pattern.md
  */
 
-import { generateIdempotencyKey } from "@/lib/validation-utils";
 import { describe, expect, it } from "vitest";
+
+import { generateIdempotencyKey } from "@/lib/validation-utils";
 
 describe("generateIdempotencyKey", () => {
   const senderUrl = "https://api.dwolla.com/funding-sources/sender-123";

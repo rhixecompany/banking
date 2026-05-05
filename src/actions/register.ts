@@ -5,6 +5,7 @@ import { z } from "zod";
 import type { UserWithProfile } from "@/types/user";
 
 import { userDal } from "@/dal";
+import { auth } from "@/lib/auth";
 import { signUpSchema } from "@/lib/validations/auth";
 
 /**
@@ -30,6 +31,7 @@ export async function registerUser(input: unknown): Promise<{
   user?: undefined | UserWithProfile;
   error?: string;
 }> {
+  await auth();
   const parsed = signUpSchema.safeParse(input);
   if (!parsed.success) {
     const allErrors = parsed.error.issues

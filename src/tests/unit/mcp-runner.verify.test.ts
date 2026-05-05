@@ -1,12 +1,11 @@
 import fs from "fs";
 import { join } from "path";
-import { describe, expect, it } from "vitest";
-
 import {
   atomicWriteCatalog,
   rollbackRestore,
   runValidations,
-} from "../../scripts/mcp-runner-lib";
+} from "scripts/mcp-runner-lib";
+import { describe, expect, it } from "vitest";
 
 describe("mcp-runner verify and rollback helpers", () => {
   it("atomicWriteCatalog creates backup and moves file", () => {
@@ -38,7 +37,7 @@ describe("mcp-runner verify and rollback helpers", () => {
   });
 
   it("runValidations returns structured results", () => {
-    const cmds = [{ name: "echo", cmd: "node -v" }];
+    const cmds = [{ cmd: "node -v", name: "echo" }];
     const res = runValidations(cmds as any, { timeout: 2000 });
     expect(res.length).toBeGreaterThan(0);
     expect(res[0]).toHaveProperty("name");

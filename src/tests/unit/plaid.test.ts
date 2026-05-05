@@ -1,6 +1,8 @@
 import { describe, expect, it, vi } from "vitest";
 
 vi.mock("@/lib/plaid", () => ({
+  // Ensure tests can mock detection of mock access tokens
+  isMockAccessToken: vi.fn(() => false),
   plaidClient: {
     accountsGet: vi.fn(),
     balanceGet: vi.fn(),
@@ -12,8 +14,6 @@ vi.mock("@/lib/plaid", () => ({
     linkTokenCreate: vi.fn(),
     transactionsGet: vi.fn(),
   },
-  // Ensure tests can mock detection of mock access tokens
-  isMockAccessToken: vi.fn(() => false),
 }));
 
 vi.mock("@/dal", () => ({

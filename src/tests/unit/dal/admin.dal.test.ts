@@ -11,9 +11,9 @@ vi.mock("@/database/db", () => ({
 }));
 
 vi.mock("@/database/schema", () => ({
+  transactions: { amount: "amount", createdAt: "createdAt", id: "id" },
   users: { id: "id" },
   wallets: { id: "id" },
-  transactions: { id: "id", amount: "amount", createdAt: "createdAt" },
 }));
 
 vi.mock("@/lib/logger", () => ({

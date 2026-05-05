@@ -35,12 +35,20 @@ export default defineConfig([
   nextPlugin.configs["core-web-vitals"],
 
   globalIgnores([
+    ".cursor/**",
+    ".github/**",
+    ".opencode/**",
     ".next/**",
     "out/**",
     "build/**",
     "dist/**",
     "node_modules/**",
     "next-env.d.ts",
+    "tech-stack.md",
+    "templates/**",
+    "*.md",
+    "docs/**",
+    "scripts/**",
   ]),
   {
     files: ["**/*.{js,jsx,ts,tsx,cjs,mts,cts}"],

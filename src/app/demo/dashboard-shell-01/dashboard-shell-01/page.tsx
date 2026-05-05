@@ -20,6 +20,7 @@ import {
   Undo2Icon,
   UsersIcon,
 } from "lucide-react";
+import Link from "next/link";
 
 import SalesMetricsCard from "@/components/shadcn-studio/blocks/chart-sales-metrics";
 import TransactionDatatable, {
@@ -362,10 +363,10 @@ const DashboardShell = () => {
                 <SidebarMenu>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <a href="/">
+                      <Link href="/">
                         <ChartNoAxesCombinedIcon />
                         <span>Dashboard</span>
-                      </a>
+                      </Link>
                     </SidebarMenuButton>
                     <SidebarMenuBadge className="rounded-full bg-primary/10">
                       5
@@ -380,34 +381,34 @@ const DashboardShell = () => {
                 <SidebarMenu>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <a href="/">
+                      <Link href="/">
                         <ChartSplineIcon />
                         <span>Content Performance</span>
-                      </a>
+                      </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <a href="/">
+                      <Link href="/">
                         <UsersIcon />
                         <span>Audience Insight</span>
-                      </a>
+                      </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <a href="/">
+                      <Link href="/">
                         <ChartPieIcon />
                         <span>Engagement Metrics</span>
-                      </a>
+                      </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <a href="/">
+                      <Link href="/">
                         <HashIcon />
                         <span>Hashtag Performance</span>
-                      </a>
+                      </Link>
                     </SidebarMenuButton>
                     <SidebarMenuBadge className="rounded-full bg-primary/10">
                       3
@@ -415,34 +416,34 @@ const DashboardShell = () => {
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <a href="/">
+                      <Link href="/">
                         <ArrowRightLeftIcon />
                         <span>Competitor Analysis</span>
-                      </a>
+                      </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <a href="/">
+                      <Link href="/">
                         <Clock9Icon />
                         <span>Campaign Tracking</span>
-                      </a>
+                      </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <a href="/">
+                      <Link href="/">
                         <ClipboardListIcon />
                         <span>Sentiment Tracking</span>
-                      </a>
+                      </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <a href="/">
+                      <Link href="/">
                         <CrownIcon />
                         <span>Influencer</span>
-                      </a>
+                      </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 </SidebarMenu>
@@ -454,42 +455,42 @@ const DashboardShell = () => {
                 <SidebarMenu>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <a href="/">
+                      <Link href="/">
                         <SquareActivityIcon />
                         <span>Real Time Monitoring</span>
-                      </a>
+                      </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <a href="/">
+                      <Link href="/">
                         <CalendarClockIcon />
                         <span>Schedule Post & Calendar</span>
-                      </a>
+                      </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <a href="/">
+                      <Link href="/">
                         <Undo2Icon />
                         <span>Report & Export</span>
-                      </a>
+                      </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <a href="/">
+                      <Link href="/">
                         <SettingsIcon />
                         <span>Settings & Integrations</span>
-                      </a>
+                      </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <a href="/">
+                      <Link href="/">
                         <UsersIcon />
                         <span>User Management</span>
-                      </a>
+                      </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 </SidebarMenu>
@@ -585,24 +586,24 @@ const DashboardShell = () => {
             <div className="mx-auto flex size-full max-w-7xl items-center justify-between gap-3 px-4 py-3 text-muted-foreground max-sm:flex-col sm:gap-6 sm:px-6">
               <p className="text-sm text-balance max-sm:text-center">
                 {`©${currentYear}`}{" "}
-                <a href="/" className="text-primary">
+                <Link href="/" className="text-primary">
                   shadcn/studio
-                </a>
+                </Link>
                 , Made for better web design
               </p>
               <div className="flex items-center gap-5">
-                <a href="/">
+                <Link href="/">
                   <Share2Icon className="size-4" />
-                </a>
-                <a href="/">
+                </Link>
+                <Link href="/">
                   <Share2Icon className="size-4" />
-                </a>
-                <a href="/">
+                </Link>
+                <Link href="/">
                   <Share2Icon className="size-4" />
-                </a>
-                <a href="/">
+                </Link>
+                <Link href="/">
                   <Share2Icon className="size-4" />
-                </a>
+                </Link>
               </div>
             </div>
           </footer>

@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+
 import { addMockPlaidInitScript } from "../helpers/plaid.mock";
 
 test("Plaid script is loaded at most once on my-wallets", async ({ page }) => {

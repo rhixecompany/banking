@@ -687,6 +687,10 @@ export const dwolla_transfers = pgTable(
     currency: varchar("currency", { length: 3 }).default("USD"),
     destinationFundingSourceUrl: text("destination_funding_source_url"),
     dwollaTransferId: text("dwolla_transfer_id"),
+    id: text("id")
+      .primaryKey()
+      .notNull()
+      .$defaultFn(() => crypto.randomUUID()),
     /**
      * Idempotency key (UUID) for preventing duplicate transfers on network retries.
      * Unique constraint ensures that replayed requests with the same idempotency key
@@ -696,10 +700,6 @@ export const dwolla_transfers = pgTable(
     idempotencyKey: varchar("idempotency_key", { length: 255 })
       .notNull()
       .unique(),
-    id: text("id")
-      .primaryKey()
-      .notNull()
-      .$defaultFn(() => crypto.randomUUID()),
     receiverWalletId: text("receiver_wallet_id").references(() => wallets.id),
     senderWalletId: text("sender_wallet_id").references(() => wallets.id),
     sourceFundingSourceUrl: text("source_funding_source_url"),

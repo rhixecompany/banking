@@ -12,20 +12,30 @@
     "module": "esnext",
     "moduleResolution": "bundler",
     "noEmit": true,
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"],
-      "actions/*": ["./actions/*"],
-      "app/*": ["./app/*"],
-      "components/*": ["./components/*"],
-      "constants/*": ["./constants/*"],
-      "dal/*": ["./dal/*"],
-      "database/*": ["./database/*"],
-      "hooks/*": ["./hooks/*"],
-      "lib/*": ["./lib/*"],
+      "@/*": ["./src/*"],
+      "actions/*": ["./src/actions/*"],
+      "app/*": ["./src/app/*"],
+      "app-config": ["./app-config.ts"],
+      "components/*": ["./src/components/*"],
+      "constants/*": ["./src/constants/*"],
+      "dal/*": ["./src/dal/*"],
+      "database/*": ["./src/database/*"],
+      "hooks/*": ["./src/hooks/*"],
+      "lib/*": ["./src/lib/*"],
       "scripts/*": ["./scripts/*"],
-      "stores/*": ["./stores/*"],
+      "scripts": ["./scripts"],
+      "scripts/mcp-runner-lib": ["./scripts/mcp-runner-lib.ts"],
+      "scripts/plan-ensure": ["./scripts/plan-ensure.ts"],
+      "scripts/report-parser": ["./scripts/report-parser.ts"],
+      "scripts/verify-rules": ["./scripts/verify-rules.ts"],
+      "scripts/ts/docs/generate-markdown-catalog": [
+        "./scripts/ts/docs/generate-markdown-catalog.ts"
+      ],
+      "stores/*": ["./src/stores/*"],
       "tests/*": ["./tests/*"],
-      "types/*": ["./types/*"]
+      "types/*": ["./src/types/*"]
     },
     "plugins": [
       {

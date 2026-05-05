@@ -1,16 +1,15 @@
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { describe, expect, it } from "vitest";
-
-/* eslint-disable security/detect-non-literal-fs-filename */
 import {
   extractFirstH1,
   extractFrontmatter,
   extractSelectedFrontmatterFields,
   generateCatalogMarkdown,
   toPosixPath,
-} from "../../scripts/ts/docs/generate-markdown-catalog";
+} from "scripts/ts/docs/generate-markdown-catalog";
+/* eslint-disable security/detect-non-literal-fs-filename */
+import { describe, expect, it } from "vitest";
 
 describe("generate-markdown-catalog helpers", () => {
   it("extracts YAML frontmatter and first H1", () => {

@@ -5,7 +5,7 @@ import type { JSX } from "react";
 /**
  * Toast style variants.
  */
-export type GenericToastVariant = "success" | "error" | "info" | "warning";
+export type GenericToastVariant = "error" | "info" | "success" | "warning";
 
 /**
  * Props for the GenericToast component.
@@ -20,9 +20,9 @@ export interface GenericToastProps {
 }
 
 const variantClasses: Record<GenericToastVariant, string> = {
-  success: "border-emerald-500/40 bg-emerald-500/10 text-emerald-700",
   error: "border-rose-500/40 bg-rose-500/10 text-rose-700",
   info: "border-blue-500/40 bg-blue-500/10 text-blue-700",
+  success: "border-emerald-500/40 bg-emerald-500/10 text-emerald-700",
   warning: "border-amber-500/40 bg-amber-500/10 text-amber-700",
 };
 

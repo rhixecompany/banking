@@ -3,16 +3,16 @@ import type { CSSProperties, JSX } from "react";
 /**
  * Skeleton variants for common shapes.
  */
-export type GenericSkeletonVariant = "text" | "circular" | "rectangular";
+export type GenericSkeletonVariant = "circular" | "rectangular" | "text";
 
 /**
  * Props for the GenericSkeleton component.
  */
 export interface GenericSkeletonProps {
   /** Width of the skeleton (px, %, etc). */
-  width?: string | number;
+  width?: number | string;
   /** Height of the skeleton (px, %, etc). */
-  height?: string | number;
+  height?: number | string;
   /** Visual shape variant. */
   variant?: GenericSkeletonVariant;
   /** Additional CSS classes. */

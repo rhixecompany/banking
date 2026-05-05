@@ -20,7 +20,7 @@ vi.mock("@/actions/recipient.actions", () => ({
   getRecipients: vi.fn(async () => ({ ok: true, recipients: [] })),
 }));
 vi.mock("@/actions/dwolla.actions", () => ({
-  createTransfer: vi.fn(async () => ({ ok: true, id: "tx-1" })),
+  createTransfer: vi.fn(async () => ({ id: "tx-1", ok: true })),
 }));
 
 import { PaymentTransferServerWrapper } from "@/components/payment-transfer/payment-transfer-server-wrapper";
@@ -34,8 +34,8 @@ describe("PaymentTransferServerWrapper", () => {
     expect(res).toBeDefined();
     const props = extractPropsFromElement(res);
     expect(props).toMatchObject({
-      wallets: [],
       recipients: [],
+      wallets: [],
     });
     expect(typeof props.createTransfer).toBe("function");
   });

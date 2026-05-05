@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { expect, test, vi } from "vitest";
 
 import type { SettingsProfileFormValues } from "@/components/layouts/settings-profile-form";
+
 import SettingsProfileForm from "@/components/layouts/settings-profile-form";
 
 /**

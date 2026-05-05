@@ -91,8 +91,8 @@ test.describe("Soft Delete Behavior", () => {
   });
 
   test("should exclude deleted records from API responses", async ({
-    page,
     context,
+    page,
   }) => {
     // Login
     await page.goto("/sign-in");
@@ -133,7 +133,9 @@ test.describe("Soft Delete Behavior", () => {
     await page.click('button:has-text("Sign in")');
 
     // Navigate to dashboard
-    await page.goto("/dashboard", { waitUntil: "networkidle" }).catch(() => {});
+    await page.goto("/dashboard", { waitUntil: "networkidle" }).catch(() => {
+  // Ignore navigation errors - page may not exist
+});
 
     // If page loads without errors, soft-delete filtering is working
     // (deleted records aren't causing FK constraint violations)

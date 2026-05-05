@@ -5,8 +5,8 @@ import { describe, expect, it } from "vitest";
 
 function getTrackedMarkdownFiles(): string[] {
   const res = spawnSync("git", ["ls-files", "*.md"], {
-    encoding: "utf8",
     cwd: process.cwd(),
+    encoding: "utf8",
   });
 
   expect(res.status, res.stderr || "git ls-files failed").toBe(0);

@@ -1,6 +1,5 @@
 import path from "path";
-
-import { detectAndParse } from "@/scripts/report-parser";
+import { detectAndParse } from "scripts/report-parser";
 
 describe("report-parser", () => {
   it("parses vitest json", () => {

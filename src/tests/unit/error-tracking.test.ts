@@ -6,9 +6,9 @@ vi.mock("@/dal", () => {
   const insertErrorMock = vi.fn().mockResolvedValue({});
   return {
     errorsDal: {
-      insertError: insertErrorMock,
-      getRecentErrors: vi.fn().mockResolvedValue([]),
       clearOldErrors: vi.fn().mockResolvedValue(undefined),
+      getRecentErrors: vi.fn().mockResolvedValue([]),
+      insertError: insertErrorMock,
     },
   };
 });

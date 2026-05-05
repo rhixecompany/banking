@@ -2,25 +2,25 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("@/database/db", () => ({
   db: {
-    select: vi.fn().mockReturnValue({
-      from: vi.fn().mockReturnValue({
-        where: vi.fn().mockReturnValue({
-          orderBy: vi.fn().mockReturnValue({
-            limit: vi.fn().mockResolvedValue([]),
-          }),
-          limit: vi.fn().mockResolvedValue([]),
-        }),
-      }),
-    }),
     insert: vi.fn().mockReturnValue({
       values: vi.fn().mockReturnValue({
         returning: vi.fn().mockResolvedValue([
           {
+            amount: "100.00",
             id: "txn-1",
             userId: "user-1",
-            amount: "100.00",
           },
         ]),
+      }),
+    }),
+    select: vi.fn().mockReturnValue({
+      from: vi.fn().mockReturnValue({
+        where: vi.fn().mockReturnValue({
+          limit: vi.fn().mockResolvedValue([]),
+          orderBy: vi.fn().mockReturnValue({
+            limit: vi.fn().mockResolvedValue([]),
+          }),
+        }),
       }),
     }),
   },
@@ -28,19 +28,19 @@ vi.mock("@/database/db", () => ({
 
 vi.mock("@/database/schema", () => ({
   transactions: {
-    id: "id",
-    userId: "userId",
-    senderWalletId: "senderWalletId",
-    receiverWalletId: "receiverWalletId",
     amount: "amount",
-    type: "type",
-    status: "status",
-    deletedAt: "deletedAt",
     createdAt: "createdAt",
+    deletedAt: "deletedAt",
+    id: "id",
+    receiverWalletId: "receiverWalletId",
+    senderWalletId: "senderWalletId",
+    status: "status",
+    type: "type",
+    userId: "userId",
   },
   wallets: {
-    id: "id",
     fundingSourceUrl: "fundingSourceUrl",
+    id: "id",
     institutionName: "institutionName",
   },
 }));
@@ -55,7 +55,7 @@ describe("TransactionDal", () => {
 
   describe("findById", () => {
     it("finds transaction by id", async () => {
-      const mockTxn = { id: "txn-1", deletedAt: null };
+      const mockTxn = { deletedAt: null, id: "txn-1" };
       (db.select as ReturnType<typeof vi.fn>).mockReturnValue({
         from: vi.fn().mockReturnValue({
           where: vi.fn().mockReturnValue({
@@ -133,8 +133,8 @@ describe("TransactionDal", () => {
   describe("createTransaction", () => {
     it("creates transaction", async () => {
       const result = await transactionDal.createTransaction({
-        userId: "user-1",
         amount: "100.00",
+        userId: "user-1",
       });
       expect(db.insert).toHaveBeenCalled();
     });
@@ -158,12 +158,12 @@ describe("TransactionDal", () => {
   describe("findByUserIdWithWallets", () => {
     it("finds transactions with wallet data", async () => {
       const mockTxns = [
-        { id: "txn-1", senderWalletId: "wallet-1", receiverWalletId: null },
+        { id: "txn-1", receiverWalletId: null, senderWalletId: "wallet-1" },
       ];
       const mockWallets = [
         {
-          id: "wallet-1",
           fundingSourceUrl: "https://bank.com",
+          id: "wallet-1",
           institutionName: "Bank",
         },
       ];

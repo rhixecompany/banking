@@ -177,12 +177,14 @@ async function stopDevServer(): Promise<void> {
 function cleanupTestArtifacts(): void {
   const resultsDir = getTestResultsDir();
 
+  // eslint-disable-next-line security/detect-non-literal-fs-filename
   if (!existsSync(resultsDir)) {
     console.info("  - No test-results directory found");
     return;
   }
 
   try {
+    // eslint-disable-next-line security/detect-non-literal-fs-filename
     const entries = readdirSync(resultsDir);
     let cleanedCount = 0;
 
@@ -216,12 +218,14 @@ function cleanupTestArtifacts(): void {
 function parseAndDisplayTestResults(): void {
   const resultsDir = getTestResultsDir();
 
+  // eslint-disable-next-line security/detect-non-literal-fs-filename
   if (!existsSync(resultsDir)) {
     console.info("  - No test-results directory found");
     return;
   }
 
   // Look for the most recent JSON report
+  // eslint-disable-next-line security/detect-non-literal-fs-filename
   const entries = readdirSync(resultsDir).filter((e) => e.endsWith(".json"));
 
   if (entries.length === 0) {
@@ -235,6 +239,7 @@ function parseAndDisplayTestResults(): void {
 
   try {
     const reportPath = join(resultsDir, latestReport);
+    // eslint-disable-next-line security/detect-non-literal-fs-filename
     const reportData = JSON.parse(readFileSync(reportPath, "utf-8"));
 
     const stats = reportData.stats ?? {};

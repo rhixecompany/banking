@@ -56,7 +56,7 @@ export interface AuthFixtures {
  */
 export const test = base.extend<AuthFixtures>({
   // Page fixtures (in alphabetical order)
-  authenticatedPage: async ({ page }, use) => {
+  authenticatedPage: async ({ page }, run) => {
     // Prefer deterministic session cookie (NextAuth JWT) when NEXTAUTH_SECRET
     // exists. Fall back to UI sign-in if missing or if the token isn't accepted.
     let secret: string | undefined;
@@ -72,7 +72,7 @@ export const test = base.extend<AuthFixtures>({
 
     if (!secret) {
       await signInWithSeedUser(page);
-      await use(page);
+      await run(page);
       return;
     }
 
@@ -83,28 +83,28 @@ export const test = base.extend<AuthFixtures>({
 
     try {
       const jwt = await encode({
-        token: {
-          sub: SEED_USER_ID,
-          id: SEED_USER_ID,
-          email: TEST_USER.email,
-          name: `${TEST_USER.firstName} ${TEST_USER.lastName}`,
-          isAdmin: false,
-          isActive: true,
-        },
-        secret,
         salt: cookieName,
+        secret,
+        token: {
+          email: TEST_USER.email,
+          id: SEED_USER_ID,
+          isActive: true,
+          isAdmin: false,
+          name: `${TEST_USER.firstName} ${TEST_USER.lastName}`,
+          sub: SEED_USER_ID,
+        },
       });
 
       await page.context().clearCookies();
       await page.context().addCookies([
         {
-          name: cookieName,
-          value: jwt,
-          url: baseUrl,
-          path: "/",
           httpOnly: true,
-          secure: isSecure,
+          name: cookieName,
+          path: "/",
           sameSite: "Lax",
+          secure: isSecure,
+          url: baseUrl,
+          value: jwt,
         },
       ]);
 
@@ -117,47 +117,47 @@ export const test = base.extend<AuthFixtures>({
       await signInWithSeedUser(page);
     }
 
-    await use(page);
+    await run(page);
   },
 
-  dashboardPage: async ({ authenticatedPage }, use) => {
+  dashboardPage: async ({ authenticatedPage }, run) => {
     const dashboard = new DashboardPage(authenticatedPage);
-    await use(dashboard);
+    await run(dashboard);
   },
 
-  myWalletsPage: async ({ authenticatedPage }, use) => {
+  myWalletsPage: async ({ authenticatedPage }, run) => {
     const myWallets = new MyWalletsPage(authenticatedPage);
-    await use(myWallets);
+    await run(myWallets);
   },
 
-  page: async ({ page }, use) => {
-    await use(page);
+  page: async ({ page }, run) => {
+    await run(page);
   },
 
-  paymentTransferPage: async ({ authenticatedPage }, use) => {
+  paymentTransferPage: async ({ authenticatedPage }, run) => {
     const transfer = new PaymentTransferPage(authenticatedPage);
-    await use(transfer);
+    await run(transfer);
   },
 
   // Sign in/up pages use raw page - they're public pages that don't require auth
-  signInPage: async ({ page }, use) => {
+  signInPage: async ({ page }, run) => {
     const signIn = new SignInPage(page);
-    await use(signIn);
+    await run(signIn);
   },
 
-  signUpPage: async ({ page }, use) => {
+  signUpPage: async ({ page }, run) => {
     const signUp = new SignUpPage(page);
-    await use(signUp);
+    await run(signUp);
   },
 
-  transactionHistoryPage: async ({ authenticatedPage }, use) => {
+  transactionHistoryPage: async ({ authenticatedPage }, run) => {
     const history = new TransactionHistoryPage(authenticatedPage);
-    await use(history);
+    await run(history);
   },
 
-  unauthenticatedPage: async ({ page }, use) => {
+  unauthenticatedPage: async ({ page }, run) => {
     await page.context().clearCookies();
-    await use(page);
+    await run(page);
   },
 });
 

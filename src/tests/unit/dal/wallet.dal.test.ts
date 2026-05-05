@@ -2,34 +2,33 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("@/database/db", () => ({
   db: {
-    select: vi.fn(),
-    insert: vi.fn(),
-    update: vi.fn(),
     delete: vi.fn(),
+    insert: vi.fn(),
+    select: vi.fn(),
+    update: vi.fn(),
   },
 }));
 
 vi.mock("@/database/schema", () => ({
   wallets: {
-    id: "id",
-    userId: "userId",
     accessToken: "accessToken",
-    sharableId: "sharableId",
     accountId: "accountId",
+    accountSubtype: "accountSubtype",
+    accountType: "accountType",
+    createdAt: "createdAt",
+    deletedAt: "deletedAt",
     fundingSourceUrl: "fundingSourceUrl",
+    id: "id",
     institutionId: "institutionId",
     institutionName: "institutionName",
-    accountType: "accountType",
-    accountSubtype: "accountSubtype",
-    deletedAt: "deletedAt",
-    createdAt: "createdAt",
+    sharableId: "sharableId",
     updatedAt: "updatedAt",
+    userId: "userId",
   },
 }));
 
 // Mock encryption with realistic behavior
 vi.mock("@/lib/encryption", () => ({
-  encrypt: vi.fn((s: string) => `encrypted_${s}`),
   decrypt: vi.fn((s: string) => {
     if (s.startsWith("encrypted_")) {
       return s.replace("encrypted_", "");
@@ -37,6 +36,7 @@ vi.mock("@/lib/encryption", () => ({
     // Simulate decrypt failure for invalid format
     throw new Error("Invalid encrypted format");
   }),
+  encrypt: vi.fn((s: string) => `encrypted_${s}`),
 }));
 
 import { walletsDal } from "@/dal/wallet.dal";
@@ -51,13 +51,13 @@ describe("WalletDal", () => {
   describe("findById", () => {
     it("returns decrypted wallet when found", async () => {
       const mockWallet = {
-        id: "wallet-1",
-        userId: "user-1",
         accessToken: "encrypted_plain-token",
-        sharableId: "sharable-1",
-        deletedAt: null,
         createdAt: new Date(),
+        deletedAt: null,
+        id: "wallet-1",
+        sharableId: "sharable-1",
         updatedAt: new Date(),
+        userId: "user-1",
       };
 
       (db.select as ReturnType<typeof vi.fn>).mockReturnValue({
@@ -77,10 +77,10 @@ describe("WalletDal", () => {
 
     it("returns undefined when wallet is soft-deleted", async () => {
       const mockWallet = {
-        id: "wallet-1",
-        userId: "user-1",
         accessToken: "encrypted_plain-token",
         deletedAt: new Date("2026-01-01"),
+        id: "wallet-1",
+        userId: "user-1",
       };
 
       (db.select as ReturnType<typeof vi.fn>).mockReturnValue({
@@ -112,10 +112,10 @@ describe("WalletDal", () => {
 
     it("handles safeDecrypt gracefully when decrypt fails", async () => {
       const mockWallet = {
-        id: "wallet-1",
-        userId: "user-1",
         accessToken: "corrupted-token", // Will fail decrypt
         deletedAt: null,
+        id: "wallet-1",
+        userId: "user-1",
       };
 
       (db.select as ReturnType<typeof vi.fn>).mockReturnValue({
@@ -137,16 +137,16 @@ describe("WalletDal", () => {
     it("returns multiple decrypted wallets for user", async () => {
       const mockWallets = [
         {
-          id: "wallet-1",
-          userId: "user-1",
           accessToken: "encrypted_token1",
           deletedAt: null,
+          id: "wallet-1",
+          userId: "user-1",
         },
         {
-          id: "wallet-2",
-          userId: "user-1",
           accessToken: "encrypted_token2",
           deletedAt: null,
+          id: "wallet-2",
+          userId: "user-1",
         },
       ];
 
@@ -178,10 +178,10 @@ describe("WalletDal", () => {
     it("filters out soft-deleted wallets at database level", async () => {
       const mockWallets = [
         {
-          id: "wallet-1",
-          userId: "user-1",
           accessToken: "encrypted_token1",
           deletedAt: null,
+          id: "wallet-1",
+          userId: "user-1",
         },
       ];
 
@@ -201,14 +201,14 @@ describe("WalletDal", () => {
     it("decrypts all returned wallets", async () => {
       const mockWallets = [
         {
-          id: "wallet-1",
           accessToken: "encrypted_token1",
           deletedAt: null,
+          id: "wallet-1",
         },
         {
-          id: "wallet-2",
           accessToken: "corrupted", // Will fail decrypt
           deletedAt: null,
+          id: "wallet-2",
         },
       ];
 
@@ -229,10 +229,10 @@ describe("WalletDal", () => {
   describe("findBySharableId", () => {
     it("returns decrypted wallet by sharable ID", async () => {
       const mockWallet = {
-        id: "wallet-1",
-        sharableId: "sharable-123",
         accessToken: "encrypted_plain-token",
         deletedAt: null,
+        id: "wallet-1",
+        sharableId: "sharable-123",
       };
 
       (db.select as ReturnType<typeof vi.fn>).mockReturnValue({
@@ -265,9 +265,9 @@ describe("WalletDal", () => {
 
     it("returns undefined when wallet is soft-deleted", async () => {
       const mockWallet = {
+        deletedAt: new Date("2026-01-01"),
         id: "wallet-1",
         sharableId: "sharable-123",
-        deletedAt: new Date("2026-01-01"),
       };
 
       (db.select as ReturnType<typeof vi.fn>).mockReturnValue({
@@ -287,10 +287,10 @@ describe("WalletDal", () => {
   describe("findByAccountId", () => {
     it("returns decrypted wallet by account ID", async () => {
       const mockWallet = {
-        id: "wallet-1",
-        accountId: "acc-123",
         accessToken: "encrypted_plain-token",
+        accountId: "acc-123",
         deletedAt: null,
+        id: "wallet-1",
       };
 
       (db.select as ReturnType<typeof vi.fn>).mockReturnValue({
@@ -326,12 +326,12 @@ describe("WalletDal", () => {
     it("encrypts token before storage and returns plaintext", async () => {
       const plainToken = "plain-access-token-123";
       const createdWallet = {
-        id: "wallet-new",
-        userId: "user-1",
         accessToken: "encrypted_plain-access-token-123",
-        sharableId: "sharable-new",
         createdAt: new Date(),
+        id: "wallet-new",
+        sharableId: "sharable-new",
         updatedAt: new Date(),
+        userId: "user-1",
       };
 
       (db.insert as ReturnType<typeof vi.fn>).mockReturnValue({
@@ -341,9 +341,9 @@ describe("WalletDal", () => {
       });
 
       const result = await walletsDal.createWallet({
-        userId: "user-1",
         accessToken: plainToken,
         sharableId: "sharable-new",
+        userId: "user-1",
       });
 
       // Verify encrypt was called with the plaintext token
@@ -356,18 +356,18 @@ describe("WalletDal", () => {
 
     it("creates wallet with all optional fields", async () => {
       const createdWallet = {
-        id: "wallet-new",
-        userId: "user-1",
         accessToken: "encrypted_token",
-        sharableId: "sharable-new",
+        accountId: "acc-456",
+        accountSubtype: "savings",
+        accountType: "checking",
+        createdAt: new Date(),
         fundingSourceUrl: "https://example.com/funding",
+        id: "wallet-new",
         institutionId: "inst-123",
         institutionName: "Chase Bank",
-        accountId: "acc-456",
-        accountType: "checking",
-        accountSubtype: "savings",
-        createdAt: new Date(),
+        sharableId: "sharable-new",
         updatedAt: new Date(),
+        userId: "user-1",
       };
 
       (db.insert as ReturnType<typeof vi.fn>).mockReturnValue({
@@ -377,15 +377,15 @@ describe("WalletDal", () => {
       });
 
       const result = await walletsDal.createWallet({
-        userId: "user-1",
         accessToken: "plain-token",
-        sharableId: "sharable-new",
+        accountId: "acc-456",
+        accountSubtype: "savings",
+        accountType: "checking",
         fundingSourceUrl: "https://example.com/funding",
         institutionId: "inst-123",
         institutionName: "Chase Bank",
-        accountId: "acc-456",
-        accountType: "checking",
-        accountSubtype: "savings",
+        sharableId: "sharable-new",
+        userId: "user-1",
       });
 
       expect(result.institutionName).toBe("Chase Bank");
@@ -397,8 +397,8 @@ describe("WalletDal", () => {
         values: vi.fn().mockReturnValue({
           returning: vi.fn().mockResolvedValue([
             {
-              id: "wallet-new",
               accessToken: "encrypted_token",
+              id: "wallet-new",
             },
           ]),
         }),
@@ -407,9 +407,9 @@ describe("WalletDal", () => {
       (db.insert as ReturnType<typeof vi.fn>).mockReturnValue(mockInsertChain);
 
       await walletsDal.createWallet({
-        userId: "user-1",
         accessToken: "plain-token",
         sharableId: "sharable-new",
+        userId: "user-1",
       });
 
       // Verify values() was called with encrypted token

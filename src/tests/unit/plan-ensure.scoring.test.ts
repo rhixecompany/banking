@@ -1,6 +1,5 @@
+import { scoreCandidate } from "scripts/plan-ensure";
 import { describe, expect, it } from "vitest";
-
-import { scoreCandidate } from "../../scripts/plan-ensure";
 
 // Core scoring unit tests — validates that scoreCandidate function
 // correctly evaluates plan candidates against changed files.
@@ -9,9 +8,9 @@ describe("plan-ensure scoring", () => {
   it("gives higher score for matching targetFiles", () => {
     const changed = ["app/dashboard/page.tsx", "components/foo.tsx"];
     const cand: any = {
+      goals: "Refactor dashboard",
       targetFiles: ["app/dashboard"],
       title: "Dashboard refactor",
-      goals: "Refactor dashboard",
     };
     const s = scoreCandidate(changed, cand);
     expect(s).toBeGreaterThan(0);
@@ -20,9 +19,9 @@ describe("plan-ensure scoring", () => {
   it("returns zero score when no files match targetFiles", () => {
     const changed = ["lib/utils.ts", "types/index.ts"];
     const cand: any = {
+      goals: "Refactor dashboard",
       targetFiles: ["app/dashboard"],
       title: "Dashboard refactor",
-      goals: "Refactor dashboard",
     };
     const s = scoreCandidate(changed, cand);
     expect(s).toBe(0);
@@ -35,9 +34,9 @@ describe("plan-ensure scoring", () => {
       "lib/auth.ts",
     ];
     const cand: any = {
+      goals: "Refactor multiple areas",
       targetFiles: ["app/dashboard", "components", "lib"],
       title: "Major refactor",
-      goals: "Refactor multiple areas",
     };
     const s = scoreCandidate(changed, cand);
     expect(s).toBeGreaterThan(0.5);
@@ -46,9 +45,9 @@ describe("plan-ensure scoring", () => {
   it("returns normalized score between 0 and 1", () => {
     const changed = ["app/page.tsx"];
     const cand: any = {
+      goals: "Add feature",
       targetFiles: ["app"],
       title: "App feature",
-      goals: "Add feature",
     };
     const s = scoreCandidate(changed, cand);
     expect(s).toBeGreaterThanOrEqual(0);

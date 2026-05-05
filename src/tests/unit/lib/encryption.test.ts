@@ -1,3 +1,5 @@
+import { beforeAll, describe, expect, it } from "vitest";
+
 import {
   decrypt,
   decryptSSN,
@@ -5,7 +7,6 @@ import {
   encryptSSN,
   generateEncryptionKey,
 } from "@/lib/encryption";
-import { beforeAll, describe, expect, it } from "vitest";
 
 describe("Encryption Module", () => {
   let testKey: string;
@@ -307,9 +308,9 @@ describe("Encryption Module", () => {
 
     it("maintains data integrity across encrypt/decrypt", () => {
       const testData = {
+        email: "john@example.com",
         name: "John Doe",
         ssn: "123-45-6789",
-        email: "john@example.com",
       };
 
       const jsonString = JSON.stringify(testData);

@@ -126,18 +126,12 @@
     "opencode-mystatus",
     "opencode-handoff",
     "@tarquinen/opencode-dcp",
-    "@ramarivera/opencode-model-announcer",
     "superpowers@git+https://github.com/obra/superpowers.git",
     "@howaboua/opencode-planning-toolkit",
     "smart-codebase",
     "octto",
-    "opencode-cost-guard",
-    "@gotgenes/opencode-agent-identity",
-    "opencode-pty",
-    "opencode-helicone-session",
     "@nick-vi/opencode-type-inject",
     "@zenobius/opencode-skillful",
-    "opencode-snippets",
     "@slkiser/opencode-quota"
   ],
   "provider": {

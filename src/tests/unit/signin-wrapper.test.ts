@@ -7,8 +7,8 @@ vi.mock("next/navigation", async () => {
   const actual = await import("next/navigation");
   return {
     ...actual,
-    redirect: vi.fn(),
     notFound: vi.fn(),
+    redirect: vi.fn(),
   };
 });
 

@@ -192,7 +192,7 @@ Move to `app/(admin)/demo/` — inherits admin auth from `AdminLayoutWrapper`.
 ### Acceptance Criteria
 
 - [ ] Demo pages are NOT accessible without authentication (if Option B or C)  
-      OR
+       OR
 - [ ] Demo pages directory does not exist (if Option A)
 - [ ] No `app/demo/**` route returns 200 to unauthenticated requests in production
 

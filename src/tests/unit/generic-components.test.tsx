@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import { vi } from "vitest";
 
 import { GenericCard } from "../../components/layouts/generic-card";
 import { GenericDataTable } from "../../components/layouts/generic-data-table";
@@ -61,13 +62,13 @@ describe("GenericCard", () => {
 
 describe("GenericDataTable", () => {
   const columns = [
-    { key: "name" as const, header: "Name" },
-    { key: "amount" as const, header: "Amount" },
+    { header: "Name", key: "name" as const },
+    { header: "Amount", key: "amount" as const },
   ];
 
   const data = [
-    { name: "Test 1", amount: "100" },
-    { name: "Test 2", amount: "200" },
+    { amount: "100", name: "Test 1" },
+    { amount: "200", name: "Test 2" },
   ];
 
   it("renders column headers", () => {
@@ -117,7 +118,7 @@ describe("GenericSkeleton", () => {
 describe("GenericModal", () => {
   it("does not render when open is false", () => {
     render(
-      <GenericModal open={false} onClose={() => {}} title="Modal">
+      <GenericModal open={false} onClose={vi.fn()} title="Modal">
         Content
       </GenericModal>,
     );
@@ -126,7 +127,7 @@ describe("GenericModal", () => {
 
   it("renders when open is true", () => {
     render(
-      <GenericModal open onClose={() => {}} title="Modal Title">
+      <GenericModal open onClose={vi.fn()} title="Modal Title">
         Content
       </GenericModal>,
     );
@@ -152,14 +153,14 @@ describe("GenericToast", () => {
 describe("GenericForm", () => {
   it("renders children", () => {
     const mockForm = {
-      register: () => ({ onChange: () => {}, onBlur: () => {} }),
       formState: { errors: {} },
+      register: () => ({ onBlur: vi.fn(), onChange: vi.fn() }),
     } as unknown as import("react-hook-form").UseFormReturn<
       Record<string, unknown>
     >;
 
     render(
-      <GenericForm form={mockForm} onSubmit={() => {}}>
+      <GenericForm form={mockForm} onSubmit={vi.fn()}>
         <input data-testid="form-input" />
       </GenericForm>,
     );

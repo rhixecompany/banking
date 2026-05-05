@@ -1,5 +1,6 @@
-import { addMockPlaidInitScript } from "@/tests/e2e/helpers/plaid.mock";
 import { expect, test } from "@playwright/test";
+
+import { addMockPlaidInitScript } from "@/tests/e2e/helpers/plaid.mock";
 
 /**
  * E2E: Mock Token Testing
@@ -45,8 +46,8 @@ test.describe("Mock Token Testing", () => {
   });
 
   test("should use mock Plaid token for deterministic testing", async ({
-    page,
     context,
+    page,
   }) => {
     // Inject mock Plaid
     await addMockPlaidInitScript(page, "MOCK_PUBLIC_TOKEN");
@@ -90,8 +91,8 @@ test.describe("Mock Token Testing", () => {
   });
 
   test("should skip external API for mock Dwolla tokens", async ({
-    page,
     context,
+    page,
   }) => {
     // Navigate to create transfer
     await page.goto("/dashboard");

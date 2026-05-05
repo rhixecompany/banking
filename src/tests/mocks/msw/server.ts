@@ -138,20 +138,20 @@ const handlers = [
   // Dwolla: create customer
   http.post(`${DWOLLA_BASE}/customers`, () => {
     const location = `${DWOLLA_BASE}/customers/cust-123`;
-    return new HttpResponse(null, { status: 201, headers: { location } });
+    return new HttpResponse(null, { headers: { location }, status: 201 });
   }),
 
   // Dwolla: create funding source for customer
   http.post(`${DWOLLA_BASE}/customers/:id/funding-sources`, ({ params }) => {
     const id = params.id;
     const location = `${DWOLLA_BASE}/funding-sources/fs-${id}-1`;
-    return new HttpResponse(null, { status: 201, headers: { location } });
+    return new HttpResponse(null, { headers: { location }, status: 201 });
   }),
 
   // Dwolla: create transfer
   http.post(`${DWOLLA_BASE}/transfers`, () => {
     const location = `${DWOLLA_BASE}/transfers/transfer-123`;
-    return new HttpResponse(null, { status: 201, headers: { location } });
+    return new HttpResponse(null, { headers: { location }, status: 201 });
   }),
 ];
 

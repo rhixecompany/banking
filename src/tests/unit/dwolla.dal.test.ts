@@ -122,8 +122,8 @@ function setupSelectMock(rows: unknown[]): void {
   });
   mockWhere.mockReturnValue(thenableObject);
   mockFrom.mockReturnValue({
-    where: mockWhere,
     limit: vi.fn().mockResolvedValue(rows),
+    where: mockWhere,
   });
   mockSelect.mockReturnValue({ from: mockFrom });
 }

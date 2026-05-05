@@ -14,8 +14,8 @@ vi.mock("next/navigation", () => ({
 vi.mock("@/actions/plaid.actions", () => ({
   getAllWalletsWithDetails: vi.fn(async () => ({
     ok: true,
-    walletsWithDetails: [],
     totalBalance: 0,
+    walletsWithDetails: [],
   })),
   removeWallet: vi.fn(async () => ({ ok: true })),
 }));
@@ -31,8 +31,8 @@ describe("MyWalletsServerWrapper", () => {
     expect(res).toBeDefined();
     const props = extractPropsFromElement(res);
     expect(props).toMatchObject({
-      walletsWithDetails: [],
       totalBalance: 0,
+      walletsWithDetails: [],
     });
     expect(typeof props.removeWallet).toBe("function");
   });

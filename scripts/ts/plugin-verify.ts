@@ -4,7 +4,7 @@
  * Validates that plugins in project config match runtime plugins
  *
  * Enhancements:
- * - Uses bunx opencode debug config for runtime config
+ * - Uses opencode debug config for runtime config
  * - Loads project config from multiple paths
  * - Reads and understands .opencode/report.json and docs/schema-design.md
  * - Detects missing plugins, extra plugins, missing configurations, duplicates
@@ -478,7 +478,7 @@ async function main(): Promise<void> {
     log(`  CRITICAL: Critically low disk space - ${diskSpace.freeGB} GB free`);
   }
 
-  log("[3/9] Running bunx opencode debug config...");
+  log("[3/9] Running opencode debug config...");
   let runtimeConfig = {};
   try {
     // Increase Node memory to prevent OutOfMemory errors in opencode CLI

@@ -1,7 +1,6 @@
 import fs from "fs";
 import path from "path";
-
-import { runChecks } from "../../scripts/verify-rules";
+import { runChecks } from "scripts/verify-rules";
 
 describe("verify-rules basic checks", () => {
   it("generates a report and respects allowlist", async () => {

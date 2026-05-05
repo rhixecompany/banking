@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-05T09:16:48.574Z",
+  "generatedAt": "2026-05-05T21:51:57.907Z",
   "results": [
     {
       "check": "process.env-usage",
@@ -234,6 +234,14 @@
     },
     {
       "check": "process.env-usage",
+      "file": "init-env.ts",
+      "line": 6,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
+    },
+    {
+      "check": "process.env-usage",
       "file": "next-sitemap.config.ts",
       "line": 12,
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
@@ -321,122 +329,6 @@
       "snippet": "process.env"
     },
     {
-      "check": "no-any",
-      "file": "actions/admin-stats.actions.ts",
-      "line": 49,
-      "message": "Found 'any' type usage (11 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "server-action-auth",
-      "file": "actions/auth.signin.ts",
-      "line": 1,
-      "message": "Server Action does not appear to call auth() early. Server Actions must authenticate first.",
-      "severity": "critical"
-    },
-    {
-      "check": "server-action-auth",
-      "file": "actions/register.ts",
-      "line": 1,
-      "message": "Server Action does not appear to call auth() early. Server Actions must authenticate first.",
-      "severity": "critical"
-    },
-    {
-      "check": "process.env-usage",
-      "file": "database/db.ts",
-      "line": 14,
-      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
-      "severity": "warn",
-      "snippet": "process.env"
-    },
-    {
-      "check": "process.env-usage",
-      "file": "lib/env.ts",
-      "line": 41,
-      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
-      "severity": "critical",
-      "snippet": "process.env"
-    },
-    {
-      "check": "process.env-usage",
-      "file": "lib/env.ts",
-      "line": 49,
-      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
-      "severity": "critical",
-      "snippet": "process.env"
-    },
-    {
-      "check": "process.env-usage",
-      "file": "lib/env.ts",
-      "line": 52,
-      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
-      "severity": "critical",
-      "snippet": "process.env"
-    },
-    {
-      "check": "process.env-usage",
-      "file": "lib/env.ts",
-      "line": 55,
-      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
-      "severity": "critical",
-      "snippet": "process.env"
-    },
-    {
-      "check": "process.env-usage",
-      "file": "lib/env.ts",
-      "line": 56,
-      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
-      "severity": "critical",
-      "snippet": "process.env"
-    },
-    {
-      "check": "process.env-usage",
-      "file": "lib/env.ts",
-      "line": 61,
-      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
-      "severity": "critical",
-      "snippet": "process.env"
-    },
-    {
-      "check": "process.env-usage",
-      "file": "lib/env.ts",
-      "line": 62,
-      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
-      "severity": "critical",
-      "snippet": "process.env"
-    },
-    {
-      "check": "process.env-usage",
-      "file": "lib/env.ts",
-      "line": 70,
-      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
-      "severity": "critical",
-      "snippet": "process.env"
-    },
-    {
-      "check": "process.env-usage",
-      "file": "lib/env.ts",
-      "line": 96,
-      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
-      "severity": "critical",
-      "snippet": "process.env"
-    },
-    {
-      "check": "process.env-usage",
-      "file": "lib/env.ts",
-      "line": 98,
-      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
-      "severity": "critical",
-      "snippet": "process.env"
-    },
-    {
-      "check": "no-any",
-      "file": "lib/logger.ts",
-      "line": 25,
-      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
       "check": "process.env-usage",
       "file": "scripts/export-data.ts",
       "line": 165,
@@ -501,167 +393,6 @@
       "file": "scripts/verify-rules.ts",
       "line": 422,
       "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "tests/setup.ts",
-      "line": 48,
-      "message": "Found 'any' type usage (4 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "components/ui/alert-dialog.tsx",
-      "line": 14,
-      "message": "Found 'any' type usage (9 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "components/ui/aspect-ratio.tsx",
-      "line": 10,
-      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "components/ui/button-group.tsx",
-      "line": 93,
-      "message": "Found 'any' type usage (3 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "components/ui/calendar.tsx",
-      "line": 204,
-      "message": "Found 'any' type usage (4 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "components/ui/checkbox.tsx",
-      "line": 14,
-      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "components/ui/command.tsx",
-      "line": 21,
-      "message": "Found 'any' type usage (13 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "components/ui/context-menu.tsx",
-      "line": 14,
-      "message": "Found 'any' type usage (19 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "components/ui/dialog.tsx",
-      "line": 15,
-      "message": "Found 'any' type usage (10 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "components/ui/drawer.tsx",
-      "line": 13,
-      "message": "Found 'any' type usage (13 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "components/ui/field.tsx",
-      "line": 168,
-      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "components/ui/form.tsx",
-      "line": 167,
-      "message": "Found 'any' type usage (3 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "components/ui/hover-card.tsx",
-      "line": 13,
-      "message": "Found 'any' type usage (6 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "components/ui/item.tsx",
-      "line": 33,
-      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "components/ui/label.tsx",
-      "line": 13,
-      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "components/ui/menubar.tsx",
-      "line": 14,
-      "message": "Found 'any' type usage (25 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "components/ui/number-input.tsx",
-      "line": 47,
-      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "components/ui/popover.tsx",
-      "line": 13,
-      "message": "Found 'any' type usage (7 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "components/ui/radio-group.tsx",
-      "line": 14,
-      "message": "Found 'any' type usage (4 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "components/ui/scroll-area.tsx",
-      "line": 13,
-      "message": "Found 'any' type usage (6 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "components/ui/select.tsx",
-      "line": 14,
-      "message": "Found 'any' type usage (20 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "components/ui/slider.tsx",
-      "line": 13,
-      "message": "Found 'any' type usage (6 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "components/ui/tabs.tsx",
-      "line": 14,
-      "message": "Found 'any' type usage (7 occurrences). Avoid using any.",
       "severity": "warn"
     },
     {
@@ -1072,265 +803,112 @@
       "severity": "warn"
     },
     {
-      "check": "process.env-usage",
-      "file": "tests/e2e/global-setup.ts",
-      "line": 274,
-      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
-      "severity": "warn",
-      "snippet": "process.env"
-    },
-    {
-      "check": "process.env-usage",
-      "file": "tests/e2e/global-setup.ts",
-      "line": 276,
-      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
-      "severity": "warn",
-      "snippet": "process.env"
-    },
-    {
-      "check": "process.env-usage",
-      "file": "tests/e2e/global-setup.ts",
-      "line": 282,
-      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
-      "severity": "warn",
-      "snippet": "process.env"
-    },
-    {
-      "check": "process.env-usage",
-      "file": "tests/e2e/global-setup.ts",
-      "line": 284,
-      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
-      "severity": "warn",
-      "snippet": "process.env"
-    },
-    {
-      "check": "process.env-usage",
-      "file": "tests/e2e/global-setup.ts",
-      "line": 324,
-      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
-      "severity": "warn",
-      "snippet": "process.env"
-    },
-    {
-      "check": "process.env-usage",
-      "file": "tests/e2e/global-setup.ts",
-      "line": 326,
-      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
-      "severity": "warn",
-      "snippet": "process.env"
-    },
-    {
-      "check": "process.env-usage",
-      "file": "tests/e2e/global-teardown.ts",
-      "line": 24,
-      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
-      "severity": "warn",
-      "snippet": "process.env"
-    },
-    {
-      "check": "process.env-usage",
-      "file": "tests/e2e/global-teardown.ts",
-      "line": 89,
-      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
-      "severity": "warn",
-      "snippet": "process.env"
-    },
-    {
       "check": "no-any",
-      "file": "tests/e2e/mock-tokens.spec.ts",
-      "line": 43,
-      "message": "Found 'any' type usage (5 occurrences). Avoid using any.",
+      "file": "src/actions/admin-stats.actions.ts",
+      "line": 49,
+      "message": "Found 'any' type usage (11 occurrences). Avoid using any.",
       "severity": "warn"
     },
     {
       "check": "process.env-usage",
-      "file": "tests/fixtures/auth.ts",
-      "line": 64,
+      "file": "src/database/db.ts",
+      "line": 14,
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
       "severity": "warn",
       "snippet": "process.env"
     },
     {
       "check": "process.env-usage",
-      "file": "tests/fixtures/auth.ts",
+      "file": "src/lib/env.ts",
+      "line": 41,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
+    },
+    {
+      "check": "process.env-usage",
+      "file": "src/lib/env.ts",
+      "line": 49,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
+    },
+    {
+      "check": "process.env-usage",
+      "file": "src/lib/env.ts",
+      "line": 52,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
+    },
+    {
+      "check": "process.env-usage",
+      "file": "src/lib/env.ts",
+      "line": 55,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
+    },
+    {
+      "check": "process.env-usage",
+      "file": "src/lib/env.ts",
+      "line": 56,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
+    },
+    {
+      "check": "process.env-usage",
+      "file": "src/lib/env.ts",
+      "line": 61,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
+    },
+    {
+      "check": "process.env-usage",
+      "file": "src/lib/env.ts",
+      "line": 62,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
+    },
+    {
+      "check": "process.env-usage",
+      "file": "src/lib/env.ts",
       "line": 70,
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
       "severity": "warn",
       "snippet": "process.env"
     },
     {
-      "check": "no-any",
-      "file": "tests/utils/serverWrapperTestUtils.ts",
-      "line": 27,
-      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
-      "severity": "warn"
+      "check": "process.env-usage",
+      "file": "src/lib/env.ts",
+      "line": 96,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
+    },
+    {
+      "check": "process.env-usage",
+      "file": "src/lib/env.ts",
+      "line": 98,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
     },
     {
       "check": "no-any",
-      "file": "tests/unit/auth-form.layout.test.tsx",
-      "line": 21,
-      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "tests/unit/dashboard-client-wrapper.test.tsx",
-      "line": 11,
-      "message": "Found 'any' type usage (3 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "tests/unit/dashboard-server-wrapper.test.ts",
-      "line": 44,
-      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "tests/unit/DashboardClientWrapper.props.test.tsx",
-      "line": 7,
-      "message": "Found 'any' type usage (3 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "tests/unit/error-tracking.test.ts",
-      "line": 37,
-      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "tests/unit/mcp-runner.verify.test.ts",
-      "line": 42,
-      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "tests/unit/my-wallets-client-wrapper.test.tsx",
-      "line": 39,
-      "message": "Found 'any' type usage (4 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "tests/unit/my-wallets-server-wrapper.test.ts",
-      "line": 41,
-      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "tests/unit/payment-transfer-form.test.tsx",
-      "line": 12,
-      "message": "Found 'any' type usage (7 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "tests/unit/payment-transfer-server-wrapper.test.ts",
-      "line": 45,
-      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "tests/unit/PaymentTransferClientWrapper.props.test.tsx",
-      "line": 56,
-      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "tests/unit/plan-ensure-comprehensive.test.ts",
-      "line": 10,
-      "message": "Found 'any' type usage (11 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "tests/unit/plan-ensure.scoring.test.ts",
-      "line": 11,
-      "message": "Found 'any' type usage (4 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "tests/unit/settings-client.layout.test.tsx",
-      "line": 10,
-      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "tests/unit/settings-profile-form.test.tsx",
-      "line": 13,
-      "message": "Found 'any' type usage (3 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "tests/unit/settings-server-wrapper.test.ts",
-      "line": 44,
-      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "tests/unit/SettingsClientWrapper.props.test.tsx",
+      "file": "src/lib/logger.ts",
       "line": 25,
       "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
       "severity": "warn"
     },
     {
       "check": "no-any",
-      "file": "tests/unit/total-balance.test.tsx",
-      "line": 21,
-      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "tests/unit/transaction-history-server-wrapper.test.ts",
-      "line": 34,
-      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "tests/unit/transaction-list.test.tsx",
-      "line": 10,
-      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "tests/unit/transaction-mapping.test.ts",
-      "line": 22,
-      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "tests/unit/transfer-summary.test.tsx",
-      "line": 15,
-      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "tests/unit/wallets-overview.test.tsx",
-      "line": 27,
-      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
-      "severity": "warn"
-    },
-    {
-      "check": "no-any",
-      "file": "tests/verify-rules/verify-rules.test.ts",
-      "line": 20,
-      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
+      "file": "src/tests/setup.ts",
+      "line": 48,
+      "message": "Found 'any' type usage (4 occurrences). Avoid using any.",
       "severity": "warn"
     },
     {
@@ -1453,8 +1031,424 @@
       "severity": "warn"
     },
     {
+      "check": "no-any",
+      "file": "src/components/ui/alert-dialog.tsx",
+      "line": 14,
+      "message": "Found 'any' type usage (9 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/components/ui/aspect-ratio.tsx",
+      "line": 10,
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/components/ui/button-group.tsx",
+      "line": 93,
+      "message": "Found 'any' type usage (3 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/components/ui/calendar.tsx",
+      "line": 204,
+      "message": "Found 'any' type usage (4 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/components/ui/checkbox.tsx",
+      "line": 14,
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/components/ui/command.tsx",
+      "line": 21,
+      "message": "Found 'any' type usage (13 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/components/ui/context-menu.tsx",
+      "line": 14,
+      "message": "Found 'any' type usage (19 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/components/ui/dialog.tsx",
+      "line": 15,
+      "message": "Found 'any' type usage (10 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/components/ui/drawer.tsx",
+      "line": 13,
+      "message": "Found 'any' type usage (13 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/components/ui/field.tsx",
+      "line": 168,
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/components/ui/form.tsx",
+      "line": 167,
+      "message": "Found 'any' type usage (3 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/components/ui/hover-card.tsx",
+      "line": 13,
+      "message": "Found 'any' type usage (6 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/components/ui/item.tsx",
+      "line": 33,
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/components/ui/label.tsx",
+      "line": 13,
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/components/ui/menubar.tsx",
+      "line": 14,
+      "message": "Found 'any' type usage (25 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/components/ui/number-input.tsx",
+      "line": 47,
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/components/ui/popover.tsx",
+      "line": 13,
+      "message": "Found 'any' type usage (7 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/components/ui/radio-group.tsx",
+      "line": 14,
+      "message": "Found 'any' type usage (4 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/components/ui/scroll-area.tsx",
+      "line": 13,
+      "message": "Found 'any' type usage (6 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/components/ui/select.tsx",
+      "line": 14,
+      "message": "Found 'any' type usage (20 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/components/ui/slider.tsx",
+      "line": 13,
+      "message": "Found 'any' type usage (6 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/components/ui/tabs.tsx",
+      "line": 14,
+      "message": "Found 'any' type usage (7 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
       "check": "process.env-usage",
-      "file": "tests/e2e/helpers/auth.ts",
+      "file": "src/tests/e2e/global-setup.ts",
+      "line": 274,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
+    },
+    {
+      "check": "process.env-usage",
+      "file": "src/tests/e2e/global-setup.ts",
+      "line": 276,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
+    },
+    {
+      "check": "process.env-usage",
+      "file": "src/tests/e2e/global-setup.ts",
+      "line": 282,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
+    },
+    {
+      "check": "process.env-usage",
+      "file": "src/tests/e2e/global-setup.ts",
+      "line": 284,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
+    },
+    {
+      "check": "process.env-usage",
+      "file": "src/tests/e2e/global-setup.ts",
+      "line": 324,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
+    },
+    {
+      "check": "process.env-usage",
+      "file": "src/tests/e2e/global-setup.ts",
+      "line": 326,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
+    },
+    {
+      "check": "process.env-usage",
+      "file": "src/tests/e2e/global-teardown.ts",
+      "line": 24,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
+    },
+    {
+      "check": "process.env-usage",
+      "file": "src/tests/e2e/global-teardown.ts",
+      "line": 89,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
+    },
+    {
+      "check": "no-any",
+      "file": "src/tests/e2e/mock-tokens.spec.ts",
+      "line": 43,
+      "message": "Found 'any' type usage (5 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "process.env-usage",
+      "file": "src/tests/fixtures/auth.ts",
+      "line": 64,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
+    },
+    {
+      "check": "process.env-usage",
+      "file": "src/tests/fixtures/auth.ts",
+      "line": 70,
+      "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
+      "severity": "warn",
+      "snippet": "process.env"
+    },
+    {
+      "check": "no-any",
+      "file": "src/tests/utils/serverWrapperTestUtils.ts",
+      "line": 27,
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/tests/unit/auth-form.layout.test.tsx",
+      "line": 21,
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/tests/unit/dashboard-client-wrapper.test.tsx",
+      "line": 11,
+      "message": "Found 'any' type usage (3 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/tests/unit/dashboard-server-wrapper.test.ts",
+      "line": 44,
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/tests/unit/DashboardClientWrapper.props.test.tsx",
+      "line": 7,
+      "message": "Found 'any' type usage (3 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/tests/unit/error-tracking.test.ts",
+      "line": 37,
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/tests/unit/mcp-runner.verify.test.ts",
+      "line": 42,
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/tests/unit/my-wallets-client-wrapper.test.tsx",
+      "line": 39,
+      "message": "Found 'any' type usage (4 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/tests/unit/my-wallets-server-wrapper.test.ts",
+      "line": 41,
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/tests/unit/payment-transfer-form.test.tsx",
+      "line": 12,
+      "message": "Found 'any' type usage (7 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/tests/unit/payment-transfer-server-wrapper.test.ts",
+      "line": 45,
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/tests/unit/PaymentTransferClientWrapper.props.test.tsx",
+      "line": 56,
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/tests/unit/plan-ensure-comprehensive.test.ts",
+      "line": 11,
+      "message": "Found 'any' type usage (11 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/tests/unit/plan-ensure.scoring.test.ts",
+      "line": 11,
+      "message": "Found 'any' type usage (4 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/tests/unit/settings-client.layout.test.tsx",
+      "line": 10,
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/tests/unit/settings-profile-form.test.tsx",
+      "line": 13,
+      "message": "Found 'any' type usage (3 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/tests/unit/settings-server-wrapper.test.ts",
+      "line": 44,
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/tests/unit/SettingsClientWrapper.props.test.tsx",
+      "line": 25,
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/tests/unit/total-balance.test.tsx",
+      "line": 21,
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/tests/unit/transaction-history-server-wrapper.test.ts",
+      "line": 34,
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/tests/unit/transaction-list.test.tsx",
+      "line": 10,
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/tests/unit/transaction-mapping.test.ts",
+      "line": 22,
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/tests/unit/transfer-summary.test.tsx",
+      "line": 15,
+      "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/tests/unit/wallets-overview.test.tsx",
+      "line": 27,
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "no-any",
+      "file": "src/tests/verify-rules/verify-rules.test.ts",
+      "line": 20,
+      "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
+      "severity": "warn"
+    },
+    {
+      "check": "process.env-usage",
+      "file": "src/tests/e2e/helpers/auth.ts",
       "line": 20,
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
       "severity": "warn",
@@ -1462,7 +1456,7 @@
     },
     {
       "check": "process.env-usage",
-      "file": "tests/e2e/helpers/auth.ts",
+      "file": "src/tests/e2e/helpers/auth.ts",
       "line": 28,
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
       "severity": "warn",
@@ -1470,14 +1464,14 @@
     },
     {
       "check": "no-any",
-      "file": "tests/e2e/helpers/auth.ts",
+      "file": "src/tests/e2e/helpers/auth.ts",
       "line": 61,
       "message": "Found 'any' type usage (4 occurrences). Avoid using any.",
       "severity": "warn"
     },
     {
       "check": "process.env-usage",
-      "file": "tests/e2e/helpers/db.ts",
+      "file": "src/tests/e2e/helpers/db.ts",
       "line": 95,
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
       "severity": "warn",
@@ -1485,7 +1479,7 @@
     },
     {
       "check": "process.env-usage",
-      "file": "tests/e2e/helpers/db.ts",
+      "file": "src/tests/e2e/helpers/db.ts",
       "line": 96,
       "message": "Direct process.env usage detected. Use app-config.ts or lib/env.ts instead.",
       "severity": "warn",
@@ -1493,59 +1487,52 @@
     },
     {
       "check": "no-any",
-      "file": "tests/e2e/utils/auth-fixtures.ts",
+      "file": "src/tests/e2e/utils/auth-fixtures.ts",
       "line": 49,
       "message": "Found 'any' type usage (4 occurrences). Avoid using any.",
       "severity": "warn"
     },
     {
       "check": "no-any",
-      "file": "tests/fixtures/pages/base.page.ts",
+      "file": "src/tests/fixtures/pages/base.page.ts",
       "line": 77,
       "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
       "severity": "warn"
     },
     {
       "check": "no-any",
-      "file": "tests/fixtures/pages/payment-transfer.page.ts",
+      "file": "src/tests/fixtures/pages/payment-transfer.page.ts",
       "line": 138,
       "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
       "severity": "warn"
     },
     {
       "check": "no-any",
-      "file": "tests/mocks/ui/select.tsx",
+      "file": "src/tests/mocks/ui/select.tsx",
       "line": 60,
       "message": "Found 'any' type usage (14 occurrences). Avoid using any.",
       "severity": "warn"
     },
     {
       "check": "no-any",
-      "file": "tests/unit/dal/user.dal.test.ts",
+      "file": "src/tests/unit/dal/user.dal.test.ts",
       "line": 48,
       "message": "Found 'any' type usage (7 occurrences). Avoid using any.",
       "severity": "warn"
     },
     {
       "check": "no-any",
-      "file": "tests/unit/dal/wallet.dal.test.ts",
+      "file": "src/tests/unit/dal/wallet.dal.test.ts",
       "line": 197,
       "message": "Found 'any' type usage (1 occurrences). Avoid using any.",
       "severity": "warn"
     },
     {
       "check": "no-any",
-      "file": "app/api/dwolla/webhook/route.ts",
+      "file": "src/app/api/dwolla/webhook/route.ts",
       "line": 27,
       "message": "Found 'any' type usage (2 occurrences). Avoid using any.",
       "severity": "warn"
-    },
-    {
-      "check": "home-auth",
-      "file": "components/home/home-server-wrapper.tsx",
-      "line": 1,
-      "message": "Home page must remain public/static and not call auth().",
-      "severity": "critical"
     }
   ]
 }

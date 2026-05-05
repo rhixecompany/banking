@@ -2,15 +2,8 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("@/database/db", () => ({
   db: {
-    select: vi.fn().mockReturnValue({
-      from: vi.fn().mockReturnValue({
-        where: vi.fn().mockReturnValue({
-          orderBy: vi.fn().mockReturnValue({
-            limit: vi.fn().mockResolvedValue([]),
-          }),
-          limit: vi.fn().mockResolvedValue([]),
-        }),
-      }),
+    delete: vi.fn().mockReturnValue({
+      where: vi.fn().mockResolvedValue({ rowsAffected: 1 }),
     }),
     insert: vi.fn().mockReturnValue({
       values: vi.fn().mockReturnValue({
@@ -22,21 +15,28 @@ vi.mock("@/database/db", () => ({
         ]),
       }),
     }),
-    delete: vi.fn().mockReturnValue({
-      where: vi.fn().mockResolvedValue({ rowsAffected: 1 }),
+    select: vi.fn().mockReturnValue({
+      from: vi.fn().mockReturnValue({
+        where: vi.fn().mockReturnValue({
+          limit: vi.fn().mockResolvedValue([]),
+          orderBy: vi.fn().mockReturnValue({
+            limit: vi.fn().mockResolvedValue([]),
+          }),
+        }),
+      }),
     }),
   },
 }));
 
 vi.mock("@/database/schema", () => ({
   errors: {
+    createdAt: "createdAt",
     id: "id",
     message: "message",
     path: "path",
     severity: "severity",
     stack: "stack",
     userId: "userId",
-    createdAt: "createdAt",
   },
 }));
 

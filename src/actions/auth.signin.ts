@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import * as z from "zod";
 
 import { userDal } from "@/dal/user.dal";
+import { auth } from "@/lib/auth";
 
 /**
  * Description placeholder
@@ -27,6 +28,7 @@ const SignInSchema = z.object({
  * @returns {Promise<{ ok: boolean; error?: string }>}
  */
 export default async function signin(payload: unknown) {
+  await auth();
   const parsed = SignInSchema.safeParse(payload);
   if (!parsed.success) return { error: "Invalid input", ok: false };
   const { email, password } = parsed.data;

@@ -12,8 +12,9 @@
  * @see coding-standards.md (currency precision rules)
  */
 
-import { TransferSchema } from "@/lib/schemas/transfer.schema";
 import { describe, expect, it } from "vitest";
+
+import { TransferSchema } from "@/lib/schemas/transfer.schema";
 
 describe("TransferSchema - Amount Validation (Currency Precision)", () => {
   const validTransfer = {
@@ -236,8 +237,8 @@ describe("TransferSchema - Amount Validation (Currency Precision)", () => {
         ...validTransfer,
         createLedger: {
           category: "transfer",
-          type: "debit",
           status: "pending",
+          type: "debit",
         },
       };
       const result = TransferSchema.safeParse(transferWithLedger);

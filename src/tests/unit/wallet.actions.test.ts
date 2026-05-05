@@ -34,9 +34,9 @@ describe("disconnectWallet", () => {
     // Simulate an authenticated session so validation runs
     // Provide the minimal required user shape expected by our auth typings.
     vi.mocked(auth).mockResolvedValue({
-      user: { id: "test-user-id", isAdmin: false, isActive: true },
       // next-auth Session requires an expires ISO string
       expires: new Date(Date.now() + 1000 * 60 * 60).toISOString(),
+      user: { id: "test-user-id", isActive: true, isAdmin: false },
     });
     const result = await disconnectWallet("not-a-uuid");
     expect(result.ok).toBe(false);

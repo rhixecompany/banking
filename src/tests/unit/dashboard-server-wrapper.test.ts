@@ -17,7 +17,7 @@ vi.mock("@/actions/wallet.actions", () => ({
   getUserWallets: vi.fn(async () => ({ ok: true, wallets: [] })),
 }));
 vi.mock("@/actions/plaid.actions", () => ({
-  getAllAccounts: vi.fn(async () => ({ ok: true, accounts: [] })),
+  getAllAccounts: vi.fn(async () => ({ accounts: [], ok: true })),
 }));
 vi.mock("@/actions/transaction.actions", () => ({
   getRecentTransactions: vi.fn(async () => ({ ok: true, transactions: [] })),
@@ -34,9 +34,9 @@ describe("DashboardServerWrapper", () => {
     expect(res).toBeDefined();
     const props = extractPropsFromElement(res);
     expect(props).toMatchObject({
-      wallets: [],
       accounts: [],
       transactions: [],
+      wallets: [],
     });
   });
 

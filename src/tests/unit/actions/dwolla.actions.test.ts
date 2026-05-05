@@ -34,18 +34,18 @@ describe("Dwolla Actions (mock short-circuit)", () => {
 
     const payload = {
       amount: "5.00",
-      sourceFundingSourceUrl:
-        "https://api.dwolla.com/funding-sources/mock-src-1",
-      destinationFundingSourceUrl:
-        "https://api.dwolla.com/funding-sources/mock-dst-1",
       createLedger: {
         amount: "5.00",
+        name: "Test Transfer",
         receiverWalletId: "wallet-1",
         senderWalletId: "wallet-2",
-        name: "Test Transfer",
         status: "pending",
         type: "debit",
       },
+      destinationFundingSourceUrl:
+        "https://api.dwolla.com/funding-sources/mock-dst-1",
+      sourceFundingSourceUrl:
+        "https://api.dwolla.com/funding-sources/mock-src-1",
     };
 
     const result = await createTransfer(payload);
