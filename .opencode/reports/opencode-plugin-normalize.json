@@ -1,12 +1,12 @@
 {
-  "changed": false,
   "configSources": {
-    "projectOpencode": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
-    "projectTui": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\tui.json",
-    "globalOpencode": "C:\\Users\\Alexa\\.config\\opencode\\opencode.json",
-    "globalTui": "C:\\Users\\Alexa\\.config\\opencode\\tui.json"
+    "projectOpencode": "C:/Users/Alexa/Desktop/SandBox/Banking/.opencode/opencode.json",
+    "projectTui": "C:/Users/Alexa/Desktop/SandBox/Banking/.opencode/tui.json",
+    "globalOpencode": "C:/Users/Alexa/.config/opencode/opencode.json",
+    "globalTui": "C:/Users/Alexa/.config/opencode/tui.json"
   },
-  "dedupedCount": 24,
   "originalCount": 24,
-  "removedPlugins": []
+  "dedupedCount": 24,
+  "removedPlugins": [],
+  "changed": false
 }
