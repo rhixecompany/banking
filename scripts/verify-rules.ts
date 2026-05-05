@@ -9,82 +9,74 @@ import { Project, SyntaxKind } from "ts-morph";
 import { logger } from "@/lib/logger";
 
 /**
- * Description placeholder
- * @author Adminbot
- *
- * @typedef {Severity}
+ * Rule violation severity levels.
+ * - `critical`: Fails CI and blocks merge
+ * - `warn`: Logged but does not fail CI
+ * - `info`: Informational only
  */
 type Severity = "critical" | "info" | "warn";
 
 /**
- * Description placeholder
- * @author Adminbot
- *
+ * AST-detected code issue from verify-rules checks.
  * @interface Issue
- * @typedef {Issue}
  */
 interface Issue {
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {string}
-   */
+  /** File path where issue was detected */
   file: string;
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {number}
-   */
+  /** Line number of issue */
   line: number;
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {string}
-   */
+  /** Rule check identifier (e.g., "process.env-usage", "no-any") */
   check: string;
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {Severity}
-   */
+  /** Severity level */
   severity: Severity;
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {string}
-   */
+  /** Human-readable error message */
   message: string;
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {?string}
-   */
+  /** Optional code snippet from the violation */
   snippet?: string;
 }
 
 /**
- * Description placeholder
- * @author Adminbot
+ * Configuration options for rules verification.
+ * @interface VerifyRulesConfig
+ */
+interface VerifyRulesConfig {
+  /** Custom severity overrides per check name */
+  severities?: Record<string, Severity>;
+  /** File patterns to exclude from checks */
+  allowlist?: string[];
+}
+
+/**
+ * Verification report result containing all detected issues.
+ * @interface VerificationReport
+ */
+interface VerificationReport {
+  /** ISO timestamp when report was generated */
+  generatedAt: string;
+  /** All issues found */
+  results: Issue[];
+}
+
+/**
+ * Run all code style and architecture checks on matched files.
+ * - Detects direct process.env usage (should use app-config.ts)
+ * - Detects direct DB imports in UI components (should use DAL)
+ * - Detects missing auth() calls in Server Actions
+ * - Detects missing Zod validation in Server Actions
+ * - Detects non-standard return shape in Server Actions
+ * - Detects auth calls and DB access in home page (must be static/public)
+ * - Enforces large change plan requirement (>7 files)
  *
  * @export
  * @async
- * @param {{
- *     patterns?: string[];
- *     allowlist?: string[];
- *     out?: string;
- *     ci?: boolean;
- *     // When true, require a plan file to be present for large changes (>7 files)
- *     requirePlanForLargeChanges?: boolean;
- *     // Base ref used to compute changed files (git diff base...HEAD)
- *     planBase?: string;
- *   }} [opts={}]
- * @returns {unknown}
+ * @param {object} [opts={}] - Verification options
+ * @param {string[]} [opts.patterns] - Glob patterns to check (default: app, components, lib, actions)
+ * @param {string[]} [opts.allowlist] - File patterns to exclude from checks
+ * @param {string} [opts.out] - Output report path (default: .opencode/reports/rules-report.json)
+ * @param {boolean} [opts.ci] - CI mode: fail on critical violations (default: false)
+ * @param {boolean} [opts.requirePlanForLargeChanges] - Require plan for >7 file changes
+ * @param {string} [opts.planBase] - Base ref for git diff (default: origin/main)
+ * @returns {Promise<VerificationReport>} Verification report with all issues found
  */
 export async function runChecks(
   opts: {
@@ -97,10 +89,10 @@ export async function runChecks(
     // Base ref used to compute changed files (git diff base...HEAD)
     planBase?: string;
   } = {},
-) {
+): Promise<VerificationReport> {
   logger.info("Starting verify-rules with opts:", opts);
   // Load optional config
-  let config: any = {};
+  let config: VerifyRulesConfig = {};
   const configPath = ".opencode/verify-rules.config.json";
   try {
     if (fs.existsSync(configPath)) {
@@ -119,7 +111,7 @@ export async function runChecks(
   ];
   logger.info("Resolved patterns:", patterns);
   const allowlist = opts.allowlist ?? config.allowlist ?? [];
-  const files = await (globby as any)(patterns, { gitignore: true });
+  const files = await globby(patterns, { gitignore: true });
 
   const issues: Issue[] = [];
 
@@ -131,7 +123,7 @@ export async function runChecks(
     skipAddingFilesFromTsConfig: true,
     tsConfigFilePath: "tsconfig.json",
   });
-  const tsFiles = await (globby as any)([
+  const tsFiles = await globby([
     "**/*.{ts,tsx}",
     "!node_modules/**",
     "!**/*.d.ts",
@@ -188,9 +180,7 @@ export async function runChecks(
     const anyNodes = sf.getDescendantsOfKind(SyntaxKind.AnyKeyword);
     if (anyNodes.length > 0) {
       const n = anyNodes[0];
-      const { line } = n.getStartLineNumber
-        ? { line: n.getStartLineNumber() }
-        : { line: 0 };
+      const line = n.getStartLineNumber();
       const sev = config.severities?.["no-any"] || "warn";
       issues.push({
         check: "no-any",
@@ -330,7 +320,10 @@ export async function runChecks(
     }
   }
 
-  const report = { generatedAt: new Date().toISOString(), results: issues };
+  const report: VerificationReport = {
+    generatedAt: new Date().toISOString(),
+    results: issues,
+  };
   const outPath = opts.out ?? ".opencode/reports/rules-report.json";
   try {
     const dir = path.dirname(outPath);
@@ -396,14 +389,15 @@ export async function runChecks(
 }
 
 /**
- * Description placeholder
- * @author Adminbot
+ * Enforce plan requirement for large changes (>7 files).
+ * Checks if any existing plan in .opencode/commands or .cursor/plans
+ * references the changed files. If coverage is found, considers it compliant.
  *
  * @async
- * @param {string} base
- * @param {(boolean | undefined)} ci
- * @param {Issue[]} issues
- * @returns {Promise<boolean>}
+ * @param {string} base - Base git ref for diff (e.g., "origin/main")
+ * @param {boolean | undefined} ci - CI mode flag
+ * @param {Issue[]} issues - Existing issues array to append warnings to
+ * @returns {Promise<boolean>} True if coverage found or change is small; false if large change lacks plan
  */
 async function ensurePlanForLargeChanges(
   base: string,
@@ -439,7 +433,7 @@ async function ensurePlanForLargeChanges(
     ".opencode/commands/*.plan.md",
     ".cursor/plans/*.plan.md",
   ];
-  const planFiles = await (globby as any)(planPatterns, { gitignore: true });
+  const planFiles = await globby(planPatterns, { gitignore: true });
 
   // If any plan contains a reference to one of the changed files, consider covered
   let covered = false;
@@ -474,10 +468,8 @@ async function ensurePlanForLargeChanges(
 }
 
 /**
- * Description placeholder
- * @author Adminbot
- *
- * @type {*}
+ * Detect if this script is being run directly (not imported as module).
+ * Used to conditionally execute CLI when invoked directly.
  */
 const isMain = process.argv.some(
   (a) =>

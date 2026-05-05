@@ -19,16 +19,41 @@ import {
   rollbackRestore,
   runValidations,
   writeCatalog,
+  DiscoveryRecord,
 } from "./mcp-runner-lib";
 
 /**
- * Description placeholder
- * @author Adminbot
+ * Audit artifact recording MCP runner execution details.
+ * @interface AuditArtifact
+ */
+interface AuditArtifact {
+  /** Command outputs captured during discovery */
+  commands: {
+    dockerPs: string | null;
+    gateway: string | null;
+  };
+  /** File operations performed */
+  files: {
+    backups: string[];
+    written: string[];
+  };
+  /** Command-line flags used */
+  flags: Record<string, unknown>;
+  /** ISO timestamp of execution */
+  timestamp: string;
+  /** Results of post-apply validation commands */
+  validations: { name: string; ok: boolean }[];
+}
+
+/**
+ * Main entry point for MCP runner CLI.
+ * Discovers running MCP servers via Docker/Gateway, merges with existing catalog,
+ * generates helper scripts, and runs post-apply validations.
  *
  * @async
- * @returns {*}
+ * @returns {Promise<void>}
  */
-export async function main() {
+export async function main(): Promise<void> {
   const argv = await yargs(hideBin(process.argv))
     .option("dry-run", { default: true, type: "boolean" })
     .option("apply", { default: false, type: "boolean" })
@@ -66,7 +91,7 @@ export async function main() {
   // Attempt gateway discovery first, capture outputs for audit
   let gatewayOut = "";
   let dockerPsOut = "";
-  const discoveryRecords = [] as any[];
+  const discoveryRecords: DiscoveryRecord[] = [];
   try {
     gatewayOut = execSync("docker mcp gateway run --profile adminbot", {
       encoding: "utf8",
@@ -175,7 +200,7 @@ export async function main() {
   logger.warn("Applying changes...");
 
   // Prepare audit artifact
-  const audit: any = {
+  const audit: AuditArtifact = {
     commands: {
       dockerPs: dockerPsOut ? dockerPsOut.slice(0, 20000) : null,
       gateway: gatewayOut ? gatewayOut.slice(0, 20000) : null,
