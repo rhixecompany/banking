@@ -261,7 +261,7 @@ await db.transaction(async (tx) => {
 
 ## Soft Delete Pattern
 
-All find methods automatically filter `deletedAt IS NULL`:
+All find methods automatically filter `deletedAt IS NULL` at the database level:
 
 ```typescript
 async findById(id: string) {
@@ -270,6 +270,43 @@ async findById(id: string) {
   return user;
 }
 ```
+
+**Standard Filtering Approach (Phase B.2 Standardization):**
+
+All DAL helpers use database-level filtering with `isNull()` to exclude soft-deleted records. This approach:
+
+1. **Prevents unnecessary row transfers** — Database filters before returning data
+2. **Clarifies SQL intent** — `WHERE deletedAt IS NULL` explicitly shows filter in generated SQL
+3. **Unifies pattern across DAL** — All tables follow the same convention
+
+**Soft-delete across tables:**
+
+- **users table:** `isNull(users.deletedAt)` in `user.dal.ts` `findByEmail()`, `findById()`, `findByIdWithProfile()`
+- **wallets table:** `isNull(wallets.deletedAt)` in `wallet.dal.ts` `findById()`, `findBySharableId()`, `findByAccountId()`
+- **transactions table:** `isNull(transactions.deletedAt)` in `transaction.dal.ts` `findByUserId()`, etc.
+- **recipients table:** Hard delete only (no `deletedAt` column; use cascade delete instead)
+
+**NEVER use `where()` without soft-delete check:**
+
+```typescript
+// ❌ WRONG (returns deleted records too)
+async findById(id: string) {
+  return await db.select().from(users).where(eq(users.id, id));
+}
+
+// ✅ CORRECT (excludes soft-deleted)
+async findById(id: string) {
+  return await db.select().from(users)
+    .where(and(eq(users.id, id), isNull(users.deletedAt)));
+}
+```
+
+**Testing soft deletes:**
+
+See `tests/e2e/soft-delete.spec.ts` for comprehensive E2E tests covering:
+- Soft-deleted users excluded from active queries
+- Soft-deleted wallets excluded from active queries
+- Soft-deleted transactions excluded from active queries
 
 ## N+1 Prevention Pattern: Batch Fetch Example
 
