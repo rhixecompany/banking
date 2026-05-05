@@ -43,6 +43,7 @@ Phase C successfully implemented comprehensive E2E and unit test coverage for al
    - Validates no duplicates in DB after retry
 
 **Coverage:**
+
 - File: `database/schema.ts` (lines 696–698) — `idempotencyKey` column with unique constraint
 - DAL: `dal/dwolla-transfer.dal.ts` (if exists)
 - Action: `actions/dwolla.actions.ts`
@@ -74,6 +75,7 @@ Phase C successfully implemented comprehensive E2E and unit test coverage for al
    - Validates ledger consistency
 
 **Coverage:**
+
 - File: `database/schema.ts` (lines 53–132, 462–566, 572–674) — `deletedAt` columns
 - DAL: `dal/user.dal.ts`, `dal/wallet.dal.ts`, `dal/transaction.dal.ts` — All standardized to `isNull()` filtering
 - Pattern: Standardized to DB-level `and(eq(...), isNull(deletedAt))`
@@ -105,6 +107,7 @@ Phase C successfully implemented comprehensive E2E and unit test coverage for al
    - Edge cases: empty string, no prefix
 
 **Coverage:**
+
 - File: `lib/plaid.ts` (function `isMockAccessToken()`)
 - Actions: `actions/dwolla.actions.ts`, `actions/plaid.actions.ts`
 - Helpers: `tests/e2e/helpers/plaid.mock.ts`
@@ -150,6 +153,7 @@ Phase C successfully implemented comprehensive E2E and unit test coverage for al
    - Validates URL schema enforcement
 
 **Coverage:**
+
 - File: `lib/schemas/transfer.schema.ts` (lines 6–52) — TransferSchema with amount refine check
 - Pattern: Amount stored as string, validated with parseFloat() and positive check
 - DB: `database/schema.ts` — amounts stored as `numeric(12,2)` (no floating-point)

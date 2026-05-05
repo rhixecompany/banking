@@ -33,7 +33,7 @@
       "values": ["user", "admin", "moderator"]
     }
   },
-  "id": "f8ccd6c5-9bef-4046-800c-14bba76e14de",
+  "id": "3f3b086b-1347-4dda-8fa7-e408f26034e3",
   "policies": {},
   "prevId": "00000000-0000-0000-0000-000000000000",
   "roles": {},
@@ -312,6 +312,12 @@
           "primaryKey": false,
           "notNull": false
         },
+        "idempotency_key": {
+          "name": "idempotency_key",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
         "id": {
           "name": "id",
           "type": "text",
@@ -407,6 +413,21 @@
           "concurrently": false,
           "method": "btree",
           "with": {}
+        },
+        "dwolla_transfers_idempotency_key_idx": {
+          "name": "dwolla_transfers_idempotency_key_idx",
+          "columns": [
+            {
+              "expression": "idempotency_key",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         }
       },
       "foreignKeys": {
@@ -439,7 +460,13 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
+      "uniqueConstraints": {
+        "dwolla_transfers_idempotency_key_unique": {
+          "name": "dwolla_transfers_idempotency_key_unique",
+          "nullsNotDistinct": false,
+          "columns": ["idempotency_key"]
+        }
+      },
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false

@@ -12,8 +12,8 @@
  * @see coding-standards.md (currency precision rules)
  */
 
-import { describe, it, expect } from "vitest";
 import { TransferSchema } from "@/lib/schemas/transfer.schema";
+import { describe, expect, it } from "vitest";
 
 describe("TransferSchema - Amount Validation (Currency Precision)", () => {
   const validTransfer = {
@@ -21,8 +21,7 @@ describe("TransferSchema - Amount Validation (Currency Precision)", () => {
     currency: "USD",
     destinationFundingSourceUrl:
       "https://api.dwolla.com/funding-sources/receiver-id",
-    sourceFundingSourceUrl:
-      "https://api.dwolla.com/funding-sources/sender-id",
+    sourceFundingSourceUrl: "https://api.dwolla.com/funding-sources/sender-id",
   };
 
   describe("Valid Amounts (Exactly 2 Decimals)", () => {
@@ -79,7 +78,9 @@ describe("TransferSchema - Amount Validation (Currency Precision)", () => {
         amount: "25",
       });
       expect(result.success).toBe(false);
-      expect(result.error?.issues[0].message).toContain("exactly 2 decimal places");
+      expect(result.error?.issues[0].message).toContain(
+        "exactly 2 decimal places",
+      );
     });
 
     it("should reject amount with 1 decimal place", () => {
@@ -88,7 +89,9 @@ describe("TransferSchema - Amount Validation (Currency Precision)", () => {
         amount: "25.5",
       });
       expect(result.success).toBe(false);
-      expect(result.error?.issues[0].message).toContain("exactly 2 decimal places");
+      expect(result.error?.issues[0].message).toContain(
+        "exactly 2 decimal places",
+      );
     });
 
     it("should reject amount with 3 decimal places", () => {
@@ -97,7 +100,9 @@ describe("TransferSchema - Amount Validation (Currency Precision)", () => {
         amount: "25.500",
       });
       expect(result.success).toBe(false);
-      expect(result.error?.issues[0].message).toContain("exactly 2 decimal places");
+      expect(result.error?.issues[0].message).toContain(
+        "exactly 2 decimal places",
+      );
     });
 
     it("should reject amount with trailing zeros and more decimals", () => {
@@ -169,7 +174,9 @@ describe("TransferSchema - Amount Validation (Currency Precision)", () => {
         amount: "0.30000000000000004",
       });
       expect(result.success).toBe(false);
-      expect(result.error?.issues[0].message).toContain("exactly 2 decimal places");
+      expect(result.error?.issues[0].message).toContain(
+        "exactly 2 decimal places",
+      );
     });
 
     it("should reject amounts with extra precision from floating-point operations", () => {
@@ -218,8 +225,7 @@ describe("TransferSchema - Amount Validation (Currency Precision)", () => {
         currency: "USD",
         destinationFundingSourceUrl:
           "https://api.dwolla.com/funding-sources/destination",
-        sourceFundingSourceUrl:
-          "https://api.dwolla.com/funding-sources/source",
+        sourceFundingSourceUrl: "https://api.dwolla.com/funding-sources/source",
       };
       const result = TransferSchema.safeParse(fullTransfer);
       expect(result.success).toBe(true);
@@ -247,7 +253,7 @@ describe("TransferSchema - Amount Validation (Currency Precision)", () => {
       });
       expect(result.success).toBe(false);
       expect(!result.success && result.error.issues[0].message).toContain(
-        "exactly 2 decimal places"
+        "exactly 2 decimal places",
       );
     });
   });

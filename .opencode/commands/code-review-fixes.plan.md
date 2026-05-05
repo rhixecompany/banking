@@ -1,9 +1,6 @@
 # Plan: Code Review Fixes - Financial Safety & Pattern Compliance
 
-**Plan Name:** code-review-fixes
-**Description:** Implement critical and high-priority fixes from comprehensive code review
-**Status:** In Progress
-**Last Updated:** 2026-05-05
+**Plan Name:** code-review-fixes **Description:** Implement critical and high-priority fixes from comprehensive code review **Status:** In Progress **Last Updated:** 2026-05-05
 
 ---
 
@@ -38,6 +35,7 @@ Both issues are **security-critical** for financial applications and must be fix
 ## Implementation Status
 
 ✅ **COMPLETED:**
+
 - [x] Phase 1.1: Create Idempotency Key Utility Function (lib/validation-utils.ts)
 - [x] Phase 1.2: Fix Idempotency Key Generation in createTransfer()
 - [x] Phase 1.3: Add Currency Precision Validation
@@ -46,6 +44,7 @@ Both issues are **security-critical** for financial applications and must be fix
 - [x] Plan document created
 
 ⏳ **IN PROGRESS:**
+
 - [ ] Phase 2: Unit tests for idempotency and currency validation
 - [ ] Phase 3: Verification and validation
 
@@ -56,11 +55,13 @@ Both issues are **security-critical** for financial applications and must be fix
 ### Change 1: Deterministic Idempotency Key (actions/dwolla.actions.ts:340-347)
 
 **Before:**
+
 ```typescript
 const idempotencyKey = crypto.randomUUID();
 ```
 
 **After:**
+
 ```typescript
 import { generateIdempotencyKey } from "@/lib/validation-utils";
 
@@ -76,6 +77,7 @@ const idempotencyKey = generateIdempotencyKey(
 ### Change 2: Currency Precision Validation (lib/schemas/transfer.schema.ts:7-27)
 
 **Before:**
+
 ```typescript
 .refine(
   (val) =>
@@ -87,6 +89,7 @@ const idempotencyKey = generateIdempotencyKey(
 ```
 
 **After:**
+
 ```typescript
 .refine(
   (val) => {
@@ -136,4 +139,3 @@ export function generateIdempotencyKey(
 - Idempotency Pattern: `.opencode/skills/banking/reference/idempotency-key-pattern.md`
 - Transfer Schema: `lib/schemas/transfer.schema.ts`
 - Dwolla Actions: `actions/dwolla.actions.ts`
-

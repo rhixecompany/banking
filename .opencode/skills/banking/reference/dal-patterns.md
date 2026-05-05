@@ -304,6 +304,7 @@ async findById(id: string) {
 **Testing soft deletes:**
 
 See `tests/e2e/soft-delete.spec.ts` for comprehensive E2E tests covering:
+
 - Soft-deleted users excluded from active queries
 - Soft-deleted wallets excluded from active queries
 - Soft-deleted transactions excluded from active queries

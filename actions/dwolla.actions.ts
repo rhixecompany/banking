@@ -344,7 +344,7 @@ export async function createTransfer(input: unknown): Promise<{
   const idempotencyKey = generateIdempotencyKey(
     parsed.data.sourceFundingSourceUrl,
     parsed.data.destinationFundingSourceUrl,
-    parsed.data.amount
+    parsed.data.amount,
   );
 
   // Check if this exact transfer (by idempotency key) already exists

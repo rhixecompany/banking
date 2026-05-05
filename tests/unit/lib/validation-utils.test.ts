@@ -12,8 +12,8 @@
  * @see idempotency-key-pattern.md
  */
 
-import { describe, it, expect } from "vitest";
 import { generateIdempotencyKey } from "@/lib/validation-utils";
+import { describe, expect, it } from "vitest";
 
 describe("generateIdempotencyKey", () => {
   const senderUrl = "https://api.dwolla.com/funding-sources/sender-123";
@@ -42,7 +42,7 @@ describe("generateIdempotencyKey", () => {
       const key2 = generateIdempotencyKey(
         "https://api.dwolla.com/funding-sources/sender-999",
         receiverUrl,
-        amount
+        amount,
       );
       expect(key1).not.toBe(key2);
     });
@@ -52,7 +52,7 @@ describe("generateIdempotencyKey", () => {
       const key2 = generateIdempotencyKey(
         senderUrl,
         "https://api.dwolla.com/funding-sources/receiver-999",
-        amount
+        amount,
       );
       expect(key1).not.toBe(key2);
     });
@@ -85,8 +85,7 @@ describe("generateIdempotencyKey", () => {
   describe("Edge Cases", () => {
     it("should handle very long URLs", () => {
       const longUrl =
-        "https://api.dwolla.com/funding-sources/" +
-        "a".repeat(1000);
+        "https://api.dwolla.com/funding-sources/" + "a".repeat(1000);
       const key = generateIdempotencyKey(longUrl, receiverUrl, amount);
       expect(key).toMatch(/^[a-f0-9]{64}$/);
     });
@@ -94,7 +93,11 @@ describe("generateIdempotencyKey", () => {
     it("should handle special characters in URLs", () => {
       const urlWithSpecialChars =
         "https://api.dwolla.com/funding-sources/test%20id&param=value";
-      const key = generateIdempotencyKey(urlWithSpecialChars, receiverUrl, amount);
+      const key = generateIdempotencyKey(
+        urlWithSpecialChars,
+        receiverUrl,
+        amount,
+      );
       expect(key).toMatch(/^[a-f0-9]{64}$/);
     });
 
@@ -104,7 +107,11 @@ describe("generateIdempotencyKey", () => {
     });
 
     it("should handle very large amounts", () => {
-      const key = generateIdempotencyKey(senderUrl, receiverUrl, "999999999.99");
+      const key = generateIdempotencyKey(
+        senderUrl,
+        receiverUrl,
+        "999999999.99",
+      );
       expect(key).toMatch(/^[a-f0-9]{64}$/);
     });
   });
@@ -126,14 +133,14 @@ describe("generateIdempotencyKey", () => {
       const key1 = generateIdempotencyKey(
         "https://api.dwolla.com/funding-sources/sender",
         "https://api.dwolla.com/funding-sources/receiver",
-        amount
+        amount,
       );
 
       // Same combined content but different parameter split
       const key2 = generateIdempotencyKey(
         "https://api.dwolla.com/funding-sources/",
         "senderhttps://api.dwolla.com/funding-sources/receiver",
-        amount
+        amount,
       );
 
       // Keys must be different because parameters differ
@@ -143,8 +150,10 @@ describe("generateIdempotencyKey", () => {
 
   describe("Real-World Scenarios", () => {
     it("should handle typical Dwolla funding source URLs", () => {
-      const dwolaUrl1 = "https://api.dwolla.com/funding-sources/4de30d41-524f-47d5-b44d-9db7d10e7f9a";
-      const dwolaUrl2 = "https://api.dwolla.com/funding-sources/5de30d41-524f-47d5-b44d-9db7d10e7f9b";
+      const dwolaUrl1 =
+        "https://api.dwolla.com/funding-sources/4de30d41-524f-47d5-b44d-9db7d10e7f9a";
+      const dwolaUrl2 =
+        "https://api.dwolla.com/funding-sources/5de30d41-524f-47d5-b44d-9db7d10e7f9b";
       const transferAmount = "150.50";
 
       const key1 = generateIdempotencyKey(dwolaUrl1, dwolaUrl2, transferAmount);
@@ -157,11 +166,12 @@ describe("generateIdempotencyKey", () => {
 
     it("should generate valid idempotency keys for ACH transfers", () => {
       const senderAch = "https://api.dwolla.com/funding-sources/sender-ach-id";
-      const receiverAch = "https://api.dwolla.com/funding-sources/receiver-ach-id";
+      const receiverAch =
+        "https://api.dwolla.com/funding-sources/receiver-ach-id";
       const amounts = ["100.00", "500.00", "1000.00"];
 
       const keys = amounts.map((amt) =>
-        generateIdempotencyKey(senderAch, receiverAch, amt)
+        generateIdempotencyKey(senderAch, receiverAch, amt),
       );
 
       // All keys should be unique

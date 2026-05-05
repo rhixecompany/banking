@@ -46,7 +46,7 @@ import { createHash } from "crypto";
 export function generateIdempotencyKey(
   senderUrl: string,
   receiverUrl: string,
-  amount: string
+  amount: string,
 ): string {
   // Combine all request parameters with delimiter
   // Using pipes (|) to avoid ambiguity (e.g., "A|BC" vs "AB|C")

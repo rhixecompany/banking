@@ -40,6 +40,7 @@ CREATE TABLE "dwolla_transfers" (
 	"currency" varchar(3) DEFAULT 'USD',
 	"destination_funding_source_url" text,
 	"dwolla_transfer_id" text,
+	"idempotency_key" varchar(255) NOT NULL,
 	"id" text PRIMARY KEY NOT NULL,
 	"receiver_wallet_id" text,
 	"sender_wallet_id" text,
@@ -47,7 +48,8 @@ CREATE TABLE "dwolla_transfers" (
 	"status" varchar(50),
 	"transfer_url" text,
 	"updated_at" timestamp DEFAULT now() NOT NULL,
-	"user_id" text
+	"user_id" text,
+	CONSTRAINT "dwolla_transfers_idempotency_key_unique" UNIQUE("idempotency_key")
 );
 --> statement-breakpoint
 CREATE TABLE "errors" (
@@ -183,6 +185,7 @@ CREATE INDEX "authenticator_user_id_idx" ON "authenticator" USING btree ("userId
 CREATE INDEX "dwolla_transfers_user_id_idx" ON "dwolla_transfers" USING btree ("user_id");--> statement-breakpoint
 CREATE INDEX "dwolla_transfers_status_idx" ON "dwolla_transfers" USING btree ("status");--> statement-breakpoint
 CREATE INDEX "dwolla_transfers_created_at_idx" ON "dwolla_transfers" USING btree ("created_at");--> statement-breakpoint
+CREATE UNIQUE INDEX "dwolla_transfers_idempotency_key_idx" ON "dwolla_transfers" USING btree ("idempotency_key");--> statement-breakpoint
 CREATE INDEX "errors_created_at_idx" ON "errors" USING btree ("created_at");--> statement-breakpoint
 CREATE INDEX "errors_user_id_idx" ON "errors" USING btree ("user_id");--> statement-breakpoint
 CREATE INDEX "errors_severity_idx" ON "errors" USING btree ("severity");--> statement-breakpoint

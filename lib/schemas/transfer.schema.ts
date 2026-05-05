@@ -21,10 +21,14 @@ export const TransferSchema = z.object({
         return !Number.isNaN(parsed) && parsed > 0;
       },
       {
-        error: "Amount must be a positive number with exactly 2 decimal places (e.g., '25.00')",
+        error:
+          "Amount must be a positive number with exactly 2 decimal places (e.g., '25.00')",
       },
     )
-    .meta({ description: "Transfer amount as decimal string with exactly 2 decimal places (e.g. '25.00')" }),
+    .meta({
+      description:
+        "Transfer amount as decimal string with exactly 2 decimal places (e.g. '25.00')",
+    }),
   // Optional ledger creation - when provided, creates transaction record in DAL
   createLedger: z
     .object({
@@ -61,8 +65,9 @@ export const TransferSchema = z.object({
 });
 
 /**
- * Description placeholder
- * @author Adminbot
+ * Transfer type inferred from TransferSchema.
+ * Represents an ACH transfer request with amount, funding sources, and optional ledger creation.
+ * Used by createTransfer() Server Action to validate and process Dwolla ACH transfers.
  *
  * @export
  * @typedef {Transfer}
