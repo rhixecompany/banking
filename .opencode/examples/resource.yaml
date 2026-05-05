@@ -11,7 +11,7 @@ repo: https://github.com/example/opencode-mcp-database
 tagline: MCP server for database access and querying
 description: A Model Context Protocol (MCP) server that provides
   OpenCode with database access capabilities.
-  
+
   Supports
   - PostgreSQL, MySQL, SQLite
   - Read-only query execution
@@ -24,8 +24,8 @@ description: A Model Context Protocol (MCP) server that provides
 # Scope defines where the extension can be installed (defaults to [global])
 # For MCP servers, scope indicates global vs project-specific config
 scope:
-  - global   # System-wide MCP server
-  - project  # Project-specific database access
+  - global # System-wide MCP server
+  - project # Project-specific database access
 
 tags:
   - mcp-server

@@ -1,6 +1,8 @@
 ---
 description: Instructions for implementing task plans with progressive tracking and change record
-applyTo: "**/.copilot-tracking/changes/*.md"
+applyTo: "**/*"
+priority: high
+canonicalSource: AGENTS.md
 category: process
 tags: [implementation, planning, tracking]
 source: .github/instructions/task-implementation.instructions.md
@@ -9,9 +11,9 @@ date: 2026-05-03
 
 # Task Plan Implementation Instructions
 
-You will implement your specific task plan located in `.copilot-tracking/plans/**` and `.copilot-tracking/details/**`. Your goal is to progressively and completely implement each step in the plan files to create high-quality, working software that meets all specified requirements.
+You will implement your specific task plan located in `,opencode/plans/**` and `,opencode/commands/**`. Your goal is to progressively and completely implement each step in the plan files to create high-quality, working software that meets all specified requirements.
 
-Implementation progress MUST be tracked in corresponding changes files located in `.copilot-tracking/changes/**`.
+Implementation progress MUST be tracked in corresponding changes files located in `,opencode/commands/**`.
 
 ## Core Implementation Process
 

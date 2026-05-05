@@ -23,8 +23,8 @@ description: A custom agent configuration for security-focused code review.
 # Scope defines where the extension can be installed (defaults to [global])
 # Agents can be installed globally or per-project
 scope:
-  - global   # ~/.config/opencode/agent/
-  - project  # .opencode/agent/
+  - global # ~/.config/opencode/agent/
+  - project # .opencode/agent/
 
 tags:
   - security

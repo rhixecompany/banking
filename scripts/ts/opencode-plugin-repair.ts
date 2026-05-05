@@ -440,7 +440,8 @@ async function normalizeAndBackupConfigs(
     originalCount: allPlugins.length,
     dedupedCount: dedupedPlugins.length,
     removedPlugins,
-    changed: JSON.stringify(configs.projectOpencode) !== JSON.stringify(finalConfig),
+    changed:
+      JSON.stringify(configs.projectOpencode) !== JSON.stringify(finalConfig),
     timestamp,
   };
   await writeJsonFile(NORMALIZE_REPORT, normalizeReport);
@@ -652,9 +653,7 @@ async function runVerification(args: CliArgs): Promise<void> {
 
 // ─── Write Final Report ────────────────────────────────────────────────────────
 
-async function writeRepairReport(
-  report: RepairReport,
-): Promise<void> {
+async function writeRepairReport(report: RepairReport): Promise<void> {
   log("[7/7] Writing repair report...");
   await writeJsonFile(REPAIR_REPORT, report);
   log(`✓ Repair report: ${REPAIR_REPORT}`);

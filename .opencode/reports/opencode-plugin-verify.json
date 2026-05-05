@@ -1,17 +1,7 @@
 {
-  "expectedCount": 9,
-  "extras": [],
-  "missing": [],
-  "ok": true,
-  "projectConfig": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\aiconfig.json",
-  "projectDuplicates": [],
-  "runtimeConfig": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\reports\\opencode-debug-config.runtime.json",
-  "runtimeCount": 9,
-  "runtimeDuplicates": [],
-  "missingConfigurations": [],
   "configComparison": {
     "$schema": {
-      "source": "project",
+      "source": "both",
       "present": true
     },
     "agent": {
@@ -75,18 +65,24 @@
       "present": true
     }
   },
-  "schemaAnalysis": {
-    "fileExists": true,
-    "contentLength": 16617,
-    "extensionTypes": [],
-    "configLocations": {}
+  "diskSpace": {
+    "freeBytes": 1066704896,
+    "freeGB": 1,
+    "status": "warn"
   },
-  "reportAnalysis": null,
+  "expectedCount": 24,
+  "extras": [],
+  "mcpHealthSummary": {
+    "total": 9,
+    "ok": 9,
+    "authRequired": 0,
+    "unreachable": 0,
+    "error": 0
+  },
+  "missing": [],
+  "missingConfigurations": [],
+  "ok": true,
   "osCompatibility": {
-    "opencode-mem": {
-      "compatible": true,
-      "reason": "Memory plugin has known issues on Windows - use global config instead"
-    },
     "opencode-mystatus": {
       "compatible": true
     },
@@ -110,6 +106,74 @@
     },
     "@howaboua/opencode-planning-toolkit": {
       "compatible": true
+    },
+    "@slkiser/opencode-quota": {
+      "compatible": true
+    },
+    "smart-codebase": {
+      "compatible": true
+    },
+    "opencode-devcontainers": {
+      "compatible": true
+    },
+    "@zenobius/opencode-background": {
+      "compatible": true
+    },
+    "@franlol/opencode-md-table-formatter": {
+      "compatible": true
+    },
+    "open-plan-annotator": {
+      "compatible": true
+    },
+    "octto": {
+      "compatible": true
+    },
+    "opencode-cost-guard": {
+      "compatible": true
+    },
+    "@gotgenes/opencode-agent-identity": {
+      "compatible": true
+    },
+    "opencode-agent-memory": {
+      "compatible": true
+    },
+    "opencode-pty": {
+      "compatible": true
+    },
+    "oc-tps@latest": {
+      "compatible": true
+    },
+    "opencode-helicone-session": {
+      "compatible": true
+    },
+    "@nick-vi/opencode-type-inject": {
+      "compatible": true
+    },
+    "opencode-firecrawl": {
+      "compatible": true
+    },
+    "@zenobius/opencode-skillful": {
+      "compatible": true
     }
-  }
+  },
+  "projectConfig": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
+  "projectDuplicates": [],
+  "reportAnalysis": null,
+  "runtimeConfig": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\reports\\opencode-debug-config.runtime.json",
+  "runtimeCount": 24,
+  "runtimeDuplicates": [],
+  "schemaAnalysis": {
+    "fileExists": true,
+    "contentLength": 16617,
+    "extensionTypes": [],
+    "configLocations": {
+      "~/.config/opencode/opencode.json": "~/.config/opencode/plugin/",
+      "~/.config/opencode/themes/": "~/.config/opencode/command/",
+      "~/.config/opencode/agent/": "~/.config/opencode/skill/<name>/SKILL.md"
+    },
+    "parseWarnings": [
+      "Config section has odd number of backtick-quoted values (incomplete key-value pair)"
+    ]
+  },
+  "timestamp": "2026-05-04T23:49:36.441Z"
 }

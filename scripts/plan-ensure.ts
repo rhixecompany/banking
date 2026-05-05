@@ -136,7 +136,9 @@ async function getChangedFilesFromGit(): Promise<string[]> {
  * @param {string} [base="origin/main"] - Base branch reference for comparison
  * @returns {Promise<string[]>} Array of file paths changed since base (empty if none)
  */
-async function getChangedFilesFromRange(base = "origin/main"): Promise<string[]> {
+async function getChangedFilesFromRange(
+  base = "origin/main",
+): Promise<string[]> {
   try {
     const out = execSync(`git diff --name-only ${base}...HEAD`, {
       encoding: "utf8",

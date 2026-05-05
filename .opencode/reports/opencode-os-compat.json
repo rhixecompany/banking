@@ -1,0 +1,122 @@
+[
+  {
+    "plugin": "opencode-mystatus",
+    "compatible": true,
+    "reason": ""
+  },
+  {
+    "plugin": "opencode-handoff",
+    "compatible": true,
+    "reason": ""
+  },
+  {
+    "plugin": "@tarquinen/opencode-dcp",
+    "compatible": true,
+    "reason": ""
+  },
+  {
+    "plugin": "@ramarivera/opencode-model-announcer",
+    "compatible": true,
+    "reason": ""
+  },
+  {
+    "plugin": "opencode-snippets",
+    "compatible": true,
+    "reason": ""
+  },
+  {
+    "plugin": "opencode-agent-skills",
+    "compatible": true,
+    "reason": ""
+  },
+  {
+    "plugin": "superpowers@git+https://github.com/obra/superpowers.git",
+    "compatible": true,
+    "reason": ""
+  },
+  {
+    "plugin": "@howaboua/opencode-planning-toolkit",
+    "compatible": true,
+    "reason": ""
+  },
+  {
+    "plugin": "@slkiser/opencode-quota",
+    "compatible": true,
+    "reason": ""
+  },
+  {
+    "plugin": "smart-codebase",
+    "compatible": true,
+    "reason": ""
+  },
+  {
+    "plugin": "opencode-devcontainers",
+    "compatible": true,
+    "reason": ""
+  },
+  {
+    "plugin": "@zenobius/opencode-background",
+    "compatible": true,
+    "reason": ""
+  },
+  {
+    "plugin": "@franlol/opencode-md-table-formatter",
+    "compatible": true,
+    "reason": ""
+  },
+  {
+    "plugin": "open-plan-annotator",
+    "compatible": true,
+    "reason": ""
+  },
+  {
+    "plugin": "octto",
+    "compatible": true,
+    "reason": ""
+  },
+  {
+    "plugin": "opencode-cost-guard",
+    "compatible": true,
+    "reason": ""
+  },
+  {
+    "plugin": "@gotgenes/opencode-agent-identity",
+    "compatible": true,
+    "reason": ""
+  },
+  {
+    "plugin": "opencode-agent-memory",
+    "compatible": true,
+    "reason": ""
+  },
+  {
+    "plugin": "opencode-pty",
+    "compatible": true,
+    "reason": ""
+  },
+  {
+    "plugin": "oc-tps@latest",
+    "compatible": true,
+    "reason": ""
+  },
+  {
+    "plugin": "opencode-helicone-session",
+    "compatible": true,
+    "reason": ""
+  },
+  {
+    "plugin": "@nick-vi/opencode-type-inject",
+    "compatible": true,
+    "reason": ""
+  },
+  {
+    "plugin": "opencode-firecrawl",
+    "compatible": true,
+    "reason": ""
+  },
+  {
+    "plugin": "@zenobius/opencode-skillful",
+    "compatible": true,
+    "reason": ""
+  }
+]

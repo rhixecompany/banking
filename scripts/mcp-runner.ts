@@ -10,6 +10,7 @@ import { logger } from "@/lib/logger";
 
 import {
   diffLists,
+  DiscoveryRecord,
   generateHelper,
   mergeCatalog,
   parseDockerPsOutput,
@@ -19,7 +20,6 @@ import {
   rollbackRestore,
   runValidations,
   writeCatalog,
-  DiscoveryRecord,
 } from "./mcp-runner-lib";
 
 /**

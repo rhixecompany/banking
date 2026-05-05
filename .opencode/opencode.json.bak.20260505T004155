@@ -138,15 +138,16 @@
     "@franlol/opencode-md-table-formatter",
     "open-plan-annotator",
     "octto",
+    "opencode-mem",
+    "opencode-beads",
+    "opencode-websearch-cited@1.2.0",
     "opencode-cost-guard",
+    "opencode-ignore",
     "@gotgenes/opencode-agent-identity",
     "opencode-agent-memory",
-    "opencode-pty",
-    "oc-tps@latest",
-    "opencode-helicone-session",
-    "@nick-vi/opencode-type-inject",
-    "opencode-firecrawl",
-    "@zenobius/opencode-skillful"
+    "opencode-sessions",
+    "@liannnix/opencode-ntfy",
+    "opencode-synced"
   ],
   "provider": {
     "anthropic": {

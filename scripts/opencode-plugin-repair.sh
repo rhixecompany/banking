@@ -172,15 +172,19 @@ const fs = require('fs');
 
 const [opencodePath, tuiPath, globalOpencodePath, globalTuiPath, nextPath, pluginPath, dirPath, reportPath] = process.argv.slice(2);
 
-function loadConfig(path) {
+function loadConfig(path, strict) {
   if (!fs.existsSync(path)) return null;
+  const content = fs.readFileSync(path, 'utf-8').trim();
+  if (!content) return null;
   try {
-    const content = fs.readFileSync(path, 'utf-8').trim();
-    if (!content) return null;
     const parsed = JSON.parse(content);
     if (!parsed || (Object.keys(parsed).length === 0)) return null;
     return parsed;
   } catch (e) {
+    if (strict) {
+      process.stderr.write(`ERROR: Failed to parse config at ${path}: ${e.message}\nFix the JSON syntax error before running repair.\n`);
+      process.exit(1);
+    }
     return null;
   }
 }
@@ -190,10 +194,10 @@ function extractPlugins(config) {
   return Array.isArray(config.plugin) ? config.plugin.filter(p => typeof p === 'string') : [];
 }
 
-const projectOpencode = loadConfig(opencodePath);
-const projectTui = loadConfig(tuiPath);
-const globalOpencode = loadConfig(globalOpencodePath);
-const globalTui = loadConfig(tuiPath);
+const projectOpencode = loadConfig(opencodePath, true);
+const projectTui = loadConfig(tuiPath, false);
+const globalOpencode = loadConfig(globalOpencodePath, false);
+const globalTui = loadConfig(globalTuiPath, false);
 
 const allPlugins = [
   ...extractPlugins(projectOpencode),

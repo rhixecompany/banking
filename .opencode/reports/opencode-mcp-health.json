@@ -1,0 +1,75 @@
+{
+  "servers": {
+    "context7": {
+      "status": "ok",
+      "exitCode": 0,
+      "stdout": "[cost-guard] Active — limit: $20.0000 | warn at: 80% | mode: warn\n\u001b[90m┌\u001b[39m  MCP OAuth Debug\n\u001b[90m│\u001b[39m\n\u001b[34m●\u001b[39m  Server: context7\n\u001b[90m│\u001b[39m\n\u001b[34m●\u001b[39m  URL: https://mcp.context7.com/mcp\n\u001b[90",
+      "stderr": "",
+      "durationMs": 9038
+    },
+    "exa": {
+      "status": "ok",
+      "exitCode": 0,
+      "stdout": "[cost-guard] Active — limit: $20.0000 | warn at: 80% | mode: warn\n\u001b[90m┌\u001b[39m  MCP OAuth Debug\n\u001b[90m│\u001b[39m\n\u001b[34m●\u001b[39m  Server: exa\n\u001b[90m│\u001b[39m\n\u001b[34m●\u001b[39m  URL: https://mcp.exa.ai/mcp\n\u001b[90m│\u001b[39m\n\u001b[3",
+      "stderr": "",
+      "durationMs": 8975
+    },
+    "filesystem": {
+      "status": "ok",
+      "exitCode": 0,
+      "stdout": "[cost-guard] Active — limit: $20.0000 | warn at: 80% | mode: warn\n\u001b[90m┌\u001b[39m  MCP OAuth Debug\n\u001b[90m│\u001b[39m\n\u001b[31m■\u001b[39m  MCP server filesystem is not a remote server\n\u001b[90m│\u001b[39m\n\u001b[90m└\u001b[39m  Done\n\n",
+      "stderr": "",
+      "durationMs": 7642
+    },
+    "gh_grep": {
+      "status": "ok",
+      "exitCode": 0,
+      "stdout": "[cost-guard] Active — limit: $20.0000 | warn at: 80% | mode: warn\n\u001b[90m┌\u001b[39m  MCP OAuth Debug\n\u001b[90m│\u001b[39m\n\u001b[34m●\u001b[39m  Server: gh_grep\n\u001b[90m│\u001b[39m\n\u001b[34m●\u001b[39m  URL: https://mcp.grep.app\n\u001b[90m│\u001b[39m\n\u001b",
+      "stderr": "",
+      "durationMs": 8632
+    },
+    "github-agentic-workflows": {
+      "status": "ok",
+      "exitCode": 0,
+      "stdout": "[cost-guard] Active — limit: $20.0000 | warn at: 80% | mode: warn\n\u001b[90m┌\u001b[39m  MCP OAuth Debug\n\u001b[90m│\u001b[39m\n\u001b[31m■\u001b[39m  MCP server github-agentic-workflows is not a remote server\n\u001b[90m│\u001b[39m\n\u001b[90m└\u001b[3",
+      "stderr": "",
+      "durationMs": 7569
+    },
+    "memory": {
+      "status": "ok",
+      "exitCode": 0,
+      "stdout": "[cost-guard] Active — limit: $20.0000 | warn at: 80% | mode: warn\n\u001b[90m┌\u001b[39m  MCP OAuth Debug\n\u001b[90m│\u001b[39m\n\u001b[31m■\u001b[39m  MCP server memory is not a remote server\n\u001b[90m│\u001b[39m\n\u001b[90m└\u001b[39m  Done\n\n",
+      "stderr": "",
+      "durationMs": 7659
+    },
+    "next-devtools": {
+      "status": "ok",
+      "exitCode": 0,
+      "stdout": "[cost-guard] Active — limit: $20.0000 | warn at: 80% | mode: warn\n\u001b[90m┌\u001b[39m  MCP OAuth Debug\n\u001b[90m│\u001b[39m\n\u001b[31m■\u001b[39m  MCP server next-devtools is not a remote server\n\u001b[90m│\u001b[39m\n\u001b[90m└\u001b[39m  Done\n\n",
+      "stderr": "",
+      "durationMs": 7644
+    },
+    "playwright": {
+      "status": "ok",
+      "exitCode": 0,
+      "stdout": "[cost-guard] Active — limit: $20.0000 | warn at: 80% | mode: warn\n\u001b[90m┌\u001b[39m  MCP OAuth Debug\n\u001b[90m│\u001b[39m\n\u001b[31m■\u001b[39m  MCP server playwright is not a remote server\n\u001b[90m│\u001b[39m\n\u001b[90m└\u001b[39m  Done\n\n",
+      "stderr": "",
+      "durationMs": 7719
+    },
+    "sequential-thinking": {
+      "status": "ok",
+      "exitCode": 0,
+      "stdout": "[cost-guard] Active — limit: $20.0000 | warn at: 80% | mode: warn\n\u001b[90m┌\u001b[39m  MCP OAuth Debug\n\u001b[90m│\u001b[39m\n\u001b[31m■\u001b[39m  MCP server sequential-thinking is not a remote server\n\u001b[90m│\u001b[39m\n\u001b[90m└\u001b[39m  D",
+      "stderr": "",
+      "durationMs": 7687
+    }
+  },
+  "summary": {
+    "total": 9,
+    "ok": 9,
+    "authRequired": 0,
+    "unreachable": 0,
+    "error": 0
+  },
+  "timestamp": "2026-05-04T23:49:36.449Z"
+}

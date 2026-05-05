@@ -10,9 +10,9 @@ source: .github/instructions/playwright-typescript.instructions.md
 date: 2026-05-03
 ---
 
-## Test Writing Guidelines
+# Test Writing Guidelines
 
-### Code Quality Standards
+## Code Quality Standards
 
 - **Locators**: Prioritize user-facing, role-based locators (`getByRole`, `getByLabel`, `getByText`, etc.) for resilience and accessibility. Use `test.step()` to group interactions and improve test readability and reporting.
 - **Assertions**: Use auto-retrying web-first assertions. These assertions start with the `await` keyword (e.g., `await expect(locator).toHaveText()`). Avoid `expect(locator).toBeVisible()` unless specifically testing for visibility changes.
