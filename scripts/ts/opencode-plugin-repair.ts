@@ -516,8 +516,10 @@ async function checkDiskSpace(): Promise<{
           status,
         });
       }
-    } catch {
+    } catch (err) {
       clearTimeout(timeout);
+      const errMsg = err instanceof Error ? err.message : String(err);
+      log(`  ⚠  Disk space check error (using safe default): ${errMsg}`);
       resolve({ freeBytes: 0, freeGB: 0, status: "ok" });
     }
   });
@@ -577,9 +579,7 @@ async function loadRuntimeConfig(
 
 // ─── Schema & Report Analysis ─────────────────────────────────────────────────
 
-async function analyzeSchemaDesign(
-  templatePath: string,
-): Promise<null | {
+async function analyzeSchemaDesign(templatePath: string): Promise<null | {
   extensionTypes: string[];
   configLocations: Record<string, string>;
   fileExists: boolean;
@@ -597,6 +597,7 @@ async function analyzeSchemaDesign(
           extensionTypes.push(typeMatch[1]);
         }
       }
+      log(`  ✓ Schema parsed: found ${extensionTypes.length} extension types`);
     }
 
     const configLocs: Record<string, string> = {};
@@ -609,6 +610,9 @@ async function analyzeSchemaDesign(
         const key = matches[i][1];
         const value = matches[i + 1][1];
         configLocs[key] = value;
+      }
+      if (Object.keys(configLocs).length > 0) {
+        log(`  ✓ Found ${Object.keys(configLocs).length} config locations`);
       }
     }
 
@@ -711,31 +715,42 @@ async function fixMissingPlugins(
   const installArgs: string[] = ["--force"];
   if (args.printLogs) installArgs.push("--print-logs");
 
+  // Filter compatible plugins
+  const compatiblePlugins: string[] = [];
   for (const plugin of missing) {
     const compat = checkOsCompatibility(plugin);
     if (!compat.compatible) {
       log(`  SKIPPING incompatible plugin: ${plugin} (${compat.reason})`);
       continue;
     }
+    compatiblePlugins.push(plugin);
+  }
 
-    log(`  Installing missing plugin: ${plugin}`);
-    if (args.apply) {
-      try {
-        await runCommand("bunx", [
-          "opencode",
-          "plugin",
-          plugin,
-          ...installArgs,
-        ]);
+  // Process in parallel batches (max 3 concurrent installs)
+  const BATCH_SIZE = 3;
+  for (let i = 0; i < compatiblePlugins.length; i += BATCH_SIZE) {
+    const batch = compatiblePlugins.slice(i, i + BATCH_SIZE);
+    const promises = batch.map(async (plugin) => {
+      log(`  Installing missing plugin: ${plugin}`);
+      if (args.apply) {
+        try {
+          await runCommand("bunx", [
+            "opencode",
+            "plugin",
+            plugin,
+            ...installArgs,
+          ]);
+          fixedMissing.push(plugin);
+          log(`    ✓ Installed ${plugin}`);
+        } catch (e) {
+          log(`    ⚠  Failed to install ${plugin}: ${e}`);
+        }
+      } else {
+        dryLog(["bunx", "opencode", "plugin", plugin, ...installArgs]);
         fixedMissing.push(plugin);
-        log(`    ✓ Installed ${plugin}`);
-      } catch (e) {
-        log(`    ⚠  Failed to install ${plugin}: ${e}`);
       }
-    } else {
-      dryLog(["bunx", "opencode", "plugin", plugin, ...installArgs]);
-      fixedMissing.push(plugin);
-    }
+    });
+    await Promise.all(promises);
   }
 
   log(
@@ -832,7 +847,7 @@ async function normalizeAndBackupConfigs(
   finalConfig: Record<string, unknown>;
   configChanged: boolean;
 }> {
-  log("[2/7] Merging and deduplicating plugin lists...");
+  log("[5/11] Merging and deduplicating plugin lists...");
 
   const allPlugins = [
     ...extractPlugins(configs.projectOpencode),
@@ -1056,7 +1071,7 @@ async function reinstallPlugins(
 
 async function runVerification(args: CliArgs): Promise<void> {
   if (!args.skipVerify) {
-    log("[12/11] Running verification...");
+    log("[Post-1/2] Running verification...");
     if (args.apply) {
       try {
         await runCommand("bunx", ["tsx", VERIFY_SCRIPT]);
@@ -1068,14 +1083,14 @@ async function runVerification(args: CliArgs): Promise<void> {
       log(`DRY-RUN: verification would run via ${VERIFY_SCRIPT}`);
     }
   } else {
-    log("[12/11] Skipping verification (--skip-verify provided)");
+    log("[Post-1/2] Skipping verification (--skip-verify provided)");
   }
 }
 
-// ─── Write Final Report ────────────────────────────────────────────────────────
+// ─── Write Final Report ────────────────────────────────────────────────────
 
 async function writeRepairReport(report: RepairReport): Promise<void> {
-  log("[13/11] Writing repair report...");
+  log("[Post-2/2] Writing repair report...");
   await writeJsonFile(REPAIR_REPORT, report);
   log(`✓ Repair report: ${REPAIR_REPORT}`);
   console.log(JSON.stringify(report, null, 2));

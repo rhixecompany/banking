@@ -99,7 +99,7 @@ bun run opencode:plugins:repair -- --skip-extra-fix
 The script executes a comprehensive 11-phase repair cycle:
 
 | Phase | Name | Purpose |
-|-------|------|---------|
+| --- | --- | --- |
 | **1** | Load Configs | Read plugins from `.opencode/opencode.json`, `.opencode/tui.json`, `~/.config/opencode/opencode.json`, and `~/.config/opencode/tui.json` |
 | **2** | Check Disk Space | Verify sufficient disk space (0.5 GB threshold for `--apply`; 1.0 GB warning threshold) |
 | **3** | Load Runtime Config | Execute `bunx opencode debug config` to get live runtime state (or use `--use-cached-runtime` for cached snapshot) |
