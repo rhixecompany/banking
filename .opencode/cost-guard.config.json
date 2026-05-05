@@ -1,0 +1,5 @@
+{
+  "maxCostUsd": 20.0,
+  "mode": "warn",
+  "warnAtPercent": 80
+}
