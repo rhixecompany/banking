@@ -27,9 +27,10 @@
   "instructions": [
     "rules/code-review.md",
     "rules/commit-messages.md",
+    "rules/debugging.md",
     "rules/documentation.md",
     "rules/github-session-limits.md",
-    "rules/memory-banks.md",
+    "rules/memory-bank.md",
     "rules/nextjs-tailwind.md",
     "rules/performance.md",
     "rules/playwright-typescript.md",
@@ -37,8 +38,10 @@
     "rules/task-implementation.md",
     "rules/tasksync.md",
     "rules/testing.md",
-    "rules/typescripts.md",
-    "rules/update-docs-on-code-change.md"
+    "rules/typescript.md",
+    "rules/update-docs-on-code-change.md",
+    "rules/planning.md",
+    "rules/building.md"
   ],
   "lsp": true,
   "mcp": {
@@ -88,11 +91,7 @@
       "type": "local"
     },
     "next-devtools": {
-      "command": [
-        "bunx",
-        "-y",
-        "next-devtools-mcp@latest"
-      ],
+      "command": ["bunx", "-y", "next-devtools-mcp@latest"],
       "enabled": true,
       "timeout": 900000,
       "type": "local"
@@ -154,26 +153,16 @@
         "gemma-4-e4b-it-8bit": {
           "attachment": true,
           "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
+            "input": ["text", "image"],
+            "output": ["text"]
           },
           "name": "gemma-4-e4b-it-8bit"
         },
         "Qwen3.5-9B-MLX-4bit": {
           "attachment": true,
           "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
+            "input": ["text", "image"],
+            "output": ["text"]
           },
           "name": "Qwen3.5-9B-MLX-4bit"
         }
@@ -204,8 +193,6 @@
     }
   },
   "watcher": {
-    "ignore": [
-      "node_modules"
-    ]
+    "ignore": ["node_modules"]
   }
 }

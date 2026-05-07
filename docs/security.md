@@ -120,6 +120,7 @@ If you believe you have found a security vulnerability, please report it through
 **Please do not report security vulnerabilities through public GitHub issues or pull requests.**
 
 Send an email to opensource-security[@]github.com with:
+
 - The type of issue (e.g., buffer overflow, SQL injection, cross-site scripting)
 - Full paths of source file(s) related to the manifestation of the issue
 - Step-by-step instructions to reproduce the issue
@@ -135,4 +136,4 @@ Send an email to opensource-security[@]github.com with:
 
 ---
 
-*Consolidated from `SECURITY.md` and `docs/secrets-management.md`*
+_Consolidated from `SECURITY.md` and `docs/secrets-management.md`_

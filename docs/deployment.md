@@ -31,14 +31,14 @@ docker-compose -f docker-compose.yml build app
 
 ### Docker Compose Services
 
-| Service | Description |
-|---------|-------------|
-| app | Next.js application |
-| db | PostgreSQL database |
-| redis | Redis cache |
-| traefik | Reverse proxy with HTTPS |
-| prometheus | Metrics collection |
-| grafana | Metrics dashboards |
+| Service    | Description              |
+| ---------- | ------------------------ |
+| app        | Next.js application      |
+| db         | PostgreSQL database      |
+| redis      | Redis cache              |
+| traefik    | Reverse proxy with HTTPS |
+| prometheus | Metrics collection       |
+| grafana    | Metrics dashboards       |
 
 ### Environment Variables
 
@@ -62,6 +62,7 @@ vercel --prod
 ```
 
 **Environment Variables:**
+
 - `DATABASE_URL` — PostgreSQL connection string
 - `NEXTAUTH_SECRET` — NextAuth secret
 - `NEXTAUTH_URL` — Application URL
@@ -81,6 +82,7 @@ Railway offers automatic builds and persistent databases.
 3. Deploy
 
 **Environment Variables:**
+
 - `DATABASE_URL` — PostgreSQL (auto-provisioned)
 - `REDIS_URL` — Redis (auto-provisioned)
 - `NEXTAUTH_SECRET` — Generate with `openssl rand -base64 32`
@@ -94,6 +96,7 @@ Railway offers automatic builds and persistent databases.
 For self-managed hosting with full control.
 
 **Requirements:**
+
 - Ubuntu 20.04+ VPS
 - nginx for reverse proxy
 - PostgreSQL 14+
@@ -119,19 +122,19 @@ npm run build
 
 ## Environment Variables Reference
 
-| Variable | Description | Required |
-|-----------|-------------|----------|
-| `DATABASE_URL` | PostgreSQL connection string | Yes |
-| `NEXTAUTH_SECRET` | NextAuth session secret | Yes |
-| `NEXTAUTH_URL` | Application URL | Yes |
-| `PLAID_CLIENT_ID` | Plaid API client ID | Yes* |
-| `PLAID_SECRET` | Plaid API secret | Yes* |
-| `DWOLLA_KEY` | Dwolla API key | Yes* |
-| `DWOLLA_SECRET` | Dwolla API secret | Yes* |
-| `ENCRYPTION_KEY` | Data encryption key (32 hex) | Yes |
-| `REDIS_URL` | Redis connection string | Yes |
+| Variable          | Description                  | Required |
+| ----------------- | ---------------------------- | -------- |
+| `DATABASE_URL`    | PostgreSQL connection string | Yes      |
+| `NEXTAUTH_SECRET` | NextAuth session secret      | Yes      |
+| `NEXTAUTH_URL`    | Application URL              | Yes      |
+| `PLAID_CLIENT_ID` | Plaid API client ID          | Yes\*    |
+| `PLAID_SECRET`    | Plaid API secret             | Yes\*    |
+| `DWOLLA_KEY`      | Dwolla API key               | Yes\*    |
+| `DWOLLA_SECRET`   | Dwolla API secret            | Yes\*    |
+| `ENCRYPTION_KEY`  | Data encryption key (32 hex) | Yes      |
+| `REDIS_URL`       | Redis connection string      | Yes      |
 
-*Required only if using Plaid/Dwolla features
+\*Required only if using Plaid/Dwolla features
 
 ---
 
@@ -146,4 +149,4 @@ npm run build
 
 ---
 
-*Consolidated from `docs/docker/`, `docs/deploy-to-vercel.md`, `docs/deploy-to-railway.md`, `docs/deploy-to-hostinger.md`*
+_Consolidated from `docs/docker/`, `docs/deploy-to-vercel.md`, `docs/deploy-to-railway.md`, `docs/deploy-to-hostinger.md`_

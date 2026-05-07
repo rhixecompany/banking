@@ -144,6 +144,12 @@ export async function cleanupTestData(
         "DELETE FROM transactions WHERE sender_id = $1 OR receiver_id = $1",
         [userId],
       );
+      await client.query("DELETE FROM dwolla_transfers WHERE user_id = $1", [
+        userId,
+      ]);
+      await client.query("DELETE FROM plaid_items WHERE user_id = $1", [
+        userId,
+      ]);
       await client.query("DELETE FROM recipients WHERE user_id = $1", [userId]);
       await client.query("DELETE FROM wallets WHERE user_id = $1", [userId]);
       await client.query("DELETE FROM user_profiles WHERE user_id = $1", [

@@ -57,7 +57,7 @@ const cfg: Config = {
   },
   dialect: "postgresql",
   out: "database/drizzle",
-  schema: "database/schema.ts",
+  schema: "src/database/schema.ts",
   strict: true,
   // Non-interactive: auto-confirm schema changes (use with caution in production)
   // This fixes the "Interactive prompts require a TTY" error in CI/dev environments

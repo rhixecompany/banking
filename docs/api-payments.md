@@ -84,7 +84,8 @@ const linkTokenRequest = {
   country_codes: ["US"]
 };
 
-const createTokenResponse = await client.linkTokenCreate(linkTokenRequest);
+const createTokenResponse =
+  await client.linkTokenCreate(linkTokenRequest);
 ```
 
 ### Step 2: Exchange Public Token
@@ -152,4 +153,4 @@ Navigate to the Sandbox Dashboard and click "Process Bank Transfers" to move tra
 
 ---
 
-*Consolidated from `docs/services/plaid-api.md` and `docs/services/dwolla-api.md`*
+_Consolidated from `docs/services/plaid-api.md` and `docs/services/dwolla-api.md`_

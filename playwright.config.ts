@@ -61,8 +61,8 @@ export default defineConfig({
   forbidOnly: !!env.CI,
   /* Run tests sequentially — app state is shared (auth, DB). */
   fullyParallel: false,
-  globalSetup: "./tests/e2e/global-setup.ts",
-  globalTeardown: "./tests/e2e/global-teardown.ts",
+  globalSetup: "./src/tests/e2e/global-setup.ts",
+  globalTeardown: "./src/tests/e2e/global-teardown.ts",
 
   /* Configure projects for major browsers */
   projects: [
@@ -116,7 +116,7 @@ export default defineConfig({
 
   /* Retry on CI only — no retries locally to surface real failures immediately */
   retries: env.CI ? 2 : 0,
-  testDir: "./tests/e2e",
+  testDir: "./src/tests/e2e",
 
   /* Per-test timeout - increased for dev server cold start */
   timeout: TIMEOUTS.TEST,

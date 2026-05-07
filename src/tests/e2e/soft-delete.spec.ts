@@ -134,8 +134,8 @@ test.describe("Soft Delete Behavior", () => {
 
     // Navigate to dashboard
     await page.goto("/dashboard", { waitUntil: "networkidle" }).catch(() => {
-  // Ignore navigation errors - page may not exist
-});
+      // Ignore navigation errors - page may not exist
+    });
 
     // If page loads without errors, soft-delete filtering is working
     // (deleted records aren't causing FK constraint violations)

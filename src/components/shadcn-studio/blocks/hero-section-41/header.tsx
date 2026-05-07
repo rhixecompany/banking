@@ -44,7 +44,7 @@ const Header = ({ className, navigationData }: HeaderProps) => {
       )}
     >
       <div className="mx-auto flex h-full max-w-7xl items-center justify-between gap-6 px-4 sm:px-6 lg:px-8">
-{/* Logo */}
+        {/* Logo */}
         <Link href="/" className="flex items-center gap-3">
           <BistroLogo />
           <span className="text-[20px] font-semibold text-primary">Bistro</span>

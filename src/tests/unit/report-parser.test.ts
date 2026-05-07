@@ -2,11 +2,11 @@ import path from "path";
 import { detectAndParse } from "scripts/report-parser";
 
 describe("report-parser", () => {
+  // Note: Fixtures are in src/tests/fixtures, not tests/fixtures
+  const baseDir = "src/tests/fixtures/reports";
+
   it("parses vitest json", () => {
-    const p = path.resolve(
-      process.cwd(),
-      "tests/fixtures/reports/vitest.sample.json",
-    );
+    const p = path.resolve(process.cwd(), baseDir, "vitest.sample.json");
     const r = detectAndParse(p);
     expect(r).not.toBeNull();
     expect(r?.framework).toBe("vitest");
@@ -17,10 +17,7 @@ describe("report-parser", () => {
   });
 
   it("parses playwright json", () => {
-    const p = path.resolve(
-      process.cwd(),
-      "tests/fixtures/reports/playwright.sample.json",
-    );
+    const p = path.resolve(process.cwd(), baseDir, "playwright.sample.json");
     const r = detectAndParse(p);
     expect(r).not.toBeNull();
     expect(r?.framework).toBe("playwright-json");
@@ -30,10 +27,7 @@ describe("report-parser", () => {
   });
 
   it("parses junit xml", () => {
-    const p = path.resolve(
-      process.cwd(),
-      "tests/fixtures/reports/junit.sample.xml",
-    );
+    const p = path.resolve(process.cwd(), baseDir, "junit.sample.xml");
     const r = detectAndParse(p);
     expect(r).not.toBeNull();
     expect(r?.framework).toBe("junit");

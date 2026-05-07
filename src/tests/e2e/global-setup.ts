@@ -271,16 +271,16 @@ async function ensureSeededData(databaseUrl: string): Promise<void> {
       if (typeof runner === "function") {
         await runner();
       } else {
-        execSync("npm run db:push", { env: process.env, stdio: "inherit" });
-        execSync("npm run db:seed -- --reset", {
+        execSync("bun run db:push", { env: process.env, stdio: "inherit" });
+        execSync("bun run db:seed -- --reset", {
           env: process.env,
           stdio: "inherit",
         });
       }
     } catch {
-      // Import failed - fallback to npm scripts which are CI-friendly
-      execSync("npm run db:push", { env: process.env, stdio: "inherit" });
-      execSync("npm run db:seed -- --reset", {
+      // Import failed - fallback to bun scripts which are CI-friendly
+      execSync("bun run db:push", { env: process.env, stdio: "inherit" });
+      execSync("bun run db:seed -- --reset", {
         env: process.env,
         stdio: "inherit",
       });
@@ -312,7 +312,8 @@ export default async function globalSetup(): Promise<void> {
 
   // Step 1: Load environment variables
   printStep(1, 5, "Loading environment variables");
-  const root = path.resolve(__dirname, "../..");
+  // __dirname = src/tests/e2e, so ../../.. resolves to project root (C:\Users\Alexa\Desktop\SandBox\Banking)
+  const root = path.resolve(__dirname, "../../..");
   await measureTime(async () => {
     loadEnvironmentVariables(root);
   }, "Environment variables loaded");

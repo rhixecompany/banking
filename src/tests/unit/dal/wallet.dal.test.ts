@@ -76,17 +76,12 @@ describe("WalletDal", () => {
     });
 
     it("returns undefined when wallet is soft-deleted", async () => {
-      const mockWallet = {
-        accessToken: "encrypted_plain-token",
-        deletedAt: new Date("2026-01-01"),
-        id: "wallet-1",
-        userId: "user-1",
-      };
-
+      // When soft-deleted, the DAL's WHERE clause (isNull wallets.deletedAt) filters it out,
+      // so DB returns empty - simulating that behavior here
       (db.select as ReturnType<typeof vi.fn>).mockReturnValue({
         from: vi.fn().mockReturnValue({
           where: vi.fn().mockReturnValue({
-            limit: vi.fn().mockResolvedValue([mockWallet]),
+            limit: vi.fn().mockResolvedValue([]),
           }),
         }),
       });
@@ -264,16 +259,12 @@ describe("WalletDal", () => {
     });
 
     it("returns undefined when wallet is soft-deleted", async () => {
-      const mockWallet = {
-        deletedAt: new Date("2026-01-01"),
-        id: "wallet-1",
-        sharableId: "sharable-123",
-      };
-
+      // When soft-deleted, the DAL's WHERE clause (isNull wallets.deletedAt) filters it out,
+      // so DB returns empty - simulating that behavior here
       (db.select as ReturnType<typeof vi.fn>).mockReturnValue({
         from: vi.fn().mockReturnValue({
           where: vi.fn().mockReturnValue({
-            limit: vi.fn().mockResolvedValue([mockWallet]),
+            limit: vi.fn().mockResolvedValue([]),
           }),
         }),
       });

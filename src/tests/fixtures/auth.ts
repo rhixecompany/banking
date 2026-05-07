@@ -11,7 +11,7 @@ import {
   TransactionHistoryPage,
 } from "./pages";
 
-const SEED_USER_ID = "00000000-0000-4000-8000-000000000003";
+export const SEED_USER_ID = "00000000-0000-4000-8000-000000000003";
 
 /**
  * Test user credentials for E2E — must match [scripts/seed/seed-data.ts](scripts/seed/seed-data.ts).
@@ -57,6 +57,17 @@ export interface AuthFixtures {
 export const test = base.extend<AuthFixtures>({
   // Page fixtures (in alphabetical order)
   authenticatedPage: async ({ page }, run) => {
+    // Capture console errors for test debugging
+    const consoleErrors: string[] = [];
+    page.on("console", (msg) => {
+      if (msg.type() === "error") {
+        consoleErrors.push(msg.text());
+      }
+    });
+    page.on("pageerror", (err) => {
+      consoleErrors.push(err.message);
+    });
+
     // Prefer deterministic session cookie (NextAuth JWT) when NEXTAUTH_SECRET
     // exists. Fall back to UI sign-in if missing or if the token isn't accepted.
     let secret: string | undefined;
@@ -156,6 +167,16 @@ export const test = base.extend<AuthFixtures>({
   },
 
   unauthenticatedPage: async ({ page }, run) => {
+    // Capture console errors for test debugging
+    page.on("console", (msg) => {
+      if (msg.type() === "error") {
+        console.error(`[Unauthenticated Page Error]: ${msg.text()}`);
+      }
+    });
+    page.on("pageerror", (err) => {
+      console.error(`[Unauthenticated Page Error]: ${err.message}`);
+    });
+
     await page.context().clearCookies();
     await run(page);
   },

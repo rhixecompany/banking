@@ -23,7 +23,7 @@ test.describe("Transfer Idempotency", () => {
     await page.fill('input[type="email"]', SEED_USER_EMAIL);
     await page.fill('input[type="password"]', SEED_USER_PASSWORD);
     await page.click('button:has-text("Sign in")');
-    await page.waitForNavigation();
+    await page.waitForURL(/\/dashboard/, { timeout: 30_000 });
   });
 
   test("should create transfer and show success confirmation", async ({

@@ -1,6 +1,6 @@
 import { dwollaDal, transactionDal } from "@/dal";
 
-import { expect, test } from "../../tests/fixtures/auth";
+import { expect, SEED_USER_ID, test } from "../../tests/fixtures/auth";
 import { completeDwollaTransfer } from "./helpers/dwolla";
 
 /**
@@ -101,8 +101,7 @@ test.describe("Payment Transfer", () => {
         "seed-share-checking-001",
       );
 
-      const seededUserId = "00000000-0000-4000-8000-000000000003";
-      const transfers = await dwollaDal.findTransfersByUserId(seededUserId);
+      const transfers = await dwollaDal.findTransfersByUserId(SEED_USER_ID);
 
       expect.soft(transfers.length).toBeGreaterThanOrEqual(1);
     });
@@ -117,8 +116,7 @@ test.describe("Payment Transfer", () => {
         "seed-share-checking-001",
       );
 
-      const seededUserId = "00000000-0000-4000-8000-000000000003";
-      const transactions = await transactionDal.findByUserId(seededUserId);
+      const transactions = await transactionDal.findByUserId(SEED_USER_ID);
 
       expect.soft(transactions.length).toBeGreaterThanOrEqual(1);
     });
