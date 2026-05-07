@@ -125,6 +125,7 @@
     "@radix-ui/react-toggle-group": "^1.1.11",
     "@radix-ui/react-tooltip": "^1.2.8",
     "@tanstack/react-table": "^8.21.3",
+    "@tarquinen/opencode-smart-title": "^0.1.7",
     "@upstash/ratelimit": "^2.0.8",
     "@upstash/redis": "^1.37.0",
     "@zxcvbn-ts/core": "^3.0.4",
@@ -293,6 +294,7 @@
   "trustedDependencies": [
     "bcrypt",
     "esbuild",
+    "msgpackr-extract",
     "msw",
     "sharp",
     "unrs-resolver"

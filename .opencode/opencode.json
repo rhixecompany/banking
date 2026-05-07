@@ -55,12 +55,12 @@
       "url": "https://mcp.exa.ai/mcp"
     },
     "filesystem": {
-      "command": [
-        "bunx",
+      "args": [
         "-y",
         "@modelcontextprotocol/server-filesystem",
         "~/"
       ],
+      "command": "bunx",
       "enabled": true,
       "timeout": 900000,
       "type": "local"
@@ -71,50 +71,69 @@
       "url": "https://mcp.grep.app"
     },
     "github-agentic-workflows": {
-      "command": [
-        "bunx",
+      "args": [
         "-y",
         "@modelcontextprotocol/server-github"
       ],
+      "command": "bunx",
       "enabled": true,
       "timeout": 900000,
       "type": "local"
     },
     "memory": {
-      "command": [
-        "bunx",
+      "args": [
         "-y",
         "@modelcontextprotocol/server-memory"
       ],
+      "command": "bunx",
       "enabled": true,
       "timeout": 900000,
       "type": "local"
     },
     "next-devtools": {
-      "command": ["bunx", "-y", "next-devtools-mcp@latest"],
+      "args": [
+        "-y",
+        "next-devtools-mcp@latest"
+      ],
+      "command": "bunx",
       "enabled": true,
       "timeout": 900000,
       "type": "local"
     },
     "playwright": {
-      "command": [
-        "bunx",
+      "args": [
         "-y",
         "@playwright/mcp@latest",
         "--caps=network,storage,testing,vision,pdf,devtools"
       ],
+      "command": "bunx",
       "enabled": true,
       "timeout": 900000,
       "type": "local"
     },
     "sequential-thinking": {
-      "command": [
-        "bunx",
+      "args": [
         "-y",
         "@modelcontextprotocol/server-sequential-thinking"
       ],
+      "command": "bunx",
       "enabled": true,
       "timeout": 900000,
+      "type": "local"
+    },
+    "with-context": {
+      "args": [
+        "-y",
+        "with-context-mcp"
+      ],
+      "command": "bunx",
+      "enabled": true,
+      "environment": {
+        "OBSIDIAN_API_KEY": "{env:OBSIDIAN_API_KEY}",
+        "OBSIDIAN_API_URL": "{env:OBSIDIAN_API_URL}",
+        "OBSIDIAN_VAULT": "{env:OBSIDIAN_VAULT}",
+        "PROJECT_BASE_PATH": "{env:PROJECT_BASE_PATH}"
+      },
       "type": "local"
     }
   },
@@ -124,12 +143,19 @@
     "opencode-handoff",
     "@tarquinen/opencode-dcp",
     "superpowers@git+https://github.com/obra/superpowers.git",
-    "@howaboua/opencode-planning-toolkit",
+    "@howaboua/opencode-planning-toolkit@latest",
     "smart-codebase",
     "octto",
     "@nick-vi/opencode-type-inject",
     "@zenobius/opencode-skillful",
-    "@slkiser/opencode-quota"
+    "@slkiser/opencode-quota",
+    "@spoons-and-mirrors/subtask2@latest",
+    "@tarquinen/opencode-smart-title",
+    "opencode-optimal-model-temps",
+    "@openhax/codex",
+    "micode",
+    "opencode-froggy",
+    "@zenobius/opencode-background"
   ],
   "provider": {
     "anthropic": {
@@ -153,16 +179,26 @@
         "gemma-4-e4b-it-8bit": {
           "attachment": true,
           "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "name": "gemma-4-e4b-it-8bit"
         },
         "Qwen3.5-9B-MLX-4bit": {
           "attachment": true,
           "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "name": "Qwen3.5-9B-MLX-4bit"
         }
@@ -190,9 +226,28 @@
         "location": "{env:VERTEXAI_REGION}",
         "project": "{env:VERTEXAI_PROJECT_ID}"
       }
+    },
+    "openai": {
+      "models": {
+        "gpt-5.1-codex-max": {
+          "name": "GPT 5.1 Codex Max (OAuth)",
+          "temperature": true
+        }
+      },
+      "options": {
+        "include": [
+          "reasoning.encrypted_content"
+        ],
+        "reasoningEffort": "medium",
+        "reasoningSummary": "auto",
+        "store": false,
+        "textVerbosity": "medium"
+      }
     }
   },
   "watcher": {
-    "ignore": ["node_modules"]
+    "ignore": [
+      "node_modules"
+    ]
   }
 }
