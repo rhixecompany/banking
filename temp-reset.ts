@@ -3,7 +3,8 @@ import { sql } from "drizzle-orm";
 import { db } from "./src/database/db";
 
 async function main() {
-  await db.execute(sql.raw(`
+  await db.execute(
+    sql.raw(`
     TRUNCATE TABLE
       errors,
       recipients,
@@ -16,7 +17,8 @@ async function main() {
       "verificationToken",
       users
     RESTART IDENTITY CASCADE;
-  `));
+  `),
+  );
   console.log("Tables truncated");
 }
 

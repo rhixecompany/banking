@@ -170,8 +170,7 @@ If `cache_read_input_tokens` is zero across repeated identical-prefix requests, 
 
 ## Extended Thinking
 
-> **Opus 4.7, Opus 4.6, and Sonnet 4.6:** Use adaptive thinking. `budget_tokens` is removed on Opus 4.7 (400 if sent); deprecated on Opus 4.6 and Sonnet 4.6.
-> **Older models:** Use `thinking: {type: "enabled", budget_tokens: N}` (must be < `max_tokens`, min 1024).
+> **Opus 4.7, Opus 4.6, and Sonnet 4.6:** Use adaptive thinking. `budget_tokens` is removed on Opus 4.7 (400 if sent); deprecated on Opus 4.6 and Sonnet 4.6. **Older models:** Use `thinking: {type: "enabled", budget_tokens: N}` (must be < `max_tokens`, min 1024).
 
 ```python
 # Opus 4.7 / 4.6: adaptive thinking (recommended)
@@ -314,7 +313,7 @@ print(chat("Now add rate limiting and error handling"))
 The `stop_reason` field in the response indicates why the model stopped generating:
 
 | Value | Meaning |
-|-------|---------|
+| --- | --- |
 | `end_turn` | Claude finished its response naturally |
 | `max_tokens` | Hit the `max_tokens` limit — increase it or use streaming |
 | `stop_sequence` | Hit a custom stop sequence |

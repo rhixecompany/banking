@@ -30,7 +30,7 @@ session = client.beta.sessions.create(agent=orchestrator.id, environment_id=env.
 ```
 
 | Roster entry | Shape | Notes |
-|---|---|---|
+| --- | --- | --- |
 | String shorthand | `"agent_abc123"` | References the latest version of a stored agent. |
 | Agent reference | `{type: "agent", id, version?}` | Omit `version` to pin the latest at coordinator save time. |
 | Self | `{type: "self"}` | The coordinator can spawn copies of itself. |
@@ -44,7 +44,7 @@ Up to **20 unique agents** in the roster; the coordinator may spawn **multiple c
 The session-level event stream is the **primary thread** — it shows the coordinator's trace plus a condensed view of subagent activity (thread status transitions and cross-thread messages, not every subagent tool call). Drill into a specific subagent via the per-thread endpoints:
 
 | Operation | HTTP | SDK (`client.beta.sessions.threads.*`) |
-|---|---|---|
+| --- | --- | --- |
 | List threads | `GET /v1/sessions/{sid}/threads` | `.list(session_id)` |
 | Retrieve one | `GET /v1/sessions/{sid}/threads/{tid}` | `.retrieve(thread_id, session_id=...)` |
 | Archive | `POST /v1/sessions/{sid}/threads/{tid}/archive` | `.archive(thread_id, session_id=...)` |
@@ -58,7 +58,7 @@ Each `SessionThread` carries `id`, `status` (`running` | `idle` | `rescheduling`
 ## Multiagent events (on the session stream)
 
 | Event | Payload highlights | Meaning |
-|---|---|---|
+| --- | --- | --- |
 | `session.thread_created` | `session_thread_id`, `agent_name` | A new thread was created. |
 | `session.thread_status_running` | `session_thread_id`, `agent_name` | Thread started activity. |
 | `session.thread_status_idle` | `session_thread_id`, `agent_name`, **`stop_reason`** | Thread is awaiting input. Inspect `stop_reason` (same shape as `session.status_idle.stop_reason`). |

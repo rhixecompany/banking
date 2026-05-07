@@ -11,15 +11,17 @@
 ## Core Principles
 
 ### 1. Minimal Viable Information (MVI)
-Extract only core concepts (1-3 sentences), key points (3-5 bullets), minimal example, and reference link. 
-**Goal**: Scannable in <30 seconds. Reference full docs, don't duplicate them.
+
+Extract only core concepts (1-3 sentences), key points (3-5 bullets), minimal example, and reference link. **Goal**: Scannable in <30 seconds. Reference full docs, don't duplicate them.
 
 ### 2. Concern-Based Structure
+
 Organize by **what you're doing** (concern), then by **how you're doing it** (approach/tech):
 
 **Two organizational patterns**:
 
 #### Pattern A: Function-Based (for repository-specific context)
+
 ```
 category/
 ├── navigation.md
@@ -33,6 +35,7 @@ category/
 **Use when**: Content is repository-specific (e.g., `openagents-repo/`)
 
 #### Pattern B: Concern-Based (for development context)
+
 ```
 category/
 ├── navigation.md
@@ -46,12 +49,15 @@ category/
 **Use when**: Content spans multiple technologies (e.g., `development/`)
 
 **Examples**:
+
 - `development/backend/api-patterns/` - Concern: backend, Approach: API patterns
 - `development/backend/nodejs/` - Concern: backend, Tech: Node.js
 - `development/frontend/react/` - Concern: frontend, Tech: React
 
 ### 3. Token-Efficient Navigation
+
 Every category/subcategory has `navigation.md` with:
+
 - **ASCII tree** for quick structure scan (~50 tokens)
 - **Quick routes table** for common tasks (~100 tokens)
 - **By concern/type** sections (~50 tokens)
@@ -60,7 +66,9 @@ Every category/subcategory has `navigation.md` with:
 **Why**: Faster loading, less cost, quicker AI decisions
 
 ### 4. Specialized Navigation Files
+
 For cross-cutting concerns, create specialized navigation:
+
 - `development/ui-navigation.md` - Spans frontend/ + ui/
 - `development/backend-navigation.md` - Covers APIs, auth, middleware
 - `development/fullstack-navigation.md` - Common tech stacks
@@ -68,7 +76,9 @@ For cross-cutting concerns, create specialized navigation:
 **Why**: Real workflows don't fit neat categories
 
 ### 5. Self-Describing Filenames
+
 Filenames should tell you what's inside:
+
 - ❌ `code.md` → ✅ `code-quality.md`
 - ❌ `tests.md` → ✅ `test-coverage.md`
 - ❌ `review.md` → ✅ `code-review.md`
@@ -76,6 +86,7 @@ Filenames should tell you what's inside:
 **Why**: No need to open files to understand content
 
 ### 6. Knowledge Harvesting
+
 Extract valuable context from AI summaries/overviews, then delete them. Workspace stays clean, knowledge persists.
 
 ### 5. Technology Context Organization
@@ -89,6 +100,7 @@ Extract valuable context from AI summaries/overviews, then delete them. Workspac
 - **Layer-Specific Tech** (e.g., React, Node.js): Add under `development/{frontend|backend}/{tech}/`.
 
 **Decision Process**:
+
 1. Is it a full-stack framework? → `development/frameworks/`
 2. Is it a specialized domain (AI, Data)? → `development/{domain}/`
 3. Is it layer-specific? → `development/{frontend|backend}/`
@@ -159,6 +171,7 @@ Extract valuable context from AI summaries/overviews, then delete them. Workspac
 ```
 
 **Example**:
+
 ```
 development/
 ├── navigation.md
@@ -204,13 +217,10 @@ development/
 ---
 
 ## Structure
-
 ```
-{category}/
-├── navigation.md
-├── {subcategory}/
-│   ├── navigation.md
-│   └── {files}.md
+
+{category}/ ├── navigation.md ├── {subcategory}/ │ ├── navigation.md │ └── {files}.md
+
 ```
 
 ---
@@ -243,6 +253,7 @@ Location: `.opencode/context/core/standards/`
 **Purpose**: Universal standards that apply to ALL development
 
 **Content**:
+
 - Code quality principles (all languages)
 - Test coverage standards
 - Documentation standards
@@ -251,7 +262,8 @@ Location: `.opencode/context/core/standards/`
 
 **Used by**: All agents, all projects
 
-**Effect on other categories**: 
+**Effect on other categories**:
+
 - Other categories can reference these standards
 - Users can edit core standards to affect context flow globally
 - Development-specific standards go in `development/principles/`
@@ -261,7 +273,7 @@ Location: `.opencode/context/core/standards/`
 ### 2. Development Principles vs Core Standards
 
 | Location | Scope | Examples |
-|----------|-------|----------|
+| --- | --- | --- |
 | `core/standards/` | **Universal** (all projects, all languages) | Code quality, testing, docs, security |
 | `development/principles/` | **Development-specific** (software engineering) | Clean code, API design, error handling |
 
@@ -276,6 +288,7 @@ Location: `.opencode/context/core/standards/`
 **Rationale**: Data layer is part of development workflow
 
 **Structure**:
+
 ```
 development/data/
 ├── navigation.md
@@ -291,22 +304,24 @@ development/data/
 ### 4. Specialized Navigation Strategy
 
 **Full-stack navigation includes**:
+
 - Quick routes (table format)
 - Common stack patterns (MERN, T3, etc.)
 
 **Example**:
+
 ```markdown
 ## Quick Routes
-| Task | Path |
-|------|------|
+
+| Task         | Path               |
+| ------------ | ------------------ |
 | **Frontend** | `ui-navigation.md` |
 
 ## Common Stacks
 
 ### MERN Stack
-Frontend: development/frontend/react/
-Backend:  development/backend/nodejs/
-Data:     development/data/nosql-patterns/mongodb.md
+
+Frontend: development/frontend/react/ Backend: development/backend/nodejs/ Data: development/data/nosql-patterns/mongodb.md
 ```
 
 ---
@@ -318,6 +333,7 @@ Data:     development/data/nosql-patterns/mongodb.md
 **Purpose**: Extract knowledge from summary files → permanent context, then clean up.
 
 **Process**:
+
 1. Scan for patterns: `*OVERVIEW.md`, `*SUMMARY.md`, `SESSION-*.md`, `CONTEXT-*.md`
 2. Analyze content:
    - Design decisions → `concepts/`
@@ -337,6 +353,7 @@ Data:     development/data/nosql-patterns/mongodb.md
 **Purpose**: Extract context from docs/code/URLs.
 
 **Process**:
+
 1. Read source
 2. Extract core concepts (1-3 sentences each)
 3. Find minimal examples
@@ -354,6 +371,7 @@ Data:     development/data/nosql-patterns/mongodb.md
 **Purpose**: Restructure existing files into appropriate pattern.
 
 **Process**:
+
 1. Scan category
 2. Determine pattern (function-based or concern-based)
 3. Create missing directories
@@ -368,6 +386,7 @@ Data:     development/data/nosql-patterns/mongodb.md
 **Purpose**: Update context when APIs/frameworks change.
 
 **Process**:
+
 1. Identify what changed
 2. Find affected files
 3. Update concepts, examples, guides, lookups
@@ -379,10 +398,12 @@ Data:     development/data/nosql-patterns/mongodb.md
 ## File Naming Conventions
 
 ### Navigation Files
+
 - `navigation.md` - Main navigation for category/subcategory
 - `{domain}-navigation.md` - Specialized cross-cutting navigation
 
 ### Content Files
+
 - Use descriptive names: `code-quality.md` not `code.md`
 - Include type when helpful: `rest-design.md`, `jwt-patterns.md`
 - Use kebab-case: `scroll-linked-animations.md`
@@ -392,6 +413,7 @@ Data:     development/data/nosql-patterns/mongodb.md
 ## Extraction Rules
 
 ### ✅ Extract:
+
 - Core concepts (minimal)
 - Essential patterns
 - Step-by-step workflows
@@ -400,6 +422,7 @@ Data:     development/data/nosql-patterns/mongodb.md
 - Links to detailed docs
 
 ### ❌ Don't Extract:
+
 - Verbose explanations
 - Complete API docs
 - Implementation details
@@ -411,14 +434,7 @@ Data:     development/data/nosql-patterns/mongodb.md
 
 ## Success Criteria
 
-✅ **Minimal** - Core info only, <200 lines per file
-✅ **Navigable** - navigation.md at every level
-✅ **Organized** - Appropriate pattern (function-based or concern-based)
-✅ **Token-efficient** - Navigation files ~200-300 tokens
-✅ **Self-describing** - Filenames tell you what's inside
-✅ **Referenceable** - Links to full docs
-✅ **Searchable** - Easy to find via navigation
-✅ **Maintainable** - Easy to update
+✅ **Minimal** - Core info only, <200 lines per file ✅ **Navigable** - navigation.md at every level ✅ **Organized** - Appropriate pattern (function-based or concern-based) ✅ **Token-efficient** - Navigation files ~200-300 tokens ✅ **Self-describing** - Filenames tell you what's inside ✅ **Referenceable** - Links to full docs ✅ **Searchable** - Easy to find via navigation ✅ **Maintainable** - Easy to update
 
 ---
 

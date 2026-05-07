@@ -12,7 +12,6 @@ Each tool requires a name, description, and JSON Schema for its inputs:
 
 ```json
 {
-  "name": "get_weather",
   "description": "Get current weather for a location",
   "input_schema": {
     "type": "object",
@@ -28,7 +27,8 @@ Each tool requires a name, description, and JSON Schema for its inputs:
       }
     },
     "required": ["location"]
-  }
+  },
+  "name": "get_weather"
 }
 ```
 
@@ -46,12 +46,12 @@ Each tool requires a name, description, and JSON Schema for its inputs:
 
 Control when Claude uses tools:
 
-| Value                             | Behavior                                      |
-| --------------------------------- | --------------------------------------------- |
-| `{"type": "auto"}`                | Claude decides whether to use tools (default) |
-| `{"type": "any"}`                 | Claude must use at least one tool             |
-| `{"type": "tool", "name": "..."}` | Claude must use the specified tool            |
-| `{"type": "none"}`                | Claude cannot use tools                       |
+| Value | Behavior |
+| --- | --- |
+| `{"type": "auto"}` | Claude decides whether to use tools (default) |
+| `{"type": "any"}` | Claude must use at least one tool |
+| `{"type": "tool", "name": "..."}` | Claude must use the specified tool |
+| `{"type": "none"}` | Claude cannot use tools |
 
 Any `tool_choice` value can also include `"disable_parallel_tool_use": true` to force Claude to use at most one tool per response. By default, Claude may request multiple tool calls in a single response.
 
@@ -116,8 +116,8 @@ The tool requires no schema — just declare it in the `tools` array:
 
 ```json
 {
-  "type": "code_execution_20260120",
-  "name": "code_execution"
+  "name": "code_execution",
+  "type": "code_execution_20260120"
 }
 ```
 

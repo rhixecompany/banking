@@ -11,7 +11,7 @@
 ## File Locations
 
 | Component | Directory | Registration File |
-|-----------|-----------|-------------------|
+| --- | --- | --- |
 | **Mastra Instance** | `src/mastra/` | `src/mastra/index.ts` |
 | **Agents** | `src/mastra/agents/` | `src/mastra/index.ts` |
 | **Tools** | `src/mastra/tools/` | `src/mastra/index.ts` |
@@ -21,21 +21,22 @@
 
 ## Database Tables
 
-| Table Name | Description |
-|------------|-------------|
-| `mastra_traces` | Workflow execution traces |
-| `mastra_ai_spans` | LLM call spans and token usage |
-| `mastra_scorers` | Evaluation results and scores |
+| Table Name              | Description                        |
+| ----------------------- | ---------------------------------- |
+| `mastra_traces`         | Workflow execution traces          |
+| `mastra_ai_spans`       | LLM call spans and token usage     |
+| `mastra_scorers`        | Evaluation results and scores      |
 | `mastra_workflow_state` | Current state of running workflows |
 
 ## Common Commands
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start Mastra in development mode |
-| `npm run traces` | View recent execution traces |
-| `npm run test:workflow` | Run the test workflow script |
+| Command                 | Description                      |
+| ----------------------- | -------------------------------- |
+| `npm run dev`           | Start Mastra in development mode |
+| `npm run traces`        | View recent execution traces     |
+| `npm run test:workflow` | Run the test workflow script     |
 
 **Related**:
+
 - concepts/core.md
 - concepts/workflows.md

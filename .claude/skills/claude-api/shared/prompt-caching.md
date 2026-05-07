@@ -85,7 +85,7 @@ These are the decisions that matter more than marker placement. Fix these first.
 When reviewing code, grep for these inside anything that feeds the prompt prefix:
 
 | Pattern | Why it breaks caching |
-|---|---|
+| --- | --- |
 | `datetime.now()` / `Date.now()` / `time.time()` in system prompt | Prefix changes every request |
 | `uuid4()` / `crypto.randomUUID()` / request IDs early in content | Same — every request is unique |
 | `json.dumps(d)` without `sort_keys=True` / iterating a `set` | Non-deterministic serialization → prefix bytes differ |
@@ -109,10 +109,10 @@ Fix by moving the dynamic piece after the last breakpoint, making it determinist
 - Top-level `cache_control` on `messages.create()` auto-places on the last cacheable block — simplest option when you don't need fine-grained placement.
 - Minimum cacheable prefix is model-dependent. Shorter prefixes silently won't cache even with a marker — no error, just `cache_creation_input_tokens: 0`:
 
-| Model | Minimum |
-|---|---:|
-| Opus 4.7, Opus 4.6, Opus 4.5, Haiku 4.5 | 4096 tokens |
-| Sonnet 4.6, Haiku 3.5, Haiku 3 | 2048 tokens |
+| Model                                        |     Minimum |
+| -------------------------------------------- | ----------: |
+| Opus 4.7, Opus 4.6, Opus 4.5, Haiku 4.5      | 4096 tokens |
+| Sonnet 4.6, Haiku 3.5, Haiku 3               | 2048 tokens |
 | Sonnet 4.5, Sonnet 4.1, Sonnet 4, Sonnet 3.7 | 1024 tokens |
 
 A 3K-token prompt caches on Sonnet 4.5 but silently won't on Opus 4.7.
@@ -126,7 +126,7 @@ A 3K-token prompt caches on Sonnet 4.5 but silently won't on Opus 4.7.
 The response `usage` object reports cache activity:
 
 | Field | Meaning |
-|---|---|
+| --- | --- |
 | `cache_creation_input_tokens` | Tokens written to cache this request (you paid the ~1.25× write premium) |
 | `cache_read_input_tokens` | Tokens served from cache this request (you paid ~0.1×) |
 | `input_tokens` | Tokens processed at full price (not cached) |
@@ -144,7 +144,7 @@ Language-specific access: `response.usage.cache_read_input_tokens` (Python/TS/Ru
 Not every parameter change invalidates everything. The API has three cache tiers, and changes only invalidate their own tier and below:
 
 | Change | Tools cache | System cache | Messages cache |
-|---|:---:|:---:|:---:|
+| --- | :-: | :-: | :-: |
 | Tool definitions (add/remove/reorder) | ❌ | ❌ | ❌ |
 | Model switch | ❌ | ❌ | ❌ |
 | `speed`, web-search, citations toggle | ✅ | ❌ | ❌ |

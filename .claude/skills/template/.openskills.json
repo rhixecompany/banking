@@ -1,7 +1,7 @@
 {
+  "installedAt": "2026-05-07T12:40:36.293Z",
+  "repoUrl": "https://github.com/anthropics/skills",
   "source": "anthropics/skills",
   "sourceType": "git",
-  "repoUrl": "https://github.com/anthropics/skills",
-  "subpath": "template",
-  "installedAt": "2026-05-07T12:40:36.293Z"
+  "subpath": "template"
 }

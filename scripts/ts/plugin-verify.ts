@@ -643,7 +643,9 @@ async function main(): Promise<void> {
     mcpHealthSummary.error = mcpHealthValues.filter(
       (h) => h.status === "error",
     ).length;
-    mcpHealthSummary.ok = mcpHealthValues.filter((h) => h.status === "ok").length;
+    mcpHealthSummary.ok = mcpHealthValues.filter(
+      (h) => h.status === "ok",
+    ).length;
     mcpHealthSummary.total = mcpHealthValues.length;
     mcpHealthSummary.unreachable = mcpHealthValues.filter(
       (h) => h.status === "unreachable",

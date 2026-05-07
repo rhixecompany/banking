@@ -23,20 +23,21 @@ Comprehensive codebase overhaul implementing Phase 0-5 from run-tasks.txt with c
 
 ### 0.1 Map Codebase to Docs
 
-| Output File | Content |
-|-------------|---------|
-| `docs/custom-components.md` | Component inventory (update) |
-| `docs/app-pages.md` | Page inventory with routes (update) |
-| `docs/test-context.md` | Test inventory (update) |
-| `docs/scripts.md` | Script inventory (update) |
+| Output File                 | Content                             |
+| --------------------------- | ----------------------------------- |
+| `docs/custom-components.md` | Component inventory (update)        |
+| `docs/app-pages.md`         | Page inventory with routes (update) |
+| `docs/test-context.md`      | Test inventory (update)             |
+| `docs/scripts.md`           | Script inventory (update)           |
 
 **Implementation:**
+
 ```typescript
 // Script to scan and generate docs
 // scripts/ts/docs/generate-docs.ts
 interface DocEntry {
   path: string;
-  type: 'component' | 'page' | 'test' | 'script';
+  type: "component" | "page" | "test" | "script";
   name: string;
   details: Record<string, unknown>;
 }
@@ -45,10 +46,11 @@ interface DocEntry {
 ### 0.2 Script Triage
 
 **Catalog pattern:**
+
 ```typescript
 interface ScriptEntry {
   path: string;
-  type: 'orchestrator' | 'logic';
+  type: "orchestrator" | "logic";
   purpose: string;
   dryRun: boolean;
   dependencies: string[];
@@ -82,16 +84,15 @@ interface Props {
 
 ### 1.2 Test Enhancement
 
-**Vitest (37 specs):** `tests/unit/**/*.test.ts`
-**Playwright (10 specs):** `tests/e2e/**/*.spec.ts`
+**Vitest (37 specs):** `tests/unit/**/*.test.ts` **Playwright (10 specs):** `tests/e2e/**/*.spec.ts`
 
 ```typescript
 // Ensure deterministic auth in Playwright
-import { seedUser } from './helpers/auth';
-await seedUser(page, 'seed-user@example.com', 'password123');
+import { seedUser } from "./helpers/auth";
+await seedUser(page, "seed-user@example.com", "password123");
 
 // Use mock Plaid
-import { addMockPlaidInitScript } from './helpers/plaid.mock';
+import { addMockPlaidInitScript } from "./helpers/plaid.mock";
 await addMockPlaidInitScript(page);
 ```
 
@@ -108,6 +109,7 @@ await addMockPlaidInitScript(page);
 5. `app/demo/` — demo pages
 
 **For each route, document:**
+
 - Route path
 - Server wrapper component
 - Auth requirement
@@ -121,7 +123,7 @@ await addMockPlaidInitScript(page);
 ### Components to Create in `./components/layouts/`
 
 | Component | Purpose | Key Props |
-|-----------|---------|-----------|
+| --- | --- | --- |
 | `generic-page-shell` | Reusable page container | `title`, `description`, `children`, `actions`, `loading` |
 | `generic-data-table` | Type-safe table | `data: T[]`, `columns: Column<T>[]`, `onRowClick`, `pagination` |
 | `generic-card` | Card with slots | `header`, `body`, `footer` |
@@ -132,6 +134,7 @@ await addMockPlaidInitScript(page);
 | `generic-empty-state` | Empty state | `title`, `description`, `action` |
 
 **Example:**
+
 ```typescript
 // components/layouts/generic-page-shell/index.tsx
 interface GenericPageShellProps {
@@ -177,6 +180,7 @@ bun add -D ts-morph
 ### 4.2 Shell Script Pattern (Before/After)
 
 **Before (BAD):**
+
 ```bash
 #!/bin/bash
 # Logic in shell - BAD
@@ -186,6 +190,7 @@ done
 ```
 
 **After (GOOD):**
+
 ```bash
 #!/bin/bash
 # Orchestrator only - GOOD
@@ -213,8 +218,10 @@ export async function processFiles(args: string[]): Promise<void> {
     args
   });
 
-  const project = new Project({ tsConfigFilePath: "./tsconfig.json" });
-  
+  const project = new Project({
+    tsConfigFilePath: "./tsconfig.json"
+  });
+
   if (options.values.dryRun) {
     console.log("[DRY RUN] Would process X files");
     return;
@@ -240,12 +247,15 @@ description: Initialize enhanced agent documentation and rules
 # Initialize Enhanced Agent Documentation
 
 ## Purpose
+
 Update Agentic Documentation and Rules for the Banking app repository.
 
 ## When to Use
+
 - User asks to "mine prior chats", "maintain AGENTS.md", or "run continual-learning loop"
 
 ## Process
+
 1. Make AGENTS.md the Canonical Source
 2. Standardize .opencode/commands/ and .opencode/specs/ locations
 3. Rewrite overlapping instructions to prevent drift
@@ -265,16 +275,20 @@ Update Agentic Documentation and Rules for the Banking app repository.
 // scripts/mcp-runner.ts
 interface MCPServer {
   name: string;
-  type: 'local' | 'npx' | 'docker';
+  type: "local" | "npx" | "docker";
   command: string;
   args?: string[];
 }
 
-export async function installMCPServer(config: MCPServer): Promise<void> {
+export async function installMCPServer(
+  config: MCPServer
+): Promise<void> {
   // Implementation for installing MCP servers
 }
 
-export async function catalogServers(profile: string): Promise<MCPServer[]> {
+export async function catalogServers(
+  profile: string
+): Promise<MCPServer[]> {
   // Run docker mcp gateway and parse output
 }
 ```
@@ -282,6 +296,7 @@ export async function catalogServers(profile: string): Promise<MCPServer[]> {
 ### 6.2 Docker MCP Server Operations
 
 **Commands to implement:**
+
 - `mcp-find` — search for MCP servers
 - `mcp-add` — add MCP server
 - `mcp-remove` — remove MCP server
@@ -294,16 +309,16 @@ export async function catalogServers(profile: string): Promise<MCPServer[]> {
 
 ### 6.3 Servers to Remove (Local)
 
-| Server | SHA |
-|--------|-----|
-| mcp/context7 | 1174e6... |
-| mcp/fetch | 302c62... |
-| mcp/filesystem | 35fcf0... |
-| mcp/memory | db0c2d... |
-| mcp/next-devtools-mcp | 3064e3... |
-| mcp/playwright | 64d024... |
+| Server                 | SHA       |
+| ---------------------- | --------- |
+| mcp/context7           | 1174e6... |
+| mcp/fetch              | 302c62... |
+| mcp/filesystem         | 35fcf0... |
+| mcp/memory             | db0c2d... |
+| mcp/next-devtools-mcp  | 3064e3... |
+| mcp/playwright         | 64d024... |
 | mcp/sequentialthinking | cd3174... |
-| mcp/time | 9c46a9... |
+| mcp/time               | 9c46a9... |
 | mcp/youtube-transcript | b70b13... |
 
 ---
@@ -318,32 +333,32 @@ bun run format && bun run type-check && bun run lint:strict && bun run verify:ru
 
 ## File References
 
-| Path | Purpose |
-|------|---------|
-| `docs/custom-components.md` | Component inventory |
-| `docs/app-pages.md` | Page inventory |
-| `docs/test-context.md` | Test inventory |
-| `docs/scripts.md` | Script inventory |
+| Path                                  | Purpose              |
+| ------------------------------------- | -------------------- |
+| `docs/custom-components.md`           | Component inventory  |
+| `docs/app-pages.md`                   | Page inventory       |
+| `docs/test-context.md`                | Test inventory       |
+| `docs/scripts.md`                     | Script inventory     |
 | `.opencode/commands/init-enhanced.md` | Agent initialization |
-| `scripts/mcp-runner.ts` | MCP server handler |
-| `.opencode/opencode.json` | MCP server config |
-| `.opencode/agent/*.md` | Agent documentation |
-| `components/layouts/` | Generic components |
+| `scripts/mcp-runner.ts`               | MCP server handler   |
+| `.opencode/opencode.json`             | MCP server config    |
+| `.opencode/agent/*.md`                | Agent documentation  |
+| `components/layouts/`                 | Generic components   |
 
 ---
 
 ## Sub-Agent Assignments
 
-| Phase | Sub-Agent | Purpose |
-|-------|-----------|---------|
-| Phase 0 | explore | Documentation mapping |
-| Phase 1a | refactoring-specialist | Component cleanup |
-| Phase 1b | test-automator | Test enhancement |
-| Phase 2 | nextjs-developer | Route analysis |
-| Phase 3a | frontend-design | Generic components |
-| Phase 3b | fullstack-developer | Full modification |
-| Phase 4a | tooling-engineer | Script enhancement |
-| Phase 4b | devops-engineer | npm scripts |
-| Phase 5 | documentation-engineer | Agent docs |
-| Phase 6a-c | tooling-engineer | MCP servers |
-| Phase 7 | documentation-engineer | Agent files audit
+| Phase      | Sub-Agent              | Purpose               |
+| ---------- | ---------------------- | --------------------- |
+| Phase 0    | explore                | Documentation mapping |
+| Phase 1a   | refactoring-specialist | Component cleanup     |
+| Phase 1b   | test-automator         | Test enhancement      |
+| Phase 2    | nextjs-developer       | Route analysis        |
+| Phase 3a   | frontend-design        | Generic components    |
+| Phase 3b   | fullstack-developer    | Full modification     |
+| Phase 4a   | tooling-engineer       | Script enhancement    |
+| Phase 4b   | devops-engineer        | npm scripts           |
+| Phase 5    | documentation-engineer | Agent docs            |
+| Phase 6a-c | tooling-engineer       | MCP servers           |
+| Phase 7    | documentation-engineer | Agent files audit     |

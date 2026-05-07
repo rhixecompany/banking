@@ -27,12 +27,14 @@ Solves the problem of managing multiple bank accounts from different institution
 ## Key Flows
 
 ### Connect Bank
+
 1. User clicks "Connect Bank" → Plaid Link opens
 2. User authenticates with bank
 3. Access token stored, bank account created
 4. Dashboard updates with new account
 
 ### Transfer Money
+
 1. User selects source bank
 2. Enters recipient email + sharable ID
 3. Enters amount
@@ -44,6 +46,7 @@ Solves the problem of managing multiple bank accounts from different institution
 ## Competitive Context
 
 Based on tutorial by Alexander Iseghohi. Similar to apps like:
+
 - Mint (budget tracking)
 - Robinhood (financial aggregation)
 - Venmo/Zelle (transfers)

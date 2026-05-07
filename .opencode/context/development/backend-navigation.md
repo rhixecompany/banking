@@ -43,7 +43,7 @@ development/backend/           # [future]
 ## Quick Routes
 
 | Task | Path |
-|------|------|
+| --- | --- |
 | **REST API** | `backend/api-patterns/rest-design.md` [future] |
 | **GraphQL** | `backend/api-patterns/graphql-design.md` [future] |
 | **API design principles** | `principles/api-design.md` |
@@ -55,20 +55,15 @@ development/backend/           # [future]
 
 ## By Approach
 
-**REST** → `backend/api-patterns/rest-design.md` [future]
-**GraphQL** → `backend/api-patterns/graphql-design.md` [future]
-**gRPC** → `backend/api-patterns/grpc-patterns.md` [future]
+**REST** → `backend/api-patterns/rest-design.md` [future] **GraphQL** → `backend/api-patterns/graphql-design.md` [future] **gRPC** → `backend/api-patterns/grpc-patterns.md` [future]
 
 ## By Language
 
-**Node.js** → `backend/nodejs/` [future]
-**Python** → `backend/python/` [future]
+**Node.js** → `backend/nodejs/` [future] **Python** → `backend/python/` [future]
 
 ## By Concern
 
-**Authentication** → `backend/authentication/` [future]
-**Middleware** → `backend/middleware/` [future]
-**Data layer** → `data/` [future]
+**Authentication** → `backend/authentication/` [future] **Middleware** → `backend/middleware/` [future] **Data layer** → `data/` [future]
 
 ---
 

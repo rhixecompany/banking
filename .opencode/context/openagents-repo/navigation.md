@@ -11,7 +11,7 @@
 ## Quick Navigation
 
 | Function | Files | Purpose |
-|----------|-------|---------|
+| --- | --- | --- |
 | **Standards** | 2 files | Agent creation standards |
 | **Concepts** | 6 files | Core ideas and principles |
 | **Examples** | 9 files | Working code samples |
@@ -26,7 +26,7 @@
 ## Standards (Agent Creation)
 
 | File | Topic | Priority |
-|------|-------|----------|
+| --- | --- | --- |
 | `standards/agent-frontmatter.md` | Valid OpenCode YAML frontmatter | ⭐⭐⭐⭐⭐ |
 | `standards/subagent-structure.md` | Standard subagent file structure | ⭐⭐⭐⭐⭐ |
 
@@ -37,7 +37,7 @@
 ## Concepts (Core Ideas)
 
 | File | Topic | Priority |
-|------|-------|----------|
+| --- | --- | --- |
 | `concepts/compatibility-layer.md` | Adapter pattern for AI coding tools | ⭐⭐⭐⭐⭐ |
 | `concepts/subagent-testing-modes.md` | Standalone vs delegation testing | ⭐⭐⭐⭐⭐ |
 | `concepts/hooks-system.md` | User-defined lifecycle commands | ⭐⭐⭐⭐ |
@@ -51,7 +51,7 @@
 ## Examples (Working Code)
 
 | File | Topic | Priority |
-|------|-------|----------|
+| --- | --- | --- |
 | `examples/baseadapter-pattern.md` | Template Method pattern for tool adapters | ⭐⭐⭐⭐⭐ |
 | `examples/zod-schema-migration.md` | Migrating TypeScript to Zod schemas | ⭐⭐⭐⭐ |
 | `examples/subagent-prompt-structure.md` | Optimized subagent prompt template | ⭐⭐⭐⭐ |
@@ -63,7 +63,7 @@
 ## Guides (Step-by-Step)
 
 | File | Topic | Priority |
-|------|-------|----------|
+| --- | --- | --- |
 | `guides/compatibility-layer-workflow.md` | Developing compatibility layer for AI tools | ⭐⭐⭐⭐⭐ |
 | `guides/testing-subagents.md` | How to test subagents standalone | ⭐⭐⭐⭐⭐ |
 | `guides/adding-agent-basics.md` | How to add new agents (basics) | ⭐⭐⭐⭐ |
@@ -87,7 +87,7 @@
 ## Lookup (Quick Reference)
 
 | File | Topic | Priority |
-|------|-------|----------|
+| --- | --- | --- |
 | `lookup/tool-feature-parity.md` | AI coding tool feature comparison | ⭐⭐⭐⭐⭐ |
 | `lookup/compatibility-layer-structure.md` | Compatibility package file structure | ⭐⭐⭐⭐⭐ |
 | `lookup/subagent-test-commands.md` | Subagent testing commands | ⭐⭐⭐⭐⭐ |
@@ -106,7 +106,7 @@
 ## Errors (Troubleshooting)
 
 | File | Topic | Priority |
-|------|-------|----------|
+| --- | --- | --- |
 | `errors/tool-permission-errors.md` | Tool permission issues | ⭐⭐⭐⭐⭐ |
 | `errors/skills-errors.md` | Skills not triggering/loading | ⭐⭐⭐⭐ |
 
@@ -117,7 +117,7 @@
 ## Core Concepts (Foundational)
 
 | File | Topic | Priority |
-|------|-------|----------|
+| --- | --- | --- |
 | `core-concepts/agents.md` | How agents work | ⭐⭐⭐⭐⭐ |
 | `core-concepts/evals.md` | How testing works | ⭐⭐⭐⭐⭐ |
 | `core-concepts/registry.md` | How registry works | ⭐⭐⭐⭐ |
@@ -130,12 +130,14 @@
 ## Loading Strategy
 
 ### For Subagent Testing:
+
 1. Load `concepts/subagent-testing-modes.md` (understand modes)
 2. Load `guides/testing-subagents.md` (step-by-step)
 3. Reference `lookup/subagent-test-commands.md` (commands)
 4. If errors: Load `errors/tool-permission-errors.md`
 
 ### For Agent Creation:
+
 1. Load `standards/agent-frontmatter.md` (valid YAML frontmatter)
 2. Load `standards/subagent-structure.md` (file structure)
 3. Load `core-concepts/agents.md` (understand system)
@@ -145,12 +147,14 @@
 7. Load `guides/testing-agent.md` (validate)
 
 ### For Issue Management:
+
 1. Load `guides/github-issues-workflow.md` (understand workflow)
 2. Create issues with proper labels and templates
 3. Add to project board for tracking
 4. Process requests systematically
 
 ### For Debugging:
+
 1. Load `guides/debugging.md` (general approach)
 2. Load specific error file from `errors/`
 3. Reference `lookup/file-locations.md` (find files)

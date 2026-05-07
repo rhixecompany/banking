@@ -16,7 +16,7 @@ Execute `.opencode/specs/install-plugins-plan.md` to install 12 OpenCode plugins
 ## Plugin List
 
 | Phase | Plugins |
-|-------|---------|
+| --- | --- |
 | 1 (Low) | opencode-handoff, opencode-smart-title, opencode-optimal-model-temps, subtask2 |
 | 2 (Medium) | opencode-dcp, opencode-type-inject, octto, planning-toolkit, opencode-background |
 | 3 (Medium+) | opencode-froggy, @openhax/codex |

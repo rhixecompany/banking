@@ -28,9 +28,7 @@ curl https://api.anthropic.com/v1/messages \
 
 ### Parsing the response
 
-Use `jq` to extract fields from the JSON response. Do not use `grep`/`sed` —
-JSON strings can contain any character and regex parsing will break on quotes,
-escapes, or multi-line content.
+Use `jq` to extract fields from the JSON response. Do not use `grep`/`sed` — JSON strings can contain any character and regex parsing will break on quotes, escapes, or multi-line content.
 
 ```bash
 # Capture the response, then extract fields
@@ -53,7 +51,6 @@ stop_reason=$(echo "$response" | jq -r '.stop_reason')
 # Extract all text blocks (content is an array; filter to type=="text")
 echo "$response" | jq -r '.content[] | select(.type == "text") | .text'
 ```
-
 
 ---
 
@@ -182,8 +179,7 @@ For 1-hour TTL: `"cache_control": {"type": "ephemeral", "ttl": "1h"}`. Top-level
 
 ## Extended Thinking
 
-> **Opus 4.7, Opus 4.6, and Sonnet 4.6:** Use adaptive thinking. `budget_tokens` is removed on Opus 4.7 (400 if sent); deprecated on Opus 4.6 and Sonnet 4.6.
-> **Older models:** Use `"type": "enabled"` with `"budget_tokens": N` (must be < `max_tokens`, min 1024).
+> **Opus 4.7, Opus 4.6, and Sonnet 4.6:** Use adaptive thinking. `budget_tokens` is removed on Opus 4.7 (400 if sent); deprecated on Opus 4.6 and Sonnet 4.6. **Older models:** Use `"type": "enabled"` with `"budget_tokens": N` (must be < `max_tokens`, min 1024).
 
 ```bash
 # Opus 4.7 / 4.6: adaptive thinking (recommended)
@@ -208,9 +204,9 @@ curl https://api.anthropic.com/v1/messages \
 
 ## Required Headers
 
-| Header              | Value              | Description                |
-| ------------------- | ------------------ | -------------------------- |
-| `Content-Type`      | `application/json` | Required                   |
-| `x-api-key`         | Your API key       | Authentication             |
-| `anthropic-version` | `2023-06-01`       | API version                |
-| `anthropic-beta`    | Beta feature IDs   | Required for beta features |
+| Header | Value | Description |
+| --- | --- | --- |
+| `Content-Type` | `application/json` | Required |
+| `x-api-key` | Your API key | Authentication |
+| `anthropic-version` | `2023-06-01` | API version |
+| `anthropic-beta` | Beta feature IDs | Required for beta features |

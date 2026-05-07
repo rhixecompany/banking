@@ -5,7 +5,7 @@
 ### Server tools vs client tools
 
 | Type | Who runs it | How it works |
-|---|---|---|
+| --- | --- | --- |
 | **Prebuilt Claude Agent tools** (`agent_toolset_20260401`) | Anthropic, on the session's container | File ops, bash, web search, etc. Enable all at once or configure individually with `enabled: true/false`. |
 | **MCP tools** (`mcp_toolset`) | Anthropic, on the session's container | Capabilities exposed by connected MCP servers. Grant access per-server via the toolset. |
 | **Custom tools** | **You** — your application handles the call and returns results | Agent emits a `agent.custom_tool_use` event, session goes `idle`, you send back a `user.custom_tool_result` event. |
@@ -18,8 +18,8 @@
 
 The `agent_toolset_20260401` provides these built-in tools:
 
-| Tool                   | Description                              |
-| ---------------------- | ---------------------------------------- |
+| Tool | Description |
+| --- | --- |
 | `bash` | Execute bash commands in a shell session |
 | `read` | Read a file from the local filesystem, including text, images, PDFs, and Jupyter notebooks |
 | `write` | Write a file to the local filesystem |
@@ -33,9 +33,7 @@ Enable the full toolset:
 
 ```json
 {
-  "tools": [
-    { "type": "agent_toolset_20260401" }
-  ]
+  "tools": [{ "type": "agent_toolset_20260401" }]
 }
 ```
 
@@ -49,16 +47,14 @@ Override defaults for individual tools. This example enables everything except b
     {
       "type": "agent_toolset_20260401",
       "default_config": { "enabled": true },
-      "configs": [
-        { "name": "bash", "enabled": false }
-      ]
+      "configs": [{ "name": "bash", "enabled": false }]
     }
   ]
 }
 ```
 
 | Field | Required | Description |
-|---|---|---|
+| --- | --- | --- |
 | `type` | ✅ | `"agent_toolset_20260401"` |
 | `default_config` | ❌ | Applied to all tools. `{ "enabled": bool, "permission_policy": {...} }` |
 | `configs` | ❌ | Per-tool overrides: `[{ "name": "...", "enabled": bool, "permission_policy": {...} }]` |
@@ -68,20 +64,20 @@ Override defaults for individual tools. This example enables everything except b
 Control when server-executed tools (agent toolset + MCP) run automatically vs wait for approval. Does not apply to custom tools.
 
 | Policy | Behavior |
-|---|---|
+| --- | --- |
 | `always_allow` | Tool executes automatically (default) |
 | `always_ask` | Session emits `session.status_idle` and pauses until you send a `tool_confirmation` event |
 
 ```json
 {
-  "type": "agent_toolset_20260401",
+  "configs": [
+    { "name": "bash", "permission_policy": { "type": "always_ask" } }
+  ],
   "default_config": {
     "enabled": true,
     "permission_policy": { "type": "always_allow" }
   },
-  "configs": [
-    { "name": "bash", "permission_policy": { "type": "always_ask" } }
-  ]
+  "type": "agent_toolset_20260401"
 }
 ```
 
@@ -154,7 +150,7 @@ This keeps secrets out of reusable agent definitions. Each vault credential is t
 **Agent side — declare servers (no auth):**
 
 | Field | Required | Description |
-|---|---|---|
+| --- | --- | --- |
 | `type` | ✅ | `"url"` |
 | `name` | ✅ | Unique name — referenced by `mcp_toolset.mcp_server_name` |
 | `url` | ✅ | The MCP server's endpoint URL (Streamable HTTP transport) |
@@ -162,11 +158,13 @@ This keeps secrets out of reusable agent definitions. Each vault credential is t
 ```json
 {
   "mcp_servers": [
-    { "type": "url", "name": "linear", "url": "https://mcp.linear.app/mcp" }
+    {
+      "type": "url",
+      "name": "linear",
+      "url": "https://mcp.linear.app/mcp"
+    }
   ],
-  "tools": [
-    { "type": "mcp_toolset", "mcp_server_name": "linear" }
-  ]
+  "tools": [{ "type": "mcp_toolset", "mcp_server_name": "linear" }]
 }
 ```
 
@@ -215,7 +213,6 @@ Vaults store credentials; those credentials **never enter the sandbox**. This is
 
 ```json
 {
-  "display_name": "Notion (workspace-foo)",
   "auth": {
     "type": "mcp_oauth",
     "mcp_server_url": "https://mcp.notion.com/mcp",
@@ -227,14 +224,15 @@ Vaults store credentials; those credentials **never enter the sandbox**. This is
       "token_endpoint": "https://api.notion.com/v1/oauth/token",
       "token_endpoint_auth": { "type": "none" }
     }
-  }
+  },
+  "display_name": "Notion (workspace-foo)"
 }
 ```
 
 The `refresh` block is what enables auto-refresh — `token_endpoint` is where Anthropic posts the `refresh_token` grant. `token_endpoint_auth` is a discriminated union:
 
 | `type` | Shape | Use when |
-|---|---|---|
+| --- | --- | --- |
 | `"none"` | `{type: "none"}` | Public OAuth client (no secret) |
 | `"client_secret_basic"` | `{type: "client_secret_basic", client_secret: "..."}` | Confidential client, secret via HTTP Basic auth |
 | `"client_secret_post"` | `{type: "client_secret_post", client_secret: "..."}` | Confidential client, secret in request body |
@@ -254,7 +252,7 @@ Skills are reusable, filesystem-based resources that provide your agent with dom
 Two types — both work the same way; the agent automatically uses them when relevant to the task at hand:
 
 | Type | What it is |
-|---|---|
+| --- | --- |
 | **Pre-built Anthropic skills** | Common document tasks (PowerPoint, Excel, Word, PDF). Reference by name (e.g. `xlsx`). |
 | **Custom skills** | Skills you've created in your organization via the Skills API. Reference by `skill_id` + optional `version`. |
 
@@ -265,17 +263,15 @@ Two types — both work the same way; the agent automatically uses them when rel
 Skills are attached to the **agent** definition via `agents.create()`:
 
 ```ts
-const agent = await client.beta.agents.create(
-  {
-    name: "Financial Agent",
-    model: "claude-opus-4-7",
-    system: "You are a financial analysis agent.",
-    skills: [
-      { type: "anthropic", skill_id: "xlsx" },
-      { type: "custom", skill_id: "skill_abc123", version: "latest" },
-    ],
-  }
-);
+const agent = await client.beta.agents.create({
+  name: "Financial Agent",
+  model: "claude-opus-4-7",
+  system: "You are a financial analysis agent.",
+  skills: [
+    { type: "anthropic", skill_id: "xlsx" },
+    { type: "custom", skill_id: "skill_abc123", version: "latest" }
+  ]
+});
 ```
 
 Python:
@@ -295,21 +291,20 @@ agent = client.beta.agents.create(
 **Skill reference fields:**
 
 | Field | Anthropic skill | Custom skill |
-|---|---|---|
+| --- | --- | --- |
 | `type` | `"anthropic"` | `"custom"` |
 | `skill_id` | Skill name (e.g. `"xlsx"`, `"docx"`, `"pptx"`, `"pdf"`) | Skill ID from Skills API (e.g. `"skill_abc123"`) |
 | `version` | — | `"latest"` or a specific version number |
 
 ### Skills API
 
-| Operation             | Method   | Path                                            |
-| --------------------- | -------- | ----------------------------------------------- |
-| Create Skill          | `POST`   | `/v1/skills`                                    |
-| List Skills           | `GET`    | `/v1/skills`                                    |
-| Get Skill             | `GET`    | `/v1/skills/{id}`                               |
-| Delete Skill          | `DELETE` | `/v1/skills/{id}`                               |
-| Create Version        | `POST`   | `/v1/skills/{id}/versions`                      |
-| List Versions         | `GET`    | `/v1/skills/{id}/versions`                      |
-| Get Version           | `GET`    | `/v1/skills/{id}/versions/{version}`            |
-| Delete Version        | `DELETE` | `/v1/skills/{id}/versions/{version}`            |
-
+| Operation      | Method   | Path                                 |
+| -------------- | -------- | ------------------------------------ |
+| Create Skill   | `POST`   | `/v1/skills`                         |
+| List Skills    | `GET`    | `/v1/skills`                         |
+| Get Skill      | `GET`    | `/v1/skills/{id}`                    |
+| Delete Skill   | `DELETE` | `/v1/skills/{id}`                    |
+| Create Version | `POST`   | `/v1/skills/{id}/versions`           |
+| List Versions  | `GET`    | `/v1/skills/{id}/versions`           |
+| Get Version    | `GET`    | `/v1/skills/{id}/versions/{version}` |
+| Delete Version | `DELETE` | `/v1/skills/{id}/versions/{version}` |

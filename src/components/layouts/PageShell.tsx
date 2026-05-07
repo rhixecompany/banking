@@ -1,25 +1,30 @@
 import React from "react";
 
 /**
- * Description placeholder
- * @author Adminbot
+ * PageShell - Layout wrapper for authenticated pages.
+ * Provides consistent page structure with header and main content area.
  *
- * @typedef {PageShellProps}
+ * @description
+ * Wraps authenticated page content in a standard layout shell with a header
+ * containing the page title and a content area. Used by RootLayoutWrapper
+ * for all protected routes.
+ *
+ * @example
+ * ```tsx
+ * <PageShell title="Dashboard">
+ *   <DashboardContent />
+ * </PageShell>
+ * ```
+ *
+ * @param props - Component props
+ * @param props.title - Page title displayed in the header
+ * @param props.children - Page content to render
+ * @returns Layout shell with header and content
  */
 interface PageShellProps {
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {?string}
-   */
+  /** Page title displayed in the header */
   title?: string;
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {?React.ReactNode}
-   */
+  /** Page content to render */
   children?: React.ReactNode;
 }
 

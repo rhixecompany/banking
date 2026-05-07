@@ -30,6 +30,7 @@
 ## 1. Initiation (TaskManager)
 
 Create feature folder and files:
+
 ```
 .tmp/tasks/{feature-slug}/
 ├── task.json
@@ -45,12 +46,14 @@ Validate with: `task-cli.ts validate {feature}`
 ## 2. Task Selection
 
 Find eligible tasks using CLI:
+
 ```bash
 task-cli.ts next {feature}      # All ready tasks
 task-cli.ts parallel {feature}  # Parallelizable only
 ```
 
 Selection criteria:
+
 - `status == "pending"`
 - All `depends_on` tasks have `status == "completed"`
 
@@ -64,9 +67,9 @@ When picking up task:
 2. Update status:
    ```json
    {
-     "status": "in_progress",
      "agent_id": "coder-agent",
-     "started_at": "2026-01-11T14:30:00Z"
+     "started_at": "2026-01-11T14:30:00Z",
+     "status": "in_progress"
    }
    ```
 3. Load `context_files` (lazy)
@@ -99,26 +102,26 @@ When `completed_count == subtask_count`:
 
 ## Status Ownership
 
-| Status | Who Sets | When |
-|--------|----------|------|
-| pending | TaskManager | Initial creation |
-| in_progress | Working agent | Picks up task |
-| completed | TaskManager | After verification |
-| blocked | Either | Dependency/issue found |
+| Status      | Who Sets      | When                   |
+| ----------- | ------------- | ---------------------- |
+| pending     | TaskManager   | Initial creation       |
+| in_progress | Working agent | Picks up task          |
+| completed   | TaskManager   | After verification     |
+| blocked     | Either        | Dependency/issue found |
 
 ---
 
 ## CLI Commands Summary
 
-| Command | Use Case |
-|---------|----------|
-| `status` | Quick overview |
-| `next` | What to work on |
+| Command    | Use Case            |
+| ---------- | ------------------- |
+| `status`   | Quick overview      |
+| `next`     | What to work on     |
 | `parallel` | Batch parallel work |
-| `deps` | Understand blockers |
-| `blocked` | Identify issues |
-| `complete` | Mark task done |
-| `validate` | Health check |
+| `deps`     | Understand blockers |
+| `blocked`  | Identify issues     |
+| `complete` | Mark task done      |
+| `validate` | Health check        |
 
 ---
 

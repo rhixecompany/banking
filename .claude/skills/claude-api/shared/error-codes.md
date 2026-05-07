@@ -4,16 +4,16 @@ This file documents HTTP error codes returned by the Claude API, their common ca
 
 ## Error Code Summary
 
-| Code | Error Type              | Retryable | Common Cause                         |
-| ---- | ----------------------- | --------- | ------------------------------------ |
-| 400  | `invalid_request_error` | No        | Invalid request format or parameters |
-| 401  | `authentication_error`  | No        | Invalid or missing API key           |
-| 403  | `permission_error`      | No        | API key lacks permission             |
-| 404  | `not_found_error`       | No        | Invalid endpoint or model ID         |
-| 413  | `request_too_large`     | No        | Request exceeds size limits          |
-| 429  | `rate_limit_error`      | Yes       | Too many requests                    |
-| 500  | `api_error`             | Yes       | Anthropic service issue              |
-| 529  | `overloaded_error`      | Yes       | API is temporarily overloaded        |
+| Code | Error Type | Retryable | Common Cause |
+| --- | --- | --- | --- |
+| 400 | `invalid_request_error` | No | Invalid request format or parameters |
+| 401 | `authentication_error` | No | Invalid or missing API key |
+| 403 | `permission_error` | No | API key lacks permission |
+| 404 | `not_found_error` | No | Invalid endpoint or model ID |
+| 413 | `request_too_large` | No | Request exceeds size limits |
+| 429 | `rate_limit_error` | Yes | Too many requests |
+| 500 | `api_error` | Yes | Anthropic service issue |
+| 529 | `overloaded_error` | Yes | API is temporarily overloaded |
 
 ## Detailed Error Information
 
@@ -31,12 +31,12 @@ This file documents HTTP error codes returned by the Claude API, their common ca
 
 ```json
 {
-  "type": "error",
   "error": {
     "type": "invalid_request_error",
     "message": "messages: roles must alternate between \"user\" and \"assistant\""
   },
-  "request_id": "req_011CSHoEeqs5C35K2UUqR7Fy"
+  "request_id": "req_011CSHoEeqs5C35K2UUqR7Fy",
+  "type": "error"
 }
 ```
 
@@ -164,30 +164,30 @@ thinking: budget_tokens=10000, max_tokens=16000
 
 ## Common Mistakes and Fixes
 
-| Mistake                         | Error            | Fix                                                     |
-| ------------------------------- | ---------------- | ------------------------------------------------------- |
-| `temperature`/`top_p`/`top_k` on Opus 4.7 | 400    | Remove the parameter (see `shared/model-migration.md`)  |
-| `budget_tokens` on Opus 4.7     | 400              | Use `thinking: {type: "adaptive"}`                      |
-| `budget_tokens` >= `max_tokens` (older models) | 400 | Ensure `budget_tokens` < `max_tokens`                  |
-| Typo in model ID                | 404              | Use valid model ID like `claude-opus-4-7`               |
-| First message is `assistant`    | 400              | First message must be `user`                            |
-| Consecutive same-role messages  | 400              | Alternate `user` and `assistant`                        |
-| API key in code                 | 401 (leaked key) | Use environment variable                                |
-| Custom retry needs              | 429/5xx          | SDK retries automatically; customize with `max_retries` |
+| Mistake | Error | Fix |
+| --- | --- | --- |
+| `temperature`/`top_p`/`top_k` on Opus 4.7 | 400 | Remove the parameter (see `shared/model-migration.md`) |
+| `budget_tokens` on Opus 4.7 | 400 | Use `thinking: {type: "adaptive"}` |
+| `budget_tokens` >= `max_tokens` (older models) | 400 | Ensure `budget_tokens` < `max_tokens` |
+| Typo in model ID | 404 | Use valid model ID like `claude-opus-4-7` |
+| First message is `assistant` | 400 | First message must be `user` |
+| Consecutive same-role messages | 400 | Alternate `user` and `assistant` |
+| API key in code | 401 (leaked key) | Use environment variable |
+| Custom retry needs | 429/5xx | SDK retries automatically; customize with `max_retries` |
 
 ## Typed Exceptions in SDKs
 
 **Always use the SDK's typed exception classes** instead of checking error messages with string matching. Each HTTP error code maps to a specific exception class:
 
-| HTTP Code | TypeScript Class                  | Python Class                      |
-| --------- | --------------------------------- | --------------------------------- |
-| 400       | `Anthropic.BadRequestError`       | `anthropic.BadRequestError`       |
-| 401       | `Anthropic.AuthenticationError`   | `anthropic.AuthenticationError`   |
-| 403       | `Anthropic.PermissionDeniedError` | `anthropic.PermissionDeniedError` |
-| 404       | `Anthropic.NotFoundError`         | `anthropic.NotFoundError`         |
-| 429       | `Anthropic.RateLimitError`        | `anthropic.RateLimitError`        |
-| 500+      | `Anthropic.InternalServerError`   | `anthropic.InternalServerError`   |
-| Any       | `Anthropic.APIError`              | `anthropic.APIError`              |
+| HTTP Code | TypeScript Class | Python Class |
+| --- | --- | --- |
+| 400 | `Anthropic.BadRequestError` | `anthropic.BadRequestError` |
+| 401 | `Anthropic.AuthenticationError` | `anthropic.AuthenticationError` |
+| 403 | `Anthropic.PermissionDeniedError` | `anthropic.PermissionDeniedError` |
+| 404 | `Anthropic.NotFoundError` | `anthropic.NotFoundError` |
+| 429 | `Anthropic.RateLimitError` | `anthropic.RateLimitError` |
+| 500+ | `Anthropic.InternalServerError` | `anthropic.InternalServerError` |
+| Any | `Anthropic.APIError` | `anthropic.APIError` |
 
 ```typescript
 // ✅ Correct: use typed exceptions

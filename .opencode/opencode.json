@@ -1,9 +1,5 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "agent": {
-    "build": {},
-    "plan": {}
-  },
   "autoupdate": true,
   "command": {
     "mystatus": {
@@ -14,16 +10,7 @@
   "compaction": {
     "auto": true
   },
-  "default_agent": "plan",
-  "enabled_providers": [
-    "google-vertex",
-    "openrouter",
-    "anthropic",
-    "calculon",
-    "openai",
-    "opencode",
-    "github-copilot"
-  ],
+  "default_agent": "nextjs-16-architect",
   "instructions": [
     "rules/code-review.md",
     "rules/commit-messages.md",
@@ -154,7 +141,9 @@
     "file:///C:/Users/Alexa/Desktop/SandBox/Banking/.opencode/plugin-src/superpowers",
     "smart-codebase",
     "opencode-mystatus",
-    "@slkiser/opencode-quota"
+    "@slkiser/opencode-quota",
+    "opencode-gemini-auth",
+    "micode"
   ],
   "provider": {
     "anthropic": {
@@ -209,6 +198,93 @@
         "baseURL": "http://calculon.local:8000/v1"
       }
     },
+    "github-copilot": {
+      "models": {
+        "claude-haiku-4.5": {
+          "name": "Claude Haiku 4.5",
+          "temperature": true
+        },
+        "claude-opus-4.5": {
+          "name": "Claude Opus 4.5",
+          "temperature": true
+        },
+        "claude-sonnet-4.5": {
+          "name": "Claude Sonnet 4.5",
+          "temperature": true
+        },
+        "claude-sonnet-4.6": {
+          "name": "Claude Sonnet 4.6",
+          "temperature": true
+        },
+        "gemini-2.5-pro": {
+          "name": "Gemini 2.5 Pro",
+          "temperature": true
+        },
+        "gemini-3-flash-preview": {
+          "name": "Gemini 3 Flash Preview",
+          "temperature": true
+        },
+        "gemini-3.1-pro-preview": {
+          "name": "Gemini 3.1 Pro Preview",
+          "temperature": true
+        },
+        "gpt-4.1": {
+          "name": "GPT-4.1",
+          "temperature": true
+        },
+        "gpt-4o": {
+          "name": "GPT-4o",
+          "temperature": true
+        },
+        "gpt-4o-mini": {
+          "name": "GPT-4o Mini",
+          "temperature": true
+        },
+        "gpt-5-mini": {
+          "name": "GPT-5 Mini",
+          "temperature": true
+        },
+        "gpt-5.2": {
+          "name": "GPT-5.2",
+          "temperature": true
+        },
+        "gpt-5.2-codex": {
+          "name": "GPT-5.2 Codex",
+          "temperature": true
+        },
+        "gpt-5.3-codex": {
+          "name": "GPT-5.3 Codex",
+          "temperature": true
+        },
+        "gpt-5.4": {
+          "name": "GPT-5.4",
+          "temperature": true
+        },
+        "gpt-5.4-mini": {
+          "name": "GPT-5.4 Mini",
+          "temperature": true
+        },
+        "grok-code-fast-1": {
+          "name": "Grok Code Fast 1",
+          "temperature": true
+        },
+        "o1-mini": {
+          "name": "o1 Mini",
+          "temperature": false
+        },
+        "o1-preview": {
+          "name": "o1 Preview",
+          "temperature": false
+        }
+      },
+      "options": {
+        "include": [
+          "reasoning.encrypted_content"
+        ],
+        "reasoningEffort": "medium",
+        "reasoningSummary": "auto"
+      }
+    },
     "google-vertex": {
       "models": {
         "gemini-2.5-flash": {
@@ -241,6 +317,66 @@
         "reasoningSummary": "auto",
         "store": false,
         "textVerbosity": "medium"
+      }
+    },
+    "opencode": {
+      "models": {
+        "deepseek-chat": {
+          "name": "DeepSeek Chat",
+          "temperature": true
+        },
+        "minimax-m2.1-free": {
+          "name": "MiniMax M2.1 Free",
+          "temperature": true
+        },
+        "minimax-m2.5-free": {
+          "name": "MiniMax M2.5 Free",
+          "temperature": true
+        },
+        "qwen-coder-turbo": {
+          "name": "Qwen Coder Turbo",
+          "temperature": true
+        }
+      },
+      "options": {}
+    },
+    "openrouter": {
+      "models": {
+        "anthropic/claude-3-5-haiku": {
+          "name": "Claude 3.5 Haiku (via OpenRouter)",
+          "temperature": true
+        },
+        "anthropic/claude-3-5-sonnet": {
+          "name": "Claude 3.5 Sonnet (via OpenRouter)",
+          "temperature": true
+        },
+        "deepseek/deepseek-chat": {
+          "name": "DeepSeek Chat",
+          "temperature": true
+        },
+        "google/gemini-2.0-flash-exp": {
+          "name": "Gemini 2.0 Flash Experimental",
+          "temperature": true
+        },
+        "meta-llama/llama-3.3-70b-instruct": {
+          "name": "Llama 3.3 70B Instruct",
+          "temperature": true
+        },
+        "mistralai/mistral-large": {
+          "name": "Mistral Large",
+          "temperature": true
+        },
+        "openai/gpt-4o": {
+          "name": "GPT-4o (via OpenRouter)",
+          "temperature": true
+        },
+        "openai/gpt-4o-mini": {
+          "name": "GPT-4o Mini (via OpenRouter)",
+          "temperature": true
+        }
+      },
+      "options": {
+        "apiKey": "{env:OPENROUTER_API_KEY}"
       }
     }
   },

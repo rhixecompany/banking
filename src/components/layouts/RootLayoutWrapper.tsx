@@ -16,18 +16,27 @@ function SessionLoadingFallback() {
 }
 
 /**
- * Description placeholder
- * @author Adminbot
+ * RootLayoutWrapper - Root layout wrapper with providers and loading states.
+ * Wraps authenticated layout content with session providers.
  *
- * @typedef {Props}
+ * @description
+ * Provides SSR-safe layout wrapping with Suspense for loading states.
+ * Uses RootProviders for Zustand stores and session management.
+ * Shows a spinner while session loads to prevent route blocking.
+ *
+ * @example
+ * ```tsx
+ * <RootLayoutWrapper>
+ *   <Dashboard />
+ * </RootLayoutWrapper>
+ * ```
+ *
+ * @param props - Component props
+ * @param props.children - Layout content to wrap
+ * @returns Layout with providers and loading fallback
  */
 interface Props {
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {React.ReactNode}
-   */
+  /** Layout content to wrap with providers */
   children: React.ReactNode;
 }
 

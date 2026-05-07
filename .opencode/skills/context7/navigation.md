@@ -19,7 +19,7 @@ context7/
 ## Quick Routes
 
 | Task | Path |
-|------|------|
+| --- | --- |
 | **Quick start** | `README.md` |
 | **API reference** | `SKILL.md` |
 | **Supported libraries** | `library-registry.md` (lines 18-181) |
@@ -32,14 +32,17 @@ context7/
 ## By Purpose
 
 **Using Context7**:
+
 - Quick start → `README.md`
 - API details → `SKILL.md`
 
 **Adding Libraries**:
+
 - Template → `library-registry.md` (lines 272-279)
 - Supported list → `library-registry.md` (lines 18-181)
 
 **Integration**:
+
 - ContextScout workflow → `README.md` (lines 54-73)
 - ExternalScout subagent → `.opencode/agent/subagents/core/externalscout.md`
 

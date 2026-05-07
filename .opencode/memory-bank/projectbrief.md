@@ -12,21 +12,25 @@
 ## Core Requirements
 
 ### Authentication
+
 - NextAuth v4 with JWT strategy
 - Credentials + OAuth (GitHub, Google)
 - Protected routes via middleware
 
 ### Bank Integration
+
 - Plaid for bank account linking
 - Real-time transaction sync
 - Multiple accounts per user
 
 ### Money Transfers
+
 - Dwolla for ACH transfers
 - Internal transfers between platform users
 - Idempotency keys for financial safety
 
 ### Data Management
+
 - PostgreSQL + Drizzle ORM
 - DAL (Data Access Layer) pattern
 - Soft delete for data safety

@@ -64,27 +64,20 @@ development/
 
 ## Quick Routes
 
-| Task | Path |
-|------|------|
-| **UI/Frontend** | `ui-navigation.md` |
+| Task                          | Path                           |
+| ----------------------------- | ------------------------------ |
+| **UI/Frontend**               | `ui-navigation.md`             |
 | **When to delegate frontend** | `frontend/when-to-delegate.md` |
-| **Backend/API** | `backend-navigation.md` |
-| **Full-stack** | `fullstack-navigation.md` |
-| **Clean code** | `principles/clean-code.md` |
-| **API design** | `principles/api-design.md` |
+| **Backend/API**               | `backend-navigation.md`        |
+| **Full-stack**                | `fullstack-navigation.md`      |
+| **Clean code**                | `principles/clean-code.md`     |
+| **API design**                | `principles/api-design.md`     |
 
 ---
 
 ## By Concern
 
-**Principles** → Universal development practices
-**Frameworks** → Full-stack frameworks (Tanstack Start, Next.js)
-**AI** → AI frameworks and agent runtimes (MAStra AI)
-**Frontend** → React patterns and component design
-**Backend** → APIs, Node.js, Python, auth (future)
-**Data** → SQL, NoSQL, ORMs (future)
-**Integration** → Packages, APIs, services (future)
-**Infrastructure** → Docker, CI/CD (future)
+**Principles** → Universal development practices **Frameworks** → Full-stack frameworks (Tanstack Start, Next.js) **AI** → AI frameworks and agent runtimes (MAStra AI) **Frontend** → React patterns and component design **Backend** → APIs, Node.js, Python, auth (future) **Data** → SQL, NoSQL, ORMs (future) **Integration** → Packages, APIs, services (future) **Infrastructure** → Docker, CI/CD (future)
 
 ---
 

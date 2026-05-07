@@ -1,14 +1,14 @@
 {
   "commands": {
     "dcpSweep": true,
-    "enabled": true
+    "enabled": true,
   },
   "prune": {
     "auto": false,
     "mode": "toast",
-    "pruneInterval": 30
+    "pruneInterval": 30,
   },
   "turnProtection": {
-    "minTurns": 5
-  }
+    "minTurns": 5,
+  },
 }

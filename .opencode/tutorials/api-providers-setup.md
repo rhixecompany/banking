@@ -43,6 +43,7 @@ Edit `.opencode/opencode.json`:
 ### Step 5: Verify It Works
 
 Run:
+
 ```bash
 opencode --model google-vertex/gemini-2.5-flash "Hello, test response"
 ```
@@ -94,7 +95,7 @@ opencode --model anthropic/claude-haiku-4-5 "Hello, test response"
 ### Pricing (Haiku = Cheapest)
 
 | Model | Input | Output | Best For |
-|-------|-------|--------|----------|
+| --- | --- | --- | --- |
 | Claude Haiku 4.5 | $0.80/1M | $4.00/1M | High volume, fast responses |
 | Claude Sonnet 4.6 | $3.00/1M | $15.00/1M | Balanced coding |
 | Claude Opus 4 | $15.00/1M | $75.00/1M | Complex reasoning |
@@ -143,18 +144,18 @@ opencode --model openai/gpt-5.1-codex-max "Hello, test response"
 
 ### Pricing (GPT-5.1)
 
-| Model | Input | Output |
-|-------|-------|--------|
-| GPT-5.4 mini | $0.75/1M | $4.50/1M |
-| GPT-5.4 | $2.50/1M | $15.00/1M |
-| GPT-5.5 | $5.00/1M | $30.00/1M |
+| Model        | Input    | Output    |
+| ------------ | -------- | --------- |
+| GPT-5.4 mini | $0.75/1M | $4.50/1M  |
+| GPT-5.4      | $2.50/1M | $15.00/1M |
+| GPT-5.5      | $5.00/1M | $30.00/1M |
 
 ---
 
 ## Quick Comparison
 
 | Provider | Model | Free Tier | Best For |
-|----------|-------|-----------|----------|
+| --- | --- | --- | --- |
 | **Google** | Gemini 2.5 Flash | $0 for 90-day trial, then pay-as-you-go | Fast, cheap, good coding |
 | **Anthropic** | Claude Haiku 4.5 | $5 minimum deposit, then pay-per-use | Best coding quality |
 | **OpenAI** | GPT-5.4 mini | $5 trial credit for new accounts | Latest models |
@@ -164,14 +165,17 @@ opencode --model openai/gpt-5.1-codex-max "Hello, test response"
 ## Troubleshooting
 
 ### "API key not found"
+
 - Ensure environment variable is set in `.opencode/.env`
 - Restart OpenCode after editing env file
 
 ### "Rate limit exceeded"
+
 - Wait for reset (usually minutes to hours)
 - For Anthropic: deposit $5 to unlock Tier 1 (50 RPM)
 
 ### "Invalid API key"
+
 - Double-check key format:
   - Anthropic: `sk-ant-api03-...`
   - OpenAI: `sk-...`
@@ -198,6 +202,7 @@ To switch models in OpenCode, edit `.opencode/opencode.json`:
 ```
 
 Or use CLI flag:
+
 ```bash
 opencode --model anthropic/claude-haiku-4-5 "your prompt"
 ```

@@ -11,6 +11,7 @@
 ## Core Concepts
 
 Task management uses two JSON file types:
+
 - `task.json` - Feature-level metadata and tracking
 - `subtask_NN.json` - Individual atomic tasks with dependencies
 
@@ -23,6 +24,7 @@ Location: `.tmp/tasks/{feature-slug}/` (at project root)
 This document describes the **base schema** (v1.0) that all task files must follow.
 
 For **enhanced features** (line-number precision, domain modeling, contracts, ADRs, prioritization):
+
 - See `enhanced-task-schema.md` for extended fields and capabilities
 - All enhanced fields are **optional** and backward compatible
 - Use enhanced schema for multi-stage orchestration workflows
@@ -32,7 +34,7 @@ For **enhanced features** (line-number precision, domain modeling, contracts, AD
 ## task.json Schema
 
 | Field | Type | Required | Description |
-|-------|------|----------|-------------|
+| --- | --- | --- | --- |
 | `id` | string | Yes | kebab-case identifier |
 | `name` | string | Yes | Human-readable name (max 100) |
 | `status` | enum | Yes | active / completed / blocked / archived |
@@ -50,7 +52,7 @@ For **enhanced features** (line-number precision, domain modeling, contracts, AD
 ## subtask_NN.json Schema
 
 | Field | Type | Required | Description |
-|-------|------|----------|-------------|
+| --- | --- | --- | --- |
 | `id` | string | Yes | {feature}-{seq} |
 | `seq` | string | Yes | 2-digit (01, 02) |
 | `title` | string | Yes | Task title (max 100) |
@@ -94,11 +96,12 @@ Use `task-cli.ts parallel` to find all parallelizable tasks ready to run.
 These two fields serve fundamentally different purposes. **Never mix them.**
 
 | Field | Answers | Contains | Agent behavior |
-|-------|---------|----------|----------------|
+| --- | --- | --- | --- |
 | `context_files` | "What rules do I follow?" | Standards, conventions, patterns from `.opencode/context/` | Load and apply as coding guidelines |
 | `reference_files` | "What existing code do I look at?" | Project source files, configs, schemas | Read to understand existing patterns |
 
 **Wrong** ❌ — mixing standards and source files:
+
 ```json
 "context_files": [
   ".opencode/context/core/standards/code-quality.md",
@@ -108,6 +111,7 @@ These two fields serve fundamentally different purposes. **Never mix them.**
 ```
 
 **Right** ✅ — clean separation:
+
 ```json
 "context_files": [
   ".opencode/context/core/standards/code-quality.md",
@@ -125,21 +129,22 @@ These two fields serve fundamentally different purposes. **Never mix them.**
 
 ```json
 {
-  "id": "auth-system-02",
-  "seq": "02",
-  "title": "Create JWT service",
-  "status": "pending",
-  "depends_on": ["01"],
-  "parallel": false,
+  "acceptance_criteria": [
+    "JWT tokens signed with RS256",
+    "Tests pass"
+  ],
   "context_files": [
     ".opencode/context/core/standards/code-quality.md",
     ".opencode/context/core/standards/security-patterns.md"
   ],
-  "reference_files": [
-    "src/auth/token-utils.ts"
-  ],
-  "acceptance_criteria": ["JWT tokens signed with RS256", "Tests pass"],
-  "deliverables": ["src/auth/jwt.service.ts"]
+  "deliverables": ["src/auth/jwt.service.ts"],
+  "depends_on": ["01"],
+  "id": "auth-system-02",
+  "parallel": false,
+  "reference_files": ["src/auth/token-utils.ts"],
+  "seq": "02",
+  "status": "pending",
+  "title": "Create JWT service"
 }
 ```
 
@@ -152,6 +157,7 @@ The enhanced schema adds powerful features while maintaining full backward compa
 ### When to Use Enhanced Schema
 
 Use `enhanced-task-schema.md` when you need:
+
 - **Line-number precision** - Point to specific sections of large files (reduces cognitive load)
 - **Domain modeling** - Track bounded contexts, modules, vertical slices
 - **Contract tracking** - Manage API/interface dependencies
@@ -172,6 +178,7 @@ Use `enhanced-task-schema.md` when you need:
 ### Example: Adding Line-Number Precision
 
 **Old format** (still valid):
+
 ```json
 "context_files": [
   ".opencode/context/core/standards/code-quality.md"
@@ -179,6 +186,7 @@ Use `enhanced-task-schema.md` when you need:
 ```
 
 **New format** (enhanced):
+
 ```json
 "context_files": [
   {

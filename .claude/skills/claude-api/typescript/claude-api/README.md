@@ -26,7 +26,9 @@ const client = new Anthropic({ apiKey: "your-api-key" });
 const response = await client.messages.create({
   model: "claude-opus-4-7",
   max_tokens: 16000,
-  messages: [{ role: "user", content: "What is the capital of France?" }],
+  messages: [
+    { role: "user", content: "What is the capital of France?" }
+  ]
 });
 // response.content is ContentBlock[] — a discriminated union. Narrow by .type
 // before accessing .text (TypeScript will error on content[0].text without this).
@@ -47,7 +49,7 @@ const response = await client.messages.create({
   max_tokens: 16000,
   system:
     "You are a helpful coding assistant. Always provide examples in Python.",
-  messages: [{ role: "user", content: "How do I read a JSON file?" }],
+  messages: [{ role: "user", content: "How do I read a JSON file?" }]
 });
 ```
 
@@ -67,12 +69,15 @@ const response = await client.messages.create({
       content: [
         {
           type: "image",
-          source: { type: "url", url: "https://example.com/image.png" },
+          source: {
+            type: "url",
+            url: "https://example.com/image.png"
+          }
         },
-        { type: "text", text: "Describe this image" },
-      ],
-    },
-  ],
+        { type: "text", text: "Describe this image" }
+      ]
+    }
+  ]
 });
 ```
 
@@ -92,12 +97,16 @@ const response = await client.messages.create({
       content: [
         {
           type: "image",
-          source: { type: "base64", media_type: "image/png", data: imageData },
+          source: {
+            type: "base64",
+            media_type: "image/png",
+            data: imageData
+          }
         },
-        { type: "text", text: "What's in this image?" },
-      ],
-    },
-  ],
+        { type: "text", text: "What's in this image?" }
+      ]
+    }
+  ]
 });
 ```
 
@@ -117,7 +126,7 @@ const response = await client.messages.create({
   max_tokens: 16000,
   cache_control: { type: "ephemeral" }, // auto-caches the last cacheable block
   system: "You are an expert on this large document...",
-  messages: [{ role: "user", content: "Summarize the key points" }],
+  messages: [{ role: "user", content: "Summarize the key points" }]
 });
 ```
 
@@ -133,10 +142,10 @@ const response = await client.messages.create({
     {
       type: "text",
       text: "You are an expert on this large document...",
-      cache_control: { type: "ephemeral" }, // default TTL is 5 minutes
-    },
+      cache_control: { type: "ephemeral" } // default TTL is 5 minutes
+    }
   ],
-  messages: [{ role: "user", content: "Summarize the key points" }],
+  messages: [{ role: "user", content: "Summarize the key points" }]
 });
 
 // With explicit TTL (time-to-live)
@@ -147,10 +156,10 @@ const response2 = await client.messages.create({
     {
       type: "text",
       text: "You are an expert on this large document...",
-      cache_control: { type: "ephemeral", ttl: "1h" }, // 1 hour TTL
-    },
+      cache_control: { type: "ephemeral", ttl: "1h" } // 1 hour TTL
+    }
   ],
-  messages: [{ role: "user", content: "Summarize the key points" }],
+  messages: [{ role: "user", content: "Summarize the key points" }]
 });
 ```
 
@@ -158,8 +167,8 @@ const response2 = await client.messages.create({
 
 ```typescript
 console.log(response.usage.cache_creation_input_tokens); // tokens written to cache (~1.25x cost)
-console.log(response.usage.cache_read_input_tokens);     // tokens served from cache (~0.1x cost)
-console.log(response.usage.input_tokens);                // uncached tokens (full cost)
+console.log(response.usage.cache_read_input_tokens); // tokens served from cache (~0.1x cost)
+console.log(response.usage.input_tokens); // uncached tokens (full cost)
 ```
 
 If `cache_read_input_tokens` is zero across repeated identical-prefix requests, a silent invalidator is at work — `Date.now()` or a UUID in the system prompt, non-deterministic key ordering, or a varying tool set. See `shared/prompt-caching.md` for the full audit table.
@@ -168,8 +177,7 @@ If `cache_read_input_tokens` is zero across repeated identical-prefix requests, 
 
 ## Extended Thinking
 
-> **Opus 4.7, Opus 4.6, and Sonnet 4.6:** Use adaptive thinking. `budget_tokens` is removed on Opus 4.7 (400 if sent); deprecated on Opus 4.6 and Sonnet 4.6.
-> **Older models:** Use `thinking: {type: "enabled", budget_tokens: N}` (must be < `max_tokens`, min 1024).
+> **Opus 4.7, Opus 4.6, and Sonnet 4.6:** Use adaptive thinking. `budget_tokens` is removed on Opus 4.7 (400 if sent); deprecated on Opus 4.6 and Sonnet 4.6. **Older models:** Use `thinking: {type: "enabled", budget_tokens: N}` (must be < `max_tokens`, min 1024).
 
 ```typescript
 // Opus 4.7 / 4.6: adaptive thinking (recommended)
@@ -179,8 +187,11 @@ const response = await client.messages.create({
   thinking: { type: "adaptive" },
   output_config: { effort: "high" }, // low | medium | high | max
   messages: [
-    { role: "user", content: "Solve this math problem step by step..." },
-  ],
+    {
+      role: "user",
+      content: "Solve this math problem step by step..."
+    }
+  ]
 });
 
 for (const block of response.content) {
@@ -228,13 +239,13 @@ The API is stateless — send the full conversation history each time. Use `Anth
 const messages: Anthropic.MessageParam[] = [
   { role: "user", content: "My name is Alice." },
   { role: "assistant", content: "Hello Alice! Nice to meet you." },
-  { role: "user", content: "What's my name?" },
+  { role: "user", content: "What's my name?" }
 ];
 
 const response = await client.messages.create({
   model: "claude-opus-4-7",
   max_tokens: 16000,
-  messages: messages,
+  messages: messages
 });
 ```
 
@@ -265,15 +276,15 @@ async function chat(userMessage: string): Promise<string> {
     max_tokens: 16000,
     messages,
     context_management: {
-      edits: [{ type: "compact_20260112" }],
-    },
+      edits: [{ type: "compact_20260112" }]
+    }
   });
 
   // Append full content — compaction blocks must be preserved
   messages.push({ role: "assistant", content: response.content });
 
   const textBlock = response.content.find(
-    (b): b is Anthropic.Beta.BetaTextBlock => b.type === "text",
+    (b): b is Anthropic.Beta.BetaTextBlock => b.type === "text"
   );
   return textBlock?.text ?? "";
 }
@@ -290,14 +301,14 @@ console.log(await chat("Now add rate limiting and error handling"));
 
 The `stop_reason` field in the response indicates why the model stopped generating:
 
-| Value           | Meaning                                                         |
-| --------------- | --------------------------------------------------------------- |
-| `end_turn`      | Claude finished its response naturally                          |
-| `max_tokens`    | Hit the `max_tokens` limit — increase it or use streaming       |
-| `stop_sequence` | Hit a custom stop sequence                                      |
-| `tool_use`      | Claude wants to call a tool — execute it and continue           |
-| `pause_turn`    | Model paused and can be resumed (agentic flows)                 |
-| `refusal`       | Claude refused for safety reasons — output may not match schema |
+| Value | Meaning |
+| --- | --- |
+| `end_turn` | Claude finished its response naturally |
+| `max_tokens` | Hit the `max_tokens` limit — increase it or use streaming |
+| `stop_sequence` | Hit a custom stop sequence |
+| `tool_use` | Claude wants to call a tool — execute it and continue |
+| `pause_turn` | Model paused and can be resumed (agentic flows) |
+| `refusal` | Claude refused for safety reasons — output may not match schema |
 
 ---
 
@@ -312,7 +323,7 @@ const response = await client.messages.create({
   max_tokens: 16000,
   cache_control: { type: "ephemeral" },
   system: largeDocumentText, // e.g., 50KB of context
-  messages: [{ role: "user", content: "Summarize the key points" }],
+  messages: [{ role: "user", content: "Summarize the key points" }]
 });
 
 // First request: full cost
@@ -325,9 +336,11 @@ const response = await client.messages.create({
 const countResponse = await client.messages.countTokens({
   model: "claude-opus-4-7",
   messages: messages,
-  system: system,
+  system: system
 });
 
 const estimatedInputCost = countResponse.input_tokens * 0.000005; // $5/1M tokens
-console.log(`Estimated input cost: $${estimatedInputCost.toFixed(4)}`);
+console.log(
+  `Estimated input cost: $${estimatedInputCost.toFixed(4)}`
+);
 ```

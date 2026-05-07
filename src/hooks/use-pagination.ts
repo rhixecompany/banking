@@ -1,3 +1,16 @@
+/**
+ * Pagination range calculation hook.
+ * Computes visible page numbers with ellipsis for large page counts.
+ *
+ * @example
+ * ```tsx
+ * const { pages, showLeftEllipsis, showRightEllipsis } = usePagination({
+ *   currentPage: 5,
+ *   totalPages: 20,
+ *   paginationItemsToDisplay: 7,
+ * });
+ * ```
+ */
 interface UsePaginationProps {
   currentPage: number;
   totalPages: number;

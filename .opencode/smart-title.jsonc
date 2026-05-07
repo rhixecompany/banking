@@ -6,5 +6,5 @@
   // Optional: Use a specific model (otherwise uses smart fallbacks)
   // "model": "anthropic/claude-haiku-4-5",
   // Update title every N idle events (1 = every time you pause)
-  "updateThreshold": 1
+  "updateThreshold": 1,
 }

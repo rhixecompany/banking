@@ -11,17 +11,20 @@ Fetches **live, version-specific documentation** for external libraries and fram
 ### Recommended: Use ExternalScout Subagent
 
 The **ExternalScout** subagent is the recommended way to fetch external documentation. It handles:
+
 - Library detection
 - Query optimization
 - Documentation filtering and sorting
 - Formatted results with code examples
 
 **Invocation**:
+
 ```
 Use ExternalScout to fetch documentation for [Library Name]: [your specific question]
 ```
 
 **Example**:
+
 ```
 Use ExternalScout to fetch documentation for Drizzle ORM: How do I set up modular schemas with PostgreSQL?
 ```
@@ -43,6 +46,7 @@ See `SKILL.md` for detailed API documentation.
 ## Supported Libraries
 
 See `library-registry.md` for the complete list of supported libraries including:
+
 - **Database & ORM**: Drizzle, Prisma
 - **Authentication**: Better Auth, NextAuth.js, Clerk
 - **Frontend**: Next.js, React, TanStack Query/Router/Start
@@ -88,6 +92,7 @@ To add a new library to the registry:
 2. Add entry under appropriate category:
    ```markdown
    #### Library Name
+
    - **Aliases**: `alias1`, `alias2`, `package-name`
    - **Docs**: https://example.com/docs
    - **Context7**: `use context7 for library-name`

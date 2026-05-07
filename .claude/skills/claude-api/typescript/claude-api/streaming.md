@@ -6,7 +6,7 @@
 const stream = client.messages.stream({
   model: "claude-opus-4-7",
   max_tokens: 64000,
-  messages: [{ role: "user", content: "Write a story" }],
+  messages: [{ role: "user", content: "Write a story" }]
 });
 
 for await (const event of stream) {
@@ -30,7 +30,7 @@ const stream = client.messages.stream({
   model: "claude-opus-4-7",
   max_tokens: 64000,
   thinking: { type: "adaptive" },
-  messages: [{ role: "user", content: "Analyze this problem" }],
+  messages: [{ role: "user", content: "Analyze this problem" }]
 });
 
 for await (const event of stream) {
@@ -76,9 +76,11 @@ const getWeather = betaZodTool({
   name: "get_weather",
   description: "Get current weather for a location",
   inputSchema: z.object({
-    location: z.string().describe("City and state, e.g., San Francisco, CA"),
+    location: z
+      .string()
+      .describe("City and state, e.g., San Francisco, CA")
   }),
-  run: async ({ location }) => `72°F and sunny in ${location}`,
+  run: async ({ location }) => `72°F and sunny in ${location}`
 });
 
 const runner = client.beta.messages.toolRunner({
@@ -86,9 +88,12 @@ const runner = client.beta.messages.toolRunner({
   max_tokens: 64000,
   tools: [getWeather],
   messages: [
-    { role: "user", content: "What's the weather in Paris and London?" },
+    {
+      role: "user",
+      content: "What's the weather in Paris and London?"
+    }
   ],
-  stream: true,
+  stream: true
 });
 
 // Outer loop: each tool runner iteration
@@ -119,7 +124,7 @@ for await (const messageStream of runner) {
 const stream = client.messages.stream({
   model: "claude-opus-4-7",
   max_tokens: 64000,
-  messages: [{ role: "user", content: "Hello" }],
+  messages: [{ role: "user", content: "Hello" }]
 });
 
 for await (const event of stream) {
@@ -134,14 +139,14 @@ console.log(`Tokens used: ${finalMessage.usage.output_tokens}`);
 
 ## Stream Event Types
 
-| Event Type            | Description                 | When it fires                     |
-| --------------------- | --------------------------- | --------------------------------- |
-| `message_start`       | Contains message metadata   | Once at the beginning             |
+| Event Type | Description | When it fires |
+| --- | --- | --- |
+| `message_start` | Contains message metadata | Once at the beginning |
 | `content_block_start` | New content block beginning | When a text/tool_use block starts |
-| `content_block_delta` | Incremental content update  | For each token/chunk              |
-| `content_block_stop`  | Content block complete      | When a block finishes             |
-| `message_delta`       | Message-level updates       | Contains `stop_reason`, usage     |
-| `message_stop`        | Message complete            | Once at the end                   |
+| `content_block_delta` | Incremental content update | For each token/chunk |
+| `content_block_stop` | Content block complete | When a block finishes |
+| `message_delta` | Message-level updates | Contains `stop_reason`, usage |
+| `message_stop` | Message complete | Once at the end |
 
 ## Best Practices
 

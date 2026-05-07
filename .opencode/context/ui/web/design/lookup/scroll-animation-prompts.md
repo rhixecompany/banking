@@ -1,8 +1,8 @@
 <!-- Context: ui/scroll-animation-prompts | Priority: high | Version: 1.0 | Updated: 2026-02-15 -->
 
 ---
-description: "AI prompts for generating start/end frames and video sequences for scrollytelling"
----
+
+## description: "AI prompts for generating start/end frames and video sequences for scrollytelling"
 
 # Lookup: Scroll Animation Image Generation Prompts
 
@@ -25,25 +25,24 @@ Use these prompts with nano banana, Runway, Pika, or other AI tools to create im
 ### Product Hero Shot
 
 ```
-Ultra-premium product photography of [PRODUCT NAME] placed on a matte black 
-surface, minimalistic studio photoshoot. Deep black background (#050505) with 
-subtle gradient falloff, soft rim lighting outlining edges, controlled 
-reflections on smooth textures. Cinematic lighting, high contrast, luxury tech 
-aesthetic, sharp focus, shallow depth of field. No clutter, no text, no logos 
-emphasized. Shot with professional DSLR, 85mm lens, f/1.8, ultra-high 
-resolution, photorealistic, Apple-level product shoot, dramatic mood, modern 
+Ultra-premium product photography of [PRODUCT NAME] placed on a matte black
+surface, minimalistic studio photoshoot. Deep black background (#050505) with
+subtle gradient falloff, soft rim lighting outlining edges, controlled
+reflections on smooth textures. Cinematic lighting, high contrast, luxury tech
+aesthetic, sharp focus, shallow depth of field. No clutter, no text, no logos
+emphasized. Shot with professional DSLR, 85mm lens, f/1.8, ultra-high
+resolution, photorealistic, Apple-level product shoot, dramatic mood, modern
 and elegant.
 ```
 
-**Variables**: Replace [PRODUCT NAME] with your product
-**Output**: Starting position, fully assembled, hero angle
+**Variables**: Replace [PRODUCT NAME] with your product **Output**: Starting position, fully assembled, hero angle
 
 ---
 
 ### Variations by Product Type
 
 | Product Type | Additional Details |
-|--------------|-------------------|
+| --- | --- |
 | **Headphones** | "over-ear headphones with leather cushions and metal headband" |
 | **Smartphone** | "smartphone with edge-to-edge OLED display, aluminum frame" |
 | **Watch** | "luxury smartwatch with titanium case and sapphire crystal" |
@@ -57,19 +56,20 @@ and elegant.
 ### Exploded Technical View
 
 ```
-Exploded technical diagram view of [PRODUCT NAME], every component precisely 
-separated and floating in perfect alignment, suspended in mid-air against deep 
-black studio background (#050505). Visible internal structure including 
-[INTERNAL COMPONENTS], all parts evenly spaced showing assembly order. 
-Hyper-realistic product visualization, ultra-sharp focus, studio rim lighting 
-identical to hero shot, soft highlights tracing each component, controlled 
-reflections on matte and metal surfaces. Cinematic lighting, high contrast, 
-luxury engineering aesthetic, no labels, no annotations, no text. 
-Photorealistic, ultra-high resolution, Apple-style industrial design render, 
+Exploded technical diagram view of [PRODUCT NAME], every component precisely
+separated and floating in perfect alignment, suspended in mid-air against deep
+black studio background (#050505). Visible internal structure including
+[INTERNAL COMPONENTS], all parts evenly spaced showing assembly order.
+Hyper-realistic product visualization, ultra-sharp focus, studio rim lighting
+identical to hero shot, soft highlights tracing each component, controlled
+reflections on matte and metal surfaces. Cinematic lighting, high contrast,
+luxury engineering aesthetic, no labels, no annotations, no text.
+Photorealistic, ultra-high resolution, Apple-style industrial design render,
 dramatic and clean.
 ```
 
-**Variables**: 
+**Variables**:
+
 - [PRODUCT NAME]: Your product
 - [INTERNAL COMPONENTS]: Specific parts to show
 
@@ -78,7 +78,7 @@ dramatic and clean.
 ### Internal Components by Product
 
 | Product | Internal Components Examples |
-|---------|------------------------------|
+| --- | --- |
 | **Headphones** | "copper wiring, titanium drivers, magnets, circuit boards, padding layers, metal frame" |
 | **Smartphone** | "battery, logic board, cameras, OLED panel, antenna bands, frame" |
 | **Watch** | "watch movement, gears, battery, sensors, display, crown mechanism" |
@@ -92,13 +92,14 @@ dramatic and clean.
 ### For Runway/Pika
 
 ```
-Smoothly transition from fully assembled [PRODUCT] to exploded view. 
-Components separate slowly and precisely, maintaining perfect alignment. 
-Camera stays locked, product rotates slightly clockwise. Cinematic motion, 
+Smoothly transition from fully assembled [PRODUCT] to exploded view.
+Components separate slowly and precisely, maintaining perfect alignment.
+Camera stays locked, product rotates slightly clockwise. Cinematic motion,
 professional product animation, 4-5 seconds duration, 30fps.
 ```
 
 **Settings**:
+
 - Duration: 4-5 seconds
 - FPS: 30 (yields 120-150 frames)
 - Camera: Static or slow orbit
@@ -137,12 +138,12 @@ ffmpeg -i animation.mp4 -vf fps=30 -quality 90 frame_%04d.webp
 
 ### Recommended Dark Backgrounds
 
-| Color Code | Usage |
-|------------|-------|
-| `#050505` | Pure black with slight lift (recommended) |
-| `#0a0a0a` | Slightly lighter, less harsh |
-| `#000000` | True black (only if images are true black) |
-| `#1a1a1a` | Dark gray (for lighter renders) |
+| Color Code | Usage                                      |
+| ---------- | ------------------------------------------ |
+| `#050505`  | Pure black with slight lift (recommended)  |
+| `#0a0a0a`  | Slightly lighter, less harsh               |
+| `#000000`  | True black (only if images are true black) |
+| `#1a1a1a`  | Dark gray (for lighter renders)            |
 
 **Pro tip**: Use eyedropper tool on first frame background, use exact hex in CSS
 
@@ -152,21 +153,15 @@ ffmpeg -i animation.mp4 -vf fps=30 -quality 90 frame_%04d.webp
 
 ### Rotation (360° spin)
 
-**Start**: Front view
-**End**: Front view (after 360° rotation)
-**Prompt**: "Rotate product 360 degrees on turntable, maintain lighting"
+**Start**: Front view **End**: Front view (after 360° rotation) **Prompt**: "Rotate product 360 degrees on turntable, maintain lighting"
 
 ### Zoom In (Feature reveal)
 
-**Start**: Full product view
-**End**: Close-up of key feature
-**Prompt**: "Smooth camera push-in focusing on [FEATURE], maintain focus"
+**Start**: Full product view **End**: Close-up of key feature **Prompt**: "Smooth camera push-in focusing on [FEATURE], maintain focus"
 
 ### Morph (Color/style change)
 
-**Start**: Product in color A
-**End**: Product in color B
-**Prompt**: "Seamlessly morph product color from [A] to [B], maintain form"
+**Start**: Product in color A **End**: Product in color B **Prompt**: "Seamlessly morph product color from [A] to [B], maintain form"
 
 ---
 

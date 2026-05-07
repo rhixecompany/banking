@@ -30,17 +30,16 @@ Use this command to execute the comprehensive codebase overhaul plan.
 
 ### Step 2: Start Execution
 
-Begin with **Phase 0 - Documentation Refresh**:
+**Phase 0 is PARTIALLY COMPLETE** — Verification performed, docs need updates:
 
-1. **Phase 0 - Documentation**: Map codebase to docs using explore agent
-   - Update `docs/custom-components.md`
-   - Update `docs/app-pages.md`
-   - Update `docs/test-context.md`
-   - Update `docs/scripts.md`
+- Phase 0 doc verification done (3/4 updated): custom-components ✅, app-pages ✅, test-context ✅
+- scripts.md NEEDS UPDATE (8 new scripts added, 15 deleted)
+- /demo/application-shell-01 route ADDED to codebase but MISSING from docs
 
-2. **Phase 1 - Component & Test Cleanup**
-   - Phase 1a: Components (skip ui/) - refactoring-specialist
-   - Phase 1b: Tests - test-automator
+Begin with **Phase 1 - Component & Test Cleanup**:
+
+- Phase 1a: Components (skip ui/) - refactoring-specialist
+- Phase 1b: Tests - test-automator
 
 3. **Phase 2 - Route Analysis**
    - Analyze (auth) → (admin) → (root) → app/page.tsx
@@ -88,23 +87,23 @@ bun run format && bun run type-check && bun run lint:strict && bun run verify:ru
 
 ## Sub-Agent Assignments
 
-| Phase | Agent | Purpose |
-|-------|-------|---------|
-| Phase 0 | explore | Documentation mapping |
-| Phase 1a | refactoring-specialist | Component cleanup |
-| Phase 1b | test-automator | Test enhancement |
-| Phase 2 | nextjs-developer | Route analysis |
-| Phase 3a | frontend-design | Generic components |
-| Phase 3b | fullstack-developer | Full modification |
-| Phase 4a | tooling-engineer | Script enhancement |
-| Phase 4b | devops-engineer | bun scripts |
-| Phase 5 | documentation-engineer | Agent docs |
-| Phase 6a-c | tooling-engineer | MCP servers |
-| Phase 7 | documentation-engineer | Agent files audit |
+| Phase      | Agent                  | Purpose            |
+| ---------- | ---------------------- | ------------------ |
+| Phase 1a   | refactoring-specialist | Component cleanup  |
+| Phase 1b   | test-automator         | Test enhancement   |
+| Phase 2    | nextjs-developer       | Route analysis     |
+| Phase 3a   | frontend-design        | Generic components |
+| Phase 3b   | fullstack-developer    | Full modification  |
+| Phase 4a   | tooling-engineer       | Script enhancement |
+| Phase 4b   | devops-engineer        | bun scripts        |
+| Phase 5    | documentation-engineer | Agent docs         |
+| Phase 6a-c | tooling-engineer       | MCP servers        |
+| Phase 7    | documentation-engineer | Agent files audit  |
 
 ## Consolidation Notes
 
 This plan consolidates duplicate tasks from run-tasks.txt:
+
 - Tasks 9, 10, 11, 12 → Single Phase 5 (Agent Documentation)
 - Task 2 → Phase 0 (Documentation)
 

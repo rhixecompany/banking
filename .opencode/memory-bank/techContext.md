@@ -2,17 +2,17 @@
 
 ## Technologies
 
-| Category | Technology | Version |
-| --- | --- | --- |
-| Framework | Next.js | 16.2.4 |
-| UI | React | 19.2.5 |
-| Language | TypeScript | 6.0.3 |
-| Database | PostgreSQL | via Neon |
-| ORM | Drizzle | 0.45.2 |
-| Auth | NextAuth.js | 4.24.14 |
-| Bank API | Plaid | 42.2.0 |
-| Transfers | Dwolla | 3.4.0 |
-| Package Manager | Bun | 1.3.14 |
+| Category        | Technology  | Version  |
+| --------------- | ----------- | -------- |
+| Framework       | Next.js     | 16.2.4   |
+| UI              | React       | 19.2.5   |
+| Language        | TypeScript  | 6.0.3    |
+| Database        | PostgreSQL  | via Neon |
+| ORM             | Drizzle     | 0.45.2   |
+| Auth            | NextAuth.js | 4.24.14  |
+| Bank API        | Plaid       | 42.2.0   |
+| Transfers       | Dwolla      | 3.4.0    |
+| Package Manager | Bun         | 1.3.14   |
 
 ## Development Setup
 
@@ -43,6 +43,7 @@ bun run db:seed      # Load test data
 ```
 
 ### Pre-PR Checklist
+
 ```bash
 bun run format && bun run type-check && bun run lint:strict && bun run verify:rules
 ```

@@ -1,4 +1,5 @@
 <!-- Context: workflows/design-iteration-overview | Priority: high | Version: 1.0 | Updated: 2025-12-09 -->
+
 # Design Iteration Workflow - Overview
 
 ## Overview
@@ -7,10 +8,7 @@ A structured 4-stage workflow for creating and iterating on UI designs. This pro
 
 ## Quick Reference
 
-**Stages**: Layout → Theme → Animation → Implementation
-**Approval**: Required between each stage
-**Output**: Single HTML file per design iteration
-**Location**: `design_iterations/` folder
+**Stages**: Layout → Theme → Animation → Implementation **Approval**: Required between each stage **Output**: Single HTML file per design iteration **Location**: `design_iterations/` folder
 
 ---
 
@@ -19,6 +17,7 @@ A structured 4-stage workflow for creating and iterating on UI designs. This pro
 ### Delegate to OpenFrontendSpecialist When:
 
 **✅ STRONGLY RECOMMENDED** to delegate for:
+
 - **New UI/UX design work** - Landing pages, dashboards, app interfaces
 - **Design system creation** - Component libraries, theme systems, style guides
 - **Complex layouts** - Multi-column grids, responsive designs, intricate structures
@@ -27,6 +26,7 @@ A structured 4-stage workflow for creating and iterating on UI designs. This pro
 - **Accessibility-critical UI** - Forms, navigation, interactive components
 
 **Why delegate?**
+
 - OpenFrontendSpecialist follows the 4-stage design workflow (Layout → Theme → Animation → Implementation)
 - Ensures thoughtful design decisions with approval gates
 - Produces polished, accessible, production-ready UI
@@ -36,6 +36,7 @@ A structured 4-stage workflow for creating and iterating on UI designs. This pro
 ### Execute Directly When:
 
 **⚠️ Simple cases only**:
+
 - Minor text/content updates to existing UI
 - Small CSS tweaks (colors, spacing, fonts)
 - Adding simple utility classes
@@ -50,19 +51,19 @@ task(
   subagent_type="OpenFrontendSpecialist",
   description="Design {feature} UI",
   prompt="Design a {feature} following the 4-stage workflow:
-  
+
   Requirements:
   - {requirement 1}
   - {requirement 2}
-  
+
   Context: {what this UI is for}
-  
+
   Follow the design iteration workflow:
   1. Layout (ASCII wireframe)
   2. Theme (design system, colors)
   3. Animation (micro-interactions)
   4. Implementation (single HTML file)
-  
+
   Request approval between each stage."
 )
 ```
@@ -70,7 +71,7 @@ task(
 ### Example Scenarios
 
 | Scenario | Action | Why |
-|----------|--------|-----|
+| --- | --- | --- |
 | "Create a landing page for our SaaS product" | ✅ Delegate to OpenFrontendSpecialist | Complex UI design, needs 4-stage workflow |
 | "Design a user dashboard with charts" | ✅ Delegate to OpenFrontendSpecialist | Complex layout, visual design, interactions |
 | "Build a component library with our brand" | ✅ Delegate to OpenFrontendSpecialist | Design system work, requires theme expertise |

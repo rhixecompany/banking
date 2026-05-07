@@ -92,11 +92,7 @@
       "type": "local"
     },
     "next-devtools": {
-      "command": [
-        "bunx",
-        "-y",
-        "next-devtools-mcp@latest"
-      ],
+      "command": ["bunx", "-y", "next-devtools-mcp@latest"],
       "enabled": true,
       "timeout": 900000,
       "type": "local"
@@ -123,11 +119,7 @@
       "type": "local"
     },
     "with-context": {
-      "command": [
-        "bunx",
-        "-y",
-        "with-context-mcp"
-      ],
+      "command": ["bunx", "-y", "with-context-mcp"],
       "enabled": true,
       "environment": {
         "OBSIDIAN_API_KEY": "{env:OBSIDIAN_API_KEY}",
@@ -180,26 +172,16 @@
         "gemma-4-e4b-it-8bit": {
           "attachment": true,
           "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
+            "input": ["text", "image"],
+            "output": ["text"]
           },
           "name": "gemma-4-e4b-it-8bit"
         },
         "Qwen3.5-9B-MLX-4bit": {
           "attachment": true,
           "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
+            "input": ["text", "image"],
+            "output": ["text"]
           },
           "name": "Qwen3.5-9B-MLX-4bit"
         }
@@ -236,9 +218,7 @@
         }
       },
       "options": {
-        "include": [
-          "reasoning.encrypted_content"
-        ],
+        "include": ["reasoning.encrypted_content"],
         "reasoningEffort": "medium",
         "reasoningSummary": "auto",
         "store": false,
@@ -247,8 +227,6 @@
     }
   },
   "watcher": {
-    "ignore": [
-      "node_modules"
-    ]
+    "ignore": ["node_modules"]
   }
 }

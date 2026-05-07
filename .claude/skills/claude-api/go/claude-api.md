@@ -88,7 +88,6 @@ if err := stream.Err(); err != nil { log.Fatal(err) }
 // message.Content now has the complete response
 ```
 
-
 ---
 
 ## Tool Use
@@ -261,7 +260,7 @@ func main() {
 **Key API surface:**
 
 | Symbol | Purpose |
-|---|---|
+| --- | --- |
 | `resp.ToParam()` | Convert `Message` response → `MessageParam` for history |
 | `block.AsAny().(type)` | Type-switch on `ContentBlockUnion` variants |
 | `variant.JSON.Input.Raw()` | Raw JSON string of tool input (for `json.Unmarshal`) |

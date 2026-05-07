@@ -1,7 +1,7 @@
 {
+  "installedAt": "2026-05-07T12:40:35.564Z",
+  "repoUrl": "https://github.com/anthropics/skills",
   "source": "anthropics/skills",
   "sourceType": "git",
-  "repoUrl": "https://github.com/anthropics/skills",
-  "subpath": "skills\\internal-comms",
-  "installedAt": "2026-05-07T12:40:35.564Z"
+  "subpath": "skills\\internal-comms"
 }

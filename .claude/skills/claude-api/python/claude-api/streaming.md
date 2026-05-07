@@ -144,14 +144,14 @@ except anthropic.APIStatusError as e:
 
 ## Stream Event Types
 
-| Event Type            | Description                 | When it fires                     |
-| --------------------- | --------------------------- | --------------------------------- |
-| `message_start`       | Contains message metadata   | Once at the beginning             |
+| Event Type | Description | When it fires |
+| --- | --- | --- |
+| `message_start` | Contains message metadata | Once at the beginning |
 | `content_block_start` | New content block beginning | When a text/tool_use block starts |
-| `content_block_delta` | Incremental content update  | For each token/chunk              |
-| `content_block_stop`  | Content block complete      | When a block finishes             |
-| `message_delta`       | Message-level updates       | Contains `stop_reason`, usage     |
-| `message_stop`        | Message complete            | Once at the end                   |
+| `content_block_delta` | Incremental content update | For each token/chunk |
+| `content_block_stop` | Content block complete | When a block finishes |
+| `message_delta` | Message-level updates | Contains `stop_reason`, usage |
+| `message_stop` | Message complete | Once at the end |
 
 ## Best Practices
 

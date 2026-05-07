@@ -6,13 +6,13 @@
 
 Send events to a session via `POST /v1/sessions/{id}/events`.
 
-| Event Type                | When to Send                                        |
-| ------------------------- | --------------------------------------------------- |
-| `user.message`            | Send a user message |
-| `user.interrupt`          | Interrupt the agent while it's running |
-| `user.tool_confirmation`  | Approve/deny a tool call (when `always_ask` policy) |
+| Event Type | When to Send |
+| --- | --- |
+| `user.message` | Send a user message |
+| `user.interrupt` | Interrupt the agent while it's running |
+| `user.tool_confirmation` | Approve/deny a tool call (when `always_ask` policy) |
 | `user.custom_tool_result` | Provide result for a custom tool call |
-| `user.define_outcome`     | Start a rubric-graded iterate loop — see `shared/managed-agents-outcomes.md` |
+| `user.define_outcome` | Start a rubric-graded iterate loop — see `shared/managed-agents-outcomes.md` |
 
 ### Receiving Events
 
@@ -45,7 +45,7 @@ Event types use dot notation, grouped by namespace:
 | `session.status_idle` | Agent has finished the current task, and is awaiting input. It's either waiting for input to continue working via a `user.message` or blocked awaiting a `user.custom_tool_result` or `user.tool_confirmation`. The `stop_reason` attached contains more information about why the Agent has stopped working. |
 | `session.status_running` | Session has starting running, and the Agent is actively doing work. |
 | `session.status_rescheduled` | Session is (re)scheduling after a retryable error has occurred, ready to be picked up by the orchestration system. |
-| `session.status_terminated` | Session has terminated, entering an irreversible and unusable state.  |
+| `session.status_terminated` | Session has terminated, entering an irreversible and unusable state. |
 | `session.error` | Error occurred during processing |
 | `span.model_request_start` | Model inference started |
 | `span.model_request_end` | Model inference completed |
@@ -64,13 +64,13 @@ Practical patterns for driving a session via the events surface.
 
 ### Stream-first ordering
 
-**Open the stream before sending events.** The stream only delivers events that occur *after* it's opened — it does not replay current state or historical events. If you send a message first and open the stream second, early events (including fast status transitions) arrive buffered in a single batch and you lose the ability to react to them in real time.
+**Open the stream before sending events.** The stream only delivers events that occur _after_ it's opened — it does not replay current state or historical events. If you send a message first and open the stream second, early events (including fast status transitions) arrive buffered in a single batch and you lose the ability to react to them in real time.
 
 ```ts
 // ✅ Correct — stream and send concurrently
 const [response] = await Promise.all([
-  streamEvents(sessionId),   // opens SSE connection
-  sendMessage(sessionId, text),
+  streamEvents(sessionId), // opens SSE connection
+  sendMessage(sessionId, text)
 ]);
 
 // ❌ Wrong — events before stream opens arrive as a single buffered batch
@@ -82,7 +82,7 @@ const response = await streamEvents(sessionId);
 
 ### Reconnecting after a dropped stream
 
-**The SSE stream has no replay.** If your connection drops (httpx read timeout, network blip) and you reconnect, you only get events emitted *after* reconnection. Any events emitted during the gap are lost from the stream.
+**The SSE stream has no replay.** If your connection drops (httpx read timeout, network blip) and you reconnect, you only get events emitted _after_ reconnection. Any events emitted during the gap are lost from the stream.
 
 **The consolidation pattern:** on every (re)connect, overlap the stream with a history fetch and dedupe by event ID:
 
@@ -114,7 +114,10 @@ def connect_with_consolidation(client, session_id):
 ```ts
 // All three go into one session; agent processes them in order
 await sendMessage(sessionId, "Summarize the README");
-await sendMessage(sessionId, "Actually also check the CONTRIBUTING guide");
+await sendMessage(
+  sessionId,
+  "Actually also check the CONTRIBUTING guide"
+);
 await sendMessage(sessionId, "And compare the two");
 // Stream once — agent responds to all three as a coherent turn
 ```
@@ -127,7 +130,7 @@ An `interrupt` event **jumps the queue** (ahead of any pending user messages) an
 
 ```ts
 await client.beta.sessions.events.send(sessionId, {
-  events: [{ type: 'interrupt' }],
+  events: [{ type: "interrupt" }]
 });
 ```
 
@@ -140,14 +143,13 @@ The agent stops mid-task. It does not see the interrupt as a message — it just
 some events carry useful metadata beyond the status change itself:
 
 `session.status_idle` — includes a `stop_reason` field which elaborates on why the session stopped and what type of further action is required by the user.
+
 ```json
 {
   "id": "sevt_456",
   "processed_at": "2026-04-07T04:27:43.197Z",
   "stop_reason": {
-    "event_ids": [
-      "sevt_123"
-    ],
+    "event_ids": ["sevt_123"],
     "type": "requires_action"
   },
   "type": "status_idle"
@@ -158,7 +160,6 @@ some events carry useful metadata beyond the status change itself:
 
 ```json
 {
-  "type": "span.model_request_end",
   "id": "sevt_456",
   "is_error": false,
   "model_request_start_id": "sevt_123",
@@ -168,7 +169,8 @@ some events carry useful metadata beyond the status change itself:
     "input_tokens": 3571,
     "output_tokens": 727
   },
-  "processed_at": "2026-04-07T04:11:32.189Z"
+  "processed_at": "2026-04-07T04:11:32.189Z",
+  "type": "span.model_request_end"
 }
 ```
 
@@ -191,5 +193,3 @@ await client.beta.sessions.archive(sessionId);
 ```
 
 > Archiving a **session** is routine cleanup — sessions are per-run and disposable. **Do not generalize this to agents or environments**: those are persistent, reusable resources, and archiving them is permanent (no unarchive; new sessions cannot reference them). See `shared/managed-agents-overview.md` → Common Pitfalls.
-
-

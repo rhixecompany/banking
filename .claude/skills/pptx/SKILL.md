@@ -1,6 +1,6 @@
 ---
 name: pptx
-description: "Use this skill any time a .pptx file is involved in any way — as input, output, or both. This includes: creating slide decks, pitch decks, or presentations; reading, parsing, or extracting text from any .pptx file (even if the extracted content will be used elsewhere, like in an email or summary); editing, modifying, or updating existing presentations; combining or splitting slide files; working with templates, layouts, speaker notes, or comments. Trigger whenever the user mentions \"deck,\" \"slides,\" \"presentation,\" or references a .pptx filename, regardless of what they plan to do with the content afterward. If a .pptx file needs to be opened, created, or touched, use this skill."
+description: 'Use this skill any time a .pptx file is involved in any way — as input, output, or both. This includes: creating slide decks, pitch decks, or presentations; reading, parsing, or extracting text from any .pptx file (even if the extracted content will be used elsewhere, like in an email or summary); editing, modifying, or updating existing presentations; combining or splitting slide files; working with templates, layouts, speaker notes, or comments. Trigger whenever the user mentions "deck," "slides," "presentation," or references a .pptx filename, regardless of what they plan to do with the content afterward. If a .pptx file needs to be opened, created, or touched, use this skill.'
 license: Proprietary. LICENSE.txt has complete terms
 ---
 
@@ -9,7 +9,7 @@ license: Proprietary. LICENSE.txt has complete terms
 ## Quick Reference
 
 | Task | Guide |
-|------|-------|
+| --- | --- |
 | Read/analyze content | `python -m markitdown presentation.pptx` |
 | Edit or create from template | Read [editing.md](editing.md) |
 | Create from scratch | Read [pptxgenjs.md](pptxgenjs.md) |
@@ -64,7 +64,7 @@ Use when no template or reference presentation is available.
 Choose colors that match your topic — don't default to generic blue. Use these palettes as inspiration:
 
 | Theme | Primary | Secondary | Accent |
-|-------|---------|-----------|--------|
+| --- | --- | --- | --- |
 | **Midnight Executive** | `1E2761` (navy) | `CADCFC` (ice blue) | `FFFFFF` (white) |
 | **Forest & Moss** | `2C5F2D` (forest) | `97BC62` (moss) | `F5F5F5` (cream) |
 | **Coral Energy** | `F96167` (coral) | `F9E795` (gold) | `2F3C7E` (navy) |
@@ -81,17 +81,20 @@ Choose colors that match your topic — don't default to generic blue. Use these
 **Every slide needs a visual element** — image, chart, icon, or shape. Text-only slides are forgettable.
 
 **Layout options:**
+
 - Two-column (text left, illustration on right)
 - Icon + text rows (icon in colored circle, bold header, description below)
 - 2x2 or 2x3 grid (image on one side, grid of content blocks on other)
 - Half-bleed image (full left or right side) with content overlay
 
 **Data display:**
+
 - Large stat callouts (big numbers 60-72pt with small labels below)
 - Comparison columns (before/after, pros/cons, side-by-side options)
 - Timeline or process flow (numbered steps, arrows)
 
 **Visual polish:**
+
 - Icons in small colored circles next to section headers
 - Italic accent text for key stats or taglines
 
@@ -99,23 +102,23 @@ Choose colors that match your topic — don't default to generic blue. Use these
 
 **Choose an interesting font pairing** — don't default to Arial. Pick a header font with personality and pair it with a clean body font.
 
-| Header Font | Body Font |
-|-------------|-----------|
-| Georgia | Calibri |
-| Arial Black | Arial |
-| Calibri | Calibri Light |
-| Cambria | Calibri |
-| Trebuchet MS | Calibri |
-| Impact | Arial |
-| Palatino | Garamond |
-| Consolas | Calibri |
+| Header Font  | Body Font     |
+| ------------ | ------------- |
+| Georgia      | Calibri       |
+| Arial Black  | Arial         |
+| Calibri      | Calibri Light |
+| Cambria      | Calibri       |
+| Trebuchet MS | Calibri       |
+| Impact       | Arial         |
+| Palatino     | Garamond      |
+| Consolas     | Calibri       |
 
-| Element | Size |
-|---------|------|
-| Slide title | 36-44pt bold |
-| Section header | 20-24pt bold |
-| Body text | 14-16pt |
-| Captions | 10-12pt muted |
+| Element        | Size          |
+| -------------- | ------------- |
+| Slide title    | 36-44pt bold  |
+| Section header | 20-24pt bold  |
+| Body text      | 14-16pt       |
+| Captions       | 10-12pt muted |
 
 ### Spacing
 

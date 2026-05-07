@@ -10,16 +10,14 @@
       "thinking": {
         "budgetTokens": 100000,
         "type": "enabled"
-      }
-    }
+      },
+    },
   },
   "compactionThreshold": 0.5,
   "features": {
     "mindmodelInjection": true
   },
   "fragments": {
-    "commander": [
-      "custom-instructions.md"
-    ]
+    "commander": ["custom-instructions.md"]
   }
 }

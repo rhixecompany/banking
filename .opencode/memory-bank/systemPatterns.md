@@ -19,6 +19,7 @@ src/
 ## Key Patterns
 
 ### DAL Pattern
+
 ```typescript
 // Always use DAL, never import db in UI
 import { userDal } from "@/dal";
@@ -26,24 +27,32 @@ const user = await userDal.findById(id);
 ```
 
 ### Server Actions
+
 ```typescript
 "use server";
 export async function createWallet(input: unknown) {
   const parsed = schema.safeParse(input);
   if (!parsed.success) return { ok: false, error: "..." };
   const result = await walletDal.create(parsed.data);
-  return result.ok ? { ok: true, wallet: result.wallet } : { ok: false, error: result.error };
+  return result.ok
+    ? { ok: true, wallet: result.wallet }
+    : { ok: false, error: result.error };
 }
 ```
 
 ### N+1 Prevention
+
 ```typescript
 // Collect IDs → batch fetch with IN clause
 const walletIds = txns.map(t => t.walletId);
-const wallets = await db.select().from(wallets).where(inArray(wallets.id, walletIds));
+const wallets = await db
+  .select()
+  .from(wallets)
+  .where(inArray(wallets.id, walletIds));
 ```
 
 ### Soft Delete
+
 ```typescript
 // DAL filters deletedAt automatically
 async findById(id) {

@@ -16,13 +16,10 @@
 ---
 
 ## Structure
-
 ```
-{category}/
-├── navigation.md
-├── {subcategory}/
-│   ├── navigation.md
-│   └── {files}.md
+
+{category}/ ├── navigation.md ├── {subcategory}/ │ ├── navigation.md │ └── {files}.md
+
 ```
 
 ---
@@ -64,9 +61,10 @@
 ---
 
 ## Structure
-
 ```
+
 {Relevant directories across multiple categories}
+
 ```
 
 ---
@@ -108,15 +106,10 @@
 ---
 
 ## Structure
-
 ```
-development/
-├── navigation.md
-├── ui-navigation.md
-├── principles/
-├── frontend/
-├── backend/
-└── data/
+
+development/ ├── navigation.md ├── ui-navigation.md ├── principles/ ├── frontend/ ├── backend/ └── data/
+
 ```
 
 ---
@@ -148,17 +141,13 @@ development/
 ```markdown
 # Development Navigation
 
-**Purpose**: This navigation file helps you find software development 
-patterns, standards, and best practices across all technology stacks 
-including frontend, backend, databases, and infrastructure.
+**Purpose**: This navigation file helps you find software development patterns, standards, and best practices across all technology stacks including frontend, backend, databases, and infrastructure.
 
 ---
 
 ## Introduction
 
-The development category contains comprehensive guides and patterns 
-for building modern applications. Whether you're working on frontend 
-user interfaces, backend APIs, database integrations...
+The development category contains comprehensive guides and patterns for building modern applications. Whether you're working on frontend user interfaces, backend APIs, database integrations...
 
 [... continues for 500+ tokens]
 ```
@@ -169,12 +158,12 @@ user interfaces, backend APIs, database integrations...
 
 ## Troubleshooting
 
-| Issue | Solution |
-|-------|----------|
+| Issue           | Solution                                     |
+| --------------- | -------------------------------------------- |
 | Too many tokens | Remove verbose descriptions, shorten entries |
-| Hard to scan | Use tables instead of paragraphs |
-| Missing files | Add to structure and quick routes |
-| Unclear paths | Use relative paths, add brief descriptions |
+| Hard to scan    | Use tables instead of paragraphs             |
+| Missing files   | Add to structure and quick routes            |
+| Unclear paths   | Use relative paths, add brief descriptions   |
 
 ---
 

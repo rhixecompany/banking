@@ -33,14 +33,17 @@ Active development project. Core banking features complete.
 ## Project Evolution
 
 ### v3.2 (2026-05-07)
+
 - AGENTS.md trimmed, added OpenCode config notes
 - Memory bank created
 
 ### v3.1 (2026-05-06)
+
 - Optimized AGENTS.md
 - Banking skill refined
 
 ### v3.0
+
 - Next.js 16 upgrade
 - React 19 compatibility
 - Server Components by default

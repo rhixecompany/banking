@@ -19,13 +19,15 @@ const getWeather = betaZodTool({
   name: "get_weather",
   description: "Get current weather for a location",
   inputSchema: z.object({
-    location: z.string().describe("City and state, e.g., San Francisco, CA"),
-    unit: z.enum(["celsius", "fahrenheit"]).optional(),
+    location: z
+      .string()
+      .describe("City and state, e.g., San Francisco, CA"),
+    unit: z.enum(["celsius", "fahrenheit"]).optional()
   }),
-  run: async (input) => {
+  run: async input => {
     // Your implementation here
     return `72°F and sunny in ${input.location}`;
-  },
+  }
 });
 
 // The tool runner handles the agentic loop and returns the final message
@@ -33,7 +35,9 @@ const finalMessage = await client.beta.messages.toolRunner({
   model: "claude-opus-4-7",
   max_tokens: 16000,
   tools: [getWeather],
-  messages: [{ role: "user", content: "What's the weather in Paris?" }],
+  messages: [
+    { role: "user", content: "What's the weather in Paris?" }
+  ]
 });
 
 console.log(finalMessage.content);
@@ -166,7 +170,9 @@ const response = await client.messages.create({
   model: "claude-opus-4-7",
   max_tokens: 16000,
   tools: tools,
-  messages: [{ role: "user", content: "What's the weather in Paris?" }],
+  messages: [
+    { role: "user", content: "What's the weather in Paris?" }
+  ]
 });
 
 for (const block of response.content) {
@@ -183,10 +189,14 @@ for (const block of response.content) {
         {
           role: "user",
           content: [
-            { type: "tool_result", tool_use_id: block.id, content: result },
-          ],
-        },
-      ],
+            {
+              type: "tool_result",
+              tool_use_id: block.id,
+              content: result
+            }
+          ]
+        }
+      ]
     });
   }
 }
@@ -202,7 +212,9 @@ const response = await client.messages.create({
   max_tokens: 16000,
   tools: tools,
   tool_choice: { type: "tool", name: "get_weather" },
-  messages: [{ role: "user", content: "What's the weather in Paris?" }],
+  messages: [
+    { role: "user", content: "What's the weather in Paris?" }
+  ]
 });
 ```
 
@@ -220,12 +232,15 @@ const response = await client.messages.create({
   model: "claude-opus-4-7",
   max_tokens: 16000,
   tools: [
-    { type: "text_editor_20250728", name: "str_replace_based_edit_tool" },
+    {
+      type: "text_editor_20250728",
+      name: "str_replace_based_edit_tool"
+    },
     { type: "bash_20250124", name: "bash" },
     { type: "web_search_20260209", name: "web_search" },
-    { type: "code_execution_20260120", name: "code_execution" },
+    { type: "code_execution_20260120", name: "code_execution" }
   ],
-  messages: [{ role: "user", content: "..." }],
+  messages: [{ role: "user", content: "..." }]
 });
 
 // ✗ this is a TS2352 — Tool is the CUSTOM tool variant only
@@ -233,7 +248,7 @@ const response = await client.messages.create({
 ```
 
 | Interface | `name` | `type` |
-|---|---|---|
+| --- | --- | --- |
 | `ToolTextEditor20250124` | `str_replace_editor` | `text_editor_20250124` |
 | `ToolTextEditor20250429` | `str_replace_based_edit_tool` | `text_editor_20250429` |
 | `ToolTextEditor20250728` | `str_replace_based_edit_tool` | `text_editor_20250728` |
@@ -245,7 +260,6 @@ const response = await client.messages.create({
 **Don't mix beta and non-beta types**: if you call `client.beta.messages.create()`, the response `content` is `BetaContentBlock[]` — you cannot pass that to a non-beta `ContentBlockParam[]` without narrowing each element.
 
 ---
-
 
 ## Code Execution
 
@@ -263,10 +277,10 @@ const response = await client.messages.create({
     {
       role: "user",
       content:
-        "Calculate the mean and standard deviation of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]",
-    },
+        "Calculate the mean and standard deviation of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
+    }
   ],
-  tools: [{ type: "code_execution_20260120", name: "code_execution" }],
+  tools: [{ type: "code_execution_20260120", name: "code_execution" }]
 });
 ```
 
@@ -296,9 +310,9 @@ const client = new Anthropic();
 // 1. Upload a file
 const uploaded = await client.beta.files.upload({
   file: await toFile(createReadStream("sales_data.csv"), undefined, {
-    type: "text/csv",
+    type: "text/csv"
   }),
-  betas: ["files-api-2025-04-14"],
+  betas: ["files-api-2025-04-14"]
 });
 
 // 2. Pass to code execution
@@ -313,15 +327,17 @@ const response = await client.messages.create(
         content: [
           {
             type: "text",
-            text: "Analyze this sales data. Show trends and create a visualization.",
+            text: "Analyze this sales data. Show trends and create a visualization."
           },
-          { type: "container_upload", file_id: uploaded.id },
-        ],
-      },
+          { type: "container_upload", file_id: uploaded.id }
+        ]
+      }
     ],
-    tools: [{ type: "code_execution_20260120", name: "code_execution" }],
+    tools: [
+      { type: "code_execution_20260120", name: "code_execution" }
+    ]
   },
-  { headers: { "anthropic-beta": "files-api-2025-04-14" } },
+  { headers: { "anthropic-beta": "files-api-2025-04-14" } }
 );
 ```
 
@@ -337,17 +353,26 @@ await fs.promises.mkdir(OUTPUT_DIR, { recursive: true });
 for (const block of response.content) {
   if (block.type === "bash_code_execution_tool_result") {
     const result = block.content;
-    if (result.type === "bash_code_execution_result" && result.content) {
+    if (
+      result.type === "bash_code_execution_result" &&
+      result.content
+    ) {
       for (const fileRef of result.content) {
         if (fileRef.type === "bash_code_execution_output") {
           const metadata = await client.beta.files.retrieveMetadata(
-            fileRef.file_id,
+            fileRef.file_id
           );
-          const downloadResponse = await client.beta.files.download(fileRef.file_id);
-          const fileBytes = Buffer.from(await downloadResponse.arrayBuffer());
+          const downloadResponse = await client.beta.files.download(
+            fileRef.file_id
+          );
+          const fileBytes = Buffer.from(
+            await downloadResponse.arrayBuffer()
+          );
           const safeName = path.basename(metadata.filename);
           if (!safeName || safeName === "." || safeName === "..") {
-            console.warn(`Skipping invalid filename: ${metadata.filename}`);
+            console.warn(
+              `Skipping invalid filename: ${metadata.filename}`
+            );
             continue;
           }
           const outputPath = path.join(OUTPUT_DIR, safeName);
@@ -370,10 +395,11 @@ const response1 = await client.messages.create({
   messages: [
     {
       role: "user",
-      content: "Install tabulate and create data.json with sample user data",
-    },
+      content:
+        "Install tabulate and create data.json with sample user data"
+    }
   ],
-  tools: [{ type: "code_execution_20260120", name: "code_execution" }],
+  tools: [{ type: "code_execution_20260120", name: "code_execution" }]
 });
 
 // Reuse container
@@ -387,10 +413,10 @@ const response2 = await client.messages.create({
   messages: [
     {
       role: "user",
-      content: "Read data.json and display as a formatted table",
-    },
+      content: "Read data.json and display as a formatted table"
+    }
   ],
-  tools: [{ type: "code_execution_20260120", name: "code_execution" }],
+  tools: [{ type: "code_execution_20260120", name: "code_execution" }]
 });
 ```
 
@@ -407,10 +433,10 @@ const response = await client.messages.create({
   messages: [
     {
       role: "user",
-      content: "Remember that my preferred language is TypeScript.",
-    },
+      content: "Remember that my preferred language is TypeScript."
+    }
   ],
-  tools: [{ type: "memory_20250818", name: "memory" }],
+  tools: [{ type: "memory_20250818", name: "memory" }]
 });
 ```
 
@@ -467,7 +493,7 @@ const ContactInfoSchema = z.object({
   email: z.string(),
   plan: z.string(),
   interests: z.array(z.string()),
-  demo_requested: z.boolean(),
+  demo_requested: z.boolean()
 });
 
 const client = new Anthropic();
@@ -479,12 +505,12 @@ const response = await client.messages.parse({
     {
       role: "user",
       content:
-        "Extract: Jane Doe (jane@co.com) wants Enterprise, interested in API and SDKs, wants a demo.",
-    },
+        "Extract: Jane Doe (jane@co.com) wants Enterprise, interested in API and SDKs, wants a demo."
+    }
   ],
   output_config: {
-    format: zodOutputFormat(ContactInfoSchema),
-  },
+    format: zodOutputFormat(ContactInfoSchema)
+  }
 });
 
 // parsed_output is null if parsing failed — assert or guard
@@ -500,8 +526,8 @@ const response = await client.messages.create({
   messages: [
     {
       role: "user",
-      content: "Book a flight to Tokyo for 2 passengers on March 15",
-    },
+      content: "Book a flight to Tokyo for 2 passengers on March 15"
+    }
   ],
   tools: [
     {
@@ -515,13 +541,13 @@ const response = await client.messages.create({
           date: { type: "string", format: "date" },
           passengers: {
             type: "integer",
-            enum: [1, 2, 3, 4, 5, 6, 7, 8],
-          },
+            enum: [1, 2, 3, 4, 5, 6, 7, 8]
+          }
         },
         required: ["destination", "date", "passengers"],
-        additionalProperties: false,
-      },
-    },
-  ],
+        additionalProperties: false
+      }
+    }
+  ]
 });
 ```
