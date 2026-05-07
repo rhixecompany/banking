@@ -140,23 +140,19 @@
   },
   "model": "opencode/minimax-m2.5-free",
   "plugin": [
-    "opencode-mystatus",
     "opencode-handoff",
     "@tarquinen/opencode-dcp",
-    "superpowers@git+https://github.com/obra/superpowers.git",
-    "@howaboua/opencode-planning-toolkit@latest",
-    "smart-codebase",
-    "octto",
-    "@nick-vi/opencode-type-inject",
-    "@zenobius/opencode-skillful",
-    "@slkiser/opencode-quota",
-    "@spoons-and-mirrors/subtask2@latest",
+    "@spoons-and-mirrors/subtask2",
     "@tarquinen/opencode-smart-title",
     "opencode-optimal-model-temps",
-    "@openhax/codex",
-    "micode",
+    "@nick-vi/opencode-type-inject",
+    "octto",
+    "@howaboua/opencode-planning-toolkit",
+    "@zenobius/opencode-background",
     "opencode-froggy",
-    "@zenobius/opencode-background"
+    "@openhax/codex",
+    "opencode-mystatus",
+    "@slkiser/opencode-quota"
   ],
   "provider": {
     "anthropic": {

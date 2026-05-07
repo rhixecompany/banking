@@ -60,15 +60,15 @@ async function main() {
     report: "",
   };
 
+  let pagesMap: PagesMap = {};
   if (!(await fileExists(pagesMapPath))) {
-    out.ok = false;
-    out.report = `Pages map not found at ${pagesMapPath}`;
-    logger.error(out.report);
-    logger.info(JSON.stringify(out, null, 2));
-    process.exit(1);
+    logger.error(
+      `[warn] Pages map not found at ${pagesMapPath}; continuing with empty pages list.`,
+    );
+  } else {
+    pagesMap = (await readJson<PagesMap>(pagesMapPath)) || {};
   }
 
-  const pagesMap = (await readJson<PagesMap>(pagesMapPath)) || {};
   const pages = pagesMap.pages || [];
 
   const humanReportLines: string[] = [];

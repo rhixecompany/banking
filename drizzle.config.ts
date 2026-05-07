@@ -52,7 +52,7 @@ const resolveDatabaseUrl = (): string => {
 const cfg: Config = {
   dbCredentials: {
     // Optional: additional connection info supported by some drivers
-    pool: { max: 20, min: 2 }, // Drizzle will use underlying driver's pooling
+    pool: { max: 30, min: 3 }, // Drizzle will use underlying driver's pooling
     url: resolveDatabaseUrl(),
   },
   dialect: "postgresql",

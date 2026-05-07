@@ -411,6 +411,7 @@ async function checkMCPServerHealth(
 async function main(): Promise<void> {
   const args = process.argv.slice(2);
   const diskOnlyMode = args.includes("--disk-only");
+  const skipMcpHealth = args.includes("--skip-mcp-health");
 
   log(`========================================`);
   log(`OpenCode Plugin Verifier Starting`);
@@ -620,23 +621,38 @@ async function main(): Promise<void> {
     log(`  All plugins compatible with ${OS_PLATFORM}`);
   }
 
-  // Check MCP server health
-  log("[8/9] Checking MCP server health...");
-  const mcpHealth = await checkMCPServerHealth(configs.opencodeConfig || {});
-  const mcpHealthValues = Object.values(mcpHealth);
+  // Check MCP server health (optional)
   const mcpHealthSummary = {
-    authRequired: mcpHealthValues.filter((h) => h.status === "auth-required")
-      .length,
-    error: mcpHealthValues.filter((h) => h.status === "error").length,
-    ok: mcpHealthValues.filter((h) => h.status === "ok").length,
-    total: mcpHealthValues.length,
-    unreachable: mcpHealthValues.filter((h) => h.status === "unreachable")
-      .length,
+    authRequired: 0,
+    error: 0,
+    ok: 0,
+    total: 0,
+    unreachable: 0,
   };
+  let mcpHealth: Record<string, MCPServerHealth> = {};
 
-  log(
-    `✓ MCP server health check complete: ${mcpHealthSummary.ok}/${mcpHealthSummary.total} servers ok`,
-  );
+  if (skipMcpHealth) {
+    log("[8/9] Skipping MCP server health check (--skip-mcp-health)");
+  } else {
+    log("[8/9] Checking MCP server health...");
+    mcpHealth = await checkMCPServerHealth(configs.opencodeConfig || {});
+    const mcpHealthValues = Object.values(mcpHealth);
+    mcpHealthSummary.authRequired = mcpHealthValues.filter(
+      (h) => h.status === "auth-required",
+    ).length;
+    mcpHealthSummary.error = mcpHealthValues.filter(
+      (h) => h.status === "error",
+    ).length;
+    mcpHealthSummary.ok = mcpHealthValues.filter((h) => h.status === "ok").length;
+    mcpHealthSummary.total = mcpHealthValues.length;
+    mcpHealthSummary.unreachable = mcpHealthValues.filter(
+      (h) => h.status === "unreachable",
+    ).length;
+
+    log(
+      `✓ MCP server health check complete: ${mcpHealthSummary.ok}/${mcpHealthSummary.total} servers ok`,
+    );
+  }
 
   const ok =
     missing.length === 0 &&
@@ -676,29 +692,33 @@ async function main(): Promise<void> {
     });
   });
 
-  // Write MCP health details to separate report
+  // Write MCP health details to separate report (unless skipped)
   const mcpHealthReport = path.join(REPORT_DIR, "opencode-mcp-health.json");
-  await new Promise<void>((resolve, reject) => {
-    fs.writeFile(
-      mcpHealthReport,
-      JSON.stringify(
-        {
-          servers: mcpHealth,
-          summary: mcpHealthSummary,
-          timestamp: new Date().toISOString(),
+  if (skipMcpHealth) {
+    log(`- MCP health check skipped; report not updated: ${mcpHealthReport}`);
+  } else {
+    await new Promise<void>((resolve, reject) => {
+      fs.writeFile(
+        mcpHealthReport,
+        JSON.stringify(
+          {
+            servers: mcpHealth,
+            summary: mcpHealthSummary,
+            timestamp: new Date().toISOString(),
+          },
+          null,
+          2,
+        ),
+        (err) => {
+          if (err) reject(err);
+          else {
+            log(`✓ MCP health report written to ${mcpHealthReport}`);
+            resolve();
+          }
         },
-        null,
-        2,
-      ),
-      (err) => {
-        if (err) reject(err);
-        else {
-          log(`✓ MCP health report written to ${mcpHealthReport}`);
-          resolve();
-        }
-      },
-    );
-  });
+      );
+    });
+  }
 
   console.log(
     JSON.stringify(
@@ -746,7 +766,11 @@ async function main(): Promise<void> {
     log("========================================");
     log(`Reports available:`);
     log(`  - Verify report: ${VERIFY_REPORT}`);
-    log(`  - MCP health: ${mcpHealthReport}`);
+    if (skipMcpHealth) {
+      log(`  - MCP health: skipped (--skip-mcp-health)`);
+    } else {
+      log(`  - MCP health: ${mcpHealthReport}`);
+    }
     log(`  - Raw debug output: ${RAW_REPORT}`);
     process.exit(1);
   }
@@ -765,7 +789,11 @@ async function main(): Promise<void> {
   log("");
   log("Reports written to:");
   log(`  - Verify report: ${VERIFY_REPORT}`);
-  log(`  - MCP health: ${mcpHealthReport}`);
+  if (skipMcpHealth) {
+    log(`  - MCP health: skipped (--skip-mcp-health)`);
+  } else {
+    log(`  - MCP health: ${mcpHealthReport}`);
+  }
   log(`  - Raw debug output: ${RAW_REPORT}`);
   log(`  - Normalized runtime config: ${RUNTIME_REPORT}`);
   log("========================================");

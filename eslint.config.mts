@@ -44,20 +44,20 @@ export default defineConfig([
     "dist/**",
     "node_modules/**",
     "next-env.d.ts",
-    "tech-stack.md",
-    "templates/**",
-    "*.md",
-    "docs/**",
-    "scripts/**",
+    // "tech-stack.md",
+    // "templates/**",
+    // "*.md",
+    // "docs/**",
+    // "scripts/**",
   ]),
   {
     files: ["**/*.{js,jsx,ts,tsx,cjs,mts,cts}"],
     languageOptions: {
-      ecmaVersion: 2025,
+      ecmaVersion: 2024,
       globals: {
         ...globals.browser,
         ...globals.node,
-        ...globals.es2025,
+        ...globals.es2024,
         ...globals.jest,
         afterAll: "readonly",
         afterEach: "readonly",
@@ -74,7 +74,7 @@ export default defineConfig([
         ecmaFeatures: {
           jsx: true,
         },
-        ecmaVersion: 2025,
+        ecmaVersion: 2024,
         projectService: {
           allowDefaultProject: [
             ".prettierrc.ts",

@@ -2,7 +2,59 @@
   "configComparison": {
     "$schema": {
       "present": true,
-      "source": "global"
+      "source": "both"
+    },
+    "agent": {
+      "present": true,
+      "source": "project"
+    },
+    "autoupdate": {
+      "present": true,
+      "source": "project"
+    },
+    "command": {
+      "present": true,
+      "source": "project"
+    },
+    "compaction": {
+      "present": true,
+      "source": "project"
+    },
+    "default_agent": {
+      "present": true,
+      "source": "project"
+    },
+    "enabled_providers": {
+      "present": true,
+      "source": "project"
+    },
+    "instructions": {
+      "present": true,
+      "source": "project"
+    },
+    "lsp": {
+      "present": true,
+      "source": "project"
+    },
+    "mcp": {
+      "present": true,
+      "source": "project"
+    },
+    "model": {
+      "present": true,
+      "source": "project"
+    },
+    "plugin": {
+      "present": true,
+      "source": "both"
+    },
+    "provider": {
+      "present": true,
+      "source": "project"
+    },
+    "watcher": {
+      "present": true,
+      "source": "project"
     }
   },
   "diskSpace": {
@@ -14,25 +66,11 @@
     "usedBytes": 0,
     "usedGB": 0
   },
-  "expectedCount": 0,
+  "expectedCount": 17,
   "extras": [
-    "opencode-mystatus",
-    "opencode-handoff",
-    "@tarquinen/opencode-dcp",
-    "@ramarivera/opencode-model-announcer",
-    "opencode-agent-skills",
-    "superpowers@git+https://github.com/obra/superpowers.git",
-    "@howaboua/opencode-planning-toolkit",
-    "smart-codebase",
-    "octto",
-    "opencode-cost-guard",
-    "@gotgenes/opencode-agent-identity",
-    "opencode-pty",
-    "opencode-helicone-session",
-    "@nick-vi/opencode-type-inject",
-    "@zenobius/opencode-skillful",
-    "opencode-snippets",
-    "@slkiser/opencode-quota"
+    "opencode-agent-tmux",
+    "file:///C:/Users/Alexa/.config/opencode/plugin/skills.ts",
+    "file:///C:/Users/Alexa/Desktop/SandBox/Banking/.opencode/plugin/notify.ts"
   ],
   "mcpHealthSummary": {
     "authRequired": 0,
@@ -44,12 +82,81 @@
   "missing": [],
   "missingConfigurations": [],
   "ok": true,
-  "osCompatibility": {},
+  "osCompatibility": {
+    "opencode-mystatus": {
+      "compatible": true,
+      "reason": ""
+    },
+    "opencode-handoff": {
+      "compatible": true,
+      "reason": ""
+    },
+    "@tarquinen/opencode-dcp": {
+      "compatible": true,
+      "reason": ""
+    },
+    "superpowers@git+https://github.com/obra/superpowers.git": {
+      "compatible": true,
+      "reason": ""
+    },
+    "@howaboua/opencode-planning-toolkit@latest": {
+      "compatible": true,
+      "reason": ""
+    },
+    "smart-codebase": {
+      "compatible": true,
+      "reason": ""
+    },
+    "octto": {
+      "compatible": true,
+      "reason": ""
+    },
+    "@nick-vi/opencode-type-inject": {
+      "compatible": true,
+      "reason": ""
+    },
+    "@zenobius/opencode-skillful": {
+      "compatible": true,
+      "reason": ""
+    },
+    "@slkiser/opencode-quota": {
+      "compatible": true,
+      "reason": ""
+    },
+    "@spoons-and-mirrors/subtask2@latest": {
+      "compatible": true,
+      "reason": ""
+    },
+    "@tarquinen/opencode-smart-title": {
+      "compatible": true,
+      "reason": ""
+    },
+    "opencode-optimal-model-temps": {
+      "compatible": true,
+      "reason": ""
+    },
+    "@openhax/codex": {
+      "compatible": true,
+      "reason": ""
+    },
+    "micode": {
+      "compatible": true,
+      "reason": ""
+    },
+    "opencode-froggy": {
+      "compatible": true,
+      "reason": ""
+    },
+    "@zenobius/opencode-background": {
+      "compatible": true,
+      "reason": ""
+    }
+  },
   "projectConfig": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\opencode.json",
   "projectDuplicates": [],
   "reportAnalysis": null,
   "runtimeConfig": "C:\\Users\\Alexa\\Desktop\\SandBox\\Banking\\.opencode\\reports\\opencode-debug-config.runtime.json",
-  "runtimeCount": 17,
+  "runtimeCount": 20,
   "runtimeDuplicates": [],
   "schemaAnalysis": {
     "configLocations": {
@@ -64,5 +171,5 @@
       "Config section has odd number of backtick-quoted values (incomplete key-value pair)"
     ]
   },
-  "timestamp": "2026-05-05T06:56:37.056Z"
+  "timestamp": "2026-05-07T14:06:29.319Z"
 }

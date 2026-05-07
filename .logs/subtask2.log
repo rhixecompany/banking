@@ -1,0 +1,15 @@
+[2026-05-07T16:19:44.918Z] Plugin initialized: 12 commands [
+  "add-context",
+  "analyze-patterns",
+  "build-context-system",
+  "clean",
+  "commit",
+  "context",
+  "optimize",
+  "test",
+  "validate-repo",
+  "worktrees",
+  "prompt-engineering\\prompt-enhancer",
+  "openagents\\check-context-deps"
+]
+[2026-05-07T16:19:57.995Z] Registered /subtask command

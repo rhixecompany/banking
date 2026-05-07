@@ -1,6 +1,6 @@
 import "dotenv/config";
-import { db } from "./src/database/db";
 import { sql } from "drizzle-orm";
+import { db } from "./src/database/db";
 
 async function main() {
   await db.execute(sql.raw(`

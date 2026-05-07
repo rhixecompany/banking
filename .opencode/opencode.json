@@ -46,6 +46,7 @@
   "lsp": true,
   "mcp": {
     "context7": {
+      "enabled": true,
       "type": "remote",
       "url": "https://mcp.context7.com/mcp"
     },
@@ -55,12 +56,12 @@
       "url": "https://mcp.exa.ai/mcp"
     },
     "filesystem": {
-      "args": [
+      "command": [
+        "bunx",
         "-y",
         "@modelcontextprotocol/server-filesystem",
-        "~/"
+        "C:/Users/Alexa/Desktop/SandBox/Banking"
       ],
-      "command": "bunx",
       "enabled": true,
       "timeout": 900000,
       "type": "local"
@@ -71,62 +72,62 @@
       "url": "https://mcp.grep.app"
     },
     "github-agentic-workflows": {
-      "args": [
+      "command": [
+        "bunx",
         "-y",
         "@modelcontextprotocol/server-github"
       ],
-      "command": "bunx",
       "enabled": true,
       "timeout": 900000,
       "type": "local"
     },
     "memory": {
-      "args": [
+      "command": [
+        "bunx",
         "-y",
         "@modelcontextprotocol/server-memory"
       ],
-      "command": "bunx",
       "enabled": true,
       "timeout": 900000,
       "type": "local"
     },
     "next-devtools": {
-      "args": [
+      "command": [
+        "bunx",
         "-y",
         "next-devtools-mcp@latest"
       ],
-      "command": "bunx",
       "enabled": true,
       "timeout": 900000,
       "type": "local"
     },
     "playwright": {
-      "args": [
+      "command": [
+        "bunx",
         "-y",
         "@playwright/mcp@latest",
         "--caps=network,storage,testing,vision,pdf,devtools"
       ],
-      "command": "bunx",
       "enabled": true,
       "timeout": 900000,
       "type": "local"
     },
     "sequential-thinking": {
-      "args": [
+      "command": [
+        "bunx",
         "-y",
         "@modelcontextprotocol/server-sequential-thinking"
       ],
-      "command": "bunx",
       "enabled": true,
       "timeout": 900000,
       "type": "local"
     },
     "with-context": {
-      "args": [
+      "command": [
+        "bunx",
         "-y",
         "with-context-mcp"
       ],
-      "command": "bunx",
       "enabled": true,
       "environment": {
         "OBSIDIAN_API_KEY": "{env:OBSIDIAN_API_KEY}",
@@ -139,23 +140,21 @@
   },
   "model": "opencode/minimax-m2.5-free",
   "plugin": [
-    "opencode-mystatus",
     "opencode-handoff",
     "@tarquinen/opencode-dcp",
-    "superpowers@git+https://github.com/obra/superpowers.git",
-    "@howaboua/opencode-planning-toolkit@latest",
-    "smart-codebase",
-    "octto",
-    "@nick-vi/opencode-type-inject",
-    "@zenobius/opencode-skillful",
-    "@slkiser/opencode-quota",
-    "@spoons-and-mirrors/subtask2@latest",
+    "@spoons-and-mirrors/subtask2",
     "@tarquinen/opencode-smart-title",
     "opencode-optimal-model-temps",
-    "@openhax/codex",
-    "micode",
+    "@nick-vi/opencode-type-inject",
+    "octto",
+    "@howaboua/opencode-planning-toolkit",
+    "@zenobius/opencode-background",
     "opencode-froggy",
-    "@zenobius/opencode-background"
+    "@openhax/codex",
+    "file:///C:/Users/Alexa/Desktop/SandBox/Banking/.opencode/plugin-src/superpowers",
+    "smart-codebase",
+    "opencode-mystatus",
+    "@slkiser/opencode-quota"
   ],
   "provider": {
     "anthropic": {

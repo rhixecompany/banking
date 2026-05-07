@@ -1,7 +1,7 @@
 import "dotenv/config";
+import { eq } from "drizzle-orm";
 import { db } from "./src/database/db";
 import { users } from "./src/database/schema";
-import { eq } from "drizzle-orm";
 
 async function main() {
   // Try to find the seed user using the same query as authorize
