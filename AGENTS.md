@@ -38,7 +38,7 @@ bun run format && bun run type-check && bun run lint:strict && bun run verify:ru
 - **Next.js 16.2.4** + React 19 + App Router (Server Components default)
 - **PostgreSQL** + **Drizzle ORM 0.45.2**
 - **NextAuth v4.24.14** (JWT)
-- **Plaid 42.1.0** + **Dwolla 3.4.0**
+- **Plaid 42.2.0** + **Dwolla 3.4.0**
 - **Bun 1.3.14** package manager
 
 ### Project Structure (`src/`)

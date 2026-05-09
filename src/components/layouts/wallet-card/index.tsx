@@ -17,46 +17,37 @@ import {
 import { formatAmount } from "@/lib/utils";
 
 /**
- * Description placeholder
- * @author Adminbot
- *
+ * Props for the WalletCard component.
  * @interface WalletCardProps
- * @typedef {WalletCardProps}
  */
 interface WalletCardProps {
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {WalletWithDetails}
-   */
+  /** Wallet data with balance and institution information */
   wallet: WalletWithDetails;
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {?boolean}
-   */
+  /** Whether to show remove action button */
   showActions?: boolean;
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {(input: unknown) => Promise<{ ok: boolean; error?: string }>}
-   */
+  /** Server action to remove this wallet */
   removeWallet: (input: unknown) => Promise<{ ok: boolean; error?: string }>;
 }
 
 /**
- * Description placeholder
- * @author Adminbot
+ * WalletCard displays a single linked bank account with its balances.
+ * Shows institution name, account type, current balance, available balance,
+ * and optional remove action.
  *
- * @export
- * @param {WalletCardProps} param0
- * @param {WalletWithDetails} param0.wallet
- * @param {boolean} [param0.showActions=false]
- * @param {(input: unknown) => Promise<{ ok: boolean; error?: string }>} param0.removeWallet
- * @returns {ReactJSX.Element}
+ * @example
+ * ```tsx
+ * <WalletCard
+ *   wallet={walletData}
+ *   showActions={true}
+ *   removeWallet={removeWalletAction}
+ * />
+ * ```
+ *
+ * @param props - Component props
+ * @param props.wallet - Wallet data with balance information
+ * @param props.showActions - Whether to show remove button (default: true)
+ * @param props.removeWallet - Server action to remove wallet
+ * @returns Rendered wallet card component
  */
 export function WalletCard({
   removeWallet,

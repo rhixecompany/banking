@@ -8,34 +8,29 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 /**
- * Description placeholder
- * @author Adminbot
- *
- * @type {*}
+ * Schema for sign-in form validation.
+ * Requires email and password (minimum 8 characters).
  */
 const SignInSchema = z.object({
   email: z.string().trim().email(),
   password: z.string().trim().min(8),
 });
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @typedef {SignInValues}
- */
+/** Inferred type from sign-in schema */
 type SignInValues = z.infer<typeof SignInSchema>;
 
 /**
- * Description placeholder
- * @author Adminbot
+ * SignInClient - Authentication form component for user login.
+ * Provides email/password authentication via NextAuth credentials provider.
  *
- * @export
- * @param {{
- *   onSuccess?: () => void;
- * }} param0
- * @param {() => void} param0.onSuccess
- * @returns {void; }) => ReactJSX.Element}
+ * @example
+ * ```tsx
+ * <SignInClient onSuccess={() => router.push('/dashboard')} />
+ * ```
+ *
+ * @param props - Component props
+ * @param props.onSuccess - Optional callback after successful authentication
+ * @returns Rendered sign-in form
  */
 export default function SignInClient({
   onSuccess,
