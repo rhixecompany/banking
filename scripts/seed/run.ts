@@ -145,7 +145,7 @@ async function main(): Promise<void> {
 
       // Attempt to write a validation file for reviewers
       try {
-        const { writeFile } = await import("../utils/io");
+        const { writeFile } = await import("../../bin/utils/io");
         const reportPath = path.resolve(
           __dirname,
           "../../docs/validation/seed-test-dryrun.txt",

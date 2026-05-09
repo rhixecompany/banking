@@ -3,14 +3,14 @@ session: ses_1fc1
 updated: 2026-05-07T19:29:29.902Z
 ---
 
-
-
 # Session Summary
 
 ## Goal
+
 Execute Phase 2 of codebase-overhaul plan: Route Analysis. Analyze all route groups and document for each: route path, server wrapper component, auth requirement, DAL usage, and Server Actions used.
 
 ## Constraints & Preferences
+
 - Must NOT modify any code
 - Must NOT run typecheck/lint/tests
 - `app/page.tsx` must remain public and static (no auth/DB/env)
@@ -18,7 +18,9 @@ Execute Phase 2 of codebase-overhaul plan: Route Analysis. Analyze all route gro
 - Use app-config.ts for env access
 
 ## Progress
+
 ### Done
+
 - [x] Loaded banking skill (`.opencode/skills/banking/SKILL.md`)
 - [x] Read codebase-overhaul plan and v2 spec
 - [x] Explored app directory structure via glob (16 pages, 4 layouts)
@@ -40,6 +42,7 @@ Execute Phase 2 of codebase-overhaul plan: Route Analysis. Analyze all route gro
 - [x] Read existing `docs/app-pages.md`
 
 ### In Progress
+
 - [ ] Analyze demo pages (`app/demo/**/page.tsx`)
 - [ ] Identify all custom components used in routes
 - [ ] Identify all DAL helpers imported in wrappers
@@ -47,13 +50,16 @@ Execute Phase 2 of codebase-overhaul plan: Route Analysis. Analyze all route gro
 - [ ] Document findings in `docs/app-pages.md`
 
 ### Blocked
+
 - (none)
 
 ## Key Decisions
+
 - **Route wrapper pattern**: All protected routes use ServerWrapper pattern (e.g., `DashboardServerWrapper`) which handles auth/data fetching
 - **Layout wrapper approach**: Auth in `(root)` handled in layout via `getUserWithProfile()` + redirect
 
 ## Next Steps
+
 1. Read demo pages in `app/demo/` (4 routes: dashboard-shell-01, hero-section-41, onboarding-feed-01, application-shell-01)
 2. Examine ServerWrapper components to identify DAL usage (e.g., `userDal`, `walletDal`, `transactionDal`)
 3. Examine ServerWrapper components to identify Server Actions invoked
@@ -61,13 +67,16 @@ Execute Phase 2 of codebase-overhaul plan: Route Analysis. Analyze all route gro
 5. Update `docs/app-pages.md` with full findings
 
 ## Critical Context
+
 - Banking skill loaded: emphasizes DAL pattern (never import DB in app/), app-config.ts for env access
 - Plan states: "No typecheck/lint/tests until end of Phase 4"
 - Phase 2 scope: Auth, Admin, Root, Landing, Demo page analysis with wrapper/violation documentation
 - Landing page confirmed: `app/page.tsx` uses only static content (no auth/DB calls)
 
 ## File Operations
+
 ### Read
+
 - `C:\Users\Alexa\Desktop\SandBox\Banking\.opencode\plans\codebase-overhaul.md`
 - `C:\Users\Alexa\Desktop\SandBox\Banking\.opencode\specs\codebase-overhaul-v2.md`
 - `C:\Users\Alexa\Desktop\SandBox\Banking\docs\app-pages.md`
@@ -85,4 +94,5 @@ Execute Phase 2 of codebase-overhaul plan: Route Analysis. Analyze all route gro
 - `C:\Users\Alexa\Desktop\SandBox\Banking\src\app\(root)\settings\page.tsx`
 
 ### Not Yet Modified
+
 - `docs/app-pages.md` - needs updated with full route analysis findings

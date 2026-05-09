@@ -77,7 +77,9 @@ export async function main(argv: string[] = []) {
       // skip ignored dirs
       const rel = path.relative(ROOT, full).replaceAll("\\", "/");
       for (const ig of IGNORED_DIRS) {
-        if (rel.startsWith(ig)) return;
+        if (rel.startsWith(ig)) {
+          continue; // Skip this entry, continue walking
+        }
       }
       const stat = await fs.stat(full);
       if (stat.isDirectory()) {

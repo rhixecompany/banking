@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { registerUser } from "@/actions/register";
+import { registerUser } from "@/actions/auth.register";
 
 describe("registerUser", () => {
   describe("function exists", () => {

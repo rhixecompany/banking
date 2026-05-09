@@ -14,7 +14,7 @@ import fs from "fs";
 import path from "path";
 import readline from "readline";
 
-import io from "../utils/io";
+import io from "../../bin/utils/io";
 
 /**
  * Description placeholder

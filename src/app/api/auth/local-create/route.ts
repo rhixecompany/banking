@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 // Uses modern register action instead of deleted auth.signup
-import { registerUser } from "@/actions/register";
+import { registerUser } from "@/actions/auth.register";
 
 /**
  * Description placeholder

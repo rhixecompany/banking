@@ -18,16 +18,16 @@ import {
   CATEGORIES,
   CATEGORY_PATHS,
   CATEGORY_PLACEHOLDERS,
-} from "./utils/constants.js";
-import { readOpenCodeEntries } from "./utils/markdown.js";
+} from "../bin/utils/constants.js";
+import { readOpenCodeEntries } from "../bin/utils/markdown.js";
 import {
   generateEntryHtml,
   readTemplate,
   replacePlaceholder,
   writeReadme,
-} from "./utils/template.js";
-import { formatValidationErrors, validateEntry } from "./utils/validation.js";
-import { readYamlDir } from "./utils/yaml.js";
+} from "../bin/utils/template.js";
+import { formatValidationErrors, validateEntry } from "../bin/utils/validation.js";
+import { readYamlDir } from "../bin/utils/yaml.js";
 
 /**
  * Description placeholder

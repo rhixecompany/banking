@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Skeleton } from "@/components/ui/skeleton";
+import { getCurrentUser } from "@/lib/session";
 
 // Current year - evaluated at build time to avoid prerender errors
 const CURRENT_YEAR = new Date().getFullYear();
@@ -53,12 +54,23 @@ export default async function AdminLayout({
   children: React.ReactNode;
 }) {
   // AdminLayoutWrapper performs authentication and admin gating server-side
+  // Fetch user for sidebar display
+  const user = await getCurrentUser();
+
   return (
     <AdminLayoutWrapper>
       <div className="flex min-h-dvh w-full">
         <SidebarProvider>
           <AdminSidebar
-            user={{ email: "admin@example.com", image: null, name: "Admin" }}
+            user={
+              user
+                ? {
+                    email: user.email ?? "",
+                    image: user.image,
+                    name: user.name ?? "",
+                  }
+                : { email: "", image: null, name: "Admin" }
+            }
           />
           <div className="flex flex-1 flex-col">
             <header className="sticky top-0 z-50 border-b bg-card">

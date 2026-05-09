@@ -87,7 +87,7 @@ function parseArgs(): { tableName: string; options: DALOptions } {
   return { options, tableName };
 }
 
-import io from "../utils/io";
+import io from "../../bin/utils/io";
 
 // Use centralized IO helper which respects global dry-run flags
 /**

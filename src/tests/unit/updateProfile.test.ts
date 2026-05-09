@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { updateProfile } from "@/actions/updateProfile";
+import { updateProfile } from "@/actions/user.update-profile";
 
 describe("updateProfile", () => {
   describe("function exists", () => {

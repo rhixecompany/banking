@@ -46,7 +46,7 @@ async function run() {
   }
 
   const { getConnectionString } =
-    await import("../utils/get-connection-string");
+    await import("../../bin/utils/get-connection-string");
   const connectionString = await getConnectionString();
   const pool = new Pool({ connectionString });
 

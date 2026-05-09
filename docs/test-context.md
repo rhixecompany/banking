@@ -1,95 +1,260 @@
-# Test Context Inventory
+# Test Context
 
-## Overview
+## Test Infrastructure
 
-Generated: 2026-05-07 Source: `src/tests/**`
+### Test Directories
+```
+src/tests/
+├── e2e/                    # Playwright E2E tests
+│   ├── specs/             # Test specs
+│   ├── helpers/            # Test helpers
+│   ├── integration/        # Integration tests
+│   ├── utils/             # Test utilities
+│   ├── global-setup.ts     # Global setup
+│   └── global-teardown.ts  # Global teardown
+├── fixtures/              # Test fixtures
+│   ├── pages/             # Page object models
+│   └── reports/           # Sample reports
+└── unit/                  # Vitest unit tests (if any)
+```
 
-## Vitest Unit Tests (47 specs)
+---
 
-| Spec | Path |
-| --- | --- |
-| admin.actions | `src/tests/unit/admin.actions.test.ts` |
-| currency-precision | `src/tests/unit/currency-precision.test.ts` |
-| dashboard-server-wrapper | `src/tests/unit/dashboard-server-wrapper.test.ts` |
-| dwolla | `src/tests/unit/dwolla.test.ts` |
-| dwolla.actions | `src/tests/unit/actions/dwolla.actions.test.ts` |
-| error-tracking | `src/tests/unit/error-tracking.test.ts` |
-| generate-markdown-catalog-script | `src/tests/unit/generate-markdown-catalog-script.test.ts` |
-| lib/encryption | `src/tests/unit/lib/encryption.test.ts` |
-| lib/utils | `src/tests/unit/lib/utils.test.ts` |
-| lib/validation-utils | `src/tests/unit/lib/validation-utils.test.ts` |
-| markdown-catalog | `src/tests/unit/markdown-catalog.test.ts` |
-| mcp-runner.parse | `src/tests/unit/mcp-runner.parse.test.ts` |
-| mcp-runner.verify | `src/tests/unit/mcp-runner.verify.test.ts` |
-| my-wallets-server-wrapper | `src/tests/unit/my-wallets-server-wrapper.test.ts` |
-| payment-transfer-server-wrapper | `src/tests/unit/payment-transfer-server-wrapper.test.ts` |
-| plan-ensure | `src/tests/unit/plan-ensure.scoring.test.ts` |
-| plan-ensure.comprehensive | `src/tests/unit/plan-ensure-comprehensive.test.ts` |
-| plan-ensure.match | `src/tests/unit/plan-ensure.match.test.ts` |
-| plaid | `src/tests/unit/plaid.test.ts` |
-| register | `src/tests/unit/register.test.ts` |
-| report-parser | `src/tests/unit/report-parser.test.ts` |
-| settings-server-wrapper | `src/tests/unit/settings-server-wrapper.test.ts` |
-| signin-wrapper | `src/tests/unit/signin-wrapper.test.ts` |
-| transaction-history-server-wrapper | `src/tests/unit/transaction-history-server-wrapper.test.ts` |
-| transaction-mapping | `src/tests/unit/transaction-mapping.test.ts` |
-| transaction.actions | `src/tests/unit/transaction.actions.test.ts` |
-| transaction.actions.db-error | `src/tests/unit/transaction.actions.db-error.test.ts` |
-| transfer-validate | `src/tests/unit/validations/transfer.test.ts` |
-| updateProfile | `src/tests/unit/updateProfile.test.ts` |
-| user.actions | `src/tests/unit/user.actions.test.ts` |
-| verify-rules | `src/tests/verify-rules/verify-rules.test.ts` |
-| wallet.actions | `src/tests/unit/wallet.actions.test.ts` |
-| IN PROGRESS | +more dal tests |
+## E2E Tests (Playwright)
 
-### DAL Tests
+### Test Files
 
-| Spec            | Path                                         |
-| --------------- | -------------------------------------------- |
-| user.dal        | `src/tests/unit/dal/user.dal.test.ts`        |
-| wallet.dal      | `src/tests/unit/dal/wallet.dal.test.ts`      |
-| transaction.dal | `src/tests/unit/dal/transaction.dal.test.ts` |
-| recipient.dal   | `src/tests/unit/dal/recipient.dal.test.ts`   |
-| dwolla.dal      | `src/tests/unit/dal/dwolla.dal.test.ts`      |
-| admin.dal       | `src/tests/unit/dal/admin.dal.test.ts`       |
-| errors.dal      | `src/tests/unit/dal/errors.dal.test.ts`      |
+| Spec | Path | Purpose |
+|------|------|---------|
+| `auth.spec.ts` | `e2e/auth.spec.ts` | Sign in/sign up flows |
+| `dashboard.spec.ts` | `e2e/dashboard.spec.ts` | Dashboard functionality |
+| `my-wallets.spec.ts` | `e2e/my-wallets.spec.ts` | Wallet management |
+| `payment-transfer.spec.ts` | `e2e/payment-transfer.spec.ts` | Payment transfers |
+| `transaction-history.spec.ts` | `e2e/transaction-history.spec.ts` | Transaction history |
+| `settings.spec.ts` | `e2e/settings.spec.ts` | Settings page |
+| `admin.spec.ts` | `e2e/admin.spec.ts` | Admin functionality |
+| `wallet-linking.spec.ts` | `e2e/wallet-linking.spec.ts` | Bank linking |
+| `soft-delete.spec.ts` | `e2e/soft-delete.spec.ts` | Soft delete behavior |
+| `transfer-idempotency.spec.ts` | `e2e/transfer-idempotency.spec.ts` | Idempotency |
+| `link-and-transfer.spec.ts` | `e2e/integration/link-and-transfer.spec.ts` | End-to-end flow |
+| `mock-tokens.spec.ts` | `e2e/mock-tokens.spec.ts` | Mock token handling |
 
-### Store Tests
+### Test Helpers
 
-| Spec           | Path                                           |
-| -------------- | ---------------------------------------------- |
-| ui-store       | `src/tests/unit/stores/ui-store.test.ts`       |
-| toast-store    | `src/tests/unit/stores/toast-store.test.ts`    |
-| filter-store   | `src/tests/unit/stores/filter-store.test.ts`   |
-| transfer-store | `src/tests/unit/stores/transfer-store.test.ts` |
+| Helper | Path | Purpose |
+|--------|------|---------|
+| `auth.ts` | `e2e/helpers/auth.ts` | Auth helpers |
+| `db.ts` | `e2e/helpers/db.ts` | Database helpers |
+| `dwolla.ts` | `e2e/helpers/dwolla.ts` | Dwolla mocks |
+| `plaid.ts` | `e2e/helpers/plaid.ts` | Plaid mocks |
+| `plaid.mock.ts` | `e2e/helpers/plaid.mock.ts` | Plaid mock data |
 
-## Playwright E2E Tests (14 specs)
+### Playwright Configuration
 
-| Spec | Path |
-| --- | --- |
-| admin | `src/tests/e2e/admin.spec.ts` |
-| auth | `src/tests/e2e/auth.spec.ts` |
-| dashboard | `src/tests/e2e/dashboard.spec.ts` |
-| example | `src/tests/e2e/example.spec.ts` |
-| mock-tokens | `src/tests/e2e/mock-tokens.spec.ts` |
-| my-wallets | `src/tests/e2e/my-wallets.spec.ts` |
-| payment-transfer | `src/tests/e2e/payment-transfer.spec.ts` |
-| settings | `src/tests/e2e/settings.spec.ts` |
-| soft-delete | `src/tests/e2e/soft-delete.spec.ts` |
-| transaction-history | `src/tests/e2e/transaction-history.spec.ts` |
-| transfer-idempotency | `src/tests/e2e/transfer-idempotency.spec.ts` |
-| wallet-linking | `src/tests/e2e/wallet-linking.spec.ts` |
-| specs/plaid-script | `src/tests/e2e/specs/plaid-script.spec.ts` |
-| integration/link-and-transfer | `src/tests/e2e/integration/link-and-transfer.spec.ts` |
+**File:** `playwright.config.ts`
 
-## Integration Tests
+```typescript
+{
+  testDir: "./src/tests/e2e",
+  globalSetup: "./src/tests/e2e/global-setup.ts",
+  globalTeardown: "./src/tests/e2e/global-teardown.ts",
+  projects: [{ name: "chromium", use: devices["Desktop Chrome"] }],
+  timeout: 90_000,
+  expect: { timeout: 10_000 },
+  retries: CI ? 2 : 0,
+  workers: 1,  // Sequential - shared state
+  webServer: {
+    command: "bun run dev",
+    timeout: 180_000,
+    reuseExistingServer: !CI,
+  },
+}
+```
 
-| Spec | Path |
-| --- | --- |
-| errors.dal.integration | `src/tests/integration/dal/errors.dal.integration.test.ts` |
+### Page Object Models (Fixtures)
 
-## Summary
+| Page | Path | Purpose |
+|------|------|---------|
+| `BasePage` | `fixtures/pages/base.page.ts` | Base page class |
+| `SignInPage` | `fixtures/pages/sign-in.page.ts` | Sign in page |
+| `SignUpPage` | `fixtures/pages/sign-up.page.ts` | Sign up page |
+| `DashboardPage` | `fixtures/pages/dashboard.page.ts` | Dashboard page |
+| `MyWalletsPage` | `fixtures/pages/my-wallets.page.ts` | Wallets page |
+| `PaymentTransferPage` | `fixtures/pages/payment-transfer.page.ts` | Transfer page |
+| `TransactionHistoryPage` | `fixtures/pages/transaction-history.page.ts` | History page |
 
-- **Vitest specs**: 47+
-- **Playwright specs**: 14
-- **Integration specs**: 1
+### Auth Fixtures
+
+**File:** `e2e/utils/auth-fixtures.ts`
+- Seeded test user creation
+- Cookie-based auth for tests
+
+### Test Utilities
+
+| Utility | Path | Purpose |
+|---------|------|---------|
+| `auth-fixtures.ts` | `e2e/utils/auth-fixtures.ts` | Auth fixtures |
+
+---
+
+## Unit Tests (Vitest)
+
+### Configuration
+
+**File:** `vitest.config.ts`
+
+```typescript
+{
+  test: {
+    environment: "happy-dom",
+    globals: true,
+    include: ["src/tests/unit/**/*.test.{ts,tsx,js,jsx}"],
+    setupFiles: ["src/tests/setup.ts"],
+    testTimeout: 30_000,
+    hookTimeout: 15_000,
+  },
+}
+```
+
+### Setup Files
+
+**File:** `setup-tests.ts`
+- Global test setup
+- Mock providers
+
+---
+
+## Database Schema (for Tests)
+
+### Key Tables
+- `users` - User accounts with soft-delete
+- `user_profiles` - Extended profile data
+- `wallets` - Bank connections (encrypted tokens)
+- `transactions` - Transaction records
+- `recipients` - Saved transfer recipients
+
+### Enums
+- `user_role` - USER, ADMIN
+- `transaction_status` - PENDING, COMPLETED, FAILED, CANCELLED
+- `transaction_type` - DEBIT, CREDIT
+- `transaction_channel` - ACH, INTERNAL, CARD
+
+---
+
+## Test Dependencies
+
+### External Integrations (Mocked)
+- **Plaid** - Bank linking (mock mode available)
+- **Dwolla** - ACH transfers (mock mode available)
+- **NextAuth** - Session management
+
+### Mock Strategies
+1. **Plaid**: `isMockAccessToken()` check in actions
+2. **Dwolla**: Environment-based mock responses
+3. **Auth**: Database-seeded users with bcrypt passwords
+
+---
+
+## Running Tests
+
+### Commands
+```bash
+bun run test          # All tests (slow)
+bun run test:browser # Vitest unit/integration tests
+bun run test:ui      # Playwright E2E tests
+bun run test:ui:report  # Show HTML report
+```
+
+### CI Configuration
+- GitHub Actions for CI
+- 2 retries on failure
+- Sequential workers (shared state)
+- Screenshot on failure
+- Trace on first retry
+
+---
+
+## Test Data Management
+
+### Seed Data
+- `scripts/seed/run.ts` - Database seeder
+- `scripts/seed/seed-data.ts` - Seed definitions
+- `scripts/seed/seed-config.ts` - Seed configuration
+
+### Test Users
+- Created via `scripts/seed/` or `auth-fixtures.ts`
+- bcrypt hashed passwords
+- Seeded with wallets and transactions
+
+---
+
+## Best Practices
+
+### Page Object Pattern
+```typescript
+class DashboardPage {
+  constructor(page: Page) {
+    this.page = page;
+  }
+  
+  async goto() {
+    await this.page.goto('/dashboard');
+  }
+  
+  async getBalance() {
+    return this.page.locator('[data-testid="balance"]');
+  }
+}
+```
+
+### Auth in Tests
+```typescript
+// Use seeded user from fixtures
+test('dashboard loads', async ({ page }) => {
+  await setupAuthenticatedPage(page, testUser);
+  await page.goto('/dashboard');
+  await expect(page.locator('h1')).toContainText('Dashboard');
+});
+```
+
+### Error Handling
+```typescript
+test('handles error state', async ({ page }) => {
+  await page.goto('/dashboard');
+  // Verify error boundary works
+  await expect(page.getByText('Something went wrong')).toBeVisible();
+});
+```
+
+---
+
+## Known Test Issues
+
+### TODO Items
+- [ ] Add more integration tests for Plaid flow
+- [ ] Add wallet disconnect tests
+- [ ] Add recipient CRUD tests
+- [ ] Harden skipped tests
+- [ ] Add seeded user for deterministic tests
+
+### Skipped Tests
+- Check each spec for `.skip()` or `.only()` patterns
+
+---
+
+## Coverage Areas
+
+### Covered
+- Sign in/up flows
+- Dashboard display
+- Wallet management
+- Payment transfers
+- Transaction history
+- Settings updates
+- Admin functionality
+
+### Not Covered
+- Email notifications
+- Webhook handlers (partial)
+- Rate limiting
+- Concurrent transfers

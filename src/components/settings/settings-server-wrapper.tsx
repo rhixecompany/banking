@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 
-import { updateProfile } from "@/actions/updateProfile";
+import { updateProfile } from "@/actions/user.update-profile";
 import { getUserWithProfile } from "@/actions/user.actions";
 import SettingsClientWrapper from "@/components/layouts/settings-client";
 import ConnectedAccount from "@/components/shadcn-studio/blocks/account-settings-01/content/connect-account";

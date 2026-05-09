@@ -12,8 +12,8 @@
 # - Detect missing plugins, extra plugins, missing configurations, duplicates
 set -euo pipefail
 
-SCRIPT_DIR=$(dirname "$(realpath "$0")")
-REPO_ROOT=$(realpath "$SCRIPT_DIR/..")
+SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
+REPO_ROOT=$(cd "$SCRIPT_DIR/.." && pwd)
 
 cd "$REPO_ROOT"
 bunx tsx scripts/ts/opencode-plugin-verify.ts "$@"

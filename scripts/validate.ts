@@ -21,8 +21,8 @@
 
 import { spawnSync } from "child_process";
 
-import { formatValidationErrors, validateEntry } from "./utils/validation.js";
-import { getAllYamlFiles, readYamlFile } from "./utils/yaml.js";
+import { formatValidationErrors, validateEntry } from "../bin/utils/validation.js";
+import { getAllYamlFiles, readYamlFile } from "../bin/utils/yaml.js";
 import { validateActions } from "./validate/actions.js";
 import { validateEnv } from "./validate/env.js";
 import { validateSchema } from "./validate/schema.js";
