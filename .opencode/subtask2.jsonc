@@ -1,6 +1,0 @@
-{
-  // subtask2 configuration
-  // Defaults work; uncomment to override:
-  "generic_return": "...", // Override synthetic summary after subtask
-  "return_mode": "prompt", // or "message"
-}

@@ -1,5 +1,0 @@
-{
-  "enabled": true,
-  "extractionMaxTokens": 16000,
-  "extractionModel": "openai/gpt-4o"
-}
