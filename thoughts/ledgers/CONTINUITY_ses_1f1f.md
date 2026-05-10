@@ -1,6 +1,6 @@
 ---
 session: ses_1f1f
-updated: 2026-05-09T19:35:10.209Z
+updated: 2026-05-10T12:00:00.000Z
 ---
 
 # Session Summary
@@ -28,9 +28,14 @@ Research and implement fixes for GitHub Copilot rate limit issues in OpenCode
 
 ### In Progress
 
-- [ ] Implement rate limit fixes in OpenCode environment
-- [ ] Test rate limit fix with new configuration
-- [ ] Verify quota tracking works with new configuration
+- [x] Researched Playwright test improvements (speed, logging, error handling, debugging, coverage)
+- [x] Created plan for enhancing playwright tests and configs
+- [x] Implemented console error handler fixture
+- [x] Implemented session reuse fixture for speed
+- [x] Implemented test utilities with test.step() helpers
+- [x] Implemented coverage collection fixture
+- [x] Updated playwright.config.ts for parallel execution
+- [x] Created fixtures index for easy importing
 
 ### Blocked
 
@@ -41,17 +46,14 @@ Research and implement fixes for GitHub Copilot rate limit issues in OpenCode
 - **Downgrade to v1.1.13**: Temporary fix - v1.1.17+ sends excessive context (13k+ tokens per query), v1.1.13 is more stable
 - **Fine-grained PAT method**: Selected over OAuth token because OpenCode's OAuth no longer grants access to `/copilot_internal/*` API
 - **Read-only Plan permission**: Required setting in GitHub token configuration for quota queries
+- **Playwright Improvements**: Focus on speed (session reuse, parallelism), console error handling, debugging (trace viewer), and coverage
 
 ## Next Steps
 
-1. Downgrade OpenCode to v1.1.13: `npm i -g opencode-ai@1.1.13`
-2. Generate Fine-grained PAT at https://github.com/settings/tokens?type=beta
-3. Set Plan to 'Read-only' in Account permissions
-4. Create `C:\Users\Alexa\.config\opencode\copilot-quota-token.json` with token configuration
-5. Optionally install opencode-copilot-usage-detector plugin for better tracking
-6. Reconnect GitHub Copilot account in OpenCode: `/auth` or `/login`
-7. Test in OpenCode environment with `/mystatus`
-8. Verify quota tracking displays correctly
+1. Test playwright improvements by running E2E tests
+2. Verify all browsers console errors are parsed/handled
+3. Create initial auth state for session reuse (run a login test once)
+4. Optionally enable Firefox/WebKit in playwright.config.ts for multi-browser testing
 
 ## Critical Context
 
@@ -76,6 +78,8 @@ Research and implement fixes for GitHub Copilot rate limit issues in OpenCode
 - OpenCodeDocs: Copilot usage and configuration
 - GitHub Issue #8234: Excessive token consumption since Jan 12, 2026
 - moodl/opencode-copilot-usage-detector: Plugin for tracking usage
+- Playwright best practices documentation
+- Multiple web searches on playwright speed, console errors, debugging, coverage
 
 ### Modified
 
@@ -83,8 +87,32 @@ Research and implement fixes for GitHub Copilot rate limit issues in OpenCode
 
 ---
 
-Would you like me to proceed with implementing the fixes? I can help you:
+## Playwright Improvements Session (ses_1f20)
 
-1. Run the downgrade command to v1.1.13
-2. Generate the Fine-grained PAT configuration
-3. Reconnect GitHub Copilot in OpenCode
+### Research Summary
+
+**Speed Optimization:**
+- Session reuse via storageState - saves 5-10 seconds per test
+- Parallel execution with workers matching CPU cores
+- Sharding for CI - can cut pipeline time 60-70%
+- Remove hard waits (page.waitForTimeout) - use web-first assertions
+- Use waitUntil: 'domcontentloaded' when appropriate
+
+**Console Error Handling:**
+- Use page.on('console') to capture errors/warnings
+- Create fixture to auto-fail tests on console errors
+- Support allowed errors list for expected errors (favicon, ResizeObserver)
+- Use page.on('pageerror') for uncaught exceptions
+
+**Debugging:**
+- Trace viewer: use trace: 'on-first-retry' for CI (recommended)
+- Use test.step() for better debugging visibility
+- VS Code extension for live debugging
+- Soft assertions for better error reporting
+
+**Coverage:**
+- Use page.coverage.startJSCoverage() / stopJSCoverage()
+- Integrate with v8-to-istanbul for readable reports
+- Use babel-plugin-istanbul for instrumentation
+
+(End of file - total 90 lines)

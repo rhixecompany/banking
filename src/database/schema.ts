@@ -562,6 +562,8 @@ export const wallets = pgTable(
     index("wallets_customer_url_idx").on(table.customerUrl),
     index("wallets_funding_source_url_idx").on(table.fundingSourceUrl),
     index("wallets_deleted_at_idx").on(table.deletedAt),
+    // Composite index for efficient user+deleted queries (common access pattern)
+    index("wallets_user_deleted_idx").on(table.userId, table.deletedAt),
   ],
 );
 
@@ -670,6 +672,10 @@ export const transactions = pgTable(
     index("transactions_created_at_idx").on(table.createdAt),
     index("transactions_deleted_at_idx").on(table.deletedAt),
     uniqueIndex("transactions_plaid_id_idx").on(table.plaidTransactionId),
+    // Composite index for efficient user+status queries (common access pattern)
+    index("transactions_user_status_idx").on(table.userId, table.status),
+    // Composite index for efficient user+deleted queries (common access pattern)
+    index("transactions_user_deleted_idx").on(table.userId, table.deletedAt),
   ],
 );
 
@@ -828,5 +834,83 @@ export const errors = pgTable(
     index("errors_created_at_idx").on(table.createdAt),
     index("errors_user_id_idx").on(table.userId),
     index("errors_severity_idx").on(table.severity),
+  ],
+);
+
+/**
+ * Audit log table - Immutable audit trail for sensitive operations.
+ * Tracks security-relevant actions for compliance and forensics.
+ * This table is append-only (no updates or deletes) to maintain audit integrity.
+ */
+export const audit_logs = pgTable(
+  "audit_logs",
+  {
+    /**
+     * ISO 8601 timestamp when this audit entry was created.
+     * @type {Date}
+     */
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    /**
+     * Human-readable description of the action performed.
+     * @type {string | null}
+     */
+    description: varchar("description", { length: 500 }),
+    /**
+     * UUID primary key generated via crypto.randomUUID().
+     * @type {string}
+     */
+    id: text("id")
+      .primaryKey()
+      .notNull()
+      .$defaultFn(() => crypto.randomUUID()),
+    /**
+     * IP address of the client that initiated the action.
+     * @type {string | null}
+     */
+    ipAddress: varchar("ip_address", { length: 45 }),
+    /**
+     * The action or event type (e.g., "USER_LOGIN", "TRANSFER_INITIATED", "WALLET_LINKED").
+     * @type {string}
+     */
+    action: varchar("action", { length: 100 }).notNull(),
+    /**
+     * Additional metadata as JSON (e.g., { "amount": "100.00", "currency": "USD" }).
+     * @type {string | null}
+     */
+    metadata: text("metadata"),
+    /**
+     * The resource type that was affected (e.g., "user", "wallet", "transaction").
+     * @type {string | null}
+     */
+    resourceType: varchar("resource_type", { length: 50 }),
+    /**
+     * The ID of the resource that was affected.
+     * @type {string | null}
+     */
+    resourceId: varchar("resource_id", { length: 255 }),
+    /**
+     * Result of the action ("success", "failure", "pending").
+     * @type {string}
+     */
+    result: varchar("result", { length: 20 }).notNull().default("success"),
+    /**
+     * User agent string from the client's browser or client application.
+     * @type {string | null}
+     */
+    userAgent: text("user_agent"),
+    /**
+     * Foreign key reference to users.id. Null for anonymous actions (e.g., failed login).
+     * @type {string | null}
+     */
+    userId: text("user_id").references(() => users.id, {
+      onDelete: "set null",
+    }),
+  },
+  (table) => [
+    index("audit_logs_user_id_idx").on(table.userId),
+    index("audit_logs_action_idx").on(table.action),
+    index("audit_logs_resource_idx").on(table.resourceType, table.resourceId),
+    index("audit_logs_created_at_idx").on(table.createdAt),
+    index("audit_logs_result_idx").on(table.result),
   ],
 );

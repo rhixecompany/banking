@@ -21,193 +21,104 @@ const SEED_USER_PASSWORD = "password123";
 
 test.describe("Mock Token Testing", () => {
   test.beforeEach(async ({ page }) => {
+    // Inject mock Plaid script before any navigation
+    await addMockPlaidInitScript(page, "seed-plaid-token-123");
+
     // Login before each test
     await page.goto("/sign-in");
     await page.fill('input[type="email"]', SEED_USER_EMAIL);
     await page.fill('input[type="password"]', SEED_USER_PASSWORD);
     await page.click('button:has-text("Sign in")');
-    await page.waitForNavigation();
+    await page.waitForURL(/\/dashboard/);
   });
 
-  test("should skip Plaid API with seed-prefixed token", async ({ page }) => {
-    // Inject mock Plaid Link script
-    await addMockPlaidInitScript(page, "seed-plaid-token-123");
-
-    // Navigate to wallet creation or bank linking page
-    await page.goto("/dashboard");
-    await page.click('a:has-text("Link Bank")').catch(() => {
-      // Link button might have different text or location
-    });
-
-    // If Plaid Link dialog appears (mock or real), verify it's callable
-    // The mock version should trigger onSuccess callback immediately
-    const plaidWindow = page.evaluate(() => (window as any).Plaid);
-    expect(plaidWindow).toBeTruthy();
-  });
-
-  test("should use mock Plaid token for deterministic testing", async ({
-    context,
-    page,
-  }) => {
-    // Inject mock Plaid
-    await addMockPlaidInitScript(page, "MOCK_PUBLIC_TOKEN");
-
-    // Navigate to wallet page
+  test("should inject Plaid mock on page load", async ({ page }) => {
+    // Navigate to dashboard - mock should already be injected
     await page.goto("/dashboard");
 
-    // Monitor network requests
-    let plaidApiCalls = 0;
-    context.on("response", (response) => {
-      if (response.url().includes("api.plaid.com")) {
-        plaidApiCalls += 1;
-      }
-    });
-
-    // Wait briefly for any potential API calls
-    await page.waitForTimeout(2000);
-
-    // With mock token injection and proper detection,
-    // we should have fewer/no real Plaid API calls
-    // (Exact behavior depends on implementation)
-    expect(typeof plaidApiCalls).toBe("number");
-  });
-
-  test("should recognize mock-prefixed tokens", async ({ page }) => {
-    // Test that mock_ prefix is recognized
-    const mockTokenFormats = [
-      "seed-token",
-      "mock-token",
-      "mock_token",
-      "SEED-TOKEN",
-      "MOCK-TOKEN",
-      "MOCK_TOKEN",
-    ];
-
-    for (const token of mockTokenFormats) {
-      // Verify token format is in valid range
-      expect(token.length).toBeGreaterThan(0);
-      expect(token).toBeTruthy();
-    }
-  });
-
-  test("should skip external API for mock Dwolla tokens", async ({
-    context,
-    page,
-  }) => {
-    // Navigate to create transfer
-    await page.goto("/dashboard");
-
-    // Monitor network for Dwolla API calls
-    let dwollaApiCalls = 0;
-    context.on("response", (response) => {
-      if (response.url().includes("api.dwolla.com")) {
-        dwollaApiCalls += 1;
-      }
-    });
-
-    // Fill in transfer form with mock data
-    const amountInput = page.locator('input[name="amount"]');
-    const exists = await amountInput.isVisible().catch(() => false);
-
-    if (exists) {
-      await amountInput.fill("25.00");
-    }
-
-    // Wait to check for API calls
-    await page.waitForTimeout(2000);
-
-    // Track API call count (may be 0 with proper mock token detection)
-    expect(typeof dwollaApiCalls).toBe("number");
-  });
-
-  test("should load Plaid mock without network requests", async ({ page }) => {
-    // Inject mock Plaid
-    await addMockPlaidInitScript(page, "MOCK_PUBLIC_TOKEN");
-
-    // Verify mock is injected
+    // Verify mock is injected and callable
     const plaidExists = await page.evaluate(
-      () => (window as any).Plaid !== undefined,
+      () => typeof (window as any).Plaid !== "undefined",
     );
     expect(plaidExists).toBe(true);
 
-    // Verify Plaid.create is callable
+    // Verify Plaid.create is a function
     const plaidCreate = await page.evaluate(
       () => typeof (window as any).Plaid?.create === "function",
     );
     expect(plaidCreate).toBe(true);
   });
 
-  test("should distinguish mock tokens from production tokens", async ({
-    page,
-  }) => {
-    // Test that we can distinguish token types by inspection
-    const mockTokens = ["seed-token", "mock-token", "mock_token"];
-    const productionTokens = ["pk_live_123", "sk_test_123", "prod_token_abc"];
+  test("should recognize valid mock token prefixes", async () => {
+    // Test that mock token prefix detection works
+    const mockTokenFormats = [
+      { token: "seed-token", isMock: true },
+      { token: "mock-token", isMock: true },
+      { token: "mock_token", isMock: true },
+      { token: "SEED-token", isMock: true },
+      { token: "MOCK-token", isMock: true },
+      { token: "pk_live_123", isMock: false },
+      { token: "sk_test_456", isMock: false },
+    ];
 
-    // All tokens should be strings
-    for (const token of [...mockTokens, ...productionTokens]) {
-      expect(typeof token).toBe("string");
-      expect(token.length).toBeGreaterThan(0);
-    }
-
-    // Mock tokens start with seed-, mock-, or mock_
-    for (const token of mockTokens) {
-      expect(
+    for (const { token, isMock } of mockTokenFormats) {
+      const hasMockPrefix =
         token.toLowerCase().startsWith("seed-") ||
-          token.toLowerCase().startsWith("mock-") ||
-          token.toLowerCase().startsWith("mock_"),
-      ).toBe(true);
+        token.toLowerCase().startsWith("mock-") ||
+        token.toLowerCase().startsWith("mock_");
+
+      expect(hasMockPrefix).toBe(isMock);
     }
   });
 
-  test("should handle Plaid mock callbacks correctly", async ({ page }) => {
-    // Inject mock with custom token
+  test("should create Plaid mock with custom token", async ({ page }) => {
+    // Inject mock with specific token
     const customToken = "MOCK_CUSTOM_123";
     await addMockPlaidInitScript(page, customToken);
 
-    // Verify mock can be created and called
-    const mockWorks = await page.evaluate(async () => {
-      return new Promise((resolve) => {
-        try {
-          const mock = (window as any).Plaid.create({
-            onSuccess: (token: string) => {
-              resolve(token === "MOCK_CUSTOM_123");
-            },
-          });
-          if (mock) {
-            resolve(true);
-          }
-        } catch {
-          resolve(false);
-        }
-      });
-    });
+    await page.goto("/dashboard");
 
-    expect(mockWorks).toBe(true);
-  });
-
-  test("should maintain deterministic behavior with seed tokens", async ({
-    page,
-  }) => {
-    // Inject same seed token twice
-    await addMockPlaidInitScript(page, "seed-consistent-token");
-
-    // First call
-    const result1 = await page.evaluate(() => {
-      return new Promise((resolve) => {
+    // Verify the mock returns the custom token
+    const receivedToken = await page.evaluate(() => {
+      return new Promise<string | null>((resolve) => {
         try {
           (window as any).Plaid.create({
             onSuccess: (token: string) => {
               resolve(token);
             },
           });
+          // Give it time to call the callback
+          setTimeout(() => resolve(null), 100);
         } catch {
           resolve(null);
         }
       });
     });
 
-    // Should return the injected token consistently
-    expect(typeof result1).toBe("string");
+    expect(receivedToken).toBe(customToken);
+  });
+
+  test("should maintain deterministic mock behavior", async ({ page }) => {
+    // Inject seed token for deterministic behavior
+    await addMockPlaidInitScript(page, "seed-consistent-token");
+
+    await page.goto("/dashboard");
+
+    // Call mock multiple times and verify consistency
+    const results = await page.evaluate(() => {
+      return new Promise<string[]>((resolve) => {
+        const tokens: string[] = [];
+        const mock = (window as any).Plaid.create({
+          onSuccess: (token: string) => {
+            tokens.push(token);
+          },
+        });
+        // Wait for async callbacks
+        setTimeout(() => resolve(tokens), 200);
+      });
+    });
+
+    // All results should be the same seed token
+    expect(results.every((t) => t === "seed-consistent-token")).toBe(true);
   });
 });

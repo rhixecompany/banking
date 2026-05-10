@@ -1,5 +1,7 @@
 # AGENTS.md - Agentic Contributor Guide
 
+Once A session start execute whoami && git config list, any other needed command,skills,hooks for context on agent commands
+
 > **Important**: This is the canonical source-of-truth for automated agents and contributors. All agent commands, rules, and patterns should reference this file.
 
 ## Overview

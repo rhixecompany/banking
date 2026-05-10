@@ -16,18 +16,22 @@ import { z } from "zod";
 
 /**
  * Database configuration schema
+ * DATABASE_URL is required for the application to function
  */
 const databaseSchema = z.object({
   DATABASE_URL: z
     .string()
     .trim()
     .url()
-    .optional()
-    .meta({ description: "PostgreSQL connection string" }),
+    .describe("PostgreSQL connection string - REQUIRED")
+    .refine((val) => val !== undefined && val.length > 0, {
+      message: "DATABASE_URL is required for database connectivity",
+    }),
 });
 
 /**
  * Authentication configuration schema
+ * NEXTAUTH_SECRET is required for production security
  */
 const authSchema = z.object({
   AUTH_GITHUB_ID: z
@@ -54,8 +58,10 @@ const authSchema = z.object({
     .string()
     .trim()
     .min(1)
-    .optional()
-    .meta({ description: "NextAuth session secret" }),
+    .describe("NextAuth session secret - REQUIRED for production")
+    .refine((val) => val !== undefined && val.length > 0, {
+      message: "NEXTAUTH_SECRET is required for authentication",
+    }),
   NEXTAUTH_URL: z
     .string()
     .trim()
@@ -66,14 +72,17 @@ const authSchema = z.object({
 
 /**
  * Encryption configuration schema
+ * ENCRYPTION_KEY is required for securing sensitive data at rest
  */
 const encryptionSchema = z.object({
   ENCRYPTION_KEY: z
     .string()
     .trim()
     .min(1)
-    .optional()
-    .meta({ description: "AES-256-GCM encryption key" }),
+    .describe("AES-256-GCM encryption key - REQUIRED for security")
+    .refine((val) => val !== undefined && val.length > 0, {
+      message: "ENCRYPTION_KEY is required for securing sensitive data",
+    }),
 });
 
 /**
@@ -219,44 +228,15 @@ export type EmailConfig = z.infer<typeof emailSchema>;
  * Complete application configuration type
  */
 export interface AppConfig {
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {AuthConfig}
-   */
+  /** Authentication configuration including OAuth and session settings */
   auth: AuthConfig;
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {DatabaseConfig}
-   */
+  /** Database connection configuration */
   database: DatabaseConfig;
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {EmailConfig}
-   */
+  /** Email/SMTP configuration for notifications */
   email: EmailConfig;
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {EncryptionConfig}
-   */
+  /** Encryption configuration for securing sensitive data at rest */
   encryption: EncryptionConfig;
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {{
-   *     dwolla: DwollaConfig;
-   *     plaid: PlaidConfig;
-   *     redis: RedisConfig;
-   *   }}
-   */
+  /** Third-party integrations configuration */
   integrations: {
     dwolla: DwollaConfig;
     plaid: PlaidConfig;
@@ -496,18 +476,38 @@ export function isEmailConfigured(): boolean {
 // ============================================================
 
 /**
- * Validate all required configuration at startup
- * Throws if any critical configuration is missing
+ * Validate all required configuration at startup.
+ * Note: Critical env vars (NEXTAUTH_SECRET, ENCRYPTION_KEY, DATABASE_URL)
+ * are now enforced at schema parse time. This function validates optional
+ * integrations and feature flags.
  */
 export function validateRequiredConfig(): void {
   const errors: string[] = [];
 
+  // Validate database connectivity
+  if (!database.DATABASE_URL) {
+    errors.push("DATABASE_URL is required for database connectivity");
+  }
+
+  // Validate authentication
+  if (!auth.NEXTAUTH_SECRET) {
+    errors.push("NEXTAUTH_SECRET is required for authentication");
+  }
+
+  // Validate encryption
   if (!encryption.ENCRYPTION_KEY) {
     errors.push("ENCRYPTION_KEY is required for security");
   }
 
-  if (!auth.NEXTAUTH_SECRET) {
-    errors.push("NEXTAUTH_SECRET is required for authentication");
+  // Warn about missing integrations (non-blocking)
+  if (!isPlaidConfigured()) {
+    console.warn(
+      "WARNING: Plaid is not configured - bank connections disabled",
+    );
+  }
+
+  if (!isDwollaConfigured()) {
+    console.warn("WARNING: Dwolla is not configured - ACH transfers disabled");
   }
 
   if (errors.length > 0) {

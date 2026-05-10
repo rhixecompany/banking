@@ -103,47 +103,43 @@ export function PlaidProvider({
   userId,
 }: PlaidProviderProps) {
   const [linkToken, setLinkToken] = useState<string | undefined>(undefined);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
   const onSuccessRef = useRef(onSuccess);
+  const tokenFetchedRef = useRef(false);
 
   useEffect(() => {
     onSuccessRef.current = onSuccess;
   });
 
-  useEffect(() => {
-    // If the global script guard is already set, we still fetch a link token
-    // but avoid re-inserting the script elsewhere. The runtime guard is set
-    // by the Script loader below when it completes.
-    async function fetchLinkToken() {
-      setIsLoading(true);
-      setError(undefined);
-
-      try {
-        if (!createLinkToken) {
-          setError("Plaid is not configured");
-          setIsLoading(false);
-          return;
-        }
-
-        const result = await createLinkToken({ userId });
-
-        if (result.ok && result.linkToken) {
-          setLinkToken(result.linkToken);
-        } else {
-          setError(result.error ?? "Failed to initialize Plaid Link");
-        }
-      } catch (err) {
-        // Defensive: catch unexpected errors to avoid uncaught exceptions.
-        logger.error("PlaidProvider createLinkToken unexpected error:", err);
-        setError("Failed to initialize Plaid Link");
-      }
-
-      setIsLoading(false);
+  // Lazy fetch: only fetch link token when actually needed (when user opens Plaid Link)
+  // This avoids expensive API calls on every page load
+  const fetchLinkTokenIfNeeded = useCallback(async () => {
+    if (tokenFetchedRef.current || !createLinkToken) {
+      return;
     }
 
-    void fetchLinkToken();
-  }, [userId]);
+    tokenFetchedRef.current = true;
+    setIsLoading(true);
+    setError(undefined);
+
+    try {
+      const result = await createLinkToken({ userId });
+
+      if (result.ok && result.linkToken) {
+        setLinkToken(result.linkToken);
+      } else {
+        setError(result.error ?? "Failed to initialize Plaid Link");
+        tokenFetchedRef.current = false; // Allow retry on error
+      }
+    } catch (err) {
+      logger.error("PlaidProvider createLinkToken unexpected error:", err);
+      setError("Failed to initialize Plaid Link");
+      tokenFetchedRef.current = false; // Allow retry on error
+    }
+
+    setIsLoading(false);
+  }, [createLinkToken, userId]);
 
   const handleSuccess = useCallback<PlaidLinkOnSuccess>(
     async (publicToken) => {
@@ -171,11 +167,13 @@ export function PlaidProvider({
     token: linkToken ?? null,
   });
 
-  const handleOpen = useCallback(() => {
+  const handleOpen = useCallback(async () => {
+    // Fetch token lazily when user actually tries to open Plaid Link
+    await fetchLinkTokenIfNeeded();
     if (ready && linkToken) {
       open();
     }
-  }, [open, ready, linkToken]);
+  }, [open, ready, linkToken, fetchLinkTokenIfNeeded]);
 
   const value: PlaidContextValue = {
     error,

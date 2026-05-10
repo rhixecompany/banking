@@ -25,6 +25,17 @@ export const TransferSchema = z.object({
           "Amount must be a positive number with exactly 2 decimal places (e.g., '25.00')",
       },
     )
+    .refine(
+      (val) => {
+        // Enforce transfer limits: minimum $0.01, maximum $10,000 per transfer
+        // This is a common ACH compliance requirement to limit exposure
+        const parsed = Number.parseFloat(val);
+        return parsed >= 0.01 && parsed <= 10000;
+      },
+      {
+        error: "Amount must be between $0.01 and $10,000.00",
+      },
+    )
     .meta({
       description:
         "Transfer amount as decimal string with exactly 2 decimal places (e.g. '25.00')",

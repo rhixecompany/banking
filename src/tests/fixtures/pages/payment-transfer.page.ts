@@ -41,36 +41,39 @@ export class PaymentTransferPage extends BasePage {
   }
 
   /**
-   * Description placeholder
+   * Source wallet select - uses ID selector since shadcn/ui FormLabel
+   * isn't properly associated with the input for getByLabel to work.
    * @author Adminbot
    *
    * @readonly
    * @type {*}
    */
   get sourceWalletSelect() {
-    return this.getByLabel(/from bank account|source wallet/i);
+    return this.page.locator("#source-bank");
   }
 
   /**
-   * Description placeholder
+   * Recipient select - uses ID selector since shadcn/ui FormLabel
+   * isn't properly associated with the input for getByLabel to work.
    * @author Adminbot
    *
    * @readonly
    * @type {*}
    */
   get recipientSelect() {
-    return this.getByLabel(/to recipient/i);
+    return this.page.locator("#recipient");
   }
 
   /**
-   * Description placeholder
+   * Amount input - uses ID selector since shadcn/ui FormLabel
+   * isn't properly associated with the input for getByLabel to work.
    * @author Adminbot
    *
    * @readonly
    * @type {*}
    */
   get amountInput() {
-    return this.getByLabel(/amount.*usd/i);
+    return this.page.locator("#amount");
   }
 
   /**
@@ -109,14 +112,28 @@ export class PaymentTransferPage extends BasePage {
   }
 
   /**
-   * Description placeholder
+   * Error message displayed after failed transfer submission.
+   * Uses data-testid="transfer-error" from the form component.
    * @author Adminbot
    *
    * @readonly
    * @type {*}
    */
   get errorMessage() {
-    return this.getByText(/error|failed|insufficient/i).first();
+    return this.getByTestId("transfer-error");
+  }
+
+  /**
+   * Form validation error messages shown via React Hook Form's FormMessage.
+   * These appear when fields have validation errors (empty required fields,
+   * invalid formats, etc.).
+   * @author Adminbot
+   *
+   * @readonly
+   * @type {*}
+   */
+  get validationError() {
+    return this.page.locator('[class*="text-destructive"]').first();
   }
 
   /**

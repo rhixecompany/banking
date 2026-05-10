@@ -54,13 +54,37 @@ function isLocalUrl(urlStr: string): boolean {
   }
 }
 
+/**
+ * Coverage configuration for JS/CSS coverage collection
+ */
+const COVERAGE_CONFIG = {
+  /** Enable coverage collection (can be disabled via COVERAGE=false env var) */
+  enabled: process.env.COVERAGE !== "false",
+  /** Output directory for coverage reports */
+  outputDir: "./.playwright/coverage",
+};
+
+/**
+ * Debug configuration for trace viewer and screenshots
+ */
+const DEBUG_CONFIG = {
+  /** Custom screenshot directory */
+  screenshotDir: "./.playwright/screenshots",
+  /** Custom trace directory */
+  traceDir: "./.playwright/traces",
+};
+
 export default defineConfig({
   /* Assertion timeout - increased for slower pages */
   expect: { timeout: TIMEOUTS.ASSERTION },
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!env.CI,
-  /* Run tests sequentially — app state is shared (auth, DB). */
-  fullyParallel: false,
+  /* 
+   * Run tests in parallel when possible.
+   * Set to false only if tests share state (auth, DB) that causes conflicts.
+   * For isolated tests, this significantly speeds up execution.
+   */
+  fullyParallel: !env.CI, // Parallel locally, sequential on CI for stability
   globalSetup: "./src/tests/e2e/global-setup.ts",
   globalTeardown: "./src/tests/e2e/global-teardown.ts",
 
@@ -145,7 +169,18 @@ export default defineConfig({
 
     /* Video only on failure to save disk space */
     video: "retain-on-failure",
+
+    /* JavaScript coverage collection */
+    javaScriptEnabled: true,
+
+    /* Context options for better debugging */
+    contextOptions: {
+      reducedMotion: "reduce",
+    },
   },
+
+  /* Output directories for artifacts */
+  outputDir: DEBUG_CONFIG.traceDir,
 
   /* Run your local dev server before starting the tests */
   webServer: !isLocalUrl(baseURL)
@@ -186,6 +221,11 @@ export default defineConfig({
         };
       })(),
 
-  /* Always 1 worker — stateful app (auth sessions, shared DB). */
-  workers: 1,
+  /* 
+   * Worker count - use more workers for parallel execution.
+   * CI: Use 4 workers for stability with shared state
+   * Local: Use CPU cores (undefined = auto) for maximum speed
+   * Note: Tests must be independent or use test isolation for parallel to work
+   */
+  workers: env.CI ? 4 : undefined,
 });

@@ -6,8 +6,8 @@ import { expect, type Page } from "@playwright/test";
  *
  * @param page - Playwright page object
  * @param amount - Transfer amount as string (e.g., "100.00")
- * @param recipientEmail - Recipient's email address
- * @param sharableId - Recipient's Plaid sharable ID
+ * @param recipientEmail - Recipient's email address (for test helper fields)
+ * @param sharableId - Recipient's name to select from dropdown
  * @returns Promise that resolves when the transfer is submitted
  */
 export async function completeDwollaTransfer(
@@ -16,28 +16,38 @@ export async function completeDwollaTransfer(
   recipientEmail: string,
   sharableId: string,
 ): Promise<void> {
-  // Navigate to payment transfer page
-  await page.goto("/payment-transfer");
+  // Note: Don't navigate to page - test already navigates via beforeEach
+  // Wait for the page to be ready
+  await page.waitForLoadState("networkidle");
 
-  // Fill in the transfer form
-  await page.fill('[data-testid="transfer-amount"]', amount);
+  // Wait for form to be fully loaded (including recipients data from server)
+  // The form loads recipients via a server action, so we need to wait for the page
+  // to stabilize after initial render
+  await page.waitForTimeout(3000);
+
+  // Fill in the transfer amount using the ID selector
+  await page.locator("#amount").fill(amount);
+
+  // Fill in the test helper fields (presentational only, not submitted)
   await page.fill('[data-testid="recipient-email"]', recipientEmail);
   await page.fill('[data-testid="sharable-id"]', sharableId);
 
-  // Select source bank if required
-  const sourceBankSelect = page.locator('[data-testid="sender-bank"]');
-  if (await sourceBankSelect.isVisible()) {
-    await sourceBankSelect.click();
-    await page.locator('[data-testid="bank-option"]').first().click();
-  }
+  // Select source bank - click trigger, wait for dropdown, click first option
+  await page.locator("#source-bank").click();
+  await page.getByRole("option").first().click();
+
+  // Select recipient - click trigger, wait for dropdown, click first option
+  // Use getByRole which is more robust than waitForSelector
+  await page.locator("#recipient").click();
+  await page.getByRole("option").first().click();
 
   // Submit the transfer
   await page.click('[data-testid="transfer-submit"]');
 
-  // Wait for success indicator
+  // Wait for success indicator (element uses sr-only class, use toBeAttached)
   await expect
     .soft(page.locator('[data-testid="transfer-success"]'))
-    .toBeVisible({ timeout: 15000 });
+    .toBeAttached({ timeout: 15000 });
 }
 
 /**
@@ -71,9 +81,10 @@ export async function submitTransfer(page: Page): Promise<boolean> {
   await page.click('[data-testid="transfer-submit"]');
 
   try {
+    // Success element uses sr-only class, use toBeAttached
     await expect
       .soft(page.locator('[data-testid="transfer-success"]'))
-      .toBeVisible({ timeout: 15000 });
+      .toBeAttached({ timeout: 15000 });
     return true;
   } catch {
     // Check for error message

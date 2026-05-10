@@ -1,5 +1,4 @@
 import { test as base, Page } from "@playwright/test";
-import { encode } from "next-auth/jwt";
 
 import { SEED_USER, signInWithSeedUser } from "../e2e/helpers/auth";
 import {
@@ -68,65 +67,10 @@ export const test = base.extend<AuthFixtures>({
       consoleErrors.push(err.message);
     });
 
-    // Prefer deterministic session cookie (NextAuth JWT) when NEXTAUTH_SECRET
-    // exists. Fall back to UI sign-in if missing or if the token isn't accepted.
-    let secret: string | undefined;
-    // eslint-disable-next-line n/no-process-env
-    const baseUrl = process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3000";
-    try {
-      const { env } = await import("@/lib/env");
-      if (env.NEXTAUTH_SECRET) secret = env.NEXTAUTH_SECRET as string;
-    } catch {
-      // eslint-disable-next-line n/no-process-env
-      secret = process.env.NEXTAUTH_SECRET;
-    }
-
-    if (!secret) {
-      await signInWithSeedUser(page);
-      await run(page);
-      return;
-    }
-
-    const isSecure = new URL(baseUrl).protocol === "https:";
-    const cookieName = isSecure
-      ? "__Secure-next-auth.session-token"
-      : "next-auth.session-token";
-
-    try {
-      const jwt = await encode({
-        salt: cookieName,
-        secret,
-        token: {
-          email: TEST_USER.email,
-          id: SEED_USER_ID,
-          isActive: true,
-          isAdmin: false,
-          name: `${TEST_USER.firstName} ${TEST_USER.lastName}`,
-          sub: SEED_USER_ID,
-        },
-      });
-
-      await page.context().clearCookies();
-      await page.context().addCookies([
-        {
-          httpOnly: true,
-          name: cookieName,
-          path: "/",
-          sameSite: "Lax",
-          secure: isSecure,
-          url: baseUrl,
-          value: jwt,
-        },
-      ]);
-
-      await page.goto("/dashboard");
-      await page.waitForLoadState("domcontentloaded");
-      if (page.url().includes("/sign-in")) {
-        await signInWithSeedUser(page);
-      }
-    } catch {
-      await signInWithSeedUser(page);
-    }
+    // Always use UI sign-in for reliable authentication in E2E tests.
+    // The JWT cookie approach is unreliable due to timing issues with
+    // session establishment before tests run.
+    await signInWithSeedUser(page);
 
     await run(page);
   },

@@ -7,11 +7,11 @@ import { wallets } from "@/database/schema";
 import { decrypt, encrypt } from "@/lib/encryption";
 
 /**
- * Description placeholder
- * @author Adminbot
+ * Safely decrypts an encrypted value, returning the original value
+ * if decryption fails (e.g., already plaintext or corrupted).
  *
- * @param {string} value
- * @returns {string}
+ * @param {string} value - The encrypted value to decrypt.
+ * @returns {string} The decrypted value or original if decryption fails.
  */
 function safeDecrypt(value: string): string {
   try {
