@@ -3,6 +3,7 @@
 ## Test Infrastructure
 
 ### Test Directories
+
 ```
 src/tests/
 ├── e2e/                    # Playwright E2E tests
@@ -25,7 +26,7 @@ src/tests/
 ### Test Files
 
 | Spec | Path | Purpose |
-|------|------|---------|
+| --- | --- | --- |
 | `auth.spec.ts` | `e2e/auth.spec.ts` | Sign in/sign up flows |
 | `dashboard.spec.ts` | `e2e/dashboard.spec.ts` | Dashboard functionality |
 | `my-wallets.spec.ts` | `e2e/my-wallets.spec.ts` | Wallet management |
@@ -41,13 +42,13 @@ src/tests/
 
 ### Test Helpers
 
-| Helper | Path | Purpose |
-|--------|------|---------|
-| `auth.ts` | `e2e/helpers/auth.ts` | Auth helpers |
-| `db.ts` | `e2e/helpers/db.ts` | Database helpers |
-| `dwolla.ts` | `e2e/helpers/dwolla.ts` | Dwolla mocks |
-| `plaid.ts` | `e2e/helpers/plaid.ts` | Plaid mocks |
-| `plaid.mock.ts` | `e2e/helpers/plaid.mock.ts` | Plaid mock data |
+| Helper          | Path                        | Purpose          |
+| --------------- | --------------------------- | ---------------- |
+| `auth.ts`       | `e2e/helpers/auth.ts`       | Auth helpers     |
+| `db.ts`         | `e2e/helpers/db.ts`         | Database helpers |
+| `dwolla.ts`     | `e2e/helpers/dwolla.ts`     | Dwolla mocks     |
+| `plaid.ts`      | `e2e/helpers/plaid.ts`      | Plaid mocks      |
+| `plaid.mock.ts` | `e2e/helpers/plaid.mock.ts` | Plaid mock data  |
 
 ### Playwright Configuration
 
@@ -74,7 +75,7 @@ src/tests/
 ### Page Object Models (Fixtures)
 
 | Page | Path | Purpose |
-|------|------|---------|
+| --- | --- | --- |
 | `BasePage` | `fixtures/pages/base.page.ts` | Base page class |
 | `SignInPage` | `fixtures/pages/sign-in.page.ts` | Sign in page |
 | `SignUpPage` | `fixtures/pages/sign-up.page.ts` | Sign up page |
@@ -86,13 +87,14 @@ src/tests/
 ### Auth Fixtures
 
 **File:** `e2e/utils/auth-fixtures.ts`
+
 - Seeded test user creation
 - Cookie-based auth for tests
 
 ### Test Utilities
 
-| Utility | Path | Purpose |
-|---------|------|---------|
+| Utility            | Path                         | Purpose       |
+| ------------------ | ---------------------------- | ------------- |
 | `auth-fixtures.ts` | `e2e/utils/auth-fixtures.ts` | Auth fixtures |
 
 ---
@@ -119,6 +121,7 @@ src/tests/
 ### Setup Files
 
 **File:** `setup-tests.ts`
+
 - Global test setup
 - Mock providers
 
@@ -127,6 +130,7 @@ src/tests/
 ## Database Schema (for Tests)
 
 ### Key Tables
+
 - `users` - User accounts with soft-delete
 - `user_profiles` - Extended profile data
 - `wallets` - Bank connections (encrypted tokens)
@@ -134,6 +138,7 @@ src/tests/
 - `recipients` - Saved transfer recipients
 
 ### Enums
+
 - `user_role` - USER, ADMIN
 - `transaction_status` - PENDING, COMPLETED, FAILED, CANCELLED
 - `transaction_type` - DEBIT, CREDIT
@@ -144,11 +149,13 @@ src/tests/
 ## Test Dependencies
 
 ### External Integrations (Mocked)
+
 - **Plaid** - Bank linking (mock mode available)
 - **Dwolla** - ACH transfers (mock mode available)
 - **NextAuth** - Session management
 
 ### Mock Strategies
+
 1. **Plaid**: `isMockAccessToken()` check in actions
 2. **Dwolla**: Environment-based mock responses
 3. **Auth**: Database-seeded users with bcrypt passwords
@@ -158,6 +165,7 @@ src/tests/
 ## Running Tests
 
 ### Commands
+
 ```bash
 bun run test          # All tests (slow)
 bun run test:browser # Vitest unit/integration tests
@@ -166,6 +174,7 @@ bun run test:ui:report  # Show HTML report
 ```
 
 ### CI Configuration
+
 - GitHub Actions for CI
 - 2 retries on failure
 - Sequential workers (shared state)
@@ -177,11 +186,13 @@ bun run test:ui:report  # Show HTML report
 ## Test Data Management
 
 ### Seed Data
+
 - `scripts/seed/run.ts` - Database seeder
 - `scripts/seed/seed-data.ts` - Seed definitions
 - `scripts/seed/seed-config.ts` - Seed configuration
 
 ### Test Users
+
 - Created via `scripts/seed/` or `auth-fixtures.ts`
 - bcrypt hashed passwords
 - Seeded with wallets and transactions
@@ -191,16 +202,17 @@ bun run test:ui:report  # Show HTML report
 ## Best Practices
 
 ### Page Object Pattern
+
 ```typescript
 class DashboardPage {
   constructor(page: Page) {
     this.page = page;
   }
-  
+
   async goto() {
-    await this.page.goto('/dashboard');
+    await this.page.goto("/dashboard");
   }
-  
+
   async getBalance() {
     return this.page.locator('[data-testid="balance"]');
   }
@@ -208,21 +220,23 @@ class DashboardPage {
 ```
 
 ### Auth in Tests
+
 ```typescript
 // Use seeded user from fixtures
-test('dashboard loads', async ({ page }) => {
+test("dashboard loads", async ({ page }) => {
   await setupAuthenticatedPage(page, testUser);
-  await page.goto('/dashboard');
-  await expect(page.locator('h1')).toContainText('Dashboard');
+  await page.goto("/dashboard");
+  await expect(page.locator("h1")).toContainText("Dashboard");
 });
 ```
 
 ### Error Handling
+
 ```typescript
-test('handles error state', async ({ page }) => {
-  await page.goto('/dashboard');
+test("handles error state", async ({ page }) => {
+  await page.goto("/dashboard");
   // Verify error boundary works
-  await expect(page.getByText('Something went wrong')).toBeVisible();
+  await expect(page.getByText("Something went wrong")).toBeVisible();
 });
 ```
 
@@ -231,6 +245,7 @@ test('handles error state', async ({ page }) => {
 ## Known Test Issues
 
 ### TODO Items
+
 - [ ] Add more integration tests for Plaid flow
 - [ ] Add wallet disconnect tests
 - [ ] Add recipient CRUD tests
@@ -238,6 +253,7 @@ test('handles error state', async ({ page }) => {
 - [ ] Add seeded user for deterministic tests
 
 ### Skipped Tests
+
 - Check each spec for `.skip()` or `.only()` patterns
 
 ---
@@ -245,6 +261,7 @@ test('handles error state', async ({ page }) => {
 ## Coverage Areas
 
 ### Covered
+
 - Sign in/up flows
 - Dashboard display
 - Wallet management
@@ -254,6 +271,7 @@ test('handles error state', async ({ page }) => {
 - Admin functionality
 
 ### Not Covered
+
 - Email notifications
 - Webhook handlers (partial)
 - Rate limiting

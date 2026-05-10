@@ -26,7 +26,10 @@ import {
   replacePlaceholder,
   writeReadme,
 } from "../bin/utils/template.js";
-import { formatValidationErrors, validateEntry } from "../bin/utils/validation.js";
+import {
+  formatValidationErrors,
+  validateEntry,
+} from "../bin/utils/validation.js";
 import { readYamlDir } from "../bin/utils/yaml.js";
 
 /**

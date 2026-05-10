@@ -131,10 +131,10 @@ Payment Form → transferMoney action → validate → idempotency key → Dwoll
 
 **Zustand Stores** (`src/stores/`):
 
-| Store | Purpose |
-|-------|---------|
-| `useUIStore.ts` | UI state (sidebar, modals, themes) |
-| `useBankStore.ts` | Bank account data caching |
+| Store             | Purpose                            |
+| ----------------- | ---------------------------------- |
+| `useUIStore.ts`   | UI state (sidebar, modals, themes) |
+| `useBankStore.ts` | Bank account data caching          |
 
 ```typescript
 // Usage in components

@@ -5,9 +5,11 @@ plan status: active
 ---
 
 ## Idea
+
 Complete codebase overhaul with demo integration, consolidation, and script enhancement for Next.js 16 banking app
 
 ## Implementation
+
 - Map codebase and create docs: custom-components.md, app-pages.md, test-context.md with all Next.js pages, components (skip ui/), tests, and scripts
 - Integrate demo pages into UI, delete demo pages, consolidate dead code, enhance all components in ./components (skip ui/) with reusable hooks and stores
 - Consolidate and enhance all tests in ./src/tests
@@ -17,6 +19,8 @@ Complete codebase overhaul with demo integration, consolidation, and script enha
 - Modify bun run format to use bash scripts with echo feedback, fallback to powershell/bat, update all validation scripts (lint/type-check/test/format/build)
 
 ## Required Specs
+
 <!-- SPECS_START -->
+
 - banking-overhaul-spec
 <!-- SPECS_END -->

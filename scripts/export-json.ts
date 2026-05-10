@@ -14,7 +14,10 @@ import type { CategoryType, Entry, ExportedEntry } from "./types/index.js";
 
 import { CATEGORIES, CATEGORY_PATHS } from "../bin/utils/constants.js";
 import { readOpenCodeEntries } from "../bin/utils/markdown.js";
-import { formatValidationErrors, validateEntry } from "../bin/utils/validation.js";
+import {
+  formatValidationErrors,
+  validateEntry,
+} from "../bin/utils/validation.js";
 import { readYamlDir, slugify } from "../bin/utils/yaml.js";
 
 /**

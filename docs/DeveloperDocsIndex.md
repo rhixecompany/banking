@@ -3,7 +3,7 @@
 ## Quick Links
 
 | Category | Guide |
-|----------|-------|
+| --- | --- |
 | **Database** | [Drizzle ORM Guide](DrizzleORMGuide.md) |
 | **Linting** | [ESLint Plugins Guide](ESLintPluginsGuide.md) |
 | **Integrations** | [Plaid Guide](PlaidIntegrationGuide.md), [Dwolla Guide](DwollaIntegrationGuide.md) |

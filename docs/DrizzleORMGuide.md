@@ -11,8 +11,8 @@
 ## Count Rows
 
 ```ts
-import { count, sql } from 'drizzle-orm';
-import { products } from './schema';
+import { count, sql } from "drizzle-orm";
+import { products } from "./schema";
 
 // Basic count
 await db.select({ count: count() }).from(products);
@@ -22,11 +22,15 @@ await db.select({ count: count(products.discount) }).from(products);
 
 // Count with condition
 import { gt } from "drizzle-orm";
-await db.select({ count: count() }).from(products).where(gt(products.price, 100));
+await db
+  .select({ count: count() })
+  .from(products)
+  .where(gt(products.price, 100));
 
 // Count with joins/aggregations
 import { eq } from "drizzle-orm";
-await db.select({ citiesCount: count(cities.id), country: countries.name })
+await db
+  .select({ citiesCount: count(cities.id), country: countries.name })
   .from(countries)
   .leftJoin(cities, eq(countries.id, cities.countryId))
   .groupBy(countries.id);
@@ -40,18 +44,27 @@ await db.select({ citiesCount: count(cities.id), country: countries.name })
 
 ```ts
 // Basic upsert
-await db.insert(users).values({ id: 1, name: 'John' })
-  .onConflictDoUpdate({ target: users.id, set: { name: 'Super John' } });
+await db
+  .insert(users)
+  .values({ id: 1, name: "John" })
+  .onConflictDoUpdate({
+    target: users.id,
+    set: { name: "Super John" }
+  });
 
 // Upsert multiple rows
-await db.insert(users).values(values)
+await db
+  .insert(users)
+  .values(values)
   .onConflictDoUpdate({
     set: { lastLogin: sql.raw(`excluded.${users.lastLogin.name}`) },
     target: users.id
   });
 
 // Composite key upsert
-await db.insert(inventory).values({ productId: 1, quantity: 100, warehouseId: 1 })
+await db
+  .insert(inventory)
+  .values({ productId: 1, quantity: 100, warehouseId: 1 })
   .onConflictDoUpdate({
     set: { quantity: sql`${inventory.quantity} + 100` },
     target: [inventory.warehouseId, inventory.productId]
@@ -61,7 +74,9 @@ await db.insert(inventory).values({ productId: 1, quantity: 100, warehouseId: 1 
 ### MySQL
 
 ```ts
-await db.insert(users).values({ id: 1, name: "John" })
+await db
+  .insert(users)
+  .values({ id: 1, name: "John" })
   .onDuplicateKeyUpdate({ set: { name: "Super John" } });
 ```
 
@@ -78,20 +93,37 @@ await db.select().from(users).limit(10).offset(20);
 ### Cursor-Based
 
 ```ts
-import { asc, gt } from 'drizzle-orm';
+import { asc, gt } from "drizzle-orm";
 
 // Basic cursor pagination
 const nextPage = async (cursor?: number, pageSize = 3) => {
-  return db.select().from(users)
+  return db
+    .select()
+    .from(users)
     .where(cursor ? gt(users.id, cursor) : undefined)
     .limit(pageSize)
     .orderBy(asc(users.id));
 };
 
 // Multi-column cursor
-const nextPage = async (cursor?: { id: number; firstName: string }, pageSize = 3) => {
-  return db.select().from(users)
-    .where(cursor ? or(gt(users.firstName, cursor.firstName), and(eq(users.firstName, cursor.firstName), gt(users.id, cursor.id))) : undefined)
+const nextPage = async (
+  cursor?: { id: number; firstName: string },
+  pageSize = 3
+) => {
+  return db
+    .select()
+    .from(users)
+    .where(
+      cursor
+        ? or(
+            gt(users.firstName, cursor.firstName),
+            and(
+              eq(users.firstName, cursor.firstName),
+              gt(users.id, cursor.id)
+            )
+          )
+        : undefined
+    )
     .limit(pageSize)
     .orderBy(asc(users.firstName), asc(users.id));
 };
@@ -133,7 +165,10 @@ const selectPartial = (columns: string[]) => {
 
 ```ts
 import { not } from "drizzle-orm";
-await db.update(users).set({ active: not(users.active) }).where(eq(users.id, 1));
+await db
+  .update(users)
+  .set({ active: not(users.active) })
+  .where(eq(users.id, 1));
 ```
 
 ---
@@ -152,7 +187,10 @@ updatedAt: timestamp("updated_at").onUpdateNow(),
 
 ```ts
 import { sql } from "drizzle-orm";
-await db.update(products).set({ stock: sql`${products.stock} - 1` }).where(eq(products.id, 1));
+await db
+  .update(products)
+  .set({ stock: sql`${products.stock} - 1` })
+  .where(eq(products.id, 1));
 ```
 
 ---

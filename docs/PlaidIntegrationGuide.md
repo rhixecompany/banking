@@ -22,7 +22,10 @@ import { PlaidApi, PlaidEnvironments } from "plaid";
 const client = new PlaidApi({
   basePath: PlaidEnvironments.sandbox,
   baseOptions: {
-    headers: { "PLAID-CLIENT-ID": process.env.PLAID_CLIENT_ID, "PLAID-SECRET": process.env.PLAID_SECRET }
+    headers: {
+      "PLAID-CLIENT-ID": process.env.PLAID_CLIENT_ID,
+      "PLAID-SECRET": process.env.PLAID_SECRET
+    }
   }
 });
 
@@ -53,7 +56,9 @@ const { open } = usePlaidLink({
 
 ```ts
 export async function exchangePublicToken(publicToken: string) {
-  const response = await client.itemPublicTokenExchange({ public_token: publicToken });
+  const response = await client.itemPublicTokenExchange({
+    public_token: publicToken
+  });
   return {
     accessToken: response.data.access_token,
     itemId: response.data.item_id
@@ -64,23 +69,27 @@ export async function exchangePublicToken(publicToken: string) {
 ### 4. Use Access Token
 
 ```ts
-const accounts = await client.accountsGet({ access_token: accessToken });
-const transactions = await client.transactionsSync({ access_token: accessToken });
+const accounts = await client.accountsGet({
+  access_token: accessToken
+});
+const transactions = await client.transactionsSync({
+  access_token: accessToken
+});
 ```
 
 ---
 
 ## Products
 
-| Product | Purpose |
-|---------|---------|
-| `auth` | Account info + verification |
+| Product        | Purpose                       |
+| -------------- | ----------------------------- |
+| `auth`         | Account info + verification   |
 | `transactions` | 24 months transaction history |
-| `identity` | Account holder info |
-| `balance` | Real-time balances |
-| `investments` | Holdings + transactions |
-| `liabilities` | Loan/credit balances |
-| `income` | Income verification |
+| `identity`     | Account holder info           |
+| `balance`      | Real-time balances            |
+| `investments`  | Holdings + transactions       |
+| `liabilities`  | Loan/credit balances          |
+| `income`       | Income verification           |
 
 ---
 

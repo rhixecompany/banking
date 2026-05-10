@@ -1,0 +1,42 @@
+{
+  "branch_order": ["current", "alternatives"],
+  "branches": {
+    "current": {
+      "id": "current",
+      "scope": "install-mcp-servers",
+      "status": "exploring",
+      "questions": [
+        {
+          "id": "q_nqhvnqhq",
+          "type": "pick_one",
+          "text": "What's your priority for the two missing MCP servers?",
+          "config": {
+            "question": "What's your priority for the two missing MCP servers?"
+          }
+        }
+      ],
+      "finding": null
+    },
+    "alternatives": {
+      "id": "alternatives",
+      "scope": "remote-options",
+      "status": "exploring",
+      "questions": [
+        {
+          "id": "q_djt6qibd",
+          "type": "pick_one",
+          "text": "Which remote alternatives interest you?",
+          "config": {
+            "question": "Which remote alternatives interest you?"
+          }
+        }
+      ],
+      "finding": null
+    }
+  },
+  "browser_session_id": "ses_87fhdk2z",
+  "created_at": 1778370957684,
+  "request": "Investigate MCP server remote options for playwright and filesystem",
+  "session_id": "ses_6azakdlz",
+  "updated_at": 1778370958076
+}

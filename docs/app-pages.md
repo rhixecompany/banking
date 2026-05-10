@@ -69,6 +69,7 @@ src/app/
 ### Landing Page (`/`)
 
 **File:** `src/app/page.tsx`
+
 ```tsx
 // Route: /
 export default function HomePage() {
@@ -76,15 +77,14 @@ export default function HomePage() {
 }
 ```
 
-**Wrapper:** `src/components/home/home-server-wrapper.tsx`
-**Components:** Hero section from shadcn-studio/hero-section-41
-**Auth:** Public
+**Wrapper:** `src/components/home/home-server-wrapper.tsx` **Components:** Hero section from shadcn-studio/hero-section-41 **Auth:** Public
 
 ---
 
 ### Auth Routes (`/sign-in`, `/sign-up`)
 
 **Layout:** `src/app/(auth)/layout.tsx`
+
 ```tsx
 export default function AuthLayout({ children }) {
   return <AuthLayoutWrapper>{children}</AuthLayoutWrapper>;
@@ -92,6 +92,7 @@ export default function AuthLayout({ children }) {
 ```
 
 **Sign-In Page:** `src/app/(auth)/sign-in/page.tsx`
+
 ```tsx
 export default function SignInPage() {
   return (
@@ -103,6 +104,7 @@ export default function SignInPage() {
 ```
 
 **Sign-Up Page:** `src/app/(auth)/sign-up/page.tsx`
+
 ```tsx
 export default function SignUpPage() {
   return (
@@ -114,10 +116,12 @@ export default function SignUpPage() {
 ```
 
 **Components:**
+
 - `SignInServerWrapper` → `SignInClientWrapper` → `SignInClient`
 - `SignUpServerWrapper` → `SignUpClientWrapper` → `SignUpClient`
 
 **Actions:**
+
 - `auth.signin.ts` - SignInSchema validation
 - `register.ts` - signUpSchema validation
 
@@ -126,6 +130,7 @@ export default function SignUpPage() {
 ### Root Routes (`/dashboard`, `/my-wallets`, etc.)
 
 **Layout:** `src/app/(root)/layout.tsx`
+
 ```tsx
 export default function RootLayout({ children }) {
   // Auth check, redirect to /sign-in if not authenticated
@@ -134,6 +139,7 @@ export default function RootLayout({ children }) {
 ```
 
 **Dashboard Page:** `src/app/(root)/dashboard/page.tsx`
+
 ```tsx
 export default function DashboardPage() {
   return (
@@ -145,6 +151,7 @@ export default function DashboardPage() {
 ```
 
 **My Wallets Page:** `src/app/(root)/my-wallets/page.tsx`
+
 ```tsx
 export default function MyWalletsPage() {
   return (
@@ -156,6 +163,7 @@ export default function MyWalletsPage() {
 ```
 
 **Payment Transfer Page:** `src/app/(root)/payment-transfer/page.tsx`
+
 ```tsx
 export default function PaymentTransferPage() {
   return (
@@ -167,6 +175,7 @@ export default function PaymentTransferPage() {
 ```
 
 **Settings Page:** `src/app/(root)/settings/page.tsx`
+
 ```tsx
 export default function SettingsPage() {
   return (
@@ -178,6 +187,7 @@ export default function SettingsPage() {
 ```
 
 **Transaction History Page:** `src/app/(root)/transaction-history/page.tsx`
+
 ```tsx
 export default function TransactionHistoryPage() {
   return (
@@ -189,6 +199,7 @@ export default function TransactionHistoryPage() {
 ```
 
 **Actions (Root routes):**
+
 - `user.actions.ts` - getLoggedInUser, logoutAccount
 - `updateProfile.ts` - UpdateProfileSchema
 - `wallet.actions.ts` - DisconnectWalletSchema
@@ -198,6 +209,7 @@ export default function TransactionHistoryPage() {
 - `recipient.actions.ts` - RecipientSchema
 
 **Stores (Root routes):**
+
 - `transfer-store.tsx` - Transfer wizard state
 - `ui-store.tsx` - UI state (sidebar, modals)
 - `session.tsx` - Auth session
@@ -207,6 +219,7 @@ export default function TransactionHistoryPage() {
 ### Admin Routes (`/admin`)
 
 **Layout:** `src/app/(admin)/layout.tsx`
+
 ```tsx
 export default function AdminLayout({ children }) {
   // Auth check + isAdmin check
@@ -215,6 +228,7 @@ export default function AdminLayout({ children }) {
 ```
 
 **Admin Page:** `src/app/(admin)/admin/page.tsx`
+
 ```tsx
 export default function AdminPage() {
   return <AdminDashboardServerWrapper />;
@@ -222,6 +236,7 @@ export default function AdminPage() {
 ```
 
 **Actions (Admin):**
+
 - `admin.actions.ts` - ToggleAdminSchema, SetActiveSchema
 - `admin-stats.actions.ts` - GetAdminStatsSchema, PaginatedUsersSchema
 
@@ -230,17 +245,21 @@ export default function AdminPage() {
 ## API Routes
 
 ### Auth API
+
 - `POST /api/auth/local-create` - Mock user creation
 - `POST /api/auth/local-validate` - Mock validation
 - `GET/POST /api/auth/[...nextauth]` - NextAuth handler
 
 ### Dwolla Webhook
+
 - `POST /api/dwolla/webhook` - Dwolla event handling
 
 ### Health Check
+
 - `GET /api/health` - Service health
 
 ### Playwright Test Support
+
 - `POST /api/__playwright__/set-cookie` - Set test cookies
 
 ---
@@ -248,7 +267,7 @@ export default function AdminPage() {
 ## Server Actions Mapping
 
 | Action File | Key Functions | Schema |
-|-------------|---------------|--------|
+| --- | --- | --- |
 | `auth.signin.ts` | signInUser | SignInSchema |
 | `register.ts` | registerUser | signUpSchema |
 | `user.actions.ts` | getLoggedInUser, logoutAccount, getUserWithProfile, getAllUsers | - |
@@ -266,6 +285,7 @@ export default function AdminPage() {
 ## Error Boundaries
 
 Each route group has:
+
 - `error.tsx` - Error boundary for the route
 - `loading.tsx` - Loading skeleton
 
@@ -274,6 +294,7 @@ Each route group has:
 ## Loading States
 
 Each page uses Suspense with loading component:
+
 ```tsx
 <Suspense fallback={<Loading />}>
   <*ServerWrapper />
@@ -287,6 +308,7 @@ Loading files typically import from `src/components/ui/skeleton.tsx`.
 ## Next.js Configuration
 
 **File:** `next.config.ts`
+
 - React strict mode enabled
 - Experimental features for Next.js 16 compatibility
 - App router enabled
@@ -296,6 +318,7 @@ Loading files typically import from `src/components/ui/skeleton.tsx`.
 ## Global Styles
 
 **File:** `src/app/globals.css`
+
 - Tailwind CSS imports
 - Custom CSS variables
 - Font setup

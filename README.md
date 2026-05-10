@@ -28,15 +28,15 @@ bun run dev
 
 ## Commands
 
-| Command | Description |
-|---------|-------------|
-| `bun run dev` | Start dev server |
-| `bun run build` | Production build |
-| `bun run db:push` | Push schema to database |
-| `bun run db:studio` | Open Drizzle Studio |
-| `bun run format` | Format code |
-| `bun run lint:strict` | Strict linting |
-| `bun run type-check` | TypeScript validation |
+| Command               | Description             |
+| --------------------- | ----------------------- |
+| `bun run dev`         | Start dev server        |
+| `bun run build`       | Production build        |
+| `bun run db:push`     | Push schema to database |
+| `bun run db:studio`   | Open Drizzle Studio     |
+| `bun run format`      | Format code             |
+| `bun run lint:strict` | Strict linting          |
+| `bun run type-check`  | TypeScript validation   |
 
 ## Project Structure
 

@@ -45,12 +45,12 @@ REDIS_PASSWORD=your-secure-password
 
 ## Profiles
 
-| Profile | Services | Use Case |
-|---------|----------|----------|
-| default | App + DB + Redis + Traefik | Full stack |
-| local | App + DB + Redis (no Traefik) | Development |
-| monitoring | + Prometheus + Grafana | Observability |
-| init | Migration runner | Database setup |
+| Profile    | Services                      | Use Case       |
+| ---------- | ----------------------------- | -------------- |
+| default    | App + DB + Redis + Traefik    | Full stack     |
+| local      | App + DB + Redis (no Traefik) | Development    |
+| monitoring | + Prometheus + Grafana        | Observability  |
+| init       | Migration runner              | Database setup |
 
 ---
 
@@ -112,14 +112,14 @@ docker compose down -v
 
 ## Services
 
-| Service | Port | Purpose |
-|---------|------|---------|
-| app | 3000 | Next.js application |
-| db | 5432 | PostgreSQL |
-| redis | 6379 | Cache |
-| traefik | 80/443 | Reverse proxy |
-| prometheus | 9090 | Metrics |
-| grafana | 3001 | Dashboards |
+| Service    | Port   | Purpose             |
+| ---------- | ------ | ------------------- |
+| app        | 3000   | Next.js application |
+| db         | 5432   | PostgreSQL          |
+| redis      | 6379   | Cache               |
+| traefik    | 80/443 | Reverse proxy       |
+| prometheus | 9090   | Metrics             |
+| grafana    | 3001   | Dashboards          |
 
 ---
 

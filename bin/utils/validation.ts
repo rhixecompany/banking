@@ -7,7 +7,10 @@ import addFormats from "ajv-formats";
 import fs from "fs";
 import path from "path";
 
-import type { ValidationError, ValidationResult } from "../../scripts/types/index.js";
+import type {
+  ValidationError,
+  ValidationResult,
+} from "../../scripts/types/index.js";
 
 import { ROOT_FOLDER } from "./constants.js";
 

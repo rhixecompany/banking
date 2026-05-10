@@ -14,7 +14,10 @@
 import { Client } from "dwolla-v2";
 
 const client = new Client({
-  environment: process.env.DWOLLA_ENV === "production" ? "production" : "sandbox",
+  environment:
+    process.env.DWOLLA_ENV === "production"
+      ? "production"
+      : "sandbox",
   key: process.env.DWOLLA_KEY!,
   secret: process.env.DWOLLA_SECRET!
 });
@@ -25,7 +28,7 @@ const client = new Client({
 ## Customer Types
 
 | Type | Can Send | Can Receive | Verification |
-|------|----------|-------------|--------------|
+| --- | --- | --- | --- |
 | Unverified | Only with verified bank | Yes | None |
 | Personal Verified | Yes | Yes | SSN |
 | Business Verified | Yes | Yes | EIN + docs |
@@ -67,12 +70,15 @@ const business = await client.post("customers", {
 ### Add Bank Account (Unverified)
 
 ```ts
-const fs = await client.post("customers/{customerId}/funding-sources", {
-  routingNumber: "222222226",
-  accountNumber: "12345678",
-  bankAccountType: "checking",
-  name: "My Bank"
-});
+const fs = await client.post(
+  "customers/{customerId}/funding-sources",
+  {
+    routingNumber: "222222226",
+    accountNumber: "12345678",
+    bankAccountType: "checking",
+    name: "My Bank"
+  }
+);
 ```
 
 ### Add Verified Bank (via Plaid)
@@ -91,8 +97,12 @@ const fs = await client.post("customers/{customerId}/funding-sources", {
 ```ts
 const transfer = await client.post("transfers", {
   _links: {
-    source: { href: "https://api-sandbox.dwolla.com/funding-sources/{source_id}" },
-    destination: { href: "https://api-sandbox.dwolla.com/funding-sources/{dest_id}" }
+    source: {
+      href: "https://api-sandbox.dwolla.com/funding-sources/{source_id}"
+    },
+    destination: {
+      href: "https://api-sandbox.dwolla.com/funding-sources/{dest_id}"
+    }
   },
   amount: { currency: "USD", value: "100.00" }
 });

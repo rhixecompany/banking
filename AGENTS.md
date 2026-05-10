@@ -301,18 +301,19 @@ bun run type-check
 - Docstrings drift from code → worse than no docs when outdated
 
 **WHEN to document obvious code anyway**:
+
 - Public API boundary (first-time users need anchoring)
 - Team composition: Will junior developers maintain this?
 - Open-source or vendor API: Users can't read implementation
 
 #### 2. Audience-Driven Documentation
 
-| Audience | Documentation Approach |
-| --- | --- |
-| **Library maintainers** | Minimal: API contract, edge cases |
-| **New team members** | Detailed: Explain WHY, not just WHAT |
-| **Open-source users** | Comprehensive: Assume nothing |
-| **Internal-only code** | Inline comments sufficient |
+| Audience                | Documentation Approach               |
+| ----------------------- | ------------------------------------ |
+| **Library maintainers** | Minimal: API contract, edge cases    |
+| **New team members**    | Detailed: Explain WHY, not just WHAT |
+| **Open-source users**   | Comprehensive: Assume nothing        |
+| **Internal-only code**  | Inline comments sufficient           |
 
 #### 3. Lifecycle-Driven Investment
 
@@ -327,7 +328,10 @@ bun run type-check
 
 ```typescript
 // ❌ WRONG: Args section repeats type info already in signature
-function processData(records: Record<string, unknown>[], timeout: number): boolean {
+function processData(
+  records: Record<string, unknown>[],
+  timeout: number
+): boolean {
   /** Process data records.
    * @param records - A list of dictionaries containing records.  // redundant!
    * @param timeout - The timeout in seconds.                    // redundant!
@@ -335,7 +339,10 @@ function processData(records: Record<string, unknown>[], timeout: number): boole
 }
 
 // ✅ RIGHT: Args section explains WHY, not WHAT type
-function processData(records: Record<string, unknown>[], timeout: number): boolean {
+function processData(
+  records: Record<string, unknown>[],
+  timeout: number
+): boolean {
   /** Process data records with automatic retry.
    * @param records - Customer transaction records; must have 'id' and 'amount' keys.
    * @param timeout - Abort after this many seconds to prevent cascading API timeouts.
@@ -353,6 +360,7 @@ Google Style is a **foundation, not dogma**. Deviate when:
 - **Readability suffers**: If Google Style makes docs harder to scan, adapt
 
 **Never deviate** on:
+
 - One-line summary (always first)
 - Parameter/return/error documentation
 - Format consistency within a file

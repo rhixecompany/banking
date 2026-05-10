@@ -15,7 +15,11 @@ import importX from "eslint-plugin-import-x";
 
 export default [
   { plugins: { react, zod, drizzle, "import-x": importX } },
-  { rules: { /* add rules below */ } }
+  {
+    rules: {
+      /* add rules below */
+    }
+  }
 ];
 ```
 
@@ -38,6 +42,7 @@ export default [
 ```
 
 **Key Rules:**
+
 - `jsx-key`: Enforce keys in JSX lists
 - `no-array-key`: Disallow array index as key
 - `hook-use-state`: Enforce proper useState naming
@@ -58,6 +63,7 @@ export default [
 ```
 
 **Key Rules:**
+
 - `require-error-message`: Require error message in Zod validations
 - `require-validation`: Require Zod schema to have validations
 - `no-default-exports`: Disallow default exports for schemas
@@ -76,6 +82,7 @@ export default [
 ```
 
 **Key Rules:**
+
 - `enforce-delete-with-where`: Requires WHERE in delete operations
 - `enforce-update-with-where`: Requires WHERE in update operations
 
@@ -94,6 +101,7 @@ export default [
 ```
 
 **Key Rules:**
+
 - `order`: Enforce import ordering
 - `no-duplicates`: Disallow duplicate imports
 - `no-unresolved`: Warn about unresolved imports
@@ -103,7 +111,7 @@ export default [
 ## Other Useful Plugins
 
 | Plugin | Purpose | Install |
-|--------|---------|---------|
+| --- | --- | --- |
 | `eslint-plugin-security` | Security scanning | `npm i -D eslint-plugin-security` |
 | `eslint-plugin-unicorn` | Modern JS best practices | `npm i -D eslint-plugin-unicorn` |
 | `eslint-plugin-playwright` | Playwright test best practices | `npm i -D eslint-plugin-playwright` |

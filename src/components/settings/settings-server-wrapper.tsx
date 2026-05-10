@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 
-import { updateProfile } from "@/actions/user.update-profile";
 import { getUserWithProfile } from "@/actions/user.actions";
+import { updateProfile } from "@/actions/user.update-profile";
 import SettingsClientWrapper from "@/components/layouts/settings-client";
 import ConnectedAccount from "@/components/shadcn-studio/blocks/account-settings-01/content/connect-account";
 import DangerZone from "@/components/shadcn-studio/blocks/account-settings-01/content/danger-zone";
