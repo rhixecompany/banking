@@ -31,13 +31,13 @@ import type { PerformanceThresholds } from './performance';
  * Console error tracking state
  */
 class ConsoleErrorTracker {
-  private errors: Array<{
+  private errors: {
     message: string;
     page: string;
     timestamp: number;
     browser: string;
     context: string;
-  }> = [];
+  }[] = [];
   
   private allowedPatterns: RegExp[] = [];
   
@@ -92,13 +92,13 @@ export function setupInstrumentedPage(
   page: Page,
   allowedErrors: RegExp[] = [/ResizeObserver/, /favicon\.ico/, /Failed to load resource/]
 ): {
-  getConsoleErrors: () => Array<{
+  getConsoleErrors: () => {
     message: string;
     page: string;
     timestamp: number;
     browser: string;
     context: string;
-  }>;
+  }[];
   clearConsoleErrors: () => void;
 } {
   consoleTracker = new ConsoleErrorTracker();
@@ -113,13 +113,13 @@ export function setupInstrumentedPage(
 /**
  * Get collected console errors
  */
-export function getConsoleErrors(): Array<{
+export function getConsoleErrors(): {
   message: string;
   page: string;
   timestamp: number;
   browser: string;
   context: string;
-}> {
+}[] {
   return consoleTracker?.getErrors() ?? [];
 }
 
@@ -131,7 +131,7 @@ export function clearConsoleErrors(): void {
 }
 
 // Coverage state
-let coverageData: unknown[] | null = null;
+const coverageData: unknown[] | null = null;
 
 /**
  * Start coverage collection on a page
@@ -176,13 +176,13 @@ export async function setupFullInstrumentation(
     allowedErrors?: RegExp[];
   } = {}
 ): Promise<{
-  getConsoleErrors: () => Array<{
+  getConsoleErrors: () => {
     message: string;
     page: string;
     timestamp: number;
     browser: string;
     context: string;
-  }>;
+  }[];
   clearConsoleErrors: () => void;
   startCoverageCollection: () => Promise<void>;
   stopCoverageCollection: () => Promise<unknown[]>;

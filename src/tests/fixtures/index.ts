@@ -66,3 +66,21 @@ export {
   calculateCSSCoveragePercentage,
 } from "./coverage";
 export type { CoverageFixtures, CoverageData } from "./coverage";
+
+// Re-export combined utilities (all-in-one)
+import combinedExports from "./combined";
+export const {
+  setupInstrumentedPage,
+  getConsoleErrors,
+  clearConsoleErrors,
+  startCoverageCollection,
+  stopCoverageCollection,
+  getCoverage,
+  setupFullInstrumentation,
+  measurePerformance,
+  getResourceTiming,
+  measureOperation,
+  assertPerformance,
+  PERFORMANCE_CONFIG,
+} = combinedExports;
+export type { PerformanceMetrics } from "./performance";

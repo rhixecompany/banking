@@ -73,8 +73,8 @@ function ensureCoverageDir(): void {
  */
 function saveCoverageData(data: CoverageData[], testName: string): void {
   ensureCoverageDir();
-  const sanitizedName = testName.replace(/[^a-z0-9]/gi, "_").substring(0, 50);
-  const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+  const sanitizedName = testName.replace(/[^a-z0-9]/gi, "_").slice(0, 50);
+  const timestamp = new Date().toISOString().replaceAll(/[:.]/g, "-");
   const filename = path.join(COVERAGE_DIR, `${sanitizedName}_${timestamp}.json`);
 
   fs.writeFileSync(filename, JSON.stringify(data, null, 2));
