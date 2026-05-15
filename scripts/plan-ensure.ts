@@ -8,69 +8,31 @@ import path from "path";
 import { logger } from "@/lib/logger";
 
 /**
- * Description placeholder
- * @author Adminbot
- *
- * @type {*}
- */
-const CMD = process.argv[1];
-
-/**
- * Description placeholder
- * @author Adminbot
- *
+ * Plan candidate found via scoring against changed files.
  * @interface PlanCandidate
- * @typedef {PlanCandidate}
  */
 interface PlanCandidate {
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {string}
-   */
+  /** File path to the plan markdown file */
   file: string;
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {?string}
-   */
+  /** Extracted title from plan's H1 heading */
   title?: string;
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {?string}
-   */
+  /** Extracted goals section from plan */
   goals?: string;
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {?string[]}
-   */
+  /** Target files mentioned in plan */
   targetFiles?: string[];
-  /**
-   * Description placeholder
-   * @author Adminbot
-   *
-   * @type {?number}
-   */
+  /** Relevance score (0-1) based on target files and description matching */
   score?: number;
 }
 
 /**
- * Description placeholder
- * @author Adminbot
+ * Parse plan markdown file and extract metadata and sections.
  *
- * @export
- * @param {string} p
+ * @param {string} p - Path to plan markdown file
  * @returns {{
  *   title?: string;
  *   goals?: string;
  *   targetFiles?: string[];
- * }}
+ * }} Extracted plan metadata (title, goals section, target files)
  */
 export function readPlanFile(p: string): {
   title?: string;
@@ -105,13 +67,13 @@ export function readPlanFile(p: string): {
 }
 
 /**
- * Description placeholder
- * @author Adminbot
+ * Score a plan candidate based on changed files.
+ * - Prefix boost: 0.35 points per target file that matches changed files
+ * - Token overlap: up to 0.5 points for text overlap between changed files and plan title/goals
  *
- * @export
- * @param {string[]} changed
- * @param {PlanCandidate} cand
- * @returns {number}
+ * @param {string[]} changed - List of changed file paths
+ * @param {PlanCandidate} cand - Plan candidate to score
+ * @returns {number} Relevance score (0-1)
  */
 export function scoreCandidate(changed: string[], cand: PlanCandidate): number {
   let score = 0;
@@ -145,11 +107,11 @@ export function scoreCandidate(changed: string[], cand: PlanCandidate): number {
 }
 
 /**
- * Description placeholder
- * @author Adminbot
+ * Get list of changed files from git staging area.
+ * Uses `git diff --name-only --staged` to detect uncommitted changes.
  *
  * @async
- * @returns {Promise<string[]>}
+ * @returns {Promise<string[]>} Array of file paths with staged changes (empty if none)
  */
 async function getChangedFilesFromGit(): Promise<string[]> {
   try {
@@ -167,14 +129,16 @@ async function getChangedFilesFromGit(): Promise<string[]> {
 }
 
 /**
- * Description placeholder
- * @author Adminbot
+ * Get list of changed files from git range (base...HEAD).
+ * Uses `git diff --name-only <base>...HEAD` to detect changes relative to a base branch.
  *
  * @async
- * @param {string} [base="origin/main"]
- * @returns {unknown}
+ * @param {string} [base="origin/main"] - Base branch reference for comparison
+ * @returns {Promise<string[]>} Array of file paths changed since base (empty if none)
  */
-async function getChangedFilesFromRange(base = "origin/main") {
+async function getChangedFilesFromRange(
+  base = "origin/main",
+): Promise<string[]> {
   try {
     const out = execSync(`git diff --name-only ${base}...HEAD`, {
       encoding: "utf8",
@@ -190,13 +154,15 @@ async function getChangedFilesFromRange(base = "origin/main") {
 }
 
 /**
- * Description placeholder
- * @author Adminbot
+ * Main CLI flow: detect large changes, find/create plan candidates, and merge or scaffold.
+ * - If <= 7 changed files: exit 0 (no plan required)
+ * - If > 7 files (interactive): prompt user to select or scaffold a plan
+ * - If > 7 files (CI mode): validate candidates against threshold, produce report
  *
  * @async
- * @returns {*}
+ * @returns {Promise<void>}
  */
-async function main() {
+async function main(): Promise<void> {
   const args = process.argv.slice(2);
   const ci = args.includes("--ci");
   const baseIdx = args.indexOf("--base");
@@ -290,7 +256,7 @@ async function main() {
     // CI flow: produce report and exit with code 0 in pilot mode
     if (shown.length === 0) {
       logger.info(
-        "[CI] No candidate plan found for large change. Please run 'npm run plan:ensure' locally to scaffold a plan.",
+        "[CI] No candidate plan found for large change. Please run 'bun run plan:ensure' locally to scaffold a plan.",
       );
       // in pilot mode we warn — exit 0
       process.exit(0);
@@ -316,11 +282,11 @@ async function main() {
 }
 
 /**
- * Description placeholder
- * @author Adminbot
+ * Create a new plan scaffold based on list of changed files.
+ * Generates a timestamped plan file with template sections (Goals, Scope, Risks, etc.).
  *
- * @param {string[]} changed
- * @returns {string}
+ * @param {string[]} changed - List of changed file paths to include in plan
+ * @returns {string} Path to the created plan file
  */
 function scaffoldNewPlan(changed: string[]): string {
   const title = `Plan for changes: ${changed.slice(0, 3).join(", ")}${changed.length > 3 ? ` and ${changed.length - 3} more` : ""}`;
@@ -332,15 +298,15 @@ function scaffoldNewPlan(changed: string[]): string {
 }
 
 /**
- * Description placeholder
- * @author Adminbot
+ * Build markdown template for a new plan document.
+ * Includes metadata (author, timestamp, changed files) and standard sections.
  *
  * @param {{
  *   title: string;
  *   changedFiles: string[];
  *   sourcePlan?: string;
- * }} opts
- * @returns {string}
+ * }} opts - Plan options (title, list of changed files, optional source plan)
+ * @returns {string} Markdown content for the plan template
  */
 function buildPlanTemplate(opts: {
   title: string;
@@ -352,13 +318,13 @@ function buildPlanTemplate(opts: {
 }
 
 /**
- * Description placeholder
- * @author Adminbot
+ * Convert a string to a URL-safe slug (lowercase, hyphens, max 80 chars).
+ * Removes leading/trailing hyphens and non-alphanumeric characters.
  *
- * @param {string} s
- * @returns {*}
+ * @param {string} s - Input string to slugify
+ * @returns {string} Slugified string (kebab-case, max 80 chars)
  */
-function slugify(s: string) {
+function slugify(s: string): string {
   return s
     .toLowerCase()
     .replaceAll(/[^a-z0-9]+/g, "-")
@@ -367,12 +333,12 @@ function slugify(s: string) {
 }
 
 /**
- * Description placeholder
- * @author Adminbot
+ * Retrieve git user name and email from git config.
+ * Returns formatted string or undefined if git user is not configured.
  *
- * @returns {string}
+ * @returns {string | undefined} Formatted user string "Name <email>" or undefined if not configured
  */
-function getGitUser() {
+function getGitUser(): string | undefined {
   try {
     const name = execSync("git config user.name", { encoding: "utf8" }).trim();
     const email = execSync("git config user.email", {
@@ -385,12 +351,12 @@ function getGitUser() {
 }
 
 /**
- * Description placeholder
- * @author Adminbot
+ * Merge changed files into an existing plan, creating a timestamped merged copy.
+ * Appends a "Planned Changes" section with metadata to the existing plan content.
  *
- * @param {string} planFile
- * @param {string[]} changed
- * @returns {string}
+ * @param {string} planFile - Path to the source plan file
+ * @param {string[]} changed - List of changed file paths to include in merge
+ * @returns {string} Path to the newly created merged plan file
  */
 function mergeIntoPlan(planFile: string, changed: string[]): string {
   const parsed = fs.readFileSync(planFile, "utf8");
@@ -402,14 +368,15 @@ function mergeIntoPlan(planFile: string, changed: string[]): string {
 }
 
 /**
- * Description placeholder
- * @author Adminbot
+ * Open a file in the system editor and validate with markdownlint after save.
+ * Falls back to notepad on Windows or displays path if $EDITOR is not set.
+ * Exits with code 1 if markdown linting fails.
  *
  * @async
- * @param {string} filename
- * @returns {*}
+ * @param {string} filename - Path to the file to open in editor
+ * @returns {Promise<void>}
  */
-async function openEditorAndSave(filename: string) {
+async function openEditorAndSave(filename: string): Promise<void> {
   const editor = process.env.EDITOR;
   if (editor) {
     try {
@@ -446,12 +413,12 @@ async function openEditorAndSave(filename: string) {
 }
 
 /**
- * Description placeholder
- * @author Adminbot
+ * Detect if this script is the main entry point (not imported as a module).
+ * Checks if argv includes the script filename.
  *
- * @type {*}
+ * @type {boolean}
  */
-const isMain = process.argv.some(
+const isMain: boolean = process.argv.some(
   (a) =>
     (typeof a === "string" && a.endsWith("plan-ensure.ts")) ||
     String(process.argv).includes("plan-ensure.ts"),

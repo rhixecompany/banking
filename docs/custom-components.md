@@ -1,220 +1,307 @@
-# Custom Components — Inventory & Guidelines
+# Custom Components Catalog
 
-**Date:** 2026-04-24  
-**Scope:** All custom components in `./components/**` (excluding `./components/ui/**`)  
-**Status:** IN_PROGRESS
+## Overview
 
----
-
-## Purpose
-
-Capture conventions for custom components that are referenced directly by pages, excluding the component library under `./components/ui`.
+Components in `./src/components/**` (excluding `./src/components/ui/**`)
 
 ---
 
-## Guidelines
+## Layout Components (`./src/components/layouts/`)
 
-### Structure
+### Core Layout Wrappers
 
-- Prefer presentational components to be pure (props-only) and free of fetching logic
-- If a component mixes fetching + rendering, extract the presentational part into `components/layouts`
-- Components under `components/layouts` should be kebab-cased folders with an `index.tsx` exporting the primary component
-
-### Tests
-
-- Add unit tests for presentational components
-- Keep DOM interaction minimal and avoid heavy E2E testing for presentational-only pieces
-
-### Naming
-
-- Components under `components/layouts` should be kebab-cased folders with an `index.tsx`
-- Example: `components/layouts/total-balance/index.tsx` + `total-balance.test.tsx`
-
----
-
-## Inventory
-
-### Layout Components (`components/layouts/`)
-
-| Component | Path | Status | Notes |
-| --- | --- | --- | --- |
-| **RootLayoutWrapper** | `components/layouts/RootLayoutWrapper.tsx` | ✅ Presentational | Main app shell with header/sidebar |
-| **AuthLayoutWrapper** | `components/layouts/AuthLayoutWrapper.tsx` | ✅ Presentational | Auth pages wrapper |
-| **AdminLayoutWrapper** | `components/layouts/AdminLayoutWrapper.tsx` | ✅ Presentational | Admin pages wrapper |
-| **PageShell** | `components/layouts/PageShell.tsx` | ✅ Presentational | Reusable page container |
-| **AuthForm** | `components/layouts/auth-form/index.tsx` | ✅ Presentational | Login/register form template |
-| **TotalBalance** | `components/layouts/total-balance/index.tsx` | ✅ Presentational | Balance display with chart |
-| **WalletCard** | `components/layouts/wallet-card/index.tsx` | ✅ Presentational | Individual wallet display |
-| **TransactionList** | `components/layouts/transaction-list.tsx` | ✅ Presentational | Transaction list renderer |
-| **TransactionHistoryClient** | `components/layouts/transaction-history-client/index.tsx` | ✅ Presentational | Transaction table component |
-| **PaymentTransferForm** | `components/layouts/payment-transfer-form.tsx` | ✅ Presentational | Transfer form (schema-agnostic) |
-| **PaymentTransferClient** | `components/layouts/payment-transfer-client/index.tsx` | ✅ Presentational | Transfer page wrapper |
-| **SettingsProfileForm** | `components/layouts/settings-profile-form.tsx` | ✅ Presentational | Profile settings form |
-| **SettingsClient** | `components/layouts/settings-client/index.tsx` | ✅ Presentational | Settings page wrapper |
-| **MyWalletsClient** | `components/layouts/my-wallets-client/index.tsx` | ✅ Presentational | Wallets page wrapper |
-| **DashboardClient** | `components/layouts/dashboard-client/index.tsx` | ✅ Presentational | Dashboard page wrapper |
-| **AdminDashboard** | `components/layouts/admin-dashboard/index.tsx` | ✅ Presentational | Admin dashboard wrapper |
-| **AdminData** | `components/layouts/admin-data/index.tsx` | ✅ Presentational | Admin data table |
-| **AdminSidebar** | `components/layouts/admin-sidebar.tsx` | ✅ Presentational | Admin navigation |
-| **TransferSummary** | `components/layouts/transfer-summary.tsx` | ✅ Presentational | Transfer confirmation |
-| **HomeFooter** | `components/layouts/home-footer.tsx` | ✅ Presentational | Landing page footer |
-| **FeaturesGrid** | `components/layouts/features-grid.tsx` | ✅ Presentational | Landing page features |
-| **CtaGetStarted** | `components/layouts/cta-get-started.tsx` | ✅ Presentational | Call-to-action component |
-| **DataTable** | `components/layouts/data-table/index.tsx` | ✅ Presentational | Reusable data table |
-| **Card** | `components/layouts/card/index.tsx` | ✅ Presentational | Generic card component |
-| **Row** | `components/layouts/row/index.tsx` | ✅ Presentational | Row layout component |
-| **Form** | `components/layouts/form/index.tsx` | ✅ Presentational | Form utilities |
-| **FormField** | `components/layouts/form/form-field.tsx` | ✅ Presentational | Form field component |
-| **PlaidProvider** | `components/layouts/plaid-provider.tsx` | ⚠️ Provider | Plaid context provider |
-| **AuthPageWrapper** | `components/layouts/auth-page-wrapper.tsx` | ✅ Presentational | Auth page layout |
-| **WalletCard (root)** | `components/layouts/wallet-card.tsx` | ✅ Compatibility export | Re-exports folder implementation to preserve imports |
-
-### Server Wrappers (`components/*/`)
-
-| Wrapper | Path | Status | Notes |
-| --- | --- | --- | --- |
-| **HomeServerWrapper** | `components/home/home-server-wrapper.tsx` | ✅ Pattern | Landing page data |
-| **DashboardServerWrapper** | `components/dashboard/dashboard-server-wrapper.tsx` | ✅ Pattern | Dashboard auth + fetch |
-| **SettingsServerWrapper** | `components/settings/settings-server-wrapper.tsx` | ✅ Pattern | Settings auth + fetch |
-| **PaymentTransferServerWrapper** | `components/payment-transfer/payment-transfer-server-wrapper.tsx` | ✅ Pattern | Transfer auth + fetch |
-| **TransactionHistoryServerWrapper** | `components/transaction-history/transaction-history-server-wrapper.tsx` | ✅ Pattern | History auth + fetch |
-| **MyWalletsServerWrapper** | `components/my-wallets/my-wallets-server-wrapper.tsx` | ✅ Pattern | Wallets auth + fetch |
-| **SignInServerWrapper** | `components/sign-in/sign-in-server-wrapper.tsx` | ✅ Pattern | Sign-in auth check |
-| **SignUpServerWrapper** | `components/sign-up/sign-up-server-wrapper.tsx` | ✅ Pattern | Sign-up auth check |
-| **AdminDashboardServerWrapper** | `components/admin/admin-dashboard-server-wrapper.tsx` | ✅ Pattern | Admin auth + fetch |
-| **NotFoundServerWrapper** | `components/not-found/not-found-server-wrapper.tsx` | ✅ Pattern | 404 page data |
-
-### Client Wrappers (`components/*/`)
-
-| Wrapper | Path | Status | Notes |
-| --- | --- | --- | --- |
-| **SignInClient** | `components/sign-in/SignInClient.tsx` | ✅ Presentational | Sign-in form UI |
-| **SignInClientWrapper** | `components/sign-in/sign-in-client-wrapper.tsx` | ✅ Presentational | Sign-in page wrapper |
-| **SignUpClient** | `components/sign-up/SignUpClient.tsx` | ✅ Presentational | Sign-up form UI |
-| **SignUpClientWrapper** | `components/sign-up/sign-up-client-wrapper.tsx` | ✅ Presentational | Sign-up page wrapper |
-| **MyWalletsClientWrapper** | `components/my-wallets/my-wallets-client-wrapper.tsx` | ✅ Presentational | Wallets page UI |
-| **TransactionHistoryClientWrapper** | `components/transaction-history/transaction-history-client-wrapper.tsx` | ✅ Presentational | History page UI |
-
-### Feature Components (`components/`)
-
-| Component | Path | Status | Notes |
-| --- | --- | --- | --- |
-| **Sidebar** | `components/sidebar/sidebar.tsx` | ✅ Presentational | Navigation sidebar |
-| **MobileNav** | `components/mobile-nav/mobile-nav.tsx` | ✅ Presentational | Mobile navigation |
-| **TotalBalanceBox** | `components/total-balance-box/total-balance-box.tsx` | ✅ Presentational | Balance display card |
-| **WalletsOverview** | `components/shared/wallets-overview.tsx` | ✅ Presentational | Wallet list display |
-
-### Other Components
-
-| Component | Path | Status | Notes |
-| --- | --- | --- | --- |
-| **RootLayoutWrapperNotice** | `components/layouts/RootLayoutWrapperNotice.tsx` | ✅ Removed | Legacy notice wrapper removed as unused |
-| **AdminLayoutWrapperNotice** | `components/layouts/AdminLayoutWrapperNotice.tsx` | ✅ Removed | Legacy notice wrapper removed as unused |
-| **MobileNav (root)** | `components/mobile-nav/mobile-nav.tsx` | ✅ Presentational | Mobile navigation |
-
-### shadcn-studio Components (Non-production)
-
-| Component | Path | Status | Notes |
-| --- | --- | --- | --- |
-| MenuNavigation | `components/shadcn-studio/blocks/menu-navigation.tsx` | ⚠️ Demo | Demo component |
-| WidgetTotalEarning | `components/shadcn-studio/blocks/widget-total-earning.tsx` | ⚠️ Demo | Demo component |
-| WidgetProductInsights | `components/shadcn-studio/blocks/widget-product-insights.tsx` | ⚠️ Demo | Demo component |
-| StatisticsCard01 | `components/shadcn-studio/blocks/statistics-card-01.tsx` | ⚠️ Demo | Demo component |
-| OnboardingFeed01 | `components/shadcn-studio/blocks/onboarding-feed-01/onboarding-feed-01.tsx` | ⚠️ Demo | Demo component |
-| MenuDropdown | `components/shadcn-studio/blocks/menu-dropdown.tsx` | ⚠️ Demo | Demo component |
-| HeroSection41 | `components/shadcn-studio/blocks/hero-section-41/hero-section-41.tsx` | ⚠️ Demo | Demo component |
-
----
-
-## Categorization Summary
-
-| Category                 | Count | Status             |
-| ------------------------ | ----- | ------------------ |
-| **Layout Components**    | 30    | ✅ Well-organized  |
-| **Server Wrappers**      | 10    | ✅ Correct pattern |
-| **Client Wrappers**      | 6     | ✅ Presentational  |
-| **Feature Components**   | 4     | ✅ Clean           |
-| **Other**                | 2     | ✅ OK              |
-| **shadcn-studio (Demo)** | 7     | ⚠️ Non-production  |
-| **Total Custom**         | ~52   | ✅ Good shape      |
-
----
-
-## Compliance Assessment
-
-### ✅ Compliant Patterns
-
-| Requirement | Status | Evidence |
+| Component | File | Purpose |
 | --- | --- | --- |
-| Server wrappers handle auth | ✅ | All 10 use `auth()` pattern |
-| Server wrappers do data fetching | ✅ | Parallel `Promise.all()` for efficiency |
-| Presentational components are pure | ✅ | Props-only, no DB access |
-| Folder structure follows convention | ✅ | `components/layouts/*/index.tsx` |
-| Client/server separation | ✅ | Clear `-server-wrapper.tsx` / `-client-wrapper.tsx` |
+| `AuthLayoutWrapper` | `layouts/AuthLayoutWrapper.tsx` | Auth pages wrapper with centered card |
+| `RootLayoutWrapper` | `layouts/RootLayoutWrapper.tsx` | Main app wrapper with sidebar/nav |
+| `AdminLayoutWrapper` | `layouts/AdminLayoutWrapper.tsx` | Admin wrapper with sidebar |
+| `PageShell` | `layouts/PageShell.tsx` | Generic page container |
+| `auth-page-wrapper` | `layouts/auth-page-wrapper.tsx` | Auth page layout |
+| `admin-sidebar` | `layouts/admin-sidebar.tsx` | Admin navigation sidebar |
+| `home-footer` | `layouts/home-footer.tsx` | Landing page footer |
 
-### ⚠️ Issues Identified
+### Feature Layouts
 
-| Issue | Location | Priority | Notes |
-| --- | --- | --- | --- |
-| Duplicate wallet-card | `components/layouts/wallet-card.tsx` + `wallet-card/index.tsx` | Resolved | Root path now re-exports folder implementation |
-| Legacy notice wrappers | `RootLayoutWrapperNotice.tsx`, `AdminLayoutWrapperNotice.tsx` | Resolved | Removed (no runtime references) |
-| shadcn-studio demo components | `components/shadcn-studio/` | Low | Non-production, can ignore |
-| Missing Suspense boundaries | All pages | Medium | Could add loading states |
-
----
-
-## Refactoring Candidates
-
-### High Priority
-
-None identified — current architecture is clean.
-
-### Medium Priority
-
-| Candidate | Issue | Suggestion |
+| Component | File | Purpose |
 | --- | --- | --- |
-| All pages | No Suspense boundaries | Add `<Suspense>` wrappers for loading states |
+| `DashboardClient` | `layouts/dashboard-client/index.tsx` | Dashboard client shell |
+| `MyWalletsClient` | `layouts/my-wallets-client/index.tsx` | My wallets client shell |
+| `PaymentTransferClient` | `layouts/payment-transfer-client/index.tsx` | Payment transfer client shell |
+| `SettingsClient` | `layouts/settings-client/index.tsx` | Settings client shell |
+| `TransactionHistoryClient` | `layouts/transaction-history-client/index.tsx` | Transaction history shell |
+| `AdminData` | `layouts/admin-data/index.tsx` | Admin data display |
+| `AdminDashboard` | `layouts/admin-dashboard/index.tsx` | Admin dashboard layout |
 
-### Low Priority
+### Generic Reusable Components
 
-| Candidate | Issue | Suggestion |
+| Component | File | Purpose |
 | --- | --- | --- |
-| Duplicate WalletCard | Two locations | Remove `wallet-card.tsx`, keep `wallet-card/index.tsx` |
-| Notice wrappers | Unclear purpose | Audit and either remove or document |
+| `GenericCard` | `layouts/generic-card/index.tsx` | Reusable card wrapper |
+| `GenericDataTable` | `layouts/generic-data-table/index.tsx` | Generic table with sorting/pagination |
+| `GenericEmptyState` | `layouts/generic-empty-state/index.tsx` | Empty state placeholder |
+| `GenericForm` | `layouts/generic-form/index.tsx` | Generic form wrapper |
+| `GenericModal` | `layouts/generic-modal/index.tsx` | Modal dialog wrapper |
+| `GenericPageShell` | `layouts/generic-page-shell/index.tsx` | Page container shell |
+| `GenericSkeleton` | `layouts/generic-skeleton/index.tsx` | Loading skeleton |
+| `GenericToast` | `layouts/generic-toast/index.tsx` | Toast notification |
+| `FormField` | `layouts/form/index.tsx` | Form field with label/error |
+| `Card` | `layouts/card/index.tsx` | Card container |
+| `Row` | `layouts/row/index.tsx` | Row container |
+| `SectionHeader` | `layouts/section-header/index.tsx` | Section header |
+| `StatCard` | `layouts/stat-card/index.tsx` | Statistics card |
+| `TotalBalance` | `layouts/total-balance/index.tsx` | Total balance display |
+| `WalletCard` | `layouts/wallet-card/index.tsx` | Wallet card |
+| `DataTable` | `layouts/data-table/index.tsx` | Data table |
+| `PageContainer` | `layouts/page-container/index.tsx` | Page container |
 
----
+### Form Components
 
-## Schema Cross-Reference
-
-All shared Zod schemas should live in `lib/schemas/`. Current schemas:
-
-| Schema | Path | Used By |
+| Component | File | Purpose |
 | --- | --- | --- |
-| TransferSchema | `lib/schemas/transfer.schema.ts` | `payment-transfer-form.tsx`, `createTransfer` action |
+| `PaymentTransferForm` | `layouts/payment-transfer-form.tsx` | Payment transfer form |
+| `SettingsProfileForm` | `layouts/settings-profile-form.tsx` | Profile settings form |
+| `TransferSummary` | `layouts/transfer-summary.tsx` | Transfer summary display |
+
+### Standalone Layout Files
+
+- `layouts/AdminLayoutWrapper.tsx`
+- `layouts/AuthLayoutWrapper.tsx`
+- `layouts/RootLayoutWrapper.tsx`
+- `layouts/admin-dashboard/index.tsx`
+- `layouts/admin-data/index.tsx`
+- `layouts/admin-sidebar.tsx`
+- `layouts/auth-form/index.tsx`
+- `layouts/auth-page-wrapper.tsx`
+- `layouts/cta-get-started.tsx`
+- `layouts/features-grid.tsx`
+- `layouts/home-footer.tsx`
+- `layouts/page-container/index.tsx`
+- `layouts/plaid-provider.tsx`
+- `layouts/transaction-list.tsx`
+- `layouts/home-footer.tsx`
 
 ---
 
-## Recommendations
+## Feature Components
 
-1. **Add Suspense boundaries** — Wrap server components in pages with Suspense for loading states
-2. **Remove duplicates** — Clean up legacy `wallet-card.tsx` at root level
-3. **Document notice wrappers** — Determine if `RootLayoutWrapperNotice` and `AdminLayoutWrapperNotice` are still needed
-4. **Keep current pattern** — Server wrapper + client wrapper separation is excellent
+### Dashboard (`./src/components/dashboard/`)
+
+| Component | File | Purpose |
+| --- | --- | --- |
+| `DashboardClientWrapper` | `dashboard/dashboard-client-wrapper.tsx` | Client-side dashboard |
+| `DashboardServerWrapper` | `dashboard/dashboard-server-wrapper.tsx` | Server-side data fetching |
+| `index` | `dashboard/index.ts` | Barrel export |
+
+### My Wallets (`./src/components/my-wallets/`)
+
+| Component | File | Purpose |
+| --- | --- | --- |
+| `MyWalletsClientWrapper` | `my-wallets/my-wallets-client-wrapper.tsx` | Client wrapper |
+| `MyWalletsServerWrapper` | `my-wallets/my-wallets-server-wrapper.tsx` | Server wrapper |
+| `index` | `my-wallets/index.ts` | Barrel export |
+
+### Payment Transfer (`./src/components/payment-transfer/`)
+
+| Component | File | Purpose |
+| --- | --- | --- |
+| `PaymentTransferClientWrapper` | `payment-transfer/payment-transfer-client-wrapper.tsx` | Client wrapper |
+| `PaymentTransferServerWrapper` | `payment-transfer/payment-transfer-server-wrapper.tsx` | Server wrapper |
+| `index` | `payment-transfer/index.ts` | Barrel export |
+
+### Settings (`./src/components/settings/`)
+
+| Component | File | Purpose |
+| --- | --- | --- |
+| `SettingsClientWrapper` | `settings/settings-client-wrapper.tsx` | Client wrapper |
+| `SettingsServerWrapper` | `settings/settings-server-wrapper.tsx` | Server wrapper |
+| `index` | `settings/index.ts` | Barrel export |
+
+### Transaction History (`./src/components/transaction-history/`)
+
+| Component | File | Purpose |
+| --- | --- | --- |
+| `TransactionHistoryClientWrapper` | `transaction-history/transaction-history-client-wrapper.tsx` | Client wrapper |
+| `TransactionHistoryServerWrapper` | `transaction-history/transaction-history-server-wrapper.tsx` | Server wrapper |
+
+### Sign In (`./src/components/sign-in/`)
+
+| Component | File | Purpose |
+| --- | --- | --- |
+| `SignInClientWrapper` | `sign-in/sign-in-client-wrapper.tsx` | Client wrapper |
+| `SignInServerWrapper` | `sign-in/sign-in-server-wrapper.tsx` | Server wrapper |
+| `SignInClient` | `sign-in/SignInClient.tsx` | Sign in form |
+
+### Sign Up (`./src/components/sign-up/`)
+
+| Component | File | Purpose |
+| --- | --- | --- |
+| `SignUpClientWrapper` | `sign-up/sign-up-client-wrapper.tsx` | Client wrapper |
+| `SignUpServerWrapper` | `sign-up/sign-up-server-wrapper.tsx` | Server wrapper |
+| `SignUpClient` | `sign-up/SignUpClient.tsx` | Sign up form |
+
+### Admin (`./src/components/admin/`)
+
+| Component | File | Purpose |
+| --- | --- | --- |
+| `AdminDashboardContent` | `admin/admin-dashboard-content.tsx` | Admin content |
+| `AdminDashboardServerWrapper` | `admin/admin-dashboard-server-wrapper.tsx` | Server wrapper |
+| `AdminData` | `admin/admin-data.tsx` | Admin data display |
+| `index` | `admin/index.ts` | Barrel export |
+
+### Shared Components
+
+| Component | File | Purpose |
+| --- | --- | --- |
+| `WalletsOverview` | `shared/wallets-overview.tsx` | Wallet overview list |
+| `index` | `shared/index.ts` | Barrel export |
+
+### Navigation
+
+| Component | File | Purpose |
+| --- | --- | --- |
+| `Sidebar` | `sidebar/sidebar.tsx` | Main sidebar nav |
+| `MobileNav` | `mobile-nav/mobile-nav.tsx` | Mobile navigation |
+| `NavDocuments` | `nav-documents/nav-documents.tsx` | Document nav |
+| `NavSecondary` | `nav-secondary/nav-secondary.tsx` | Secondary nav |
+
+### Global Error
+
+| Component | File | Purpose |
+| --- | --- | --- |
+| `GlobalErrorClientWrapper` | `global-error/global-error-client-wrapper.tsx` | Global error handler |
+| `index` | `global-error/index.ts` | Barrel export |
+
+### Not Found
+
+| Component | File | Purpose |
+| --- | --- | --- |
+| `NotFoundServerWrapper` | `not-found/not-found-server-wrapper.tsx` | 404 handler |
+| `index` | `not-found/index.ts` | Barrel export |
+
+### Home
+
+| Component | File | Purpose |
+| --- | --- | --- |
+| `HomeServerWrapper` | `home/home-server-wrapper.tsx` | Home page wrapper |
+| `index` | `home/index.ts` | Barrel export |
+
+### Footer
+
+| Component | File                | Purpose       |
+| --------- | ------------------- | ------------- |
+| `Footer`  | `footer/footer.tsx` | Site footer   |
+| `index`   | `footer/index.ts`   | Barrel export |
+
+### Header Box
+
+| Component   | File                        | Purpose       |
+| ----------- | --------------------------- | ------------- |
+| `HeaderBox` | `header-box/header-box.tsx` | Header box    |
+| `index`     | `header-box/index.ts`       | Barrel export |
+
+### Chart Components
+
+| Component | File | Purpose |
+| --- | --- | --- |
+| `ChartAreaInteractive` | `chart-area-interactive/chart-area-interactive.tsx` | Interactive chart |
+| `DoughnutChart` | `doughnut-chart/doughnut-chart.tsx` | Doughnut chart |
+
+### Animated Counter
+
+| Component | File | Purpose |
+| --- | --- | --- |
+| `AnimatedCounter` | `animated-counter/animated-counter.tsx` | Animated number |
+
+### Auth Form
+
+| Component  | File                      | Purpose          |
+| ---------- | ------------------------- | ---------------- |
+| `AuthForm` | `auth-form/auth-form.tsx` | Shared auth form |
+
+### Plaid Components
+
+| Component | File | Purpose |
+| --- | --- | --- |
+| `PlaidContext` | `plaid-context/plaid-context.tsx` | Plaid provider |
+| `PlaidLinkButton` | `plaid-link-button/plaid-link-button.tsx` | Link bank button |
+
+### Section Cards
+
+| Component | File | Purpose |
+| --- | --- | --- |
+| `SectionCards` | `section-cards/section-cards.tsx` | Section cards display |
+
+### Total Balance Box
+
+| Component | File | Purpose |
+| --- | --- | --- |
+| `TotalBalanceBox` | `total-balance-box/total-balance-box.tsx` | Total balance display |
 
 ---
 
-## Verification Checklist
+## Shadcn-Studio Components (`./src/components/shadcn-studio/blocks/`)
 
-- [x] All custom components listed
-- [x] Categories applied
-- [x] Split candidates identified
-- [ ] Compliance issues resolved (optional)
-- [ ] markdownlint passes
+These are shadcn/ui demo/starter components - potential sources for enhancement:
+
+| Component | File | Purpose |
+| --- | --- | --- |
+| `AccountSettings01` | `blocks/account-settings-01/*` | Account settings UI |
+| `ApplicationShell01` | `blocks/application-shell-01/application-shell-01.tsx` | App shell |
+| `ChartSalesMetrics` | `blocks/chart-sales-metrics.tsx` | Sales chart |
+| `DashboardShell01` | `blocks/dashboard-shell-01/dashboard-shell-01.tsx` | Dashboard shell |
+| `DatatableTransaction` | `blocks/datatable-transaction.tsx` | Transaction table |
+| `DropdownLanguage` | `blocks/dropdown-language.tsx` | Language selector |
+| `DropdownProfile` | `blocks/dropdown-profile.tsx` | Profile dropdown |
+| `HeroSection41` | `blocks/hero-section-41/*` | Hero section |
+| `MenuDropdown` | `blocks/menu-dropdown.tsx` | Menu dropdown |
+| `MenuNavigation` | `blocks/menu-navigation.tsx` | Navigation menu |
+| `OnboardingFeed01` | `blocks/onboarding-feed-01/onboarding-feed-01.tsx` | Onboarding feed |
+| `StatisticsCard01` | `blocks/statistics-card-01.tsx` | Stats card |
+| `WidgetProductInsights` | `blocks/widget-product-insights.tsx` | Product insights |
+| `WidgetTotalEarning` | `blocks/widget-total-earning.tsx` | Earnings widget |
 
 ---
 
-## References
+## Demo Pages (To Be Integrated/Deleted)
 
-- `docs/app-pages.md` — Per-page component usage
-- `AGENTS.md` — Canonical component patterns
-- `.opencode/instructions/02-nextjs-patterns.md` — Next.js patterns
+Located in `./src/app/demo/`:
+
+| Demo | Path | Source For |
+| --- | --- | --- |
+| `ApplicationShell01` | `demo/application-shell-01/` | Layout patterns |
+| `DashboardShell01` | `demo/dashboard-shell-01/` | Dashboard patterns |
+| `HeroSection41` | `demo/hero-section-41/` | Landing page patterns |
+| `OnboardingFeed01` | `demo/onboarding-feed-01/` | Feed/list patterns |
+
+---
+
+## Component Index Files
+
+All component directories have index.ts barrel exports following the pattern:
+
+```typescript
+// Example: src/components/dashboard/index.ts
+export { DashboardClientWrapper } from "./dashboard-client-wrapper";
+export { DashboardServerWrapper } from "./dashboard-server-wrapper";
+```
+
+---
+
+## Existing Generic Components (Target for Enhancement)
+
+The following exist in `./src/components/layouts/` and should be expanded:
+
+- `GenericCard`, `GenericDataTable`, `GenericEmptyState`
+- `GenericForm`, `GenericModal`, `GenericPageShell`
+- `GenericSkeleton`, `GenericToast`, `GenericForm`
+- `FormField`, `Card`, `Row`, `SectionHeader`
+
+---
+
+## Dependencies Graph
+
+```
+Page → ServerWrapper → ClientWrapper → Layout Components → Generic Components
+                              ↓
+                       UI Components (shadcn/ui)
+```

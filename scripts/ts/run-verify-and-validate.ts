@@ -15,10 +15,10 @@ import { logger } from "@/lib/logger";
  * @type {{}}
  */
 const steps = [
-  { args: ["run", "format"], cmd: "npm" },
-  { args: ["run", "type-check"], cmd: "npm" },
-  { args: ["run", "lint:strict"], cmd: "npm" },
-  { args: ["run", "verify:rules"], cmd: "npm" },
+  { args: ["run", "format"], cmd: "bun" },
+  { args: ["run", "type-check"], cmd: "bun" },
+  { args: ["run", "lint:strict"], cmd: "bun" },
+  { args: ["run", "verify:rules"], cmd: "bun" },
 ];
 
 for (const s of steps) {

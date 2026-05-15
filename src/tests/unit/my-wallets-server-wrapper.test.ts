@@ -1,0 +1,46 @@
+import { describe, expect, it, vi } from "vitest";
+
+vi.mock("@/lib/auth", () => ({
+  auth: vi.fn(async () => ({ user: { id: "user-1", name: "Test User" } })),
+}));
+
+// Mock redirect for unauthenticated checks
+vi.mock("next/navigation", () => ({
+  redirect: (url: string) => {
+    throw new Error("REDIRECT:" + url);
+  },
+}));
+
+vi.mock("@/actions/plaid.actions", () => ({
+  getAllWalletsWithDetails: vi.fn(async () => ({
+    ok: true,
+    totalBalance: 0,
+    walletsWithDetails: [],
+  })),
+  removeWallet: vi.fn(async () => ({ ok: true })),
+}));
+
+import { MyWalletsServerWrapper } from "@/components/my-wallets/my-wallets-server-wrapper";
+import { auth } from "@/lib/auth";
+
+import { extractPropsFromElement } from "../utils/serverWrapperTestUtils";
+
+describe("MyWalletsServerWrapper", () => {
+  it("returns a JSX element when authenticated", async () => {
+    const res = await MyWalletsServerWrapper();
+    expect(res).toBeDefined();
+    const props = extractPropsFromElement(res);
+    expect(props).toMatchObject({
+      totalBalance: 0,
+      walletsWithDetails: [],
+    });
+    expect(typeof props.removeWallet).toBe("function");
+  });
+
+  it("redirects to sign-in when unauthenticated", async () => {
+    (auth as any).mockImplementationOnce(async () => null);
+    await expect(MyWalletsServerWrapper()).rejects.toThrow(
+      /REDIRECT:\/sign-in/,
+    );
+  });
+});

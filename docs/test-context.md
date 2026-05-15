@@ -1,248 +1,278 @@
-# Test Context & Documentation
+# Test Context
 
-**Date:** 2026-04-24  
-**Scope:** All tests in `tests/`  
-**Status:** COMPLETE
+## Test Infrastructure
 
----
+### Test Directories
 
-## Overview
-
-This document catalogs all tests in the Banking application, their configuration, helpers, and best practices.
-
----
-
-## Test Inventory
-
-### Vitest Unit Tests (37)
-
-| Path | Purpose |
-| --- | --- |
-| `tests/unit/actions/dwolla.actions.test.ts` | Dwolla action tests |
-| `tests/unit/actions/wallet.actions.test.ts` | Wallet action tests |
-| `tests/unit/actions/admin.actions.test.ts` | Admin action tests |
-| `tests/unit/actions/user.actions.test.ts` | User action tests |
-| `tests/unit/actions/register.test.ts` | Registration tests |
-| `tests/unit/actions/updateProfile.test.ts` | Profile update tests |
-| `tests/unit/actions/recipient.actions.test.ts` | Recipient action tests |
-| `tests/unit/actions/transaction.actions.test.ts` | Transaction action tests |
-| `tests/unit/dal/admin.dal.test.ts` | Admin DAL tests |
-| `tests/unit/dal/errors.dal.test.ts` | Error DAL tests |
-| `tests/unit/dal/wallet.dal.test.ts` | Wallet DAL tests |
-| `tests/unit/dal/transaction.dal.test.ts` | Transaction DAL tests |
-| `tests/unit/dal/recipient.dal.test.ts` | Recipient DAL tests |
-| `tests/unit/dal/dwolla.dal.test.ts` | Dwolla DAL tests |
-| `tests/unit/stores/transfer-store.test.ts` | Transfer store tests |
-| `tests/unit/stores/filter-store.test.ts` | Filter store tests |
-| `tests/unit/stores/toast-store.test.ts` | Toast store tests |
-| `tests/unit/stores/ui-store.test.ts` | UI store tests |
-| `tests/unit/dashboard-server-wrapper.test.ts` | Dashboard wrapper tests |
-| `tests/unit/settings-server-wrapper.test.ts` | Settings wrapper tests |
-| `tests/unit/payment-transfer-server-wrapper.test.ts` | Payment transfer wrapper tests |
-| `tests/unit/transaction-history-server-wrapper.test.ts` | Transaction history wrapper tests |
-| `tests/unit/my-wallets-server-wrapper.test.ts` | My wallets wrapper tests |
-| `tests/unit/signin-wrapper.test.ts` | Sign-in wrapper tests |
-| `tests/unit/transaction-mapping.test.ts` | Transaction mapping tests |
-| `tests/unit/plaid.test.ts` | Plaid utility tests |
-| `tests/unit/dwolla.test.ts` | Dwolla utility tests |
-| `tests/unit/error-tracking.test.ts` | Error tracking tests |
-| `tests/unit/report-parser.test.ts` | Report parser tests |
-| `tests/unit/mcp-runner.verify.test.ts` | MCP runner verification tests |
-| `tests/unit/mcp-runner.parse.test.ts` | MCP runner parsing tests |
-| `tests/unit/plan-ensure.scoring.test.ts` | Plan ensure scoring tests |
-| `tests/unit/plan-ensure.match.test.ts` | Plan ensure matching tests |
-| `tests/unit/transaction.actions.db-error.test.ts` | Transaction DB error tests |
-| `tests/integration/dal/errors.dal.integration.test.ts` | Integration tests |
-| `tests/verify/rules.test.ts` | Rules verification tests |
-| `tests/verify-rules/verify-rules.test.ts` | Verify rules tests |
-
-### Playwright E2E Tests (10)
-
-| Path | Purpose |
-| --- | --- |
-| `tests/e2e/auth.spec.ts` | Authentication flows |
-| `tests/e2e/dashboard.spec.ts` | Dashboard functionality |
-| `tests/e2e/my-wallets.spec.ts` | Wallet management |
-| `tests/e2e/payment-transfer.spec.ts` | Payment transfers |
-| `tests/e2e/transaction-history.spec.ts` | Transaction history |
-| `tests/e2e/settings.spec.ts` | User settings |
-| `tests/e2e/admin.spec.ts` | Admin functionality |
-| `tests/e2e/wallet-linking.spec.ts` | Bank account linking |
-| `tests/e2e/integration/link-and-transfer.spec.ts` | End-to-end flow |
-| `tests/e2e/specs/plaid-script.spec.ts` | Plaid integration |
+```
+src/tests/
+├── e2e/                    # Playwright E2E tests
+│   ├── specs/             # Test specs
+│   ├── helpers/            # Test helpers
+│   ├── integration/        # Integration tests
+│   ├── utils/             # Test utilities
+│   ├── global-setup.ts     # Global setup
+│   └── global-teardown.ts  # Global teardown
+├── fixtures/              # Test fixtures
+│   ├── pages/             # Page object models
+│   └── reports/           # Sample reports
+└── unit/                  # Vitest unit tests (if any)
+```
 
 ---
 
-## Test Configuration
+## E2E Tests (Playwright)
 
-### Vitest Configuration
+### Test Files
 
-- **Config file:** `vitest.config.ts`
-- **Test location:** `tests/unit/`, `tests/integration/`
-- **Pattern:** `*.test.ts`
+| Spec | Path | Purpose |
+| --- | --- | --- |
+| `auth.spec.ts` | `e2e/auth.spec.ts` | Sign in/sign up flows |
+| `dashboard.spec.ts` | `e2e/dashboard.spec.ts` | Dashboard functionality |
+| `my-wallets.spec.ts` | `e2e/my-wallets.spec.ts` | Wallet management |
+| `payment-transfer.spec.ts` | `e2e/payment-transfer.spec.ts` | Payment transfers |
+| `transaction-history.spec.ts` | `e2e/transaction-history.spec.ts` | Transaction history |
+| `settings.spec.ts` | `e2e/settings.spec.ts` | Settings page |
+| `admin.spec.ts` | `e2e/admin.spec.ts` | Admin functionality |
+| `wallet-linking.spec.ts` | `e2e/wallet-linking.spec.ts` | Bank linking |
+| `soft-delete.spec.ts` | `e2e/soft-delete.spec.ts` | Soft delete behavior |
+| `transfer-idempotency.spec.ts` | `e2e/transfer-idempotency.spec.ts` | Idempotency |
+| `link-and-transfer.spec.ts` | `e2e/integration/link-and-transfer.spec.ts` | End-to-end flow |
+| `mock-tokens.spec.ts` | `e2e/mock-tokens.spec.ts` | Mock token handling |
+
+### Test Helpers
+
+| Helper          | Path                        | Purpose          |
+| --------------- | --------------------------- | ---------------- |
+| `auth.ts`       | `e2e/helpers/auth.ts`       | Auth helpers     |
+| `db.ts`         | `e2e/helpers/db.ts`         | Database helpers |
+| `dwolla.ts`     | `e2e/helpers/dwolla.ts`     | Dwolla mocks     |
+| `plaid.ts`      | `e2e/helpers/plaid.ts`      | Plaid mocks      |
+| `plaid.mock.ts` | `e2e/helpers/plaid.mock.ts` | Plaid mock data  |
 
 ### Playwright Configuration
 
-- **Config file:** `playwright.config.ts`
-- **Test location:** `tests/e2e/`
-- **Pattern:** `*.spec.ts`
-- **Requirements:** Port 3000 must be free
-
----
-
-## Test Helpers
-
-### E2E Helpers (`tests/e2e/helpers/`)
-
-| File                              | Purpose                  |
-| --------------------------------- | ------------------------ |
-| `tests/e2e/helpers/db.ts`         | Database helpers for E2E |
-| `tests/e2e/helpers/auth.ts`       | Authentication helpers   |
-| `tests/e2e/helpers/plaid.mock.ts` | Plaid API mocking        |
-| `tests/e2e/helpers/plaid.ts`      | Plaid test utilities     |
-| `tests/e2e/helpers/dwolla.ts`     | Dwolla test utilities    |
-
-### Unit Mocks (`tests/mocks/`)
-
-| File                        | Purpose              |
-| --------------------------- | -------------------- |
-| `tests/mocks/handlers.ts`   | MSW request handlers |
-| `tests/mocks/msw/server.ts` | MSW server setup     |
-| `tests/mocks/ui/select.tsx` | UI component mocks   |
-
-### Key Test Utilities
+**File:** `playwright.config.ts`
 
 ```typescript
-// Example: Using server wrapper test utils
-import { extractPropsFromElement } from "../utils/serverWrapperTestUtils";
-
-// Mock pattern for server actions
-vi.mock("@/actions/transaction.actions", () => ({
-  getTransactionHistory: vi.fn(async () => ({
-    ok: true,
-    transactions: []
-  }))
-}));
+{
+  testDir: "./src/tests/e2e",
+  globalSetup: "./src/tests/e2e/global-setup.ts",
+  globalTeardown: "./src/tests/e2e/global-teardown.ts",
+  projects: [{ name: "chromium", use: devices["Desktop Chrome"] }],
+  timeout: 90_000,
+  expect: { timeout: 10_000 },
+  retries: CI ? 2 : 0,
+  workers: 1,  // Sequential - shared state
+  webServer: {
+    command: "bun run dev",
+    timeout: 180_000,
+    reuseExistingServer: !CI,
+  },
+}
 ```
+
+### Page Object Models (Fixtures)
+
+| Page | Path | Purpose |
+| --- | --- | --- |
+| `BasePage` | `fixtures/pages/base.page.ts` | Base page class |
+| `SignInPage` | `fixtures/pages/sign-in.page.ts` | Sign in page |
+| `SignUpPage` | `fixtures/pages/sign-up.page.ts` | Sign up page |
+| `DashboardPage` | `fixtures/pages/dashboard.page.ts` | Dashboard page |
+| `MyWalletsPage` | `fixtures/pages/my-wallets.page.ts` | Wallets page |
+| `PaymentTransferPage` | `fixtures/pages/payment-transfer.page.ts` | Transfer page |
+| `TransactionHistoryPage` | `fixtures/pages/transaction-history.page.ts` | History page |
+
+### Auth Fixtures
+
+**File:** `e2e/utils/auth-fixtures.ts`
+
+- Seeded test user creation
+- Cookie-based auth for tests
+
+### Test Utilities
+
+| Utility            | Path                         | Purpose       |
+| ------------------ | ---------------------------- | ------------- |
+| `auth-fixtures.ts` | `e2e/utils/auth-fixtures.ts` | Auth fixtures |
 
 ---
 
-## Seed Data
+## Unit Tests (Vitest)
 
-### Seed Credentials
+### Configuration
 
-| Field    | Value                   |
-| -------- | ----------------------- |
-| Email    | `seed-user@example.com` |
-| Password | `Password123!`          |
+**File:** `vitest.config.ts`
 
-### Seed Commands
-
-```bash
-# Standard seed
-npm run db:seed
-
-# Preview without applying
-npm run db:seed -- --dry-run
-
-# Reset (truncate tables)
-npm run db:seed -- --reset --yes
+```typescript
+{
+  test: {
+    environment: "happy-dom",
+    globals: true,
+    include: ["src/tests/unit/**/*.test.{ts,tsx,js,jsx}"],
+    setupFiles: ["src/tests/setup.ts"],
+    testTimeout: 30_000,
+    hookTimeout: 15_000,
+  },
+}
 ```
+
+### Setup Files
+
+**File:** `setup-tests.ts`
+
+- Global test setup
+- Mock providers
+
+---
+
+## Database Schema (for Tests)
+
+### Key Tables
+
+- `users` - User accounts with soft-delete
+- `user_profiles` - Extended profile data
+- `wallets` - Bank connections (encrypted tokens)
+- `transactions` - Transaction records
+- `recipients` - Saved transfer recipients
+
+### Enums
+
+- `user_role` - USER, ADMIN
+- `transaction_status` - PENDING, COMPLETED, FAILED, CANCELLED
+- `transaction_type` - DEBIT, CREDIT
+- `transaction_channel` - ACH, INTERNAL, CARD
+
+---
+
+## Test Dependencies
+
+### External Integrations (Mocked)
+
+- **Plaid** - Bank linking (mock mode available)
+- **Dwolla** - ACH transfers (mock mode available)
+- **NextAuth** - Session management
+
+### Mock Strategies
+
+1. **Plaid**: `isMockAccessToken()` check in actions
+2. **Dwolla**: Environment-based mock responses
+3. **Auth**: Database-seeded users with bcrypt passwords
 
 ---
 
 ## Running Tests
 
-### Unit Tests (Fast)
+### Commands
 
 ```bash
-npm run test:browser
+bun run test          # All tests (slow)
+bun run test:browser # Vitest unit/integration tests
+bun run test:ui      # Playwright E2E tests
+bun run test:ui:report  # Show HTML report
 ```
 
-### E2E Tests (Slow)
+### CI Configuration
 
-```bash
-# Ensure port 3000 is free
-npm run test:ui
-```
-
-### All Tests
-
-```bash
-npm run test
-```
+- GitHub Actions for CI
+- 2 retries on failure
+- Sequential workers (shared state)
+- Screenshot on failure
+- Trace on first retry
 
 ---
 
-## Test Patterns
+## Test Data Management
 
-### Server Wrapper Testing
+### Seed Data
 
-```typescript
-vi.mock("@/lib/auth", () => ({
-  auth: vi.fn(async () => ({
-    user: { id: "user-1", name: "Test User" }
-  }))
-}));
+- `scripts/seed/run.ts` - Database seeder
+- `scripts/seed/seed-data.ts` - Seed definitions
+- `scripts/seed/seed-config.ts` - Seed configuration
 
-vi.mock("next/navigation", () => ({
-  redirect: (url: string) => {
-    throw new Error("REDIRECT:" + url);
-  }
-}));
+### Test Users
 
-vi.mock("@/actions/transaction.actions", () => ({
-  getTransactionHistory: vi.fn(async () => ({
-    ok: true,
-    transactions: []
-  }))
-}));
-```
-
-### Authenticated E2E Tests
-
-```typescript
-// Use seeded test user
-const testUser = {
-  email: "seed-user@example.com",
-  password: "Password123!"
-};
-
-// Or use auth helper for session creation
-import { createAuthenticatedSession } from "./helpers/auth";
-```
+- Created via `scripts/seed/` or `auth-fixtures.ts`
+- bcrypt hashed passwords
+- Seeded with wallets and transactions
 
 ---
 
 ## Best Practices
 
-### DO
+### Page Object Pattern
 
-- Use web-first assertions (`expect().toHaveText()`, `expect().toBeVisible()`)
-- Use `test.step()` to group interactions
-- Mock external APIs (Plaid, Dwolla) in unit tests
-- Use seeded users for E2E authentication
+```typescript
+class DashboardPage {
+  constructor(page: Page) {
+    this.page = page;
+  }
 
-### DON'T
+  async goto() {
+    await this.page.goto("/dashboard");
+  }
 
-- Use hard-coded waits (`page.waitForTimeout()`)
-- Use `.skip()` or `it.skip()` — fix or remove
-- Access DB directly in E2E — use helpers
-- Skip test isolation
+  async getBalance() {
+    return this.page.locator('[data-testid="balance"]');
+  }
+}
+```
+
+### Auth in Tests
+
+```typescript
+// Use seeded user from fixtures
+test("dashboard loads", async ({ page }) => {
+  await setupAuthenticatedPage(page, testUser);
+  await page.goto("/dashboard");
+  await expect(page.locator("h1")).toContainText("Dashboard");
+});
+```
+
+### Error Handling
+
+```typescript
+test("handles error state", async ({ page }) => {
+  await page.goto("/dashboard");
+  // Verify error boundary works
+  await expect(page.getByText("Something went wrong")).toBeVisible();
+});
+```
 
 ---
 
-## Verification Checklist
+## Known Test Issues
 
-- [x] All 37 unit tests listed
-- [x] All 10 E2E specs listed
-- [x] Test helpers documented
-- [x] Seed instructions included
+### TODO Items
+
+- [ ] Add more integration tests for Plaid flow
+- [ ] Add wallet disconnect tests
+- [ ] Add recipient CRUD tests
+- [ ] Harden skipped tests
+- [ ] Add seeded user for deterministic tests
+
+### Skipped Tests
+
+- Check each spec for `.skip()` or `.only()` patterns
 
 ---
 
-## References
+## Coverage Areas
 
-- `AGENTS.md` — Testing guidelines
-- `tests/e2e/helpers/plaid.mock.ts` — Mock pattern exemplar
-- `package.json` — Test scripts
+### Covered
+
+- Sign in/up flows
+- Dashboard display
+- Wallet management
+- Payment transfers
+- Transaction history
+- Settings updates
+- Admin functionality
+
+### Not Covered
+
+- Email notifications
+- Webhook handlers (partial)
+- Rate limiting
+- Concurrent transfers

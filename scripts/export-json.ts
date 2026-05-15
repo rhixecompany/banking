@@ -3,8 +3,8 @@
 /**
  * Export registry data as a flat JSON list.
  * Usage:
- *   npx tsx scripts/export-json.ts --pretty --output dist/registry.json
- *   npx tsx scripts/export-json.ts --pretty > dist/registry.json
+ *   bunx tsx scripts/export-json.ts --pretty --output dist/registry.json
+ *   bunx tsx scripts/export-json.ts --pretty > dist/registry.json
  */
 
 import fs from "fs";
@@ -12,10 +12,13 @@ import path from "path";
 
 import type { CategoryType, Entry, ExportedEntry } from "./types/index.js";
 
-import { CATEGORIES, CATEGORY_PATHS } from "./utils/constants.js";
-import { readOpenCodeEntries } from "./utils/markdown.js";
-import { formatValidationErrors, validateEntry } from "./utils/validation.js";
-import { readYamlDir, slugify } from "./utils/yaml.js";
+import { CATEGORIES, CATEGORY_PATHS } from "../bin/utils/constants.js";
+import { readOpenCodeEntries } from "../bin/utils/markdown.js";
+import {
+  formatValidationErrors,
+  validateEntry,
+} from "../bin/utils/validation.js";
+import { readYamlDir, slugify } from "../bin/utils/yaml.js";
 
 /**
  * Parse command line arguments

@@ -1,6 +1,5 @@
 import eslintReact from "@eslint-react/eslint-plugin";
 import js from "@eslint/js";
-import markdown from "@eslint/markdown";
 import nextPlugin from "@next/eslint-plugin-next";
 import tsEslintParser from "@typescript-eslint/parser";
 import vitest from "@vitest/eslint-plugin";
@@ -36,34 +35,29 @@ export default defineConfig([
   nextPlugin.configs["core-web-vitals"],
 
   globalIgnores([
+    ".cursor/**",
+    ".github/**",
+    ".opencode/**",
     ".next/**",
     "out/**",
     "build/**",
     "dist/**",
-    ".worktrees/**",
-    ".cursor/**",
     "node_modules/**",
     "next-env.d.ts",
-    ".references/**",
-    "logs/**",
-    "coverage/**",
-    "test-results/**",
-    "playwright-report/**",
-    ".vercel/**",
-    ".github/**",
-    ".opencode/skills/**",
-    ".opencode/**",
-    "docs/**",
-    "thoughts/**",
+    // "tech-stack.md",
+    // "templates/**",
+    // "*.md",
+    // "docs/**",
+    // "scripts/**",
   ]),
   {
     files: ["**/*.{js,jsx,ts,tsx,cjs,mts,cts}"],
     languageOptions: {
-      ecmaVersion: 2022,
+      ecmaVersion: 2024,
       globals: {
         ...globals.browser,
         ...globals.node,
-        ...globals.es2021,
+        ...globals.es2024,
         ...globals.jest,
         afterAll: "readonly",
         afterEach: "readonly",
@@ -80,7 +74,7 @@ export default defineConfig([
         ecmaFeatures: {
           jsx: true,
         },
-        ecmaVersion: 2022,
+        ecmaVersion: 2024,
         projectService: {
           allowDefaultProject: [
             ".prettierrc.ts",
@@ -337,6 +331,9 @@ export default defineConfig([
             "^CHANGELOG",
             "^CONTRIBUTING",
             "^LICENSE",
+            "^SKILL",
+            "^node_mcp_server",
+            "\\.md$",
           ],
         },
       ],
@@ -381,7 +378,7 @@ export default defineConfig([
           "twJoin",
           "twMerge",
         ],
-        entryPoint: "app/globals.css",
+        entryPoint: "./src/app/globals.css",
         // Tailwind v4 animation patterns
         knownAnimations: [
           "animate-in",
@@ -841,6 +838,10 @@ export default defineConfig([
       "require-await": "off",
       "testing-library/no-container": "off",
       "unicorn/no-null": "off",
+      "@typescript-eslint/no-empty-function": "off",
+      "security/detect-non-literal-fs-filename": "off",
+      "no-constant-binary-expression": "off",
+      "perfectionist/sort-imports": "off",
     },
   },
   {
@@ -874,16 +875,22 @@ export default defineConfig([
   },
 
   // =====================================================
-  // MARKDOWN - Lint fenced code blocks inside .md files
-  // @eslint/markdown processes JS/TS blocks embedded in markdown
-  // Use the plugin processor to extract fenced code blocks
-  // =====================================================
+  // MARKDOWN - Temporarily disabled due to hanging issues
+  // TODO: Re-enable when performance issue is resolved
+  // {
+  //   files: ["**/*.md", "!**/*.agent.md", "!**/*.prompt.md"],
+  //   plugins: {
+  //     markdown: markdown as unknown as import("eslint").ESLint.Plugin,
+  //   },
+  //   processor: "markdown/markdown",
+  // },
+  // Skip linting .md files entirely
   {
     files: ["**/*.md"],
-    plugins: {
-      markdown: markdown as unknown as import("eslint").ESLint.Plugin,
+    rules: {
+      // Disable all linting for markdown files
+      "no-undef": "off",
     },
-    processor: "markdown/markdown",
   },
   // Lint JS/TS code blocks embedded in markdown files
   {

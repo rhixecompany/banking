@@ -47,8 +47,8 @@ const { getPlannedSeedSummary, seedAll } = seedModule;
  * (e.g. ENCRYPTION_KEY, NEXTAUTH_SECRET). In production, set ALLOW_DB_SEED=true to run.
  *
  * Usage:
- *   npm run db:seed
- *   npm run db:seed -- --reset
+ *   bun run db:seed
+ *   bun run db:seed -- --reset
  */
 
 function assertSeedAllowed(): void {
@@ -145,7 +145,7 @@ async function main(): Promise<void> {
 
       // Attempt to write a validation file for reviewers
       try {
-        const { writeFile } = await import("../utils/io");
+        const { writeFile } = await import("../../bin/utils/io");
         const reportPath = path.resolve(
           __dirname,
           "../../docs/validation/seed-test-dryrun.txt",
@@ -204,7 +204,7 @@ try {
     // Direct invocation
 
     void run().catch((error: unknown) => {
-      console.error(String((error as any)?.message ?? error));
+      console.error(String(error instanceof Error ? error.message : error));
       process.exitCode = 1;
     });
   }

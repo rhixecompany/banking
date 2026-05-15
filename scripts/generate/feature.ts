@@ -15,7 +15,7 @@ import fs from "fs";
 import path from "path";
 import readline from "readline";
 
-import io from "../utils/io";
+import io from "../../bin/utils/io";
 
 /**
  * Description placeholder
@@ -131,6 +131,11 @@ function parseArgs(): {
 
   const envDry = process.env.DRY_RUN;
   if (envDry === "true" || envDry === "1") dryRun = true;
+
+  // If stdin is not a TTY (e.g., running in CI), auto-accept defaults
+  if (!process.stdin.isTTY) {
+    yes = true;
+  }
 
   return { dryRun, featureName, options, yes };
 }
@@ -489,7 +494,7 @@ async function generateFeature(
   console.warn(
     `  1. Add table "${toKebabCase(featureName)}" to database/schema.ts`,
   );
-  console.warn(`  2. Run npm run db:generate to create types`);
+  console.warn(`  2. Run bun run db:generate to create types`);
   console.warn(`  3. Update the component with your form fields`);
   console.warn(`  4. Add the component to your pages`);
 }
@@ -510,17 +515,23 @@ async function main(): Promise<void> {
     const dryRun = parsed.dryRun;
     const yes = parsed.yes;
 
-    if (!featureName) {
-      if (!yes) {
-        featureName = await prompt("Enter feature name (e.g., user-profile): ");
-      } else {
-        console.error("❌ Feature name is required");
-        process.exit(1);
-      }
+    // If feature name not provided and auto-accept mode, exit gracefully
+    if (!featureName && yes) {
+      console.warn(
+        "No feature name provided (required in non-interactive mode)",
+      );
+      console.warn(
+        "Usage: tsx scripts/generate/feature.ts <featureName> [--dry-run] [--yes]",
+      );
+      process.exit(0);
+    }
+
+    if (!featureName && !yes) {
+      featureName = await prompt("Enter feature name (e.g., user-profile): ");
     }
 
     if (!featureName.trim()) {
-      console.error("❌ Feature name is required");
+      console.error("Feature name is required");
       process.exit(1);
     }
 

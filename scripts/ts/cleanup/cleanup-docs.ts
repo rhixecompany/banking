@@ -1,47 +1,24 @@
 #!/usr/bin/env node
-
+/**
+ * Clean up orphaned and deprecated documentation files
+ * Supports --dry-run (default) to preview changes and --apply to commit them
+ */
 import fs from "fs";
 import path from "path";
 
 import { logger } from "@/lib/logger";
+import { ensureApplyOrDryRun, parseCli } from "../utils/cli";
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @typedef {Categories}
- */
 type Categories = Record<string, string[]>;
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {string} p
- * @param {string} root
- * @returns {*}
- */
 function rel(p: string, root: string) {
   return path.relative(root, p).split(path.sep).join("/");
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @returns {*}
- */
 function isoTs() {
   return new Date().toISOString().replaceAll(":", "");
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {string} p
- * @returns {*}
- */
 function isExcluded(p: string) {
   return (
     p.includes("/node_modules/") ||
@@ -52,15 +29,6 @@ function isExcluded(p: string) {
   );
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @async
- * @param {string} dir
- * @param {(fp: string) => Promise<void>} cb
- * @returns {Promise<void>) => any}
- */
 async function walk(dir: string, cb: (fp: string) => Promise<void>) {
   const entries = await fs.promises.readdir(dir, { withFileTypes: true });
   for (const e of entries) {
@@ -71,13 +39,6 @@ async function walk(dir: string, cb: (fp: string) => Promise<void>) {
   }
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {string} relPath
- * @returns {("CORE_KEEP" | "DOCKER_KEEP" | "INTEGRATION_KEEP" | "SWARM_DELETE" | "LEGACY_DELETE" | "OTHER_DELETE" | "ORPHANED_DELETE")}
- */
 function categorize(relPath: string) {
   if (relPath === "README.md" || relPath === "AGENTS.md") return "CORE_KEEP";
   if (relPath.startsWith("docs/docker/")) return "DOCKER_KEEP";
@@ -155,124 +116,96 @@ function categorize(relPath: string) {
   return "ORPHANED_DELETE";
 }
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @async
- * @returns {*}
- */
 async function main() {
-  try {
-    const argv = process.argv.slice(2);
-    const opts: any = { dryRun: true };
-    for (const a of argv) {
-      if (a === "--dry-run") opts.dryRun = true;
-      else if (a === "--apply") opts.dryRun = false;
-      else if (a.startsWith("--confirm=")) opts.confirm = a.split("=")[1];
-      else if (a.startsWith("--action=")) opts.action = a.split("=")[1];
-      else if (a.startsWith("--categories=")) opts.categories = a.split("=")[1];
-      else if (a === "--help" || a === "-h") {
-        logger.info(
-          "Usage: --dry-run (default) | --apply --confirm=yes [--action=1|2|3|4] [--categories=ab]",
-        );
-        return;
-      }
-    }
+  const opts = parseCli();
 
-    const scriptDir = path.dirname(new URL(import.meta.url).pathname);
-    const projectRoot = path.resolve(scriptDir, "..", "..");
-
-    const categories: Categories = {
-      CORE_KEEP: [],
-      DOCKER_KEEP: [],
-      INTEGRATION_KEEP: [],
-      LEGACY_DELETE: [],
-      ORPHANED_DELETE: [],
-      OTHER_DELETE: [],
-      SWARM_DELETE: [],
-    };
-
-    await walk(projectRoot, async (fp) => {
-      const r = rel(fp, projectRoot);
-      const cat = categorize(r);
-      categories[cat].push(r);
-    });
-
-    const counts = Object.fromEntries(
-      Object.entries(categories).map(([k, v]) => [k, v.length]),
-    ) as Record<string, number>;
-
+  if (opts.help) {
     logger.info(
-      `Scan complete. Keep: ${counts.CORE_KEEP + counts.DOCKER_KEEP + counts.INTEGRATION_KEEP}  To-review/delete: ${counts.SWARM_DELETE + counts.LEGACY_DELETE + counts.OTHER_DELETE + counts.ORPHANED_DELETE}`,
+      "Usage: bunx tsx scripts/ts/cleanup/cleanup-docs.ts [--dry-run | --apply] [--verbose]",
     );
-
-    logger.info(JSON.stringify({ categories, summary: counts }, null, 2));
-
-    if (!opts.dryRun) {
-      if (opts.confirm !== "yes") {
-        logger.error("Error: --apply requires --confirm=yes");
-        process.exit(2);
-      }
-
-      let targets: string[] = [];
-      const add = (arr?: string[]) => {
-        if (arr) targets.push(...arr);
-      };
-
-      const action = opts.action ? Number(opts.action) : 3;
-      const catLetters = opts.categories || "";
-
-      if (opts.categories) {
-        if (catLetters.includes("a")) add(categories.SWARM_DELETE);
-        if (catLetters.includes("b")) add(categories.LEGACY_DELETE);
-        if (catLetters.includes("c")) add(categories.OTHER_DELETE);
-      } else {
-        switch (action) {
-          case 1:
-            add(categories.SWARM_DELETE);
-            break;
-          case 2:
-            add(categories.LEGACY_DELETE);
-            break;
-          case 3:
-            add(categories.SWARM_DELETE);
-            add(categories.LEGACY_DELETE);
-            add(categories.OTHER_DELETE);
-            break;
-          case 4:
-            add(categories.SWARM_DELETE);
-            add(categories.LEGACY_DELETE);
-            add(categories.OTHER_DELETE);
-            break;
-          default:
-            logger.error("Unknown action");
-            process.exit(3);
-        }
-      }
-
-      targets = Array.from(new Set(targets));
-
-      for (const relPath of targets) {
-        const abs = path.join(projectRoot, relPath);
-        try {
-          const bak = `${abs}.bak.${isoTs()}`;
-          await fs.promises.copyFile(abs, bak);
-          await fs.promises.unlink(abs);
-          logger.info(`Deleted: ${relPath} (backup: ${rel(bak, projectRoot)})`);
-        } catch (err: any) {
-          logger.error(`Failed to delete ${relPath}: ${err.message}`);
-          process.exit(4);
-        }
-      }
-
-      logger.info("Apply complete.");
-      process.exit(0);
-    }
-  } catch (err: any) {
-    logger.error("Error:", err?.message ? err.message : err);
-    process.exit(1);
+    logger.info("  --dry-run     Preview changes (default)");
+    logger.info("  --apply       Delete files (requires --confirm=yes)");
+    process.exit(0);
   }
+
+  ensureApplyOrDryRun(opts);
+
+  const scriptDir = path.dirname(new URL(import.meta.url).pathname);
+  const projectRoot = path.resolve(scriptDir, "..", "..");
+
+  const categories: Categories = {
+    CORE_KEEP: [],
+    DOCKER_KEEP: [],
+    INTEGRATION_KEEP: [],
+    LEGACY_DELETE: [],
+    ORPHANED_DELETE: [],
+    OTHER_DELETE: [],
+    SWARM_DELETE: [],
+  };
+
+  await walk(projectRoot, async (fp) => {
+    const r = rel(fp, projectRoot);
+    const cat = categorize(r);
+    categories[cat].push(r);
+  });
+
+  const counts = Object.fromEntries(
+    Object.entries(categories).map(([k, v]) => [k, v.length]),
+  ) as Record<string, number>;
+
+  const keepCount =
+    counts.CORE_KEEP + counts.DOCKER_KEEP + counts.INTEGRATION_KEEP;
+  const deleteCount =
+    counts.SWARM_DELETE +
+    counts.LEGACY_DELETE +
+    counts.OTHER_DELETE +
+    counts.ORPHANED_DELETE;
+
+  logger.info(`Scan complete. Keep: ${keepCount}  To-delete: ${deleteCount}`);
+
+  if (opts.verbose) {
+    logger.info(JSON.stringify({ categories, summary: counts }, null, 2));
+  }
+
+  if (!opts.apply) {
+    process.exit(0);
+  }
+
+  // Apply mode requires explicit --confirm=yes
+  if (opts.confirm !== "yes") {
+    logger.error("Error: --apply requires --confirm=yes");
+    process.exit(2);
+  }
+
+  const targets = [
+    ...categories.SWARM_DELETE,
+    ...categories.LEGACY_DELETE,
+    ...categories.OTHER_DELETE,
+    ...categories.ORPHANED_DELETE,
+  ];
+
+  let deletedCount = 0;
+  for (const relPath of targets) {
+    const abs = path.join(projectRoot, relPath);
+    try {
+      const bak = `${abs}.bak.${isoTs()}`;
+      await fs.promises.copyFile(abs, bak);
+      await fs.promises.unlink(abs);
+      deletedCount++;
+      if (opts.verbose) {
+        logger.info(`Deleted: ${relPath} (backup: ${rel(bak, projectRoot)})`);
+      }
+    } catch (err: any) {
+      logger.error(`Failed to delete ${relPath}: ${err.message}`);
+      process.exit(4);
+    }
+  }
+
+  logger.info(`Deleted ${deletedCount} files. Apply complete.`);
+  process.exit(0);
 }
 
-main();
+main().catch((err) => {
+  logger.error("Error:", err?.message ? err.message : err);
+  process.exit(1);
+});

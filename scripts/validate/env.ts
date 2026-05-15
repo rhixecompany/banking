@@ -26,6 +26,12 @@ const ENV_SCHEMA_PATH = path.join(process.cwd(), "lib", "env.ts");
  *
  * @type {*}
  */
+const APP_CONFIG_PATH = path.join(process.cwd(), "app-config.ts");
+/**
+ * Description placeholder
+ *
+ * @type {*}
+ */
 const ENV_LOCAL_PATH = path.join(process.cwd(), ".env.local");
 
 /**
@@ -128,8 +134,10 @@ function validateEnvSchema(content: string): void {
  *
  * @param {string} content
  */
-function validateZodSchemas(content: string): void {
-  if (!content.includes("z.")) {
+function validateZodSchemas(content: string, appConfigContent: string): void {
+  const combinedContent = content + "\n" + appConfigContent;
+
+  if (!combinedContent.includes("z.")) {
     errors.push({
       file: ENV_SCHEMA_PATH,
       message: "No Zod schemas found - should use z.object() for validation",
@@ -137,7 +145,7 @@ function validateZodSchemas(content: string): void {
     });
   }
 
-  if (!content.includes("z.string()")) {
+  if (!combinedContent.includes("z.string()")) {
     errors.push({
       file: ENV_SCHEMA_PATH,
       message:
@@ -146,7 +154,7 @@ function validateZodSchemas(content: string): void {
     });
   }
 
-  if (!content.includes(".default(")) {
+  if (!combinedContent.includes(".default(")) {
     errors.push({
       file: ENV_SCHEMA_PATH,
       message:
@@ -252,10 +260,14 @@ export async function validateEnv(): Promise<boolean> {
     return false;
   }
 
+  // Read both env.ts and app-config.ts for Zod validation
   const content = fs.readFileSync(ENV_SCHEMA_PATH, "utf8");
+  const appConfigContent = fs.existsSync(APP_CONFIG_PATH)
+    ? fs.readFileSync(APP_CONFIG_PATH, "utf8")
+    : "";
 
   validateEnvSchema(content);
-  validateZodSchemas(content);
+  validateZodSchemas(content, appConfigContent);
   validateEnvLocalExists();
   validateEnvLocalContent();
 

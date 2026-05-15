@@ -1,39 +1,49 @@
-# Mindmodel Manifest
-
-This file documents the constraint files in .mindmodel/ that encode the Banking project's patterns and conventions.
-
-## Version
-
-- **Created**: 2026-04-24
-- **Project**: Banking (rhixecompany/banking)
-- **Type**: Next.js 16 App Router application
-
-## Constraint Files
-
-| File | Description |
-|------|-------------|
-| `manifest.yaml` | This file - index of all constraints |
-| `tech-stack.yaml` | Technology versions and dependencies |
-| `conventions.yaml` | Coding conventions and patterns |
-| `server-action.yaml` | Server Action rules and examples |
-| `dal-patterns.yaml` | Data Access Layer patterns |
-| `domain.yaml` | Business domain entities and terms |
-| `validation.yaml` | Zod validation patterns |
-| `anti-patterns.yaml` | Anti-patterns to avoid |
-
-## Usage
-
-Reference these constraint files when:
-- Implementing new features
-- Writing tests
-- Reviewing code
-- Onboarding new developers
-
-## Evidence
-
-All constraints are derived from:
-- `package.json` - dependencies and versions
-- `AGENTS.md` - agent rules
-- `coding-standards.md` - enforceable rules
-- `exemplars.md` - code pattern examples
-- `scripts/verify-rules.ts` - policy enforcement
+---
+name: banking
+version: 1
+categories:
+  - path: stack/frontend.md
+    description: Next.js 16 frontend with React 19, Tailwind, shadcn/ui
+    group: stack
+  - path: stack/backend.md
+    description: Server Actions, NextAuth, Drizzle ORM, PostgreSQL
+    group: stack
+  - path: stack/dependencies.md
+    description: Approved npm packages and version constraints
+    group: stack
+  - path: architecture/structure.md
+    description: Directory layout and server/client separation
+    group: architecture
+  - path: patterns/error-handling.md
+    description: Error handling patterns for server actions
+    group: patterns
+  - path: patterns/logging.md
+    description: Structured logging with pino and context
+    group: patterns
+  - path: patterns/validation.md
+    description: Zod schema validation at action boundaries
+    group: patterns
+  - path: patterns/data-fetching.md
+    description: Server Component data fetching patterns
+    group: patterns
+  - path: patterns/testing.md
+    description: Unit and integration testing patterns
+    group: patterns
+  - path: style/naming.md
+    description: File and identifier naming conventions
+    group: style
+  - path: style/imports.md
+    description: Import organization and path aliases
+    group: style
+  - path: style/types.md
+    description: TypeScript type definitions and usage
+    group: style
+  - path: components/ui.md
+    description: shadcn/ui usage and composed components
+    group: components
+  - path: domain/concepts.md
+    description: Domain entities, relationships, and value objects
+    group: domain
+  - path: ops/database.md
+    description: Drizzle ORM schema and query patterns
+    group: ops

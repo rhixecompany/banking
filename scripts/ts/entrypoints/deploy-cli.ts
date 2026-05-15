@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env node
 import { ensureApplyOrDryRun, parseCli, printDryRunResult } from "../utils/cli";
 
 /**
@@ -21,8 +21,7 @@ async function run() {
   await import("../deploy/deploy");
 }
 
-if (require.main === module)
-  run().catch((e) => {
-    console.error(e);
-    process.exit(1);
-  });
+run().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

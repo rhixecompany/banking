@@ -146,7 +146,7 @@ function inferNotes(filePath: string): string {
     notes.push("purpose: generated docs catalog");
     notes.push("owner: Implementer");
     notes.push("status: keep");
-    notes.push("action: regenerate with npm run docs:markdown-catalog");
+    notes.push("action: regenerate with bun run docs:markdown-catalog");
     return notes.join("; ");
   }
 

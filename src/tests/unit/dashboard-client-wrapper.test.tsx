@@ -1,0 +1,80 @@
+import { render, screen } from "@testing-library/react";
+import { describe, expect, it } from "vitest";
+
+// Mock chart components that depend on canvas or browser APIs
+vi.mock("@/components/doughnut-chart/doughnut-chart", () => ({
+  DoughnutChart: () => <div data-testid="mock-doughnut" />,
+}));
+
+vi.mock("@/components/chart-area-interactive/chart-area-interactive", () => ({
+  __esModule: true,
+  ChartAreaInteractive: (props: any) => (
+    <div data-testid="area-mock">Area {props.transactions?.length ?? 0}</div>
+  ),
+}));
+
+// Mock the onboarding feed which uses next/navigation's useRouter in real code
+vi.mock(
+  "@/components/shadcn-studio/blocks/onboarding-feed-01/onboarding-feed-01",
+  () => ({
+    __esModule: true,
+    default: (props: any) => (
+      <div data-testid="onboarding-mock">Onboarding</div>
+    ),
+  }),
+);
+
+import { DashboardClientWrapper } from "@/components/dashboard/dashboard-client-wrapper";
+
+describe("DashboardClientWrapper", () => {
+  it("renders onboarding when no wallets", () => {
+    render(
+      <DashboardClientWrapper
+        accounts={[]}
+        wallets={[]}
+        transactions={[]}
+        userId="u1"
+        userName="Alice"
+        showOnboarding={true}
+      />,
+    );
+
+    // Onboarding feed is shown when showOnboarding === true
+    expect(screen.getByTestId("onboarding-mock")).toBeInTheDocument();
+  });
+
+  it("renders charts and wallets when data present", () => {
+    render(
+      <DashboardClientWrapper
+        accounts={[
+          {
+            availableBalance: 100,
+            currentBalance: 100,
+            id: "a1",
+            name: "Chk",
+            type: "depository",
+          },
+        ]}
+        wallets={[
+          {
+            accessToken: "t",
+            accessTokenEncrypted: "",
+            accountId: null,
+            createdAt: new Date(),
+            id: "w1",
+            sharableId: "s",
+            updatedAt: new Date(),
+            userId: "u1",
+          } as any,
+        ]}
+        transactions={[]}
+        userId="u1"
+        userName="Alice"
+        showOnboarding={false}
+      />,
+    );
+
+    expect(screen.getByTestId("area-mock")).toBeTruthy();
+    expect(screen.getAllByTestId("mock-doughnut")).toHaveLength(2);
+  });
+});
