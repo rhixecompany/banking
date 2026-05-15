@@ -58,5 +58,6 @@ tsconfig.tsbuildinfo
 
 # Session logger logs (do not commit)
 logs/
+.logs/
 
 .worktrees/
