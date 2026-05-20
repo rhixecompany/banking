@@ -161,8 +161,8 @@ Project-level installations are scoped to specific repositories.
 | `<project>/opencode.json` | Project-specific configuration |
 | `<project>/.opencode/plugin/` | Project plugins |
 | `<project>/.opencode/themes/` | Project themes |
-| `<project>/.opencode/command/` | Project commands |
-| `<project>/.opencode/agent/` | Project agents |
+| `<project>/.opencode/commands/` | Project commands |
+| `<project>/.opencode/agents/` | Project agents |
 | `<project>/.opencode/skill/<name>/SKILL.md` | Project skills |
 
 ### 3.3 Claude-Compatible Paths

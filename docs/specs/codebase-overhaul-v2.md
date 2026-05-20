@@ -263,7 +263,7 @@ Update Agentic Documentation and Rules for the Banking app repository.
 
 ### 5.2 Agent Files to Audit
 
-- `.opencode/agent/eval-runner.md` - verify consistency with repo
+- `.opencode/agents/eval-runner.md` - verify consistency with repo
 
 ---
 
@@ -342,7 +342,7 @@ bun run format && bun run type-check && bun run lint:strict && bun run verify:ru
 | `.opencode/commands/init-enhanced.md` | Agent initialization |
 | `scripts/mcp-runner.ts`               | MCP server handler   |
 | `.opencode/opencode.json`             | MCP server config    |
-| `.opencode/agent/*.md`                | Agent documentation  |
+| `.opencode/agents/*.md`                | Agent documentation  |
 | `components/layouts/`                 | Generic components   |
 
 ---

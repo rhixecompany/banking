@@ -22,7 +22,7 @@ Execute comprehensive codebase overhaul (Phases 0-5) consolidating duplicate tas
 - Phase 6a - MCP Runner Enhancement: Modify scripts/mcp-runner.ts to be custom handler for installing MCP servers in OpenCode/Copilot/Cursor using tooling-engineer
 - Phase 6b - Docker MCP Server Catalog: Run docker mcp gateway run --profile adminbot to get server list, confer with .opencode/mcp_servers.json, catalog found servers, create helpers, update opencode.json, delete found servers from docker using tooling-engineer
 - Phase 6c - Custom MCP Typecheck Functions: Create custom typecheck functions extending docker MCP tools (mcp-find, mcp-add, mcp-remove, mcp-exec, mcp-config-set, mcp-create-profile, mcp-activate-profile, code-mode, mcp-discover), create adminbot profile, remove specified local MCP servers (context7, fetch, filesystem, memory, next-devtools-mcp, playwright, sequentialthinking, time, youtube-transcript), install npx remote versions using tooling-engineer
-- Phase 7 - Agent Files Audit: List, triage, read .opencode/agent/\*.md files, identify inconsistencies with repo, fix all, enhance for repo using documentation-engineer
+- Phase 7 - Agent Files Audit: List, triage, read .opencode/agents/\*.md files, identify inconsistencies with repo, fix all, enhance for repo using documentation-engineer
 - Full Validation (AFTER ALL TASKS): Run bun run format && bun run type-check && bun run lint:strict && bun run verify:rules && bun run test:browser && bun run test:ui
 
 ## Required Specs
