@@ -1,6 +1,6 @@
 {
-  "buildCommand": "npm install && npm run build",
-  "devCommand": "npm run dev",
+  "buildCommand": "bun install && bun run build",
+  "devCommand": "bun run dev",
   "framework": "nextjs",
   "functions": {
     "api/**/*.ts": {
@@ -56,7 +56,7 @@
       ]
     }
   ],
-  "installCommand": "npm install",
+  "installCommand": "bun install",
   "regions": ["iad1"],
   "rewrites": [
     {
