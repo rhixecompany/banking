@@ -33,7 +33,7 @@ jobs:
       - name: Validate YAML files
         run: |
           if [[ -n "${{ steps.changed-files.outputs.all_changed_files }}" ]]; then
-            npx tsx scripts/validate.ts ${{ steps.changed-files.outputs.all_changed_files }}
+            bunx tsx scripts/validate.ts ${{ steps.changed-files.outputs.all_changed_files }}
           else
             echo "No YAML files changed, skipping validation"
           fi

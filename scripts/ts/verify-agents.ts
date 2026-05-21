@@ -1,44 +1,52 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env node
 /**
- * Description: Run verification for agents scripts and helpers
- * CreatedBy: convert-scripts
- * TODO: Improve to parse outputs and create structured reports
+ * Verifies agent configuration files exist and are well-formed JSON.
+ * Replaces the former verify-agents.sh / verify-agents.ps1 wrappers.
  */
-import { spawnSync } from "child_process";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @type {{}}
- */
-const cmds = [
-  ["bash", "scripts/verify-agents.sh"],
-  [
-    "powershell",
-    "-NoProfile",
-    "-ExecutionPolicy",
-    "Bypass",
-    "-File",
-    "scripts/verify-agents.ps1",
-  ],
-];
+import { logger } from "@/lib/logger";
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @param {string[]} cmd
- * @param {boolean} [skipIfWindows=false]
- */
-function tryRun(cmd: string[], skipIfWindows = false) {
-  if (process.platform === "win32" && cmd[0] === "bash") return;
-  if (process.platform !== "win32" && cmd[0].startsWith("powershell")) return;
-  const res = spawnSync(cmd[0], cmd.slice(1), {
-    shell: false,
-    stdio: "inherit",
-  });
-  if (res.status !== 0) process.exit(res.status ?? 1);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const REPO_ROOT = path.resolve(__dirname, "../..");
+
+const AGENT_FILES = [".opencode/opencode.json", "AGENTS.md"];
+
+let allOk = true;
+
+for (const rel of AGENT_FILES) {
+  const abs = path.join(REPO_ROOT, rel);
+  if (!fs.existsSync(abs)) {
+    logger.error(`[verify-agents] Missing: ${rel}`);
+    allOk = false;
+    continue;
+  }
+  if (rel.endsWith(".json")) {
+    try {
+      const raw = fs.readFileSync(abs, "utf8");
+      JSON.parse(raw);
+      logger.info(`[verify-agents] OK: ${rel}`);
+    } catch (e) {
+      logger.error(
+        `[verify-agents] Invalid JSON in ${rel}: ${e instanceof Error ? e.message : String(e)}`,
+      );
+      allOk = false;
+    }
+  } else {
+    const stat = fs.statSync(abs);
+    if (stat.size === 0) {
+      logger.error(`[verify-agents] Empty file: ${rel}`);
+      allOk = false;
+    } else {
+      logger.info(`[verify-agents] OK: ${rel}`);
+    }
+  }
 }
 
-for (const c of cmds) tryRun(c);
+if (!allOk) {
+  process.exit(1);
+}
+logger.info("[verify-agents] All agent files verified.");

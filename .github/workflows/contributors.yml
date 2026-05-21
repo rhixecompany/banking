@@ -34,7 +34,7 @@ jobs:
 
       - name: Check contributors
         id: contributors_check
-        run: npm run contributors:check
+        run: bun run contributors:check
         env:
           PRIVATE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         continue-on-error: true
@@ -43,7 +43,7 @@ jobs:
         if: steps.contributors_check.outcome == 'failure'
         run: |
           mkdir -p reports
-          npm run contributors:report
+          bun run contributors:report
           test -f reports/contributor-report.md && cat reports/contributor-report.md >> "$GITHUB_STEP_SUMMARY"
         env:
           PRIVATE_TOKEN: ${{ secrets.GITHUB_TOKEN }}

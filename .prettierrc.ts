@@ -76,7 +76,7 @@ const config: Options = {
 
   tailwindFunctions: ["clsx", "cn", "cva", "twMerge", "twJoin", "tw"],
   // Prettier Plugin: Tailwind CSS
-  tailwindStylesheet: "./app/globals.css",
+  tailwindStylesheet: "./src/app/globals.css",
   trailingComma: "all",
   useTabs: false,
 };

@@ -17,13 +17,13 @@ echo "=== verify-agents: START $(date) ==="
 echo
 echo "1) TypeScript type-check"
 echo "----------------------------------------"
-npm run type-check
+bun run type-check
 echo "-> type-check: OK"
 
 echo
 echo "2) ESLint (strict)"
 echo "----------------------------------------"
-npm run lint:strict
+bun run lint:strict
 echo "-> lint:strict: OK"
 
 echo
@@ -33,7 +33,7 @@ echo "----------------------------------------"
 DRY_RUN_SCRIPTS=("scripts/generate/feature.ts" "scripts/generate/dal.ts" "scripts/generate/component.ts" "scripts/generate/action.ts")
 for s in "${DRY_RUN_SCRIPTS[@]}"; do
   echo "-> dry-run: $s"
-  npx tsx "$s" --dry-run || {
+  bunx tsx "$s" --dry-run || {
     echo "✗ Script dry-run failed: $s"
     exit 1
   }
@@ -44,7 +44,7 @@ echo
 echo "3) Unit tests (Vitest)"
 echo "----------------------------------------"
 # Run full unit test suite once
-npm run test:browser -- --run
+bun run test:browser -- --run
 echo "-> test:browser: OK"
 
 echo
@@ -56,7 +56,7 @@ if [ "${SKIP_E2E:-false}" = "true" ]; then
 else
   # Run full Playwright E2E suite (this repo's test:ui starts the dev server as needed)
   # Ensure DB and other preconditions are satisfied before running.
-  npm run test:ui -- --run
+  bun run test:ui -- --run
   echo "-> test:ui: OK"
 fi
 

@@ -1,483 +1,324 @@
-# App Pages Documentation
+# App Pages Catalog
 
-**Date:** 2026-04-24  
-**Scope:** All pages in `./app/`  
-**Status:** COMPLETE
+## Route Structure
 
----
-
-## Overview
-
-This document catalogs all pages in the Banking application, their routing structure, component composition, data access patterns, and authentication requirements. The architecture follows a **Server Wrapper Pattern** where each page delegates all data fetching and auth logic to a `*ServerWrapper` component.
-
----
-
-## Page Inventory
-
-### Public Routes
-
-| Route | File | Auth Required | Description |
-| --- | --- | --- | --- |
-| `/` | `app/page.tsx` | ❌ No | Landing page |
-| `/sign-in` | `app/(auth)/sign-in/page.tsx` | ❌ No | User sign-in |
-| `/sign-up` | `app/(auth)/sign-up/page.tsx` | ❌ No | User registration |
-
-### Protected Routes
-
-| Route | File | Auth Required | Description |
-| --- | --- | --- | --- |
-| `/dashboard` | `app/(root)/dashboard/page.tsx` | ✅ Yes | Financial overview |
-| `/my-wallets` | `app/(root)/my-wallets/page.tsx` | ✅ Yes | Linked bank accounts |
-| `/payment-transfer` | `app/(root)/payment-transfer/page.tsx` | ✅ Yes | Transfer funds |
-| `/transaction-history` | `app/(root)/transaction-history/page.tsx` | ✅ Yes | Transaction list |
-| `/settings` | `app/(root)/settings/page.tsx` | ✅ Yes | User settings |
-
-### Admin Routes
-
-| Route | File | Auth Required | Admin Required |
-| --- | --- | --- | --- |
-| `/admin` | `app/(admin)/admin/page.tsx` | ✅ Yes | ✅ Yes |
+```
+src/app/
+├── (auth)/                          # Public auth routes
+│   ├── layout.tsx                   # AuthLayoutWrapper
+│   ├── sign-in/
+│   │   ├── page.tsx                 # SignInServerWrapper + Suspense
+│   │   ├── error.tsx
+│   │   └── loading.tsx
+│   └── sign-up/
+│       ├── page.tsx                 # SignUpServerWrapper + Suspense
+│       ├── error.tsx
+│       └── loading.tsx
+├── (admin)/                         # Admin routes (protected)
+│   ├── layout.tsx                   # AdminLayoutWrapper + auth gating
+│   └── admin/
+│       ├── page.tsx                 # AdminDashboardServerWrapper
+│       ├── error.tsx
+│       └── loading.tsx
+├── (root)/                          # Protected app routes
+│   ├── layout.tsx                   # RootLayoutWrapper + PlaidProvider
+│   ├── dashboard/
+│   │   ├── page.tsx                 # DashboardServerWrapper + Suspense
+│   │   ├── error.tsx
+│   │   └── loading.tsx
+│   ├── my-wallets/
+│   │   ├── page.tsx                 # MyWalletsServerWrapper + Suspense
+│   │   ├── error.tsx
+│   │   └── loading.tsx
+│   ├── payment-transfer/
+│   │   ├── page.tsx                # PaymentTransferServerWrapper + Suspense
+│   │   ├── error.tsx
+│   │   └── loading.tsx
+│   ├── settings/
+│   │   ├── page.tsx                # SettingsServerWrapper + Suspense
+│   │   ├── error.tsx
+│   │   └── loading.tsx
+│   └── transaction-history/
+│       ├── page.tsx                # TransactionHistoryServerWrapper + Suspense
+│       ├── error.tsx
+│       └── loading.tsx
+├── api/                             # API routes
+│   ├── auth/
+│   │   ├── local-create/route.ts   # Mock auth create
+│   │   ├── local-validate/route.ts # Mock auth validate
+│   │   └── [...nextauth]/route.ts  # NextAuth handler
+│   ├── dwolla/webhook/route.ts     # Dwolla webhook
+│   ├── health/route.ts             # Health check
+│   └── __playwright__/set-cookie/  # Test cookie setting
+├── demo/                           # Demo pages (to be integrated/deleted)
+│   ├── application-shell-01/
+│   ├── dashboard-shell-01/
+│   ├── hero-section-41/
+│   └── onboarding-feed-01/
+├── global-error.tsx                # Global error boundary
+├── globals.css                     # Global styles
+├── layout.tsx                      # Root layout (fonts, providers)
+├── not-found.tsx                   # 404 page
+└── page.tsx                        # Landing page (/)
+```
 
 ---
 
 ## Page Details
 
-### 1. Home Page (`/`)
+### Landing Page (`/`)
 
-**File:** `app/page.tsx`
+**File:** `src/app/page.tsx`
 
-```typescript
-export default function HomePage(): JSX.Element {
-  return (
-    <RootLayoutWrapper>
-      <HomeServerWrapper />
-    </RootLayoutWrapper>
-  );
+```tsx
+// Route: /
+export default function HomePage() {
+  return <HomeServerWrapper />;
 }
 ```
 
-| Aspect             | Details                     |
-| ------------------ | --------------------------- |
-| **Route**          | `/` (public)                |
-| **Component Type** | Server Component            |
-| **Auth**           | None required               |
-| **Wrapper**        | `HomeServerWrapper`         |
-| **Layout**         | `RootLayoutWrapper`         |
-| **DAL Access**     | None (delegated to wrapper) |
-| **Server Actions** | None                        |
-
-**Server Wrapper:** `components/home/home-server-wrapper.tsx`
-
-- Fetches public data (features, etc.)
-- Renders client components for interactivity
+**Wrapper:** `src/components/home/home-server-wrapper.tsx` **Components:** Hero section from shadcn-studio/hero-section-41 **Auth:** Public
 
 ---
 
-### 2. Sign-In Page (`/sign-in`)
+### Auth Routes (`/sign-in`, `/sign-up`)
 
-**File:** `app/(auth)/sign-in/page.tsx`
+**Layout:** `src/app/(auth)/layout.tsx`
 
-```typescript
-export default function SignInPage(): JSX.Element {
+```tsx
+export default function AuthLayout({ children }) {
+  return <AuthLayoutWrapper>{children}</AuthLayoutWrapper>;
+}
+```
+
+**Sign-In Page:** `src/app/(auth)/sign-in/page.tsx`
+
+```tsx
+export default function SignInPage() {
   return (
-    <RootLayoutWrapper>
+    <Suspense fallback={<Loading />}>
       <SignInServerWrapper />
-    </RootLayoutWrapper>
+    </Suspense>
   );
 }
 ```
 
-| Aspect             | Details                            |
-| ------------------ | ---------------------------------- |
-| **Route**          | `/sign-in` (public)                |
-| **Component Type** | Server Component                   |
-| **Auth**           | Redirects if already authenticated |
-| **Wrapper**        | `SignInServerWrapper`              |
-| **Layout**         | `RootLayoutWrapper`                |
-| **DAL Access**     | None (client-side form)            |
-| **Server Actions** | `auth.signin.ts`                   |
+**Sign-Up Page:** `src/app/(auth)/sign-up/page.tsx`
 
-**Server Wrapper:** `components/sign-in/sign-in-server-wrapper.tsx`
-
-**Server Actions:**
-
-- `signIn()` — NextAuth credentials sign-in
-
----
-
-### 3. Sign-Up Page (`/sign-up`)
-
-**File:** `app/(auth)/sign-up/page.tsx`
-
-```typescript
-export default function SignUpPage(): JSX.Element {
+```tsx
+export default function SignUpPage() {
   return (
-    <RootLayoutWrapper>
+    <Suspense fallback={<Loading />}>
       <SignUpServerWrapper />
-    </RootLayoutWrapper>
+    </Suspense>
   );
 }
 ```
 
-| Aspect             | Details                            |
-| ------------------ | ---------------------------------- |
-| **Route**          | `/sign-up` (public)                |
-| **Component Type** | Server Component                   |
-| **Auth**           | Redirects if already authenticated |
-| **Wrapper**        | `SignUpServerWrapper`              |
-| **Layout**         | `RootLayoutWrapper`                |
-| **DAL Access**     | None (client-side form)            |
-| **Server Actions** | `auth.signup.ts`, `register.ts`    |
+**Components:**
 
-**Server Wrapper:** `components/sign-up/sign-up-server-wrapper.tsx`
+- `SignInServerWrapper` → `SignInClientWrapper` → `SignInClient`
+- `SignUpServerWrapper` → `SignUpClientWrapper` → `SignUpClient`
 
-**Server Actions:**
+**Actions:**
 
-- `registerUser()` — User registration
+- `auth.signin.ts` - SignInSchema validation
+- `register.ts` - signUpSchema validation
 
 ---
 
-### 4. Dashboard Page (`/dashboard`)
+### Root Routes (`/dashboard`, `/my-wallets`, etc.)
 
-**File:** `app/(root)/dashboard/page.tsx`
+**Layout:** `src/app/(root)/layout.tsx`
 
-```typescript
-export default function DashboardPage(): JSX.Element {
+```tsx
+export default function RootLayout({ children }) {
+  // Auth check, redirect to /sign-in if not authenticated
+  // Provides: PlaidProvider, Sidebar, MobileNav
+}
+```
+
+**Dashboard Page:** `src/app/(root)/dashboard/page.tsx`
+
+```tsx
+export default function DashboardPage() {
   return (
-    <RootLayoutWrapper>
+    <Suspense fallback={<Loading />}>
       <DashboardServerWrapper />
-    </RootLayoutWrapper>
+    </Suspense>
   );
 }
 ```
 
-| Aspect | Details |
-| --- | --- |
-| **Route** | `/dashboard` (protected) |
-| **Component Type** | Server Component |
-| **Auth** | Required — redirects to `/sign-in` |
-| **Wrapper** | `DashboardServerWrapper` |
-| **Layout** | `RootLayoutWrapper` |
-| **DAL Access** | Via Server Actions |
-| **Server Actions** | `getUserWallets`, `getAllAccounts`, `getRecentTransactions` |
+**My Wallets Page:** `src/app/(root)/my-wallets/page.tsx`
 
-**Server Wrapper:** `components/dashboard/dashboard-server-wrapper.tsx`
-
-```typescript
-export async function DashboardServerWrapper(): Promise<JSX.Element> {
-  const session = await auth();
-  if (!session?.user?.id) {
-    redirect("/sign-in");
-  }
-
-  const [walletsResult, accountsResult, txResult] = await Promise.all([
-    getUserWallets(),
-    getAllAccounts(),
-    getRecentTransactions(20),
-  ]);
-
+```tsx
+export default function MyWalletsPage() {
   return (
-    <DashboardClientWrapper
-      accounts={accountsResult.accounts ?? []}
-      wallets={walletsResult.wallets ?? []}
-      transactions={txResult.transactions ?? []}
-      userId={userId}
-      showOnboarding={wallets.length === 0}
-    />
-  );
-}
-```
-
-**Data Flow:**
-
-1. `auth()` — Verify session
-2. `getUserWallets()` — Fetch linked wallets
-3. `getAllAccounts()` — Fetch Plaid accounts
-4. `getRecentTransactions()` — Fetch recent transactions
-5. Pass to `DashboardClientWrapper`
-
----
-
-### 5. My Wallets Page (`/my-wallets`)
-
-**File:** `app/(root)/my-wallets/page.tsx`
-
-```typescript
-export default function MyWalletsPage(): JSX.Element {
-  return (
-    <RootLayoutWrapper>
+    <Suspense fallback={<Loading />}>
       <MyWalletsServerWrapper />
-    </RootLayoutWrapper>
+    </Suspense>
   );
 }
 ```
 
-| Aspect | Details |
-| --- | --- |
-| **Route** | `/my-wallets` (protected) |
-| **Component Type** | Server Component |
-| **Auth** | Required |
-| **Wrapper** | `MyWalletsServerWrapper` |
-| **Layout** | `RootLayoutWrapper` |
-| **DAL Access** | Via Server Actions |
-| **Server Actions** | `getUserWallets`, `getBalance`, `disconnectWallet` |
+**Payment Transfer Page:** `src/app/(root)/payment-transfer/page.tsx`
 
-**Server Wrapper:** `components/my-wallets/my-wallets-server-wrapper.tsx`
-
-**Server Actions:**
-
-- `getUserWallets()` — List all wallets
-- `getBalance(walletId)` — Per-wallet balance
-- `disconnectWallet(walletId)` — Unlink bank
-
----
-
-### 6. Payment Transfer Page (`/payment-transfer`)
-
-**File:** `app/(root)/payment-transfer/page.tsx`
-
-```typescript
-export default function PaymentTransferPage(): JSX.Element {
+```tsx
+export default function PaymentTransferPage() {
   return (
-    <RootLayoutWrapper>
+    <Suspense fallback={<Loading />}>
       <PaymentTransferServerWrapper />
-    </RootLayoutWrapper>
+    </Suspense>
   );
 }
 ```
 
-| Aspect | Details |
-| --- | --- |
-| **Route** | `/payment-transfer` (protected) |
-| **Component Type** | Server Component |
-| **Auth** | Required |
-| **Wrapper** | `PaymentTransferServerWrapper` |
-| **Layout** | `RootLayoutWrapper` |
-| **DAL Access** | Via Server Actions |
-| **Server Actions** | `getUserWallets`, `createTransfer`, `createTransaction` |
+**Settings Page:** `src/app/(root)/settings/page.tsx`
 
-**Server Wrapper:** `components/payment-transfer/payment-transfer-server-wrapper.tsx`
-
-**Server Actions:**
-
-- `getUserWallets()` — Source accounts
-- `createTransfer()` — Dwolla ACH transfer
-- `createTransaction()` — Local ledger record
-
----
-
-### 7. Transaction History Page (`/transaction-history`)
-
-**File:** `app/(root)/transaction-history/page.tsx`
-
-```typescript
-export default function TransactionHistoryPage(): JSX.Element {
+```tsx
+export default function SettingsPage() {
   return (
-    <RootLayoutWrapper>
-      <TransactionHistoryServerWrapper />
-    </RootLayoutWrapper>
-  );
-}
-```
-
-| Aspect             | Details                            |
-| ------------------ | ---------------------------------- |
-| **Route**          | `/transaction-history` (protected) |
-| **Component Type** | Server Component                   |
-| **Auth**           | Required                           |
-| **Wrapper**        | `TransactionHistoryServerWrapper`  |
-| **Layout**         | `RootLayoutWrapper`                |
-| **DAL Access**     | Via Server Actions                 |
-| **Server Actions** | `getTransactionHistory`            |
-
-**Server Wrapper:** `components/transaction-history/transaction-history-server-wrapper.tsx`
-
-**Server Actions:**
-
-- `getTransactionHistory(page, pageSize)` — Paginated transactions
-
----
-
-### 8. Settings Page (`/settings`)
-
-**File:** `app/(root)/settings/page.tsx`
-
-```typescript
-export default function SettingsPage(): JSX.Element {
-  return (
-    <RootLayoutWrapper>
+    <Suspense fallback={<Loading />}>
       <SettingsServerWrapper />
-    </RootLayoutWrapper>
+    </Suspense>
   );
 }
 ```
 
-| Aspect | Details |
-| --- | --- |
-| **Route** | `/settings` (protected) |
-| **Component Type** | Server Component |
-| **Auth** | Required |
-| **Wrapper** | `SettingsServerWrapper` |
-| **Layout** | `RootLayoutWrapper` |
-| **DAL Access** | Via Server Actions |
-| **Server Actions** | `getUserWithProfile`, `updateProfile`, `logoutAccount` |
+**Transaction History Page:** `src/app/(root)/transaction-history/page.tsx`
 
-**Server Wrapper:** `components/settings/settings-server-wrapper.tsx`
-
-**Server Actions:**
-
-- `getUserWithProfile()` — Fetch user + profile
-- `updateProfile()` — Update profile data
-- `logoutAccount()` — Audit log before sign-out
-
----
-
-### 9. Admin Dashboard (`/admin`)
-
-**File:** `app/(admin)/admin/page.tsx`
-
-```typescript
-export default function AdminPage(): JSX.Element {
+```tsx
+export default function TransactionHistoryPage() {
   return (
-    <RootLayoutWrapper>
-      <AdminDashboardServerWrapper />
-    </RootLayoutWrapper>
+    <Suspense fallback={<Loading />}>
+      <TransactionHistoryServerWrapper />
+    </Suspense>
   );
 }
 ```
 
-| Aspect             | Details                                     |
-| ------------------ | ------------------------------------------- |
-| **Route**          | `/admin` (protected, admin-only)            |
-| **Component Type** | Server Component                            |
-| **Auth**           | Required + Admin role                       |
-| **Wrapper**        | `AdminDashboardServerWrapper`               |
-| **Layout**         | `RootLayoutWrapper`                         |
-| **DAL Access**     | Via Server Actions                          |
-| **Server Actions** | `toggleAdmin`, `setActive`, `getAdminStats` |
+**Actions (Root routes):**
 
-**Server Wrapper:** `components/admin/admin-dashboard-server-wrapper.tsx`
+- `user.actions.ts` - getLoggedInUser, logoutAccount
+- `updateProfile.ts` - UpdateProfileSchema
+- `wallet.actions.ts` - DisconnectWalletSchema
+- `transaction.actions.ts` - getRecentTransactions, getAllTransactions
+- `plaid.actions.ts` - CreateLinkTokenSchema, ExchangeTokenSchema
+- `dwolla.actions.ts` - createDwollaCustomer, initiateTransfer
+- `recipient.actions.ts` - RecipientSchema
 
-**Server Actions:**
+**Stores (Root routes):**
 
-- `toggleAdmin(userId, makeAdmin)` — Grant/revoke admin
-- `setActive(userId, isActive)` — Enable/disable account
-- `getAdminStats()` — Dashboard statistics
+- `transfer-store.tsx` - Transfer wizard state
+- `ui-store.tsx` - UI state (sidebar, modals)
+- `session.tsx` - Auth session
 
 ---
 
-## Component Architecture
+### Admin Routes (`/admin`)
 
-### Server Wrapper Pattern
+**Layout:** `src/app/(admin)/layout.tsx`
 
-All pages follow a consistent pattern:
-
-```text
-page.tsx (Server Component)
-  └── RootLayoutWrapper (layout)
-        └── *ServerWrapper (data fetching + auth)
-              └── *ClientWrapper (UI rendering)
-```
-
-**Benefits:**
-
-- Auth logic centralized in server wrappers
-- Data fetching happens on server (RSC)
-- Client components are pure presentational
-- No direct DB access in pages
-
-### Shared Layouts
-
-| Layout                   | Purpose                            |
-| ------------------------ | ---------------------------------- |
-| `RootLayoutWrapper`      | Main app shell with header/sidebar |
-| `DashboardClientWrapper` | Dashboard-specific layout          |
-| `AuthForm`               | Reusable auth form template        |
-
----
-
-## Authentication Flow
-
-### Protected Routes
-
-All routes under `(root)` and `(admin)` are protected via middleware:
-
-```typescript
-// middleware.ts (inferred from redirect patterns)
-export function middleware(request: NextRequest) {
-  const session = await auth();
-
-  if (!session && protectedRoute) {
-    return NextResponse.redirect(new URL("/sign-in", request.url));
-  }
-
-  if (adminRoute && !session.user.isAdmin) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
-  }
+```tsx
+export default function AdminLayout({ children }) {
+  // Auth check + isAdmin check
+  // Provides: AdminSidebar, Breadcrumb, LanguageDropdown, ProfileDropdown
 }
 ```
 
-### Auth Patterns
+**Admin Page:** `src/app/(admin)/admin/page.tsx`
 
-| Page       | Auth Behavior                                |
-| ---------- | -------------------------------------------- |
-| Home       | Public — no check                            |
-| Sign-In/Up | Redirects if already authenticated           |
-| Protected  | Redirects to `/sign-in` if not authenticated |
-| Admin      | Redirects to `/dashboard` if not admin       |
+```tsx
+export default function AdminPage() {
+  return <AdminDashboardServerWrapper />;
+}
+```
+
+**Actions (Admin):**
+
+- `admin.actions.ts` - ToggleAdminSchema, SetActiveSchema
+- `admin-stats.actions.ts` - GetAdminStatsSchema, PaginatedUsersSchema
 
 ---
 
-## Compliance Assessment
+## API Routes
 
-### ✅ Compliant Patterns
+### Auth API
 
-| Requirement | Status | Evidence |
+- `POST /api/auth/local-create` - Mock user creation
+- `POST /api/auth/local-validate` - Mock validation
+- `GET/POST /api/auth/[...nextauth]` - NextAuth handler
+
+### Dwolla Webhook
+
+- `POST /api/dwolla/webhook` - Dwolla event handling
+
+### Health Check
+
+- `GET /api/health` - Service health
+
+### Playwright Test Support
+
+- `POST /api/__playwright__/set-cookie` - Set test cookies
+
+---
+
+## Server Actions Mapping
+
+| Action File | Key Functions | Schema |
 | --- | --- | --- |
-| No direct DB in pages | ✅ | All pages use Server Actions via wrappers |
-| Auth in server layer | ✅ | `auth()` called in each wrapper |
-| DAL-only data access | ✅ | All DB access via `dal/*` helpers |
-| Server Actions for mutations | ✅ | All writes use `"use server"` |
-| Consistent return shapes | ✅ | All actions return `{ ok, error? }` |
+| `auth.signin.ts` | signInUser | SignInSchema |
+| `register.ts` | registerUser | signUpSchema |
+| `user.actions.ts` | getLoggedInUser, logoutAccount, getUserWithProfile, getAllUsers | - |
+| `updateProfile.ts` | updateUserProfile, updateUserPassword | UpdateProfileSchema |
+| `wallet.actions.ts` | disconnectWallet | DisconnectWalletSchema |
+| `transaction.actions.ts` | getRecentTransactions, getAllTransactions | - |
+| `plaid.actions.ts` | createLinkToken, exchangePublicToken, syncTransactions, getWalletBalances | CreateLinkTokenSchema, ExchangeTokenSchema |
+| `dwolla.actions.ts` | createDwollaCustomer, initiateTransfer, verifyMicroDeposits | CreateCustomerSchema |
+| `admin.actions.ts` | toggleAdmin, setUserActive | ToggleAdminSchema, SetActiveSchema |
+| `admin-stats.actions.ts` | getAdminStats, getPaginatedUsers | GetAdminStatsSchema, PaginatedUsersSchema |
+| `recipient.actions.ts` | getRecipients, createRecipient, updateRecipient, deleteRecipient | RecipientSchema |
 
-### ⚠️ Potential Improvements
+---
 
-| Issue | Description | Priority |
-| --- | --- | --- |
-| Missing Suspense boundaries | Some pages could show loading states | Medium |
-| No error boundaries | Server wrapper errors could crash page | Medium |
-| Repeated wrapper patterns | All pages use identical structure — could extract | Low |
+## Error Boundaries
 
-### Suspense Boundary Recommendation
+Each route group has:
 
-```typescript
-// Current: no Suspense
-<DashboardServerWrapper />
+- `error.tsx` - Error boundary for the route
+- `loading.tsx` - Loading skeleton
 
-// Recommended: with Suspense
-<Suspense fallback={<DashboardSkeleton />}>
-  <DashboardServerWrapper />
+---
+
+## Loading States
+
+Each page uses Suspense with loading component:
+
+```tsx
+<Suspense fallback={<Loading />}>
+  <*ServerWrapper />
 </Suspense>
 ```
 
----
-
-## Server Actions Summary
-
-| Page | Server Actions Used |
-| --- | --- |
-| Dashboard | `getUserWallets`, `getAllAccounts`, `getRecentTransactions` |
-| My Wallets | `getUserWallets`, `getBalance`, `disconnectWallet` |
-| Payment Transfer | `getUserWallets`, `createTransfer` |
-| Transaction History | `getTransactionHistory` |
-| Settings | `getUserWithProfile`, `updateProfile`, `logoutAccount` |
-| Admin | `toggleAdmin`, `setActive`, `getAdminStats` |
+Loading files typically import from `src/components/ui/skeleton.tsx`.
 
 ---
 
-## References
+## Next.js Configuration
 
-- `app/(root)/dashboard/page.tsx` — exemplar protected page
-- `components/dashboard/dashboard-server-wrapper.tsx` — exemplar wrapper
-- `lib/auth.ts` — server-side auth helper
-- `AGENTS.md` — canonical agent rules
+**File:** `next.config.ts`
+
+- React strict mode enabled
+- Experimental features for Next.js 16 compatibility
+- App router enabled
+
+---
+
+## Global Styles
+
+**File:** `src/app/globals.css`
+
+- Tailwind CSS imports
+- Custom CSS variables
+- Font setup

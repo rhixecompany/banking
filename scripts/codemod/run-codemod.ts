@@ -32,9 +32,9 @@ const args = process.argv.slice(2);
  * @returns {*}
  */
 async function main() {
-  // Prefer running via npx tsx
+  // Prefer running via bunx tsx
   try {
-    const res = spawnSync("npx", ["tsx", script, ...args], {
+    const res = spawnSync("bunx", ["tsx", script, ...args], {
       stdio: "inherit",
     });
     if (res.error) {

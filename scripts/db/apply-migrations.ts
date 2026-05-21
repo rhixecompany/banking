@@ -4,35 +4,37 @@ import { readdirSync, readFileSync } from "fs";
 import { join } from "path";
 import { Pool } from "pg";
 
-// Load .env.local if present, then fallback to .env
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @type {*}
- */
 const localEnv = join(process.cwd(), ".env.local");
 dotenv.config({ override: true, path: localEnv });
 dotenv.config();
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @async
- * @returns {*}
- */
+function hasDryRunFlag(): boolean {
+  return (
+    process.argv.includes("--dry-run") ||
+    process.argv.includes("-n") ||
+    process.env.DRY_RUN === "true"
+  );
+}
+
 async function run() {
   const dir = join(process.cwd(), "database", "drizzle");
+  const dryRun = hasDryRunFlag();
   const files = readdirSync(dir)
     .filter((f) => f.endsWith(".sql"))
     .sort();
 
-  // Resolve connection string via helper to centralize fallback logic.
-  const { getConnectionString } =
-    await import("../utils/get-connection-string");
-  const connectionString = await getConnectionString();
+  if (dryRun) {
+    console.warn("[dry-run] Migration run (no changes will be applied)");
+    for (const file of files) {
+      console.warn(`[dry-run] Would apply: ${file}`);
+    }
+    console.warn("[dry-run] Done.");
+    return;
+  }
 
+  const { getConnectionString } =
+    await import("../../bin/utils/get-connection-string");
+  const connectionString = await getConnectionString();
   const pool = new Pool({ connectionString });
 
   try {
@@ -40,13 +42,11 @@ async function run() {
       const path = join(dir, file);
       console.warn(`\n=== Applying ${file} ===`);
       const sql = readFileSync(path, "utf8");
-      // Execute in a transaction
       const client = await pool.connect();
       try {
         await client.query("BEGIN");
         await client.query(sql);
         await client.query("COMMIT");
-        // write progress to stderr via warn so CI captures it as non-standard output
         console.warn(`Applied ${file}`);
       } catch (err) {
         await client.query("ROLLBACK");
@@ -56,8 +56,6 @@ async function run() {
       }
       client.release();
     }
-    // Keep stdout minimal; use warn for progress messages. Mirror prior behavior
-    // by writing a final message to stderr via warn to avoid console.log lint rules.
     console.warn("All migrations applied.");
   } finally {
     await pool.end();

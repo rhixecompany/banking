@@ -1,32 +1,32 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env node
 /**
- * Description: Port of server-setup scripts
- * CreatedBy: convert-scripts
- * TODO: Replace shell logic with native Node implementation
+ * Server setup script wrapper
+ * Delegates to platform-specific shell scripts via cross-platform spawn
  */
-import { spawnSync } from "child_process";
+import { logger } from "@/lib/logger";
+import { ensureApplyOrDryRun, parseCli } from "../utils/cli";
+import { run } from "../utils/spawn-safe";
 
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @type {"scripts/server/server-setup.sh"}
- */
-const scriptSh = "scripts/server/server-setup.sh";
-/**
- * Description placeholder
- * @author Adminbot
- *
- * @type {"scripts/server/server-setup.ps1"}
- */
-const scriptPs1 = "scripts/server/server-setup.ps1";
+function main() {
+  const opts = parseCli();
 
-if (process.platform === "win32") {
-  spawnSync(
-    "powershell",
-    ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", scriptPs1],
-    { stdio: "inherit" },
-  );
-} else {
-  spawnSync("bash", [scriptSh], { stdio: "inherit" });
+  if (opts.help) {
+    logger.info(
+      "Usage: bunx tsx scripts/ts/server/server-setup.ts [--dry-run | --apply]",
+    );
+    process.exit(0);
+  }
+
+  ensureApplyOrDryRun(opts);
+
+  if (opts.dryRun) {
+    logger.info("[DRY-RUN] Would run server setup script");
+    process.exit(0);
+  }
+
+  logger.info("Running server setup...");
+  const code = run("bash", ["scripts/server/server-setup.sh"]);
+  process.exit(code);
 }
+
+main();

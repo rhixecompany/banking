@@ -11,9 +11,9 @@ export default defineConfig({
     globals: true,
     hookTimeout: 15000,
 
-    include: ["tests/unit/**/*.test.{ts,tsx,js,jsx}"],
+    include: ["src/tests/unit/**/*.test.{ts,tsx,js,jsx}"],
     pool: "forks",
-    setupFiles: ["tests/setup.ts"],
+    setupFiles: ["src/tests/setup.ts"],
     testTimeout: 30000,
   },
 });

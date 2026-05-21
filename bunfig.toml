@@ -1,0 +1,10 @@
+
+[run]
+# Automatically run the project with the --bun flag
+# This forces Bun's runtime for all scripts
+bun = false
+
+[test]
+# Configuration for the built-in test runner
+root = "./src/tests"
+coverage = true

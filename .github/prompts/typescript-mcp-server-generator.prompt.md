@@ -81,7 +81,7 @@ Create a complete Model Context Protocol (MCP) server in TypeScript with the fol
 
 ## Testing Guidance
 
-- Explain how to run the server (`npm start` or `npx tsx server.ts`)
+- Explain how to run the server (`npm start` or `bunx tsx server.ts`)
 - Provide MCP Inspector command: `npx @modelcontextprotocol/inspector`
 - For HTTP servers, include connection URL: `http://localhost:PORT/mcp`
 - Include example tool invocations

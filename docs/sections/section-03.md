@@ -7,7 +7,9 @@
 Type guard example:
 
 ```ts
-type HasValue = { value: string };
+interface HasValue {
+  value: string;
+}
 function hasValue(input: unknown): input is HasValue {
   return (
     typeof input === "object" &&

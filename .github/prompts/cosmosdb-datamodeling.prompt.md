@@ -859,13 +859,13 @@ Azure Cosmos DB doesn't enforce unique constraints beyond the id+partitionKey co
 ```javascript
 // Stored procedure for creating user with unique email
 function createUserWithUniqueEmail(userData) {
-  var context = getContext();
-  var container = context.getCollection();
+  const context = getContext();
+  const container = context.getCollection();
 
   // Check if email already exists
-  var query = `SELECT * FROM c WHERE c.email = "${userData.email}"`;
+  const query = `SELECT * FROM c WHERE c.email = "${userData.email}"`;
 
-  var isAccepted = container.queryDocuments(
+  const isAccepted = container.queryDocuments(
     container.getSelfLink(),
     query,
     function (err, documents) {
@@ -877,7 +877,7 @@ function createUserWithUniqueEmail(userData) {
       }
 
       // Email is unique, create the user
-      var isAccepted = container.createDocument(
+      const isAccepted = container.createDocument(
         container.getSelfLink(),
         userData,
         function (err, document) {

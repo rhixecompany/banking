@@ -1,0 +1,129 @@
+import "@testing-library/jest-dom";
+import { cleanup } from "@testing-library/react";
+import { config } from "dotenv";
+import { setupServer } from "msw/node";
+import { resolve } from "path";
+import { afterEach, vi } from "vitest";
+
+import { handlers } from "./mocks/handlers";
+
+// Start MSW server for unit tests to intercept network requests and provide deterministic responses
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {*}
+ */
+const server = setupServer(...handlers);
+
+beforeAll(() => server.listen({ onUnhandledRequest: "warn" }));
+afterAll(() => server.close());
+afterEach(() => server.resetHandlers());
+
+config({ path: resolve(process.cwd(), ".env.local") });
+
+afterEach(cleanup);
+
+// Debug env removed after diagnostics
+
+// Apply lightweight module mocks commonly used across unit tests. Tests
+// that need the real implementation can always explicitly unmock.
+vi.mock("@/components/ui/select", async () => {
+  // When running under Vitest, resolve the test-double module file that
+  // lives under tests/mocks/ui/select.tsx
+  const mod = await import("./mocks/ui/select");
+  return mod;
+});
+
+// Mock sonner globally for unit tests so modules that import it at module
+// initialization receive the mocked toast object (prevents race conditions
+// where a module imports sonner before a test-level mock is registered).
+vi.mock("sonner", () => ({
+  toast: { error: vi.fn(), success: vi.fn() },
+}));
+
+// Mock Chart/Doughnut used by TotalBalanceBox to avoid canvas/context issues in JSDOM/happy-dom
+vi.mock("@/components/doughnut-chart/doughnut-chart", async () => {
+  const React = await import("react");
+  const DoughnutChart = (props: any) => {
+    const accounts = props?.accounts ?? [];
+    return React.createElement(
+      "div",
+      { "data-testid": "mock-doughnut" },
+      accounts.map((a: any) =>
+        React.createElement(
+          "span",
+          { key: a.id },
+          a.name || a.officialName || "",
+        ),
+      ),
+    );
+  };
+  return {
+    default: DoughnutChart,
+    DoughnutChart,
+  };
+});
+
+// Mock ChartAreaInteractive globally to avoid Recharts requiring browser layout
+vi.mock(
+  "@/components/chart-area-interactive/chart-area-interactive",
+  async () => {
+    const React = await import("react");
+    return {
+      ChartAreaInteractive: (props: any) =>
+        React.createElement("div", { "data-testid": "mock-area" }, "Area"),
+    };
+  },
+);
+
+// Mock onboarding feed which uses next/router in the real app
+vi.mock(
+  "@/components/shadcn-studio/blocks/onboarding-feed-01/onboarding-feed-01",
+  async () => {
+    const React = await import("react");
+    return {
+      __esModule: true,
+      default: (props: any) =>
+        React.createElement(
+          "div",
+          { "data-testid": "mock-onboarding" },
+          "Onboarding",
+        ),
+    };
+  },
+);
+
+// Provide a lightweight mock for next/navigation used by many components.
+// Some tests mock this per-file; providing a global fallback prevents
+// brittle failures when a test forgets to mock the router.
+vi.mock("next/navigation", () => ({
+  usePathname: () => "/",
+  useRouter: () => ({
+    back: vi.fn(),
+    push: vi.fn(),
+    refresh: vi.fn(),
+    replace: vi.fn(),
+  }),
+  useSearchParams: () => new URLSearchParams(),
+}));
+
+// Mock auth helper globally to provide a deterministic authenticated
+// session for most unit tests. Tests that require an unauthenticated
+// session should explicitly override this mock using
+// `vi.mocked(auth).mockImplementationOnce(() => Promise.resolve(null))`
+// or call `vi.unmock('@/lib/auth')` and re-mock per-test.
+vi.mock("@/lib/auth", () => ({
+  auth: () =>
+    Promise.resolve({
+      expires: new Date(Date.now() + 1000 * 60 * 60).toISOString(),
+      user: {
+        email: "test@example.com",
+        id: "test-user",
+        isActive: true,
+        // App code expects these flags on the user object
+        isAdmin: false,
+        name: "Test User",
+      },
+    }),
+}));

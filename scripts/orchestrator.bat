@@ -6,7 +6,7 @@ set "SCRIPT_DIR=%~dp0"
 set "TS_PATH=%SCRIPT_DIR%orchestrator.ts"
 
 IF "%*"=="" (
-  npx tsx "%TS_PATH%"
+bunx tsx "%TS_PATH%"
   exit /b %ERRORLEVEL%
 )
 
@@ -16,7 +16,7 @@ if %ERRORLEVEL%==0 (
 )
 
 :noNode
-npx tsx "%TS_PATH%" %*
+bunx tsx "%TS_PATH%" %*
 exit /b %ERRORLEVEL%
 
 :haveNode

@@ -9,12 +9,12 @@ Write-Host "=== verify-agents: START $(Get-Date -Format o) ==="
 
 Write-Host "`n1) TypeScript type-check"
 Write-Host "----------------------------------------"
-npm run type-check
+bun run type-check
 Write-Host "-> type-check: OK"
 
 Write-Host "`n2) ESLint (strict)"
 Write-Host "----------------------------------------"
-npm run lint:strict
+bun run lint:strict
 Write-Host "-> lint:strict: OK"
 
 Write-Host "`n2.5) Scripts smoke dry-run"
@@ -28,7 +28,7 @@ $scripts = @(
 
 foreach ($s in $scripts) {
   Write-Host "-> dry-run: $s"
-  $res = & npx tsx $s --dry-run
+  $res = & bunx tsx $s --dry-run
   if ($LASTEXITCODE -ne 0) {
     Write-Error "✗ Script dry-run failed: $s"
     exit 1
@@ -40,14 +40,14 @@ Write-Host "-> scripts dry-run: OK"
 Write-Host "`n3) Unit tests (Vitest)"
 Write-Host "----------------------------------------"
 # Run full unit test suite once
-npm run test:browser -- --run
+bun run test:browser -- --run
 Write-Host "-> test:browser: OK"
 
 Write-Host "`n4) End-to-end tests (Playwright)"
 Write-Host "----------------------------------------"
 # Run full Playwright E2E suite (this repo's test:ui starts the dev server as needed)
 # Ensure DB and other preconditions are satisfied before running.
-npm run test:ui -- --run
+bun run test:ui -- --run
 Write-Host "-> test:ui: OK"
 
 Write-Host "`n=== verify-agents: SUCCESS $(Get-Date -Format o) ==="

@@ -1,29 +1,51 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env node
 import minimist from "minimist";
 
 import { logger } from "@/lib/logger";
 
 /**
- * Description placeholder
- * @author Adminbot
+ * Split comma-separated value into trimmed array
+ */
+function splitCsv(s: string): string[] {
+  return s
+    .split(",")
+    .map((x) => x.trim())
+    .filter(Boolean);
+}
+
+/**
+ * Parse CLI arguments with extended flags for scripts
  *
  * @export
  * @param {*} [argv=process.argv.slice(2)]
- * @returns {{ readonly dryRun: any; readonly apply: any; readonly verbose: any; readonly help: any; readonly args: any; }}
+ * @returns {CliOptions}
  */
 export function parseCli(argv = process.argv.slice(2)) {
   const args = minimist(argv, {
-    alias: { h: "help", v: "verbose" },
-    boolean: ["dry-run", "apply", "verbose", "help"],
+    alias: { h: "help", v: "verbose", f: "force" },
+    boolean: ["dry-run", "apply", "verbose", "help", "ci", "force", "pretty"],
+    string: ["only", "skip", "output", "env-file", "name", "report", "confirm"],
   });
   return {
     apply: Boolean(args.apply),
     args,
+    ci: Boolean(args.ci),
+    confirm: args.confirm as string | undefined,
     dryRun: Boolean(args["dry-run"]),
+    envFile: args["env-file"] as string | undefined,
+    force: Boolean(args.force),
     help: Boolean(args.help),
+    name: args.name as string | undefined,
+    only: args.only ? splitCsv(String(args.only)) : [],
+    output: args.output as string | undefined,
+    pretty: Boolean(args.pretty),
+    report: (args.report as "json" | "text" | undefined) ?? "text",
+    skip: args.skip ? splitCsv(String(args.skip)) : [],
     verbose: Boolean(args.verbose),
   } as const;
 }
+
+export type CliOptions = ReturnType<typeof parseCli>;
 
 /**
  * Description placeholder

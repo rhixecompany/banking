@@ -2,8 +2,9 @@
   "compilerOptions": {
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
+    "ignoreDeprecations": "6.0",
+    "baseUrl": ".",
     "esModuleInterop": true,
-    // Added from awesome-opencode
     "forceConsistentCasingInFileNames": true,
     "incremental": true,
     "isolatedModules": true,
@@ -13,11 +14,29 @@
     "moduleResolution": "bundler",
     "noEmit": true,
     "paths": {
-      "@/*": ["./*"],
-      "@/lib/*": ["./lib/*"]
+      "@/*": ["./src/*"],
+      "actions/*": ["./src/actions/*"],
+      "app-config": ["./app-config.ts"],
+      "app/*": ["./src/app/*"],
+      "components/*": ["./src/components/*"],
+      "constants/*": ["./src/constants/*"],
+      "dal/*": ["./src/dal/*"],
+      "database/*": ["./src/database/*"],
+      "hooks/*": ["./src/hooks/*"],
+      "lib/*": ["./src/lib/*"],
+      "scripts": ["./scripts"],
+      "scripts/*": ["./scripts/*"],
+      "scripts/mcp-runner-lib": ["./scripts/mcp-runner-lib.ts"],
+      "scripts/plan-ensure": ["./scripts/plan-ensure.ts"],
+      "scripts/report-parser": ["./scripts/report-parser.ts"],
+      "scripts/ts/docs/generate-markdown-catalog": [
+        "./scripts/ts/docs/generate-markdown-catalog.ts"
+      ],
+      "scripts/verify-rules": ["./scripts/verify-rules.ts"],
+      "stores/*": ["./src/stores/*"],
+      "tests/*": ["./tests/*"],
+      "types/*": ["./src/types/*"]
     },
-    "baseUrl": ".",
-    "ignoreDeprecations": "6.0",
     "plugins": [
       {
         "name": "next"
@@ -26,8 +45,9 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "ES2017",
+    "target": "es2024",
     "types": [
+      "bun",
       "node",
       "react",
       "react-dom",
@@ -40,12 +60,9 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "hooks/**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "eslint.config.mts",
-    "dal/health.d.ts",
-    "scripts/utils/ci-helpers/run-with-args.js",
     "**/*.d.ts"
   ]
 }
