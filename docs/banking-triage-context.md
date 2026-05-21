@@ -1,8 +1,6 @@
 # Banking - Triage Context
 
-**Date:** 2026-05-20
-**Priority:** HIGH
-**Status:** Triage complete - fixes applied and committed (`0917fc9f`)
+**Date:** 2026-05-20 **Priority:** HIGH **Status:** Triage complete - fixes applied and committed (`0917fc9f`)
 
 ---
 
@@ -15,7 +13,7 @@ Banking repo had a large batch of uncommitted changes from a prior session: the 
 ## Changes Applied (commit `0917fc9f`)
 
 | Action | Detail |
-|---|---|
+| --- | --- |
 | Deleted `bin/` (70+ files) | Cleanup/deploy/docker/server/utils scripts removed — no longer needed |
 | Untracked `.logs/subtask2.log` | Already covered by `.gitignore` `.logs/` rule; was tracked from before rule was added |
 | Fixed path refs in 3 docs | `agent/` → `agents/`, `command/` → `commands/` throughout doc files |
@@ -40,7 +38,7 @@ Banking repo had a large batch of uncommitted changes from a prior session: the 
 ## Outstanding Items
 
 | Item | Priority | Notes |
-|---|---|---|
+| --- | --- | --- |
 | Run `pnpm install && pnpm run build` | HIGH | Verify build passes after bin/ removal |
 | Check if any scripts referenced `bin/` | MEDIUM | May need package.json script updates |
 | Verify `.logs/` stays untracked | LOW | Git status should show clean after commit |

@@ -5,9 +5,11 @@ plan status: active
 ---
 
 ## Idea
+
 Enhance Playwright tests and configs for speed, logging, error handling, debugging, and coverage - ensure all browsers console errors are parsed, handled, and fixed
 
 ## Implementation
+
 - 1. Research current playwright config and test patterns
 - 2. Create console error handling fixture for all browsers
 - 3. Add session reuse via storageState for speed optimization
@@ -20,7 +22,9 @@ Enhance Playwright tests and configs for speed, logging, error handling, debuggi
 - 10. Verify all implementations work correctly
 
 ## Required Specs
+
 <!-- SPECS_START -->
+
 - playwright-speed-optimization
 - playwright-console-errors
 - playwright-debugging

@@ -9,10 +9,10 @@ This directory contains language-specific documentation standards and examples f
 
 ## Quick Reference
 
-| Language | Standard Tool | Documentation Format |
-|----------|---------------|---------------------|
-| TypeScript | JSDoc / TSDoc | `.ts`, `.tsx` files |
-| Python | Sphinx / Google Style | `.py` files |
+| Language   | Standard Tool         | Documentation Format |
+| ---------- | --------------------- | -------------------- |
+| TypeScript | JSDoc / TSDoc         | `.ts`, `.tsx` files  |
+| Python     | Sphinx / Google Style | `.py` files          |
 
 ## Guidelines
 

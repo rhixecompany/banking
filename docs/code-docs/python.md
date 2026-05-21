@@ -103,6 +103,7 @@ class DatabaseManager:
 ### Scripts
 
 Every Python script must include:
+
 - Module-level docstring describing purpose
 - Function docstrings with Args, Returns, Raises, Example
 - Type hints for all function parameters and return values

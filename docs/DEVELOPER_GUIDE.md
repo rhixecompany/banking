@@ -222,20 +222,24 @@ export async function createExample(input: unknown) {
 ### Common Issues
 
 **"Dependencies lock file not found"**
+
 ```bash
 bun install
 ```
 
 **"TypeScript errors"**
+
 ```bash
 bun run type-check
 ```
 
 **"Database connection failed"**
+
 - Verify `DATABASE_URL` in `.env.local`
 - Ensure PostgreSQL is running: `docker-compose ps`
 
 **"Plaid/Dwolla errors"**
+
 - Verify you're using Sandbox credentials
 - Check `.env` variable names match documentation
 

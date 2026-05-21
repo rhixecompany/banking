@@ -57,18 +57,22 @@ Thank you for considering contributing to the Banking application. This document
 
 ```markdown
 ## Description
+
 Brief explanation of what you changed
 
 ## Type of Change
+
 - [ ] Bug fix
 - [ ] New feature
 - [ ] Breaking change
 - [ ] Documentation update
 
 ## Testing
+
 How did you test the changes?
 
 ## Checklist
+
 - [ ] Code follows style guidelines
 - [ ] Tests pass locally
 - [ ] Documentation updated
@@ -78,12 +82,12 @@ How did you test the changes?
 
 ### Naming Conventions
 
-| Type | Convention | Example |
-| --- | --- | --- |
+| Type           | Convention      | Example          |
+| -------------- | --------------- | ---------------- |
 | Server Actions | `dot.camelCase` | `auth.signin.ts` |
-| Components | `PascalCase` | `BankInfo.tsx` |
-| Utils/Hooks | `camelCase` | `useAuth.ts` |
-| Database | `snake_case` | `user_profiles` |
+| Components     | `PascalCase`    | `BankInfo.tsx`   |
+| Utils/Hooks    | `camelCase`     | `useAuth.ts`     |
+| Database       | `snake_case`    | `user_profiles`  |
 
 ### Code Quality
 
@@ -135,6 +139,7 @@ type(scope): description
 ```
 
 Types:
+
 - `feat`: New feature
 - `fix`: Bug fix
 - `docs`: Documentation

@@ -342,7 +342,7 @@ bun run format && bun run type-check && bun run lint:strict && bun run verify:ru
 | `.opencode/commands/init-enhanced.md` | Agent initialization |
 | `scripts/mcp-runner.ts`               | MCP server handler   |
 | `.opencode/opencode.json`             | MCP server config    |
-| `.opencode/agents/*.md`                | Agent documentation  |
+| `.opencode/agents/*.md`               | Agent documentation  |
 | `components/layouts/`                 | Generic components   |
 
 ---

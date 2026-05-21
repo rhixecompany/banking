@@ -25,7 +25,9 @@ Use JSDoc for documenting functions, classes, and interfaces.
  * @example
  * const result = await createUser({ email: "user@example.com", name: "John" });
  */
-export async function createUser(input: CreateUserInput): Promise<Result<User>> {
+export async function createUser(
+  input: CreateUserInput
+): Promise<Result<User>> {
   // implementation
 }
 ```
@@ -56,6 +58,7 @@ export interface BankAccount {
 ### Server Actions
 
 Every server action must include:
+
 - Description of what the action does
 - Input parameters with types
 - Return type
@@ -68,7 +71,9 @@ Every server action must include:
  * @returns Transfer result with status or error message
  * @throws {ZodError} When input validation fails
  */
-export async function initiateTransfer(input: TransferInput): Promise<TransferResult>
+export async function initiateTransfer(
+  input: TransferInput
+): Promise<TransferResult>;
 ```
 
 ### DAL (Data Access Layer)
@@ -82,7 +87,9 @@ Document all database operations:
  * @returns User record or undefined if not found
  * @sql SELECT * FROM users WHERE email = $1
  */
-export async function getUserByEmail(email: string): Promise<User | undefined>
+export async function getUserByEmail(
+  email: string
+): Promise<User | undefined>;
 ```
 
 ### Components
@@ -98,7 +105,10 @@ Document React components:
  * @param {boolean} props.showBalance - Whether to display balance
  * @returns JSX element representing the bank card
  */
-export function BankCard({ account, showBalance = true }: BankCardProps)
+export function BankCard({
+  account,
+  showBalance = true
+}: BankCardProps);
 ```
 
 ### Types and Interfaces
@@ -151,7 +161,9 @@ export const CreateRecipientSchema = z.object({
  * @param operation - Async function to execute
  * @returns Result object with data or error
  */
-async function withErrorHandling<T>(operation: () => Promise<T>): Promise<Result<T>> {
+async function withErrorHandling<T>(
+  operation: () => Promise<T>
+): Promise<Result<T>> {
   try {
     const data = await operation();
     return { ok: true, data };

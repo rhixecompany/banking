@@ -64,6 +64,7 @@ Visit `http://localhost:3000` in your browser.
 ### 3. Viewing Balance
 
 Connected accounts display:
+
 - Current balance
 - Available balance
 - Account type (checking/savings)
@@ -80,6 +81,7 @@ Connected accounts display:
 ### 5. Managing Recipients
 
 Add recipients for quick transfers:
+
 - Name
 - Email or account number
 - Bank details (for ACH)
@@ -88,18 +90,19 @@ Add recipients for quick transfers:
 
 ### Environment Variables
 
-| Variable | Description | Required |
-| -------- | ----------- | -------- |
-| `DATABASE_URL` | PostgreSQL connection string | Yes |
-| `NEXTAUTH_SECRET` | Secret for session encryption | Yes |
-| `PLAID_CLIENT_ID` | Plaid API client ID | Yes |
-| `PLAID_SECRET` | Plaid API secret | Yes |
-| `DWOLLA_KEY` | Dwolla API key | Yes |
-| `DWOLLA_SECRET` | Dwolla API secret | Yes |
+| Variable          | Description                   | Required |
+| ----------------- | ----------------------------- | -------- |
+| `DATABASE_URL`    | PostgreSQL connection string  | Yes      |
+| `NEXTAUTH_SECRET` | Secret for session encryption | Yes      |
+| `PLAID_CLIENT_ID` | Plaid API client ID           | Yes      |
+| `PLAID_SECRET`    | Plaid API secret              | Yes      |
+| `DWOLLA_KEY`      | Dwolla API key                | Yes      |
+| `DWOLLA_SECRET`   | Dwolla API secret             | Yes      |
 
 ### Plaid Integration
 
 Plaid handles bank authentication. The app supports:
+
 - Checking accounts
 - Savings accounts
 - Multiple institutions
@@ -107,6 +110,7 @@ Plaid handles bank authentication. The app supports:
 ### Dwolla Integration
 
 Dwolla handles ACH transfers:
+
 - Standard ACH: 1-3 business days
 - Same-day ACH: Available in production
 
@@ -115,21 +119,25 @@ Dwolla handles ACH transfers:
 ### Bank Connection Issues
 
 **"Connection failed"**
+
 - Verify bank supports Plaid
 - Check Plaid credentials in `.env`
 - Try again or contact bank
 
 **"Institution not found"**
+
 - Bank may not be supported in Plaid Sandbox
 - Check supported institutions in Plaid dashboard
 
 ### Transfer Issues
 
 **"Transfer pending"**
+
 - ACH transfers take 1-3 business days
 - Check Dwolla dashboard for status
 
 **"Transfer failed"**
+
 - Insufficient funds
 - Invalid account details
 - Contact support for assistance
@@ -137,10 +145,12 @@ Dwolla handles ACH transfers:
 ### Account Issues
 
 **"Cannot create account"**
+
 - Email already in use
 - Password doesn't meet requirements (8+ chars)
 
 **"Cannot sign in"**
+
 - Verify credentials
 - Check email verification
 - Reset password if needed
@@ -175,17 +185,13 @@ Dwolla handles ACH transfers:
 
 ## Frequently Asked Questions
 
-**Is this a real bank?**
-No, this is a demo/development application. No real money is processed.
+**Is this a real bank?** No, this is a demo/development application. No real money is processed.
 
-**Is my data secure?**
-Security measures include encryption, secure sessions, and soft-delete.
+**Is my data secure?** Security measures include encryption, secure sessions, and soft-delete.
 
-**How do I delete my account?**
-Contact support or use account deletion in settings.
+**How do I delete my account?** Contact support or use account deletion in settings.
 
-**Can I use this in production?**
-This is a template. You'd need to add PCI compliance, SOC 2, etc.
+**Can I use this in production?** This is a template. You'd need to add PCI compliance, SOC 2, etc.
 
 ## Related Documentation
 
