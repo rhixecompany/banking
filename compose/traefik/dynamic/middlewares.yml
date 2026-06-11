@@ -1,0 +1,26 @@
+http:
+  middlewares:
+    rate-limit:
+      rateLimit:
+        average: 100
+        burst: 50
+        period: 1s
+    security-headers:
+      headers:
+        stsSeconds: 31536000
+        forceSTSHeader: true
+        frameDeny: true
+        contentTypeNosniff: true
+        browserXssFilter: true
+        referrerPolicy: "strict-origin-when-cross-origin"
+        customResponseHeaders:
+          X-Robots-Tag: "noindex, nofollow"
+    compress:
+      compress:
+        excludedContentTypes:
+          - text/event-stream
+    redirect-www:
+      redirectRegex:
+        regex: "^https?://www\\.(.*)"
+        replacement: "https://${1}"
+        permanent: true

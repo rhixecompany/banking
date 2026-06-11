@@ -1,0 +1,41 @@
+import { redirect } from "next/navigation";
+import React from "react";
+
+import { getCurrentUser } from "@/lib/session";
+
+import PageShell from "./PageShell";
+
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @typedef {Props}
+ */
+interface Props {
+  /**
+   * Description placeholder
+   * @author Adminbot
+   *
+   * @type {React.ReactNode}
+   */
+  children: React.ReactNode;
+}
+
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @export
+ * @async
+ * @param {Props} param0
+ * @param {React.ReactNode} param0.children
+ * @returns {unknown}
+ */
+export default async function AdminLayoutWrapper({ children }: Props) {
+  const user = await getCurrentUser();
+
+  if (!user) redirect("/sign-in");
+  if (!user.isAdmin) redirect("/dashboard");
+
+  return <PageShell>{children}</PageShell>;
+}

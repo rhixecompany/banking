@@ -1,0 +1,306 @@
+# Docker Compose for Banking App
+# Supports local development, production, and monitoring profiles
+#
+# Profiles:
+#   traefik   - adds Traefik reverse proxy (recommended for full-stack local)
+#   local     - optional local tweaks (kept for backward-compat)
+#   monitoring - Prometheus + Grafana + exporters (adds to default)
+#   init      - Run database migrations (one-time)
+#
+# Usage:
+#   docker compose --profile traefik up -d        # With Traefik (recommended)
+#   docker compose up -d                          # App + db + redis only
+#   docker compose --profile traefik --profile monitoring up -d # With monitoring
+#   docker compose --profile init up              # Run migrations
+#   docker compose --profile traefik --profile monitoring up -d # Full stack with monitoring
+
+services:
+  # ===========================================
+  # Traefik Reverse Proxy
+  # ===========================================
+  traefik:
+    image: traefik:v3.3
+    container_name: banking-traefik
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    env_file:
+      - .envs/local/.env.local
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./compose/traefik/traefik.yml:/etc/traefik/traefik.yml:ro
+      - ./compose/traefik/dynamic:/etc/traefik/dynamic:ro
+      - ./compose/traefik/certs:/certs:ro
+      - ./compose/traefik/auth:/auth:ro
+      - letsencrypt_data:/letsencrypt
+    environment:
+      - TZ=UTC
+    networks:
+      - traefik-public
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.rule=Host(`traefik.${DOMAIN}`)"
+      - "traefik.http.routers.dashboard.entrypoints=websecure"
+      - "traefik.http.routers.dashboard.tls=true"
+      - "traefik.http.routers.dashboard.service=api@internal"
+      - "traefik.http.routers.dashboard.middlewares=auth"
+      - "traefik.http.middlewares.auth.basicauth.usersfile=/auth/htpasswd"
+      - "traefik.docker.network=traefik-public"
+    # The official Traefik image is minimal and may not include wget/curl.
+    # Keep a lightweight check that doesn't depend on extra binaries.
+    healthcheck:
+      test: ["CMD", "traefik", "version"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    profiles:
+      - traefik
+      - monitoring
+
+  # ===========================================
+  # Banking Application
+  # ===========================================
+  app:
+    build:
+      context: .
+      dockerfile: compose/dev/node/Dockerfile
+      # Use the production build target for the app image so Next is built and run
+      # as a standalone production server instead of the development server.
+      target: production
+      args:
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
+        DATABASE_URL: ${DATABASE_URL:-}
+        ENCRYPTION_KEY: ${ENCRYPTION_KEY:-}
+        NEXTAUTH_SECRET: ${NEXTAUTH_SECRET:-}
+    container_name: banking-app
+    restart: unless-stopped
+    # Load environment from production env when present. Keep local optional file for dev overrides.
+    env_file:
+      - .envs/production/.env.production
+      - .envs/local/.env.local
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - traefik-public
+      - app-internal
+    ports:
+      - "3000:3000"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.banking.rule=Host(`${DOMAIN:-rhixecompany.online}`)"
+      - "traefik.http.routers.banking.entrypoints=web,websecure"
+      - "traefik.http.routers.banking.tls=true"
+      - "traefik.http.routers.banking.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.banking.middlewares=security-headers,compress,rate-limit"
+      - "traefik.http.services.banking.loadbalancer.server.port=3000"
+      - "traefik.http.services.banking.loadbalancer.healthcheck.path=/api/health"
+      - "traefik.http.services.banking.loadbalancer.healthcheck.interval=10s"
+      - "traefik.http.services.banking.loadbalancer.healthcheck.timeout=3s"
+      - "traefik.docker.network=traefik-public"
+    # Use curl for healthchecks in the production image (curl is installed there)
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    security_opt:
+      - no-new-privileges:true
+
+  # ===========================================
+  # PostgreSQL Database
+  # ===========================================
+  db:
+    image: postgres:17-alpine
+    container_name: banking-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-banking}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-internal
+    labels:
+      - "traefik.enable=false"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    security_opt:
+      - no-new-privileges:true
+
+  # ===========================================
+  # Redis Cache
+  # ===========================================
+  redis:
+    image: redis:7-alpine
+    container_name: banking-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-redis}
+    volumes:
+      - redis_data:/data
+    networks:
+      - app-internal
+    labels:
+      - "traefik.enable=false"
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    security_opt:
+      - no-new-privileges:true
+
+  # ===========================================
+  # Database Migration (run-once)
+  # ===========================================
+  init:
+    build:
+      context: .
+      dockerfile: compose/dev/node/Dockerfile
+      target: development
+      args:
+        - NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
+    container_name: banking-init
+    # Ensure migrations run with production environment when available
+    env_file:
+      - .envs/production/.env.production
+      - .envs/local/.env.local
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-}
+    depends_on:
+      db:
+        condition: service_healthy
+    command: sh -c "npm run db:push -- --force"
+    networks:
+      - app-internal
+    profiles:
+      - init
+    labels:
+      - "traefik.enable=false"
+    restart: "no"
+
+  # ===========================================
+  # Prometheus Metrics
+  # ===========================================
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: banking-prometheus
+    restart: unless-stopped
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--storage.tsdb.retention.time=15d"
+      - "--web.console.libraries=/etc/prometheus/console_libraries"
+      - "--web.console.templates=/etc/prometheus/consoles"
+      - "--web.enable-lifecycle"
+    volumes:
+      - ./compose/prod/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+      - ./compose/prod/prometheus/rules:/etc/prometheus/rules:ro
+    networks:
+      - app-internal
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.prometheus.rule=Host(`prometheus.${DOMAIN}`)"
+      - "traefik.http.routers.prometheus.entrypoints=web,websecure"
+      - "traefik.http.routers.prometheus.tls=true"
+      - "traefik.http.services.prometheus.loadbalancer.server.port=9090"
+      - "traefik.docker.network=app-internal"
+    profiles:
+      - monitoring
+
+  # ===========================================
+  # Grafana Dashboards
+  # ===========================================
+  grafana:
+    image: grafana/grafana:latest
+    container_name: banking-grafana
+    restart: unless-stopped
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-admin}
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_SERVER_ROOT_URL=https://grafana.${DOMAIN}
+      - GF_SERVER_SERVE_FROM_SUB_PATH=true
+      - GF_INSTALL_PLUGINS=grafana-piechart-panel
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./compose/prod/grafana/provisioning:/etc/grafana/provisioning:ro
+    networks:
+      - app-internal
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.grafana.rule=Host(`grafana.${DOMAIN}`)"
+      - "traefik.http.routers.grafana.entrypoints=web,websecure"
+      - "traefik.http.routers.grafana.tls=true"
+      - "traefik.http.services.grafana.loadbalancer.server.port=3000"
+      - "traefik.docker.network=app-internal"
+    depends_on:
+      - prometheus
+    profiles:
+      - monitoring
+
+  # ===========================================
+  # PostgreSQL Exporter for Prometheus
+  # ===========================================
+  postgres_exporter:
+    image: prometheus/postgres_exporter:v0.15.0
+    container_name: banking-postgres-exporter
+    restart: unless-stopped
+    environment:
+      DATA_SOURCE_NAME: postgresql://postgres:${POSTGRES_PASSWORD:-postgres}@db:5432/banking?sslmode=disable
+    networks:
+      - app-internal
+    profiles:
+      - monitoring
+
+  # ===========================================
+  # Redis Exporter for Prometheus
+  # ===========================================
+  redis_exporter:
+    image: oliver006/redis_exporter:v1.55.0
+    container_name: banking-redis-exporter
+    restart: unless-stopped
+    environment:
+      REDIS_ADDR: redis://redis:6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-redis}
+    networks:
+      - app-internal
+    profiles:
+      - monitoring
+
+# ===========================================
+# Networks
+# ===========================================
+networks:
+  traefik-public:
+    driver: bridge
+    name: traefik-public
+  app-internal:
+    driver: bridge
+    name: app-internal
+
+# ===========================================
+# Volumes
+# ===========================================
+volumes:
+  postgres_data:
+    name: banking-postgres_data
+  redis_data:
+    name: banking-redis_data
+  letsencrypt_data:
+    name: banking-letsencrypt_data
+  prometheus_data:
+    name: banking-prometheus_data
+  grafana_data:
+    name: banking-grafana_data

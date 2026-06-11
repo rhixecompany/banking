@@ -1,0 +1,62 @@
+import type { Config } from "drizzle-kit";
+
+import dotenv from "dotenv";
+import { defineConfig } from "drizzle-kit";
+import path from "path";
+
+dotenv.config({ path: path.resolve(__dirname, ".env.local") });
+
+// Avoid importing lib/env at module load time; read only the minimal
+// environment variables we need here so tools that load this config (like
+// drizzle-kit) won't fail when TypeScript modules aren't available at
+// runtime.
+/**
+ * Description placeholder
+ * @author Adminbot
+ *
+ * @type {{ NODE_ENV: any; VERBOSE_DRIZZLE: any; }}
+ */
+const env = {
+  NODE_ENV: process.env.NODE_ENV ?? undefined,
+  VERBOSE_DRIZZLE: process.env.VERBOSE_DRIZZLE ?? undefined,
+};
+
+// Resolve DB URL with fallbacks and helpful error message
+/**
+ * Description placeholder
+ *
+ * @returns {string}
+ */
+const resolveDatabaseUrl = (): string => {
+  // Prefer explicit environment variables set for tooling (DATABASE_URL/NEON_DATABASE_URL)
+  const envUrl = process.env.DATABASE_URL ?? process.env.NEON_DATABASE_URL;
+  if (envUrl) return envUrl;
+
+  throw new Error(
+    "DATABASE_URL or NEON_DATABASE_URL must be defined in .env.local",
+  );
+};
+
+// Drizzle config with connection pooling hints for production
+/**
+ *
+ * @type {Config}
+ */
+const cfg: Config = {
+  dbCredentials: {
+    // Optional: additional connection info supported by some drivers
+    pool: { max: 30, min: 3 }, // Drizzle will use underlying driver's pooling
+    url: resolveDatabaseUrl(),
+  },
+  dialect: "postgresql",
+  out: "database/drizzle",
+  schema: "src/database/schema.ts",
+  strict: true,
+  // Non-interactive: auto-confirm schema changes (use with caution in production)
+  // This fixes the "Interactive prompts require a TTY" error in CI/dev environments
+  tablesFilter: undefined,
+  // verbose migration output for CI and local runs
+  verbose: env.VERBOSE_DRIZZLE === "true" || env.NODE_ENV !== "production",
+} as Config;
+
+export default defineConfig(cfg);

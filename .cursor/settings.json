@@ -1,0 +1,49 @@
+{
+  "plugins": {
+    "context7-plugin": {
+      "enabled": true
+    },
+    "continual-learning": {
+      "enabled": true
+    },
+    "create-plugin": {
+      "enabled": true
+    },
+    "docs-canvas": {
+      "enabled": true
+    },
+    "exa": {
+      "enabled": true
+    },
+    "figma": {
+      "enabled": true
+    },
+    "neon-postgres": {
+      "enabled": true
+    },
+    "parallel": {
+      "enabled": true
+    },
+    "pr-review-canvas": {
+      "enabled": true
+    },
+    "redis-development": {
+      "enabled": true
+    },
+    "sentry": {
+      "enabled": true
+    },
+    "shadcn": {
+      "enabled": true
+    },
+    "stripe": {
+      "enabled": true
+    },
+    "superpowers": {
+      "enabled": true
+    },
+    "vercel": {
+      "enabled": true
+    }
+  }
+}

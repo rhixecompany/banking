@@ -1,0 +1,135 @@
+"use client";
+
+import { Trash2 } from "lucide-react";
+import { useTransition } from "react";
+import { toast } from "sonner";
+
+import type { WalletWithDetails } from "@/types/wallet";
+
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { formatAmount } from "@/lib/utils";
+
+/**
+ * Props for the WalletCard component.
+ * @interface WalletCardProps
+ */
+interface WalletCardProps {
+  /** Wallet data with balance and institution information */
+  wallet: WalletWithDetails;
+  /** Whether to show remove action button */
+  showActions?: boolean;
+  /** Server action to remove this wallet */
+  removeWallet: (input: unknown) => Promise<{ ok: boolean; error?: string }>;
+}
+
+/**
+ * WalletCard displays a single linked bank account with its balances.
+ * Shows institution name, account type, current balance, available balance,
+ * and optional remove action.
+ *
+ * @example
+ * ```tsx
+ * <WalletCard
+ *   wallet={walletData}
+ *   showActions={true}
+ *   removeWallet={removeWalletAction}
+ * />
+ * ```
+ *
+ * @param props - Component props
+ * @param props.wallet - Wallet data with balance information
+ * @param props.showActions - Whether to show remove button (default: true)
+ * @param props.removeWallet - Server action to remove wallet
+ * @returns Rendered wallet card component
+ */
+export function WalletCard({
+  removeWallet,
+  showActions,
+  wallet,
+}: WalletCardProps): JSX.Element {
+  const [isPending, startTransition] = useTransition();
+
+  function handleRemove(): void {
+    startTransition(async () => {
+      const result = await removeWallet({ walletId: wallet.id });
+      if (!result.ok) {
+        toast.error(result.error ?? "Failed to remove wallet.");
+      }
+    });
+  }
+
+  return (
+    <Card>
+      <CardHeader className="flex flex-row items-center justify-between pb-2">
+        <div>
+          <CardTitle className="text-xl">
+            {wallet.institutionName ?? "Unknown Institution"}
+          </CardTitle>
+          <CardDescription>
+            {wallet.accountType} - {wallet.accountSubtype}
+          </CardDescription>
+        </div>
+        <div className="flex items-center gap-4">
+          <div className="text-right">
+            <div className="text-sm text-muted-foreground">Balance</div>
+            <div className="text-2xl font-bold">
+              {formatAmount(wallet.balances[0]?.balances?.current ?? 0)}
+            </div>
+          </div>
+          {showActions !== false && (
+            <div>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="text-destructive hover:text-destructive"
+                disabled={isPending}
+                type="button"
+                aria-label={`Remove ${wallet.institutionName ?? "wallet"}`}
+                onClick={handleRemove}
+              >
+                <Trash2 className="size-5" />
+              </Button>
+            </div>
+          )}
+        </div>
+      </CardHeader>
+      <CardContent>
+        {wallet.balances.length > 0 && (
+          <div className="mb-6 grid gap-4 rounded-lg bg-muted p-4 sm:grid-cols-3">
+            <div>
+              <div className="text-sm text-muted-foreground">Available</div>
+              <div className="text-lg font-semibold">
+                {formatAmount(wallet.balances[0]?.balances?.available ?? 0)}
+              </div>
+            </div>
+            <div>
+              <div className="text-sm text-muted-foreground">Current</div>
+              <div className="text-lg font-semibold">
+                {formatAmount(wallet.balances[0]?.balances?.current ?? 0)}
+              </div>
+            </div>
+            <div>
+              <div className="text-sm text-muted-foreground">Limit</div>
+              <div className="text-lg font-semibold">
+                {wallet.balances[0]?.balances?.limit
+                  ? formatAmount(wallet.balances[0].balances.limit)
+                  : "N/A"}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* TransactionList is rendered by the parent; keep layout consistent. */}
+      </CardContent>
+    </Card>
+  );
+}
+
+export default WalletCard;

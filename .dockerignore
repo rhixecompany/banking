@@ -1,0 +1,58 @@
+# Dependencies
+node_modules
+npm-debug.log
+yarn.lock
+yarn-error.log
+pnpm-lock.yaml
+
+# Next.js / build outputs
+.next
+dist
+build
+out
+
+# Turbo / cache
+.turbo
+
+# Environment files (never include secrets in build)
+.env
+.env.*
+!.env.example
+!.env.production.example
+
+# Docker (compose files are mounted, not copied)
+# Keep compose files out of the build context unless intentionally included
+docker-compose*.yml
+
+# Testing artifacts
+coverage
+.nyc_output
+test-results
+test-ui-report.txt
+dev-report.txt
+
+# IDE / editor
+.vscode
+.idea
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Git
+.git
+.gitignore
+
+# CI/CD (not needed in container)
+.github
+.github/workflows
+vercel.json
+railway.json
+*.toml
+
+# Documentation (not needed in container)
+README.md
+LICENSE
+AGENTS.md
+docs

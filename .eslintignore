@@ -1,0 +1,23 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# build
+.next/
+out/
+build/
+dist/
+
+# coverage
+coverage/
+.nyc_output/
+
+# eslint cache
+.eslintcache
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo

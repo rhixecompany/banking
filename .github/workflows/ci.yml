@@ -1,0 +1,210 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+# Run jobs in parallel for faster execution
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: banking_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+      redis:
+        image: redis:7-alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      # Cache node_modules and Playwright browsers
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-ci-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-ci-
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile --legacy-peer-deps
+
+      # Run lint checks in parallel for faster feedback
+      - name: Format check
+        run: bun run format:check
+
+      - name: Type check
+        run: bun run type-check
+
+      - name: Lint (strict)
+        run: bun run lint:strict
+
+      - name: Rules verification
+        run: |
+          bun run verify:rules -- --output .opencode/reports/rules-report.json || true
+        continue-on-error: true
+
+      - name: Upload rules report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rules-report
+          path: .opencode/reports/rules-report.json
+          retention-days: 30
+
+      - name: Unit tests
+        run: bun run test:browser
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/banking_test
+          REDIS_URL: redis://localhost:6379
+          ENCRYPTION_KEY: "00000000000000000000000000000000000"
+          NEXTAUTH_SECRET: "00000000000000000000000000000000"
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v4
+        if: always()
+        with:
+          files: ./coverage/coverage-final.json
+          flags: unittests
+          name: codecov-umbrella
+
+  playwright:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: banking_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+      redis:
+        image: redis:7-alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-ci-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-ci-
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-playwright-
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile --legacy-peer-deps
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Build Next.js
+        run: bun run build
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/banking_test
+          REDIS_URL: redis://localhost:6379
+          ENCRYPTION_KEY: "00000000000000000000000000000000000"
+          NEXTAUTH_SECRET: "00000000000000000000000000000000"
+          NEXT_PUBLIC_SITE_URL: http://localhost:3000
+
+      - name: Run Playwright tests
+        run: bun run test:ui
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/banking_test
+          REDIS_URL: redis://localhost:6379
+          ENCRYPTION_KEY: "00000000000000000000000000000000000"
+          NEXTAUTH_SECRET: "00000000000000000000000000000000000"
+          NEXT_PUBLIC_SITE_URL: http://localhost:3000
+
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+
+  docker-build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Build Docker image (test only)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./compose/dev/node/Dockerfile
+          target: production
+          push: false
+          load: true
+          tags: banking:pr-${{ github.event.pull_request.number }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          build-args: |
+            BUILDKIT_INLINE_CACHE=1
+            NEXT_PUBLIC_SITE_URL=http://localhost:3000
+
+      - name: Get image size
+        run: |
+          SIZE=$(docker images banking:pr-${{ github.event.pull_request.number }} --format "{{.Size}}")
+          echo "Image size: $SIZE"
+          echo "IMAGE_SIZE=$SIZE" >> $GITHUB_ENV

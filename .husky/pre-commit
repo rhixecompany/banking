@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# .husky/pre-commit
+# Run staged lint-staged checks
+echo "Running Lint-staged checks..."
+bun run lint-staged
+#bun run format:check
+#bun run format:markdown:fix
+exit 0

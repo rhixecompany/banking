@@ -1,0 +1,148 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# ===========================================
+# Dependencies
+# ===========================================
+node_modules/
+.pnp
+.pnp.js
+
+# Bun lock file (optional - uncomment if using bun exclusively)
+# bun.lockb
+
+# ===========================================
+# Testing
+# ===========================================
+coverage/
+.nyc_output/
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
+
+# Vitest
+/vitest/
+coverage/
+
+# Jest
+/coverage/
+
+# ===========================================
+# Next.js
+# ===========================================
+.next/
+out/
+build/
+dist/
+
+# Next.js build artifacts
+.next/cache/
+.next/server/
+.next/static/
+.next/turbo/
+
+# ===========================================
+# Misc
+# ===========================================
+.DS_Store
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+
+# ===========================================
+# Debug logs
+# ===========================================
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+bun-debug.log*
+*.log
+logs/
+.logs/
+
+# ===========================================
+# Environment variables (NEVER commit secrets)
+# ===========================================
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.envs/
+!.env.example
+
+# Sentry
+.env.sentry-build-plugin
+
+# ===========================================
+# Build tools
+# ===========================================
+.turbo/
+.contentlayer/
+
+# TypeScript
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+
+# ===========================================
+# IDE
+# ===========================================
+.idea/
+.fleet/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.settings/
+
+# ===========================================
+# OS
+# ===========================================
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ===========================================
+# Git worktrees (local)
+# ===========================================
+.worktrees/
+
+# ===========================================
+# OpenCode (AI agent workspace)
+# ===========================================
+.opencode/reports/
+.opencode/debug/
+.opencode/mcp-servers/
+
+# ===========================================
+# Vercel
+# ===========================================
+.vercel
+
+# ===========================================
+# Database (local dev)
+# ===========================================
+*.db
+*.sqlite
+*.sqlite3
+/data/
+
+# ===========================================
+# Drizzle Studio
+# ===========================================
+.drizzle/
+
+# ===========================================
+# Temporary files
+# ===========================================
+tmp/
+temp/
+*.tmp
+*.temp
