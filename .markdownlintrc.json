@@ -6,12 +6,18 @@
       "siblings_only": true
     },
     "MD033": {
-      "allowed_elements": ["br", "details", "summary"]
+      "allowed_elements": [
+        "br",
+        "details",
+        "summary"
+      ]
     }
   },
   "fix": false,
   "gitignore": true,
-  "globs": ["**/*.md"],
+  "globs": [
+    "**/*.md"
+  ],
   "ignores": [
     "node_modules",
     ".next",

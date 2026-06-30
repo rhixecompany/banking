@@ -9,33 +9,75 @@
     "incremental": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "module": "esnext",
     "moduleResolution": "bundler",
     "noEmit": true,
     "paths": {
-      "@/*": ["./src/*"],
-      "actions/*": ["./src/actions/*"],
-      "app-config": ["./app-config.ts"],
-      "app/*": ["./src/app/*"],
-      "components/*": ["./src/components/*"],
-      "constants/*": ["./src/constants/*"],
-      "dal/*": ["./src/dal/*"],
-      "database/*": ["./src/database/*"],
-      "hooks/*": ["./src/hooks/*"],
-      "lib/*": ["./src/lib/*"],
-      "scripts": ["./scripts"],
-      "scripts/*": ["./scripts/*"],
-      "scripts/mcp-runner-lib": ["./scripts/mcp-runner-lib.ts"],
-      "scripts/plan-ensure": ["./scripts/plan-ensure.ts"],
-      "scripts/report-parser": ["./scripts/report-parser.ts"],
+      "@/*": [
+        "./src/*"
+      ],
+      "actions/*": [
+        "./src/actions/*"
+      ],
+      "app-config": [
+        "./app-config.ts"
+      ],
+      "app/*": [
+        "./src/app/*"
+      ],
+      "components/*": [
+        "./src/components/*"
+      ],
+      "constants/*": [
+        "./src/constants/*"
+      ],
+      "dal/*": [
+        "./src/dal/*"
+      ],
+      "database/*": [
+        "./src/database/*"
+      ],
+      "hooks/*": [
+        "./src/hooks/*"
+      ],
+      "lib/*": [
+        "./src/lib/*"
+      ],
+      "scripts": [
+        "./scripts"
+      ],
+      "scripts/*": [
+        "./scripts/*"
+      ],
+      "scripts/mcp-runner-lib": [
+        "./scripts/mcp-runner-lib.ts"
+      ],
+      "scripts/plan-ensure": [
+        "./scripts/plan-ensure.ts"
+      ],
+      "scripts/report-parser": [
+        "./scripts/report-parser.ts"
+      ],
       "scripts/ts/docs/generate-markdown-catalog": [
         "./scripts/ts/docs/generate-markdown-catalog.ts"
       ],
-      "scripts/verify-rules": ["./scripts/verify-rules.ts"],
-      "stores/*": ["./src/stores/*"],
-      "tests/*": ["./tests/*"],
-      "types/*": ["./src/types/*"]
+      "scripts/verify-rules": [
+        "./scripts/verify-rules.ts"
+      ],
+      "stores/*": [
+        "./src/stores/*"
+      ],
+      "tests/*": [
+        "./tests/*"
+      ],
+      "types/*": [
+        "./src/types/*"
+      ]
     },
     "plugins": [
       {
@@ -55,7 +97,9 @@
       "vitest/globals"
     ]
   },
-  "exclude": ["node_modules"],
+  "exclude": [
+    "node_modules"
+  ],
   "include": [
     "next-env.d.ts",
     "**/*.ts",

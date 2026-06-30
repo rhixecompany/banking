@@ -57,7 +57,9 @@
     }
   ],
   "installCommand": "npm install",
-  "regions": ["iad1"],
+  "regions": [
+    "iad1"
+  ],
   "rewrites": [
     {
       "source": "/(.*)",
