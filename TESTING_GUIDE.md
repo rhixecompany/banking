@@ -42,23 +42,27 @@ tests/
 ## What to Test
 
 ### DAL Methods
+
 - CRUD operations for each entity
 - Edge cases: not found, duplicate, null inputs
 - Relation eager loading
 
 ### Server Actions
+
 - Zod validation rejection cases
 - Successful operation paths
 - Error handling (database failures, network errors)
 - Authorization checks
 
 ### Components
+
 - Render with data
 - Render empty/loading states
 - Interactive elements (buttons, forms, modals)
 - Responsive layout
 
 ### E2E Flows
+
 - User registration and login
 - Bank account linking (Plaid sandbox)
 - ACH transfer (Dwolla sandbox)

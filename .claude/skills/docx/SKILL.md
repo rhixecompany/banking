@@ -745,13 +745,13 @@ After running `comment.py` (see Step 2), add markers to document.xml. For replie
 <Relationship Id="rId5" Type=".../image" Target="media/image1.png"/>
 ```
 
-3. Add content type to `[Content_Types].xml`:
+1. Add content type to `[Content_Types].xml`:
 
 ```xml
 <Default Extension="png" ContentType="image/png"/>
 ```
 
-4. Reference in document.xml:
+1. Reference in document.xml:
 
 ```xml
 <w:drawing>

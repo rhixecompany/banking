@@ -50,12 +50,12 @@ This document catalogs all E2E Playwright tests in the banking application. The 
 
 ### Medium
 
-3. **Soft Delete Tests Are Placeholders** - Don't actually test soft-delete behavior
-4. **Transfer Idempotency Tests Navigate Through Dashboard** - Extra overhead
+1. **Soft Delete Tests Are Placeholders** - Don't actually test soft-delete behavior
+2. **Transfer Idempotency Tests Navigate Through Dashboard** - Extra overhead
 
 ### Low
 
-5. **Inconsistent Timeout Values** - Varies from 10s to 30s across tests
+1. **Inconsistent Timeout Values** - Varies from 10s to 30s across tests
 
 ---
 

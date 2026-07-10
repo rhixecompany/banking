@@ -43,4 +43,3 @@ bun run test:e2e
 - Keep `updatedAt` in sync on every mutation.
 - Use `dot.camelCase` naming for actions and DAL files.
 - Prefer strict, typed query builders over raw SQL.
-

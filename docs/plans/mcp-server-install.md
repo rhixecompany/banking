@@ -40,7 +40,7 @@ Expected: Some packages already have `.bunx` shims (opencode, with-context-mcp, 
 git show HEAD~9:.opencode/opencode.json | jq '.mcp'
 ```
 
-MCP servers defined: | Server | Package | Type | |--------|---------|------| | `filesystem` | `@modelcontextprotocol/server-filesystem` | local | | `memory` | `@modelcontextprotocol/server-memory` | local | | `sequential-thinking` | `@modelcontextprotocol/server-sequential-thinking` | local | | `github-agentic-workflows` | `@modelcontextprotocol/server-github` | local | | `next-devtools` | `next-devtools-mcp` | local | | `playwright` | `@playwright/mcp` | local | | `with-context` | `with-context-mcp` | local | | `context7` | Remote (https://mcp.context7.com/mcp) | remote | | `exa` | Remote (https://mcp.exa.ai/mcp) | remote | | `gh_grep` | Remote (https://mcp.grep.app) | remote |
+MCP servers defined: | Server | Package | Type | |--------|---------|------| | `filesystem` | `@modelcontextprotocol/server-filesystem` | local | | `memory` | `@modelcontextprotocol/server-memory` | local | | `sequential-thinking` | `@modelcontextprotocol/server-sequential-thinking` | local | | `github-agentic-workflows` | `@modelcontextprotocol/server-github` | local | | `next-devtools` | `next-devtools-mcp` | local | | `playwright` | `@playwright/mcp` | local | | `with-context` | `with-context-mcp` | local | | `context7` | Remote (<https://mcp.context7.com/mcp>) | remote | | `exa` | Remote (<https://mcp.exa.ai/mcp>) | remote | | `gh_grep` | Remote (<https://mcp.grep.app>) | remote |
 
 ### Step 1.2: Audit Cache State
 
@@ -339,9 +339,9 @@ opencode --mcp-health 2>&1 || opencode mcp status 2>&1 || echo "Check via: openc
 | `next-devtools` | `next-devtools-mcp` | 0.3.10 | bunx | ✅ Ready |
 | `playwright` | `@playwright/mcp` | 0.0.75 | bunx | ✅ Ready |
 | `with-context` | `with-context-mcp` | 3.0.7 | bunx | ✅ Ready |
-| `context7` | Remote | — | https://mcp.context7.com/mcp | ✅ Available |
-| `exa` | Remote | — | https://mcp.exa.ai/mcp | ✅ Available |
-| `gh_grep` | Remote | — | https://mcp.grep.app | ✅ Available |
+| `context7` | Remote | — | <https://mcp.context7.com/mcp> | ✅ Available |
+| `exa` | Remote | — | <https://mcp.exa.ai/mcp> | ✅ Available |
+| `gh_grep` | Remote | — | <https://mcp.grep.app> | ✅ Available |
 
 ### Step 7.2: Cache Optimization Summary
 

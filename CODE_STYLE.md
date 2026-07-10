@@ -35,6 +35,7 @@
   ```
 
 - **Hooks**: camelCase with `use` prefix (or PascalCase for exported)
+
   ```typescript
   export function usePagination(props: UsePaginationProps) {}
   function useSidebar() {}
@@ -50,6 +51,7 @@
   ```
 
 - **Constants**: SCREAMING_SNAKE_CASE
+
   ```typescript
   const SIDEBAR_COOKIE_NAME = "sidebar_state";
   const MAX_TRANSFER_AMOUNT = 10000;
@@ -66,6 +68,7 @@
   ```
 
 - **Zod Schemas**: PascalCase with `Schema` suffix
+
   ```typescript
   const SignInSchema = z.object({ ... });
   const TransferSchema = z.object({ ... });
@@ -74,6 +77,7 @@
 ### Classes
 
 - **Classes**: PascalCase
+
   ```typescript
   export class UserDal {}
   export class WalletDal {}

@@ -15,7 +15,7 @@ Complete codebase overhaul with demo integration, consolidation, and script enha
 - Consolidate and enhance all tests in ./src/tests
 - Process route layouts sequentially: (auth) → (admin) → (root) → page.tsx, locate all custom components/dal/actions/tests/stores
 - Modify all components/dal/actions/tests/stores to be fully functional, create reusable generic components in ./src/components/layouts, validate with DRY practices, update test-context.md, harden vitest and Playwright specs
-- Update all custom typescript scripts in ./scripts/** and ./bin/** with ts-morph AST-safe transformations, dry-run functionality, consolidate to TypeScript, delete dead code
+- Update all custom typescript scripts in ./scripts/**and ./bin/** with ts-morph AST-safe transformations, dry-run functionality, consolidate to TypeScript, delete dead code
 - Modify bun run format to use bash scripts with echo feedback, fallback to powershell/bat, update all validation scripts (lint/type-check/test/format/build)
 
 ## Required Specs

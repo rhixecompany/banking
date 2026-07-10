@@ -1,9 +1,11 @@
 # Technology Stack — Banking
 
 ## Overview
+
 Next.js 16 fintech banking application with PostgreSQL, Drizzle ORM, and Plaid/Dwolla integrations.
 
 ## Frontend
+
 | Technology | Version | Purpose |
 |------------|---------|---------|
 | Next.js | 16.2.4 | React framework with App Router |
@@ -20,6 +22,7 @@ Next.js 16 fintech banking application with PostgreSQL, Drizzle ORM, and Plaid/D
 | Framer Motion | — | Animations (via sonner/vaul deps) |
 
 ## Backend
+
 | Technology | Version | Purpose |
 |------------|---------|---------|
 | Next.js API Routes | 16.2.4 | API endpoints |
@@ -29,6 +32,7 @@ Next.js 16 fintech banking application with PostgreSQL, Drizzle ORM, and Plaid/D
 | Upstash Redis | 1.37.0 | Rate limiting / caching |
 
 ## Integrations
+
 | Integration | Package | Purpose |
 |-------------|---------|---------|
 | Plaid | 42.2.0 | Bank account linking |
@@ -37,6 +41,7 @@ Next.js 16 fintech banking application with PostgreSQL, Drizzle ORM, and Plaid/D
 | Upstash Ratelimit | 2.0.8 | Rate limiting |
 
 ## Dev & Quality
+
 | Tool | Version | Purpose |
 |------|---------|---------|
 | Bun | 1.3.14 | Package manager / runtime |

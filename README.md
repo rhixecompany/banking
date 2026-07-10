@@ -136,6 +136,7 @@ bun run test             # Vitest + Playwright
 ## Environment Variables
 
 Key variables required:
+
 - `DATABASE_URL` — PostgreSQL connection string
 - `NEXTAUTH_SECRET` / `NEXTAUTH_URL` — Auth configuration
 - `PLAID_CLIENT_ID` / `PLAID_SECRET` — Plaid API credentials

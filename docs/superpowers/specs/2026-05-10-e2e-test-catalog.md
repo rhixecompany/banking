@@ -269,19 +269,19 @@ This document catalogs all E2E Playwright tests in the banking application. The 
 
 ### Medium Issues
 
-3. **Soft Delete Tests Are Placeholders**
+1. **Soft Delete Tests Are Placeholders**
    - **Location:** `soft-delete.spec.ts`
    - **Impact:** Tests use catch-all patterns, don't actually test soft-delete
    - **Solution:** Rewrite to properly test soft-delete behavior
 
-4. **Transfer Idempotency Tests Navigate Through Dashboard**
+2. **Transfer Idempotency Tests Navigate Through Dashboard**
    - **Location:** `transfer-idempotency.spec.ts`
    - **Impact:** Extra navigation adds time
    - **Solution:** Use page object models directly
 
 ### Low Issues
 
-5. **Inconsistent Timeout Values**
+1. **Inconsistent Timeout Values**
    - **Location:** Various test files
    - **Impact:** Some tests use 10s, others use 15s, 20s, 30s
    - **Solution:** Standardize to 30s for authenticated tests

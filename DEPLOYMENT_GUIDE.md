@@ -13,6 +13,7 @@ vercel --prod
 ```
 
 Environment variables must be configured in Vercel Dashboard:
+
 - `DATABASE_URL`, `NEXTAUTH_SECRET`, `NEXTAUTH_URL`
 - `PLAID_CLIENT_ID`, `PLAID_SECRET`, `PLAID_ENV`
 - `DWOLLA_KEY`, `DWOLLA_SECRET`, `DWOLLA_ENV`

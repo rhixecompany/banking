@@ -22,6 +22,7 @@
 | folder-structure.md | projects/Banking/ | ✅ Valid |
 
 ## Summary
+
 - Total internal references: 9
 - Valid: 9
 - Broken: 0

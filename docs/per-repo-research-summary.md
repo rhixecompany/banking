@@ -1,5 +1,5 @@
-- .gitignore: # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+- .gitignore: # See <https://help.github.com/articles/ignoring-files/> for more about ignoring files.
 - .dockerignore: # Dependencies
-- .prettierignore: # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+- .prettierignore: # See <https://help.github.com/articles/ignoring-files/> for more about ignoring files.
 - .eslintignore: # dependencies
 - .npmignore: not present

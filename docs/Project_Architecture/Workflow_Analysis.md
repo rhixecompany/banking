@@ -20,11 +20,13 @@ Full-stack fintech banking platform with secure transaction flows, Plaid integra
 **Description:** User connects their external bank account using Plaid Link, enabling balance tracking and fund transfers.
 
 **Entry Points:**
+
 - **UI:** Sign-up / My Wallets page
 - **API:** `src/lib/plaid.ts` — Plaid client interactions
 - **Webhook:** Plaid webhook events
 
 **Steps:**
+
 1. User clicks "Link Bank Account" on frontend
 2. Frontend calls Plaid Link token endpoint (`/api/plaid/link-token`)
 3. Backend generates a Plaid Link token using Plaid SDK
@@ -39,6 +41,7 @@ Full-stack fintech banking platform with secure transaction flows, Plaid integra
 12. Frontend displays linked accounts, balances, and transactions
 
 **Sequence Diagram:**
+
 ```
 User/Client              Next.js App               Plaid API               Database (Drizzle)
     |                        |                        |                        |
@@ -70,12 +73,14 @@ User/Client              Next.js App               Plaid API               Datab
 ```
 
 **Error Handling:**
+
 - Plaid Link failure → display error message, allow retry
 - Token exchange failure → log error, return 500, no data stored
 - Webhook signature verification → validate Plaid webhook signature
 - Rate limiting → Redis-based rate limiting (via `src/lib/validations/`)
 
 **Test Patterns:**
+
 - `src/tests/unit/dwolla.dal.test.ts` — Dwolla DAL unit tests
 - E2E page objects: `sign-up.page.ts`, `my-wallets.page.ts`, `payment-transfer.page.ts`
 - MSW mock server for API route testing
@@ -87,11 +92,13 @@ User/Client              Next.js App               Plaid API               Datab
 **Description:** User initiates a fund transfer between their linked accounts or to another user via Dwolla ACH.
 
 **Entry Points:**
+
 - **UI:** Payment Transfer page
 - **API:** `src/lib/dwolla.ts` — Dwolla client
 - **Validation:** `src/lib/validations/transfer.ts` — transfer validation schemas
 
 **Steps:**
+
 1. User fills transfer form (amount, source account, destination)
 2. Frontend validates input via Zod schemas
 3. Frontend submits transfer to `/api/transfers`
@@ -104,12 +111,14 @@ User/Client              Next.js App               Plaid API               Datab
 10. Frontend receives confirmation and displays updated balance
 
 **Error Handling:**
+
 - Insufficient balance → validation error, no Dwolla call made
 - Dwolla API failure → log error, return failure to user, retry logic
 - Webhook timeout → fallback polling of Dwolla transfer status
 - Validation via `src/lib/validations/transfer.ts`
 
 **Test Patterns:**
+
 - Unit tests: `dwolla.dal.test.ts`
 - E2E: `payment-transfer.page.ts`
 - Mock Dwolla responses via MSW

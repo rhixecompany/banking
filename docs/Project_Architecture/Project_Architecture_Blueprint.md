@@ -61,18 +61,21 @@ Banking/
 ## Architectural Patterns
 
 ### App Router Pattern
+
 - Server Components by default for performance
 - Client Components where interactivity required
 - Route handlers for API endpoints
 - Server Actions for mutations
 
 ### Database Access Layer
+
 - Drizzle ORM for type-safe SQL
 - Schema defined in `src/db/schema.ts`
 - Migrations via `drizzle-kit`
 - Drizzle Studio for DB management
 
 ### Financial Integration
+
 - Plaid sandbox for development (token exchange, transaction sync)
 - Dwolla for ACH transfers and user funding
 - Webhooks for Plaid/Dwolla event handling

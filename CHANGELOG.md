@@ -3,6 +3,7 @@
 ## [0.1.0] — 2026-05-27
 
 ### Added
+
 - Next.js 16 App Router setup with TypeScript strict mode
 - PostgreSQL database with Drizzle ORM integration
 - User authentication via NextAuth v4 (Credentials flow)
@@ -30,9 +31,11 @@
 - Automated contributors management
 
 ### Changed
+
 - Initial release
 
 ### Security
+
 - bcrypt password hashing
 - Encrypted Plaid access token storage
 - Rate limiting on auth endpoints

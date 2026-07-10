@@ -22,12 +22,14 @@ bun run dev
 1. **Create a feature branch** from `main`
 2. **Make changes** following project conventions
 3. **Run validation**:
+
    ```bash
    bun run type-check
    bun run lint:strict
    bun run build
    bun run test
    ```
+
 4. **Write tests** for new functionality
 5. **Update documentation** for user-facing changes
 6. **Open a PR** with a clear description
