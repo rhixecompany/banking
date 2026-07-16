@@ -7,6 +7,7 @@ import fs from "fs";
 import path from "path";
 
 import { logger } from "@/lib/logger";
+
 import { ensureApplyOrDryRun, parseCli } from "../utils/cli";
 
 type Categories = Record<string, string[]>;

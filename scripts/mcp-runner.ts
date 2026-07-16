@@ -29,8 +29,8 @@ import {
 interface AuditArtifact {
   /** Command outputs captured during discovery */
   commands: {
-    dockerPs: string | null;
-    gateway: string | null;
+    dockerPs: null | string;
+    gateway: null | string;
   };
   /** File operations performed */
   files: {

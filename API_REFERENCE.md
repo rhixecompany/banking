@@ -115,7 +115,7 @@ All server actions live in `src/actions/` and follow a consistent pattern:
 Data Access Layer methods in `src/dal/`:
 
 | Method | Purpose | Returns |
-|--------|---------|---------|
+| -------- | --------- | --------- |
 | `userDal.findByEmail(email)` | Find user by email | `UserType \| null` |
 | `userDal.findById(id)` | Find user by ID | `UserType \| null` |
 | `bankDal.findByUserId(id)` | Get user's banks | `BankType[]` |

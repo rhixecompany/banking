@@ -7,6 +7,7 @@ import fs from "fs/promises";
 import { globbySync } from "globby";
 
 import { logger } from "@/lib/logger";
+
 import { ensureApplyOrDryRun, parseCli } from "./cli";
 
 async function main() {

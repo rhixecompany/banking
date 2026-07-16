@@ -1,4 +1,5 @@
 import "dotenv/config";
+
 import { db } from "./src/database/db";
 import { users } from "./src/database/schema";
 

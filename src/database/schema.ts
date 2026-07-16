@@ -846,6 +846,11 @@ export const audit_logs = pgTable(
   "audit_logs",
   {
     /**
+     * The action or event type (e.g., "USER_LOGIN", "TRANSFER_INITIATED", "WALLET_LINKED").
+     * @type {string}
+     */
+    action: varchar("action", { length: 100 }).notNull(),
+    /**
      * ISO 8601 timestamp when this audit entry was created.
      * @type {Date}
      */
@@ -869,25 +874,20 @@ export const audit_logs = pgTable(
      */
     ipAddress: varchar("ip_address", { length: 45 }),
     /**
-     * The action or event type (e.g., "USER_LOGIN", "TRANSFER_INITIATED", "WALLET_LINKED").
-     * @type {string}
-     */
-    action: varchar("action", { length: 100 }).notNull(),
-    /**
      * Additional metadata as JSON (e.g., { "amount": "100.00", "currency": "USD" }).
      * @type {string | null}
      */
     metadata: text("metadata"),
     /**
-     * The resource type that was affected (e.g., "user", "wallet", "transaction").
-     * @type {string | null}
-     */
-    resourceType: varchar("resource_type", { length: 50 }),
-    /**
      * The ID of the resource that was affected.
      * @type {string | null}
      */
     resourceId: varchar("resource_id", { length: 255 }),
+    /**
+     * The resource type that was affected (e.g., "user", "wallet", "transaction").
+     * @type {string | null}
+     */
+    resourceType: varchar("resource_type", { length: 50 }),
     /**
      * Result of the action ("success", "failure", "pending").
      * @type {string}

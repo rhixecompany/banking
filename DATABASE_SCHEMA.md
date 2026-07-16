@@ -11,7 +11,7 @@ Banking uses **PostgreSQL** with **Drizzle ORM** for type-safe database operatio
 Core user account data with soft-delete support.
 
 | Column | Type | Constraints | Description |
-|--------|------|-------------|-------------|
+| -------- | ------ | ------------- | ------------- |
 | `id` | `serial` | `PRIMARY KEY` | Unique identifier |
 | `email` | `varchar(255)` | `UNIQUE NOT NULL` | User email address |
 | `name` | `varchar(255)` | `NOT NULL` | Full name |
@@ -25,7 +25,7 @@ Core user account data with soft-delete support.
 Extended user information.
 
 | Column | Type | Constraints | Description |
-|--------|------|-------------|-------------|
+| -------- | ------ | ------------- | ------------- |
 | `id` | `serial` | `PRIMARY KEY` | Unique identifier |
 | `user_id` | `integer` | `FK → users.id` | Reference to user |
 | `address` | `text` | `NULLABLE` | User address |
@@ -39,7 +39,7 @@ Extended user information.
 Linked bank accounts via Plaid.
 
 | Column | Type | Constraints | Description |
-|--------|------|-------------|-------------|
+| -------- | ------ | ------------- | ------------- |
 | `id` | `serial` | `PRIMARY KEY` | Unique identifier |
 | `user_id` | `integer` | `FK → users.id` | Owner |
 | `plaid_access_token` | `text` | `NOT NULL` | Encrypted Plaid token |
@@ -55,7 +55,7 @@ Linked bank accounts via Plaid.
 All financial transactions.
 
 | Column | Type | Constraints | Description |
-|--------|------|-------------|-------------|
+| -------- | ------ | ------------- | ------------- |
 | `id` | `serial` | `PRIMARY KEY` | Unique identifier |
 | `user_id` | `integer` | `FK → users.id` | Sender |
 | `recipient_id` | `integer` | `FK → recipients.id` | Recipient |
@@ -74,7 +74,7 @@ All financial transactions.
 Saved transfer recipients.
 
 | Column | Type | Constraints | Description |
-|--------|------|-------------|-------------|
+| -------- | ------ | ------------- | ------------- |
 | `id` | `serial` | `PRIMARY KEY` | Unique identifier |
 | `user_id` | `integer` | `FK → users.id` | Owner |
 | `name` | `varchar(255)` | `NOT NULL` | Recipient name |
@@ -97,7 +97,7 @@ banks 1──* transactions
 ## Indexes
 
 | Table | Index | Column(s) | Purpose |
-|-------|-------|-----------|---------|
+| ------- | ------- | ----------- | --------- |
 | `users` | `idx_users_email` | `email` | Fast login lookup |
 | `users` | `idx_users_deleted_at` | `deleted_at` | Soft-delete filtering |
 | `transactions` | `idx_transactions_user` | `user_id` | User transaction queries |

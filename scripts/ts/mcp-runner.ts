@@ -13,8 +13,8 @@ import { fileURLToPath } from "url";
 
 /** Inline logger — avoids the @/lib/logger app alias outside the Next.js tree */
 const logger = {
-  info: (...args: unknown[]) => console.log(...args),
   error: (...args: unknown[]) => console.error(...args),
+  info: (...args: unknown[]) => console.log(...args),
 };
 
 interface PagesMap {

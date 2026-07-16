@@ -103,7 +103,7 @@ This runs: type-check → lint → build → test.
 ## Troubleshooting
 
 | Problem | Solution |
-|---------|----------|
+| --------- | ---------- |
 | `bun install` fails | Ensure Bun ≥ 1.3.14: `bun upgrade` |
 | Database connection failed | Verify PostgreSQL running & `DATABASE_URL` correct |
 | `bun run db:push` fails | Check DB permissions, run `createdb banking` |

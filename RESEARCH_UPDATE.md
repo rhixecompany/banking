@@ -3,7 +3,7 @@
 ## Similar Open-Source Projects
 
 | Project | URL | Stack |
-|---------|-----|-------|
+| --------- | ----- | ------- |
 | **lasindu2001/next-banking-app** | <https://github.com/lasindu2001/next-banking-app> | Next.js, Tailwind, shadcn, Appwrite, Plaid, Dwolla, Sentry |
 | **Hayden-git/Banking_App** | <https://github.com/Hayden-git/Banking_App> | Next.js, Plaid, Dwolla |
 | **Gourab1312/Vault** | <https://github.com/Gourab1312/Vault> | Next.js 14, TypeScript, TailwindCSS, Plaid, Dwolla, Sentry |

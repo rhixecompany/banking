@@ -42,9 +42,9 @@ const env = await client.beta.environments.create({
 
 | Operation | Method | Path | Notes |
 | --- | --- | --- | --- |
-| Create | `POST` | `/v1/environments` |  |
+| Create | `POST` | `/v1/environments` | |
 | List | `GET` | `/v1/environments` | Paginated (`limit`, `after_id`, `before_id`) |
-| Get | `GET` | `/v1/environments/{id}` |  |
+| Get | `GET` | `/v1/environments/{id}` | |
 | Update | `POST` | `/v1/environments/{id}` | Changes apply only to **new** containers; existing sessions keep their original config |
 | Delete | `DELETE` | `/v1/environments/{id}` | Returns 204. |
 | Archive | `POST` | `/v1/environments/{id}/archive` | Makes it **read-only**; existing sessions continue, new sessions cannot reference it. No unarchive — terminal state. |

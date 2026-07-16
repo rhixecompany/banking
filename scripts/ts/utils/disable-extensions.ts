@@ -7,6 +7,7 @@ import fs from "fs/promises";
 import path from "path";
 
 import { logger } from "@/lib/logger";
+
 import { ensureApplyOrDryRun, parseCli } from "./cli";
 
 const DISABLED_EXTENSIONS = [

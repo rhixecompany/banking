@@ -7,7 +7,7 @@ Next.js 16 fintech banking application with PostgreSQL, Drizzle ORM, and Plaid/D
 ## Frontend
 
 | Technology | Version | Purpose |
-|------------|---------|---------|
+| ------------ | --------- | --------- |
 | Next.js | 16.2.4 | React framework with App Router |
 | React | 19.2.5 | UI library |
 | TypeScript | 6.0.3 | Type safety |
@@ -24,7 +24,7 @@ Next.js 16 fintech banking application with PostgreSQL, Drizzle ORM, and Plaid/D
 ## Backend
 
 | Technology | Version | Purpose |
-|------------|---------|---------|
+| ------------ | --------- | --------- |
 | Next.js API Routes | 16.2.4 | API endpoints |
 | Drizzle ORM | 0.45.2 | Database ORM |
 | PostgreSQL | — | Database (via pg, postgres) |
@@ -34,7 +34,7 @@ Next.js 16 fintech banking application with PostgreSQL, Drizzle ORM, and Plaid/D
 ## Integrations
 
 | Integration | Package | Purpose |
-|-------------|---------|---------|
+| ------------- | --------- | --------- |
 | Plaid | 42.2.0 | Bank account linking |
 | Dwolla | dwolla-v2 3.4.0 | ACH transfers |
 | Resend | — | Email (via nodemailer) |
@@ -43,7 +43,7 @@ Next.js 16 fintech banking application with PostgreSQL, Drizzle ORM, and Plaid/D
 ## Dev & Quality
 
 | Tool | Version | Purpose |
-|------|---------|---------|
+| ------ | --------- | --------- |
 | Bun | 1.3.14 | Package manager / runtime |
 | ESLint | 10.3.0 | Linting |
 | Prettier | 3.8.3 | Code formatting |

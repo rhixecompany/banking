@@ -52,16 +52,16 @@ test.describe("Mock Token Testing", () => {
   test("should recognize valid mock token prefixes", async () => {
     // Test that mock token prefix detection works
     const mockTokenFormats = [
-      { token: "seed-token", isMock: true },
-      { token: "mock-token", isMock: true },
-      { token: "mock_token", isMock: true },
-      { token: "SEED-token", isMock: true },
-      { token: "MOCK-token", isMock: true },
-      { token: "pk_live_123", isMock: false },
-      { token: "sk_test_456", isMock: false },
+      { isMock: true, token: "seed-token" },
+      { isMock: true, token: "mock-token" },
+      { isMock: true, token: "mock_token" },
+      { isMock: true, token: "SEED-token" },
+      { isMock: true, token: "MOCK-token" },
+      { isMock: false, token: "pk_live_123" },
+      { isMock: false, token: "sk_test_456" },
     ];
 
-    for (const { token, isMock } of mockTokenFormats) {
+    for (const { isMock, token } of mockTokenFormats) {
       const hasMockPrefix =
         token.toLowerCase().startsWith("seed-") ||
         token.toLowerCase().startsWith("mock-") ||
@@ -80,7 +80,7 @@ test.describe("Mock Token Testing", () => {
 
     // Verify the mock returns the custom token
     const receivedToken = await page.evaluate(() => {
-      return new Promise<string | null>((resolve) => {
+      return new Promise<null | string>((resolve) => {
         try {
           (window as any).Plaid.create({
             onSuccess: (token: string) => {

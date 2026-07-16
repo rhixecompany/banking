@@ -27,7 +27,7 @@ bun run test          # All tests pass
 ### Naming Conventions
 
 | Type | Convention | Example |
-|------|-----------|---------|
+| ------ | ----------- | --------- |
 | Server Actions | `dot.camelCase` | `auth.signin.ts` |
 | Components | `PascalCase` | `BankInfo.tsx` |
 | Utils/Hooks | `camelCase` | `formUrlQuery.ts` |
@@ -114,7 +114,7 @@ git push -u origin feature/your-feature
 ## Scripts
 
 | Script | Purpose |
-|--------|---------|
+| -------- | --------- |
 | `bun run generate:component` | Scaffold a new component |
 | `bun run generate:action` | Scaffold a new server action |
 | `bun run generate:dal` | Scaffold a new DAL class |
@@ -135,7 +135,7 @@ All checks **MUST** pass before merging:
 ## Environment Files
 
 | File | Purpose |
-|------|---------|
+| ------ | --------- |
 | `.env.local` | Local development secrets |
 | `.env.local.example` | Template with placeholder values |
 | `.env.test` | Test environment variables |

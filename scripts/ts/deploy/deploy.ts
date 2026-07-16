@@ -7,6 +7,7 @@ import fs from "fs";
 import path from "path";
 
 import { logger } from "@/lib/logger";
+
 import { run } from "../utils/spawn-safe";
 
 const SCRIPT_DIR = path.dirname(new URL(import.meta.url).pathname);

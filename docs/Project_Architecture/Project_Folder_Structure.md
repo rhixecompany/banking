@@ -172,7 +172,7 @@ Banking/
 ## Naming Conventions
 
 | Convention | Pattern | Examples |
-|---|---|---|
+| --- | --- | --- |
 | **React components** | kebab-case | `auth-form/`, `doughnut-chart/`, `animated-counter/` |
 | **Route groups** | `(group-name)` | `(auth)`, `(root)`, `(admin)` |
 | **Config files** | dotted-prefix | `.env.example`, `.lintstagedrc.ts` |
@@ -198,7 +198,7 @@ Banking/
 ## Project Type Indicators
 
 | Indicator | Value |
-|---|---|
+| --- | --- |
 | Has `next.config.ts` | ✅ Next.js |
 | App Router `src/app/` | ✅ Next.js App Router |
 | Has `playwright.config.ts` | ✅ Playwright E2E tests |

@@ -3,7 +3,7 @@
 ## Test Framework
 
 | Layer | Tool | Scope |
-|-------|------|-------|
+| ------- | ------ | ------- |
 | Unit Tests | Vitest | DAL, utilities, validation |
 | Component Tests | Vitest + Testing Library | React components |
 | E2E Tests | Playwright | User flows, auth, banking operations |

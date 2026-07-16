@@ -578,8 +578,8 @@ client.messages.create(...)  # no sampling params
 | `max` | Intelligence-demanding tasks worth testing at the ceiling | Can deliver gains in some use cases but may show diminishing returns from increased token usage; can be prone to overthinking |
 | `xhigh` | **Most coding and agentic use cases** | The best setting for these; used as the default in Claude Code |
 | `high` | Intelligence-sensitive use cases generally | Balances token usage and intelligence; recommended minimum for most intelligence-sensitive work |
-| `medium` | Cost-sensitive use cases that need to reduce token usage while trading off intelligence |  |
-| `low` | Short, scoped tasks and latency-sensitive workloads that are not intelligence-sensitive |  |
+| `medium` | Cost-sensitive use cases that need to reduce token usage while trading off intelligence | |
+| `low` | Short, scoped tasks and latency-sensitive workloads that are not intelligence-sensitive | |
 
 ### Silent default changes (no error, but behavior differs)
 

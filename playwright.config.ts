@@ -88,6 +88,9 @@ export default defineConfig({
   globalSetup: "./src/tests/e2e/global-setup.ts",
   globalTeardown: "./src/tests/e2e/global-teardown.ts",
 
+  /* Output directories for artifacts */
+  outputDir: DEBUG_CONFIG.traceDir,
+
   /* Configure projects for major browsers */
   projects: [
     {
@@ -137,9 +140,9 @@ export default defineConfig({
         ["html", { open: "on-failure", outputFolder: "playwright-report" }],
         ["list"],
       ],
-
   /* Retry on CI only — no retries locally to surface real failures immediately */
   retries: env.CI ? 2 : 0,
+
   testDir: "./src/tests/e2e",
 
   /* Per-test timeout - increased for dev server cold start */
@@ -156,7 +159,15 @@ export default defineConfig({
     /* Base URL to use in actions like `await page.goto('')`. */
     baseURL,
 
+    /* Context options for better debugging */
+    contextOptions: {
+      reducedMotion: "reduce",
+    },
+
     headless: true,
+
+    /* JavaScript coverage collection */
+    javaScriptEnabled: true,
 
     /* Fail fast on slow navigation - increased for dev server */
     navigationTimeout: TIMEOUTS.NAVIGATION,
@@ -169,18 +180,7 @@ export default defineConfig({
 
     /* Video only on failure to save disk space */
     video: "retain-on-failure",
-
-    /* JavaScript coverage collection */
-    javaScriptEnabled: true,
-
-    /* Context options for better debugging */
-    contextOptions: {
-      reducedMotion: "reduce",
-    },
   },
-
-  /* Output directories for artifacts */
-  outputDir: DEBUG_CONFIG.traceDir,
 
   /* Run your local dev server before starting the tests */
   webServer: !isLocalUrl(baseURL)

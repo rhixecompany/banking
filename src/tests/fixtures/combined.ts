@@ -1,14 +1,14 @@
 /**
  * Combined test utilities for E2E testing
- * 
+ *
  * Provides unified utilities that combine:
  * - Console error handling (console-handler.ts)
  * - Coverage collection (coverage.ts)
  * - Performance monitoring (performance.ts)
- * 
+ *
  * Usage:
  *   import { setupInstrumentedPage, getConsoleErrors } from './fixtures/combined';
- *   
+ *
  *   test('user can login', async ({ page }) => {
  *     const { getConsoleErrors } = setupInstrumentedPage(page);
  *     await page.goto('/dashboard');
@@ -17,15 +17,17 @@
  *   });
  */
 
-import { Page } from '@playwright/test';
-import { 
-  measurePerformance, 
-  getResourceTiming, 
-  measureOperation, 
-  assertPerformance, 
-  PERFORMANCE_CONFIG 
-} from './performance';
-import type { PerformanceThresholds } from './performance';
+import { Page } from "@playwright/test";
+
+import type { PerformanceThresholds } from "./performance";
+
+import {
+  assertPerformance,
+  getResourceTiming,
+  measureOperation,
+  measurePerformance,
+  PERFORMANCE_CONFIG,
+} from "./performance";
 
 /**
  * Console error tracking state
@@ -38,45 +40,47 @@ class ConsoleErrorTracker {
     browser: string;
     context: string;
   }[] = [];
-  
+
   private allowedPatterns: RegExp[] = [];
-  
+
   init(page: Page, allowedErrors: RegExp[]): void {
     this.allowedPatterns = allowedErrors;
     this.errors = [];
-    
-    page.on('console', msg => {
-      if (msg.type() === 'error') {
+
+    page.on("console", (msg) => {
+      if (msg.type() === "error") {
         const text = msg.text();
-        const isAllowed = this.allowedPatterns.some((pattern: RegExp) => pattern.test(text));
-        
+        const isAllowed = this.allowedPatterns.some((pattern: RegExp) =>
+          pattern.test(text),
+        );
+
         if (!isAllowed) {
           this.errors.push({
+            browser: "chromium",
+            context: "console",
             message: text,
             page: page.url(),
             timestamp: Date.now(),
-            browser: 'chromium',
-            context: 'console',
           });
         }
       }
     });
-    
-    page.on('pageerror', error => {
+
+    page.on("pageerror", (error) => {
       this.errors.push({
+        browser: "chromium",
+        context: "pageerror",
         message: error.message,
         page: page.url(),
         timestamp: Date.now(),
-        browser: 'chromium',
-        context: 'pageerror',
       });
     });
   }
-  
+
   getErrors() {
     return [...this.errors];
   }
-  
+
   clear(): void {
     this.errors = [];
   }
@@ -90,7 +94,11 @@ let consoleTracker: ConsoleErrorTracker | null = null;
  */
 export function setupInstrumentedPage(
   page: Page,
-  allowedErrors: RegExp[] = [/ResizeObserver/, /favicon\.ico/, /Failed to load resource/]
+  allowedErrors: RegExp[] = [
+    /ResizeObserver/,
+    /favicon\.ico/,
+    /Failed to load resource/,
+  ],
 ): {
   getConsoleErrors: () => {
     message: string;
@@ -103,10 +111,10 @@ export function setupInstrumentedPage(
 } {
   consoleTracker = new ConsoleErrorTracker();
   consoleTracker.init(page, allowedErrors);
-  
+
   return {
-    getConsoleErrors: () => consoleTracker?.getErrors() ?? [],
     clearConsoleErrors: () => consoleTracker?.clear() ?? void 0,
+    getConsoleErrors: () => consoleTracker?.getErrors() ?? [],
   };
 }
 
@@ -131,7 +139,7 @@ export function clearConsoleErrors(): void {
 }
 
 // Coverage state
-const coverageData: unknown[] | null = null;
+const coverageData: null | unknown[] = null;
 
 /**
  * Start coverage collection on a page
@@ -150,16 +158,16 @@ export async function stopCoverageCollection(): Promise<unknown[]> {
 /**
  * Get coverage data
  */
-export function getCoverage(): unknown[] | null {
+export function getCoverage(): null | unknown[] {
   return coverageData;
 }
 
 // Re-export performance utilities
 export {
-  measurePerformance,
+  assertPerformance,
   getResourceTiming,
   measureOperation,
-  assertPerformance,
+  measurePerformance,
   PERFORMANCE_CONFIG,
 };
 
@@ -174,7 +182,7 @@ export async function setupFullInstrumentation(
     trackConsoleErrors?: boolean;
     collectCoverage?: boolean;
     allowedErrors?: RegExp[];
-  } = {}
+  } = {},
 ): Promise<{
   getConsoleErrors: () => {
     message: string;
@@ -189,36 +197,41 @@ export async function setupFullInstrumentation(
   measureOperation: (operation: () => Promise<void>) => Promise<number>;
   assertPerformance: (thresholds: PerformanceThresholds) => Promise<void>;
 }> {
-  const { trackConsoleErrors = true, collectCoverage = false, allowedErrors } = options;
-  
-  const consoleController = trackConsoleErrors 
+  const {
+    allowedErrors,
+    collectCoverage = false,
+    trackConsoleErrors = true,
+  } = options;
+
+  const consoleController = trackConsoleErrors
     ? setupInstrumentedPage(page, allowedErrors)
-    : { getConsoleErrors: () => [], clearConsoleErrors: () => {} };
-  
-  const startCoverage = collectCoverage 
+    : { clearConsoleErrors: () => {}, getConsoleErrors: () => [] };
+
+  const startCoverage = collectCoverage
     ? () => startCoverageCollection(page)
     : async () => {};
-  
+
   return {
     ...consoleController,
+    assertPerformance: (thresholds: PerformanceThresholds) =>
+      assertPerformance(page, thresholds),
+    measureOperation: (op: () => Promise<void>) => measureOperation(page, op),
     startCoverageCollection: startCoverage,
     stopCoverageCollection,
-    measureOperation: (op: () => Promise<void>) => measureOperation(page, op),
-    assertPerformance: (thresholds: PerformanceThresholds) => assertPerformance(page, thresholds),
   };
 }
 
 export default {
-  setupInstrumentedPage,
-  getConsoleErrors,
+  assertPerformance,
   clearConsoleErrors,
-  startCoverageCollection,
-  stopCoverageCollection,
+  getConsoleErrors,
   getCoverage,
-  setupFullInstrumentation,
-  measurePerformance,
   getResourceTiming,
   measureOperation,
-  assertPerformance,
+  measurePerformance,
   PERFORMANCE_CONFIG,
+  setupFullInstrumentation,
+  setupInstrumentedPage,
+  startCoverageCollection,
+  stopCoverageCollection,
 };

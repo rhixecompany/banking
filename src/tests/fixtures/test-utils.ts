@@ -1,4 +1,9 @@
-import { test as base, type Page, type Locator, expect } from "@playwright/test";
+import {
+  test as base,
+  expect,
+  type Locator,
+  type Page,
+} from "@playwright/test";
 
 /**
  * Test utilities and helpers for better debugging and error reporting
@@ -8,7 +13,11 @@ import { test as base, type Page, type Locator, expect } from "@playwright/test"
 /**
  * Navigate to a URL with timing and logging
  */
-export async function navigateTo(page: Page, url: string, description?: string): Promise<void> {
+export async function navigateTo(
+  page: Page,
+  url: string,
+  description?: string,
+): Promise<void> {
   const label = description ?? url;
   await base.step(`Navigate to ${label}`, async () => {
     await page.goto(url);
@@ -20,12 +29,13 @@ export async function navigateTo(page: Page, url: string, description?: string):
  */
 export async function fillField(
   page: Page,
-  selector: string | Locator,
+  selector: Locator | string,
   value: string,
-  fieldName: string
+  fieldName: string,
 ): Promise<void> {
   await base.step(`Fill "${fieldName}"`, async () => {
-    const locator = typeof selector === "string" ? page.locator(selector) : selector;
+    const locator =
+      typeof selector === "string" ? page.locator(selector) : selector;
     await locator.fill(value);
   });
 }
@@ -35,11 +45,12 @@ export async function fillField(
  */
 export async function clickElement(
   page: Page,
-  selector: string | Locator,
-  description: string
+  selector: Locator | string,
+  description: string,
 ): Promise<void> {
   await base.step(`Click "${description}"`, async () => {
-    const locator = typeof selector === "string" ? page.locator(selector) : selector;
+    const locator =
+      typeof selector === "string" ? page.locator(selector) : selector;
     await locator.click();
   });
 }
@@ -47,7 +58,10 @@ export async function clickElement(
 /**
  * Submit a form with timing
  */
-export async function submitForm(page: Page, buttonSelector: string): Promise<void> {
+export async function submitForm(
+  page: Page,
+  buttonSelector: string,
+): Promise<void> {
   await base.step("Submit form", async () => {
     await page.locator(buttonSelector).click();
   });
@@ -58,16 +72,17 @@ export async function submitForm(page: Page, buttonSelector: string): Promise<vo
  */
 export async function waitForElement(
   page: Page,
-  selector: string | Locator,
+  selector: Locator | string,
   description: string,
-  timeout = 10_000
+  timeout = 10_000,
 ): Promise<Locator> {
-  const locator = typeof selector === "string" ? page.locator(selector) : selector;
-  
+  const locator =
+    typeof selector === "string" ? page.locator(selector) : selector;
+
   await base.step(`Wait for "${description}"`, async () => {
     await locator.waitFor({ state: "visible", timeout });
   });
-  
+
   return locator;
 }
 
@@ -76,15 +91,16 @@ export async function waitForElement(
  */
 export async function assertVisible(
   page: Page,
-  selector: string | Locator,
-  description: string
+  selector: Locator | string,
+  description: string,
 ): Promise<Locator> {
-  const locator = typeof selector === "string" ? page.locator(selector) : selector;
-  
+  const locator =
+    typeof selector === "string" ? page.locator(selector) : selector;
+
   await base.step(`Assert "${description}" is visible`, async () => {
     await expect(locator).toBeVisible();
   });
-  
+
   return locator;
 }
 
@@ -93,12 +109,13 @@ export async function assertVisible(
  */
 export async function assertText(
   page: Page,
-  selector: string | Locator,
-  expected: string | RegExp,
-  description: string
+  selector: Locator | string,
+  expected: RegExp | string,
+  description: string,
 ): Promise<void> {
-  const locator = typeof selector === "string" ? page.locator(selector) : selector;
-  
+  const locator =
+    typeof selector === "string" ? page.locator(selector) : selector;
+
   await base.step(`Assert "${description}" has text`, async () => {
     await expect(locator).toHaveText(expected);
   });
@@ -109,12 +126,13 @@ export async function assertText(
  */
 export async function assertValue(
   page: Page,
-  selector: string | Locator,
-  expected: string | RegExp,
-  description: string
+  selector: Locator | string,
+  expected: RegExp | string,
+  description: string,
 ): Promise<void> {
-  const locator = typeof selector === "string" ? page.locator(selector) : selector;
-  
+  const locator =
+    typeof selector === "string" ? page.locator(selector) : selector;
+
   await base.step(`Assert "${description}" has value`, async () => {
     await expect(locator).toHaveValue(expected);
   });
@@ -125,8 +143,8 @@ export async function assertValue(
  */
 export async function assertUrl(
   page: Page,
-  pattern: string | RegExp,
-  description: string
+  pattern: RegExp | string,
+  description: string,
 ): Promise<void> {
   await base.step(`Assert URL is "${description}"`, async () => {
     await expect(page).toHaveURL(pattern);
@@ -138,8 +156,8 @@ export async function assertUrl(
  */
 export async function waitForResponse(
   page: Page,
-  urlPattern: string | RegExp,
-  description: string
+  urlPattern: RegExp | string,
+  description: string,
 ): Promise<void> {
   await base.step(`Wait for "${description}" API response`, async () => {
     await page.waitForResponse(urlPattern);
@@ -149,7 +167,7 @@ export async function waitForResponse(
 /**
  * Soft assertion that doesn't fail immediately - collects all failures
  * Use this when you want to check multiple things and see all failures at once
- * 
+ *
  * Usage:
  *   const result = await softAssert(page, [
  *     [page.locator('.submit-btn'), 'toBeVisible', 'Submit button'],
@@ -166,7 +184,7 @@ export interface SoftAssertResult {
 
 export async function softAssert(
   page: Page,
-  assertions: Array<[Locator, string, string, ...unknown[]]>
+  assertions: [Locator, string, string, ...unknown[]][],
 ): Promise<SoftAssertResult> {
   const errors: string[] = [];
 
@@ -178,13 +196,15 @@ export async function softAssert(
         await matcherFn(...args);
       }
     } catch (e) {
-      errors.push(`${description}: ${e instanceof Error ? e.message : String(e)}`);
+      errors.push(
+        `${description}: ${e instanceof Error ? e.message : String(e)}`,
+      );
     }
   }
 
   return {
-    passed: errors.length === 0,
     errors,
+    passed: errors.length === 0,
   };
 }
 
@@ -194,13 +214,13 @@ export async function softAssert(
  */
 export async function measureTime<T>(
   fn: () => Promise<T>,
-  label: string
+  label: string,
 ): Promise<{ result: T; duration: number }> {
   const start = Date.now();
   const result = await fn();
   const duration = Date.now() - start;
   console.log(`[timing] ${label}: ${duration}ms`);
-  return { result, duration };
+  return { duration, result };
 }
 
 /**
@@ -211,21 +231,23 @@ export async function retry<T>(
   fn: () => Promise<T>,
   maxRetries = 3,
   initialDelay = 1000,
-  label = "operation"
+  label = "operation",
 ): Promise<T> {
   let lastError: unknown;
-  
+
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
       return await fn();
     } catch (e) {
       lastError = e;
       const delay = initialDelay * Math.pow(2, attempt - 1);
-      console.log(`[retry] ${label} attempt ${attempt}/${maxRetries} failed, retrying in ${delay}ms...`);
+      console.log(
+        `[retry] ${label} attempt ${attempt}/${maxRetries} failed, retrying in ${delay}ms...`,
+      );
       await new Promise((resolve) => setTimeout(resolve, delay));
     }
   }
-  
+
   throw lastError;
 }
 
@@ -233,7 +255,10 @@ export async function retry<T>(
  * Wait for network idle with timeout
  * Use instead of page.waitForLoadState('networkidle') which can be too slow
  */
-export async function waitForNetworkIdle(page: Page, timeout = 5000): Promise<void> {
+export async function waitForNetworkIdle(
+  page: Page,
+  timeout = 5000,
+): Promise<void> {
   await page.waitForLoadState("networkidle", { timeout }).catch(() => {
     // Ignore timeout - network may never be fully idle
   });
@@ -242,10 +267,13 @@ export async function waitForNetworkIdle(page: Page, timeout = 5000): Promise<vo
 /**
  * Take a screenshot with timestamp for debugging
  */
-export async function debugScreenshot(page: Page, name: string): Promise<string> {
-  const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+export async function debugScreenshot(
+  page: Page,
+  name: string,
+): Promise<string> {
+  const timestamp = new Date().toISOString().replaceAll(/[:.]/g, "-");
   const filename = `debug-${name}-${timestamp}.png`;
-  await page.screenshot({ path: filename, fullPage: true });
+  await page.screenshot({ fullPage: true, path: filename });
   console.log(`[debug] Screenshot saved: ${filename}`);
   return filename;
 }
@@ -254,7 +282,7 @@ export async function debugScreenshot(page: Page, name: string): Promise<string>
  * Extended test with timing utilities
  * Usage:
  *   import { test, expect } from './fixtures/test-utils';
- *   
+ *
  *   test('my test', async ({ page }) => {
  *     await navigateTo(page, '/dashboard', 'Dashboard');
  *     await assertVisible(page, '.balance', 'Balance');
@@ -263,21 +291,21 @@ export async function debugScreenshot(page: Page, name: string): Promise<string>
 export { expect, test };
 
 export default {
-  expect,
-  test,
-  navigateTo,
-  fillField,
-  clickElement,
-  submitForm,
-  waitForElement,
-  assertVisible,
   assertText,
-  assertValue,
   assertUrl,
-  waitForResponse,
-  softAssert,
-  measureTime,
-  retry,
-  waitForNetworkIdle,
+  assertValue,
+  assertVisible,
+  clickElement,
   debugScreenshot,
+  expect,
+  fillField,
+  measureTime,
+  navigateTo,
+  retry,
+  softAssert,
+  submitForm,
+  test,
+  waitForElement,
+  waitForNetworkIdle,
+  waitForResponse,
 };

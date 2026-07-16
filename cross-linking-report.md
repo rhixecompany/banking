@@ -3,7 +3,7 @@
 ## Internal Cross-References Check
 
 | Source File | Target Reference | Status |
-|-------------|-----------------|--------|
+| ------------- | ----------------- | -------- |
 | readme.md | technology-stack.md | ✅ Valid |
 | readme.md | architecture.md | ✅ Valid |
 | readme.md | project-workflow.md | ✅ Valid |
@@ -17,7 +17,7 @@
 ## External References
 
 | Source File | External Link | Status |
-|-------------|--------------|--------|
+| ------------- | -------------- | -------- |
 | readme.md | projects/Banking/AGENTS.md | ✅ Valid |
 | folder-structure.md | projects/Banking/ | ✅ Valid |
 

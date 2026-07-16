@@ -9,7 +9,7 @@ A full-stack fintech application built with Next.js 16, featuring bank account i
 ## Technology Stack
 
 | Category | Technology |
-|---|---|
+| --- | --- |
 | **Framework** | Next.js 16.2.4 (App Router) |
 | **Language** | TypeScript ^6.0.3 (strict) |
 | **UI** | React 19, Radix UI, shadcn/ui, Tailwind CSS 4.x |

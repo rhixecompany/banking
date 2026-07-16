@@ -181,9 +181,9 @@ Shadow options:
 
 | Property | Type | Range | Notes |
 | --- | --- | --- | --- |
-| `type` | string | `"outer"`, `"inner"` |  |
+| `type` | string | `"outer"`, `"inner"` | |
 | `color` | string | 6-char hex (e.g. `"000000"`) | No `#` prefix, no 8-char hex — see Common Pitfalls |
-| `blur` | number | 0-100 pt |  |
+| `blur` | number | 0-100 pt | |
 | `offset` | number | 0-200 pt | **Must be non-negative** — negative values corrupt the file |
 | `angle` | number | 0-359 degrees | Direction the shadow falls (135 = bottom-right, 270 = upward) |
 | `opacity` | number | 0.0-1.0 | Use this for transparency, never encode in color string |

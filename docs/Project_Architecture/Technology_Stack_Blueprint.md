@@ -22,7 +22,7 @@ A full-stack fintech application built with Next.js 16, featuring bank account i
 ### Languages & Runtimes
 
 | Technology | Version | Usage |
-|---|---|---|
+| --- | --- | --- |
 | TypeScript | ^6.0.3 | Primary language (strict mode) |
 | React | ^19.2.5 | UI framework |
 | Next.js | 16.2.4 | Full-stack framework (App Router) |
@@ -38,7 +38,7 @@ A full-stack fintech application built with Next.js 16, featuring bank account i
 ### Core Dependencies
 
 | Category | Dependencies |
-|---|---|
+| --- | --- |
 | **UI Framework** | next, react, react-dom |
 | **UI Components** | @radix-ui/* (15+ packages), @base-ui/react, shadcn/ui via radix-ui, cmdk, vaul, sonner, embla-carousel-react |
 | **Styling** | tailwindcss ^4.2.4, @tailwindcss/postcss, tailwind-merge, tailwindcss-animate, tw-animate-css, class-variance-authority, clsx |
@@ -57,7 +57,7 @@ A full-stack fintech application built with Next.js 16, featuring bank account i
 ### Dev Dependencies
 
 | Category | Dependencies |
-|---|---|
+| --- | --- |
 | **Testing** | @playwright/test ^1.59.1, vitest ^4.1.5, @testing-library/react, @testing-library/jest-dom, msw ^2.14.2 |
 | **Linting** | eslint ^10.3.0, eslint-config-next 16.2.4, typescript-eslint ^8.59.1, eslint-plugin-* (15+ plugins) |
 | **Formatting** | prettier ^3.8.3, prettier-plugin-* (4 plugins) |
@@ -97,7 +97,7 @@ A full-stack fintech application built with Next.js 16, featuring bank account i
 ## External Integrations
 
 | Service | Package | Purpose |
-|---|---|---|
+| --- | --- | --- |
 | Plaid | plaid, react-plaid-link | Bank account linking |
 | Dwolla | dwolla-v2 | ACH transfers & payments |
 | Upstash Redis | @upstash/redis, @upstash/ratelimit | Caching & rate limiting |
@@ -108,7 +108,7 @@ A full-stack fintech application built with Next.js 16, featuring bank account i
 ## Scripts
 
 | Script | Description |
-|---|---|
+| --- | --- |
 | `dev` | Start development server |
 | `build` | Production build with prebuild checks |
 | `db:*` | Database operations (generate, push, migrate, studio, seed) |
@@ -167,7 +167,7 @@ A full-stack fintech application built with Next.js 16, featuring bank account i
 ## Deployment
 
 | Platform | Configuration |
-|---|---|
+| --- | --- |
 | Vercel | Primary deployment target |
 | Docker | Docker Compose for local/self-hosted |
 | Railway | `Railway.toml` configured |

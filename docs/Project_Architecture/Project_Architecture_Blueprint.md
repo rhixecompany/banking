@@ -12,7 +12,7 @@
 ## Technology Stack Details
 
 | Category | Technology |
-|---|---|
+| --- | --- |
 | Frontend Framework | Next.js 16 (App Router) |
 | Language | TypeScript (strict) |
 | UI Components | Radix UI, shadcn/ui, Tailwind CSS 4.x |

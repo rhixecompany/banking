@@ -33,7 +33,7 @@ client.beta.sessions.events.send(
 
 | Field | Type | Notes |
 | --- | --- | --- |
-| `type` | `"user.define_outcome"` |  |
+| `type` | `"user.define_outcome"` | |
 | `description` | string | The task. This is what the agent works toward — no separate `user.message` needed. |
 | `rubric` | `{type: "text", content}` \| `{type: "file", file_id}` | **Required.** Markdown with explicit, independently gradeable criteria. Upload once via `client.beta.files.upload(...)` (beta `files-api-2025-04-14`) to reuse across sessions. |
 | `max_iterations` | int | Optional. Default **3**, max **20**. |

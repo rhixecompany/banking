@@ -22,7 +22,7 @@ function splitCsv(s: string): string[] {
  */
 export function parseCli(argv = process.argv.slice(2)) {
   const args = minimist(argv, {
-    alias: { h: "help", v: "verbose", f: "force" },
+    alias: { f: "force", h: "help", v: "verbose" },
     boolean: ["dry-run", "apply", "verbose", "help", "ci", "force", "pretty"],
     string: ["only", "skip", "output", "env-file", "name", "report", "confirm"],
   });
