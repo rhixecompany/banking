@@ -54,12 +54,12 @@ jobs:
                 issue_number: context.issue.number
               });
               const botComment = comments.data.find(c => c.user.type === 'Bot' && c.body.includes('Preview Deployment'));
-              
+
               const body = `## 🚀 Preview Deployment
               The preview environment is deployed and available at: **${previewUrl}**
-              
+
               > Built on ${{ github.sha.slice(0, 7) }} | ${{ github.event.pull_request.title }}`;
-              
+
               if (botComment) {
                 await github.rest.issues.updateComment({
                   owner: context.repo.owner,
