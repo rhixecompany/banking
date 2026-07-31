@@ -12,7 +12,7 @@ import { users } from "@/database/schema";
 
 const SignInSchema = z.object({
   email: z.string().trim().email(),
-  password: z.string().trim().min(8),
+  password: z.string().trim().min(8)
 });
 
 export async function signIn(input: unknown) {
@@ -60,7 +60,7 @@ export const userDal = new UserDAL();
 const TransferSchema = z.object({
   amount: z.string().transform(Number).pipe(z.number().positive()),
   recipientId: z.string().min(1),
-  description: z.string().max(200).optional(),
+  description: z.string().max(200).optional()
 });
 ```
 

@@ -31,18 +31,18 @@ Enhance Playwright debugging capabilities with trace viewer, test steps, soft as
 - Helps identify slow steps
 
 ```typescript
-test('transfer funds', async ({ page }) => {
-  await test.step('Navigate to transfer', async () => {
-    await page.goto('/transfer');
+test("transfer funds", async ({ page }) => {
+  await test.step("Navigate to transfer", async () => {
+    await page.goto("/transfer");
   });
-  
-  await test.step('Fill transfer form', async () => {
-    await page.fill('#amount', '100');
-    await page.click('#submit');
+
+  await test.step("Fill transfer form", async () => {
+    await page.fill("#amount", "100");
+    await page.click("#submit");
   });
-  
-  await test.step('Verify success', async () => {
-    await expect(page.locator('.success')).toBeVisible();
+
+  await test.step("Verify success", async () => {
+    await expect(page.locator(".success")).toBeVisible();
   });
 });
 ```
@@ -54,10 +54,12 @@ test('transfer funds', async ({ page }) => {
 - Better for comprehensive error reporting
 
 ```typescript
-test('validate form', async ({ page }) => {
-  await expect.soft(page.locator('#name')).toHaveValue('John');
-  await expect.soft(page.locator('#email')).toHaveValue('john@example.com');
-  await expect(page.locator('#submit')).toBeEnabled();
+test("validate form", async ({ page }) => {
+  await expect.soft(page.locator("#name")).toHaveValue("John");
+  await expect
+    .soft(page.locator("#email"))
+    .toHaveValue("john@example.com");
+  await expect(page.locator("#submit")).toBeEnabled();
 });
 ```
 
@@ -90,9 +92,9 @@ use: {
 ## Reporter Enhancement
 
 ```typescript
-reporter: env.CI 
+reporter: env.CI
   ? [
-      ['github'], 
+      ['github'],
       ['html', { outputFolder: 'playwright-report' }],
       ['list'],
       ['./src/tests/e2e/reporter.ts'], // Custom reporter

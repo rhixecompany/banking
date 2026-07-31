@@ -1,4 +1,4 @@
-import { test as base, type Page, type BrowserContext } from "@playwright/test";
+import { test as base, type BrowserContext, type Page } from "@playwright/test";
 import fs from "node:fs";
 import path from "node:path";
 
@@ -76,11 +76,17 @@ function ensureConsoleLogDir(): void {
 /**
  * Save console errors to file for CI debugging
  */
-function saveConsoleErrorsToFile(errors: BrowserConsoleError[], testName: string): void {
+function saveConsoleErrorsToFile(
+  errors: BrowserConsoleError[],
+  testName: string,
+): void {
   ensureConsoleLogDir();
   const sanitizedName = testName.replace(/[^a-z0-9]/gi, "_").substring(0, 50);
   const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
-  const filename = path.join(CONSOLE_LOG_DIR, `${sanitizedName}_${timestamp}.json`);
+  const filename = path.join(
+    CONSOLE_LOG_DIR,
+    `${sanitizedName}_${timestamp}.json`,
+  );
 
   fs.writeFileSync(filename, JSON.stringify(errors, null, 2));
   console.log(`[console-handler] Console errors saved to: ${filename}`);
@@ -137,7 +143,11 @@ function createConsoleHandler() {
           type: msg.type() as ConsoleMessage["type"],
           text: msg.text(),
           location: location.url
-            ? { url: location.url, line: location.lineNumber, column: location.columnNumber }
+            ? {
+                url: location.url,
+                line: location.lineNumber,
+                column: location.columnNumber,
+              }
             : undefined,
           timestamp: now,
         });
@@ -169,7 +179,7 @@ function createConsoleHandler() {
       const unexpectedErrors = filterAllowedErrors(errors);
       if (unexpectedErrors.length > 0) {
         throw new Error(
-          `Unexpected console errors detected:\n${unexpectedErrors.map((e) => `  - ${e}`).join("\n")}`
+          `Unexpected console errors detected:\n${unexpectedErrors.map((e) => `  - ${e}`).join("\n")}`,
         );
       }
     },
@@ -190,7 +200,8 @@ function createConsoleHandler() {
 
     detailedConsoleErrors: async ({ page }, use) => {
       const errors: BrowserConsoleError[] = [];
-      const browserName = page.context().browser()?.browserType().name() || "unknown";
+      const browserName =
+        page.context().browser()?.browserType().name() || "unknown";
       const contextId = `context-${Date.now()}`;
 
       page.on("console", (msg) => {
@@ -202,7 +213,9 @@ function createConsoleHandler() {
             context: contextId,
             page: page.url(),
             timestamp: Date.now(),
-            stack: location.url ? `at ${location.url}:${location.lineNumber}:${location.columnNumber}` : undefined,
+            stack: location.url
+              ? `at ${location.url}:${location.lineNumber}:${location.columnNumber}`
+              : undefined,
           });
         }
       });
@@ -249,7 +262,7 @@ export function expectNoConsoleErrors(errors: string[]): void {
   const unexpected = filterAllowedErrors(errors);
   if (unexpected.length > 0) {
     throw new Error(
-      `Unexpected console errors detected:\n${unexpected.map((e) => `  - ${e}`).join("\n")}`
+      `Unexpected console errors detected:\n${unexpected.map((e) => `  - ${e}`).join("\n")}`,
     );
   }
 }

@@ -9,15 +9,15 @@
 
 ## Architecture Overview
 
-| Property | Value |
-|----------|-------|
-| **Framework** | Next.js 16 (App Router) |
-| **Language** | TypeScript (strict) |
-| **Database** | PostgreSQL via Drizzle ORM |
-| **Auth** | NextAuth.js |
-| **Banking APIs** | Plaid (linking), Dwolla (payments) |
-| **Package Manager** | Bun (`bun.lock`) |
-| **Deploy** | Docker + Vercel |
+| Property            | Value                              |
+| ------------------- | ---------------------------------- |
+| **Framework**       | Next.js 16 (App Router)            |
+| **Language**        | TypeScript (strict)                |
+| **Database**        | PostgreSQL via Drizzle ORM         |
+| **Auth**            | NextAuth.js                        |
+| **Banking APIs**    | Plaid (linking), Dwolla (payments) |
+| **Package Manager** | Bun (`bun.lock`)                   |
+| **Deploy**          | Docker + Vercel                    |
 
 ---
 
@@ -44,15 +44,15 @@ src/
 
 ## Technologies
 
-| Category | Technology |
-|----------|------------|
-| Frontend | Next.js 16, React 19, Tailwind CSS, shadcn/ui |
-| Backend | Next.js API Routes, Drizzle ORM |
-| Database | PostgreSQL (Neon/Vercel Postgres) |
-| Auth | NextAuth.js v5 |
-| Banking | Plaid API (Account linking), Dwolla API (ACH) |
-| Dev Tools | Bun, ESLint, Prettier, TypeScript strict |
-| CI/CD | GitHub Actions (project-specific) |
+| Category  | Technology                                    |
+| --------- | --------------------------------------------- |
+| Frontend  | Next.js 16, React 19, Tailwind CSS, shadcn/ui |
+| Backend   | Next.js API Routes, Drizzle ORM               |
+| Database  | PostgreSQL (Neon/Vercel Postgres)             |
+| Auth      | NextAuth.js v5                                |
+| Banking   | Plaid API (Account linking), Dwolla API (ACH) |
+| Dev Tools | Bun, ESLint, Prettier, TypeScript strict      |
+| CI/CD     | GitHub Actions (project-specific)             |
 
 ---
 

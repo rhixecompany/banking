@@ -26,13 +26,13 @@ bun run test          # All tests pass
 
 ### Naming Conventions
 
-| Type | Convention | Example |
-|------|-----------|---------|
-| Server Actions | `dot.camelCase` | `auth.signin.ts` |
-| Components | `PascalCase` | `BankInfo.tsx` |
-| Utils/Hooks | `camelCase` | `formUrlQuery.ts` |
-| Database Tables | `snake_case` | `user_profiles` |
-| DAL Files | `dot.camelCase` | `user.dal.ts` |
+| Type            | Convention      | Example           |
+| --------------- | --------------- | ----------------- |
+| Server Actions  | `dot.camelCase` | `auth.signin.ts`  |
+| Components      | `PascalCase`    | `BankInfo.tsx`    |
+| Utils/Hooks     | `camelCase`     | `formUrlQuery.ts` |
+| Database Tables | `snake_case`    | `user_profiles`   |
+| DAL Files       | `dot.camelCase` | `user.dal.ts`     |
 
 ### Server Action Pattern
 
@@ -47,7 +47,8 @@ const Schema = z.object({
 
 export async function actionName(input: unknown) {
   const parsed = Schema.safeParse(input);
-  if (!parsed.success) return { error: parsed.error.errors[0]?.message, ok: false };
+  if (!parsed.success)
+    return { error: parsed.error.errors[0]?.message, ok: false };
 
   try {
     // ... business logic
@@ -113,14 +114,14 @@ git push -u origin feature/your-feature
 
 ## Scripts
 
-| Script | Purpose |
-|--------|---------|
-| `bun run generate:component` | Scaffold a new component |
-| `bun run generate:action` | Scaffold a new server action |
-| `bun run generate:dal` | Scaffold a new DAL class |
-| `bun run generate:feature` | Scaffold a full feature |
-| `bun run ci:checks:run` | Run CI checks locally |
-| `bun run clean:all` | Full cleanup (node_modules too) |
+| Script                       | Purpose                         |
+| ---------------------------- | ------------------------------- |
+| `bun run generate:component` | Scaffold a new component        |
+| `bun run generate:action`    | Scaffold a new server action    |
+| `bun run generate:dal`       | Scaffold a new DAL class        |
+| `bun run generate:feature`   | Scaffold a full feature         |
+| `bun run ci:checks:run`      | Run CI checks locally           |
+| `bun run clean:all`          | Full cleanup (node_modules too) |
 
 ## Quality Gates
 
@@ -134,8 +135,8 @@ All checks **MUST** pass before merging:
 
 ## Environment Files
 
-| File | Purpose |
-|------|---------|
-| `.env.local` | Local development secrets |
+| File                 | Purpose                          |
+| -------------------- | -------------------------------- |
+| `.env.local`         | Local development secrets        |
 | `.env.local.example` | Template with placeholder values |
-| `.env.test` | Test environment variables |
+| `.env.test`          | Test environment variables       |

@@ -52,9 +52,11 @@ Optimize Playwright E2E tests for faster execution through session reuse, parall
 // fixtures/auth-session.ts
 export const test = base.extend({
   authenticatedPage: async ({ browser }, use) => {
-    const storageStatePath = path.join(__dirname, 'auth-state.json');
+    const storageStatePath = path.join(__dirname, "auth-state.json");
     // Load or create storage state
-    const context = await browser.newContext({ storageState: storageStatePath });
+    const context = await browser.newContext({
+      storageState: storageStatePath
+    });
     const page = await context.newPage();
     await use(page);
     await context.close();

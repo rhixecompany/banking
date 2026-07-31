@@ -1,6 +1,6 @@
 import { test as base, type BrowserContext, type Page } from "@playwright/test";
-import path from "node:path";
 import fs from "node:fs";
+import path from "node:path";
 
 /**
  * Path to store the authenticated session state
@@ -9,7 +9,7 @@ import fs from "node:fs";
 const STORAGE_STATE_PATH = path.join(
   process.cwd(),
   ".playwright",
-  "auth-state.json"
+  "auth-state.json",
 );
 
 /**
@@ -38,7 +38,10 @@ function ensureStorageDir(): void {
  */
 function hasStorageState(): boolean {
   try {
-    return fs.existsSync(STORAGE_STATE_PATH) && fs.statSync(STORAGE_STATE_PATH).size > 0;
+    return (
+      fs.existsSync(STORAGE_STATE_PATH) &&
+      fs.statSync(STORAGE_STATE_PATH).size > 0
+    );
   } catch {
     return false;
   }
@@ -53,18 +56,18 @@ export function getStorageStatePath(): string {
 
 /**
  * Create test with session reuse capability
- * 
+ *
  * Usage:
  *   import { test, expect } from './fixtures/session-reuse';
- *   
+ *
  *   // Use fastAuthenticatedPage to skip login (saves 5-10 seconds per test)
  *   test('my test', async ({ fastAuthenticatedPage }) => {
  *     await fastAuthenticatedPage.goto('/dashboard');
  *   });
- * 
+ *
  * To create the initial auth state, run:
  *   npx playwright test --project=chromium --grep="create.*auth.*state" --update-snapshots
- * 
+ *
  * Or manually:
  *   1. Run tests normally once to create the storage state
  *   2. The state is cached in .playwright/auth-state.json
@@ -102,7 +105,7 @@ export { expect } from "@playwright/test";
 /**
  * Create a function to save the current authenticated session
  * Call this after a successful login to cache the session for future tests
- * 
+ *
  * Usage in a test:
  *   test('create auth state', async ({ page }) => {
  *     await page.goto('/sign-in');
@@ -110,7 +113,7 @@ export { expect } from "@playwright/test";
  *     await page.fill('[name=password]', 'password123');
  *     await page.click('button[type=submit]');
  *     await page.waitForURL('/dashboard');
- *     
+ *
  *     // Save the authenticated session
  *     await saveAuthState(page.context());
  *   });

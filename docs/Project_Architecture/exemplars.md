@@ -31,7 +31,9 @@ const resolveDwollaEnvironment = (): DwollaEnvironment => {
   return value === "production" ? "production" : "sandbox";
 };
 
-const resolveDwollaBaseUrl = (environment: DwollaEnvironment): string => {
+const resolveDwollaBaseUrl = (
+  environment: DwollaEnvironment
+): string => {
   return (
     env.DWOLLA_BASE_URL ??
     (environment === "production"
@@ -53,7 +55,7 @@ export const getDwollaClient = (): Client => {
   return new Client({
     environment: dwollaConfig.environment,
     key: env.DWOLLA_KEY,
-    secret: env.DWOLLA_SECRET,
+    secret: env.DWOLLA_SECRET
   });
 };
 ```
@@ -74,8 +76,10 @@ export function isMockAccessToken(token: string): boolean {
   if (!token) return false;
   const t = token.toLowerCase();
   return (
-    t.startsWith("seed-") || t.startsWith("mock-") ||
-    t.startsWith("mock_") || t.startsWith("mock")
+    t.startsWith("seed-") ||
+    t.startsWith("mock-") ||
+    t.startsWith("mock_") ||
+    t.startsWith("mock")
   );
 }
 
@@ -84,10 +88,10 @@ const configuration = new Configuration({
   baseOptions: {
     headers: {
       "PLAID-CLIENT-ID": env.PLAID_CLIENT_ID,
-      "PLAID-SECRET": env.PLAID_SECRET,
-    },
+      "PLAID-SECRET": env.PLAID_SECRET
+    }
   },
-  basePath,
+  basePath
 });
 
 export const plaidClient = new PlaidApi(configuration);

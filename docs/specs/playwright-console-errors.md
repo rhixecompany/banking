@@ -51,35 +51,41 @@ type ConsoleFixtures = {
 export const test = base.extend<ConsoleFixtures>({
   consoleErrors: async ({ page }, use) => {
     const errors: string[] = [];
-    page.on('console', msg => {
-      if (msg.type() === 'error') {
+    page.on("console", msg => {
+      if (msg.type() === "error") {
         errors.push(msg.text());
       }
     });
     await use(errors);
   },
-  
+
   // Alternative: auto-fail fixture
-  failOnConsoleError: [async ({ page }, use, testInfo) => {
-    const errors: string[] = [];
-    page.on('console', msg => {
-      if (msg.type() === 'error') {
-        errors.push(msg.text());
+  failOnConsoleError: [
+    async ({ page }, use, testInfo) => {
+      const errors: string[] = [];
+      page.on("console", msg => {
+        if (msg.type() === "error") {
+          errors.push(msg.text());
+        }
+      });
+      await use();
+      if (errors.length > 0) {
+        throw new Error(`Console errors: ${errors.join("\n")}`);
       }
-    });
-    await use();
-    if (errors.length > 0) {
-      throw new Error(`Console errors: ${errors.join('\n')}`);
-    }
-  }, { auto: true }]
+    },
+    { auto: true }
+  ]
 });
 ```
 
 ### 5. Test Integration
 
 ```typescript
-test('should work without console errors', async ({ page, consoleErrors }) => {
-  await page.goto('/');
+test("should work without console errors", async ({
+  page,
+  consoleErrors
+}) => {
+  await page.goto("/");
   // Test actions...
   expect(consoleErrors).toHaveLength(0);
 });
@@ -97,7 +103,7 @@ test('should work without console errors', async ({ page, consoleErrors }) => {
 const ALLOWED_ERRORS = [
   /Failed to load resource.*favicon/,
   /ResizeObserver loop limit exceeded/,
-  /net::ERR_NAME_NOT_RESOLVED/,
+  /net::ERR_NAME_NOT_RESOLVED/
 ];
 ```
 

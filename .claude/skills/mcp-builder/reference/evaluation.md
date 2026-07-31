@@ -93,28 +93,28 @@ Create 10 human-readable questions requiring ONLY READ-ONLY, INDEPENDENT, NON-DE
    - The kinds of information retrieval tasks that HUMANS assisted by an LLM would care about
 
 3. **Questions may require dozens of tool calls**
-    - This challenges LLMs with limited context
-    - Encourages MCP server tools to reduce information returned
+   - This challenges LLMs with limited context
+   - Encourages MCP server tools to reduce information returned
 
 4. **Include ambiguous questions**
-    - May be ambiguous OR require difficult decisions on which tools to call
-    - Force the LLM to potentially make mistakes or misinterpret
-    - Ensure that despite AMBIGUITY, there is STILL A SINGLE VERIFIABLE ANSWER
+   - May be ambiguous OR require difficult decisions on which tools to call
+   - Force the LLM to potentially make mistakes or misinterpret
+   - Ensure that despite AMBIGUITY, there is STILL A SINGLE VERIFIABLE ANSWER
 
 ### Stability
 
 1. **Questions must be designed so the answer DOES NOT CHANGE**
-    - Do not ask questions that rely on "current state" which is dynamic
-    - For example, do not count:
-      - Number of reactions to a post
-      - Number of replies to a thread
-      - Number of members in a channel
+   - Do not ask questions that rely on "current state" which is dynamic
+   - For example, do not count:
+     - Number of reactions to a post
+     - Number of replies to a thread
+     - Number of members in a channel
 
 2. **DO NOT let the MCP server RESTRICT the kinds of questions you create**
-    - Create challenging and complex questions
-    - Some may not be solvable with the available MCP server tools
-    - Questions may require specific output formats (datetime vs. epoch time, JSON vs. MARKDOWN)
-    - Questions may require dozens of tool calls to complete
+   - Create challenging and complex questions
+   - Some may not be solvable with the available MCP server tools
+   - Questions may require specific output formats (datetime vs. epoch time, JSON vs. MARKDOWN)
+   - Questions may require dozens of tool calls to complete
 
 ## Answer Guidelines
 

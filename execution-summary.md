@@ -11,7 +11,7 @@
 ## Results
 
 | Generator | Status | Notes |
-|-----------|--------|-------|
+| --- | --- | --- |
 | technology-stack | ✅ PASS | Stack detected and documented |
 | folder-structure | ✅ PASS | Structure mapped |
 | architecture | ✅ PASS | Architecture documented |

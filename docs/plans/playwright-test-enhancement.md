@@ -22,7 +22,9 @@ Enhance Playwright tests and configs for speed, logging, error handling, debuggi
 - 1. Verify all implementations work correctly
 
 ## Required Specs
+
 <!-- SPECS_START -->
+
 - playwright-speed-optimization
 - playwright-console-errors
 - playwright-debugging

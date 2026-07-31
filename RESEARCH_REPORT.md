@@ -2,16 +2,14 @@
 
 ## Project: Banking
 
-**Type:** Fintech (Next.js 16 + banking integrations)
-|**Tech Stack:** Next.js 16.2, TS, PostgreSQL, Drizzle ORM, NextAuth v4, Plaid, Dwolla, shadcn/ui, Tailwind 4, Bun
-**Status:** Active
+**Type:** Fintech (Next.js 16 + banking integrations) |**Tech Stack:** Next.js 16.2, TS, PostgreSQL, Drizzle ORM, NextAuth v4, Plaid, Dwolla, shadcn/ui, Tailwind 4, Bun **Status:** Active
 
 ---
 
 ## Similar Projects
 
 | Project | Relevance |
-|---------|-----------|
+| --- | --- |
 | comicwise | Shared Next.js + auth + payment flows |
 | rhixe_scans | Shared Next.js + auth + media payments |
 | rhixecompany-comics | Shared PostgreSQL + Drizzle + Next.js conventions |
@@ -22,6 +20,7 @@
 ## Key Findings
 
 ### Next.js 16.2 (March 2026)
+
 - **Turbopack default** — ~400% faster dev startup, ~50% faster rendering vs 16.0
 - **`proxy.ts` replaces `middleware.ts`** — explicit network boundary for auth/redirects
 - **Build Adapters API stable** — OpenNext, AWS Amplify, Cloudflare support `proxy.ts`
@@ -29,6 +28,7 @@
 - **Partial Prerendering (PPR)** — static shell + streamed dynamic content
 
 ### Drizzle ORM 0.45 Production Patterns
+
 - **~55KB bundle** vs Prisma 7's ~1.6MB — critical for serverless cold starts
 - **Prepared statements** — `db.select().prepare("name")` precompiles SQL for hot paths
 - **Driver selection** — `neon-http` for edge, `node-postgres` for traditional servers
@@ -36,6 +36,7 @@
 - **Never `db push` in production** — use `generate` + `migrate` for audit trail
 
 ### Plaid + Dwolla 2026 Patterns
+
 - **Dedicated service layer** — single boundary for token exchange, webhook handling
 - **Event-driven pipeline** — webhooks feed background workers; reconciliation jobs catch silent failures
 - **Idempotency** — `Idempotency-Key` header + DB constraint prevents duplicate ACH transfers
@@ -45,7 +46,7 @@
 ## Cheatsheets
 
 | Topic | Resource |
-|-------|----------|
+| --- | --- |
 | Next.js 16 Production Checklist | <https://nextjs.org/docs/app/guides/production-checklist> |
 | Drizzle ORM | <https://orm.drizzle.dev> |
 | Plaid/Dwolla | <https://plaid.com/docs> |
@@ -65,7 +66,7 @@
 ## Common Pitfalls
 
 | Pitfall | Impact | Avoidance |
-|---------|--------|-----------|
+| --- | --- | --- |
 | Assuming Sandbox = Production | OAuth failures in prod | Test in Production Trial plan |
 | Missing idempotency keys | Duplicate ACH transfers | `transfer_attempts` table + unique constraint |
 | No webhook signature verification | Fraudulent callbacks | Verify Plaid/Dwolla signatures |
@@ -107,7 +108,7 @@
 ## Resources
 
 | Resource | URL |
-|----------|-----|
+| --- | --- |
 | Next.js Docs | <https://nextjs.org/docs> |
 | Drizzle ORM | <https://orm.drizzle.dev> |
 | Plaid API | <https://plaid.com/docs> |
@@ -116,5 +117,6 @@
 | Next.js 16.2 Security | <https://vercel.com/changelog/next-js-may-2026-security-release> |
 
 ### Research Methodology
+
 - **Web search:** Tavily (2026 Next.js 16, Drizzle, Plaid/Dwolla)
 - **Last verified:** 2026-07-28

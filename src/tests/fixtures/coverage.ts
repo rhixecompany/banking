@@ -1,4 +1,4 @@
-import { test as base, type Page, type BrowserContext } from "@playwright/test";
+import { test as base, type Page } from "@playwright/test";
 import fs from "node:fs";
 import path from "node:path";
 
@@ -75,7 +75,10 @@ function saveCoverageData(data: CoverageData[], testName: string): void {
   ensureCoverageDir();
   const sanitizedName = testName.replace(/[^a-z0-9]/gi, "_").slice(0, 50);
   const timestamp = new Date().toISOString().replaceAll(/[:.]/g, "-");
-  const filename = path.join(COVERAGE_DIR, `${sanitizedName}_${timestamp}.json`);
+  const filename = path.join(
+    COVERAGE_DIR,
+    `${sanitizedName}_${timestamp}.json`,
+  );
 
   fs.writeFileSync(filename, JSON.stringify(data, null, 2));
   console.log(`[coverage] Coverage data saved to: ${filename}`);
@@ -111,10 +114,10 @@ async function stopCSSCoverage(page: Page): Promise<PlaywrightCSSCoverage[]> {
 
 /**
  * Create test with coverage collection
- * 
+ *
  * Usage:
  *   import { test, expect } from './fixtures/coverage';
- *   
+ *
  *   test('my test with coverage', async ({ coveragePage }) => {
  *     await coveragePage.goto('/dashboard');
  *     // Coverage is automatically collected and saved on test complete
@@ -128,7 +131,7 @@ export const test = base.extend<CoverageFixtures>({
 
   coverageData: async ({ page }, use) => {
     const data: CoverageData[] = [];
-    
+
     // Start coverage collection
     await startJSCoverage(page);
     await startCSSCoverage(page);
@@ -174,11 +177,13 @@ export { expect } from "@playwright/test";
 
 /**
  * Calculate coverage percentage from JS coverage data
- * 
+ *
  * Usage:
  *   const percentage = calculateJSCoveragePercentage(coverageData);
  */
-export function calculateJSCoveragePercentage(coverage: PlaywrightJSCoverage[]): number {
+export function calculateJSCoveragePercentage(
+  coverage: PlaywrightJSCoverage[],
+): number {
   let totalBytes = 0;
   let coveredBytes = 0;
 
@@ -197,7 +202,9 @@ export function calculateJSCoveragePercentage(coverage: PlaywrightJSCoverage[]):
 /**
  * Calculate coverage percentage from CSS coverage data
  */
-export function calculateCSSCoveragePercentage(coverage: PlaywrightCSSCoverage[]): number {
+export function calculateCSSCoveragePercentage(
+  coverage: PlaywrightCSSCoverage[],
+): number {
   let totalBytes = 0;
   let coveredBytes = 0;
 

@@ -9,11 +9,7 @@
     "public.transaction_channel": {
       "name": "transaction_channel",
       "schema": "public",
-      "values": [
-        "online",
-        "in_store",
-        "other"
-      ]
+      "values": ["online", "in_store", "other"]
     },
     "public.transaction_status": {
       "name": "transaction_status",
@@ -29,19 +25,12 @@
     "public.transaction_type": {
       "name": "transaction_type",
       "schema": "public",
-      "values": [
-        "credit",
-        "debit"
-      ]
+      "values": ["credit", "debit"]
     },
     "public.user_role": {
       "name": "user_role",
       "schema": "public",
-      "values": [
-        "user",
-        "admin",
-        "moderator"
-      ]
+      "values": ["user", "admin", "moderator"]
     }
   },
   "id": "4ae9f258-76f6-4954-9a96-7a1cc64607ee",
@@ -158,12 +147,8 @@
           "name": "account_userId_users_id_fk",
           "tableFrom": "account",
           "tableTo": "users",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["userId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -171,10 +156,7 @@
       "compositePrimaryKeys": {
         "account_provider_providerAccountId_pk": {
           "name": "account_provider_providerAccountId_pk",
-          "columns": [
-            "provider",
-            "providerAccountId"
-          ]
+          "columns": ["provider", "providerAccountId"]
         }
       },
       "uniqueConstraints": {},
@@ -343,12 +325,8 @@
           "name": "audit_logs_user_id_users_id_fk",
           "tableFrom": "audit_logs",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -448,12 +426,8 @@
           "name": "authenticator_userId_users_id_fk",
           "tableFrom": "authenticator",
           "tableTo": "users",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["userId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -461,19 +435,14 @@
       "compositePrimaryKeys": {
         "authenticator_userId_credentialID_pk": {
           "name": "authenticator_userId_credentialID_pk",
-          "columns": [
-            "userId",
-            "credentialID"
-          ]
+          "columns": ["userId", "credentialID"]
         }
       },
       "uniqueConstraints": {
         "authenticator_credentialID_unique": {
           "name": "authenticator_credentialID_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "credentialID"
-          ]
+          "columns": ["credentialID"]
         }
       },
       "policies": {},
@@ -639,12 +608,8 @@
           "name": "dwolla_transfers_receiver_wallet_id_wallets_id_fk",
           "tableFrom": "dwolla_transfers",
           "tableTo": "wallets",
-          "columnsFrom": [
-            "receiver_wallet_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["receiver_wallet_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -652,12 +617,8 @@
           "name": "dwolla_transfers_sender_wallet_id_wallets_id_fk",
           "tableFrom": "dwolla_transfers",
           "tableTo": "wallets",
-          "columnsFrom": [
-            "sender_wallet_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["sender_wallet_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -665,12 +626,8 @@
           "name": "dwolla_transfers_user_id_users_id_fk",
           "tableFrom": "dwolla_transfers",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -680,9 +637,7 @@
         "dwolla_transfers_idempotency_key_unique": {
           "name": "dwolla_transfers_idempotency_key_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "idempotency_key"
-          ]
+          "columns": ["idempotency_key"]
         }
       },
       "policies": {},
@@ -790,12 +745,8 @@
           "name": "errors_user_id_users_id_fk",
           "tableFrom": "errors",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -871,12 +822,8 @@
           "name": "plaid_items_user_id_users_id_fk",
           "tableFrom": "plaid_items",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -973,12 +920,8 @@
           "name": "recipients_bank_account_id_wallets_id_fk",
           "tableFrom": "recipients",
           "tableTo": "wallets",
-          "columnsFrom": [
-            "bank_account_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["bank_account_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -986,12 +929,8 @@
           "name": "recipients_user_id_users_id_fk",
           "tableFrom": "recipients",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -1054,12 +993,8 @@
           "name": "session_userId_users_id_fk",
           "tableFrom": "session",
           "tableTo": "users",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["userId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -1332,12 +1267,8 @@
           "name": "transactions_receiver_wallet_id_wallets_id_fk",
           "tableFrom": "transactions",
           "tableTo": "wallets",
-          "columnsFrom": [
-            "receiver_wallet_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["receiver_wallet_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -1345,12 +1276,8 @@
           "name": "transactions_sender_wallet_id_wallets_id_fk",
           "tableFrom": "transactions",
           "tableTo": "wallets",
-          "columnsFrom": [
-            "sender_wallet_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["sender_wallet_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -1358,12 +1285,8 @@
           "name": "transactions_user_id_users_id_fk",
           "tableFrom": "transactions",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -1469,12 +1392,8 @@
           "name": "user_profiles_user_id_users_id_fk",
           "tableFrom": "user_profiles",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -1606,9 +1525,7 @@
         "users_email_unique": {
           "name": "users_email_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "email"
-          ]
+          "columns": ["email"]
         }
       },
       "policies": {},
@@ -1666,10 +1583,7 @@
       "compositePrimaryKeys": {
         "verificationToken_identifier_token_pk": {
           "name": "verificationToken_identifier_token_pk",
-          "columns": [
-            "identifier",
-            "token"
-          ]
+          "columns": ["identifier", "token"]
         }
       },
       "uniqueConstraints": {},
@@ -1883,12 +1797,8 @@
           "name": "wallets_user_id_users_id_fk",
           "tableFrom": "wallets",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -1898,9 +1808,7 @@
         "wallets_sharable_id_unique": {
           "name": "wallets_sharable_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "sharable_id"
-          ]
+          "columns": ["sharable_id"]
         }
       },
       "policies": {},

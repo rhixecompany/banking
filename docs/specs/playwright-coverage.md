@@ -32,14 +32,14 @@ type CoverageFixtures = {
 async function collectCoverage(page: Page): Promise<CoverageData> {
   await page.coverage.startJSCoverage({ resetOnNavigation: false });
   await page.coverage.startCSSCoverage({ resetOnNavigation: false });
-  
+
   // ... test actions ...
-  
+
   const [jsCoverage, cssCoverage] = await Promise.all([
     page.coverage.stopJSCoverage(),
-    page.coverage.stopCSSCoverage(),
+    page.coverage.stopCSSCoverage()
   ]);
-  
+
   return { js: jsCoverage, css: cssCoverage };
 }
 ```

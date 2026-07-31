@@ -79,7 +79,7 @@ export default defineConfig({
   expect: { timeout: TIMEOUTS.ASSERTION },
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!env.CI,
-  /* 
+  /*
    * Run tests in parallel when possible.
    * Set to false only if tests share state (auth, DB) that causes conflicts.
    * For isolated tests, this significantly speeds up execution.
@@ -221,7 +221,7 @@ export default defineConfig({
         };
       })(),
 
-  /* 
+  /*
    * Worker count - use more workers for parallel execution.
    * CI: Use 4 workers for stability with shared state
    * Local: Use CPU cores (undefined = auto) for maximum speed
