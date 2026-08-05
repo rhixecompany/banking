@@ -19,15 +19,15 @@ export interface PlaywrightJSCoverage {
   url: string;
   scriptId: string;
   source?: string;
-  functions: Array<{
+  functions: {
     functionName: string;
     isBlockCoverage: boolean;
-    ranges: Array<{
+    ranges: {
       count: number;
       startOffset: number;
       endOffset: number;
-    }>;
-  }>;
+    }[];
+  }[];
 }
 
 /**
@@ -36,10 +36,10 @@ export interface PlaywrightJSCoverage {
 export interface PlaywrightCSSCoverage {
   url: string;
   text?: string;
-  ranges: Array<{
+  ranges: {
     start: number;
     end: number;
-  }>;
+  }[];
 }
 
 /**
@@ -73,7 +73,7 @@ function ensureCoverageDir(): void {
  */
 function saveCoverageData(data: CoverageData[], testName: string): void {
   ensureCoverageDir();
-  const sanitizedName = testName.replace(/[^a-z0-9]/gi, "_").slice(0, 50);
+  const sanitizedName = testName.replaceAll(/[^a-z0-9]/gi, "_").slice(0, 50);
   const timestamp = new Date().toISOString().replaceAll(/[:.]/g, "-");
   const filename = path.join(
     COVERAGE_DIR,
@@ -124,11 +124,6 @@ async function stopCSSCoverage(page: Page): Promise<PlaywrightCSSCoverage[]> {
  *   });
  */
 export const test = base.extend<CoverageFixtures>({
-  enableCoverage: async ({ page }, use) => {
-    // Coverage is enabled by default when using coveragePage
-    await use(true);
-  },
-
   coverageData: async ({ page }, use) => {
     const data: CoverageData[] = [];
 
@@ -145,10 +140,10 @@ export const test = base.extend<CoverageFixtures>({
 
       if (jsCoverage.length > 0 || cssCoverage.length > 0) {
         data.push({
-          url: page.url(),
-          timestamp: Date.now(),
-          js: jsCoverage,
           css: cssCoverage,
+          js: jsCoverage,
+          timestamp: Date.now(),
+          url: page.url(),
         });
       }
     } catch (e) {
@@ -170,6 +165,11 @@ export const test = base.extend<CoverageFixtures>({
     } catch (e) {
       console.warn(`[coverage] Failed to stop coverage: ${e}`);
     }
+  },
+
+  enableCoverage: async ({ page }, use) => {
+    // Coverage is enabled by default when using coveragePage
+    await use(true);
   },
 });
 

@@ -72,9 +72,7 @@ export function TransferSummary({ amount, recipient, sourceWallet }: Props) {
             <span className="text-muted-foreground">Amount</span>
             <span className="font-medium">
               {Number(amountNum) > 0 ? (
-                <span data-testid="transfer-summary-amount">{`$${Number(
-                  amountNum,
-                ).toFixed(2)}`}</span>
+                <span data-testid="transfer-summary-amount">{`$${Number(amountNum).toFixed(2)}`}</span>
               ) : (
                 "—"
               )}

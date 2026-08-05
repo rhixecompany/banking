@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* eslint-disable n/no-process-env, no-console */
+/* eslint-disable n/no-process-env */
 /** scripts/utils/io.ts
  *
  * Minimal centralized IO helper for scripts dry-run migration.

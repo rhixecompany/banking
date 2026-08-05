@@ -8,27 +8,18 @@ import fs from "fs";
 import path from "path";
 
 import { logger } from "@/lib/logger";
+
 import { ensureApplyOrDryRun, parseCli } from "../utils/cli";
 import { run } from "../utils/spawn-safe";
 
 const SCRIPT_DIR = path.dirname(new URL(import.meta.url).pathname);
-const CERT_DIR = path.join(
-  SCRIPT_DIR,
-  "..",
-  "..",
-  "compose",
-  "production",
-  "traefik",
-  "certs",
-);
+const CERT_DIR = path.join(SCRIPT_DIR, "..", "..", "compose", "production", "traefik", "certs");
 
 function main() {
   const opts = parseCli();
 
   if (opts.help) {
-    logger.info(
-      "Usage: bunx tsx scripts/ts/server/gen-certs.ts [--dry-run | --apply]",
-    );
+    logger.info("Usage: bunx tsx scripts/ts/server/gen-certs.ts [--dry-run | --apply]");
     process.exit(0);
   }
 

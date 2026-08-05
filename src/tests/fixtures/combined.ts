@@ -18,7 +18,9 @@
  */
 
 import { Page } from "@playwright/test";
+
 import type { PerformanceThresholds } from "./performance";
+
 import {
   assertPerformance,
   getResourceTiming,
@@ -54,11 +56,11 @@ class ConsoleErrorTracker {
 
         if (!isAllowed) {
           this.errors.push({
+            browser: "chromium",
+            context: "console",
             message: text,
             page: page.url(),
             timestamp: Date.now(),
-            browser: "chromium",
-            context: "console",
           });
         }
       }
@@ -66,11 +68,11 @@ class ConsoleErrorTracker {
 
     page.on("pageerror", (error) => {
       this.errors.push({
+        browser: "chromium",
+        context: "pageerror",
         message: error.message,
         page: page.url(),
         timestamp: Date.now(),
-        browser: "chromium",
-        context: "pageerror",
       });
     });
   }
@@ -111,8 +113,8 @@ export function setupInstrumentedPage(
   consoleTracker.init(page, allowedErrors);
 
   return {
-    getConsoleErrors: () => consoleTracker?.getErrors() ?? [],
     clearConsoleErrors: () => consoleTracker?.clear() ?? void 0,
+    getConsoleErrors: () => consoleTracker?.getErrors() ?? [],
   };
 }
 
@@ -137,7 +139,7 @@ export function clearConsoleErrors(): void {
 }
 
 // Coverage state
-const coverageData: unknown[] | null = null;
+const coverageData: null | unknown[] = null;
 
 /**
  * Start coverage collection on a page
@@ -156,7 +158,7 @@ export async function stopCoverageCollection(): Promise<unknown[]> {
 /**
  * Get coverage data
  */
-export function getCoverage(): unknown[] | null {
+export function getCoverage(): null | unknown[] {
   return coverageData;
 }
 
@@ -196,14 +198,14 @@ export async function setupFullInstrumentation(
   assertPerformance: (thresholds: PerformanceThresholds) => Promise<void>;
 }> {
   const {
-    trackConsoleErrors = true,
-    collectCoverage = false,
     allowedErrors,
+    collectCoverage = false,
+    trackConsoleErrors = true,
   } = options;
 
   const consoleController = trackConsoleErrors
     ? setupInstrumentedPage(page, allowedErrors)
-    : { getConsoleErrors: () => [], clearConsoleErrors: () => {} };
+    : { clearConsoleErrors: () => {}, getConsoleErrors: () => [] };
 
   const startCoverage = collectCoverage
     ? () => startCoverageCollection(page)
@@ -211,25 +213,25 @@ export async function setupFullInstrumentation(
 
   return {
     ...consoleController,
-    startCoverageCollection: startCoverage,
-    stopCoverageCollection,
-    measureOperation: (op: () => Promise<void>) => measureOperation(page, op),
     assertPerformance: (thresholds: PerformanceThresholds) =>
       assertPerformance(page, thresholds),
+    measureOperation: (op: () => Promise<void>) => measureOperation(page, op),
+    startCoverageCollection: startCoverage,
+    stopCoverageCollection,
   };
 }
 
 export default {
-  setupInstrumentedPage,
-  getConsoleErrors,
+  assertPerformance,
   clearConsoleErrors,
-  startCoverageCollection,
-  stopCoverageCollection,
+  getConsoleErrors,
   getCoverage,
-  setupFullInstrumentation,
-  measurePerformance,
   getResourceTiming,
   measureOperation,
-  assertPerformance,
+  measurePerformance,
   PERFORMANCE_CONFIG,
+  setupFullInstrumentation,
+  setupInstrumentedPage,
+  startCoverageCollection,
+  stopCoverageCollection,
 };

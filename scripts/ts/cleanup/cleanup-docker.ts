@@ -6,6 +6,7 @@
 import fs from "fs";
 
 import { logger } from "@/lib/logger";
+
 import { ensureApplyOrDryRun, parseCli } from "../utils/cli";
 import { run } from "../utils/spawn-safe";
 
@@ -13,9 +14,7 @@ function main() {
   const opts = parseCli();
 
   if (opts.help) {
-    logger.info(
-      "Usage: bunx tsx scripts/ts/cleanup/cleanup-docker.ts [--dry-run | --apply] [--verbose]",
-    );
+    logger.info("Usage: bunx tsx scripts/ts/cleanup/cleanup-docker.ts [--dry-run | --apply] [--verbose]");
     process.exit(0);
   }
 
@@ -37,9 +36,7 @@ function main() {
   run("docker", ["network", "ls", "-f", "dangling=true", "-q"]);
 
   if (opts.dryRun) {
-    logger.info(
-      "[DRY-RUN] Would remove: dangling images, exited containers, unused networks, all images, build cache",
-    );
+    logger.info("[DRY-RUN] Would remove: dangling images, exited containers, unused networks, all images, build cache");
     process.exit(0);
   }
 

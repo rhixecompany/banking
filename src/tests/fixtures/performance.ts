@@ -90,23 +90,23 @@ export async function measurePerformance(
     const navigation = navEntries[0] || {};
 
     return {
-      loadComplete: timing.loadEventEnd - timing.navigationStart,
+      cachedRequests: resourceEntries.filter(
+        (r: any) => r.transferSize === 0 && r.duration < 10,
+      ).length,
       domContentLoaded:
         timing.domContentLoadedEventEnd - timing.navigationStart,
-      firstPaint: paintEntries[0]?.startTime,
+      failedRequests: resourceEntries.filter(
+        (r: any) => r.transferSize === 0 && r.duration > 0,
+      ).length,
       firstContentfulPaint: paintEntries[1]?.startTime,
+      firstPaint: paintEntries[0]?.startTime,
+      loadComplete: timing.loadEventEnd - timing.navigationStart,
       timeToFirstByte: navigation.responseStart - navigation.requestStart,
       totalRequests: resourceEntries.length,
       totalTransferSize: resourceEntries.reduce(
         (sum: number, r: any) => sum + (r.transferSize || 0),
         0,
       ),
-      cachedRequests: resourceEntries.filter(
-        (r: any) => r.transferSize === 0 && r.duration < 10,
-      ).length,
-      failedRequests: resourceEntries.filter(
-        (r: any) => r.transferSize === 0 && r.duration > 0,
-      ).length,
     };
   });
 
@@ -129,12 +129,12 @@ export async function getResourceTiming(page: Page): Promise<ResourceTiming[]> {
   return page.evaluate(() => {
     const entries = performance.getEntriesByType("resource") as any[];
     return entries.map((entry) => ({
-      url: entry.name,
-      initiatorType: entry.initiatorType,
-      duration: entry.duration,
-      transferSize: entry.transferSize || 0,
       cached: entry.transferSize === 0 && entry.duration < 10,
+      duration: entry.duration,
       failed: entry.transferSize === 0 && entry.duration > 0,
+      initiatorType: entry.initiatorType,
+      transferSize: entry.transferSize || 0,
+      url: entry.name,
     }));
   });
 }
@@ -182,11 +182,11 @@ export async function assertPerformance(
     const paintEntries = performance.getEntriesByType("paint") as any[];
 
     return {
-      loadComplete: timing.loadEventEnd - timing.navigationStart,
       domContentLoaded:
         timing.domContentLoadedEventEnd - timing.navigationStart,
-      firstPaint: paintEntries[0]?.startTime,
       firstContentfulPaint: paintEntries[1]?.startTime,
+      firstPaint: paintEntries[0]?.startTime,
+      loadComplete: timing.loadEventEnd - timing.navigationStart,
     };
   });
 
@@ -232,30 +232,30 @@ export async function assertPerformance(
 export const PERFORMANCE_CONFIG = {
   /** Default thresholds for CI */
   CI: {
-    maxLoadTime: 5000,
     maxFirstContentfulPaint: 2000,
+    maxLoadTime: 5000,
     maxRequests: 60,
   } as PerformanceThresholds,
 
   /** Default thresholds for local development */
   dev: {
-    maxLoadTime: 3000,
     maxFirstContentfulPaint: 1500,
+    maxLoadTime: 3000,
     maxRequests: 50,
   } as PerformanceThresholds,
 
   /** Strict thresholds for critical paths */
   strict: {
-    maxLoadTime: 2000,
     maxFirstContentfulPaint: 1000,
+    maxLoadTime: 2000,
     maxRequests: 30,
   } as PerformanceThresholds,
 };
 
 export default {
-  measurePerformance,
+  assertPerformance,
   getResourceTiming,
   measureOperation,
-  assertPerformance,
+  measurePerformance,
   PERFORMANCE_CONFIG,
 };

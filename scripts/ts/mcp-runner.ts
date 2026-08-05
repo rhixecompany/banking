@@ -13,8 +13,8 @@ import { fileURLToPath } from "url";
 
 /** Inline logger — avoids the @/lib/logger app alias outside the Next.js tree */
 const logger = {
-  info: (...args: unknown[]) => console.log(...args),
   error: (...args: unknown[]) => console.error(...args),
+  info: (...args: unknown[]) => console.log(...args),
 };
 
 interface PagesMap {
@@ -44,12 +44,7 @@ async function readJson<T = unknown>(filePath: string): Promise<null | T> {
 
 async function main() {
   const repoRoot = process.cwd();
-  const pagesMapPath = path.join(
-    repoRoot,
-    ".opencode",
-    "reports",
-    "pages-map.json",
-  );
+  const pagesMapPath = path.join(repoRoot, ".opencode", "reports", "pages-map.json");
 
   const out: {
     ok: boolean;
@@ -62,9 +57,7 @@ async function main() {
 
   let pagesMap: PagesMap = {};
   if (!(await fileExists(pagesMapPath))) {
-    logger.error(
-      `[warn] Pages map not found at ${pagesMapPath}; continuing with empty pages list.`,
-    );
+    logger.error(`[warn] Pages map not found at ${pagesMapPath}; continuing with empty pages list.`);
   } else {
     pagesMap = (await readJson<PagesMap>(pagesMapPath)) || {};
   }
@@ -137,9 +130,7 @@ async function main() {
     logger.info("\nProposals (dry-run, no files will be written):");
     logger.info(JSON.stringify(out.proposals, null, 2));
   } else {
-    logger.info(
-      "\nNo proposals — manifests appear to contain all discovered pages or are not applicable.",
-    );
+    logger.info("\nNo proposals — manifests appear to contain all discovered pages or are not applicable.");
   }
 
   logger.info("\nJSON_OUTPUT_START");

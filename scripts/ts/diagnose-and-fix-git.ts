@@ -7,6 +7,7 @@ import fs from "fs";
 import readline from "readline";
 
 import { logger } from "@/lib/logger";
+
 import { ensureApplyOrDryRun, parseCli } from "./utils/cli";
 import { capture } from "./utils/spawn-safe";
 
@@ -27,18 +28,14 @@ async function main() {
   const opts = parseCli();
 
   if (opts.help) {
-    logger.info(
-      "Usage: bunx tsx scripts/ts/diagnose-and-fix-git.ts [--dry-run | --apply] [--verbose]",
-    );
+    logger.info("Usage: bunx tsx scripts/ts/diagnose-and-fix-git.ts [--dry-run | --apply] [--verbose]");
     process.exit(0);
   }
 
   ensureApplyOrDryRun(opts);
 
   // Check git availability
-  const which = capture(process.platform === "win32" ? "where" : "which", [
-    "git",
-  ]);
+  const which = capture(process.platform === "win32" ? "where" : "which", ["git"]);
   if (which.code !== 0) {
     logger.error("git not found in PATH");
     process.exit(1);
@@ -65,9 +62,7 @@ async function main() {
     }
 
     if (running) {
-      logger.info(
-        "Found running git-related processes; recommend closing them before removing index.lock",
-      );
+      logger.info("Found running git-related processes; recommend closing them before removing index.lock");
     }
 
     if (opts.apply) {

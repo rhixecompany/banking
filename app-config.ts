@@ -23,9 +23,9 @@ const databaseSchema = z.object({
     .string()
     .trim()
     .url()
-    .describe("PostgreSQL connection string - REQUIRED")
+    .meta({ description: "PostgreSQL connection string - REQUIRED" })
     .refine((val) => val !== undefined && val.length > 0, {
-      message: "DATABASE_URL is required for database connectivity",
+      error: "DATABASE_URL is required for database connectivity",
     }),
 });
 
@@ -58,9 +58,9 @@ const authSchema = z.object({
     .string()
     .trim()
     .min(1)
-    .describe("NextAuth session secret - REQUIRED for production")
+    .meta({ description: "NextAuth session secret - REQUIRED for production" })
     .refine((val) => val !== undefined && val.length > 0, {
-      message: "NEXTAUTH_SECRET is required for authentication",
+      error: "NEXTAUTH_SECRET is required for authentication",
     }),
   NEXTAUTH_URL: z
     .string()
@@ -79,9 +79,9 @@ const encryptionSchema = z.object({
     .string()
     .trim()
     .min(1)
-    .describe("AES-256-GCM encryption key - REQUIRED for security")
+    .meta({ description: "AES-256-GCM encryption key - REQUIRED for security" })
     .refine((val) => val !== undefined && val.length > 0, {
-      message: "ENCRYPTION_KEY is required for securing sensitive data",
+      error: "ENCRYPTION_KEY is required for securing sensitive data",
     }),
 });
 

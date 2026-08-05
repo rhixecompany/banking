@@ -9,15 +9,14 @@ import fs from "fs";
 import path from "path";
 
 import { logger } from "@/lib/logger";
+
 import { run } from "./utils/spawn-safe";
 
 const SCRIPT_DIR = path.dirname(process.argv[1]);
 const PROJECT_ROOT = path.resolve(SCRIPT_DIR, "..");
 
 const envFileArg = process.argv.find((a) => a.startsWith("--env-file="));
-const envFile = envFileArg
-  ? envFileArg.split("=")[1]
-  : path.join(PROJECT_ROOT, ".envs/production/.env.production");
+const envFile = envFileArg ? envFileArg.split("=")[1] : path.join(PROJECT_ROOT, ".envs/production/.env.production");
 const skipMigrations = process.argv.includes("--skip-migrations");
 
 logger.info("");
@@ -45,9 +44,7 @@ if (!fs.existsSync(envFile)) {
   if (fs.existsSync(genEnvScript)) {
     run("bunx", ["tsx", genEnvScript]);
   } else {
-    logger.error(
-      `generate-env.ts not found. Please create ${envFile} manually.`,
-    );
+    logger.error(`generate-env.ts not found. Please create ${envFile} manually.`);
     process.exit(1);
   }
 }
@@ -65,10 +62,7 @@ if (fs.existsSync(envFile)) {
 }
 
 // Auto-generate secrets if placeholders
-if (
-  !process.env.ENCRYPTION_KEY ||
-  process.env.ENCRYPTION_KEY === "CHANGE_ME_TO_SECURE_32_CHAR_RANDOM_VALUE"
-) {
+if (!process.env.ENCRYPTION_KEY || process.env.ENCRYPTION_KEY === "CHANGE_ME_TO_SECURE_32_CHAR_RANDOM_VALUE") {
   logger.warn("ENCRYPTION_KEY missing or placeholder; auto-generating for dev");
   // Attempt openssl, fall back to crypto
   try {
@@ -83,13 +77,8 @@ if (
     process.env.ENCRYPTION_KEY = crypto.randomBytes(32).toString("hex");
   }
 }
-if (
-  !process.env.NEXTAUTH_SECRET ||
-  process.env.NEXTAUTH_SECRET === "CHANGE_ME_TO_SECURE_32_CHAR_RANDOM_VALUE"
-) {
-  logger.warn(
-    "NEXTAUTH_SECRET missing or placeholder; auto-generating for dev",
-  );
+if (!process.env.NEXTAUTH_SECRET || process.env.NEXTAUTH_SECRET === "CHANGE_ME_TO_SECURE_32_CHAR_RANDOM_VALUE") {
+  logger.warn("NEXTAUTH_SECRET missing or placeholder; auto-generating for dev");
   try {
     const r = spawnSync("openssl", ["rand", "-base64", "32"], {
       encoding: "utf8",
@@ -105,54 +94,22 @@ if (
 
 logger.info("Building Docker image...");
 const composeFile = "docker-compose.yml";
-const buildArgs = [
-  "-f",
-  composeFile,
-  "--env-file",
-  envFile,
-  "build",
-  "--no-cache",
-];
+const buildArgs = ["-f", composeFile, "--env-file", envFile, "build", "--no-cache"];
 
 const extra: string[] = [];
 if (process.env.NEXT_PUBLIC_SITE_URL)
-  extra.push(
-    "--build-arg",
-    `NEXT_PUBLIC_SITE_URL=${process.env.NEXT_PUBLIC_SITE_URL}`,
-  );
-if (process.env.DATABASE_URL)
-  extra.push("--build-arg", `DATABASE_URL=${process.env.DATABASE_URL}`);
-if (process.env.ENCRYPTION_KEY)
-  extra.push("--build-arg", `ENCRYPTION_KEY=${process.env.ENCRYPTION_KEY}`);
-if (process.env.NEXTAUTH_SECRET)
-  extra.push("--build-arg", `NEXTAUTH_SECRET=${process.env.NEXTAUTH_SECRET}`);
+  extra.push("--build-arg", `NEXT_PUBLIC_SITE_URL=${process.env.NEXT_PUBLIC_SITE_URL}`);
+if (process.env.DATABASE_URL) extra.push("--build-arg", `DATABASE_URL=${process.env.DATABASE_URL}`);
+if (process.env.ENCRYPTION_KEY) extra.push("--build-arg", `ENCRYPTION_KEY=${process.env.ENCRYPTION_KEY}`);
+if (process.env.NEXTAUTH_SECRET) extra.push("--build-arg", `NEXTAUTH_SECRET=${process.env.NEXTAUTH_SECRET}`);
 
 run("docker", ["compose", ...buildArgs, ...extra]);
 
 logger.info("");
 if (!skipMigrations) {
   logger.info("Running database migrations...");
-  run("docker", [
-    "compose",
-    "-f",
-    composeFile,
-    "--env-file",
-    envFile,
-    "--profile",
-    "init",
-    "up",
-  ]);
-  run("docker", [
-    "compose",
-    "-f",
-    composeFile,
-    "--env-file",
-    envFile,
-    "--profile",
-    "init",
-    "down",
-    "--remove-orphans",
-  ]);
+  run("docker", ["compose", "-f", composeFile, "--env-file", envFile, "--profile", "init", "up"]);
+  run("docker", ["compose", "-f", composeFile, "--env-file", envFile, "--profile", "init", "down", "--remove-orphans"]);
 }
 
 logger.info("Build complete!");

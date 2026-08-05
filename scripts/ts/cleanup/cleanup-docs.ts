@@ -7,6 +7,7 @@ import fs from "fs";
 import path from "path";
 
 import { logger } from "@/lib/logger";
+
 import { ensureApplyOrDryRun, parseCli } from "../utils/cli";
 
 type Categories = Record<string, string[]>;
@@ -61,14 +62,9 @@ function categorize(relPath: string) {
     "docs/shadcn-ui-intro.md",
     "docs/shadcn.md",
   ]);
-  if (relPath.startsWith("docs/plaid/") || integrationList.has(relPath))
-    return "INTEGRATION_KEEP";
+  if (relPath.startsWith("docs/plaid/") || integrationList.has(relPath)) return "INTEGRATION_KEEP";
 
-  if (
-    relPath === "docs/docker/swarm-overview.md" ||
-    relPath === "docs/traefik/docker-swarm.md"
-  )
-    return "SWARM_DELETE";
+  if (relPath === "docs/docker/swarm-overview.md" || relPath === "docs/traefik/docker-swarm.md") return "SWARM_DELETE";
 
   const legacyList = new Set([
     "00-DOCKER-START-HERE.md",
@@ -108,8 +104,7 @@ function categorize(relPath: string) {
   if (relPath.startsWith("docs/reports/")) return "OTHER_DELETE";
 
   if (relPath.startsWith("docs/")) {
-    if (/^docs\/eslint-plugin-.*-context.md$/.test(relPath))
-      return "OTHER_DELETE";
+    if (/^docs\/eslint-plugin-.*-context.md$/.test(relPath)) return "OTHER_DELETE";
     return "OTHER_DELETE";
   }
 
@@ -120,9 +115,7 @@ async function main() {
   const opts = parseCli();
 
   if (opts.help) {
-    logger.info(
-      "Usage: bunx tsx scripts/ts/cleanup/cleanup-docs.ts [--dry-run | --apply] [--verbose]",
-    );
+    logger.info("Usage: bunx tsx scripts/ts/cleanup/cleanup-docs.ts [--dry-run | --apply] [--verbose]");
     logger.info("  --dry-run     Preview changes (default)");
     logger.info("  --apply       Delete files (requires --confirm=yes)");
     process.exit(0);
@@ -149,17 +142,13 @@ async function main() {
     categories[cat].push(r);
   });
 
-  const counts = Object.fromEntries(
-    Object.entries(categories).map(([k, v]) => [k, v.length]),
-  ) as Record<string, number>;
+  const counts = Object.fromEntries(Object.entries(categories).map(([k, v]) => [k, v.length])) as Record<
+    string,
+    number
+  >;
 
-  const keepCount =
-    counts.CORE_KEEP + counts.DOCKER_KEEP + counts.INTEGRATION_KEEP;
-  const deleteCount =
-    counts.SWARM_DELETE +
-    counts.LEGACY_DELETE +
-    counts.OTHER_DELETE +
-    counts.ORPHANED_DELETE;
+  const keepCount = counts.CORE_KEEP + counts.DOCKER_KEEP + counts.INTEGRATION_KEEP;
+  const deleteCount = counts.SWARM_DELETE + counts.LEGACY_DELETE + counts.OTHER_DELETE + counts.ORPHANED_DELETE;
 
   logger.info(`Scan complete. Keep: ${keepCount}  To-delete: ${deleteCount}`);
 

@@ -366,7 +366,9 @@ async function loadRuntimeConfig(
     const rawOutput = await runCommand(
       "bunx",
       ["opencode", "debug", "config"],
-      { NODE_OPTIONS: "--max-old-space-size=4096" },
+      {
+        NODE_OPTIONS: "--max-old-space-size=4096",
+      },
     );
     log(`  ✓ Retrieved runtime config (${rawOutput.length} bytes)`);
     const runtimeConfig = extractJsonFromRaw(rawOutput);

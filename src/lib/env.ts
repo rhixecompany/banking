@@ -99,7 +99,6 @@ if (process.env.NODE_ENV === "production" && !isNextProductionBuildPhase) {
   try {
     validateRequiredConfig();
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.error("Environment validation failed:", error);
     throw error;
   }

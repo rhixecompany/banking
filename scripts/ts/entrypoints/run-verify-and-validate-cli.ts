@@ -17,7 +17,9 @@ async function run() {
   if (cli.dryRun) {
     printDryRunResult(
       "Would run format, type-check, lint:strict, verify:rules",
-      { steps: ["format", "type-check", "lint:strict", "verify:rules"] },
+      {
+        steps: ["format", "type-check", "lint:strict", "verify:rules"],
+      },
     );
     return;
   }

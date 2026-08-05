@@ -7,6 +7,7 @@ import fs from "fs";
 import path from "path";
 
 import { logger } from "@/lib/logger";
+
 import { run } from "../utils/spawn-safe";
 
 const SCRIPT_DIR = path.dirname(new URL(import.meta.url).pathname);
@@ -23,13 +24,7 @@ try {
 }
 
 // Generate htpasswd if missing
-const htpath = path.join(
-  PROJECT_ROOT,
-  "compose",
-  "traefik",
-  "auth",
-  "htpasswd",
-);
+const htpath = path.join(PROJECT_ROOT, "compose", "traefik", "auth", "htpasswd");
 if (!fs.existsSync(htpath)) {
   logger.info("Creating htpasswd file...");
   try {
@@ -47,69 +42,29 @@ if (!fs.existsSync(htpath)) {
 }
 
 // Verify env
-const ENV_FILE = path.join(
-  PROJECT_ROOT,
-  ".envs",
-  "production",
-  ".env.production",
-);
+const ENV_FILE = path.join(PROJECT_ROOT, ".envs", "production", ".env.production");
 if (!fs.existsSync(ENV_FILE)) {
   logger.error(`${ENV_FILE} not found`);
   process.exit(1);
 }
 
 logger.info("Building Docker image...");
-run(
-  "docker",
-  [
-    "compose",
-    "-f",
-    "docker-compose.yml",
-    "--env-file",
-    ENV_FILE,
-    "build",
-    "--no-cache",
-  ],
-  { cwd: PROJECT_ROOT },
-);
+run("docker", ["compose", "-f", "docker-compose.yml", "--env-file", ENV_FILE, "build", "--no-cache"], {
+  cwd: PROJECT_ROOT,
+});
 
 logger.info("Running migrations (profile init)...");
+run("docker", ["compose", "-f", "docker-compose.yml", "--env-file", ENV_FILE, "--profile", "init", "up"], {
+  cwd: PROJECT_ROOT,
+});
 run(
   "docker",
-  [
-    "compose",
-    "-f",
-    "docker-compose.yml",
-    "--env-file",
-    ENV_FILE,
-    "--profile",
-    "init",
-    "up",
-  ],
-  { cwd: PROJECT_ROOT },
-);
-run(
-  "docker",
-  [
-    "compose",
-    "-f",
-    "docker-compose.yml",
-    "--env-file",
-    ENV_FILE,
-    "--profile",
-    "init",
-    "down",
-    "--remove-orphans",
-  ],
+  ["compose", "-f", "docker-compose.yml", "--env-file", ENV_FILE, "--profile", "init", "down", "--remove-orphans"],
   { cwd: PROJECT_ROOT },
 );
 
 logger.info("Starting application...");
-run(
-  "docker",
-  ["compose", "-f", "docker-compose.yml", "--env-file", ENV_FILE, "up", "-d"],
-  { cwd: PROJECT_ROOT },
-);
+run("docker", ["compose", "-f", "docker-compose.yml", "--env-file", ENV_FILE, "up", "-d"], { cwd: PROJECT_ROOT });
 
 logger.info("Waiting for health check on http://localhost:3000/api/health");
 // Simple sleep loop

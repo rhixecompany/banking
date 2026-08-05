@@ -8,18 +8,12 @@ import fs from "fs";
 import path from "path";
 
 import { logger } from "@/lib/logger";
+
 import { ensureApplyOrDryRun, parseCli } from "../utils/cli";
 import { run } from "../utils/spawn-safe";
 
 const SCRIPT_DIR = path.dirname(new URL(import.meta.url).pathname);
-const AUTH_DIR = path.join(
-  SCRIPT_DIR,
-  "..",
-  "..",
-  "compose",
-  "traefik",
-  "auth",
-);
+const AUTH_DIR = path.join(SCRIPT_DIR, "..", "..", "compose", "traefik", "auth");
 const HTPASSWD_FILE = path.join(AUTH_DIR, "htpasswd");
 
 const DEFAULT_USER = "admin";
@@ -29,9 +23,7 @@ function main() {
   const opts = parseCli();
 
   if (opts.help) {
-    logger.info(
-      "Usage: bunx tsx scripts/ts/deploy/generate-htpasswd.ts [username] [password] [--dry-run | --apply]",
-    );
+    logger.info("Usage: bunx tsx scripts/ts/deploy/generate-htpasswd.ts [username] [password] [--dry-run | --apply]");
     process.exit(0);
   }
 
@@ -41,9 +33,7 @@ function main() {
   const password = opts.args._[1] ?? process.env.PASSWORD ?? DEFAULT_PASS;
 
   if (opts.dryRun) {
-    logger.info(
-      `[DRY-RUN] Would create htpasswd at ${HTPASSWD_FILE} for user ${username}`,
-    );
+    logger.info(`[DRY-RUN] Would create htpasswd at ${HTPASSWD_FILE} for user ${username}`);
     process.exit(0);
   }
 

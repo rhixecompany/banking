@@ -29,7 +29,7 @@ export async function navigateTo(
  */
 export async function fillField(
   page: Page,
-  selector: string | Locator,
+  selector: Locator | string,
   value: string,
   fieldName: string,
 ): Promise<void> {
@@ -45,7 +45,7 @@ export async function fillField(
  */
 export async function clickElement(
   page: Page,
-  selector: string | Locator,
+  selector: Locator | string,
   description: string,
 ): Promise<void> {
   await base.step(`Click "${description}"`, async () => {
@@ -72,7 +72,7 @@ export async function submitForm(
  */
 export async function waitForElement(
   page: Page,
-  selector: string | Locator,
+  selector: Locator | string,
   description: string,
   timeout = 10_000,
 ): Promise<Locator> {
@@ -91,7 +91,7 @@ export async function waitForElement(
  */
 export async function assertVisible(
   page: Page,
-  selector: string | Locator,
+  selector: Locator | string,
   description: string,
 ): Promise<Locator> {
   const locator =
@@ -109,8 +109,8 @@ export async function assertVisible(
  */
 export async function assertText(
   page: Page,
-  selector: string | Locator,
-  expected: string | RegExp,
+  selector: Locator | string,
+  expected: RegExp | string,
   description: string,
 ): Promise<void> {
   const locator =
@@ -126,8 +126,8 @@ export async function assertText(
  */
 export async function assertValue(
   page: Page,
-  selector: string | Locator,
-  expected: string | RegExp,
+  selector: Locator | string,
+  expected: RegExp | string,
   description: string,
 ): Promise<void> {
   const locator =
@@ -143,7 +143,7 @@ export async function assertValue(
  */
 export async function assertUrl(
   page: Page,
-  pattern: string | RegExp,
+  pattern: RegExp | string,
   description: string,
 ): Promise<void> {
   await base.step(`Assert URL is "${description}"`, async () => {
@@ -156,7 +156,7 @@ export async function assertUrl(
  */
 export async function waitForResponse(
   page: Page,
-  urlPattern: string | RegExp,
+  urlPattern: RegExp | string,
   description: string,
 ): Promise<void> {
   await base.step(`Wait for "${description}" API response`, async () => {
@@ -184,7 +184,7 @@ export interface SoftAssertResult {
 
 export async function softAssert(
   page: Page,
-  assertions: Array<[Locator, string, string, ...unknown[]]>,
+  assertions: [Locator, string, string, ...unknown[]][],
 ): Promise<SoftAssertResult> {
   const errors: string[] = [];
 
@@ -203,8 +203,8 @@ export async function softAssert(
   }
 
   return {
-    passed: errors.length === 0,
     errors,
+    passed: errors.length === 0,
   };
 }
 
@@ -220,7 +220,7 @@ export async function measureTime<T>(
   const result = await fn();
   const duration = Date.now() - start;
   console.log(`[timing] ${label}: ${duration}ms`);
-  return { result, duration };
+  return { duration, result };
 }
 
 /**
@@ -271,9 +271,9 @@ export async function debugScreenshot(
   page: Page,
   name: string,
 ): Promise<string> {
-  const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+  const timestamp = new Date().toISOString().replaceAll(/[:.]/g, "-");
   const filename = `debug-${name}-${timestamp}.png`;
-  await page.screenshot({ path: filename, fullPage: true });
+  await page.screenshot({ fullPage: true, path: filename });
   console.log(`[debug] Screenshot saved: ${filename}`);
   return filename;
 }
@@ -291,21 +291,21 @@ export async function debugScreenshot(
 export { expect, test };
 
 export default {
-  expect,
-  test,
-  navigateTo,
-  fillField,
-  clickElement,
-  submitForm,
-  waitForElement,
-  assertVisible,
   assertText,
-  assertValue,
   assertUrl,
-  waitForResponse,
-  softAssert,
-  measureTime,
-  retry,
-  waitForNetworkIdle,
+  assertValue,
+  assertVisible,
+  clickElement,
   debugScreenshot,
+  expect,
+  fillField,
+  measureTime,
+  navigateTo,
+  retry,
+  softAssert,
+  submitForm,
+  test,
+  waitForElement,
+  waitForNetworkIdle,
+  waitForResponse,
 };

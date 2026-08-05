@@ -1,5 +1,6 @@
 import "dotenv/config";
 import { eq } from "drizzle-orm";
+
 import { db } from "./src/database/db";
 import { users } from "./src/database/schema";
 

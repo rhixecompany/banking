@@ -71,16 +71,16 @@ export type { PerformanceMetrics } from "./performance";
 // Re-export combined utilities (all-in-one)
 import combinedExports from "./combined";
 export const {
-  setupInstrumentedPage,
-  getConsoleErrors,
+  assertPerformance,
   clearConsoleErrors,
-  startCoverageCollection,
-  stopCoverageCollection,
+  getConsoleErrors,
   getCoverage,
-  setupFullInstrumentation,
-  measurePerformance,
   getResourceTiming,
   measureOperation,
-  assertPerformance,
+  measurePerformance,
   PERFORMANCE_CONFIG,
+  setupFullInstrumentation,
+  setupInstrumentedPage,
+  startCoverageCollection,
+  stopCoverageCollection,
 } = combinedExports;

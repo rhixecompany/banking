@@ -13,7 +13,5 @@ export function Toggle() {
   return (
     <button onClick={() => setOn(v => !v)}>
       {on ? "On" : "Off"}
-    </button>
-  );
-}
+    <
 ```

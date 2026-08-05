@@ -47,7 +47,7 @@ interface UseDebounceOptions {
  */
 export function useDebounce<T>(
   value: T,
-  delay: number = 500,
+  delay = 500,
   options?: UseDebounceOptions,
 ): T {
   const { leading = false, trailing = true } = options ?? {};
@@ -120,7 +120,7 @@ export function useDebounce<T>(
  */
 export function useDebounceCallback<T extends (...args: unknown[]) => unknown>(
   callback: T,
-  delay: number = 500,
+  delay = 500,
 ): T {
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(
     undefined,

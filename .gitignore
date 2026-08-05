@@ -149,3 +149,11 @@ temp/
 __pycache__/
 *.py[cod]
 *$py.class
+
+# Tooling (appended)
+.venv/
+.ruff_cache/
+.mypy_cache/
+.pytest_cache/
+dist/
+build/

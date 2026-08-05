@@ -17,7 +17,7 @@ const getDbConfig = (): string | undefined => {
     // During build-time (Next.js static generation) a DATABASE_URL may not be present.
     // Avoid throwing here so the build can continue. Any runtime DB usage will fail
     // later if the URL is truly missing. Log a warning to aid diagnostics.
-    // eslint-disable-next-line no-console
+
     console.warn(
       "DATABASE_URL or NEON_DATABASE_URL not set. Database will not be connected. This is OK for build-time in many environments.",
     );

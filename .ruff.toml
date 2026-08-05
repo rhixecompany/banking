@@ -1,0 +1,37 @@
+target-version = "py311"
+line-length = 120
+exclude = [
+  "projects/",
+  "hermes-profiles/",
+  "node_modules/",
+  "myvenv/",
+  ".venv/",
+  ".git/",
+  "__pycache__/",
+]
+
+[format]
+line-ending = "lf"
+quote-style = "double"
+indent-style = "space"
+
+[lint]
+select = [
+  "E",
+  "F",
+  "I",
+  "N",
+  "W",
+  "UP",
+  "B",
+  "SIM",
+  "ARG",
+  "RUF",
+]
+ignore = [
+  "E501",
+  "N818",
+]
+
+[lint.isort]
+known-first-party = ["scripts", "projects"]

@@ -1,5 +1,6 @@
 import "dotenv/config";
 import { sql } from "drizzle-orm";
+
 import { db } from "./src/database/db";
 
 async function main() {

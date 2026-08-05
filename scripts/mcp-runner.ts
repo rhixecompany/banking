@@ -29,8 +29,8 @@ import {
 interface AuditArtifact {
   /** Command outputs captured during discovery */
   commands: {
-    dockerPs: string | null;
-    gateway: string | null;
+    dockerPs: null | string;
+    gateway: null | string;
   };
   /** File operations performed */
   files: {
@@ -102,8 +102,7 @@ export async function main(): Promise<void> {
       discoveryRecords.push(...r);
     }
   } catch {
-    if (argv.verbose)
-      logger.warn("gateway discovery failed, falling back to docker ps");
+    if (argv.verbose) logger.warn("gateway discovery failed, falling back to docker ps");
   }
 
   if (discoveryRecords.length === 0) {
@@ -160,10 +159,7 @@ export async function main(): Promise<void> {
       const valResults = runValidations(validationCommands, {
         timeout: 10 * 60 * 1000,
       });
-      logger.info(
-        "Post-restore validations:",
-        JSON.stringify(valResults, null, 2),
-      );
+      logger.info("Post-restore validations:", JSON.stringify(valResults, null, 2));
       process.exit(0);
     } catch (err: any) {
       logger.error("Rollback failed:", err?.message ?? String(err));
@@ -190,9 +186,7 @@ export async function main(): Promise<void> {
   } else {
     // If running non-interactive force, require RUN_MCP_FORCE env flag
     if (!process.env.RUN_MCP_FORCE || process.env.RUN_MCP_FORCE !== "true") {
-      logger.error(
-        "Non-interactive --force requires environment variable RUN_MCP_FORCE=true",
-      );
+      logger.error("Non-interactive --force requires environment variable RUN_MCP_FORCE=true");
       process.exit(3);
     }
   }
@@ -242,10 +236,7 @@ export async function main(): Promise<void> {
   // Save audit file
   const auditDir = path.resolve(".opencode/mcp-audit");
   if (!fs.existsSync(auditDir)) fs.mkdirSync(auditDir, { recursive: true });
-  const auditPath = path.join(
-    auditDir,
-    `mcp-runner-apply-${audit.timestamp}.json`,
-  );
+  const auditPath = path.join(auditDir, `mcp-runner-apply-${audit.timestamp}.json`);
   fs.writeFileSync(auditPath, JSON.stringify(audit, null, 2), "utf8");
   logger.info("Wrote audit artifact:", auditPath);
 
@@ -254,8 +245,7 @@ export async function main(): Promise<void> {
     const pruned = pruneBackups(path.dirname(catalogPath), 365);
     if (pruned.length && argv.verbose) logger.info("Pruned backups:", pruned);
   } catch (e) {
-    if (argv.verbose)
-      logger.warn("Prune backups failed:", (e as any)?.message ?? e);
+    if (argv.verbose) logger.warn("Prune backups failed:", (e as any)?.message ?? e);
   }
 }
 
