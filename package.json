@@ -13,7 +13,7 @@
     "build:standalone": "next build",
     "cache": "bun pm cache",
     "cache:clean": "bun pm cache clean",
-    "check-updates": "npm-check-updates --deep -i",
+    "check-updates": "bunx npm-check-updates --deep -i",
     "ci:checks:run": "bunx tsx scripts/ts/run-ci-checks.ts",
     "ci:helpers:fast-check": "bunx tsx bin/utils/ci-helpers/fast-check.ts",
     "ci:helpers:git-commit": "bunx tsx bin/utils/ci-helpers/git-commit-helper.ts",

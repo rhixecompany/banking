@@ -163,10 +163,10 @@ Cross-reference notes (where code expects fields)
 Testing & Validation
 
 - Run migrations and backfill on a local copy of the seeded DB and run full test suite:
-  - npm run type-check
-  - npm run lint:strict
-  - PLAYWRIGHT_PREPARE_DB=true npm run test:ui
-  - npm run test:browser (vitest)
+  - bun run type-check
+  - bun run lint:strict
+  - PLAYWRIGHT_PREPARE_DB=true bun run test:ui
+  - bun run test:browser (vitest)
 
 Rollback Plan
 

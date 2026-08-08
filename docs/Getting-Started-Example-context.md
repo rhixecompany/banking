@@ -9,7 +9,7 @@ The easiest way to get started is to clone the [example app](https://github.com/
 ### Install NextAuth
 
 ```bash
-npm install next-auth
+bun install next-auth
 ```
 
 If you are using TypeScript, NextAuth.js comes with its types definitions within the package. To learn more about TypeScript for `next-auth`, check out the [TypeScript documentation](https://next-auth.js.org/getting-started/typescript).

@@ -8,7 +8,7 @@
 
 **TypeScript**: Strict mode; Next.js 16 App Router; Drizzle ORM with PostgreSQL; `bun` for package management (`bun.lock`); ES Modules.
 
-**Database**: PostgreSQL via Drizzle ORM; schema in `src/database/schema.ts`; generate migrations with `npm run db:generate`; push with `npm run db:push`; Drizzle Studio for browsing.
+**Database**: PostgreSQL via Drizzle ORM; schema in `src/database/schema.ts`; generate migrations with `bun run db:generate`; push with `bun run db:push`; Drizzle Studio for browsing.
 
 **Auth**: NextAuth.js for authentication; Plaid Link for bank connectivity; Dwolla for transfers; JWT session strategy.
 
@@ -16,6 +16,6 @@
 
 **Env**: `DATABASE_URL`, `NEXTAUTH_SECRET`, `NEXTAUTH_URL`, Plaid (`PLAID_CLIENT_ID`, `PLAID_SECRET`, `PLAID_SANDBOX_REDIRECT_URI`), Dwolla credentials.
 
-**Commands**: `npm run dev` (development); `npm run build` (production build); `npm run lint` (ESLint); `npm run db:generate` (migrations); `npm run db:push` (apply); `npm run db:studio` (DB browser).
+**Commands**: `bun run dev` (development); `bun run build` (production build); `bun run lint` (ESLint); `bun run db:generate` (migrations); `bun run db:push` (apply); `bun run db:studio` (DB browser).
 
 **Pre-commit**: `bun run format && bun run type-check && bun run lint:strict`.

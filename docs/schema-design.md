@@ -51,7 +51,7 @@ JavaScript or TypeScript modules that extend OpenCode's core functionality. Plug
 
 **Installation Methods:**
 
-- NPM package: `npm install <plugin-name>`
+- NPM package: `bun install <plugin-name>`
 - Local path: Reference to local `.js` or `.ts` file
 
 **Example Use Cases:**

@@ -50,6 +50,6 @@ isProject: false
 
 ## Validation
 
-- Run full Playwright suite via `npm run test:ui`.
+- Run full Playwright suite via `bun run test:ui`.
 - Confirm zero skipped tests and zero failing tests.
 - Verify no `.only`, `.skip`, or `fixme` remains in `tests/e2e` unless explicitly documented as intentional.

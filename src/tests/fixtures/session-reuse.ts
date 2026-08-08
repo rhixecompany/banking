@@ -66,7 +66,7 @@ export function getStorageStatePath(): string {
  *   });
  *
  * To create the initial auth state, run:
- *   npx playwright test --project=chromium --grep="create.*auth.*state" --update-snapshots
+ *   bunx playwright test --project=chromium --grep="create.*auth.*state" --update-snapshots
  *
  * Or manually:
  *   1. Run tests normally once to create the storage state

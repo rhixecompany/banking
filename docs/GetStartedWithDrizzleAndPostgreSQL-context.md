@@ -19,8 +19,8 @@ This is the basic file structure of the project. In the `database` directory, we
 ## Step 1 - Install node-postgres package
 
 ```sh
-npm i drizzle-orm pg dotenv
-npm i -D drizzle-kit tsx @types/pg
+bun install drizzle-orm pg dotenv
+bun install -D drizzle-kit tsx @types/pg
 ```
 
 ## Step 2 - Setup connection variables

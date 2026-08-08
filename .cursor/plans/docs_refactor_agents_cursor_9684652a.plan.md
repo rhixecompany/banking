@@ -1,6 +1,6 @@
 ---
 name: Docs refactor AGENTS Cursor
-overview: "Refactor [AGENTS.md](AGENTS.md), [.cursorrules](.cursorrules), and [.github/copilot-instructions.md](.github/copilot-instructions.md) so they are accurate, Diátaxis-aligned, and maintainable: one canonical reference, corrected facts and commands, reduced harmful duplication between Cursor and Copilot files, and validation via markdownlint and `npm run validate`."
+overview: "Refactor [AGENTS.md](AGENTS.md), [.cursorrules](.cursorrules), and [.github/copilot-instructions.md](.github/copilot-instructions.md) so they are accurate, Diátaxis-aligned, and maintainable: one canonical reference, corrected facts and commands, reduced harmful duplication between Cursor and Copilot files, and validation via markdownlint and `bun run validate`."
 todos:
   - id: audit-facts
     content: Cross-check package.json scripts, lib paths, and DAL patterns; list concrete edits for AGENTS/copilot/cursorrules
@@ -12,7 +12,7 @@ todos:
     content: Rewrite .cursorrules and copilot-instructions.md to complement AGENTS, fix db:check and overclaims, reduce duplicate prose
     status: completed
   - id: validate-docs
-    content: Run markdownlint + npm run validate; fix any issues
+    content: Run markdownlint + bun run validate; fix any issues
     status: completed
 isProject: false
 ---
@@ -35,7 +35,7 @@ isProject: false
 | N+1 / eager loading wording | Rules cite `.with()`; project may use JOINs / single-query patterns in Drizzle | Phrase rule as: **eager load / batch / JOIN — no per-row queries in loops**; cite real pattern from `dal/` if one exists |
 | “DAL eager loading” example | Sequential `user` then `profile` queries in examples | Replace or annotate with a **single-query** or documented join pattern so examples don’t contradict the N+1 rule |
 | AGENTS.md footer | Self-link “See AGENTS.md for full documentation” | Remove or replace with links to `.cursor/rules/` pointers and repo docs |
-| `format:check` wording | [package.json](package.json) runs `npm run format && prettier --check .` | Match AGENTS description to actual behavior (or note “formats then checks” if documenting honestly) |
+| `format:check` wording | [package.json](package.json) runs `bun run format && prettier --check .` | Match AGENTS description to actual behavior (or note “formats then checks” if documenting honestly) |
 
 ## Diátaxis-shaped structure (AGENTS.md)
 
@@ -52,7 +52,7 @@ Avoid duplicating full code blocks three times; **AGENTS** holds full patterns; 
 Recommended split to reduce duplicate maintenance:
 
 - **[.cursorrules](.cursorrules)** — Cursor-specific: pointer to [AGENTS.md](AGENTS.md), mention `[.cursor/rules/*.mdc](.cursor/rules/)` as enforced workspace rules, minimal quick-reference table, **no** full duplicate of sections 6–8 unless necessary.
-- **[.github/copilot-instructions.md](.github/copilot-instructions.md)** — GitHub Copilot–oriented: same canonical pointer to AGENTS, PR/merge expectations (`npm run validate`), link to AGENTS + README; keep **one** extended example max if Copilot needs inline context.
+- **[.github/copilot-instructions.md](.github/copilot-instructions.md)** — GitHub Copilot–oriented: same canonical pointer to AGENTS, PR/merge expectations (`bun run validate`), link to AGENTS + README; keep **one** extended example max if Copilot needs inline context.
 
 If the product requirement is “keep both comprehensive,” then add an explicit **“Source of truth”** note and **sync checklist** (still not ideal, but documented).
 
@@ -66,7 +66,7 @@ If the product requirement is “keep both comprehensive,” then add an explici
 ## Validation (after implementation)
 
 1. Run markdownlint on the three edited files (project may use `markdownlint-cli` or IDE; follow existing repo convention).
-2. Run `npm run validate` per [AGENTS.md](AGENTS.md) / [AGENTS.md](AGENTS.md) quality gates (kill port 3000 per [.cursor/rules/kill-port-3000-before-tests.mdc](.cursor/rules/kill-port-3000-before-tests.mdc) before tests if applicable).
+2. Run `bun run validate` per [AGENTS.md](AGENTS.md) / [AGENTS.md](AGENTS.md) quality gates (kill port 3000 per [.cursor/rules/kill-port-3000-before-tests.mdc](.cursor/rules/kill-port-3000-before-tests.mdc) before tests if applicable).
 3. **Last Updated:** Set to **2026-03-29** (per user date) with a short **changelog** bullet list in each file.
 
 ## Rollback

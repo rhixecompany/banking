@@ -34,15 +34,15 @@ Open code for LLMs to read, understand, and improve. The design makes it easy fo
 ### Quick Start
 
 ```bash
-npx shadcn@latest init
+bunx shadcn@latest init
 ```
 
 ### Add Components
 
 ```bash
-npx shadcn@latest add button
-npx shadcn@latest add card
-npx shadcn@latest add dialog
+bunx shadcn@latest add button
+bunx shadcn@latest add card
+bunx shadcn@latest add dialog
 ```
 
 ## Components
@@ -77,19 +77,19 @@ shadcn/ui uses CSS variables for theming. Edit `app/globals.css` to customize:
 
 ```bash
 # Initialize
-npx shadcn@latest init
+bunx shadcn@latest init
 
 # Add component
-npx shadcn@latest add [component]
+bunx shadcn@latest add [component]
 
 # Add all components
-npx shadcn@latest add -a
+bunx shadcn@latest add -a
 
 # Update components
-npx shadcn@latest update
+bunx shadcn@latest update
 
 # Remove component
-npx shadcn@latest remove [component]
+bunx shadcn@latest remove [component]
 ```
 
 ## Registry

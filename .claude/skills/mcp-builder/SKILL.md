@@ -144,8 +144,8 @@ Review for:
 
 **TypeScript:**
 
-- Run `npm run build` to verify compilation
-- Test with MCP Inspector: `npx @modelcontextprotocol/inspector`
+- Run `bun run build` to verify compilation
+- Test with MCP Inspector: `bunx @modelcontextprotocol/inspector`
 
 **Python:**
 

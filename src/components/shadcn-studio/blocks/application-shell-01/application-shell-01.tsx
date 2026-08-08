@@ -230,7 +230,7 @@ function ApplicationShell() {
                   functional application up and running.
                 </p>
                 <div className="mt-4 rounded-lg bg-muted p-4">
-                  <code className="text-sm">npm install @our-platform/sdk</code>
+                  <code className="text-sm">bun install @our-platform/sdk</code>
                 </div>
               </section>
             </div>

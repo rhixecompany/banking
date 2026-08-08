@@ -52,7 +52,7 @@ Specific existing files discovered during discovery will be enumerated in the im
 
 - Run markdown lint on changed files (repo's markdown lint step).
 - Confirm package.json scripts referenced in docs match actual package.json content.
-- Run `npm run format:check` and `npm run type-check` for modified areas if requested (slower — optional).
+- Run `bun run format:check` and `bun run type-check` for modified areas if requested (slower — optional).
 - Manual review: I will list all changed files and key diffs for you to inspect before committing.
 
 ## Rollback or Mitigation
@@ -65,7 +65,7 @@ Specific existing files discovered during discovery will be enumerated in the im
 1. Do you prefer "minimal edits" (preserve most existing text, only fix inconsistencies) or a "full rewrite" (rework tone and structure to be uniform across files)? Please pick one.
 2. Confirm plan file location: use `.cursor/plans/` (recommended) or `.opencode/plans/`?
 3. Should I create a git commit automatically after making documentation changes, or leave edits uncommitted for your review? If commit, provide the branch name to use (or say "current branch").
-4. After edits, do you want me to run the full validation pipeline (`npm run validate`) or a narrower subset (markdown lint + type-check)? If narrower, specify.
+4. After edits, do you want me to run the full validation pipeline (`bun run validate`) or a narrower subset (markdown lint + type-check)? If narrower, specify.
 5. Any additional constraints or style preferences (tone, voice, a particular template to follow)?
 
 ## Implementation Timeline

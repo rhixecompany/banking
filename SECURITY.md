@@ -106,7 +106,7 @@ Regularly audit dependencies for vulnerabilities:
 ```bash
 bun run check-updates --deep
 # or
-npm audit
+bun audit
 ```
 
 ## Compliance

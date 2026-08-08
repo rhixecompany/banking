@@ -327,7 +327,7 @@ export default async function globalSetup(): Promise<void> {
   if (process.env.PLAYWRIGHT_PREPARE_DB !== "true") {
     console.info("  SKIP: PLAYWRIGHT_PREPARE_DB is not set to 'true'");
     console.info(
-      "  Run tests with: PLAYWRIGHT_PREPARE_DB=true npx playwright test",
+      "  Run tests with: PLAYWRIGHT_PREPARE_DB=true bunx playwright test",
     );
     printSection("SETUP COMPLETE (SKIPPED)");
     return;

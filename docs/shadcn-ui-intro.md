@@ -75,13 +75,13 @@ shadcn/ui includes (as of current version):
 
 ```bash
 # Add a component
-npx shadcn@latest add button
+bunx shadcn@latest add button
 
 # Add multiple
-npx shadcn@latest add card input label
+bunx shadcn@latest add card input label
 
 # Initialize in a new project
-npx shadcn@latest init
+bunx shadcn@latest init
 ```
 
 Configuration: `components.json` in project root.

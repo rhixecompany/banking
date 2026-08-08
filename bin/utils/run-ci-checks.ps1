@@ -139,7 +139,7 @@ function Run-Step($step) {
     $TARGETED = @{
         'format-check' = 'prettier --config .prettierrc.ts --check {path}'
         'format' = 'prettier --config .prettierrc.ts --write {path}'
-        'format:markdown' = 'npx markdownlint-cli2 -c .markdownlintrc.json {path}'
+        'format:markdown' = 'bunx markdownlint-cli2 -c .markdownlintrc.json {path}'
         'lint-fix' = 'eslint --config eslint.config.mts --fix {path}'
         'lint-strict' = 'eslint --config eslint.config.mts --max-warnings=0 {path}'
         'test-browser' = 'vitest --config=vitest.config.ts run {path}'
@@ -162,7 +162,7 @@ function Run-Step($step) {
 
         $tpl = $TARGETED[$step]
         # Prefer using tsx helper if available
-        if (Get-Command npx -ErrorAction SilentlyContinue -OutVariable npxCmd) {
+        if (Get-Command bunx -ErrorAction SilentlyContinue -OutVariable npxCmd) {
             $helper = Join-Path 'scripts/utils/ci-helpers' 'run-with-args.ts'
             if (Test-Path $helper) {
                 $cmd = "bunx tsx $helper --template \"$tpl\" --tmpfile \"$tmp\""

@@ -39,14 +39,14 @@ The default standalone output does NOT include `public` or `.next/static` - thes
 FROM node:20.19.2-slim AS deps
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm ci --omit=dev
+RUN bun install --frozen-lockfile --omit=dev
 
 FROM node:20.19.2-slim AS builder
 WORKDIR /app
 COPY --from=deps /app/nodemodules ./nodemodules
 COPY . .
 ENV NEXTTELEMETRYDISABLED=1
-RUN npm run build
+RUN bun run build
 
 FROM node:20.19.2-slim AS runner
 WORKDIR /app
@@ -96,7 +96,7 @@ docker run --rm -p 3000:3000 my-next-app:prod
 FROM node:20.19.2-slim
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm ci
+RUN bun install --frozen-lockfile
 COPY . .
 EXPOSE 3000
 CMD ["npm", "run", "dev"]

@@ -63,7 +63,7 @@ async function main() {
         "Dry-run: eslint --config eslint.config.mts " + tsFiles.join(" "),
       );
     } else {
-      await run("npx", [
+      await run("bunx", [
         "eslint",
         "--config",
         "eslint.config.mts",
@@ -77,7 +77,7 @@ async function main() {
   if (tsFiles.some((f) => f.endsWith(".ts") || f.endsWith(".tsx"))) {
     logger.info("Running type-check...");
     if (!apply) logger.info("Dry-run: tsc --noEmit");
-    else await run("npx", ["tsc", "--noEmit"]);
+    else await run("bunx", ["tsc", "--noEmit"]);
   }
 }
 

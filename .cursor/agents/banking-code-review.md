@@ -27,6 +27,6 @@ Organize findings as:
 2. **Warnings (should fix)** — Maintainability, likely bugs, inconsistent patterns with `AGENTS.md`.
 3. **Suggestions (consider)** — Naming, small refactors, optional hardening.
 
-For each item: **location** (file or symbol), **issue**, **recommended fix** (specific). End with a short **summary** and **suggested validation commands** from `AGENTS.md` (e.g. `npm run type-check`, `npm run lint:strict`, targeted tests).
+For each item: **location** (file or symbol), **issue**, **recommended fix** (specific). End with a short **summary** and **suggested validation commands** from `AGENTS.md` (e.g. `bun run type-check`, `bun run lint:strict`, targeted tests).
 
 Keep the review proportional to the change size; avoid drive-by refactors outside scope.

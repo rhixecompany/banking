@@ -55,20 +55,20 @@ export const dwollaTransfers = pgTable(
 ## Migration Steps
 
 1. Add the schema snippet above to `database/schema.ts` (add only, no edits to existing tables).
-2. Generate migration: `npm run db:generate` (Drizzle will produce a migration file).
-3. Review migration SQL and run on staging: `npm run db:migrate` (or `npm run db:push` for direct push).
+2. Generate migration: `bun run db:generate` (Drizzle will produce a migration file).
+3. Review migration SQL and run on staging: `bun run db:migrate` (or `bun run db:push` for direct push).
 4. Update DAL: add `dwolla.dal.ts` helpers if needed to create/find transfers.
 5. Optionally backfill: if you want historical transfers recorded, write a one-time script that queries Dwolla or uses transaction records to populate `dwolla_transfers` (not included here).
 
 ## Validation
 
-- Run `npm run type-check` and `npm run lint:strict` after adding schema.
-- Run `npm run db:check` (if available) or inspect generated migration SQL.
+- Run `bun run type-check` and `bun run lint:strict` after adding schema.
+- Run `bun run db:check` (if available) or inspect generated migration SQL.
 - Run unit tests that touch Dwolla/DAL code.
 
 ## Rollback
 
-- The migration is additive; to rollback, revert the migration and run `npm run db:migrate:down` (Drizzle CLI steps depend on setup). Always backup DB before applying migrations in production.
+- The migration is additive; to rollback, revert the migration and run `bun run db:migrate:down` (Drizzle CLI steps depend on setup). Always backup DB before applying migrations in production.
 
 ## Notes
 

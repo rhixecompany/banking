@@ -657,28 +657,28 @@ test.describe("Authentication", () => {
 
 | Command               | Purpose                     |
 | --------------------- | --------------------------- |
-| `npm run dev`         | Start development server    |
-| `npm run build`       | Build for production        |
-| `npm run start`       | Start production server     |
-| `npm run lint`        | Run ESLint                  |
-| `npm run lint:strict` | Run ESLint with strict mode |
+| `bun run dev`         | Start development server    |
+| `bun run build`       | Build for production        |
+| `bun run start`       | Start production server     |
+| `bun run lint`        | Run ESLint                  |
+| `bun run lint:strict` | Run ESLint with strict mode |
 
 ### 6.2 Database Commands
 
 | Command               | Purpose                    |
 | --------------------- | -------------------------- |
-| `npm run db:generate` | Generate Drizzle migration |
-| `npm run db:migrate`  | Run migrations             |
-| `npm run db:push`     | Push schema to database    |
-| `npm run db:seed`     | Seed database              |
+| `bun run db:generate` | Generate Drizzle migration |
+| `bun run db:migrate`  | Run migrations             |
+| `bun run db:push`     | Push schema to database    |
+| `bun run db:seed`     | Seed database              |
 
 ### 6.3 Testing Commands
 
 | Command                | Purpose                    |
 | ---------------------- | -------------------------- |
-| `npm run test`         | Run all tests              |
-| `npm run test:ui`      | Run E2E tests (Playwright) |
-| `npm run test:browser` | Run unit tests (Vitest)    |
+| `bun run test`         | Run all tests              |
+| `bun run test:ui`      | Run E2E tests (Playwright) |
+| `bun run test:browser` | Run unit tests (Vitest)    |
 
 ---
 

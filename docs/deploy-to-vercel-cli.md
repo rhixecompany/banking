@@ -4,14 +4,14 @@ This guide walks you through deploying the Horizon Banking application to Vercel
 
 ## Prerequisites
 
-- Vercel CLI installed (`npm i -g vercel`)
+- Vercel CLI installed (`bun install -g vercel`)
 - Vercel account
 - GitHub repository connected to Vercel (optional but recommended)
 
 ## Step 1: Install Vercel CLI
 
 ```bash
-npm i -g vercel
+bun install -g vercel
 ```
 
 Or using npm:

@@ -23,9 +23,9 @@ Mirror of [Critical Rules in AGENTS.md](../../../AGENTS.md):
 - No N+1 queries — use eager loading for related data.
 - No raw `process.env` in app code — use `app-config.ts` (preferred) or `lib/env.ts` (backward compat).
 - All mutations via Server Actions — not API routes for writes.
-- Zero TypeScript errors — `npm run type-check`.
-- Zero ESLint warnings — `npm run lint:strict`.
-- All tests pass — `npm run test`.
+- Zero TypeScript errors — `bun run type-check`.
+- Zero ESLint warnings — `bun run lint:strict`.
+- All tests pass — `bun run test`.
 
 ## Canonical rules (pointers)
 
@@ -42,10 +42,10 @@ Mirror of [Critical Rules in AGENTS.md](../../../AGENTS.md):
 
 Before claiming work is done, run the narrowest checks needed, then broader gates as appropriate. Common commands (see AGENTS.md for the full set):
 
-- `npm run validate` — format check, type-check, strict lint, full test suite
-- `npm run type-check`
-- `npm run lint:strict`
-- `npm run test` (Vitest browser tests then Playwright)
+- `bun run validate` — format check, type-check, strict lint, full test suite
+- `bun run type-check`
+- `bun run lint:strict`
+- `bun run test` (Vitest browser tests then Playwright)
 
 For Playwright or Vitest, follow [kill-port-3000-before-tests.mdc](../../rules/kill-port-3000-before-tests.mdc) so nothing is listening on port 3000 before test commands.
 

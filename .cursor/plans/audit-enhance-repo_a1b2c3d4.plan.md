@@ -42,11 +42,11 @@
 ## Validation
 
 - After each commit run:
-  - `npm run format:check`
-  - `npm run type-check`
-  - `npm run lint:strict`
-  - Unit tests: `npm run test:browser` (faster)
-  - E2E as final check: `npm run test:ui` (ensure port 3000 is free)
+  - `bun run format:check`
+  - `bun run type-check`
+  - `bun run lint:strict`
+  - Unit tests: `bun run test:browser` (faster)
+  - E2E as final check: `bun run test:ui` (ensure port 3000 is free)
 
 ## Rollback / Mitigation
 

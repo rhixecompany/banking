@@ -321,7 +321,7 @@ slide.addImage({
 
 ### Icon Libraries
 
-Install: `npm install -g react-icons react react-dom sharp`
+Install: `bun install -g react-icons react react-dom sharp`
 
 Popular icon sets in react-icons:
 

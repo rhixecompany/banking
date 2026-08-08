@@ -21,9 +21,9 @@ In the Vercel project configuration screen:
 
 | Setting              | Value           |
 | -------------------- | --------------- |
-| **Build Command**    | `npm run build` |
+| **Build Command**    | `bun run build` |
 | **Output Directory** | `.next`         |
-| **Install Command**  | `npm install`   |
+| **Install Command**  | `bun install`   |
 
 ## Step 3: Add Environment Variables
 

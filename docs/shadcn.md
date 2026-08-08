@@ -5,7 +5,7 @@ This project uses **shadcn/ui** components from `components/ui`.
 ## Add a component
 
 ```bash
-npx shadcn@latest add button
+bunx shadcn@latest add button
 ```
 
 ## Customize styles

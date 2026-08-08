@@ -180,7 +180,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    command: sh -c "npm run db:push -- --force"
+    command: sh -c "bun run db:push -- --force"
     networks:
       - app-internal
     profiles:

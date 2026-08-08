@@ -7,7 +7,7 @@ eslint-config-prettier turns off all ESLint rules that are unnecessary or might 
 ## Installation
 
 ```bash
-npm install eslint-config-prettier
+bun install eslint-config-prettier
 ```
 
 ## Usage

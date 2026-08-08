@@ -31,7 +31,7 @@ Runs on push/PR to `main`/`develop` + weekly schedule (Sunday 2am UTC).
 
 **Jobs:**
 
-- **scan-dependencies** — npm audit for high/critical vulnerabilities
+- **scan-dependencies** — bun audit for high/critical vulnerabilities
 - **build-and-scan** — Trivy container image scanning (uploads to GitHub Security tab)
 - **analyze-image** — Image size and layer breakdown
 - **dockerfile-lint** — Hadolint linting on Dockerfile
@@ -121,7 +121,7 @@ AWS_CREDENTIALS        # AWS access key/secret
 - Distroless base image (`gcr.io/distroless/nodejs22-debian12:nonroot`)
 - Non-root user (UID 65532)
 - Vulnerability scanning (Trivy)
-- Dependency auditing (npm audit)
+- Dependency auditing (bun audit)
 
 ### ✅ **Image Optimization**
 

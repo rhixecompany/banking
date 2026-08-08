@@ -3,7 +3,7 @@
 ## Quick Setup
 
 ```bash
-npm install eslint-plugin-react eslint-plugin-zod eslint-plugin-drizzle eslint-plugin-import-x
+bun install eslint-plugin-react eslint-plugin-zod eslint-plugin-drizzle eslint-plugin-import-x
 ```
 
 ```javascript
@@ -112,12 +112,12 @@ export default [
 
 | Plugin | Purpose | Install |
 | --- | --- | --- |
-| `eslint-plugin-security` | Security scanning | `npm i -D eslint-plugin-security` |
-| `eslint-plugin-unicorn` | Modern JS best practices | `npm i -D eslint-plugin-unicorn` |
-| `eslint-plugin-playwright` | Playwright test best practices | `npm i -D eslint-plugin-playwright` |
-| `eslint-plugin-vitest` | Vitest test best practices | `npm i -D eslint-plugin-vitest` |
-| `eslint-plugin-testing-library` | Testing Library best practices | `npm i -D eslint-plugin-testing-library` |
-| `eslint-plugin-perfectionist` | Sort imports, enums, etc | `npm i -D eslint-plugin-perfectionist` |
+| `eslint-plugin-security` | Security scanning | `bun install -D eslint-plugin-security` |
+| `eslint-plugin-unicorn` | Modern JS best practices | `bun install -D eslint-plugin-unicorn` |
+| `eslint-plugin-playwright` | Playwright test best practices | `bun install -D eslint-plugin-playwright` |
+| `eslint-plugin-vitest` | Vitest test best practices | `bun install -D eslint-plugin-vitest` |
+| `eslint-plugin-testing-library` | Testing Library best practices | `bun install -D eslint-plugin-testing-library` |
+| `eslint-plugin-perfectionist` | Sort imports, enums, etc | `bun install -D eslint-plugin-perfectionist` |
 
 ---
 

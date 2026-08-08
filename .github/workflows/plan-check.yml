@@ -14,15 +14,13 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
+        uses: oven-sh/setup-bun@v2
 
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
       - name: Run verify rules with plan check
-        run: npm run verify:rules:ci -- --require-plan
+        run: bun run verify:rules:ci -- --require-plan
         env:
           CI: true
 
@@ -30,7 +28,7 @@ jobs:
         id: plan-ensure
         run: |
           mkdir -p .opencode/artifacts
-          npm run plan:ensure -- --ci --base origin/main > .opencode/artifacts/plan-ensure.txt || true
+          bun run plan:ensure -- --ci --base origin/main > .opencode/artifacts/plan-ensure.txt || true
 
       - name: Comment plan-ensure output on PR
         uses: actions/github-script@v7

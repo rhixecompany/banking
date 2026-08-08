@@ -57,7 +57,7 @@ The fastest way to deploy Next.js applications.
 **CLI Deployment:**
 
 ```bash
-npm i -g vercel
+bun install -g vercel
 vercel --prod
 ```
 
@@ -112,8 +112,8 @@ sudo apt-get install -y nodejs
 # Clone and setup
 git clone <repo-url>
 cd Banking
-npm install
-npm run build
+bun install
+bun run build
 ```
 
 > **Note:** See `docs/deploy-to-hostinger.md`.

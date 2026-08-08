@@ -9,7 +9,7 @@
 
 Scripts follow the **thin-wrapper pattern**: shell/PowerShell orchestrators call TypeScript implementations. All business logic lives in TypeScript for cross-platform compatibility and testability.
 
-The project is pure ESM (`"type": "module"` in `package.json`). All scripts use `bunx tsx` as the runner — never `ts-node`, never `npx`.
+The project is pure ESM (`"type": "module"` in `package.json`). All scripts use `bunx tsx` as the runner — never `ts-node`, never `bunx`.
 
 ---
 

@@ -25,14 +25,14 @@ isProject: false
 
 | Step         | Command                | Report file               |
 | ------------ | ---------------------- | ------------------------- |
-| format-check | `npm run format:check` | `format-check-report.txt` |
-| type-check   | `npm run type-check`   | `type-check-report.txt`   |
-| lint-fix     | `npm run lint:fix`     | `lint-fix-report.txt`     |
-| lint-strict  | `npm run lint:strict`  | `lint-strict-report.txt`  |
-| build-debug  | `npm run build:debug`  | `build-debug-report.txt`  |
-| test-browser | `npm run test:browser` | `test-browser-report.txt` |
-| test-ui      | `npm run test:ui`      | `test-ui-report.txt`      |
-| build        | `npm run build`        | `build-report.txt`        |
+| format-check | `bun run format:check` | `format-check-report.txt` |
+| type-check   | `bun run type-check`   | `type-check-report.txt`   |
+| lint-fix     | `bun run lint:fix`     | `lint-fix-report.txt`     |
+| lint-strict  | `bun run lint:strict`  | `lint-strict-report.txt`  |
+| build-debug  | `bun run build:debug`  | `build-debug-report.txt`  |
+| test-browser | `bun run test:browser` | `test-browser-report.txt` |
+| test-ui      | `bun run test:ui`      | `test-ui-report.txt`      |
+| build        | `bun run build`        | `build-report.txt`        |
 
 The script exits **non-zero** if any step fails; the summary still lists every step’s PASS/FAIL.
 
@@ -49,7 +49,7 @@ Each inner command is run via `bash -lc`, which matches how `npm` scripts invoke
 
 ## Triage order (efficient fixes)
 
-1. **format-check** — Prettier drift; usually auto-fixed by `format:check`’s embedded `npm run format` behavior (`[package.json](package.json)` `format:check`).
+1. **format-check** — Prettier drift; usually auto-fixed by `format:check`’s embedded `bun run format` behavior (`[package.json](package.json)` `format:check`).
 2. **type-check** — `tsc --noEmit`; fix types before lint if the same files are implicated.
 3. **lint-fix** / **lint-strict** — ESLint with `--max-warnings=0` on `lint:strict`; address warnings, not only errors.
 4. **build-debug** then **build** — Next.js compile and prerender; catches runtime import and RSC issues.
@@ -68,7 +68,7 @@ Read the **FAIL** reports first, then open the **referenced source files** for f
 ## Batch / parallel fixes
 
 - Group edits by **layer** (types, then lint, then components) to reduce churn.
-- Run **narrow** checks while iterating: e.g. `npm run type-check` or `npm exec vitest run <file>` instead of the full script every time.
+- Run **narrow** checks while iterating: e.g. `bun run type-check` or `npm exec vitest run <file>` instead of the full script every time.
 - Reserve **full** `run-ci-checks.sh` for **verification** loops (steps 6 and 8 in `shacn.md`).
 
 ## Documentation of fixes (step 7)

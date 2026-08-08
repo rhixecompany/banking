@@ -1,11 +1,11 @@
 # Section 23 — Release & Deployment
 
-- Build with `npm run build` and run `npm run start` to verify production behavior.
+- Build with `bun run build` and run `bun run start` to verify production behavior.
 - Ensure required env vars (NEXTAUTH_SECRET, ENCRYPTION_KEY) are present before starting.
 
 Example:
 
 ```bash
-npm run build
-npm run start
+bun run build
+bun run start
 ```

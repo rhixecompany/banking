@@ -7,7 +7,7 @@
 ## Installation
 
 ```bash
-npm install @typescript-eslint/parser
+bun install @typescript-eslint/parser
 ```
 
 ## Usage

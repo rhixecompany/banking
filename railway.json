@@ -3,8 +3,8 @@
   "build": {
     "builder": "NIXPACKS",
     "nixpacksConfig": {
-      "installCommand": "npm install --ignore-scripts",
-      "buildCommand": "npm run build"
+      "installCommand": "bun install --ignore-scripts",
+      "buildCommand": "bun run build"
     }
   },
   "deploy": {

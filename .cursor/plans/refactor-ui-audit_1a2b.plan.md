@@ -36,8 +36,8 @@
 
 ## Validation
 
-- Run: npm run format:check, npm run type-check, npm run lint:strict.
-- Run: npm run test:browser (Vitest) and npm run test:ui (Playwright) after freeing port 3000.
+- Run: bun run format:check, bun run type-check, bun run lint:strict.
+- Run: bun run test:browser (Vitest) and bun run test:ui (Playwright) after freeing port 3000.
 
 ## Rollback or Mitigation
 

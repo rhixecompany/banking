@@ -401,7 +401,7 @@ async function openEditorAndSave(filename: string): Promise<void> {
   }
   // run markdownlint if available
   try {
-    execSync(`npx markdownlint-cli2 -c .markdownlintrc.json "${filename}"`, {
+    execSync(`bunx markdownlint-cli2 -c .markdownlintrc.json "${filename}"`, {
       stdio: "inherit",
     });
   } catch {

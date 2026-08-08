@@ -32,13 +32,13 @@ React Bits supports both **shadcn CLI** and **jsrepo** for component installatio
 
 ```bash
 # Add a component via shadcn CLI (use TS-TW variant for this project)
-npx shadcn@latest add @react-bits/BlurText-TS-TW
+bunx shadcn@latest add @react-bits/BlurText-TS-TW
 
 # Example: Add SplitText component (TypeScript + Tailwind variant)
-npx shadcn@latest add @react-bits/SplitText-TS-TW
+bunx shadcn@latest add @react-bits/SplitText-TS-TW
 
 # Example: Add Marquee component
-npx shadcn@latest add @react-bits/Marquee-TS-TW
+bunx shadcn@latest add @react-bits/Marquee-TS-TW
 ```
 
 Each component page at [reactbits.dev](https://reactbits.dev) has copy-ready CLI commands.
@@ -105,7 +105,7 @@ Examples: CircularGallery, Dock, DynamicIsland, ElasticSlider, FlowingMenu, Infi
 ## Usage Pattern (TS-TW Variant)
 
 ```tsx
-// After installing with: npx shadcn@latest add @react-bits/BlurText-TS-TW
+// After installing with: bunx shadcn@latest add @react-bits/BlurText-TS-TW
 import BlurText from "@/components/ui/BlurText";
 
 export function HeroSection() {

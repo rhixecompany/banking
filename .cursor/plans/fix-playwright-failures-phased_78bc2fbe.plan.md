@@ -54,7 +54,7 @@ isProject: false
   - authenticated non-admin -> `/dashboard`
 - Keep behavior consistent with expectations in [C:/Users/Alexa/Desktop/SandBox/Banking/tests/e2e/admin.spec.ts](C:/Users/Alexa/Desktop/SandBox/Banking/tests/e2e/admin.spec.ts).
 - Run targeted checks:
-  - `npx playwright test tests/e2e/admin.spec.ts --project=chromium`
+  - `bunx playwright test tests/e2e/admin.spec.ts --project=chromium`
 
 ### Phase 2: Make Test Authentication Deterministic
 
@@ -66,15 +66,15 @@ isProject: false
   - [C:/Users/Alexa/Desktop/SandBox/Banking/app/**playwright**/set-cookie/route.ts](C:/Users/Alexa/Desktop/SandBox/Banking/app/__playwright__/set-cookie/route.ts)
   - [C:/Users/Alexa/Desktop/SandBox/Banking/app/api/**playwright**/set-cookie/route.ts](C:/Users/Alexa/Desktop/SandBox/Banking/app/api/__playwright__/set-cookie/route.ts)
 - Run targeted suites after fix:
-  - `npx playwright test tests/e2e/auth.spec.ts --project=chromium`
-  - `npx playwright test tests/e2e/wallet-linking.spec.ts --project=chromium`
+  - `bunx playwright test tests/e2e/auth.spec.ts --project=chromium`
+  - `bunx playwright test tests/e2e/wallet-linking.spec.ts --project=chromium`
 
 ### Phase 3: Stabilize Playwright Server Lifecycle
 
 - Ensure `webServer` startup/URL behavior is consistent and does not conflict with fixture base URL usage in [C:/Users/Alexa/Desktop/SandBox/Banking/playwright.config.ts](C:/Users/Alexa/Desktop/SandBox/Banking/playwright.config.ts).
 - Harden teardown ownership logic in [C:/Users/Alexa/Desktop/SandBox/Banking/tests/e2e/global-teardown.ts](C:/Users/Alexa/Desktop/SandBox/Banking/tests/e2e/global-teardown.ts) to avoid killing unrelated/existing servers.
 - Validate with a multi-spec run:
-  - `npx playwright test tests/e2e/admin.spec.ts tests/e2e/auth.spec.ts tests/e2e/wallet-linking.spec.ts --project=chromium`
+  - `bunx playwright test tests/e2e/admin.spec.ts tests/e2e/auth.spec.ts tests/e2e/wallet-linking.spec.ts --project=chromium`
 
 ### Phase 4: Full E2E Gate and Regression Validation
 

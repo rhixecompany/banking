@@ -19,8 +19,8 @@ This is the basic file structure of the project. In the `database` directory, we
 ## Step 1 - Install @neondatabase/serverless package
 
 ```sh
-npm i drizzle-orm @neondatabase/serverless dotenv
-npm i -D drizzle-kit tsx
+bun install drizzle-orm @neondatabase/serverless dotenv
+bun install -D drizzle-kit tsx
 ```
 
 ## Step 2 - Setup connection variables

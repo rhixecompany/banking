@@ -5,7 +5,7 @@ Source: [plaid/react-plaid-link](https://github.com/plaid/react-plaid-link)
 ## Install
 
 ```bash
-npm install --save react-plaid-link
+bun install --save react-plaid-link
 # or
 yarn add react-plaid-link
 ```

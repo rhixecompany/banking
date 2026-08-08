@@ -275,7 +275,7 @@ Update Agentic Documentation and Rules for the Banking app repository.
 // scripts/mcp-runner.ts
 interface MCPServer {
   name: string;
-  type: "local" | "npx" | "docker";
+  type: "local" | "bunx" | "docker";
   command: string;
   args?: string[];
 }

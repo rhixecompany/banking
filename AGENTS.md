@@ -20,12 +20,12 @@ Next.js 16 + Drizzle ORM + Plaid (banking API) + Dwolla (payments). Full-stack f
 ## Commands
 
 ```bash
-npm run dev
-npm run build
-npm run lint
-npm run db:generate
-npm run db:push
-npm run db:studio
+bun run dev
+bun run build
+bun run lint
+bun run db:generate
+bun run db:push
+bun run db:studio
 ```
 
 ## Conventions

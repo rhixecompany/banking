@@ -59,7 +59,7 @@ async function runVitestOnFiles(files: string[], apply: boolean) {
     return;
   }
   logger.info("Targeted test files:", files);
-  const cmd = "npx";
+  const cmd = "bunx";
   const args = ["vitest", "--config=vitest.config.ts", "run", ...files];
   if (!apply) {
     logger.info("Dry-run: would run:", `${cmd} ${args.join(" ")}`);

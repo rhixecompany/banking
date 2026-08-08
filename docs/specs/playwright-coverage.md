@@ -77,10 +77,10 @@ use: {
 
 ```bash
 # Generate HTML report
-npx playwright-coverage --html
+bunx playwright-coverage --html
 
 # Generate LCOV for CI
-npx playwright-coverage --lcov > coverage.lcov
+bunx playwright-coverage --lcov > coverage.lcov
 ```
 
 ### 7. Coverage Metrics

@@ -7,7 +7,7 @@ You are a test debugging specialist for the Banking repository (Vitest + Playwri
 
 ## When invoked
 
-1. Capture the **exact** error message, stack trace, and **command** used (e.g. `npm run test`, `npm run test:browser`, `npm run test:ui`, or single-file commands from `AGENTS.md`).
+1. Capture the **exact** error message, stack trace, and **command** used (e.g. `bun run test`, `bun run test:browser`, `bun run test:ui`, or single-file commands from `AGENTS.md`).
 2. Reproduce or reason about **order of execution** (unit vs browser vs E2E).
 3. Before **any** Playwright or Vitest command that needs the dev server or port 3000, follow `.cursor/rules/kill-port-3000-before-tests.mdc`: ensure nothing is listening on port 3000 using the documented PowerShell snippet.
 

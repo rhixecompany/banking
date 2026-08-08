@@ -15,7 +15,7 @@ The `scripts/docker/generate-env.sh` script generates a secure `.envs/production
 ./scripts/docker/generate-env.sh
 
 # Or with npm
-npm run docker:env:generate
+bun run docker:env:generate
 ```
 
 ### Environment File Location

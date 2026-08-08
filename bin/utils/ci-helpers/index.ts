@@ -78,7 +78,7 @@ async function main() {
     process.cwd(),
     "scripts/utils/ci-helpers/parse-reports.ts",
   );
-  await runCmd("npx", ["tsx", parseScript]);
+  await runCmd("bunx", ["tsx", parseScript]);
 
   const summary = JSON.parse(
     await fs.readFile(path.resolve(process.cwd(), "ci-summary.json"), "utf8"),
@@ -102,7 +102,7 @@ async function main() {
     try {
       await runCmd("npm", ["run", "ci:checks:run"]);
     } catch {}
-    await runCmd("npx", ["tsx", parseScript]);
+    await runCmd("bunx", ["tsx", parseScript]);
   }
 
   logger.info("Done. Inspect ci-summary.json for details.");

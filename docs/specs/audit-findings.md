@@ -10,7 +10,7 @@ Scope: repo
 | --- | --- | --- |
 | 1 | task-implementation.md | TYPO: `,opencode/` (line 14) |
 | 2 | memory-bank.md | TYPO: `,opencode/` (line 7) |
-| 3 | playwright-typescript.md | Wrong test cmd: `npx playwright` (line 44) |
+| 3 | playwright-typescript.md | Wrong test cmd: `bunx playwright` (line 44) |
 | 4 | testing.md | OK - correct |
 | 5 | commit-messages.md | Conflicts AGENTS.md (co-author) |
 | 6 | code-review.md | OK |
@@ -36,7 +36,7 @@ Scope: repo
 
 ### Fix 3: playwright-typescript.md
 
-- Line 44: `npx playwright test --project=chromium` -> `bun run test:ui`
+- Line 44: `bunx playwright test --project=chromium` -> `bun run test:ui`
 
 ## AGENTS.md Conflicts
 

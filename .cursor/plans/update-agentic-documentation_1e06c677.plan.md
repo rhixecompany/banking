@@ -80,7 +80,7 @@ isProject: false
 - Treat [`AGENTS.md`](AGENTS.md) as canonical.
 - Ensure `AGENTS.md` explicitly defines (and becomes the only place that fully defines):
   - **Plan threshold and location**: `>3 files` → plan required → `.opencode/plans/<task>_<8char>.plan.md`.
-  - **Validation commands** that are real in `package.json` (e.g. `npm run lint:strict`, `npm run validate`, `npm run format:markdown:check`).
+  - **Validation commands** that are real in `package.json` (e.g. `bun run lint:strict`, `bun run validate`, `bun run format:markdown:check`).
   - **Non-negotiables** (no `any`, no N+1, env access rule, server actions for mutations, etc.).
   - **Doc hierarchy**: what other files exist and how they should defer to `AGENTS.md`.
 
@@ -130,7 +130,7 @@ isProject: false
 ## Validation
 
 - Run markdown lint on changed markdown files using the repo script(s):
-  - `npm run format:markdown:check` (and `npm run format:markdown:fix` if needed)
+  - `bun run format:markdown:check` (and `bun run format:markdown:fix` if needed)
 - Verify docs reference only scripts that exist in [`package.json`](package.json).
 - Spot-check: search for `.cursor/plans` and `.opencode/commands` references and ensure they are either intentionally kept (with rationale) or updated.
 

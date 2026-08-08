@@ -76,9 +76,9 @@ flowchart TD
 
 ## Validation
 
-- `npm run type-check`
-- `npm run lint:strict` (or narrow ESLint to new files if the repo supports it)
-- Manual: `npm run db:seed` (or `npm exec tsx scripts/seed/run.ts -- --reset`) against a local DB after `db:push` / migrations; verify row counts per table.
+- `bun run type-check`
+- `bun run lint:strict` (or narrow ESLint to new files if the repo supports it)
+- Manual: `bun run db:seed` (or `npm exec tsx scripts/seed/run.ts -- --reset`) against a local DB after `db:push` / migrations; verify row counts per table.
 
 ## Rollback or mitigation
 

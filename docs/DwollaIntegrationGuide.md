@@ -3,7 +3,7 @@
 ## Quickstart
 
 1. Sign up at [Dwolla Developer Portal](https://developers.dwolla.com)
-2. Install: `npm install dwolla-v2`
+2. Install: `bun install dwolla-v2`
 3. Configure `DWOLLA_KEY` and `DWOLLA_SECRET` in `.env.local`
 
 ---

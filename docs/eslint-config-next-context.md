@@ -7,7 +7,7 @@ eslint-config-next is the official ESLint configuration package provided by Next
 ## Installation
 
 ```bash
-npm install eslint-config-next
+bun install eslint-config-next
 ```
 
 ## Usage

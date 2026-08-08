@@ -122,7 +122,7 @@ Plaid API   Dwolla API
 - Add new banking features via App Router route groups
 - Add new financial integrations in `src/lib/`
 - Extend schema in `src/db/schema.ts`
-- Add new UI components via shadcn CLI (`npx shadcn add`)
+- Add new UI components via shadcn CLI (`bunx shadcn add`)
 - Add new API endpoints as route handlers
 
 ---

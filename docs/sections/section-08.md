@@ -1,6 +1,6 @@
 # Section 8 — Testing Patterns
 
-- `npm run test` runs Playwright E2E first, then Vitest unit tests.
+- `bun run test` runs Playwright E2E first, then Vitest unit tests.
 - Mock `auth()` in unit tests (vi.mock) and use deterministic fixtures for E2E.
 
 Example (Vitest):

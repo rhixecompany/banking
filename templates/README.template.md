@@ -1649,8 +1649,8 @@ vercel logs
 {
   "build": {
     "builder": "NIXPACKS",
-    "buildCommand": "npm install && npm run build",
-    "installCommand": "npm install"
+    "buildCommand": "bun install && bun run build",
+    "installCommand": "bun install"
   }
 }
 ```

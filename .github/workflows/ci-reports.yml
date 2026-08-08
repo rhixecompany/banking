@@ -12,9 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
+        uses: oven-sh/setup-bun@v2
       - name: Run CI checks (bash)
         run: |
           chmod +x scripts/utils/run-ci-checks.sh
@@ -33,9 +31,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
+        uses: oven-sh/setup-bun@v2
       - name: Run targeted checks (example)
         if: matrix.os == 'ubuntu-latest'
         run: |
@@ -57,9 +53,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
+        uses: oven-sh/setup-bun@v2
       - name: Run CI checks (PowerShell)
         shell: pwsh
         run: |

@@ -270,7 +270,7 @@ function parseAndDisplayTestResults(): void {
 
     console.info("");
     console.info("  To view detailed report:");
-    console.info("    npx playwright show-report");
+    console.info("    bunx playwright show-report");
   } catch (error) {
     console.info(`  ⚠ Could not parse test results: ${error}`);
   }
@@ -285,10 +285,10 @@ function printResultsSummary(): void {
   console.info("  Test Execution Complete");
   console.info("");
   console.info("  To view detailed results:");
-  console.info("    npm run test:ui:report");
+  console.info("    bun run test:ui:report");
   console.info("");
   console.info("  To run tests again:");
-  console.info("    npm run test:ui");
+  console.info("    bun run test:ui");
   console.info("");
 }
 

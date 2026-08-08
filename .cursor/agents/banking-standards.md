@@ -19,9 +19,9 @@ Mirror `AGENTS.md` Critical Rules:
 - No N+1 queries — eager loading for related data.
 - No raw `process.env` in app code — use `lib/env.ts` (Zod validated).
 - All data mutations through Server Actions — not API routes for writes.
-- TypeScript: `npm run type-check` clean.
-- ESLint: `npm run lint:strict` with zero warnings.
-- Tests: `npm run test` passes.
+- TypeScript: `bun run type-check` clean.
+- ESLint: `bun run lint:strict` with zero warnings.
+- Tests: `bun run test` passes.
 
 ## Output format
 

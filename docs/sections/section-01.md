@@ -6,5 +6,5 @@ Representative snippet:
 
 ```bash
 # Start the dev server
-npm run dev
+bun run dev
 ```

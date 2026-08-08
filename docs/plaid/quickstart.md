@@ -9,8 +9,8 @@ This guide covers getting started with Plaid's API for bank account linking.
 1. Get API keys from [Plaid Dashboard](https://dashboard.plaid.com/developers/keys)
 2. Clone the Quickstart repo: `git clone https://github.com/plaid/quickstart`
 3. Copy `.env.example` to `.env` and add your keys
-4. Start the backend: `cd quickstart/node && npm install && ./start.sh`
-5. Start the frontend: `cd quickstart/frontend && npm install && npm start`
+4. Start the backend: `cd quickstart/node && bun install && ./start.sh`
+5. Start the frontend: `cd quickstart/frontend && bun install && bun run start`
 6. Visit localhost:3000 and log in with Sandbox credentials
 
 ## Sandbox Credentials

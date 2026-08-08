@@ -3,7 +3,7 @@
 ## Quickstart
 
 1. Get API keys from [Plaid Dashboard](https://dashboard.plaid.com)
-2. Install: `npm install plaid`
+2. Install: `bun install plaid`
 3. Configure env vars in `.env.local`
 
 ---

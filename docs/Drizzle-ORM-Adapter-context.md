@@ -9,8 +9,8 @@
 ### Installation
 
 ```bash
-npm install drizzle-orm @auth/drizzle-adapter
-npm install drizzle-kit --save-dev
+bun install drizzle-orm @auth/drizzle-adapter
+bun install drizzle-kit --save-dev
 ```
 
 ### Environment Variables

@@ -3,7 +3,7 @@
 ## Installation
 
 ```bash
-npm install @anthropic-ai/sdk
+bun install @anthropic-ai/sdk
 ```
 
 ## Client Initialization

@@ -14,7 +14,7 @@ export const SEED_USER_ID = "00000000-0000-4000-8000-000000000003";
 
 /**
  * Test user credentials for E2E — must match [scripts/seed/seed-data.ts](scripts/seed/seed-data.ts).
- * Ensure DB is seeded before running E2E (`npm run db:push && npm run db:seed -- --reset`).
+ * Ensure DB is seeded before running E2E (`bun run db:push && bun run db:seed -- --reset`).
  */
 export const TEST_USER = {
   email: SEED_USER.email,
