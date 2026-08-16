@@ -1,10 +1,15 @@
+# Banking — Bun configuration
+# Next.js fintech app with Drizzle ORM + Plaid/Dwolla
 
-[run]
-# Automatically run the project with the --bun flag
-# This forces Bun's runtime for all scripts
-bun = false
+[build]
+# Next.js build via Bun runtime
+loader = false
 
 [test]
-# Configuration for the built-in test runner
-root = "./src/tests"
 coverage = true
+root = "./src"
+
+[install]
+optional = true
+dev = true
+peer = true
