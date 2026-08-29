@@ -1,43 +1,17 @@
-# Banking — Fintech App
+# Banking — AGENTS.md
 
-## Architecture
+**Canonical reference:** See `../../AGENTS.md` for workspace-wide rules, conventions, and workflows.
 
-- **Type:** Next.js fintech application (banking dashboard)
-- **Pattern:** App Router with Drizzle ORM, Plaid/Dwolla integrations
-- **Reference:** [Workflow Analysis](docs/Project_Architecture/Workflow_Analysis.md), [Exemplars](docs/Project_Architecture/exemplars.md)
+This file contains only Banking-specific overrides and additions.
 
-Next.js 16 + Drizzle ORM + Plaid (banking API) + Dwolla (payments). Full-stack fintech with transaction management, authentication, and webhook handling.
+## Project-Specific Commands
 
-## Stack
+See `package.json` or `README.md` for build/test/lint commands specific to this project.
 
-- **Frontend:** Next.js 16, TypeScript (strict), App Router
-- **Database:** PostgreSQL via Drizzle ORM
-- **Auth:** NextAuth.js
-- **Payments/Banking:** Plaid, Dwolla
-- **Deploy:** Docker + Vercel
-- **Package Manager:** Bun (`bun.lock`)
+## Project-Specific Conventions
 
-## Commands
+Add any conventions that differ from the workspace root here.
 
-```bash
-bun run dev
-bun run build
-bun run lint
-bun run db:generate
-bun run db:push
-bun run db:studio
-```
+---
 
-## Conventions
-
-- Schema in `src/db/schema.ts`; use Drizzle migrations (not raw SQL)
-- `.env.local` for secrets — never commit
-- Plaid sandbox mode for development
-- Webhooks for Plaid/Dwolla async events
-- Node 18+ required
-
-## Notes
-
-- Uses `bun` as package manager with `bun.lock`
-- API routes in `src/app/api/`
-- Drizzle Studio for DB inspection
+*For all shared rules, toolchain, routing, and conventions, see `../../AGENTS.md`.*
